@@ -86,8 +86,8 @@ void FStaticMeshInstancerTool::ExecuteAction()
 							NewMesh.Label = FString::Printf(TEXT("%s_%d"),
 								*MeshProp.Mesh.GetAssetName(), Meshes.Num() + 1);
 						
-							NewMesh.FolderPath = Actor->GetFolderPath().IsNone() ? TEXT("Instanced")
-								: *Actor->GetFolderPath().ToString();
+							NewMesh.FolderPath = *(Actor->GetFolderPath().IsNone() ? TEXT("Instanced")
+								: Actor->GetFolderPath().ToString() / TEXT("Instanced") / Actor->GetActorLabel());
 						
 							Meshes.Add(NewMesh);
 						}
@@ -107,8 +107,8 @@ void FStaticMeshInstancerTool::ExecuteAction()
 							NewMesh.Label = FString::Printf(TEXT("%s_%d"),
 								*MeshProp.Mesh.GetAssetName(), Meshes.Num() + 1);
 							
-							NewMesh.FolderPath = Actor->GetFolderPath().IsNone() ? TEXT("Instanced")
-								: *Actor->GetFolderPath().ToString();
+							NewMesh.FolderPath = *(Actor->GetFolderPath().IsNone() ? TEXT("Instanced")
+								: Actor->GetFolderPath().ToString() / TEXT("Instanced") / Actor->GetActorLabel());
 						
 							Meshes.Add(NewMesh);
 						}
