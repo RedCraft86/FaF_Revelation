@@ -35,10 +35,14 @@ void FStaticMeshInstancerTool::ExecuteAction()
 			FText::FromString(TEXT("Proceeding will gather static mesh components from the selected actors and convert them into instanced static mesh actors.")),
 			EAppMsgType::OkCancel, EAppReturnType::Cancel, EAppMsgCategory::Info) != EAppReturnType::Ok) return;
 
-		const bool bUseHISM = UEditorDialogLibrary::ShowMessage(FText::FromString(TEXT("Use HISMs?")),
+		const EAppReturnType::Type HISMType = UEditorDialogLibrary::ShowMessage(FText::FromString(TEXT("Use HISMs?")),
 			FText::FromString(TEXT("Hierarchical Instanced Static Mesh will be used instead of Instanced Static Mesh.")),
-			EAppMsgType::YesNo, EAppReturnType::No, EAppMsgCategory::Info) == EAppReturnType::Yes;
+			EAppMsgType::YesNoCancel, EAppReturnType::No, EAppMsgCategory::Info);
 
+		if (HISMType == EAppReturnType::Cancel) return;
+
+		const bool bUseHISM = HISMType == EAppReturnType::Yes;
+		
 		// Inner scope
 		{
 			const FScopedTransaction Transaction(NSLOCTEXT("GTDeveloper", "ConvertMeshesToInstances", "Convert Meshes to Instances"));

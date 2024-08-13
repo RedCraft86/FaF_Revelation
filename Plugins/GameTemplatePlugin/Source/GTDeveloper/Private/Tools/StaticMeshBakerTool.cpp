@@ -46,8 +46,7 @@ void FStaticMeshBakerTool::ExecuteAction()
 					{
 						for (int i = 0; i < InstComp->GetNumInstances(); i++)
 						{
-							FTransform T;
-							if (InstComp->GetInstanceTransform(i, T, true))
+							if (FTransform T; InstComp->GetInstanceTransform(i, T, true))
 							{
 								AStaticMeshActor* NewActor = Cast<AStaticMeshActor>(Subsystem->SpawnActorFromClass(
 								   AStaticMeshActor::StaticClass(), T.GetTranslation(), T.GetRotation().Rotator()));
@@ -59,7 +58,7 @@ void FStaticMeshBakerTool::ExecuteAction()
 								Subsystem->SetActorSelectionState(NewActor, true);
 								NewActor->SetActorLabel(FString::Printf(TEXT("%s_%d"), *Comp->GetStaticMesh()->GetName(), i + 1));
 								NewActor->SetFolderPath(Actor->GetFolderPath().IsNone() ? TEXT("Baked")
-									: *(Actor->GetFolderPath().ToString() / TEXT("Baked")));
+									: *(Actor->GetFolderPath().ToString() / TEXT("Baked") / Actor->GetActorLabel()));
 							}
 						}
 					}
@@ -75,7 +74,7 @@ void FStaticMeshBakerTool::ExecuteAction()
 						Subsystem->SetActorSelectionState(NewActor, true);
 						NewActor->SetActorLabel(FString::Printf(TEXT("%s_%d"), *Comp->GetStaticMesh()->GetName(), Idx + 1));
 						NewActor->SetFolderPath(Actor->GetFolderPath().IsNone() ? TEXT("Baked")
-							: *(Actor->GetFolderPath().ToString() / TEXT("Baked")));
+							: *(Actor->GetFolderPath().ToString() / TEXT("Baked") / NewActor->GetActorLabel()));
 					}
 
 					Idx++;
