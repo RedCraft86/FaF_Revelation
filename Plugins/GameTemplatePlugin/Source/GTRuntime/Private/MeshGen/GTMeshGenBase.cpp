@@ -24,24 +24,6 @@ AGTMeshGenBase::AGTMeshGenBase() : bRealtimeConstruction(true)
 #endif
 }
 
-template <typename T>
-T* AGTMeshGenBase::AddComponent()
-{
-	if (T* GeneratedComp = NewObject<T>(this))
-	{
-		GeneratedComp->CreationMethod = EComponentCreationMethod::UserConstructionScript;
-		GeneratedComp->OnComponentCreated();
-		GeneratedComp->RegisterComponent();
-		GeneratedComp->SetMobility(EComponentMobility::Movable);
-		GeneratedComp->AttachToComponent(GetRootComponent(),
-			FAttachmentTransformRules::KeepRelativeTransform);
-		
-		return GeneratedComp;
-	}
-
-	return nullptr;
-}
-
 void AGTMeshGenBase::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);

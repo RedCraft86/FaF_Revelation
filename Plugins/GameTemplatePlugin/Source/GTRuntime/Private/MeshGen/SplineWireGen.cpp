@@ -2,6 +2,7 @@
 
 #include "MeshGen/SplineWireGen.h"
 #include "Components/SplineComponent.h"
+#include "Components/SplineMeshComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
 
 ASplineWireGen::ASplineWireGen()
@@ -29,7 +30,7 @@ void ASplineWireGen::Construct()
 	{
 		for (int32 i = 0; i < SplineComponent->GetNumberOfSplinePoints() - 1; i++)
 		{
-			if (USplineMeshComponent* NewSplineMesh = AddComponent<USplineMeshComponent>())
+			if (USplineMeshComponent* NewSplineMesh = AddGenericComponent<USplineMeshComponent>())
 			{
 				UPrimitiveDataLibrary::SetStaticMeshProperties(NewSplineMesh, CableMesh);
 				UPrimitiveDataLibrary::SetPrimitiveCollision(NewSplineMesh, Collision);
@@ -49,7 +50,7 @@ void ASplineWireGen::Construct()
 
 	if (StartCap.IsValidData())
 	{
-		if (StartMeshComponent = AddComponent<UStaticMeshComponent>(); StartMeshComponent)
+		if (StartMeshComponent = AddGenericComponent<UStaticMeshComponent>(); StartMeshComponent)
 		{
 			UPrimitiveDataLibrary::SetStaticMeshProperties(StartMeshComponent, StartCap);
 			UPrimitiveDataLibrary::SetPrimitiveCollision(StartMeshComponent, Collision);
@@ -67,7 +68,7 @@ void ASplineWireGen::Construct()
 
 	if (EndCap.IsValidData())
 	{
-		if (EndMeshComponent = AddComponent<UStaticMeshComponent>(); EndMeshComponent)
+		if (EndMeshComponent = AddGenericComponent<UStaticMeshComponent>(); EndMeshComponent)
 		{
 			UPrimitiveDataLibrary::SetStaticMeshProperties(EndMeshComponent, EndCap);
 			UPrimitiveDataLibrary::SetPrimitiveCollision(EndMeshComponent, Collision);
@@ -86,7 +87,7 @@ void ASplineWireGen::Construct()
 
 	for (int i = 0; i < AttachmentSample.Num(); i++)
 	{
-		UInstancedStaticMeshComponent* NewComp = AddComponent<UInstancedStaticMeshComponent>();
+		UInstancedStaticMeshComponent* NewComp = AddGenericComponent<UInstancedStaticMeshComponent>();
 		UPrimitiveDataLibrary::SetStaticMeshProperties(NewComp, AttachmentSample[i]);
 		UPrimitiveDataLibrary::SetPrimitiveCollision(NewComp, Collision);
 		AttachMeshComponents.Add(NewComp);

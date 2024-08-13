@@ -49,11 +49,12 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings|Attachments")
 		TArray<FTransformMeshData> AttachmentSample;
-
+	
+	virtual void Construct() override;
+	
 protected:
 
 	TArray<int32> AttachmentIndexes;
-	virtual void Construct() override;
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif

@@ -40,7 +40,25 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<USceneComponent> SceneRoot;
+	
+	template<typename T>
+	T* AddGenericComponent()
+	{
+		if (T* GeneratedComp = NewObject<T>(this))
+		{
+			GeneratedComp->CreationMethod = EComponentCreationMethod::UserConstructionScript;
+			GeneratedComp->OnComponentCreated();
+			GeneratedComp->RegisterComponent();
+			GeneratedComp->SetMobility(EComponentMobility::Movable);
+			GeneratedComp->AttachToComponent(GetRootComponent(),
+				FAttachmentTransformRules::KeepRelativeTransform);
+		
+			return GeneratedComp;
+		}
 
+		return nullptr;
+	}
+	
 protected:
 
 	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
@@ -51,10 +69,7 @@ protected:
 	
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Construct")
 		void EventConstruct();
-	
-	template<typename T = UStaticMeshComponent>
-	T* AddComponent();
-	
+
 	virtual void OnConstruction(const FTransform& Transform) override;
 
 public: // Statics
