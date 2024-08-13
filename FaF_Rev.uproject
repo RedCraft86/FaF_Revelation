@@ -279,6 +279,10 @@
 		{
 			"Name": "SteamAudio",
 			"Enabled": true
+		},
+		{
+			"Name": "StudioTelemetry",
+			"Enabled": false
 		}
 	]
 }
