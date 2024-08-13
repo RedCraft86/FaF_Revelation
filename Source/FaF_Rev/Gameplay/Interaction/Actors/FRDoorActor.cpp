@@ -68,7 +68,7 @@ AFRDoorBase::AFRDoorBase() : bEnabled(true), bMultidirectional(false), OpenRotat
 	bRunConstructionScriptOnDrag = true;
 	
 	ForwardArrow = CreateEditorOnlyDefaultSubobject<UArrowComponent>("ForwardArrow");
-	if (ForwardArrow) ForwardArrow->bIsEditorOnly = true; ForwardArrow->SetupAttachment(DoorBox);
+	if (ForwardArrow) { ForwardArrow->bIsEditorOnly = true; ForwardArrow->SetupAttachment(DoorBox); }
 	
 	ShapeVisualizer = CreateEditorOnlyDefaultSubobject<UDebugShapesComponent>("ShapeVisualizer");
 	if (ShapeVisualizer) ShapeVisualizer->bIsEditorOnly = true;
