@@ -46,7 +46,7 @@ public:
 
 	/* Checks if a Location is in front of the Target. */
 	UFUNCTION(BlueprintPure, Category = "Actor", meta = (DefaultToSelf = "Target"))
-		static bool IsLocationInFront(const AActor* Target, const FVector Location);
+		static bool IsLocationInFront(const AActor* Target, const FVector& Location);
 
 	/* Checks if an Actor is in front of the Target. */
 	UFUNCTION(BlueprintPure, Category = "Actor", meta = (DefaultToSelf = "Target"))

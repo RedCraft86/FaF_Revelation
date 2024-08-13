@@ -40,29 +40,41 @@ TArray<FVector> UGTRuntimeLibrary::GetBoundingBoxVertices(const AActor* Target, 
 bool UGTRuntimeLibrary::IsActorInScreen(const AActor* Target, const float MaxDistance, const bool bOriginOnly,
 	const bool bLineTraceCheck, const FActorBoundsCheckParams& TraceCheckParams)
 {
-		if (!IsValid(Target) || MaxDistance <= 0
+	if (!IsValid(Target) || MaxDistance <= 0
 		|| (bLineTraceCheck && TraceCheckParams.BoundingBoxLerp.Size() <= 0))
 	{
 		return false;
 	}
 
-	APlayerCameraManager* CameraManager = UGameplayStatics::GetPlayerCameraManager(Target, 0);
-	if (!CameraManager) return false;
-
-	if (FVector::Distance(CameraManager->GetCameraLocation(), Target->GetActorLocation()) > MaxDistance)
+	APlayerController* Controller = UGameplayStatics::GetPlayerController(Target, 0);
+	if (!Controller || !Controller->GetLocalPlayer()) return false;
+	
+	ULocalPlayer* LocalPlayer = Controller->GetLocalPlayer();
+	FSceneViewFamilyContext ViewFamily(
+		FSceneViewFamily::ConstructionValues(LocalPlayer->ViewportClient->Viewport, Target->GetWorld()->Scene,
+			LocalPlayer->ViewportClient->EngineShowFlags).SetRealtimeUpdate(true)
+	);
+	
+	FVector ViewLocation;
+	FRotator ViewRotation;
+	FSceneView* SceneView = LocalPlayer->CalcSceneView(&ViewFamily, ViewLocation, ViewRotation, LocalPlayer->ViewportClient->Viewport);
+	if (FVector::Distance(ViewLocation, Target->GetActorLocation()) > MaxDistance)
 	{
 		return false;
 	}
 
-	APlayerController* Controller = UGameplayStatics::GetPlayerController(Target, 0);
-	if (!Controller) return false;
-
+	FVector Origin, BoxExtent = FVector::ZeroVector;
+	Target->GetActorBounds(false, Origin, BoxExtent, false);
+	if (!SceneView || !SceneView->ViewFrustum.IntersectBox(Origin, BoxExtent))
+	{
+		return false;
+	}
+	
 	TArray<FVector> TestVectors;
 	TestVectors.Add(Target->GetActorLocation());
 
 	if (!bOriginOnly)
 	{
-		FVector Origin, BoxExtent = FVector::ZeroVector;
 		TArray<FVector> BoundingBoxVertices = GetBoundingBoxVertices(Target, TraceCheckParams.bOnlyCollidingComponents,
 			TraceCheckParams.bIncludeFromChildActors, Origin, BoxExtent);
 
@@ -101,7 +113,7 @@ bool UGTRuntimeLibrary::IsActorInScreen(const AActor* Target, const float MaxDis
 	FHitResult HitResult;
 	for (int i = 0; i < TestVectors.Num(); i++)
 	{
-		if (!Target->GetWorld()->LineTraceSingleByChannel(HitResult, CameraManager->GetCameraLocation(),
+		if (!Target->GetWorld()->LineTraceSingleByChannel(HitResult, ViewLocation,
 			TestVectors[i], TraceCheckParams.LineTraceChannel, QueryParams))
 			return true;
 	}
@@ -109,7 +121,7 @@ bool UGTRuntimeLibrary::IsActorInScreen(const AActor* Target, const float MaxDis
 	return false;
 }
 
-bool UGTRuntimeLibrary::IsLocationInFront(const AActor* Target, const FVector Location)
+bool UGTRuntimeLibrary::IsLocationInFront(const AActor* Target, const FVector& Location)
 {
 	if (!IsValid(Target)) return false;
 	FVector DotVec = Location - Target->GetActorLocation(); DotVec.Normalize();
