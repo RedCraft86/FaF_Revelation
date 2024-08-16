@@ -83,9 +83,20 @@ void AFRDoorBase::SetState(const bool bInState)
 		AudioLow->Play();
 		PlayHigh(bState ? OpenSound : CloseSound)
 		DoorMesh->SetCollisionEnabled(bState ? ECollisionEnabled::NoCollision : ECollisionEnabled::QueryAndPhysics);
-		if (bState) DoorRotaton = CalcOpenRotation();
+		if (bState) DoorRotation = CalcOpenRotation();
 		PlayAnim(!bState);
 	}
+}
+
+void AFRDoorBase::InternalOpenDoor()
+{
+	if (bState)
+		return;
+	
+	bState = true;
+	DoorMesh->SetCollisionEnabled(bState ? ECollisionEnabled::NoCollision : ECollisionEnabled::QueryAndPhysics);
+	DoorRotation = CalcOpenRotation();
+	PlayAnim(false);
 }
 
 float AFRDoorBase::CalcOpenRotation() const
@@ -112,7 +123,7 @@ void AFRDoorBase::PlayAnim(const bool bReverse)
 
 void AFRDoorBase::ApplyRotation(const float Alpha) const
 {
-	DoorPivot->SetRelativeRotation({0.0f, FMath::Lerp(0.0f, DoorRotaton, Alpha), 0.0f});
+	DoorPivot->SetRelativeRotation({0.0f, FMath::Lerp(0.0f, DoorRotation, Alpha), 0.0f});
 }
 
 bool AFRDoorBase::CheckKey(const AFRPlayerBase* Player)
@@ -171,6 +182,7 @@ void AFRDoorBase::OnBeginInteract_Implementation(AFRPlayerBase* Player, const FH
 	{
 		Interactor = Player;
 		SetState(!bState);
+		if (SecondDoor && bState) SecondDoor->InternalOpenDoor();
 	}
 }
 
@@ -181,6 +193,7 @@ void AFRDoorBase::OnBeginPawnInteract_Implementation(APawn* Pawn, const FHitResu
 	{
 		Interactor = Pawn;
 		SetState(true);
+		if (SecondDoor) SecondDoor->InternalOpenDoor();
 		GetWorldTimerManager().SetTimer(PawnCooldown, [WEAK_THIS]()
 		{
 			if (WeakThis.IsValid()) WeakThis->PawnCooldown.Invalidate();

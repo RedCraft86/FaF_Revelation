@@ -61,6 +61,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		FInteractionInfo LockedInfo;
 
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		TObjectPtr<AFRDoorBase> SecondDoor;
+
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
 		bool bDebugView = true;
@@ -100,7 +103,7 @@ private:
 #endif
 
 	bool bState;
-	float DoorRotaton;
+	float DoorRotation;
 	TObjectPtr<AActor> Interactor;
 	FTimerHandle PawnCooldown;
 	
@@ -108,6 +111,7 @@ private:
 	bool bAnimFinished;
 	FVector2D AnimValues;
 
+	void InternalOpenDoor();
 	float CalcOpenRotation() const;
 	void PlayAnim(const bool bReverse);
 	void ApplyRotation(const float Alpha) const;
