@@ -110,6 +110,17 @@ void UGameSectionDataNode::PostEditChangeProperty(FPropertyChangedEvent& Propert
 		FindAllDependencies();
 	}
 
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, Inventory))
+	{
+		for (FInventorySlotData& InSlot : Inventory)
+		{
+			if (InSlot.ItemData.LoadSynchronous())
+			{
+				InSlot.Amount = FMath::Min(InSlot.Amount, InSlot.ItemData->GetStackLimit());
+			}
+		}
+	}
+
 	CheckDisplayName();
 }
 #endif

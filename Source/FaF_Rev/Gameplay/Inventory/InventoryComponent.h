@@ -15,16 +15,18 @@ struct FAF_REV_API FInventorySaveData
 
 	UPROPERTY() FGuid ActiveEquipment;
 	UPROPERTY() FGameCurrency CurrencyData;
+	UPROPERTY() TMap<FGuid, FInventorySlotData> ItemSlots;
 
-	FInventorySaveData() : ActiveEquipment({}), CurrencyData({}) {}
-	FInventorySaveData(const FGuid InEquipment, const FGameCurrency InCurrency)
-		: ActiveEquipment(InEquipment), CurrencyData(InCurrency)
+	FInventorySaveData() : ActiveEquipment({}), CurrencyData({}), ItemSlots({}) {}
+	FInventorySaveData(const FGuid InEquipment, const FGameCurrency InCurrency, const TMap<FGuid, FInventorySlotData> InSlots)
+		: ActiveEquipment(InEquipment), CurrencyData(InCurrency), ItemSlots(InSlots)
 	{}
 	
 	friend FArchive& operator<<(FArchive& Ar, FInventorySaveData& SaveData)
 	{
 		Ar << SaveData.ActiveEquipment;
 		Ar << SaveData.CurrencyData;
+		Ar << SaveData.ItemSlots;
 		return Ar;
 	}
 };
@@ -70,7 +72,8 @@ public:
 	void UnequipItem();
 	void EquipItem(const FGuid& ItemKey);
 	const FInventoryEquipmentData& GetEquipmentData() const { return EquipmentData; }
-		
+
+	void EnsureItems(const TArray<FInventorySlotData>& InItems);
 	void ImportSaveData(const FInventorySaveData& InData);
 	FInventorySaveData ExportSaveData();
 

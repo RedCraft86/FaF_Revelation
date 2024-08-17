@@ -177,9 +177,29 @@ void UInventoryComponent::EquipItem(const FGuid& ItemKey)
 	}, WaitTime, false);
 }
 
+void UInventoryComponent::EnsureItems(const TArray<FInventorySlotData>& InItems)
+{
+	for (const FInventorySlotData& InSlot : InItems)
+	{
+		const UInventoryItemDataBase* ItemData = InSlot.ItemData.LoadSynchronous(); if (!ItemData) continue;
+		if (const FGuid SlotID = FindSlot(ItemData); SlotID.IsValid() && ItemSlots.Contains(SlotID))
+		{
+			FInventorySlotData& SlotData = ItemSlots[SlotID];
+			SlotData.Amount = FMath::Min(FMath::Max(SlotData.Amount, InSlot.Amount), ItemData->GetStackLimit());
+			SlotData.Metadata.Append(InSlot.Metadata);
+			SlotData.ValidateMetadata();
+		}
+		else
+		{
+			AddItem(ItemData, FMath::Min(InSlot.Amount, ItemData->GetStackLimit()), InSlot.Metadata, true);
+		}
+	}
+}
+
 void UInventoryComponent::ImportSaveData(const FInventorySaveData& InData)
 {
 	CurrencyData = InData.CurrencyData;
+	ItemSlots.Append(InData.ItemSlots);
 	if (ItemSlots.Contains(InData.ActiveEquipment))
 	{
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this, InData]()
@@ -193,5 +213,5 @@ void UInventoryComponent::ImportSaveData(const FInventorySaveData& InData)
 
 FInventorySaveData UInventoryComponent::ExportSaveData()
 {
-	return {EquipmentData.ItemID, CurrencyData};
+	return {EquipmentData.ItemID, CurrencyData, ItemSlots};
 }

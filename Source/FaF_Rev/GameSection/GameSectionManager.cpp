@@ -70,19 +70,20 @@ void UGameSectionManager::BeginTransition()
 	}
 	LastData = ThisData;
 	ThisData = Cast<UGameSectionDataNode>(Node);
-	
-	SaveSystem->GetGameDataObject()->Sequence = Sequence;
-	SaveSystem->GetGameDataObject()->Inventory = PlayerChar->GetGameMode()->Inventory->ExportSaveData();
-	SaveCurrentTime();
-	
+
+	UGameSaveObject* GameObject = SaveSystem->GetGameDataObject();
+	GameObject->Sequence = Sequence;
 	if (ThisData)
 	{
+		GameObject->Inventory.Add(ThisData->UniqueID, PlayerChar->GetGameMode()->Inventory->ExportSaveData());
+
 		UGlobalSaveObject* GlobalObject = SaveSystem->GetGlobalDataObject();
 		GlobalObject->SectionNodes.Add(ThisData->UniqueID);
 		GlobalObject->Menus.Add(ThisData->UnlockMenu);
 		SaveSystem->SaveGlobalData();
 	}
 
+	SaveCurrentTime();
 	ShowLoadingWidget();
 	
 	FTimerHandle Handle;
@@ -189,27 +190,12 @@ void UGameSectionManager::FinishTransition()
 	HideLoadingWidget([this]()
 	{
 		UInventoryComponent* Inventory = PlayerChar->GetGameMode()->Inventory;
-		for (const FInventorySlotData& Item : ThisData->Inventory)
+		if (!LastData)
 		{
-			if (!Item.IsValidSlot()) continue;
-			const UInventoryItemData* ItemData = Item.GetItemData<UInventoryItemData>();
-			
-			FGuid Slot = Inventory->FindSlot(ItemData, {}); 
-			if ((!Slot.IsValid() || ItemData->StackingMode == EInventoryItemStackType::Unique)
-				&& ItemData->ItemType != EInventoryItemType::Equipment)
-			{
-				Inventory->AddItem(ItemData, Item.Amount, Item.Metadata, true);
-			}
-			else if (Slot.IsValid())
-			{
-				FInventorySlotData* SlotData = Inventory->ItemSlots.Find(Slot);
-				SlotData->Amount = FMath::Min(FMath::Max(SlotData->Amount, Item.Amount), ItemData->GetStackLimit());
-				SlotData->Metadata.Append(Item.Metadata);
-				SlotData->ValidateMetadata();
-			}
+			Inventory->ImportSaveData(SaveSystem->GetGameDataObject()->Inventory.FindRef(ThisData->UniqueID));
 		}
 		
-		Inventory->ImportSaveData(SaveSystem->GetGameDataObject()->Inventory);
+		Inventory->EnsureItems(ThisData->Inventory);
 
 		PlayerChar->FadeFromBlack(1.0f);
 		PlayerChar->ClearLockFlag(Player::LockFlags::Loading);

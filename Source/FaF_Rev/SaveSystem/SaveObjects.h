@@ -65,7 +65,7 @@ public:
 		TArray<uint8> Sequence;
 
 	UPROPERTY(BlueprintReadOnly, Category = "SaveObject")
-		FInventorySaveData Inventory;
+		TMap<FGuid, FInventorySaveData> Inventory;
 
 	virtual void DeleteFile() override;
 
