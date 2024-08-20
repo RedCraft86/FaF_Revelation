@@ -48,7 +48,4 @@ Build/*/**
 /Plugins/SteamAudio/
 /Plugins/GameJoltAPI/
 
-!/Config/DefaultEngine.default
-!/Config/DefaultGame.default
-
 Backup.Lock
