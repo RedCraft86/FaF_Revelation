@@ -97,7 +97,13 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Settings")
 		float GetAudioVolumeValue(const EFRSoundType Type) { return GetAudioVolume(Type) * 0.01f; }
-	
+
+	UFUNCTION(BlueprintPure, Category = "Settings")
+		uint8 GetFSRQuality() const { return FSRQuality; }
+
+	UFUNCTION(BlueprintCallable, Category = "Settings")
+		void SetFSRQuality(const uint8 InQuality);
+
 	DECLARE_MULTICAST_DELEGATE(FOnSettingsApply);
 	FOnSettingsApply OnDynamicApply, OnManualApply;
 	
@@ -127,6 +133,7 @@ private:
 	UPROPERTY(Config) uint8 FieldOfView;
 	UPROPERTY(Config) uint8 Brightness;
 	UPROPERTY(Config) bool bFancyBloom;
+	UPROPERTY(Config) uint8 FSRQuality;
 	UPROPERTY(Config) TMap<EFRSoundType, uint8> SoundTypeToVolume;
 	UPROPERTY(Config) TArray<uint8> ScalabilityDefaults;
 

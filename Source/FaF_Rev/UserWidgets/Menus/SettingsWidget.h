@@ -95,9 +95,9 @@ public:
 	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<UFRSwitcherSettingBase> AAliasingTypeRow;
 
-	// UPROPERTY(Transient, meta = (BindWidget))
-	// 	TObjectPtr<UFRSwitcherSettingBase> FSRQualityRow;
-	//
+	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<UFRSwitcherSettingBase> FSRQualityRow;
+	
 	// UPROPERTY(Transient, meta = (BindWidget))
 	// 	TObjectPtr<UFRToggleSettingBase> FSRFrameInterpRow;
 	

@@ -283,7 +283,7 @@ void USettingsWidgetBase::InitWidget()
 	SETUP_TOGGLE(FancyBloomRow, GetUseFancyBloom, SetUseFancyBloom);
 	SETUP_SWITCHER(MBlurAmountRow, GetMotionBlurAmount, SetMotionBlurAmount);
 	SETUP_SWITCHER(AAliasingTypeRow, GetAAliasingInt, SetAAliasingInt);
-	// SETUP_SWITCHER(FSRQualityRow, GetFSRQuality, SetFSRQuality);
+	SETUP_SWITCHER(FSRQualityRow, GetFSRQuality, SetFSRQuality);
 	// SETUP_TOGGLE(FSRFrameInterpRow, GetEnableFSRFrameInterp, SetEnableFSRFrameInterp);
 	// Advanced
 	AutoDetectText->SetText(FText::FromString(TEXT("Run Hardware Benchmark")));

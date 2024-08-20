@@ -2,6 +2,7 @@
 
 #include "GameSettings.h"
 #include "AudioDevice.h"
+#include "Libraries/GTConsoleLibrary.h"
 #include "Kismet/KismetMaterialLibrary.h"
 #include "GTConfigSubsystem.h"
 #include "FRGameInstance.h"
@@ -9,7 +10,7 @@
 
 UGameSettings::UGameSettings()
 	: bInitializing(false), bLaunchWork(false), GameInstance(nullptr), SoundMixObject(nullptr)
-	, BrightnessParamName(NAME_None), BrightnessMPC(nullptr)
+	, BrightnessParamName(NAME_None), BrightnessMPC(nullptr), FSRQuality(0)
 	, ScalabilityDefaults({3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2})
 {
 	UGameSettings::SetToDefaults();
@@ -155,6 +156,11 @@ void UGameSettings::SetAudioVolume(const EFRSoundType Type, const uint8 InVolume
 	ApplyAudioSettings();
 }
 
+void UGameSettings::SetFSRQuality(const uint8 InQuality)
+{
+	FSRQuality = InQuality;
+}
+
 UWorld* UGameSettings::GetWorld() const
 {
 	UWorld* World = Super::GetWorld();
@@ -235,10 +241,10 @@ void UGameSettings::SetToDefaults()
 void UGameSettings::ApplyNonResolutionSettings()
 {
 	Super::ApplyNonResolutionSettings();
-	// if (IConsoleVariable* CVar_FSRQuality = UGTConsoleLibrary::FindCVar(TEXT("r.FidelityFX.FSR3.QualityMode")))
-	// {
-	// 	CVar_FSRQuality->Set(FMath::Clamp((int32)FSRQuality, 0, 4), ECVF_SetByConsole);
-	// }
+	if (IConsoleVariable* CVar_FSRQuality = UGTConsoleLibrary::FindCVar(TEXT("r.FidelityFX.FSR3.QualityMode")))
+	{
+		CVar_FSRQuality->Set(FMath::Clamp((int32)FSRQuality, 0, 4), ECVF_SetByConsole);
+	}
 
 	ApplyBrightness();
 	ApplyAudioSettings();
