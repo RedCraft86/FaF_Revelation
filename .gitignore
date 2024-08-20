@@ -27,7 +27,6 @@
 *.png
 *.tga
 *.vsconfig
-*.uproject
 
 .idea/
 .vs/
