@@ -2,6 +2,8 @@
 
 #include "GTEditorSubsystem.h"
 #include "GTEditorSettings.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Materials/MaterialParameterCollectionInstance.h"
 
 void UGTEditorSubsystem::RunCommand(const FString& Command) const
 {
@@ -20,4 +22,17 @@ void UGTEditorSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 	{
 		RunCommand(FString::Printf(TEXT("%s %s"), *Command.Key, *Command.Value));
 	}
+
+	//TickerHandle = FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateUObject(this, &UGTEditorSubsystem::Tick), 0);
+}
+
+void UGTEditorSubsystem::Deinitialize()
+{
+	Super::Deinitialize();
+	//FTSTicker::GetCoreTicker().RemoveTicker(TickerHandle);
+}
+
+bool UGTEditorSubsystem::Tick(float DeltaTime)
+{
+	return true;
 }
