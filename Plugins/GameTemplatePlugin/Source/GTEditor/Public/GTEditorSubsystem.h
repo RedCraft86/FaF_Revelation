@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Editor.h"
 #include "EditorSubsystem.h"
 #include "Containers/Ticker.h"
 #include "GTEditorSubsystem.generated.h"
