@@ -67,7 +67,7 @@ AFRPlayerBase::AFRPlayerBase()
 	ReachDistance = 250.0f;
 	Sensitivity = FVector2D::UnitVector;
 	SensitivityMulti = {1.0f};
-	FieldOfView = {90.0f};
+	FieldOfView = {85.0f};
 	FieldOfViewSpeed = 10.0f;
 	LockOnTarget = nullptr;
 	LockOnSpeed = 5.0f;
@@ -994,6 +994,8 @@ void AFRPlayerBase::BeginPlay()
 	UGameSettings* Settings = UGameSettings::Get();
 	Settings->OnManualApply.AddUObject(this, &AFRPlayerBase::OnSettingsApply);
 	Settings->OnDynamicApply.AddUObject(this, &AFRPlayerBase::OnSettingsApply);
+
+	PlayerCamera->SetFieldOfView(FieldOfView.Evaluate());
 
 	LockFlags.Remove(Player::LockFlags::Startup);	
 }
