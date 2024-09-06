@@ -371,7 +371,7 @@ struct GTRUNTIME_API FWEWorldMusic final : public FWESoundBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "WorldMusic")
-		EWorldMusicChannel Channel;
+		EMusicChannel Channel;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "WorldMusic")
 		TObjectPtr<USoundBase> Sound;
@@ -379,16 +379,10 @@ struct GTRUNTIME_API FWEWorldMusic final : public FWESoundBase
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "WorldMusic", meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		float Volume;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "WorldMusic", meta = (ClampMin = 0.1f, UIMin = 0.1f))
-		float Pitch;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "WorldMusic", meta = (ClampMin = 0.0f, UIMin = 0.0f))
-		float StartTime;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "WorldMusic")
-		bool bFade;
+		FString OptionalID;
 
-	FWEWorldMusic() : Channel(EWorldMusicChannel::Channel1), Volume(1.0f), Pitch(1.0f), StartTime(0.0f), bFade(false) {}
+	FWEWorldMusic() : Channel(EMusicChannel::Main), Volume(1.0f), OptionalID(TEXT("")) {}
 
 protected:
 	

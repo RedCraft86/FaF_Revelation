@@ -6,7 +6,7 @@
 #include "InputModeData.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/GameModeBase.h"
-#include "GameMusic/MusicManagerBase.h"
+#include "GameMusic/MusicManager.h"
 #include "GTGameMode.generated.h"
 
 class UGTUserWidget;
@@ -24,7 +24,7 @@ public:
 		TObjectPtr<USceneComponent> SceneRoot;
 
 	UPROPERTY(EditAnywhere, NoClear, BlueprintReadOnly, Category = "Classes")
-		TSubclassOf<AMusicManagerBase> MusicManagerClass;
+		TSubclassOf<AMusicManager> MusicManagerClass;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		TArray<TSubclassOf<UGTUserWidget>> DefaultWidgets;
@@ -53,16 +53,16 @@ public:
 		return Cast<T>(GetWidget(T::StaticClass(), FilterTag));
 	}
 	
-	template<typename T = AMusicManagerBase>
+	template<typename T = AMusicManager>
 	T* GetMusicManager()
 	{
-		static_assert(TIsDerivedFrom<T, AMusicManagerBase>::IsDerived, "Type is not an AMusicManager class");
+		static_assert(TIsDerivedFrom<T, AMusicManager>::IsDerived, "Type is not an AMusicManager class");
 		return Cast<T>(MusicManager);
 	}
 
 protected:
 
-	UPROPERTY(Transient) TObjectPtr<AMusicManagerBase> MusicManager;
+	UPROPERTY(Transient) TObjectPtr<AMusicManager> MusicManager;
 	UPROPERTY(Transient) TSet<TObjectPtr<UGTUserWidget>> WidgetObjs;
 	
 	FGameInputModeData InputModeData;

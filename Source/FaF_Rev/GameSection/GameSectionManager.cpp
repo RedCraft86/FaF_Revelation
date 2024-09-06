@@ -101,9 +101,9 @@ void UGameSectionManager::BeginTransition()
 
 void UGameSectionManager::UnloadLastData()
 {
-	if (AMusicManagerBase* MusicManager = AMusicManagerBase::Get(this))
+	if (AMusicManager* MusicManager = AMusicManager::Get(this))
 	{
-		MusicManager->MuteAllChannels(true);
+		MusicManager->MuteAllChannels(true, true);
 	}
 	
 	PlayerChar->ResetStates();
@@ -182,7 +182,7 @@ void UGameSectionManager::FinishLoading()
 
 void UGameSectionManager::FinishTransition()
 {
-	if (AMusicManagerBase* MusicManager = AMusicManagerBase::Get(this))
+	if (AMusicManager* MusicManager = AMusicManager::Get(this))
 	{
 		MusicManager->SetBaseMusicData(ThisData->MusicData.LoadSynchronous());
 	}

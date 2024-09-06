@@ -20,6 +20,7 @@
 #include "Actors/DebugNavPath.h"
 #include "MeshGen/GTMeshGenBase.h"
 #include "Optimization/SmartCullingVolume.h"
+#include "GameMusic/WorldMusicInstance.h"
 #include "Data/PulldownTypes.h"
 
 #define LOCTEXT_NAMESPACE "GTEditor"
@@ -41,6 +42,7 @@ void FGTEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AGTMeshGenBase, FGTActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ADebugNavPath, FGTActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ASmartCullingVolume, FGTActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AWorldMusicInstance, FGTActorDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveDetails)
@@ -87,6 +89,7 @@ void FGTEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AGTMeshGenBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(ADebugNavPath)
 		UNREGISTER_CLASS_CUSTOMIZATION(ASmartCullingVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(AWorldMusicInstance)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
