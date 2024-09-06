@@ -25,7 +25,8 @@ def Archive(Output, Inputs):
         time.sleep(1)
 
 assert os.path.isdir(BASE_PATH), "BASE_PATH does not exist."
-assert os.path.isdir(BACKUP_PATH), "BACKUP_PATH does not exist."
+if not os.path.isdir(BACKUP_PATH):
+    os.makedirs(BACKUP_PATH)
 
 CONTENT_PATH = os.path.join(BASE_PATH, "Content/").replace("\\", "/")
 ARCHIVE_PATH = os.path.join(BASE_PATH, "Archives/").replace("\\", "/")
