@@ -64,14 +64,14 @@ void FWEPlayerLockOn::RunEvent(const UObject* WorldContext)
 		{
 			if (Comp->GetName() == *Component)
 			{
-				Player->LockOnTarget = Comp;
+				Player->SetLockOnTarget(Comp);
 				return;
 			}
 		}
 	}
 	else
 	{
-		Player->LockOnTarget = nullptr;
+		Player->SetLockOnTarget(nullptr);
 	}
 }
 
