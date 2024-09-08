@@ -153,7 +153,6 @@ void UNarrativeWidgetBase::QuestUpdatedNotify()
 
 void UNarrativeWidgetBase::RefreshQuestList(const UQuest* Quest, const UQuestBranch* Branch)
 {
-	bool bShouldHide = true;
 	QuestBranchBox->ClearChildren();
 	if (Branch && (!Branch->DestinationState || Branch->DestinationState->StateNodeType != EStateNodeType::Failure))
 	{
@@ -163,20 +162,11 @@ void UNarrativeWidgetBase::RefreshQuestList(const UQuest* Quest, const UQuestBra
 			BranchWidget->InitWidget(Branch);
 
 			QuestBranchBox->AddChild(BranchWidget);
-			bShouldHide = false;
 		}
 
 		QuestUpdatedNotify();
 		bHideQuests = false;
 		PlayAnimation(QuestFadeAnim, 0.0f, 1, EUMGSequencePlayMode::Reverse);
-	}
-	
-	if (bShouldHide)
-	{
-		FTimerHandle Handle;
-		GetWorld()->GetTimerManager().SetTimer(Handle, [this](){
-			SetQuestsHidden(true);
-		}, 0.25f, false);
 	}
 }
 
@@ -184,7 +174,6 @@ void UNarrativeWidgetBase::OnQuestNewState(UQuest* Quest, const UQuestState* New
 {
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this, NewState]()
 	{
-		bool bShouldHide = true;
 		if (NewState && !NewState->Branches.IsEmpty())
 		{
 			QuestBranchBox->ClearChildren();
@@ -196,21 +185,12 @@ void UNarrativeWidgetBase::OnQuestNewState(UQuest* Quest, const UQuestState* New
 					BranchWidget->InitWidget(Branch);
 
 					QuestBranchBox->AddChild(BranchWidget);
-					bShouldHide = false;
 				}
 			}
 
 			QuestUpdatedNotify();
 			bHideQuests = false;
 			PlayAnimation(QuestFadeAnim, 0.0f, 1, EUMGSequencePlayMode::Reverse);
-		}
-
-		if (bShouldHide)
-		{
-			FTimerHandle Handle;
-			GetWorld()->GetTimerManager().SetTimer(Handle, [this](){
-				SetQuestsHidden(true);
-			}, 0.25f, false);
 		}
 	});
 }
@@ -230,6 +210,14 @@ void UNarrativeWidgetBase::OnQuestTaskProgressChanged(const UQuest* Quest, const
 	{
 		RefreshQuestList(Quest, Branch);
 	}
+}
+
+void UNarrativeWidgetBase::OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucceededMessage)
+{
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, [this](){
+		SetQuestsHidden(true);
+	}, 0.6f, false);
 }
 
 void UNarrativeWidgetBase::SelectDialogueReply(UDialogueNode_Player* Reply)
@@ -254,6 +242,9 @@ void UNarrativeWidgetBase::SelectDialogueReply(UDialogueNode_Player* Reply)
 
 void UNarrativeWidgetBase::OnDialogueBegan(UDialogue* Dialogue)
 {
+	PlayerChar->SetRunState(false);
+	PlayerChar->SetCrouchState(false);
+	PlayerChar->SetLeanState(EPlayerLeanState::None);
 	PlayerChar->AddLockFlag(Player::LockFlags::Dialogue);
 	CachedInputMode = GetGameMode<AFRGameModeBase>()->GetInputModeData();
 	GetGameMode<AFRGameModeBase>()->SetGameInputMode(EGameInputMode::GameAndUI, true,
@@ -350,6 +341,7 @@ void UNarrativeWidgetBase::InitWidget()
 	NarrativeComponent->OnQuestNewState.AddDynamic(this, &UNarrativeWidgetBase::OnQuestNewState);
 	NarrativeComponent->OnQuestTaskCompleted.AddDynamic(this, &UNarrativeWidgetBase::OnQuestTaskCompleted);
 	NarrativeComponent->OnQuestTaskProgressChanged.AddDynamic(this, &UNarrativeWidgetBase::OnQuestTaskProgressChanged);
+	NarrativeComponent->OnQuestSucceeded.AddDynamic(this, &UNarrativeWidgetBase::OnQuestSucceeded);
 
 	NarrativeComponent->OnDialogueBegan.AddDynamic(this, &UNarrativeWidgetBase::OnDialogueBegan);
 	NarrativeComponent->OnDialogueFinished.AddDynamic(this, &UNarrativeWidgetBase::OnDialogueFinished);

@@ -185,7 +185,8 @@ protected:
 	UFUNCTION() void OnQuestNewState(UQuest* Quest, const UQuestState* NewState);
 	UFUNCTION() void OnQuestTaskCompleted(const UQuest* Quest, const UNarrativeTask* CompletedTask, const UQuestBranch* Branch);
 	UFUNCTION() void OnQuestTaskProgressChanged(const UQuest* Quest, const UNarrativeTask* ProgressedTask, const UQuestBranch* Branch, int32 OldProgress, int32 NewProgress);
-
+	UFUNCTION() void OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucceededMessage);
+	
 	void SelectDialogueReply(UDialogueNode_Player* Reply);
 	UFUNCTION() void OnDialogueBegan(UDialogue* Dialogue);
 	UFUNCTION() void OnDialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue);
