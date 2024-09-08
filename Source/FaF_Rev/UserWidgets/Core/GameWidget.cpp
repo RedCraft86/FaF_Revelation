@@ -91,7 +91,7 @@ void UGameWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 
 		const bool bUseStamina = PlayerChar->HasControlFlag(PCF_CanRun) && PlayerChar->HasControlFlag(PCF_UseStamina);
 		StaminaBar->SetRenderOpacity(FMath::GetMappedRangeValueClamped(FVector2D(0.85f, 1.0f),
-			FVector2D(1.0f, bUseStamina ? 0.25f : 0.0f), StaminaBar->GetPercent()));
+			FVector2D(1.0f, bUseStamina ? 0.05f : 0.0f), StaminaBar->GetPercent()));
 
 		StaminaBar->SetFillColorAndOpacity(FMath::CInterpTo(StaminaBar->GetFillColorAndOpacity(),
 			PlayerChar->IsStaminaPunished() ? FLinearColor::Red : FLinearColor::White,
