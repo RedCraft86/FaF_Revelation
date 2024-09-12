@@ -69,7 +69,7 @@ public:
 		uint8 DependencyDepth = 4;
 
 	UPROPERTY(EditAnywhere, Category = "Dependencies")
-		TSet<FName> ExcludedObjects = {TEXT("BP_")};
+		TSet<FName> ExcludedObjects = {TEXT("BP_"), TEXT("Lvl_")};
 #endif
 	
 	UPROPERTY(VisibleAnywhere, Category = "Dependencies", meta = (NoResetToDefault))
