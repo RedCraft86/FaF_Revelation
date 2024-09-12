@@ -35,7 +35,7 @@ public:
 		FVector2D TurningRange;
 
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.01f, UIMin = 0.01f))
-		float CaptureFrequency;
+		float CaptureInterval;
 
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.01f, UIMin = 0.01f))
 		float RefreshFrequency;
