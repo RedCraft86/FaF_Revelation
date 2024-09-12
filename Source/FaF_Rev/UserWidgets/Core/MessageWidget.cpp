@@ -2,6 +2,8 @@
 
 #include "MessageWidget.h"
 #include "ExprTextBlock.h"
+#include "FRGameMode.h"
+#include "NarrativeComponent.h"
 #include "Components/TextBlock.h"
 #include "GameFramework/PlayerState.h"
 
@@ -156,7 +158,7 @@ void UMessageWidgetBase::HideCheck()
 {
 	HideCheckTime = 0.0f;
 	if (!WorldSettings || IsAnimationPlaying(SubtitlePauseFade)) return;
-	const bool bNewAutoHidden = IsValid(WorldSettings->GetPauserPlayerState());
+	const bool bNewAutoHidden = IsValid(WorldSettings->GetPauserPlayerState()) || GetGameMode<AFRGameModeBase>()->Narrative->IsInDialogue();
 	if (bAutoHidden != bNewAutoHidden)
 	{
 		bAutoHidden = bNewAutoHidden;
