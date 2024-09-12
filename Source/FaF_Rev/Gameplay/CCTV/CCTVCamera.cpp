@@ -13,7 +13,7 @@
 #endif
 
 ACCTVCamera::ACCTVCamera() : TurningRate(FVector2D::UnitVector), TurningRange(25.0f, 10.0f)
-	, CaptureFrequency(0.25f), RefreshFrequency(0.25f)
+	, CaptureInterval(0.25f), RefreshFrequency(0.25f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -83,7 +83,7 @@ void ACCTVCamera::BeginPlay()
 	Super::BeginPlay();
 	SceneCapture->AddOrUpdateBlendable(TrackingPostProcess, 0.0f);
 	
-	GetWorldTimerManager().SetTimer(CaptureHandle, this, &ACCTVCamera::CaptureScene, CaptureFrequency, true);
+	GetWorldTimerManager().SetTimer(CaptureHandle, this, &ACCTVCamera::CaptureScene, CaptureInterval, true);
 	GetWorldTimerManager().PauseTimer(CaptureHandle);
 	
 	GetWorldTimerManager().SetTimer(RefreshHandle, this, &ACCTVCamera::RefreshEnemyState, RefreshFrequency, true);
