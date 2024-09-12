@@ -49,6 +49,9 @@ public:
 		bool IsOnActiveCamera() const { return ActiveCamera.Value && ActiveCamera.Value->IsEnabled(); }
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
+		FName GetActiveCamera() const { return ActiveCamera.Value ? ActiveCamera.Key : NAME_None; }
+
+	UFUNCTION(BlueprintPure, Category = "CCTV")
 		bool IsSeeingEnemies() const { return IsOnActiveCamera() ? ActiveCamera.Value->IsSeeingEnemies() : false; }
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
