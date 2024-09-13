@@ -61,6 +61,13 @@ void ACCTVCamera::SetDamaged(const bool bNewDamaged)
 	}
 }
 
+void ACCTVCamera::TurnCamera(const FVector2D& Val)
+{
+	CamRotation.Yaw = FMath::Clamp(CamRotation.Yaw + Val.Y, -TurningRange.X, TurningRange.X);
+	CamRotation.Pitch = FMath::Clamp(CamRotation.Pitch + Val.X, -TurningRange.Y, TurningRange.Y);
+	SceneCapture->SetRelativeRotation(CamRotation);
+}
+
 void ACCTVCamera::CaptureScene() const
 {
 	SceneCapture->CaptureScene();
@@ -90,6 +97,7 @@ void ACCTVCamera::SetMonitor(ACCTVMonitor* InMonitor)
 void ACCTVCamera::BeginPlay()
 {
 	Super::BeginPlay();
+	CamRotation = SceneCapture->GetRelativeRotation();
 	SceneCapture->AddOrUpdateBlendable(TrackingPostProcess, 0.0f);
 	
 	GetWorldTimerManager().SetTimer(CaptureHandle, this, &ACCTVCamera::CaptureScene, CaptureInterval, true);

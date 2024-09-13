@@ -72,6 +72,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "CCTV")
 		void SetDamaged(const bool bNewDamaged);
+
+	UFUNCTION(BlueprintCallable, Category = "CCTV")
+		void TurnCamera(const FVector2D& Val);
 	
 protected:
 #if WITH_EDITORONLY_DATA
@@ -80,6 +83,7 @@ protected:
 #endif
 
 	bool bSeeEnemies;
+	FRotator CamRotation;
 	FTimerHandle CaptureHandle, RefreshHandle;
 	UPROPERTY(Transient) TObjectPtr<ACCTVMonitor> Monitor;
 

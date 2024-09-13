@@ -2,13 +2,17 @@
 
 #pragma once
 
-#include "CCTVCamera.h"
 #include "GTActor.h"
+#include "CCTVCamera.h"
 #include "Data/MathTypes.h"
+#include "InputActionValue.h"
+#include "Interaction/InteractionInterface.h"
 #include "CCTVMonitor.generated.h"
 
+class UInputAction;
+
 UCLASS(Abstract)
-class FAF_REV_API ACCTVMonitor final : public AGTActor
+class FAF_REV_API ACCTVMonitor final : public AGTActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 
@@ -27,6 +31,9 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<class UWidgetComponent> MonitorWidget;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+		TObjectPtr<class UCameraComponent> MonitorCamera;
+
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (GetOptions = "GetCameraOptions"))
 		FName DefaultCamera;
 
@@ -35,6 +42,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
 		TObjectPtr<UTextureRenderTarget2D> CaptureRT;
+
+	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay, meta = (DisplayThumbnail = false))
+		TObjectPtr<UInputAction> TurnInput;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay, meta = (DisplayThumbnail = false))
+		TObjectPtr<UInputAction> ExitInput;
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
 		TArray<FName> GetCameraOptions() const;
@@ -59,10 +72,18 @@ public:
 	
 protected:
 
+	bool bZoomedIn;
 	FTimerHandle ChangeCameraHandle;
 	FGTInterpScalar ChangeCameraStatic;
+	TObjectPtr<AFRPlayerBase> PlayerChar;
 	TPair<FName, TObjectPtr<ACCTVCamera>> ActiveCamera;
 
+	virtual bool GetInteractionInfo_Implementation(FInteractionInfo& Info) override;
+	virtual void OnBeginInteract_Implementation(AFRPlayerBase* Player, const FHitResult& HitResult) override;
+
+	void InputBinding_Turn(const FInputActionValue& InValue);
+	void InputBinding_Exit(const FInputActionValue& InValue);
+	
 	void UpdateCameraStatic();
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;

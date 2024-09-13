@@ -1,12 +1,17 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "CCTVMonitor.h"
+#include "FRPlayer.h"
 #include "CCTVCamera.h"
 #include "CCTVScreenWidget.h"
+#include "FRPlayerController.h"
+#include "EnhancedInputComponent.h"
+#include "Camera/CameraComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/WidgetComponent.h"
+#include "GameFramework/InputSettings.h"
 
-ACCTVMonitor::ACCTVMonitor()
+ACCTVMonitor::ACCTVMonitor() : bZoomedIn(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
@@ -27,6 +32,10 @@ ACCTVMonitor::ACCTVMonitor()
 
 	MonitorWidget = CreateDefaultSubobject<UWidgetComponent>("MonitorWidget");
 	MonitorWidget->SetupAttachment(MonitorMesh);
+
+	MonitorCamera = CreateDefaultSubobject<UCameraComponent>("MonitorCamera");
+	MonitorCamera->SetupAttachment(SceneRoot);
+	MonitorCamera->SetFieldOfView(80.0f);
 
 	ChangeCameraStatic.InterpSpeed = 10.0f;
 }
@@ -57,6 +66,45 @@ void ACCTVMonitor::PlayMonitorAudio(USoundBase* Sound, const float Volume) const
 	MonitorAudio->SetSound(Sound);
 	MonitorAudio->VolumeMultiplier = Volume;
 	MonitorAudio->Play();
+}
+
+bool ACCTVMonitor::GetInteractionInfo_Implementation(FInteractionInfo& Info)
+{
+	Info = {};
+	Info.Label = INVTEXT("Cameras");
+	return !bZoomedIn && IsEnabled();
+}
+
+void ACCTVMonitor::OnBeginInteract_Implementation(AFRPlayerBase* Player, const FHitResult& HitResult)
+{
+	if (bZoomedIn)
+		return;
+	
+	bZoomedIn = true;
+	PlayerChar = Player;
+	Player->SetWorldDevice(this);
+	Player->GetPlayerController()->SetViewTargetWithBlend(this, 0.25);
+	EnableInput(Player->GetPlayerController());
+}
+
+void ACCTVMonitor::InputBinding_Turn(const FInputActionValue& InValue)
+{
+	if (ActiveCamera.Value) ActiveCamera.Value->TurnCamera(InValue.Get<FVector2D>());
+}
+
+void ACCTVMonitor::InputBinding_Exit(const FInputActionValue& InValue)
+{
+	if (!PlayerChar) return;
+	PlayerChar->SetWorldDevice(nullptr);
+	PlayerChar->GetPlayerController()->SetViewTargetWithBlend(PlayerChar, 0.25);
+	DisableInput(PlayerChar->GetPlayerController());
+	PlayerChar = nullptr;
+	
+	FTimerHandle Handle;
+	GetWorldTimerManager().SetTimer(Handle, [this]()
+	{
+		bZoomedIn = false;
+	}, 0.1f , false);
 }
 
 void ACCTVMonitor::UpdateCameraStatic()
@@ -90,6 +138,13 @@ void ACCTVMonitor::BeginPlay()
 	{
 		ChangeCamera(DefaultCamera);	
 	});
+
+	CreateInputComponent(UInputSettings::GetDefaultInputComponentClass());
+	if (UEnhancedInputComponent* InputComp = Cast<UEnhancedInputComponent>(InputComponent))
+	{
+		InputComp->BindAction(TurnInput, ETriggerEvent::Triggered, this, &ACCTVMonitor::InputBinding_Turn);
+		InputComp->BindAction(ExitInput, ETriggerEvent::Started, this, &ACCTVMonitor::InputBinding_Exit);
+	}
 }
 
 void ACCTVMonitor::Tick(float DeltaTime)
