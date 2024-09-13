@@ -12,6 +12,9 @@ AMusicManager::AMusicManager()
 	PrimaryActorTick.TickInterval = 30.0f;
 	PrimaryActorTick.bTickEvenWhenPaused = true;
 
+	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
+	SetRootComponent(SceneRoot);
+
 #define CREATE_AUDIO_COMPONENT(Channel) \
 	UAudioComponent* Channel = CreateDefaultSubobject<UAudioComponent>(#Channel TEXT("Audio")); \
 	AudioComponents.Add(EMusicChannel::Channel, Channel);\
