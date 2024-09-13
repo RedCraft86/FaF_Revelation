@@ -52,6 +52,15 @@ void ACCTVCamera::FindEnemies()
 }
 #endif
 
+void ACCTVCamera::SetDamaged(const bool bNewDamaged)
+{
+	if (bDamaged != bNewDamaged)
+	{
+		bDamaged = bNewDamaged;
+		if (Monitor) Monitor->UpdateCameraStatic();
+	}
+}
+
 void ACCTVCamera::CaptureScene() const
 {
 	SceneCapture->CaptureScene();

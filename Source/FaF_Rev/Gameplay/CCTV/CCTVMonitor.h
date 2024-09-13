@@ -46,7 +46,7 @@ public:
 		void PlayMonitorAudio(USoundBase* Sound, const float Volume) const;
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
-		bool IsOnActiveCamera() const { return ActiveCamera.Value && ActiveCamera.Value->IsEnabled(); }
+		bool IsOnActiveCamera() const { return ActiveCamera.Value && ActiveCamera.Value->IsFunctional(); }
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
 		FName GetActiveCamera() const { return ActiveCamera.Value ? ActiveCamera.Key : NAME_None; }

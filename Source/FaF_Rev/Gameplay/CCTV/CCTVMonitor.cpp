@@ -61,7 +61,7 @@ void ACCTVMonitor::PlayMonitorAudio(USoundBase* Sound, const float Volume) const
 
 void ACCTVMonitor::UpdateCameraStatic()
 {
-	ChangeCameraStatic.TargetValue = ActiveCamera.Value && ActiveCamera.Value->IsEnabled() ? 0.0f : 1.0f;
+	ChangeCameraStatic.TargetValue = ActiveCamera.Value && ActiveCamera.Value->IsFunctional() ? 0.0f : 1.0f;
 }
 
 void ACCTVMonitor::BeginPlay()

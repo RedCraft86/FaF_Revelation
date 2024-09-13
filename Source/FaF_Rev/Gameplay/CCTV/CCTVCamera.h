@@ -26,6 +26,9 @@ public:
 		TObjectPtr<class UVisionConeComponent> VisionCone;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
+		bool bDamaged;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
 		FText DisplayName;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.1f, UIMin = 0.1f))
@@ -60,6 +63,15 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
 		bool IsSeeingEnemies() const { return bSeeEnemies; }
+
+	UFUNCTION(BlueprintPure, Category = "CCTV")
+		bool IsFunctional() const { return !bDamaged && IsEnabled(); }
+
+	UFUNCTION(BlueprintPure, Category = "CCTV")
+		bool IsDamaged() const { return bDamaged; }
+
+	UFUNCTION(BlueprintCallable, Category = "CCTV")
+		void SetDamaged(const bool bNewDamaged);
 	
 protected:
 #if WITH_EDITORONLY_DATA
