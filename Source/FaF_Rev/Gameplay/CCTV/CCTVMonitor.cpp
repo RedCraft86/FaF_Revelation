@@ -10,6 +10,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Core/NarrativeWidget.h"
 #include "GameFramework/InputSettings.h"
 
 ACCTVMonitor::ACCTVMonitor() : bZoomedIn(false)
@@ -87,6 +88,7 @@ void ACCTVMonitor::OnBeginInteract_Implementation(AFRPlayerBase* Player, const F
 	Player->GetPlayerController()->SetViewTargetWithBlend(this, 0.25);
 	Player->GetGameMode()->AddControlEntry({*(GetName() + TEXT("_Exit")), INVTEXT("Exit"), {EKeys::SpaceBar}});
 	Player->GetGameMode()->AddControlEntry({*(GetName() + TEXT("_WASD")), INVTEXT("Turn"), {EKeys::W, EKeys::A, EKeys::S, EKeys::D}});
+	Player->GetGameMode()->GetWidget<UNarrativeWidgetBase>()->SetQuestsHidden(true);
 	EnableInput(Player->GetPlayerController());
 }
 
@@ -100,6 +102,7 @@ void ACCTVMonitor::InputBinding_Exit(const FInputActionValue& InValue)
 	if (!PlayerChar) return;
 	PlayerChar->SetWorldDevice(nullptr);
 	PlayerChar->GetPlayerController()->SetViewTargetWithBlend(PlayerChar, 0.25);
+	PlayerChar->GetGameMode()->GetWidget<UNarrativeWidgetBase>()->SetQuestsHidden(false);
 	PlayerChar->GetGameMode()->RemoveControlEntry(*(GetName() + TEXT("_Exit")));
 	PlayerChar->GetGameMode()->RemoveControlEntry(*(GetName() + TEXT("_WASD")));
 	DisableInput(PlayerChar->GetPlayerController());

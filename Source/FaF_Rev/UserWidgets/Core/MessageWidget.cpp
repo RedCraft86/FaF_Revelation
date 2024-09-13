@@ -203,7 +203,7 @@ void UMessageWidgetBase::UpdateControlBar()
 			DividerImage->SetBrush(ControlDividerBrush);
 						
 			UHorizontalBoxSlot* DividerSlot = Cast<UHorizontalBoxSlot>(ControlBar->AddChild(DividerImage));
-			DividerSlot->SetPadding(FMargin(10.0f, 0.0f));
+			DividerSlot->SetPadding(FMargin(25.0f, 0.0f));
 			DividerSlot->SetHorizontalAlignment(HAlign_Center);
 			DividerSlot->SetVerticalAlignment(VAlign_Fill);
 		}

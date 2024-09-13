@@ -4,6 +4,8 @@
 #include "Components/Image.h"
 #include "Components/Button.h"
 #include "Components/SpinBox.h"
+#include "Components/SizeBox.h"
+#include "Components/ScaleBox.h"
 #include "Components/TextBlock.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
@@ -404,7 +406,7 @@ void UFRSwitcherSettingBase::NativePreConstruct()
 #endif
 
 UFRControlBarEntry::UFRControlBarEntry(const FObjectInitializer& ObjectInitializer)
-	: UUserWidget(ObjectInitializer), LabelText(nullptr), KeysBox(nullptr), DesiredSize({50.0f})
+	: UUserWidget(ObjectInitializer), LabelText(nullptr), KeysBox(nullptr), DesiredSize({0.0f, 50.0f})
 {
 	DividerBrush.TintColor = FLinearColor::Gray;
 	DividerBrush.DrawAs = ESlateBrushDrawType::RoundedBox;
@@ -424,11 +426,19 @@ void UFRControlBarEntry::SetControlKeyData(const FControlKeyData& InData)
 	{
 		UImage* IconImage = WidgetTree->ConstructWidget<UImage>();
 		Brush = GetIconForKey(InData.Keys[i].GetFName()).Brush;
-		Brush.SetImageSize(DesiredSize);
 		IconImage->SetBrush(Brush);
+
+		UScaleBox* ScaleBox = WidgetTree->ConstructWidget<UScaleBox>();
+		ScaleBox->SetStretch(EStretch::ScaleToFitY);
+		ScaleBox->AddChild(IconImage);
 		
-		UHorizontalBoxSlot* IconSlot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(IconImage));
-		IconSlot->SetHorizontalAlignment(HAlign_Center);
+		USizeBox* SizeBox = WidgetTree->ConstructWidget<USizeBox>();
+		DesiredSize.X > 0.0f ? SizeBox->SetWidthOverride(DesiredSize.X) : SizeBox->ClearWidthOverride();
+		SizeBox->SetHeightOverride(DesiredSize.Y);
+		SizeBox->AddChild(ScaleBox);
+		
+		UHorizontalBoxSlot* IconSlot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(SizeBox));
+		IconSlot->SetHorizontalAlignment(HAlign_Left);
 		IconSlot->SetVerticalAlignment(VAlign_Center);
 
 		// if (KeyNum != 1 && i != KeyNum - 1)
