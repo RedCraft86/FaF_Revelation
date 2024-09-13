@@ -109,6 +109,7 @@ void UGameSectionManager::UnloadLastData()
 	PlayerChar->ResetStates();
 	PlayerChar->TeleportPlayer(FVector::ZeroVector, FRotator::ZeroRotator);
 	PlayerChar->GetGameMode()->Narrative->ForgetQuest(LastData->Quest.LoadSynchronous());
+	PlayerChar->GetGameMode()->Narrative->ExitDialogue();
 	
 	LoadedObjs.Empty(ThisData ? ThisData->PreloadObjects.Num() : 0);
 	UnloadingLevels = 0;
