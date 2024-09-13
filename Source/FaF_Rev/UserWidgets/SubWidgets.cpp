@@ -9,6 +9,7 @@
 #include "Components/HorizontalBoxSlot.h"
 #include "Blueprint/WidgetTree.h"
 #include "InputMappingContext.h"
+#include "MessagingData.h"
 
 void UFRAnimatedButtonBase::NativeOnInitialized()
 {
@@ -401,3 +402,44 @@ void UFRSwitcherSettingBase::NativePreConstruct()
 	}
 }
 #endif
+
+UFRControlBarEntry::UFRControlBarEntry(const FObjectInitializer& ObjectInitializer)
+	: UUserWidget(ObjectInitializer), LabelText(nullptr), KeysBox(nullptr), DesiredSize({50.0f})
+{
+	DividerBrush.TintColor = FLinearColor::Gray;
+	DividerBrush.DrawAs = ESlateBrushDrawType::RoundedBox;
+	DividerBrush.ImageSize = FVector2D(4.0f, 32.0f);
+	DividerBrush.OutlineSettings.CornerRadii = FVector4(2.0f, 2.0f, 2.0f, 2.0f);
+	DividerBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::FixedRadius;
+	DividerBrush.OutlineSettings.bUseBrushTransparency = true;
+}
+
+void UFRControlBarEntry::SetControlKeyData(const FControlKeyData& InData)
+{
+	LabelText->SetText(InData.Name);
+
+	FSlateBrush Brush = {};
+	const int32 KeyNum = InData.Keys.Num();
+	for (int32 i = 0; i < KeyNum; i++)
+	{
+		UImage* IconImage = WidgetTree->ConstructWidget<UImage>();
+		Brush = GetIconForKey(InData.Keys[i].GetFName()).Brush;
+		Brush.SetImageSize(DesiredSize);
+		IconImage->SetBrush(Brush);
+		
+		UHorizontalBoxSlot* IconSlot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(IconImage));
+		IconSlot->SetHorizontalAlignment(HAlign_Center);
+		IconSlot->SetVerticalAlignment(VAlign_Center);
+
+		// if (KeyNum != 1 && i != KeyNum - 1)
+		// {
+		// 	UImage* DividerImage = WidgetTree->ConstructWidget<UImage>();
+		// 	DividerImage->SetBrush(DividerBrush);
+		// 				
+		// 	UHorizontalBoxSlot* DividerSlot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(DividerImage));
+		// 	DividerSlot->SetPadding(FMargin(5.0f, 0.0f));
+		// 	DividerSlot->SetHorizontalAlignment(HAlign_Center);
+		// 	DividerSlot->SetVerticalAlignment(VAlign_Fill);
+		// }
+	}
+}

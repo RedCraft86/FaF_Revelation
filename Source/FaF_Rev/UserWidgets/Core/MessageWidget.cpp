@@ -3,9 +3,14 @@
 #include "MessageWidget.h"
 #include "ExprTextBlock.h"
 #include "FRGameMode.h"
+#include "SubWidgets.h"
 #include "NarrativeComponent.h"
-#include "Components/TextBlock.h"
+#include "Blueprint/WidgetTree.h"
 #include "GameFramework/PlayerState.h"
+#include "Components/HorizontalBoxSlot.h"
+#include "Components/HorizontalBox.h"
+#include "Components/TextBlock.h"
+#include "Components/Image.h"
 
 UMessageWidgetBase::UMessageWidgetBase(const FObjectInitializer& ObjectInitializer)
 	: UGTUserWidget(ObjectInitializer), SmallNoticeText(nullptr), LargeNoticeText(nullptr)
@@ -15,6 +20,13 @@ UMessageWidgetBase::UMessageWidgetBase(const FObjectInitializer& ObjectInitializ
 {
 	ZOrder = 95;
 	bAutoAdd = true;
+
+	ControlDividerBrush.TintColor = FLinearColor::Gray;
+	ControlDividerBrush.DrawAs = ESlateBrushDrawType::RoundedBox;
+	ControlDividerBrush.ImageSize = FVector2D(4.0f, 32.0f);
+	ControlDividerBrush.OutlineSettings.CornerRadii = FVector4(2.0f, 2.0f, 2.0f, 2.0f);
+	ControlDividerBrush.OutlineSettings.RoundingType = ESlateBrushRoundingType::FixedRadius;
+	ControlDividerBrush.OutlineSettings.bUseBrushTransparency = true;
 }
 
 void UMessageWidgetBase::QueueSmallNotice(const FSimpleNoticeData& NoticeData, const bool bResetQueue)
@@ -76,6 +88,26 @@ void UMessageWidgetBase::QueueSubtitle(const FSimpleSubtitleData& SubtitleData, 
 	{
 		UpdateSubtitle();
 	}
+}
+
+void UMessageWidgetBase::AddControlEntry(const FControlKeyData& InData)
+{
+	ControlBarEntries.RemoveAll([InData](const FControlKeyData& Element) -> bool
+	{
+		return Element.ID == InData.ID;
+	});
+	ControlBarEntries.Add(InData);
+	UpdateControlBar();
+}
+
+void UMessageWidgetBase::RemoveControlEntry(const FName& InID)
+{
+	ControlBarEntries.RemoveAll([InID](const FControlKeyData& Element) -> bool
+	{
+		return Element.ID == InID;
+	});
+	
+	UpdateControlBar();
 }
 
 void UMessageWidgetBase::UpdateSmallNotice()
@@ -151,6 +183,36 @@ void UMessageWidgetBase::UpdateSubtitle()
 	{
 		PlayAnimationReverse(SubtitleAnim);
 		SubtitleTimer.Invalidate();
+	}
+}
+
+void UMessageWidgetBase::UpdateControlBar()
+{
+	ControlBar->ClearChildren();
+	if (!ControlEntryClass) return;
+	const int32 EntryNum = ControlBarEntries.Num();
+	for (int32 i = 0; i < EntryNum; i++)
+	{
+		UFRControlBarEntry* Entry = WidgetTree->ConstructWidget<UFRControlBarEntry>(ControlEntryClass);
+		Entry->SetControlKeyData(ControlBarEntries[i]);
+		ControlBar->AddChild(Entry);
+
+		if (EntryNum != 1 && i != EntryNum - 1)
+		{
+			UImage* DividerImage = WidgetTree->ConstructWidget<UImage>();
+			DividerImage->SetBrush(ControlDividerBrush);
+						
+			UHorizontalBoxSlot* DividerSlot = Cast<UHorizontalBoxSlot>(ControlBar->AddChild(DividerImage));
+			DividerSlot->SetPadding(FMargin(10.0f, 0.0f));
+			DividerSlot->SetHorizontalAlignment(HAlign_Center);
+			DividerSlot->SetVerticalAlignment(VAlign_Fill);
+		}
+	}
+
+	if (const bool bNewState = !ControlBarEntries.IsEmpty(); bControlBarState != bNewState)
+	{
+		bControlBarState = bNewState;
+		bControlBarState ? PlayAnimationForward(ControlBarAnim) : PlayAnimationReverse(ControlBarAnim);
 	}
 }
 

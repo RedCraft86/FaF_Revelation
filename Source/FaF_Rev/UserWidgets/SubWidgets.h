@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "MessagingData.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/RichTextBlockImageDecorator.h"
 #include "SubWidgets.generated.h"
@@ -339,4 +340,31 @@ protected:
 #if WITH_EDITOR
 	virtual void NativePreConstruct() override;
 #endif
+};
+
+UCLASS(Abstract, DisplayName = "Control Bar Entry")
+class FAF_REV_API UFRControlBarEntry final : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+	
+	UFRControlBarEntry(const FObjectInitializer& ObjectInitializer);
+
+	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<UTextBlock> LabelText;
+	
+	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<UHorizontalBox> KeysBox;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		FSlateBrush DividerBrush;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		FVector2D DesiredSize;
+
+	UFUNCTION(BlueprintImplementableEvent)
+		FRichImageRow GetIconForKey(const FName& InKey);
+	
+	void SetControlKeyData(const FControlKeyData& InData);
 };

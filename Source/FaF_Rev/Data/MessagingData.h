@@ -57,6 +57,30 @@ struct FAF_REV_API FSimpleSubtitleData
 };
 
 USTRUCT(BlueprintType)
+struct FAF_REV_API FControlKeyData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ControlKeyData")
+		FName ID;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ControlKeyData")
+		FText Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ControlKeyData")
+		TArray<FKey> Keys;
+
+	FControlKeyData() : ID(NAME_None), Name(FText::GetEmpty()) {}
+	FControlKeyData(const FName& InID, const FText& InName, const TArray<FKey>& InKey) : ID(InID), Name(InName), Keys(InKey) {}
+	friend uint32 GetTypeHash(const FControlKeyData& Data)
+	{
+		return HashCombine(GetTypeHash(Data.Name.ToString()), GetTypeHash(Data.Keys));
+	}
+
+	FORCEINLINE bool IsValidData() const { return !Name.IsEmptyOrWhitespace() && !Keys.IsEmpty(); }
+};
+
+USTRUCT(BlueprintType)
 struct FAF_REV_API FGuideBookPageData : public FTableRowBase
 {
 	GENERATED_BODY()

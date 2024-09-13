@@ -52,4 +52,10 @@ public: // Shortcuts
 	
 	UFUNCTION(BlueprintCallable, Category = "DisplayMessages")
 		void QueueGuidePages(const TArray<FGuideBookPageID>& PageIDs);
+
+	UFUNCTION(BlueprintCallable, Category = "DisplayMessages")
+		void AddControlEntry(const FControlKeyData& InData);
+
+	UFUNCTION(BlueprintCallable, Category = "DisplayMessages")
+		void RemoveControlEntry(const FName InID);
 };

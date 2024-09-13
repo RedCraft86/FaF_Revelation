@@ -29,6 +29,9 @@ public:
 	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<class UTextBlock> SubtitleNameText;
 
+	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<class UHorizontalBox> ControlBar;
+
 	UPROPERTY(Transient, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> SmallNoticeAnim;
 
@@ -37,15 +40,26 @@ public:
 
 	UPROPERTY(Transient, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> SubtitleAnim;
+
+	UPROPERTY(Transient, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> ControlBarAnim;
 	
 	UPROPERTY(Transient, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> SubtitlePauseFade;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+		TSubclassOf<class UFRControlBarEntry> ControlEntryClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Settings")
+		FSlateBrush ControlDividerBrush;
 	
 	void QueueSmallNotice(const FSimpleNoticeData& NoticeData, const bool bResetQueue = false);
 	void QueueLargeNotice(const FSimpleNoticeData& NoticeData, const bool bResetQueue = false);
 	void QueueSubtitles(const TArray<FSimpleSubtitleData>& Subtitles, const bool bOverride = false);
 	void QueueSubtitle(const FSimpleSubtitleData& SubtitleData, const bool bOverride = false);
-
+	void AddControlEntry(const FControlKeyData& InData);
+	void RemoveControlEntry(const FName& InID);
+	
 protected:
 
 	bool bAutoHidden;
@@ -63,6 +77,10 @@ protected:
 	FTimerHandle SubtitleTimer;
 	TQueue<FSimpleSubtitleData> SubtitleQueue;
 	void UpdateSubtitle();
+
+	bool bControlBarState = false;
+	TArray<FControlKeyData> ControlBarEntries;
+	void UpdateControlBar();
 
 	void HideCheck();
 	virtual void InitWidget() override;

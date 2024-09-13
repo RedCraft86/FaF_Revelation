@@ -72,3 +72,19 @@ void AFRGameModeBase::QueueGuidePages(const TArray<FGuideBookPageID>& PageIDs)
 		Widget->QueuePages(PageIDs);
 	}
 }
+
+void AFRGameModeBase::AddControlEntry(const FControlKeyData& InData)
+{
+	if (UMessageWidgetBase* Widget = GetWidget<UMessageWidgetBase>())
+	{
+		Widget->AddControlEntry(InData);
+	}
+}
+
+void AFRGameModeBase::RemoveControlEntry(const FName InID)
+{
+	if (UMessageWidgetBase* Widget = GetWidget<UMessageWidgetBase>())
+	{
+		Widget->RemoveControlEntry(InID);
+	}
+}
