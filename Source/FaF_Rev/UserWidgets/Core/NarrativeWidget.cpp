@@ -256,6 +256,7 @@ void UNarrativeWidgetBase::OnDialogueFinished(UDialogue* Dialogue, const bool bS
 	PlayerChar->ClearLockFlag(Player::LockFlags::Dialogue);
 	GetGameMode<AFRGameModeBase>()->SetInputModeData(CachedInputMode);
 	
+	DialogueReplyBox->ClearChildren();
 	PlayAnimationReverse(DialogueFadeAnim);
 	if (GetAnimationCurrentTime(RepliesFadeAnim) > 0.0f)
 	{
