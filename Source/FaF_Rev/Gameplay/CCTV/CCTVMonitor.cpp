@@ -49,7 +49,7 @@ void ACCTVMonitor::ChangeCamera(const FName InKey)
 	MonitorMesh->SetCustomPrimitiveDataFloat(0, IsEnabled() ? ChangeCameraStatic.CurrentValue : 1.0f);
 
 	ActiveCamera = {InKey, Cameras[InKey]};
-	if (ActiveCamera.Value) ActiveCamera.Value->SetEnabled(true);
+	if (ActiveCamera.Value) ActiveCamera.Value->SetEnabled(IsEnabled());
 }
 
 void ACCTVMonitor::PlayMonitorAudio(USoundBase* Sound, const float Volume) const
