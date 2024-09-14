@@ -93,7 +93,12 @@ void ACCTVMonitor::OnBeginInteract_Implementation(AFRPlayerBase* Player, const F
 	Player->GetGameMode()->AddControlEntry({*(GetName() + TEXT("_WASD")), INVTEXT("Turn"), {EKeys::W, EKeys::A, EKeys::S, EKeys::D}});
 	Player->GetGameMode()->GetWidget<UNarrativeWidgetBase>()->SetQuestsHidden(true);
 	ZoomIntoMonitor(Player->GetPlayerController());
-	EnableInput(Player->GetPlayerController());
+	
+	FTimerHandle Handle;
+	GetWorldTimerManager().SetTimer(Handle, [this, Player]()
+	{
+		EnableInput(Player->GetPlayerController());
+	}, 0.1f , false);
 }
 
 void ACCTVMonitor::InputBinding_Turn(const FInputActionValue& InValue)

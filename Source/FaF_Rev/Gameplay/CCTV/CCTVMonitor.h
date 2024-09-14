@@ -35,22 +35,22 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<class UCameraComponent> MonitorCamera;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (GetOptions = "GetCameraOptions"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", meta = (GetOptions = "GetCameraOptions"))
 		FName DefaultCamera;
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
 		TMap<FName, TObjectPtr<ACCTVCamera>> Cameras;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", AdvancedDisplay)
 		TSubclassOf<UCCTVMapWidget> MapWidget;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", AdvancedDisplay)
 		TObjectPtr<UTextureRenderTarget2D> CaptureRT;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay, meta = (DisplayThumbnail = false))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TObjectPtr<UInputAction> TurnInput;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay, meta = (DisplayThumbnail = false))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TObjectPtr<UInputAction> ExitInput;
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
