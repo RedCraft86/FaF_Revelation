@@ -4,6 +4,7 @@
 
 #include "GTActor.h"
 #include "CCTVCamera.h"
+#include "CCTVMapWidget.h"
 #include "Data/MathTypes.h"
 #include "InputActionValue.h"
 #include "Interaction/InteractionInterface.h"
@@ -40,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		TMap<FName, TObjectPtr<ACCTVCamera>> Cameras;
 
+	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+		TSubclassOf<UCCTVMapWidget> MapWidget;
+	
 	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
 		TObjectPtr<UTextureRenderTarget2D> CaptureRT;
 
@@ -82,6 +86,7 @@ protected:
 	FTimerHandle ChangeCameraHandle;
 	FGTInterpScalar ChangeCameraStatic;
 	TObjectPtr<AFRPlayerBase> PlayerChar;
+	TObjectPtr<UCCTVMapWidget> CCTVMapWidget;
 	TPair<FName, TObjectPtr<ACCTVCamera>> ActiveCamera;
 
 	virtual bool GetInteractionInfo_Implementation(FInteractionInfo& Info) override;

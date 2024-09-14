@@ -81,10 +81,14 @@ void ACCTVMonitor::OnBeginInteract_Implementation(AFRPlayerBase* Player, const F
 {
 	if (bZoomedIn)
 		return;
+
+	if (!CCTVMapWidget) CCTVMapWidget = CreateWidget<UCCTVMapWidget>(Player->GetPlayerController(), MapWidget);
+	if (CCTVMapWidget) CCTVMapWidget->AddToViewport();
 	
 	bZoomedIn = true;
 	PlayerChar = Player;
 	Player->SetWorldDevice(this);
+	Player->GetGameMode()->SetGameInputMode(EGameInputMode::GameAndUI, true);
 	Player->GetGameMode()->AddControlEntry({*(GetName() + TEXT("_Exit")), INVTEXT("Exit"), {EKeys::SpaceBar}});
 	Player->GetGameMode()->AddControlEntry({*(GetName() + TEXT("_WASD")), INVTEXT("Turn"), {EKeys::W, EKeys::A, EKeys::S, EKeys::D}});
 	Player->GetGameMode()->GetWidget<UNarrativeWidgetBase>()->SetQuestsHidden(true);
@@ -100,7 +104,10 @@ void ACCTVMonitor::InputBinding_Turn(const FInputActionValue& InValue)
 void ACCTVMonitor::InputBinding_Exit(const FInputActionValue& InValue)
 {
 	if (!PlayerChar) return;
+	if (CCTVMapWidget) CCTVMapWidget->RemoveWidget();
+	
 	PlayerChar->SetWorldDevice(nullptr);
+	PlayerChar->GetGameMode()->SetGameInputMode(EGameInputMode::GameOnly);
 	PlayerChar->GetGameMode()->GetWidget<UNarrativeWidgetBase>()->SetQuestsHidden(false);
 	PlayerChar->GetGameMode()->RemoveControlEntry(*(GetName() + TEXT("_Exit")));
 	PlayerChar->GetGameMode()->RemoveControlEntry(*(GetName() + TEXT("_WASD")));

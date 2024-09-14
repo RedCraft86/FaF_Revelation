@@ -18,7 +18,7 @@ struct GTRUNTIME_API FGameInputModeData
 {
 	GENERATED_BODY()
 
-private:
+public:
 
 	UPROPERTY(EditAnywhere, Category = "InputModeData")
 		EGameInputMode InputMode;
@@ -35,6 +35,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = "InputModeData", meta = (EditCondition = false, DisplayThumbnail = false))
 		TObjectPtr<UUserWidget> FocusWidget;
 
+private:
+	
 	FInputModeUIOnly UI_Only;
 	FInputModeGameOnly GameOnly;
 	FInputModeGameAndUI GameAndUI;
