@@ -223,7 +223,7 @@ void UGameSettings::SetToDefaults()
 	SensitivityXY = FVector2D::UnitVector;
 	bInvertSensitivityX = false;
 	bInvertSensitivityY = false;
-	FieldOfView = 85;
+	FieldOfView = 90;
 	Brightness = 100;
 	bFancyBloom = true;
 	for (const EFRSoundType Type : TEnumRange<EFRSoundType>())

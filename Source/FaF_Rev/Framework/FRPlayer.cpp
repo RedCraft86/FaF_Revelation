@@ -67,7 +67,7 @@ AFRPlayerBase::AFRPlayerBase()
 	ReachDistance = 250.0f;
 	Sensitivity = FVector2D::UnitVector;
 	SensitivityMulti = {1.0f};
-	FieldOfView = {85.0f};
+	FieldOfView = {90.0f};
 	FieldOfViewSpeed = 10.0f;
 	LockOnTarget = nullptr;
 	LockOnSpeed = 5.0f;
