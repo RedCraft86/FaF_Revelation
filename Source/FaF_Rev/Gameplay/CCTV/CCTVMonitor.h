@@ -69,6 +69,12 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "CCTV")
 		FText GetCameraName() const { return IsOnActiveCamera() ? ActiveCamera.Value->DisplayName : FText::GetEmpty(); }
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void ZoomIntoMonitor(APlayerController* Controller);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void ZoomOutOfMonitor(APlayerController* Controller, const AActor* Target);
 	
 protected:
 
