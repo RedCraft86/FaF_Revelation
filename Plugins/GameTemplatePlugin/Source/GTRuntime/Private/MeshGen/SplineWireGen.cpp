@@ -78,9 +78,9 @@ void ASplineWireGen::Construct()
 				SplineComponent->GetNumberOfSplinePoints() - 1, Location, Tangent);
 			
 			EndMeshComponent->SetRelativeTransform({
-				StartCap.Transform.GetRotation().Rotator() + FRotationMatrix::MakeFromX(Tangent).Rotator(),
-				StartCap.Transform.GetTranslation() + Location,
-				StartCap.Transform.GetScale3D()
+				EndCap.Transform.GetRotation().Rotator() + FRotationMatrix::MakeFromX(Tangent).Rotator(),
+				EndCap.Transform.GetTranslation() + Location,
+				EndCap.Transform.GetScale3D()
 			});
 		}
 	}
