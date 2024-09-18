@@ -44,8 +44,7 @@ Build/*/**
 !/Build/*/PakBlacklist*.txt
 !/Build/**/*.ico
 
-/Plugins/FSR3/
-/Plugins/SteamAudio/
-/Plugins/GameJoltAPI/
+/Plugins/
+!/Plugins/GameTemplatePlugin/
 
 Backup.Lock
