@@ -281,6 +281,7 @@ void USettingsWidgetBase::InitWidget()
 	SETUP_SLIDER(CBlindStrengthRow, true, GetColorBlindStrength, SetColorBlindStrength);
 	//Rendering Features
 	SETUP_TOGGLE(FancyBloomRow, GetUseFancyBloom, SetUseFancyBloom);
+	SETUP_TOGGLE(FogScatteringRow, GetUseSSFS, SetUseSSFS);
 	SETUP_SWITCHER(MBlurAmountRow, GetMotionBlurAmount, SetMotionBlurAmount);
 	SETUP_SWITCHER(AAliasingTypeRow, GetAAliasingInt, SetAAliasingInt);
 	SETUP_SWITCHER(FSRQualityRow, GetFSRQuality, SetFSRQuality);

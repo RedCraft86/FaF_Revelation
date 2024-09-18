@@ -90,6 +90,12 @@ public:
 		bool GetUseFancyBloom() const { return bFancyBloom; }
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
+		void SetUseSSFS(const bool bInUseSSFS);
+
+	UFUNCTION(BlueprintPure, Category = "Settings")
+		bool GetUseSSFS() const { return bUseSSFS; }
+
+	UFUNCTION(BlueprintCallable, Category = "Settings")
 		void SetAudioVolume(const EFRSoundType Type, const uint8 InVolume);
 
 	UFUNCTION(BlueprintPure, Category = "Settings")
@@ -124,7 +130,8 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UMaterialParameterCollection> BrightnessMPC;
 	
 // Configs
-	
+
+	UPROPERTY(Config) bool bUseSSFS;
 	UPROPERTY(Config) bool bShowFPS;
 	UPROPERTY(Config) bool bSmoothCamera;
 	UPROPERTY(Config) FVector2D SensitivityXY;

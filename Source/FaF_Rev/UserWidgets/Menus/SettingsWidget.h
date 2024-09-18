@@ -90,6 +90,9 @@ public:
 		TObjectPtr<UFRToggleSettingBase> FancyBloomRow;
 
 	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<UFRToggleSettingBase> FogScatteringRow;
+
+	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<UFRSwitcherSettingBase> MBlurAmountRow;
 	
 	UPROPERTY(Transient, meta = (BindWidget))

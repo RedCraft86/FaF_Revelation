@@ -150,6 +150,19 @@ void UGameSettings::SetUseFancyBloom(const bool bUseFancyBloom)
 	}
 }
 
+void UGameSettings::SetUseSSFS(const bool bInUseSSFS)
+{
+	if (bUseSSFS != bInUseSSFS)
+	{
+		bUseSSFS = bInUseSSFS;
+		OnDynamicApply.Broadcast();
+		if (IConsoleVariable* CVar_FSRQuality = UGTConsoleLibrary::FindCVar(TEXT("r.SSFS")))
+		{
+			CVar_FSRQuality->Set(bUseSSFS ? 1 : 0, ECVF_SetByConsole);
+		}
+	}
+}
+
 void UGameSettings::SetAudioVolume(const EFRSoundType Type, const uint8 InVolume)
 {
 	SoundTypeToVolume.Add(Type, InVolume);
@@ -158,7 +171,15 @@ void UGameSettings::SetAudioVolume(const EFRSoundType Type, const uint8 InVolume
 
 void UGameSettings::SetFSRQuality(const uint8 InQuality)
 {
-	FSRQuality = InQuality;
+	if (InQuality != FSRQuality)
+	{
+		FSRQuality = InQuality;
+		OnDynamicApply.Broadcast();
+		if (IConsoleVariable* CVar_FSRQuality = UGTConsoleLibrary::FindCVar(TEXT("r.FidelityFX.FSR3.QualityMode")))
+		{
+			CVar_FSRQuality->Set(FMath::Clamp((int32)FSRQuality, 0, 4), ECVF_SetByConsole);
+		}
+	}
 }
 
 UWorld* UGameSettings::GetWorld() const
@@ -244,6 +265,10 @@ void UGameSettings::ApplyNonResolutionSettings()
 	if (IConsoleVariable* CVar_FSRQuality = UGTConsoleLibrary::FindCVar(TEXT("r.FidelityFX.FSR3.QualityMode")))
 	{
 		CVar_FSRQuality->Set(FMath::Clamp((int32)FSRQuality, 0, 4), ECVF_SetByConsole);
+	}
+	if (IConsoleVariable* CVar_FSRQuality = UGTConsoleLibrary::FindCVar(TEXT("r.SSFS")))
+	{
+		CVar_FSRQuality->Set(bUseSSFS ? 1 : 0, ECVF_SetByConsole);
 	}
 
 	ApplyBrightness();
