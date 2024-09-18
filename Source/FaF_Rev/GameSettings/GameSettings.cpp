@@ -247,6 +247,7 @@ void UGameSettings::SetToDefaults()
 	FieldOfView = 90;
 	Brightness = 100;
 	bFancyBloom = true;
+	bUseSSFS = true;
 	for (const EFRSoundType Type : TEnumRange<EFRSoundType>())
 	{
 		SoundTypeToVolume.Add(Type, 100);
