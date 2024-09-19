@@ -47,7 +47,9 @@ void AElectricSwitchBase::OnBeginInteract_Implementation(AFRPlayerBase* Player, 
 void AElectricSwitchBase::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorldTimerManager().SetTimerForNextTick(this, &AElectricSwitchBase::UpdateStates);
+
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AElectricSwitchBase::UpdateStates, 0.1f, false);
 }
 
 void AElectricSwitchBase::OnEnableStateChanged(const bool bIsEnabled)
