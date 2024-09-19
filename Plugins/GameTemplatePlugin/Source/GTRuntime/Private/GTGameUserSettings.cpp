@@ -73,19 +73,16 @@ void UGTGameUserSettings::ApplyColorBlindSettings()
 void UGTGameUserSettings::SetToDefaults()
 {
 	Super::SetToDefaults();
-#if WITH_EDITOR
-	SetScreenResolution({1920, 1080});
-	SetFullscreenMode(EWindowMode::Windowed);
-	PreferredFullscreenMode = EWindowMode::Windowed;
-	LastUserConfirmedResolutionSizeX = 1920;
-	LastUserConfirmedResolutionSizeY = 1080;
-#else
-	SetScreenResolution(GetDesktopResolution());
-	SetFullscreenMode(EWindowMode::Fullscreen);
-	PreferredFullscreenMode = EWindowMode::Windowed;
+	
+	const FIntPoint DesktopRes = GetDesktopResolution();
+	SetScreenResolution({FMath::Min(1920, DesktopRes.X), FMath::Min(1080, DesktopRes.Y)});
+	SetFullscreenMode(ResolutionSizeX == DesktopRes.X && ResolutionSizeY == DesktopRes.Y
+		? EWindowMode::WindowedFullscreen : EWindowMode::Windowed);
+	
+	PreferredFullscreenMode = FullscreenMode;
 	LastUserConfirmedResolutionSizeX = ResolutionSizeX;
 	LastUserConfirmedResolutionSizeY = ResolutionSizeY;
-#endif
+	
 	SetResolutionScaleNormalized(1.0f);
 	SetVSyncEnabled(true);
 	FrameRateLimit = 60.0f;
