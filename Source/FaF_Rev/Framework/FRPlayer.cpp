@@ -587,6 +587,25 @@ void AFRPlayerBase::CutsceneEnd()
 	ActiveCutscene = nullptr;
 }
 
+bool AFRPlayerBase::TryJumpscare()
+{
+	if (ControlFlags & PCF_Locked) return false;
+	for (const FName& Flag : LockFlags)
+	{
+		if (Player::LockFlags::NoJumpscare.Contains(Flag)) return false;
+	}
+
+	AddLockFlag(Player::LockFlags::Jumpscare);
+	
+	ForceExitWorldDevice();
+	if (LockFlags.Contains(Player::LockFlags::Inventory))
+	{
+		GameMode->Inventory->CloseUI();
+	}
+
+	return true;
+}
+
 void AFRPlayerBase::TeleportPlayer(const FVector& InLocation, const FRotator& InRotation)
 {
 	PlayerController->PlayerCameraManager->SetGameCameraCutThisFrame();

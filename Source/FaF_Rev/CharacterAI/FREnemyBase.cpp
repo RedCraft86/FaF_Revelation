@@ -7,6 +7,20 @@ AFREnemyBase::AFREnemyBase() : bStartRoaming(true), EnemyState(EEnemyState::None
 {
 }
 
+bool AFREnemyBase::JumpscarePlayer()
+{
+	if (AFRPlayerBase* Player = PlayerChar.LoadSynchronous())
+	{
+		if (Player->TryJumpscare())
+		{
+			DisableAI();
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void AFREnemyBase::SetEnemyState(const EEnemyState InNewState)
 {
 	if (EnemyState != InNewState)

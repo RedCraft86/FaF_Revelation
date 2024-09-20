@@ -351,6 +351,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Player")
 		ULevelSequencePlayer* GetActiveCutscene() const { return ActiveCutscene; }
 
+	UFUNCTION(BlueprintCallable, Category = "Player")
+		bool TryJumpscare();
+	
 	void TeleportPlayer(const FVector& InLocation, const FRotator& InRotation);
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 

@@ -319,7 +319,7 @@ namespace Player
 			Inventory, Inspection, WorldDevice, Hiding};
 
 		inline static TSet CanReset = {Inventory, Inspection, WorldDevice, Hiding};
-		inline static TSet AllowJumpscare = {Inventory, Inspection, WorldDevice};
+		inline static TSet NoJumpscare = {Startup, Loading, Cutscene, Dialogue, Jumpscare, GuideScreen, Hiding};
 	}
 	
 	namespace InputActions

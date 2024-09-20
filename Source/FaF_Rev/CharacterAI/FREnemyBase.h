@@ -3,6 +3,7 @@
 #pragma once
 
 #include "FRCharacter.h"
+#include "Components/VisionConeComponent.h"
 #include "FREnemyBase.generated.h"
 
 UENUM(BlueprintType, DisplayName = "Enemy AI Mode")
@@ -16,7 +17,7 @@ enum class EEnemyState : uint8
 };
 ENUM_RANGE_BY_FIRST_AND_LAST(EEnemyState, EEnemyState::None, EEnemyState::Search);
 
-UCLASS(Abstract, DisplayName = "Enemy Character Base")
+UCLASS(Abstract, DisplayName = "Enemy Base")
 class FAF_REV_API AFREnemyBase : public AFRCharacter
 {
 	GENERATED_BODY()
@@ -28,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		bool bStartRoaming;
 
+	UFUNCTION(BlueprintCallable, Category = "EnemyAI")
+		bool JumpscarePlayer();
+	
 	UFUNCTION(BlueprintCallable, Category = "EnemyAI")
 		void SetEnemyState(const EEnemyState InNewState);
 
