@@ -49,3 +49,26 @@ public: // Statics
 	UFUNCTION(BlueprintPure, Category = "EnemyAI")
 		static EEnemyState GetHighestEnemyState(const TArray<AFREnemyBase*>& InEnemies);
 };
+
+
+UCLASS(Abstract, DisplayName = "Enemy Base (Sighted)")
+class FAF_REV_API AFRSightedEnemyBase : public AFREnemyBase
+{
+	GENERATED_BODY()
+
+public:
+
+	AFRSightedEnemyBase();
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		TObjectPtr<UVisionConeComponent> VisionCone;
+
+	UFUNCTION(BlueprintImplementableEvent)
+		FName GetHeadBoneName();
+
+protected:
+#if WITH_EDITOR
+	FName AttachedBoneName;
+#endif
+	virtual void OnConstruction(const FTransform& Transform) override;
+};

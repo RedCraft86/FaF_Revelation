@@ -64,3 +64,25 @@ EEnemyState AFREnemyBase::GetHighestEnemyState(const TArray<AFREnemyBase*>& InEn
 
 	return EEnemyState::None;
 }
+
+AFRSightedEnemyBase::AFRSightedEnemyBase()
+{
+	VisionCone = CreateDefaultSubobject<UVisionConeComponent>("VisionCone");
+	VisionCone->SetupAttachment(GetMesh());
+}
+
+void AFRSightedEnemyBase::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+
+	const FName HeadBone = GetHeadBoneName();
+#if WITH_EDITOR
+	if (AttachedBoneName != HeadBone)
+#endif
+	{
+#if WITH_EDITOR
+		AttachedBoneName = HeadBone;
+#endif
+		VisionCone->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, HeadBone);
+	}
+}
