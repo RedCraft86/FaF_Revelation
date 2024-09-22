@@ -59,6 +59,23 @@ for AltFile in AlternateFiles:
 for output, inputs in DirPairs.items():
     Archive(ARCHIVE_PATH + output, inputs)
 
-time.sleep(5)
+time.sleep(1)
 LockFile.close()
 os.remove(CONTENT_PATH + "Backup.Lock")
+
+print("\n\n")
+
+LockFile = open(ARCHIVE_PATH + "Backup.Lock", 'w')
+LockFile.write("Backing up content...")
+LockFile.flush()
+
+for output, inputs in DirPairs.items():
+    print("Moving " + ARCHIVE_PATH + output + " -> " + BACKUP_PATH + output)
+    shutil.move(ARCHIVE_PATH + output, BACKUP_PATH + output)
+
+time.sleep(1)
+LockFile.close()
+os.remove(ARCHIVE_PATH + "Backup.Lock")
+
+print("\n\nBackup finished!")
+exit()
