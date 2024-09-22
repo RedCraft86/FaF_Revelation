@@ -75,7 +75,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Settings|Camera|LockOn", meta = (DisplayThumbnail = false))
 		TSoftObjectPtr<USceneComponent> LockOnTarget;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Camera|LockOn")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings|Camera|LockOn")
 		float LockOnSpeed;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings|Movement")
