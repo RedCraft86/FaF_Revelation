@@ -36,7 +36,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<UAudioComponent> AudioLow;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
 		bool bEnabled;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
@@ -86,6 +86,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
 		TObjectPtr<USoundBase> CreakSound;
+
+	UFUNCTION(BlueprintCallable, Category = "DoorActor")
+		void SetEnabled(const bool bInEnabled) { bEnabled = bInEnabled; }
 	
 	UFUNCTION(BlueprintCallable, Category = "DoorActor")
 		void SetState(const bool bInState);
