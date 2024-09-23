@@ -54,6 +54,16 @@ void AFRCharacter::DisableAI()
 	GetCharacterMovement()->StopMovementImmediately();
 }
 
+USceneComponent* AFRCharacter::GetLookAtData_Implementation()
+{
+	if (const AFRPlayerBase* Player = PlayerChar.LoadSynchronous())
+	{
+		return Player->PlayerCamera;
+	}
+
+	return nullptr;
+}
+
 void AFRCharacter::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);

@@ -47,6 +47,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "CharacterAI")
 		void DisableAI();
 
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, meta = (ExpandBoolAsExecs = "ReturnValue"))
+		USceneComponent* GetLookAtData();
+	USceneComponent* GetLookAtData_Implementation();
+
 protected:
 
 	virtual void OnConstruction(const FTransform& Transform) override;
