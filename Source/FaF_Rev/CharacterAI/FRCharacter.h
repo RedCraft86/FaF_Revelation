@@ -38,16 +38,19 @@ public:
 	UPROPERTY(BlueprintAssignable)
 		FOnCharacterAudioEvent OnAudioPlayed;
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
-		USMStateMachineComponent* GetLogicComponent() const;
-
 	UFUNCTION(BlueprintCallable, Category = "CharacterAI")
 		void PlaySmartAudio(UAudioComponent* InComponent);
 
 	UFUNCTION(BlueprintCallable, Category = "CharacterAI")
 		void DisableAI();
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, meta = (ExpandBoolAsExecs = "ReturnValue"))
+	UFUNCTION(BlueprintImplementableEvent, Category = "AI")
+		USMStateMachineComponent* GetLogicComponent() const;
+
+	UFUNCTION(BlueprintPure, BlueprintImplementableEvent, Category = "AI")
+		TMap<FName, float> GetSpeedPoints() const;
+
+	UFUNCTION(BlueprintPure, BlueprintNativeEvent)
 		USceneComponent* GetLookAtData();
 	USceneComponent* GetLookAtData_Implementation();
 
