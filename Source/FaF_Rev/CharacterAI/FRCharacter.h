@@ -50,7 +50,7 @@ public:
 	UFUNCTION(BlueprintPure, BlueprintImplementableEvent, Category = "AI")
 		TMap<FName, float> GetSpeedPoints() const;
 
-	UFUNCTION(BlueprintPure, BlueprintNativeEvent)
+	UFUNCTION(BlueprintPure, BlueprintNativeEvent, Category = "AI")
 		USceneComponent* GetLookAtData();
 	USceneComponent* GetLookAtData_Implementation();
 

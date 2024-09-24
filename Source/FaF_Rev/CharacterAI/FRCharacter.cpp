@@ -28,6 +28,10 @@ AFRCharacter::AFRCharacter()
 
 	AudioVolumeCurve.GetRichCurve()->UpdateOrAddKey(500.0f, 1.0f);
 	AudioVolumeCurve.GetRichCurve()->UpdateOrAddKey(2500.0f, 0.0f);
+
+	bUseControllerRotationYaw = false;
+	GetCharacterMovement()->RotationRate = {0.0f, 270.0f, 0.0f};
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 }
 
 void AFRCharacter::PlaySmartAudio(UAudioComponent* InComponent)
