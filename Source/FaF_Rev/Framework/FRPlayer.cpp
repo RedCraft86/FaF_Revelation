@@ -5,6 +5,7 @@
 #include "FRPlayer.h"
 #include "FRGameMode.h"
 #include "ExitInterface.h"
+#include "FRGameInstance.h"
 #include "UltraDynamicSky.h"
 #include "FRPlayerController.h"
 #include "Core/NarrativeWidget.h"
@@ -589,7 +590,7 @@ void AFRPlayerBase::CutsceneEnd()
 
 bool AFRPlayerBase::TryJumpscare()
 {
-	if (ControlFlags & PCF_Locked) return false;
+	if (ControlFlags & PCF_Locked || GameInstance->IsPlayerInvincible()) return false;
 	for (const FName& Flag : LockFlags)
 	{
 		if (Player::LockFlags::NoJumpscare.Contains(Flag)) return false;
@@ -986,6 +987,8 @@ void AFRPlayerBase::BeginPlay()
 			FAttachmentTransformRules::KeepRelativeTransform);
 	}
 
+	GameInstance = GetGameInstance<UFRGameInstance>();
+	
 	PlayerController = FRPlayerController(this);
 
 	GameMode = FRGameMode(this);

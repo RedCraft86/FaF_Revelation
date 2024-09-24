@@ -158,6 +158,7 @@ protected:
 
 	UPROPERTY(Transient) TObjectPtr<class AFRGameModeBase> GameMode;
 	UPROPERTY(Transient) TObjectPtr<class AFRPlayerController> PlayerController;
+	UPROPERTY(Transient) TObjectPtr<class UFRGameInstance> GameInstance;
 
 	UPROPERTY(Transient) TObjectPtr<UObject> HidingSpot;
 	UPROPERTY(Transient) TObjectPtr<UObject> WorldDevice;
@@ -180,9 +181,6 @@ protected:
 	FTimerHandle WallDetectTimer;
 
 public:
-
-	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enemy Stack Changed")
-		void EnemyStackChangedEvent(const EEnemyState PriorityMode);
 
 	UFUNCTION(BlueprintCallable, Category = "Player")
 		void ResetStates();
