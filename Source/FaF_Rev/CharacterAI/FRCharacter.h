@@ -39,7 +39,7 @@ public:
 		FOnCharacterAudioEvent OnAudioPlayed;
 
 	UFUNCTION(BlueprintCallable, Category = "CharacterAI")
-		void PlaySmartAudio(UAudioComponent* InComponent);
+		void PlaySmartAudio(const FName AudioKey);
 
 	UFUNCTION(BlueprintCallable, Category = "CharacterAI")
 		void DisableAI();
@@ -50,6 +50,10 @@ public:
 	UFUNCTION(BlueprintPure, BlueprintImplementableEvent, Category = "AI")
 		TMap<FName, float> GetSpeedPoints() const;
 
+	UFUNCTION(BlueprintPure, BlueprintNativeEvent, Category = "AI")
+		TMap<FName, UAudioComponent*> GetKeyedAudio() const;
+	TMap<FName, UAudioComponent*> GetKeyedAudio_Implementation() const;
+	
 	UFUNCTION(BlueprintPure, BlueprintNativeEvent, Category = "AI")
 		USceneComponent* GetLookAtData();
 	USceneComponent* GetLookAtData_Implementation();

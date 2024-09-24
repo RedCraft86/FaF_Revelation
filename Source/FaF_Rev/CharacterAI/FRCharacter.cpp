@@ -16,6 +16,7 @@ AFRCharacter::AFRCharacter()
 	FootstepAudio = CreateDefaultSubobject<UAudioComponent>("FootstepAudio");
 	FootstepAudio->SetRelativeLocation({0.0f, 0.0f, -50.0f});
 	FootstepAudio->SetupAttachment(GetCapsuleComponent());
+	FootstepAudio->bCanPlayMultipleInstances = true;
 	FootstepAudio->bAutoActivate = false;
 	FootstepAudio->bOverrideAttenuation = true;
 	FootstepAudio->AttenuationOverrides.bAttenuate = true;
@@ -34,9 +35,9 @@ AFRCharacter::AFRCharacter()
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 }
 
-void AFRCharacter::PlaySmartAudio(UAudioComponent* InComponent)
+void AFRCharacter::PlaySmartAudio(const FName AudioKey)
 {
-	if (InComponent && InComponent->Sound)
+	if (UAudioComponent* Audio = GetKeyedAudio().FindRef(AudioKey))
 	{
 		if (const AFRPlayerBase* Player = PlayerChar.LoadSynchronous())
 		{
@@ -44,10 +45,10 @@ void AFRCharacter::PlaySmartAudio(UAudioComponent* InComponent)
 				GetActorLocation(), Player->PlayerCamera->GetComponentLocation(), this);
 
 			const float Dist = FMath::Clamp(Path ? Path->GetPathLength() : 0.0f, 500.0f, 2500.0f);
-			InComponent->SetVolumeMultiplier(AudioVolumeCurve.GetValue(Dist));
-			InComponent->Play();
+			Audio->SetVolumeMultiplier(AudioVolumeCurve.GetValue(Dist));
+			Audio->Play();
 			
-			OnAudioPlayed.Broadcast(this, InComponent);
+			OnAudioPlayed.Broadcast(this, Audio);
 		}
 	}
 }
@@ -56,6 +57,11 @@ void AFRCharacter::DisableAI()
 {
 	if (GetLogicComponent()) GetLogicComponent()->Stop();
 	GetCharacterMovement()->StopMovementImmediately();
+}
+
+TMap<FName, UAudioComponent*> AFRCharacter::GetKeyedAudio_Implementation() const
+{
+	return {{"Footstep", FootstepAudio}};
 }
 
 USceneComponent* AFRCharacter::GetLookAtData_Implementation()
