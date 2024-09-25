@@ -27,6 +27,9 @@ public:
 	
 	void SetPauseState(bool bInPaused);
 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAnyKeyPressedEvent, const FKey&, Key);
+	UPROPERTY(BlueprintAssignable) FAnyKeyPressedEvent OnAnyKeyPressed;
+	
 protected:
 
 	UPROPERTY(Transient) bool bGamePaused = false;
@@ -34,5 +37,8 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<class UPauseWidgetBase> PauseWidget;
 	
 	void OnWindowFocusChanged(bool bFocused);
+	void OnAnyKeyEvent(FKey PressedKey);
+	
 	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
 };

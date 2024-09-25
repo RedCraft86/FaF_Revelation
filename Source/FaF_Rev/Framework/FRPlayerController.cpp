@@ -77,10 +77,23 @@ void AFRPlayerController::OnWindowFocusChanged(bool bFocused)
 	}
 }
 
+// ReSharper disable once CppMemberFunctionMayBeConst
+// ReSharper disable once CppPassValueParameterByConstReference
+void AFRPlayerController::OnAnyKeyEvent(FKey PressedKey)
+{
+	if (OnAnyKeyPressed.IsBound()) OnAnyKeyPressed.Broadcast(PressedKey);
+}
+
 void AFRPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerCameraManager->SetTickableWhenPaused(true);
 	FSlateApplication::Get().OnApplicationActivationStateChanged().AddUObject(this, &AFRPlayerController::OnWindowFocusChanged);
 	GetInputSubsystem()->AddMappingContext(MappingContext, 0);
+}
+
+void AFRPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	InputComponent->BindKey(EKeys::AnyKey, IE_Pressed, this, &AFRPlayerController::OnAnyKeyEvent);
 }
