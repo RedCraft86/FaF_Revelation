@@ -314,6 +314,7 @@ namespace Player
 		inline static FName Inspection		= TEXT("Inspection");
 		inline static FName WorldDevice		= TEXT("WorldDevice");
 		inline static FName Hiding			= TEXT("Hiding");
+		inline static FName KeyPressGame	= TEXT("KeyPressGame");
 
 		inline static TSet All = {Loading, Cutscene, Dialogue, Jumpscare, GuideScreen,
 			Inventory, Inspection, WorldDevice, Hiding};
