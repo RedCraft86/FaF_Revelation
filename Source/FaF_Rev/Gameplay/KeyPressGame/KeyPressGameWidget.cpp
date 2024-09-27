@@ -60,7 +60,7 @@ void UKeyPressGameWidget::AddKey(const FKey& InKey)
 
 void UKeyPressGameWidget::RemoveWidget()
 {
-	if (UUMGSequencePlayer* Player = PlayAnimation(FadeAnim))
+	if (UUMGSequencePlayer* Player = PlayAnimation(FadeAnim, 0, 1, EUMGSequencePlayMode::Reverse))
 	{
 		Player->OnSequenceFinishedPlaying().AddLambda([this](UUMGSequencePlayer&)
 		{
