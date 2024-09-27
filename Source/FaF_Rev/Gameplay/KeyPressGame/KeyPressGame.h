@@ -28,7 +28,7 @@ public:
 	UPROPERTY(BlueprintAssignable) FGameCallback OnFail;
 
 	UFUNCTION(BlueprintCallable, Category = "Gameplay")
-		void StartGame(const TArray<int32>& InRounds);
+		void StartGame(const TArray<int32>& InRounds, const class AFRCharacter* Enemy);
 	
 protected:
 	
@@ -36,7 +36,8 @@ protected:
 	TArray<FKeys> Rounds;
 	FVector2D CountdownTime;
 	bool bGameCompleted;
-	
+
+	UPROPERTY(Transient) TObjectPtr<USceneComponent> LookComp;
 	UPROPERTY(Transient) TObjectPtr<UKeyPressGameWidget> Widget;
 	UPROPERTY(Transient) TObjectPtr<class AFRPlayerBase> PlayerChar;
 	

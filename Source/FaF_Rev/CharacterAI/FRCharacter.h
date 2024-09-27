@@ -55,8 +55,12 @@ public:
 	TMap<FName, UAudioComponent*> GetKeyedAudio_Implementation() const;
 	
 	UFUNCTION(BlueprintPure, BlueprintNativeEvent, Category = "AI")
-		USceneComponent* GetLookAtData();
-	USceneComponent* GetLookAtData_Implementation();
+		USceneComponent* GetLookAtComponent() const;
+	USceneComponent* GetLookAtComponent_Implementation() const;
+
+	UFUNCTION(BlueprintPure, BlueprintNativeEvent, Category = "AI")
+		USceneComponent* GetPlayerLookTarget() const;
+	USceneComponent* GetPlayerLookTarget_Implementation() const { return nullptr; }
 
 protected:
 

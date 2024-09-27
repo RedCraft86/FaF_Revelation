@@ -9,13 +9,14 @@
 #include "FRPlayerController.h"
 #include "FRGameMode.h"
 #include "FRPlayer.h"
+#include "CharacterAI/FRCharacter.h"
 
 UKeyPressGame::UKeyPressGame() : RoundIdx(0), CountdownTime(0), bGameCompleted(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UKeyPressGame::StartGame(const TArray<int32>& InRounds)
+void UKeyPressGame::StartGame(const TArray<int32>& InRounds, const AFRCharacter* Enemy)
 {
 	if (!Rounds.IsEmpty() || ValidKeys.IsEmpty()) return;
 	for (int32 i = 0; i < InRounds.Num(); i++)
@@ -34,11 +35,13 @@ void UKeyPressGame::StartGame(const TArray<int32>& InRounds)
 
 	RoundIdx = 0;
 	CountdownTime.X = CountdownTime.Y;
+	LookComp = Enemy ? Enemy->GetPlayerLookTarget() : nullptr;
 	
 	StartNextRound();
 	if (Widget) Widget->AddToViewport();
 	if (PlayerChar)
 	{
+		PlayerChar->SetLockOnTarget(LookComp);
 		PlayerChar->AddLockFlag(Player::LockFlags::KeyPressGame);
 		PlayerChar->GetGameMode()->GetWidget<UGameWidgetBase>()->SetWidgetHidden(true);
 		PlayerChar->GetGameMode()->GetWidget<UMessageWidgetBase>()->SetWidgetHidden(true);
@@ -49,6 +52,7 @@ void UKeyPressGame::EndGame()
 {
 	RoundIdx = 0;
 	CountdownTime = {0.0f, 0.0f};
+	
 	if (Widget) Widget->RemoveWidget();
 	if (PlayerChar)
 	{
@@ -58,7 +62,9 @@ void UKeyPressGame::EndGame()
 		FTimerHandle Handle;
 		GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 		{
+			if (LookComp) PlayerChar->SetLockOnTarget(nullptr);
 			PlayerChar->ClearLockFlag(Player::LockFlags::KeyPressGame);
+			LookComp = nullptr;
 		}, 1.0f, false);
 	}
 

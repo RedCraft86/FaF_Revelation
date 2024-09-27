@@ -64,7 +64,7 @@ TMap<FName, UAudioComponent*> AFRCharacter::GetKeyedAudio_Implementation() const
 	return {{"Footstep", FootstepAudio}};
 }
 
-USceneComponent* AFRCharacter::GetLookAtData_Implementation()
+USceneComponent* AFRCharacter::GetLookAtComponent_Implementation() const
 {
 	if (const AFRPlayerBase* Player = PlayerChar.LoadSynchronous())
 	{
