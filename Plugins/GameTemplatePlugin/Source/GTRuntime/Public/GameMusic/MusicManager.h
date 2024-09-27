@@ -15,7 +15,7 @@ struct GTRUNTIME_API FOneShotAudioData
 		FString ID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "OneShotAudioData")
-		EMusicChannel Channel;
+		EMusicChannel Channel = EMusicChannel::Main;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "OneShotAudioData")
 		TObjectPtr<UAudioComponent> Component;
