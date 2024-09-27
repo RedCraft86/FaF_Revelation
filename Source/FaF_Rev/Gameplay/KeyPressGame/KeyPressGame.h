@@ -31,15 +31,20 @@ public:
 		void StartGame(const TArray<int32>& InRounds);
 	
 protected:
-
+	
 	int32 RoundIdx;
 	TArray<FKeys> Rounds;
+	FVector2D CountdownTime;
+	bool bGameCompleted;
+	
 	UPROPERTY(Transient) TObjectPtr<UKeyPressGameWidget> Widget;
 	UPROPERTY(Transient) TObjectPtr<class AFRPlayerBase> PlayerChar;
-
+	
 	void EndGame();
+	void FailGame();
 	void StartNextRound();
 	UFUNCTION() void OnAnyKeyPressed(const FKey& InKey);
 	
 	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

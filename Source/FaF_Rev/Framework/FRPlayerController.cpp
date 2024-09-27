@@ -44,7 +44,7 @@ void AFRPlayerController::OnWindowFocusChanged(bool bFocused)
 {
 	if (!IsValid(UnfocusedWidget))
 	{
-		UnfocusedWidget = CreateWidget<UUserWidget>(this, UnfocusedWidgetClass);
+		UnfocusedWidget = CreateWidget<UUserWidget>(GetWorld(), UnfocusedWidgetClass);
 	}
 
 	if (!FRSettings->IsGameplayMap(this) || UGameSectionManager::Get(this)->IsLoading())

@@ -4,6 +4,7 @@
 #include "Blueprint/WidgetTree.h"
 #include "Animation/UMGSequencePlayer.h"
 #include "Components/HorizontalBox.h"
+#include "Components/ProgressBar.h"
 #include "Components/Image.h"
 
 void UKeyPressGameButton::WrongAnim()
@@ -64,6 +65,7 @@ void UKeyPressGameWidget::RemoveWidget()
 		Player->OnSequenceFinishedPlaying().AddLambda([this](UUMGSequencePlayer&)
 		{
 			Buttons.Empty();
+			Progress->SetPercent(1.0f);
 			ButtonContainer->ClearChildren();
 			RemoveFromParent();
 		});

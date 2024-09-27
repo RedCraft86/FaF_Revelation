@@ -4,12 +4,13 @@
 #include "Core/GameWidget.h"
 #include "Core/MessageWidget.h"
 #include "Algo/RandomShuffle.h"
+#include "Components/ProgressBar.h"
 #include "KeyPressGameWidget.h"
 #include "FRPlayerController.h"
 #include "FRGameMode.h"
 #include "FRPlayer.h"
 
-UKeyPressGame::UKeyPressGame() : RoundIdx(0)
+UKeyPressGame::UKeyPressGame() : RoundIdx(0), CountdownTime(0), bGameCompleted(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
@@ -23,15 +24,19 @@ void UKeyPressGame::StartGame(const TArray<int32>& InRounds)
 		Algo::RandomShuffle(ValidKeys);
 		for (int32 j = 0; j < InRounds[i] * (i + 1); j++)
 		{
+			CountdownTime.Y++;
 			Keys.Add(ValidKeys[FMath::RandRange(0, ValidKeys.Num() - 1)]);
 		}
-		
+
+		if (!Keys.IsEmpty()) CountdownTime.Y++;
 		Rounds.Add(Keys);
 	}
-	
+
 	RoundIdx = 0;
-	if (Widget) Widget->AddToViewport();
+	CountdownTime.X = CountdownTime.Y;
+	
 	StartNextRound();
+	if (Widget) Widget->AddToViewport();
 	if (PlayerChar)
 	{
 		PlayerChar->AddLockFlag(Player::LockFlags::KeyPressGame);
@@ -43,12 +48,31 @@ void UKeyPressGame::StartGame(const TArray<int32>& InRounds)
 void UKeyPressGame::EndGame()
 {
 	RoundIdx = 0;
+	CountdownTime = {0.0f, 0.0f};
 	if (Widget) Widget->RemoveWidget();
 	if (PlayerChar)
 	{
-		PlayerChar->ClearLockFlag(Player::LockFlags::KeyPressGame);
 		PlayerChar->GetGameMode()->GetWidget<UGameWidgetBase>()->SetWidgetHidden(false);
 		PlayerChar->GetGameMode()->GetWidget<UMessageWidgetBase>()->SetWidgetHidden(false);
+
+		FTimerHandle Handle;
+		GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
+		{
+			PlayerChar->ClearLockFlag(Player::LockFlags::KeyPressGame);
+		}, 1.0f, false);
+	}
+
+	bGameCompleted = false;
+}
+
+void UKeyPressGame::FailGame()
+{
+	if (!bGameCompleted)
+	{
+		bGameCompleted = true;
+		OnFail.Broadcast();
+		Rounds.Empty();
+		EndGame();
 	}
 }
 
@@ -56,11 +80,16 @@ void UKeyPressGame::StartNextRound()
 {
 	if (Rounds.IsEmpty())
 	{
-		EndGame();
+		if (bGameCompleted)
+		{
+			bGameCompleted = true;
+			OnSuccess.Broadcast();
+			EndGame();
+		}
 		return;
 	}
 	
-	if (Rounds[0].IsEmpty())
+	while (!Rounds.IsEmpty() && Rounds[0].IsEmpty())
 	{
 		Rounds.RemoveAt(0);
 		RoundIdx++;
@@ -75,8 +104,10 @@ void UKeyPressGame::StartNextRound()
 			else break;
 		}
 	}
-	else
+	else if (!bGameCompleted)
 	{
+		bGameCompleted = true;
+		OnSuccess.Broadcast();
 		EndGame();
 	}
 }
@@ -94,6 +125,13 @@ void UKeyPressGame::OnAnyKeyPressed(const FKey& InKey)
 	else
 	{
 		if (Widget) Widget->WrongKey();
+		
+		CountdownTime.X--;
+		if (CountdownTime.X <= 0.0f)
+		{
+			FailGame();
+			Widget->Progress->SetPercent(0.0f);
+		}
 	}
 }
 
@@ -108,4 +146,23 @@ void UKeyPressGame::BeginPlay()
 	}
 
 	Widget = CreateWidget<UKeyPressGameWidget>(GetWorld(), WidgetClass);
+}
+
+void UKeyPressGame::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (!Rounds.IsEmpty() && CountdownTime.X > -0.5f)
+	{
+		CountdownTime.X -= DeltaTime;
+		if (Widget)
+		{
+			Widget->Progress->SetPercent(FMath::FInterpConstantTo(Widget->Progress->GetPercent(),
+				FMath::Max(0.0f, CountdownTime.X / CountdownTime.Y), DeltaTime, 1.0f));
+		}
+		if (CountdownTime.X <= 0.0f)
+		{
+			FailGame();
+			Widget->Progress->SetPercent(0.0f);
+		}
+	}
 }
