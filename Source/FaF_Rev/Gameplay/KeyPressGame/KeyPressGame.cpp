@@ -56,18 +56,18 @@ void UKeyPressGame::EndGame()
 	if (Widget) Widget->RemoveWidget();
 	if (PlayerChar)
 	{
+		if (LookComp) PlayerChar->SetLockOnTarget(nullptr);
 		PlayerChar->GetGameMode()->GetWidget<UGameWidgetBase>()->SetWidgetHidden(false);
 		PlayerChar->GetGameMode()->GetWidget<UMessageWidgetBase>()->SetWidgetHidden(false);
 
 		FTimerHandle Handle;
 		GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 		{
-			if (LookComp) PlayerChar->SetLockOnTarget(nullptr);
 			PlayerChar->ClearLockFlag(Player::LockFlags::KeyPressGame);
-			LookComp = nullptr;
 		}, 1.0f, false);
 	}
 
+	LookComp = nullptr;
 	bGameCompleted = false;
 }
 
