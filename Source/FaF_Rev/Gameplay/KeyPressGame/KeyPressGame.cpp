@@ -70,9 +70,10 @@ void UKeyPressGame::FailGame()
 	if (!bGameCompleted)
 	{
 		bGameCompleted = true;
-		OnFail.Broadcast();
 		Rounds.Empty();
 		EndGame();
+
+		OnFail.Broadcast();
 	}
 }
 
@@ -83,8 +84,9 @@ void UKeyPressGame::StartNextRound()
 		if (bGameCompleted)
 		{
 			bGameCompleted = true;
-			OnSuccess.Broadcast();
 			EndGame();
+
+			OnSuccess.Broadcast();
 		}
 		return;
 	}
@@ -107,8 +109,9 @@ void UKeyPressGame::StartNextRound()
 	else if (!bGameCompleted)
 	{
 		bGameCompleted = true;
-		OnSuccess.Broadcast();
 		EndGame();
+
+		OnSuccess.Broadcast();
 	}
 }
 
