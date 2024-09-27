@@ -82,7 +82,7 @@ void ACCTVMonitor::OnBeginInteract_Implementation(AFRPlayerBase* Player, const F
 	if (bZoomedIn)
 		return;
 
-	if (!CCTVMapWidget) CCTVMapWidget = CreateWidget<UCCTVMapWidget>(Player->GetPlayerController(), MapWidget);
+	if (!CCTVMapWidget) CCTVMapWidget = CreateWidget<UCCTVMapWidget>(GetWorld(), MapWidget);
 	if (CCTVMapWidget) CCTVMapWidget->AddToViewport(99);
 	
 	bZoomedIn = true;
