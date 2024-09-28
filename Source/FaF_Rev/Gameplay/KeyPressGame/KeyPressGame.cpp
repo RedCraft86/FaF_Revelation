@@ -42,7 +42,7 @@ void UKeyPressGame::StartGame(const TArray<int32>& InRounds, const AFRCharacter*
 	if (PlayerChar)
 	{
 		PlayerChar->SetLockOnTarget(LookComp);
-		PlayerChar->AddLockFlag(Player::LockFlags::KeyPressGame);
+		PlayerChar->AddLockFlag(Player::LockFlags::QTE);
 		PlayerChar->GetGameMode()->GetWidget<UGameWidgetBase>()->SetWidgetHidden(true);
 		PlayerChar->GetGameMode()->GetWidget<UMessageWidgetBase>()->SetWidgetHidden(true);
 	}
@@ -63,7 +63,7 @@ void UKeyPressGame::EndGame()
 		FTimerHandle Handle;
 		GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 		{
-			PlayerChar->ClearLockFlag(Player::LockFlags::KeyPressGame);
+			PlayerChar->ClearLockFlag(Player::LockFlags::QTE);
 		}, 1.0f, false);
 	}
 

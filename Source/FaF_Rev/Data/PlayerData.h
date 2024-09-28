@@ -314,10 +314,10 @@ namespace Player
 		inline static FName Inspection		= TEXT("Inspection");
 		inline static FName WorldDevice		= TEXT("WorldDevice");
 		inline static FName Hiding			= TEXT("Hiding");
-		inline static FName KeyPressGame	= TEXT("KeyPressGame");
+		inline static FName QTE				= TEXT("QuickTimeEvent");
 
-		inline static TSet All = {Loading, Cutscene, Dialogue, Jumpscare, GuideScreen,
-			Inventory, Inspection, WorldDevice, Hiding};
+		inline static TSet All = {Startup, Loading, Cutscene, Dialogue, Jumpscare, GuideScreen,
+			Inventory, Inspection, WorldDevice, Hiding, QTE};
 
 		inline static TSet CanReset = {Inventory, Inspection, WorldDevice, Hiding};
 		inline static TSet NoJumpscare = {Startup, Loading, Cutscene, Dialogue, Jumpscare, GuideScreen, Hiding};
