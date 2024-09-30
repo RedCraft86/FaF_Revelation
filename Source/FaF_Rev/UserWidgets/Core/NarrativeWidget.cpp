@@ -16,17 +16,18 @@ void UQuestTaskWidgetBase::InitWidget(const UNarrativeTask* Task)
 	TaskObject = Task;
 	if (TaskObject)
 	{
-		FString TaskDisplaySr = TaskObject->GetTaskDescription().ToString();
+		FText TaskDisplay = TaskObject->GetTaskDescription();
 		if (!TaskObject->DescriptionOverride.IsEmptyOrWhitespace())
 		{
-			TaskDisplaySr = TaskObject->DescriptionOverride.ToString();
+			TaskDisplay = TaskObject->DescriptionOverride;
+		}
+
+		if (TaskObject->RequiredQuantity > 1)
+		{
+			TaskDisplay = FText::FromString(TaskDisplay.ToString() + TEXT(" ") + TaskObject->GetTaskProgressText().ToString());
 		}
 		
-		TaskDisplaySr += TaskObject->RequiredQuantity > 1
-			? TEXT(" ") + TaskObject->GetTaskProgressText().ToString()
-			: TEXT("");
-		
-		DisplayText->SetText(FText::FromString(TaskDisplaySr));
+		DisplayText->SetText(ParentUI->InjectTextVariables(TaskDisplay));
 	}
 	else
 	{
@@ -35,12 +36,13 @@ void UQuestTaskWidgetBase::InitWidget(const UNarrativeTask* Task)
 	}
 }
 
-void UQuestBranchWidgetBase::InitWidget(const UQuestBranch* Branch)
+void UQuestBranchWidgetBase::InitWidget(const UQuestBranch* Branch, UNarrativeWidgetBase* InParent)
 {
+	ParentUI = InParent;
 	BranchObject = Branch;
 	if (BranchObject)
 	{
-		DisplayText->SetText(BranchObject->OwningQuest->GetQuestName());
+		DisplayText->SetText(ParentUI->InjectTextVariables(BranchObject->OwningQuest->GetQuestName()));
 		DisplayText->SetVisibility(BranchObject->OwningQuest->GetQuestName().IsEmptyOrWhitespace() || !bUseTitle ?
 			ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 
@@ -50,6 +52,7 @@ void UQuestBranchWidgetBase::InitWidget(const UQuestBranch* Branch)
 			if (Task && !Task->bHidden && !Task->IsComplete())
 			{
 				UQuestTaskWidgetBase* TaskWidget = CreateWidget<UQuestTaskWidgetBase>(this, TaskWidgetClass);
+				TaskWidget->ParentUI = InParent;
 				TaskWidget->InitWidget(Task);
 
 				bShouldBeHidden = false;
@@ -97,8 +100,7 @@ void UDialogueOptionWidgetBase::InitWidget(UNarrativeWidgetBase* NarrativeWidget
 	ReplyObject = Reply;
 	if (ParentUI && ReplyObject)
 	{
-		DisplayText->SetText(ReplyObject->GetOptionText(Dialogue));
-
+		DisplayText->SetText(ParentUI->InjectTextVariables(ReplyObject->GetOptionText(Dialogue)));
 		if (ReplyTaskType && ParentUI->NarrativeComponent->HasCompletedTask(ReplyTaskType, ReplyObject->GetID().ToString(), 1))
 		{
 			DisplayText->SetColorAndOpacity(FLinearColor(0.5f, 0.5f, 0.5f));
@@ -142,13 +144,6 @@ void UNarrativeWidgetBase::SetQuestsHidden(const bool bInHidden)
 	}
 }
 
-FText UNarrativeWidgetBase::InjectTextVariables_Implementation(const FText& InText) const
-{
-	FFormatNamedArguments Args;
-	Args.Add("Username", FText::FromString(UGameSettings::Get()->GetUsername()));
-	return FText::Format(InText, Args);
-}
-
 void UNarrativeWidgetBase::QuestUpdatedNotify()
 {
 	if (!bNotifyObjectiveUpdates) return;
@@ -166,7 +161,7 @@ void UNarrativeWidgetBase::RefreshQuestList(const UQuest* Quest, const UQuestBra
 		if (!Branch->DestinationState || Branch->DestinationState->StateNodeType != EStateNodeType::Failure)
 		{
 			UQuestBranchWidgetBase* BranchWidget = CreateWidget<UQuestBranchWidgetBase>(this, BranchWidgetClass);
-			BranchWidget->InitWidget(Branch);
+			BranchWidget->InitWidget(Branch, this);
 
 			QuestBranchBox->AddChild(BranchWidget);
 		}
@@ -189,7 +184,7 @@ void UNarrativeWidgetBase::OnQuestNewState(UQuest* Quest, const UQuestState* New
 				if (Branch && !Branch->bHidden)
 				{
 					UQuestBranchWidgetBase* BranchWidget = CreateWidget<UQuestBranchWidgetBase>(this, BranchWidgetClass);
-					BranchWidget->InitWidget(Branch);
+					BranchWidget->InitWidget(Branch, this);
 
 					QuestBranchBox->AddChild(BranchWidget);
 				}
@@ -301,7 +296,7 @@ void UNarrativeWidgetBase::OnDialoguePlayerLineStarted(UDialogue* Dialogue, UDia
 	DialogueNameText->SetText(INVTEXT("You"));
 	DialogueNameText->SetColorAndOpacity(DialoguePlayerColor);
 	DialogueTitleText->SetVisibility(ESlateVisibility::Collapsed);
-	DialogueLineText->SetText(DialogueLine.Text);
+	DialogueLineText->SetText(InjectTextVariables(DialogueLine.Text));
 	PlayAnimation(DialogueFadeAnim);
 }
 
@@ -319,7 +314,7 @@ void UNarrativeWidgetBase::OnDialogueNPCLineStarted(UDialogue* Dialogue, UDialog
 	DialogueTitleText->SetVisibility(Speaker.SpeakerName.IsEmptyOrWhitespace()
 		? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 
-	DialogueLineText->SetText(DialogueLine.Text);
+	DialogueLineText->SetText(InjectTextVariables(DialogueLine.Text));
 	PlayAnimation(DialogueFadeAnim);
 }
 

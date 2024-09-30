@@ -28,6 +28,7 @@ public:
 
 protected:
 
+	UPROPERTY(Transient) TObjectPtr<UNarrativeWidgetBase> ParentUI;
 	UPROPERTY(Transient) TObjectPtr<const UNarrativeTask> TaskObject;
 
 	void InitWidget(const UNarrativeTask* Task);
@@ -60,9 +61,10 @@ public:
 	
 protected:
 
+	UPROPERTY(Transient) TObjectPtr<UNarrativeWidgetBase> ParentUI;
 	UPROPERTY(Transient) TObjectPtr<const UQuestBranch> BranchObject;
 
-	void InitWidget(const UQuestBranch* Branch);
+	void InitWidget(const UQuestBranch* Branch, UNarrativeWidgetBase* InParent);
 };
 
 UCLASS(Abstract)
@@ -172,7 +174,12 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent)
 		FText InjectTextVariables(const FText& InText) const;
-	FText InjectTextVariables_Implementation(const FText& InText) const;
+	FText InjectTextVariables_Implementation(const FText& InText) const
+	{
+		FFormatNamedArguments Args;
+		Args.Add("Username", FText::FromString(UGameSettings::Get()->GetUsername()));
+		return FText::Format(InText, Args);
+	}
 	
 protected:
 
