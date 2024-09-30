@@ -35,6 +35,7 @@ protected:
 	int32 RoundIdx;
 	TArray<FKeys> Rounds;
 	FVector2D CountdownTime;
+	FTimerHandle FadeOutTimer;
 	bool bGameCompleted;
 
 	UPROPERTY(Transient) TObjectPtr<USceneComponent> LookComp;

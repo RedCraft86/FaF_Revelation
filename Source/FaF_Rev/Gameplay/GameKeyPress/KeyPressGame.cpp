@@ -19,6 +19,7 @@ UKeyPressGame::UKeyPressGame() : RoundIdx(0), CountdownTime(0), bGameCompleted(f
 void UKeyPressGame::StartGame(const TArray<int32>& InRounds, const AFRCharacter* Enemy)
 {
 	if (!Rounds.IsEmpty() || ValidKeys.IsEmpty()) return;
+	if (GetWorld()->GetTimerManager().IsTimerActive(FadeOutTimer)) return;
 	for (int32 i = 0; i < InRounds.Num(); i++)
 	{
 		FKeys Keys;
@@ -59,9 +60,7 @@ void UKeyPressGame::EndGame()
 		if (LookComp) PlayerChar->SetLockOnTarget(nullptr);
 		PlayerChar->GetGameMode()->GetWidget<UGameWidgetBase>()->SetWidgetHidden(false);
 		PlayerChar->GetGameMode()->GetWidget<UMessageWidgetBase>()->SetWidgetHidden(false);
-
-		FTimerHandle Handle;
-		GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
+		GetWorld()->GetTimerManager().SetTimer(FadeOutTimer, [this]()
 		{
 			PlayerChar->ClearLockFlag(Player::LockFlags::QTE);
 		}, 1.0f, false);
