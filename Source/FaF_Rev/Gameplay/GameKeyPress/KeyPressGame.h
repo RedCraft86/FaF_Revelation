@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "KeyPressGame.generated.h"
 
-UCLASS(ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Games), meta = (BlueprintSpawnableComponent))
 class FAF_REV_API UKeyPressGame : public UActorComponent
 {
 	GENERATED_BODY()
