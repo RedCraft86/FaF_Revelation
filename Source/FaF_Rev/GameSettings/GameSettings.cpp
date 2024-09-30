@@ -89,6 +89,11 @@ int32 UGameSettings::GetOverallQuality() const
 	return 0;
 }
 
+void UGameSettings::SetUsername(const FString InUsername)
+{
+	Username = InUsername;
+}
+
 void UGameSettings::SetShowFPS(const bool bInShowFPS)
 {
 	if (bShowFPS != bInShowFPS)

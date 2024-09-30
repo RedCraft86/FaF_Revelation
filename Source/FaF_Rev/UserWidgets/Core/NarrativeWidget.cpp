@@ -142,6 +142,13 @@ void UNarrativeWidgetBase::SetQuestsHidden(const bool bInHidden)
 	}
 }
 
+FText UNarrativeWidgetBase::InjectTextVariables_Implementation(const FText& InText) const
+{
+	FFormatNamedArguments Args;
+	Args.Add("Username", FText::FromString(UGameSettings::Get()->GetUsername()));
+	return FText::Format(InText, Args);
+}
+
 void UNarrativeWidgetBase::QuestUpdatedNotify()
 {
 	if (!bNotifyObjectiveUpdates) return;

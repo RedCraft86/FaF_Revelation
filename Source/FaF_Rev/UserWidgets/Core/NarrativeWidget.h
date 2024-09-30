@@ -169,6 +169,10 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "NarrativeWidget")
 		bool AreQuestsHidden() const { return bHideQuests; }
+
+	UFUNCTION(BlueprintNativeEvent)
+		FText InjectTextVariables(const FText& InText) const;
+	FText InjectTextVariables_Implementation(const FText& InText) const;
 	
 protected:
 

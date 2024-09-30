@@ -36,6 +36,12 @@ public:
 		int32 GetOverallQuality() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Settings")
+		void SetUsername(const FString InUsername);
+
+	UFUNCTION(BlueprintPure, Category = "Settings")
+		FString GetUsername() const { return Username; }
+
+	UFUNCTION(BlueprintCallable, Category = "Settings")
 		void SetShowFPS(const bool bInShowFPS);
 
 	UFUNCTION(BlueprintPure, Category = "Settings")
@@ -131,6 +137,7 @@ private:
 	
 // Configs
 
+	UPROPERTY(Config) FString Username;
 	UPROPERTY(Config) bool bUseSSFS;
 	UPROPERTY(Config) bool bShowFPS;
 	UPROPERTY(Config) bool bSmoothCamera;

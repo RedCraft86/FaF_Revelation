@@ -37,6 +37,9 @@ public:
 	
 	/* General */
 	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<class UEditableText> UsernameRow;
+	
+	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<UFRToggleSettingBase> ToggleFramerateRow;
 	
 	UPROPERTY(Transient, meta = (BindWidget))
@@ -228,14 +231,15 @@ protected:
 	void OnUpdateResolution();
 	void OnOverallQualityChanged(int32 Index, FName Value);
 	void OnAnyScalabilityChanged(int32 Index, FName Value);
-
+	
+	UFUNCTION() void OnUsernameChanged(const FText& Text);
 	UFUNCTION() void OnResolutionChanged(FString SelectedItem, ESelectInfo::Type SelectionType);
 	UFUNCTION() void OnAutoDetectClicked();
 	UFUNCTION() void OnConfirmResClicked();
 	UFUNCTION() void OnRevertResClicked();
 	UFUNCTION() void OnRestartClicked();
 	UFUNCTION() void OnExitClicked();
-
+	
 	virtual void InitWidget() override;
 	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& InGeometry, float DeltaTime) override;

@@ -6,21 +6,20 @@
 #include "Components/TextBlock.h"
 #include "Components/ComboBoxString.h"
 #include "GameSettings/GameSettings.h"
+#include "Components/EditableText.h"
 #include "GTConfigSubsystem.h"
 #include "WidgetInterface.h"
 #include "FRGameInstance.h"
 #include "FRSettings.h"
 #include "SubWidgets.h"
-#if UE_BUILD_SHIPPING
-#include "GTConfigSubsystem.h"
-#endif
+
 
 #define SteamAudioCfgSection TEXT("[/Script/SteamAudio.SteamAudioSettings]")
 
 #define __SETUP_BASE(type, Property, GetterFunc, SetterFunc) \
 	OnRefreshDisplay.AddUObject(Property, &UFRSettingRowBase::RefreshValue); \
-	Property->AssignGetterFunction([]()->type{ return UGameSettings::Get()->GetterFunc(); }); \
-	Property->AssignSetterFunction([](const type Value){ UGameSettings::Get()->SetterFunc(Value); })
+	Property->AssignGetterFunction([this]()->type{ return SettingsObj->GetterFunc(); }); \
+	Property->AssignSetterFunction([this](const type Value){ SettingsObj->SetterFunc(Value); })
 
 #define SETUP_TOGGLE(Property, GetterFunc, SetterFunc) __SETUP_BASE(bool, Property, GetterFunc, SetterFunc)
 #define SETUP_SWITCHER(Property, GetterFunc, SetterFunc) __SETUP_BASE(int32, Property, GetterFunc, SetterFunc)
@@ -147,6 +146,11 @@ void USettingsWidgetBase::OnAnyScalabilityChanged(int32 Index, FName Value)
 	OverallQualityRow->RefreshValue();
 }
 
+void USettingsWidgetBase::OnUsernameChanged(const FText& Text)
+{
+	if (SettingsObj) SettingsObj->SetUsername(Text.ToString());
+}
+
 void USettingsWidgetBase::OnResolutionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
 	const int32 Idx = ResolutionBox->GetSelectedIndex();
@@ -258,6 +262,8 @@ void USettingsWidgetBase::InitWidget()
 	DeveloperButton->OnClicked.AddUObject(this, &USettingsWidgetBase::OnDebuggingButtonClicked);
 
 	/* General */
+	UsernameRow->SetText(FText::FromString(SettingsObj->GetUsername()));
+	UsernameRow->OnTextChanged.AddUniqueDynamic(this, &USettingsWidgetBase::OnUsernameChanged);
 	SETUP_TOGGLE(ToggleFramerateRow, GetShowFPS, SetShowFPS);
 	SETUP_SLIDER(FieldOfViewRow, true, GetFieldOfView, SetFieldOfView);
 	SETUP_TOGGLE(CameraSmoothingRow, GetUseSmoothCamera, SetUseSmoothCamera);
