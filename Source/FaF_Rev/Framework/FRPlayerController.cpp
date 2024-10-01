@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "FRPlayerController.h"
+#include "LevelSequencePlayer.h"
 #include "Blueprint/UserWidget.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameSection/GameSectionManager.h"
@@ -70,10 +71,20 @@ void AFRPlayerController::OnWindowFocusChanged(bool bFocused)
 			UnfocusedWidget->RemoveFromParent();
 		}
 	}
-	else if (!IsPaused())
+	else if (!IsPaused() || !UnfocusedWidget->IsInViewport())
 	{
 		UnfocusedWidget->AddToViewport(100);
 		SetPause(true);
+	}
+
+	if (const AFRPlayerBase* PlayerChar = Cast<AFRPlayerBase>(GetPawn()))
+	{
+		if (PlayerChar->GetActiveCutscene())
+		{
+			UE_PRINT(1.0f, Green, TEXT("Pausing: %s"), *PlayerChar->GetActiveCutscene()->GetSequenceName())
+			bFocused ? PlayerChar->GetActiveCutscene()->Play()
+				: PlayerChar->GetActiveCutscene()->Pause();
+		}
 	}
 }
 

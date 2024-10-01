@@ -42,6 +42,7 @@ public class FaF_Rev : ModuleRules
 				"PulldownStruct",
 				"ExpressiveText",
 				"StructUtils",
+				"MovieScene",
 				"Narrative",
 				"SMSystem",
 				"GTRuntime",
