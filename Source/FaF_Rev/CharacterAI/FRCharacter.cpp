@@ -48,7 +48,7 @@ void AFRCharacter::PlaySmartAudio(const FName AudioKey)
 			Audio->SetVolumeMultiplier(AudioVolumeCurve.GetValue(Dist));
 			Audio->Play();
 			
-			OnAudioPlayed.Broadcast(this, Audio);
+			OnAudioPlayed.Broadcast(this, Audio, AudioKey);
 		}
 	}
 }

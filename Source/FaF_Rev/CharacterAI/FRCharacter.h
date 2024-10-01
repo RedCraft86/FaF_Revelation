@@ -7,7 +7,7 @@
 #include "GameFramework/Character.h"
 #include "FRCharacter.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnCharacterAudioEvent, const class AFRCharacter*, Character, const UAudioComponent*, Component);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnCharacterAudioEvent, const class AFRCharacter*, Character, const UAudioComponent*, Component, const FName, Key);
 
 UCLASS(Abstract, DisplayName = "Character Base")
 class FAF_REV_API AFRCharacter : public ACharacter
