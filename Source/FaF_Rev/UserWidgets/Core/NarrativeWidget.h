@@ -5,6 +5,7 @@
 #include "GTUserWidget.h"
 #include "InputModeData.h"
 #include "NarrativeComponent.h"
+#include "GameSettings/GameSettings.h"
 #include "NarrativeWidget.generated.h"
 
 class UButton;
@@ -176,9 +177,13 @@ public:
 		FText InjectTextVariables(const FText& InText) const;
 	FText InjectTextVariables_Implementation(const FText& InText) const
 	{
-		FFormatNamedArguments Args;
-		Args.Add("Username", FText::FromString(UGameSettings::Get()->GetUsername()));
-		return FText::Format(InText, Args);
+		TMap<FString, FString> Args;
+		Args.Add(TEXT("%Username%"), UGameSettings::Get()->GetUsername());
+
+		FString Out = InText.ToString();
+		for (const TPair<FString, FString>& Arg : Args) Out.ReplaceInline(*Arg.Key, *Arg.Value);
+		
+		return FText::FromString(Out);
 	}
 	
 protected:
