@@ -243,7 +243,8 @@ void UGameSettings::SetToDefaults()
 {
 	Super::SetToDefaults();
 	SetOverallQuality(3);
-	
+
+	Username = TEXT("Ethan");
 	bShowFPS = false;
 	bSmoothCamera = true;
 	SensitivityXY = FVector2D::UnitVector;

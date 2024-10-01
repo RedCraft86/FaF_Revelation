@@ -148,6 +148,7 @@ void USettingsWidgetBase::OnAnyScalabilityChanged(int32 Index, FName Value)
 
 void USettingsWidgetBase::OnUsernameChanged(const FText& Text)
 {
+	if (Text.IsEmptyOrWhitespace()) UsernameRow->SetText(INVTEXT("Ethan"));
 	if (SettingsObj) SettingsObj->SetUsername(Text.ToString());
 }
 
