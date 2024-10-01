@@ -49,7 +49,7 @@ void AFRCharacter::PlaySmartAudio(const FName AudioKey)
 			Audio->SetVolumeMultiplier(AudioVolumeCurve.GetValue(Dist));
 			Audio->Play();
 
-			if (Dist < 300.0f && AudioKey == FName("FootstepAudio"))
+			if (Dist < 300.0f && AudioKey == FName("Footstep"))
 			{
 				UGameplayStatics::PlayWorldCameraShake(this, FootstepShake, GetActorLocation(), 200, 400);
 			}
