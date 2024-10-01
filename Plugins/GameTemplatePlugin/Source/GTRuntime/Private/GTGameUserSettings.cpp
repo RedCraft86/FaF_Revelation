@@ -92,7 +92,7 @@ void UGTGameUserSettings::SetToDefaults()
 	ColorBlindStrength = 10;
 
 	MotionBlurAmount = 1;
-	AntiAliasingMethod = EGTAntiAliasingMethod::TAA;
+	AntiAliasingMethod = EGTAntiAliasingMethod::TSR;
 }
 
 void UGTGameUserSettings::ApplyNonResolutionSettings()
