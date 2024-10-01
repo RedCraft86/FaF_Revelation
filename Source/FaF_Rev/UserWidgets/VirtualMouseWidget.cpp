@@ -20,11 +20,16 @@ UVirtualMouse::UVirtualMouse() : bPreviewOnly(true)
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 }
 
+FVector2D UVirtualMouse::GetPosition() const
+{
+	return GetCachedGeometry().LocalToAbsolute(FVector2D::ZeroVector);
+}
+
 void UVirtualMouse::SimulateClick()
 {
 	FSlateApplication& SlateApp = FSlateApplication::Get();
 
-	const FVector2D Pos = GetCachedGeometry().LocalToAbsolute(FVector2D::ZeroVector);
+	const FVector2D Pos = GetPosition();
 	const FPointerEvent MouseEvent(0, SlateApp.CursorPointerIndex, Pos,
 		Pos, SlateApp.GetPressedMouseButtons(), EKeys::LeftMouseButton,
 		0, SlateApp.GetPlatformApplication()->GetModifierKeys()

@@ -19,6 +19,9 @@ public:
 		uint8 bPreviewOnly:1;
 
 	UFUNCTION(BlueprintCallable, Category = "VirtualMouse")
+		FVector2D GetPosition() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "VirtualMouse")
 		void SimulateClick();
 
 protected:
