@@ -11,7 +11,7 @@
 #include "FRPlayer.h"
 #include "CharacterAI/FRCharacter.h"
 
-UKeyPressGame::UKeyPressGame() : RoundIdx(0), CountdownTime(0), bGameCompleted(false)
+UKeyPressGame::UKeyPressGame() : Title(INVTEXT("Stay Calm!")), RoundIdx(0), CountdownTime(0), bGameCompleted(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
@@ -154,6 +154,7 @@ void UKeyPressGame::BeginPlay()
 	}
 
 	Widget = CreateWidget<UKeyPressGameWidget>(GetWorld(), WidgetClass);
+	Widget->Controller = this;
 }
 
 void UKeyPressGame::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

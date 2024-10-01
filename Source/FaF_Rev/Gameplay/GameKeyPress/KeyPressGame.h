@@ -18,8 +18,11 @@ public:
 	UKeyPressGame();
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
+		FText Title;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
 		TArray<FKey> ValidKeys;
-
+	
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		TSubclassOf<UKeyPressGameWidget> WidgetClass;
 

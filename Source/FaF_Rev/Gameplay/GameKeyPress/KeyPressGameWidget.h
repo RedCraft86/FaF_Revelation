@@ -49,6 +49,9 @@ class FAF_REV_API UKeyPressGameWidget final : public UUserWidget
 public:
 
 	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<class UTextBlock> Label;
+
+	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<class UProgressBar> Progress;
 
 	UPROPERTY(Transient, meta = (BindWidget))
@@ -65,8 +68,8 @@ public:
 
 protected:
 
-	UPROPERTY(Transient)
-		TArray<TObjectPtr<UKeyPressGameButton>> Buttons;
+	UPROPERTY(Transient) TObjectPtr<UKeyPressGame> Controller;
+	UPROPERTY(Transient) TArray<TObjectPtr<UKeyPressGameButton>> Buttons;
 	
 	void WrongKey();
 	void RemoveKey();

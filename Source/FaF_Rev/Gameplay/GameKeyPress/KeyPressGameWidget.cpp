@@ -5,7 +5,9 @@
 #include "Animation/UMGSequencePlayer.h"
 #include "Components/HorizontalBox.h"
 #include "Components/ProgressBar.h"
+#include "Components/TextBlock.h"
 #include "Components/Image.h"
+#include "KeyPressGame.h"
 
 void UKeyPressGameButton::WrongAnim()
 {
@@ -76,4 +78,5 @@ void UKeyPressGameWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
 	PlayAnimation(FadeAnim);
+	Label->SetText(Controller->Title);
 }
