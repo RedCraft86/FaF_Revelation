@@ -42,18 +42,30 @@ void AFRCharacter::PlaySmartAudio(const FName AudioKey)
 	{
 		if (const AFRPlayerBase* Player = PlayerChar.LoadSynchronous())
 		{
-			const UNavigationPath* Path = UNavigationSystemV1::FindPathToLocationSynchronously(this,
-				GetActorLocation(), Player->PlayerCamera->GetComponentLocation(), this);
+			FHitResult Hit;
+			FCollisionQueryParams QueryParams; QueryParams.AddIgnoredActor(this); QueryParams.AddIgnoredActor(Player);
+			GetWorld()->LineTraceSingleByChannel(Hit, GetActorLocation() + FVector(0.0f, 0.0f, 30.0f),
+				Player->PlayerCamera->GetComponentLocation(), ECC_Visibility, QueryParams);
 
-			const float Dist = FMath::Clamp(Path ? Path->GetPathLength() : 0.0f, 500.0f, 2500.0f);
-			Audio->SetVolumeMultiplier(AudioVolumeCurve.GetValue(Dist));
+			float Dist = -1.0f;
+			if (Hit.IsValidBlockingHit())
+			{
+				const UNavigationPath* Path = UNavigationSystemV1::FindPathToLocationSynchronously(this,
+					GetActorLocation(), Player->PlayerCamera->GetComponentLocation(), this);
+				
+				Dist = Path ? Path->GetPathLength() : 0.0f;
+				Audio->SetVolumeMultiplier(AudioVolumeCurve.GetValue(FMath::Clamp(Dist, 500.0f, 2500.0f)));
+			}
+			else
+			{
+				Audio->SetVolumeMultiplier(1.0f);
+			}
+			
 			Audio->Play();
-
 			if (Dist < 300.0f && AudioKey == FName("Footstep"))
 			{
 				UGameplayStatics::PlayWorldCameraShake(this, FootstepShake, GetActorLocation(), 200, 400);
 			}
-				
 			
 			OnAudioPlayed.Broadcast(this, Audio, AudioKey, Dist);
 		}
