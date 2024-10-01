@@ -58,7 +58,8 @@ void UGuideWidgetBase::ProceedNextGuide()
 					LocalImageContainer->SetHeightOverride(ImageHeight);
 					FSlateBrush Brush = LocalPageImage->GetBrush();
 					Brush.SetResourceObject(Data.Image.LoadSynchronous());
-					LocalPageImage->SetBrush(Brush);
+					Brush.SetImageSize(FVector2D{(float)Data.Image->GetSizeX(), (float)Data.Image->GetSizeY()});
+					LocalPageImage->SetBrushFromTexture(Data.Image.LoadSynchronous(), true);
 				}
 			}
 			else
@@ -78,9 +79,9 @@ void UGuideWidgetBase::ProceedNextGuide()
 	}
 	else
 	{
-		RemoveWidget(nullptr);
 		GetGameMode<AFRGameModeBase>()->SetInputModeData(PreInputMode);
 		UGameplayStatics::SetGamePaused(this, bPrePauseState);
+		RemoveWidget(nullptr);
 		bActive = false;
 	}
 }
