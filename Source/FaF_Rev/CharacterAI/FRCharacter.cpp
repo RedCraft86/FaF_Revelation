@@ -8,6 +8,7 @@
 #include "NavigationSystem.h"
 #include "NavigationPath.h"
 #include "FRPlayer.h"
+#include "Kismet/GameplayStatics.h"
 
 AFRCharacter::AFRCharacter()
 {
@@ -47,8 +48,14 @@ void AFRCharacter::PlaySmartAudio(const FName AudioKey)
 			const float Dist = FMath::Clamp(Path ? Path->GetPathLength() : 0.0f, 500.0f, 2500.0f);
 			Audio->SetVolumeMultiplier(AudioVolumeCurve.GetValue(Dist));
 			Audio->Play();
+
+			if (Dist < 300.0f && AudioKey == FName("FootstepAudio"))
+			{
+				UGameplayStatics::PlayWorldCameraShake(this, FootstepShake, GetActorLocation(), 200, 400);
+			}
+				
 			
-			OnAudioPlayed.Broadcast(this, Audio, AudioKey);
+			OnAudioPlayed.Broadcast(this, Audio, AudioKey, Dist);
 		}
 	}
 }

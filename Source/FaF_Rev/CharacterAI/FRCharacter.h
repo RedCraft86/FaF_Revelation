@@ -7,7 +7,7 @@
 #include "GameFramework/Character.h"
 #include "FRCharacter.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnCharacterAudioEvent, const class AFRCharacter*, Character, const UAudioComponent*, Component, const FName, Key);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FOnCharacterAudioEvent, const class AFRCharacter*, Character, const UAudioComponent*, Component, const FName, AudioKey, const float, PathDist);
 
 UCLASS(Abstract, DisplayName = "Character Base")
 class FAF_REV_API AFRCharacter : public ACharacter
@@ -33,8 +33,11 @@ public:
 #endif
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", AdvancedDisplay)
+		TSubclassOf<UCameraShakeBase> FootstepShake;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", AdvancedDisplay)
 		TSoftObjectPtr<class AFRPlayerBase> PlayerChar;
-
+	
 	UPROPERTY(BlueprintAssignable)
 		FOnCharacterAudioEvent OnAudioPlayed;
 
