@@ -95,5 +95,6 @@ void AFRPlayerController::BeginPlay()
 void AFRPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
-	InputComponent->BindKey(EKeys::AnyKey, IE_Pressed, this, &AFRPlayerController::OnAnyKeyEvent).bExecuteWhenPaused = true;
+	FInputKeyBinding& AnyKeyBinding = InputComponent->BindKey(EKeys::AnyKey, IE_Pressed, this, &AFRPlayerController::OnAnyKeyEvent);
+	AnyKeyBinding.bConsumeInput = false; AnyKeyBinding.bExecuteWhenPaused = true;
 }
