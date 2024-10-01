@@ -81,7 +81,6 @@ void AFRPlayerController::OnWindowFocusChanged(bool bFocused)
 	{
 		if (PlayerChar->GetActiveCutscene())
 		{
-			UE_PRINT(1.0f, Green, TEXT("Pausing: %s"), *PlayerChar->GetActiveCutscene()->GetSequenceName())
 			bFocused ? PlayerChar->GetActiveCutscene()->Play()
 				: PlayerChar->GetActiveCutscene()->Pause();
 		}
