@@ -35,7 +35,7 @@ void UKeyPressGame::StartGame(const TArray<int32>& InRounds, const AFRCharacter*
 	}
 
 	RoundIdx = 0;
-	CountdownTime.X = CountdownTime.Y;
+	CountdownTime.X = CountdownTime.Y * 1.25f;
 	LookComp = Enemy ? Enemy->GetPlayerLookTarget() : nullptr;
 	
 	StartNextRound();
