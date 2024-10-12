@@ -65,6 +65,7 @@ void USmartCullingComponent::UpdateRenderingState()
 void USmartCullingComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	if (bDisableComponent) DestroyComponent();
 
 	TArray<USmartCullingComponent*> Comps;
 	GetOwner()->GetComponents<USmartCullingComponent>(Comps);

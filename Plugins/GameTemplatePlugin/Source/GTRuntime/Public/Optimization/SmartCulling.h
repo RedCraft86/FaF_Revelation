@@ -13,7 +13,7 @@ class GTRUNTIME_API USmartCullingComponent final : public UActorComponent
 
 public:
 
-	USmartCullingComponent() : bAffectTicking(false), NullCheckInterval(0.5f), bDisableComponent(false)
+	USmartCullingComponent() : bDisableComponent(false), bAffectTicking(false), NullCheckInterval(0.5f)
 		, bCachedHiddenState(false), bInitialTickState(false)
 	{
 		PrimaryComponentTick.bCanEverTick = false;
@@ -32,7 +32,10 @@ public:
 	bool IsDisabled() const { return bDisableComponent; }
 
 protected:
-
+	
+	UPROPERTY(EditAnywhere, Category = "Rendering|SmartCulling")
+		bool bDisableComponent;
+	
 	UPROPERTY(EditAnywhere, Category = "Rendering|SmartCulling")
 		bool bAffectTicking;
 
@@ -41,8 +44,7 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Rendering|SmartCulling")
 		TArray<TSoftObjectPtr<const UObject>> RenderRequests;
-
-	bool bDisableComponent;
+	
 	bool bCachedHiddenState;
 	bool bInitialTickState;
 	FTimerHandle CheckTimer;
