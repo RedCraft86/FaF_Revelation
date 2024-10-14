@@ -50,7 +50,7 @@ public:
 		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, meta = (BindWidget))
-		TObjectPtr<class UVirtualMouse> VirtualMouse;
+		TObjectPtr<UWidget> VirtualCursor;
 
 	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<class UHorizontalBox> Container;
@@ -121,6 +121,7 @@ protected:
 
 	void AddChildEntries();
 	void StartScrollAnim();
+	FVector2D GetCursorPos();
 
 	void RemoveWidget();
 	void ProcessNextButton();

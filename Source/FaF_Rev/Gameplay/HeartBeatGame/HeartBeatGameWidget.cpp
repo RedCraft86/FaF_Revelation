@@ -21,7 +21,7 @@ void UHeartBeatGameButton::NativeTick(const FGeometry& MyGeometry, float InDelta
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	if (!Parent || bPressed || bStopTick) return;
-	if (MyGeometry.LocalToAbsolute(FVector2D::ZeroVector).X + MyGeometry.GetAbsoluteSize().X + 5.0f < Parent->VirtualMouse->GetPosition().X)
+	if (MyGeometry.LocalToAbsolute(FVector2D::ZeroVector).X + MyGeometry.GetAbsoluteSize().X + 5.0f < Parent->GetCursorPos().X)
 	{
 		ButtonClicked(false);
 		bStopTick = true;
@@ -121,6 +121,11 @@ void UHeartBeatGameWidget::StartScrollAnim()
 		FMath::Min(1.0f, GetCachedGeometry().GetLocalSize().X / Container->GetCachedGeometry().GetLocalSize().X));
 }
 
+FVector2D UHeartBeatGameWidget::GetCursorPos()
+{
+	return VirtualCursor->GetCachedGeometry().LocalToAbsolute(FVector2D::ZeroVector);
+}
+
 void UHeartBeatGameWidget::RemoveWidget()
 {
 	if (UUMGSequencePlayer* Player = PlayAnimation(FadeAnim, 0, 1, EUMGSequencePlayMode::Reverse))
@@ -159,7 +164,6 @@ void UHeartBeatGameWidget::ProcessNextButton()
 		bAltKey = Buttons[0]->bAltKey;
 		FKey LastKey = CurrentKey;
 		CurrentKey = bAltKey ? KeyRange.Value : KeyRange.Key;
-		UE_LOG(LogTemp, Warning, TEXT("Current Key: %s -> %s"), *LastKey.ToString(), *CurrentKey.ToString());
 		PlayAnimation(SwapAnim, 0, 1, bAltKey ? EUMGSequencePlayMode::Forward : EUMGSequencePlayMode::Reverse);
 	}
 }
@@ -169,9 +173,8 @@ void UHeartBeatGameWidget::PressKey(const FKey& InKey)
 	if (!bInGame) return;
 
 	bool bFoundElem = false;
-	const FVector2D Pos = VirtualMouse->GetPosition();
-	TArray<UWidget*> Children = Container->GetAllChildren();
-	for (UWidget* Child : Children)
+	const FVector2D Pos = GetCursorPos();
+	for (TArray<UWidget*> Children = Container->GetAllChildren(); UWidget* Child : Children)
 	{
 		if (Child && Child->IsA<UHeartBeatGameButton>() && Child->GetCachedGeometry().IsUnderLocation(Pos))
 		{
