@@ -2,7 +2,7 @@
 #============================ PARAMETERS ============================#
 #--------------------------------------------------------------------#
 
-BASE_PATH = "D:/UnrealEngine/Unreal Projects/FaF_Revelation/"
+BASE_PATH = "D:/UnrealEngine/UnrealProjects/FaF_Revelation/"
 BACKUP_PATH = "E:/Files/Game Dev/Backups/FaF_Revelation/"
 
 ARCHIVE_LEVEL = 0
