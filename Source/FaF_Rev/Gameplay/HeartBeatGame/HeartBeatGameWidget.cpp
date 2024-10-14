@@ -139,6 +139,7 @@ void UHeartBeatGameWidget::RemoveWidget()
 
 void UHeartBeatGameWidget::ProcessNextButton()
 {
+	if (!bInGame) return;
 	if (Chances <= 0)
 	{
 		bInGame = false;
