@@ -6,7 +6,6 @@
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
-#include "VirtualMouseWidget.h"
 #include "HeartBeatGame.h"
 
 void UHeartBeatGameButton::ButtonClicked(const bool bSuccess)
