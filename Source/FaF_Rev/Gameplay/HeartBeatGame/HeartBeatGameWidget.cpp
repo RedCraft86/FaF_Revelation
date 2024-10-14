@@ -1,38 +1,29 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "HeartBeatGameWidget.h"
-
-#include "HeartBeatGame.h"
-#include "VirtualMouseWidget.h"
 #include "Animation/UMGSequencePlayer.h"
+#include "Components/HorizontalBox.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
-#include "Components/HorizontalBox.h"
-#include "Components/Button.h"
 #include "Components/Image.h"
+#include "VirtualMouseWidget.h"
+#include "HeartBeatGame.h"
 
-void UHeartBeatGameButton::ButtonClicked()
+void UHeartBeatGameButton::ButtonClicked(const bool bSuccess)
 {
+	if (bPressed) return;
+	PlayAnimation(bSuccess ? SuccessAnim : FailAnim);
+	if (Parent) bSuccess ? Parent->OnCorrectKey() : Parent->OnMissedKey();
 	bPressed = true;
-	PlayAnimation(SuccessAnim);
-	SetVisibility(ESlateVisibility::HitTestInvisible);
-	if (Parent) Parent->OnCorrectKey();
 }
 
 void UHeartBeatGameButton::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-
-	if (!Parent || bStopTick) return;
+	if (!Parent || bPressed || bStopTick) return;
 	if (MyGeometry.LocalToAbsolute(FVector2D::ZeroVector).X + MyGeometry.GetAbsoluteSize().X + 5.0f < Parent->VirtualMouse->GetPosition().X)
 	{
-		if (!bPressed)
-		{
-			PlayAnimation(FailAnim);
-			if (Parent) Parent->OnMissedKey();
-			SetVisibility(ESlateVisibility::HitTestInvisible);
-		}
-
+		ButtonClicked(false);
 		bStopTick = true;
 	}
 }
@@ -176,27 +167,21 @@ void UHeartBeatGameWidget::ProcessNextButton()
 void UHeartBeatGameWidget::PressKey(const FKey& InKey)
 {
 	if (!bInGame) return;
-	if (InKey == CurrentKey)
-	{
-		bool bFoundElem = false;
-		const FVector2D Pos = VirtualMouse->GetPosition();
-		TArray<UWidget*> Children = Container->GetAllChildren();
-		for (UWidget* Child : Children)
-		{
-			if (Child && Child->IsA<UHeartBeatGameButton>() && Child->GetCachedGeometry().IsUnderLocation(Pos))
-			{
-				Cast<UHeartBeatGameButton>(Child)->ButtonClicked();
-				bFoundElem = true;
-				break;
-			}
-		}
 
-		if (!bFoundElem) OnWrongKey();
-	}
-	else
+	bool bFoundElem = false;
+	const FVector2D Pos = VirtualMouse->GetPosition();
+	TArray<UWidget*> Children = Container->GetAllChildren();
+	for (UWidget* Child : Children)
 	{
-		OnWrongKey();
+		if (Child && Child->IsA<UHeartBeatGameButton>() && Child->GetCachedGeometry().IsUnderLocation(Pos))
+		{
+			Cast<UHeartBeatGameButton>(Child)->ButtonClicked(InKey == CurrentKey);
+			bFoundElem = true;
+			break;
+		}
 	}
+
+	if (!bFoundElem) OnWrongKey();
 }
 
 void UHeartBeatGameWidget::SetTitle(const FText& InTitle) const

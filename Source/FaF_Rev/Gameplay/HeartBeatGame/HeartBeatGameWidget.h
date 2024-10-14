@@ -32,7 +32,7 @@ protected:
 	bool bStopTick = false;
 	UPROPERTY(Transient) TObjectPtr<UHeartBeatGameWidget> Parent;
 	
-	UFUNCTION() void ButtonClicked();
+	void ButtonClicked(const bool bSuccess);
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };
 
