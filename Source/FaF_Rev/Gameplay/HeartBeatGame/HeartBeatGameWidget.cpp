@@ -19,12 +19,6 @@ void UHeartBeatGameButton::ButtonClicked()
 	if (Parent) Parent->OnCorrectKey();
 }
 
-void UHeartBeatGameButton::NativeConstruct()
-{
-	Super::NativeConstruct();
-	Button->OnClicked.AddUniqueDynamic(this, &UHeartBeatGameButton::ButtonClicked);
-}
-
 void UHeartBeatGameButton::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
@@ -182,7 +176,6 @@ void UHeartBeatGameWidget::ProcessNextButton()
 void UHeartBeatGameWidget::PressKey(const FKey& InKey)
 {
 	if (!bInGame) return;
-	UE_LOG(LogTemp, Warning, TEXT("%s ==? %s"), *InKey.ToString(), *CurrentKey.ToString());
 	if (InKey == CurrentKey)
 	{
 		bool bFoundElem = false;
@@ -209,10 +202,4 @@ void UHeartBeatGameWidget::PressKey(const FKey& InKey)
 void UHeartBeatGameWidget::SetTitle(const FText& InTitle) const
 {
 	TitleText->SetText(InTitle);
-}
-
-void UHeartBeatGameWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-	BackingButton->OnClicked.AddUniqueDynamic(this, &UHeartBeatGameWidget::OnWrongKey);
 }

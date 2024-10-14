@@ -33,7 +33,6 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<UHeartBeatGameWidget> Parent;
 	
 	UFUNCTION() void ButtonClicked();
-	virtual void NativeConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };
 
@@ -127,6 +126,4 @@ protected:
 	void ProcessNextButton();
 	void PressKey(const FKey& InKey);
 	void SetTitle(const FText& InTitle) const;
-	
-	virtual void NativeConstruct() override;
 };
