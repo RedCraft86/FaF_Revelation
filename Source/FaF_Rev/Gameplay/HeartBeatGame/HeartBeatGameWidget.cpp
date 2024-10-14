@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "HeartBeatGameWidget.h"
+
+#include "HeartBeatGame.h"
 #include "VirtualMouseWidget.h"
 #include "Animation/UMGSequencePlayer.h"
 #include "Blueprint/WidgetTree.h"
@@ -11,18 +13,10 @@
 
 void UHeartBeatGameButton::ButtonClicked()
 {
+	bPressed = true;
+	PlayAnimation(SuccessAnim);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
-	if (!bPressed)
-	{
-		Cooldown = 0.2f;
-		PlayAnimation(SuccessAnim);
-		if (Parent) Parent->OnCorrectKey();
-	}
-	else
-	{
-		PlayAnimation(FailAnim);
-		if (Parent) Parent->OnWrongKey();
-	}
+	if (Parent) Parent->OnCorrectKey();
 }
 
 void UHeartBeatGameButton::NativeConstruct()
@@ -34,15 +28,7 @@ void UHeartBeatGameButton::NativeConstruct()
 void UHeartBeatGameButton::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if (Cooldown > 0.0f)
-	{
-		Cooldown -= InDeltaTime;
-		if (Cooldown <= 0.0f)
-		{
-			SetVisibility(ESlateVisibility::Visible);
-		}
-	}
-	
+
 	if (!Parent || bStopTick) return;
 	if (MyGeometry.LocalToAbsolute(FVector2D::ZeroVector).X + MyGeometry.GetAbsoluteSize().X + 5.0f < Parent->VirtualMouse->GetPosition().X)
 	{
@@ -57,21 +43,25 @@ void UHeartBeatGameButton::NativeTick(const FGeometry& MyGeometry, float InDelta
 	}
 }
 
-void UHeartBeatGameWidget::StartGame(const FKey InKeyA, const FKey InKeyB, const uint8 InMaxChances, const TArray<FString> InSequence)
+void UHeartBeatGameWidget::StartGame(const FKey InKeyA, const FKey InKeyB, const uint8 InMaxChances, const TArray<FString>& InSequence)
 {
 	if (bInGame || InSequence.IsEmpty() || InMaxChances <= 0 || !InKeyA.IsValid() || !InKeyB.IsValid())
 	{
 		return;
 	}
 
+	AddToViewport(100);
+
 	bInGame = true;
 	Sequence = InSequence;
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	if (Controller) Controller->OnGameStart();
 
 	Chances = InMaxChances;
 	MaxChance->SetText(FText::FromString(FString::FromInt(InMaxChances)));
 	CurChance->SetText(MaxChance->GetText());
-			
+
+	CurrentKey = InKeyA;
 	KeyRange = {InKeyA, InKeyB};
 	KeyImageA->SetBrush(GetKeyIcon(InKeyA.GetFName()).Brush);
 	KeyImageA->SetBrush(GetKeyIcon(InKeyA.GetFName()).Brush);
@@ -95,13 +85,13 @@ void UHeartBeatGameWidget::OnWrongKey()
 
 void UHeartBeatGameWidget::OnMissedKey()
 {
-	Buttons.RemoveAt(0);
+	if (Buttons.Num() > 0) Buttons.RemoveAt(0);
 	OnWrongKey();
 }
 
 void UHeartBeatGameWidget::OnCorrectKey()
 {
-	Buttons.RemoveAt(0);
+	if (Buttons.Num() > 0) Buttons.RemoveAt(0);
 	ProcessNextButton();
 }
 
@@ -164,14 +154,14 @@ void UHeartBeatGameWidget::ProcessNextButton()
 	{
 		bInGame = false;
 		Buttons.Empty();
-		OnFail.Broadcast();
+		if (Controller) Controller->OnGameEnd(false);
 		RemoveWidget();
 		return;
 	}
 	if (Buttons.IsEmpty())
 	{
 		bInGame = false;
-		OnSuccess.Broadcast();
+		if (Controller) Controller->OnGameEnd(true);
 		FTimerHandle Handle;
 		GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 		{
@@ -179,18 +169,50 @@ void UHeartBeatGameWidget::ProcessNextButton()
 		}, 1.0f, false);
 		return;
 	}
-	if (bLastKey != Buttons[0]->bAltKey)
+	if (bAltKey != Buttons[0]->bAltKey)
 	{
-		bLastKey = Buttons[0]->bAltKey;
-		CurrentKey = bLastKey ? KeyRange.Value : KeyRange.Key;
-		PlayAnimation(SwapAnim, 0, 1, bLastKey ? EUMGSequencePlayMode::Forward : EUMGSequencePlayMode::Reverse);
+		bAltKey = Buttons[0]->bAltKey;
+		FKey LastKey = CurrentKey;
+		CurrentKey = bAltKey ? KeyRange.Value : KeyRange.Key;
+		UE_LOG(LogTemp, Warning, TEXT("Current Key: %s -> %s"), *LastKey.ToString(), *CurrentKey.ToString());
+		PlayAnimation(SwapAnim, 0, 1, bAltKey ? EUMGSequencePlayMode::Forward : EUMGSequencePlayMode::Reverse);
 	}
+}
+
+void UHeartBeatGameWidget::PressKey(const FKey& InKey)
+{
+	if (!bInGame) return;
+	UE_LOG(LogTemp, Warning, TEXT("%s ==? %s"), *InKey.ToString(), *CurrentKey.ToString());
+	if (InKey == CurrentKey)
+	{
+		bool bFoundElem = false;
+		const FVector2D Pos = VirtualMouse->GetPosition();
+		TArray<UWidget*> Children = Container->GetAllChildren();
+		for (UWidget* Child : Children)
+		{
+			if (Child && Child->IsA<UHeartBeatGameButton>() && Child->GetCachedGeometry().IsUnderLocation(Pos))
+			{
+				Cast<UHeartBeatGameButton>(Child)->ButtonClicked();
+				bFoundElem = true;
+				break;
+			}
+		}
+
+		if (!bFoundElem) OnWrongKey();
+	}
+	else
+	{
+		OnWrongKey();
+	}
+}
+
+void UHeartBeatGameWidget::SetTitle(const FText& InTitle) const
+{
+	TitleText->SetText(InTitle);
 }
 
 void UHeartBeatGameWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SetVisibility(ESlateVisibility::Collapsed);
 	BackingButton->OnClicked.AddUniqueDynamic(this, &UHeartBeatGameWidget::OnWrongKey);
-	bInGame = false;
 }

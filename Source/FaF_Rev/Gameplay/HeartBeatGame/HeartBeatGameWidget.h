@@ -19,9 +19,6 @@ class FAF_REV_API UHeartBeatGameButton final : public UUserWidget
 
 public:
 
-	UPROPERTY(Transient, meta = (BindWidget))
-		TObjectPtr<UButton> Button;
-
 	UPROPERTY(Transient, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> SuccessAnim;
 
@@ -31,7 +28,6 @@ public:
 protected:
 	
 	bool bAltKey = false;
-	float Cooldown = 0.0f;
 	bool bPressed = false;
 	bool bStopTick = false;
 	UPROPERTY(Transient) TObjectPtr<UHeartBeatGameWidget> Parent;
@@ -46,19 +42,19 @@ class FAF_REV_API UHeartBeatGameWidget final : public UUserWidget
 {
 	GENERATED_BODY()
 
-	//friend class UHeartBeatGame;
+	friend class UHeartBeatGame;
 	friend class UHeartBeatGameButton;
 
 public:
+
+	UPROPERTY(Transient, meta = (BindWidget))
+		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<class UVirtualMouse> VirtualMouse;
 
 	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<class UHorizontalBox> Container;
-
-	UPROPERTY(Transient, meta = (BindWidget))
-		TObjectPtr<UButton> BackingButton;
 
 	UPROPERTY(Transient, meta = (BindWidget))
 		TObjectPtr<UTextBlock> MaxChance;
@@ -97,17 +93,16 @@ public:
 		FRichImageRow GetKeyIcon(const FName& InKey);
 
 	UFUNCTION(BlueprintCallable, Category = "HeartBeatGame")
+		bool IsInGame() const { return bInGame; }
+	
+	UFUNCTION(BlueprintCallable, Category = "HeartBeatGame")
 		uint8 GetChances() const { return Chances; }
 
 	UFUNCTION(BlueprintCallable, Category = "HeartBeatGame")
 		FKey GetCurrentKey() const { return CurrentKey; }
 
 	UFUNCTION(BlueprintCallable, Category = "HeartBeatGame")
-		void StartGame(const FKey InKeyA, const FKey InKeyB, const uint8 InMaxChances, const TArray<FString> InSequence);
-
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FGameCallback);
-	UPROPERTY(BlueprintAssignable) FGameCallback OnSuccess;
-	UPROPERTY(BlueprintAssignable) FGameCallback OnFail;
+		void StartGame(const FKey InKeyA, const FKey InKeyB, const uint8 InMaxChances, const TArray<FString>& InSequence);
 
 protected:
 	
@@ -115,10 +110,10 @@ protected:
 	bool bInGame = false;
 	TArray<FString> Sequence;
 	TPair<FKey, FKey> KeyRange;
-	bool bLastKey = false;
+	bool bAltKey = false;
 	FKey CurrentKey;
 	
-	//UPROPERTY(Transient) TObjectPtr<UHeartBeatGame> Controller;
+	UPROPERTY(Transient) TObjectPtr<UHeartBeatGame> Controller;
 	UPROPERTY(Transient) TArray<TObjectPtr<UHeartBeatGameButton>> Buttons;
 
 	UFUNCTION() void OnWrongKey();
@@ -130,5 +125,8 @@ protected:
 
 	void RemoveWidget();
 	void ProcessNextButton();
+	void PressKey(const FKey& InKey);
+	void SetTitle(const FText& InTitle) const;
+	
 	virtual void NativeConstruct() override;
 };
