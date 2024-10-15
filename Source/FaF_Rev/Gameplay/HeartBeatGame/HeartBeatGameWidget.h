@@ -74,6 +74,9 @@ public:
 		TObjectPtr<UWidgetAnimation> ScrollAnim;
 
 	UPROPERTY(Transient, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> CorrectAnim;
+	
+	UPROPERTY(Transient, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> WrongAnim;
 
 	UPROPERTY(Transient, meta = (BindWidgetAnim))

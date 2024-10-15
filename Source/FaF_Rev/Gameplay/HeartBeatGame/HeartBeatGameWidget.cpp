@@ -76,6 +76,7 @@ void UHeartBeatGameWidget::OnMissedKey()
 void UHeartBeatGameWidget::OnCorrectKey()
 {
 	if (Buttons.Num() > 0) Buttons.RemoveAt(0);
+	PlayAnimation(CorrectAnim);
 	ProcessNextButton();
 }
 
