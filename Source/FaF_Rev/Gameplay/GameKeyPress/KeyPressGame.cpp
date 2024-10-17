@@ -54,9 +54,9 @@ void UKeyPressGame::StartGameStr(const FString& InRounds, const class AFRCharact
 	TArray<FString> Parsed;
 	InRounds.ParseIntoArray(Parsed, TEXT("|"));
 
-	TArray<int> Rounds;
-	for (const FString& Str : Parsed) Rounds.Add(FCString::Atoi(*Str));
-	StartGame(Rounds, Enemy);
+	TArray<int> RoundsArr;
+	for (const FString& Str : Parsed) RoundsArr.Add(FCString::Atoi(*Str));
+	StartGame(RoundsArr, Enemy);
 }
 
 void UKeyPressGame::EndGame()
