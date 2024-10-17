@@ -122,7 +122,7 @@ void UHeartBeatGameWidget::StartScrollAnim()
 		FMath::Min(1.0f, GetCachedGeometry().GetLocalSize().X / Container->GetCachedGeometry().GetLocalSize().X));
 }
 
-FVector2D UHeartBeatGameWidget::GetCursorPos()
+FVector2D UHeartBeatGameWidget::GetCursorPos() const
 {
 	return VirtualCursor->GetCachedGeometry().LocalToAbsolute(FVector2D::ZeroVector);
 }

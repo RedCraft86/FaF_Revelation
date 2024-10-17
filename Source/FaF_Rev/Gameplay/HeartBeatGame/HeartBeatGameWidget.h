@@ -124,7 +124,7 @@ protected:
 
 	void AddChildEntries();
 	void StartScrollAnim();
-	FVector2D GetCursorPos();
+	FVector2D GetCursorPos() const;
 
 	void RemoveWidget();
 	void ProcessNextButton();
