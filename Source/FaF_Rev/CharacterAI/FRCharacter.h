@@ -22,6 +22,9 @@ public:
 		TObjectPtr<UAudioComponent> FootstepAudio;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
+		float AudioVolumeMulti;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings")
 		FInlineFloatCurve AudioVolumeCurve;
 
 #if WITH_EDITORONLY_DATA

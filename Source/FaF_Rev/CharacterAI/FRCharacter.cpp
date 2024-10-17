@@ -28,6 +28,7 @@ AFRCharacter::AFRCharacter()
 	FootstepAudio->AttenuationOverrides.OcclusionLowPassFilterFrequency = MAX_FILTER_FREQUENCY * 0.5f;
 	FootstepAudio->AttenuationOverrides.OcclusionVolumeAttenuation = 0.5f;
 
+	AudioVolumeMulti = 1.0f;
 	AudioVolumeCurve.GetRichCurve()->UpdateOrAddKey(500.0f, 1.0f);
 	AudioVolumeCurve.GetRichCurve()->UpdateOrAddKey(2500.0f, 0.0f);
 
@@ -54,11 +55,11 @@ void AFRCharacter::PlaySmartAudio(const FName AudioKey)
 					GetActorLocation(), Player->PlayerCamera->GetComponentLocation(), this);
 				
 				Dist = Path ? Path->GetPathLength() : 0.0f;
-				Audio->SetVolumeMultiplier(AudioVolumeCurve.GetValue(FMath::Clamp(Dist, 500.0f, 2500.0f)));
+				Audio->SetVolumeMultiplier(AudioVolumeMulti * AudioVolumeCurve.GetValue(FMath::Clamp(Dist, 500.0f, 2500.0f)));
 			}
 			else
 			{
-				Audio->SetVolumeMultiplier(1.0f);
+				Audio->SetVolumeMultiplier(AudioVolumeMulti);
 			}
 			
 			Audio->Play();
