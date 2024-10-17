@@ -86,13 +86,14 @@ void UHeartBeatGameWidget::AddChildEntries()
 	UImage* InitialIMG = WidgetTree->ConstructWidget<UImage>();
 	InitialIMG->SetBrush(EmptySpaceImage);
 	Container->AddChild(InitialIMG);
-			
+	
 	for (const FString& Element : Sequence)
 	{
-		if (Element.ToLower().StartsWith(TEXT("key")))
+		const FString Lower = Element.ToLower();
+		if (Lower.Equals(TEXT("a")) ||Lower.Equals(TEXT("b")))
 		{
 			UHeartBeatGameButton* BTN = WidgetTree->ConstructWidget<UHeartBeatGameButton>(ButtonClass);
-			BTN->bAltKey = Element.ToLower().EndsWith(TEXT("b"));
+			BTN->bAltKey = Lower.Equals(TEXT("b"));
 			BTN->Parent = this;
 			Buttons.Add(BTN);
 			Container->AddChild(BTN);
