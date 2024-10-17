@@ -19,6 +19,13 @@ void UHeartBeatGame::StartGame(const TArray<FString> InSequence, const AFRCharac
 	Widget->SetTitle(Title);
 }
 
+void UHeartBeatGame::StartGameStr(const FString& InSequence, const AFRCharacter* Enemy)
+{
+	TArray<FString> Sequences;
+	InSequence.ParseIntoArray(Sequences, TEXT("|"));
+	StartGame(Sequences, Enemy);
+}
+
 void UHeartBeatGame::OnGameStart() const
 {
 	if (PlayerChar)

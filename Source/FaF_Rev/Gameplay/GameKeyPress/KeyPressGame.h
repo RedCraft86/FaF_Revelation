@@ -33,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Gameplay")
 		void StartGame(const TArray<int32>& InRounds, const class AFRCharacter* Enemy);
 	
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+		void StartGameStr(const FString& InRounds, const class AFRCharacter* Enemy);
+	
 protected:
 	
 	int32 RoundIdx;

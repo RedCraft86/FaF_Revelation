@@ -35,6 +35,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "HeartBeatGame")
 		void StartGame(const TArray<FString> InSequence, const AFRCharacter* Enemy);
+
+	UFUNCTION(BlueprintCallable, Category = "HeartBeatGame")
+		void StartGameStr(const FString& InSequence, const AFRCharacter* Enemy);
 	
 	UFUNCTION(BlueprintPure, Category = "HeartBeatGame")
 		bool IsPlaying() const { return Widget ? Widget->IsInGame() : false; }
