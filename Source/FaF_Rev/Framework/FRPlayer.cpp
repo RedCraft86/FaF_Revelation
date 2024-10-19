@@ -103,6 +103,7 @@ AFRPlayerBase::AFRPlayerBase()
 	HalfHeightValue = { FieldOfView.Evaluate() };
 	InteractData = {};
 	WorldDevice = nullptr;
+	TaskDevice = nullptr;
 	EnemyStack = {};
 	LockCurrentRot = FRotator::ZeroRotator;
 	LockTargetRot = FRotator::ZeroRotator;
@@ -498,9 +499,16 @@ void AFRPlayerBase::SetWorldDevice(UObject* InObject)
 	else LockFlags.Remove(Player::LockFlags::WorldDevice);
 }
 
-UObject* AFRPlayerBase::GetWorldDevice() const
+void AFRPlayerBase::ForceExitTaskDevice() const
 {
-	return WorldDevice;
+	IExitInterface::Exit(TaskDevice);
+}
+
+void AFRPlayerBase::SetTaskDevice(AActor* InActor)
+{
+	TaskDevice = InActor;
+	if (TaskDevice) LockFlags.Add(Player::LockFlags::TaskDevice);
+	else LockFlags.Remove(Player::LockFlags::TaskDevice);
 }
 
 void AFRPlayerBase::AddEnemy(AFREnemyBase* InEnemy)

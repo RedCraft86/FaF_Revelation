@@ -160,6 +160,7 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<class AFRPlayerController> PlayerController;
 	UPROPERTY(Transient) TObjectPtr<class UFRGameInstance> GameInstance;
 
+	UPROPERTY(Transient) TObjectPtr<AActor> TaskDevice;
 	UPROPERTY(Transient) TObjectPtr<UObject> HidingSpot;
 	UPROPERTY(Transient) TObjectPtr<UObject> WorldDevice;
 	UPROPERTY(Transient) TObjectPtr<class ULevelSequencePlayer> ActiveCutscene;
@@ -314,7 +315,16 @@ public:
 		void SetWorldDevice(UObject* InObject);
 
 	UFUNCTION(BlueprintPure, Category = "Player")
-		UObject* GetWorldDevice() const;
+		UObject* GetWorldDevice() const { return WorldDevice; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Player")
+		void ForceExitTaskDevice() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "Player")
+		void SetTaskDevice(AActor* InActor);
+
+	UFUNCTION(BlueprintPure, Category = "Player")
+		AActor* GetTaskDevice() const { return TaskDevice; }
 	
 	UFUNCTION(BlueprintCallable, Category = "Player")
 		void AddEnemy(AFREnemyBase* InEnemy);
