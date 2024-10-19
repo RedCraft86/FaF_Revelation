@@ -40,6 +40,7 @@ enum EPlayerStateFlags
 	PSF_Running		= 1 << 0	UMETA(DisplayName = "Running"),
 	PSF_RunLocked	= 1 << 1	UMETA(DisplayName = "Stamina Punished"),
 	PSF_Crouching	= 1 << 2	UMETA(DisplayName = "Crouching"),
+	PSF_Tasking		= 1 << 3	UMETA(DisplayName = "Doing Tasks"),
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
 
@@ -313,12 +314,11 @@ namespace Player
 		inline static FName Inventory		= TEXT("Inventory");
 		inline static FName Inspection		= TEXT("Inspection");
 		inline static FName WorldDevice		= TEXT("WorldDevice");
-		inline static FName TaskDevice		= TEXT("TaskDevice");
 		inline static FName Hiding			= TEXT("Hiding");
 		inline static FName QTE				= TEXT("QuickTimeEvent");
 
 		inline static TSet All = {Startup, Loading, Cutscene, Dialogue, Jumpscare, GuideScreen,
-			Inventory, Inspection, WorldDevice, TaskDevice, Hiding, QTE};
+			Inventory, Inspection, WorldDevice, Hiding, QTE};
 
 		inline static TSet CanReset = {Inventory, Inspection, WorldDevice, Hiding};
 		inline static TSet NoJumpscare = {Startup, Loading, Cutscene, Dialogue, Jumpscare, GuideScreen, Hiding};

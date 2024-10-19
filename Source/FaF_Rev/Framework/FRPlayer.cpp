@@ -507,8 +507,8 @@ void AFRPlayerBase::ForceExitTaskDevice() const
 void AFRPlayerBase::SetTaskDevice(AActor* InActor)
 {
 	TaskDevice = InActor;
-	if (TaskDevice) LockFlags.Add(Player::LockFlags::TaskDevice);
-	else LockFlags.Remove(Player::LockFlags::TaskDevice);
+	if (TaskDevice) SetStateFlag(PSF_Tasking);
+	else UnsetStateFlag(PSF_Tasking);
 }
 
 void AFRPlayerBase::AddEnemy(AFREnemyBase* InEnemy)
