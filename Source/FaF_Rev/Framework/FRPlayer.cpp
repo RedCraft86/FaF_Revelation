@@ -9,6 +9,7 @@
 #include "UltraDynamicSky.h"
 #include "FRPlayerController.h"
 #include "Core/NarrativeWidget.h"
+#include "CharacterAI/FREnemyBase.h"
 #include "Libraries/GTMathLibrary.h"
 #include "SaveSystem/SaveSubsystem.h"
 #include "GameSettings/GameSettings.h"
@@ -517,7 +518,7 @@ void AFRPlayerBase::AddEnemy(AFREnemyBase* InEnemy)
 	{
 		EnemyStack.Add(InEnemy);
 		EnemyStack.Remove(nullptr);
-		EnemyStackChanged.Broadcast(EnemyStack.Array());
+		OnEnemyStateChanged();
 	}
 }
 
@@ -527,7 +528,7 @@ void AFRPlayerBase::RemoveEnemy(AFREnemyBase* InEnemy)
 	{
 		EnemyStack.Remove(InEnemy);
 		EnemyStack.Remove(nullptr);
-		EnemyStackChanged.Broadcast(EnemyStack.Array());
+		OnEnemyStateChanged();
 	}
 }
 
@@ -536,7 +537,7 @@ void AFRPlayerBase::ClearEnemyStack()
 	if (!EnemyStack.IsEmpty())
 	{
 		EnemyStack.Empty();
-		EnemyStackChanged.Broadcast(EnemyStack.Array());
+		OnEnemyStateChanged();
 	}
 }
 
@@ -955,6 +956,40 @@ void AFRPlayerBase::OnSettingsApply()
 	FOVValue.TargetValue = FieldOfView.Evaluate();
 	FOVValue.SnapToTarget();
 	PlayerCamera->SetFieldOfView(FOVValue.CurrentValue);
+}
+
+void AFRPlayerBase::OnEnemyStateChanged()
+{
+	if (AMusicManager* Manager = AMusicManager::GetMusicManager(this))
+	{
+		if (EnemyStack.IsEmpty())
+		{
+			Manager->MuteAllChannels();
+			Manager->SetChannelMuted(EMusicChannel::Regular, false);
+			return;
+		}
+
+		EMusicChannel TargetChannel = EMusicChannel::Regular;
+		for (const AFREnemyBase* Enemy : EnemyStack)
+		{
+			if (!Enemy) continue;
+			switch (Enemy->GetEnemyState())
+			{
+			case EEnemyState::Search: TargetChannel = EMusicChannel::Search; break;
+			case EEnemyState::Chase: TargetChannel = EMusicChannel::Chase; break;
+			case EEnemyState::Alert: TargetChannel = EMusicChannel::Sensed; break;
+			case EEnemyState::Roam: TargetChannel = EMusicChannel::Regular; break;
+			case EEnemyState::None: TargetChannel = EMusicChannel::Regular; break;
+			}
+		}
+
+		if (LastMusicTarget != TargetChannel)
+		{
+			Manager->MuteAllChannels();
+			Manager->SetChannelMuted(TargetChannel, false);
+			LastMusicTarget = TargetChannel;
+		}
+	}
 }
 
 void AFRPlayerBase::OnDifficultyChanged(const EDifficultyMode InDifficulty)

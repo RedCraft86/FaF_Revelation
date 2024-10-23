@@ -8,13 +8,12 @@
 #include "Data/LightingData.h"
 #include "InputActionValue.h"
 #include "GameFramework/Character.h"
+#include "GameMusic/MusicDataBase.h"
 #include "FRPlayer.generated.h"
 
 class AFREnemyBase;
 
 #define FRPlayer(Context) AFRPlayerBase::Get<AFRPlayerBase>(Context)
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEnemyStackChangedSignature, const TArray<AFREnemyBase*>&, Enemies);
 
 UCLASS(Abstract)
 class FAF_REV_API AFRPlayerBase final : public ACharacter
@@ -150,9 +149,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", AdvancedDisplay)
 		FPlayerFootsteps FootstepSounds;
-
-	UPROPERTY(BlueprintAssignable)
-		FEnemyStackChangedSignature EnemyStackChanged;
 	
 protected:
 
@@ -175,6 +171,7 @@ protected:
 	FVector2D LeanCamOffset, SwayCamOffset;
 	FVector2D CurrentCamOffset, TargetCamOffset;
 	float MoveSpeedTarget, CurrentStamina, StaminaDelta;
+	EMusicChannel LastMusicTarget;
 	EPlayerLeanState LeanState;
 
 	FTimerHandle StaminaTimer;
@@ -390,6 +387,7 @@ protected:
 	void InputBinding_Equipment_Alt(const FInputActionValue& InValue);
 
 	void OnSettingsApply();
+	void OnEnemyStateChanged();
 	void OnDifficultyChanged(const EDifficultyMode InDifficulty);
 	void SlowTick(const float DeltaTime);
 	

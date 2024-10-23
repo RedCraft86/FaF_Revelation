@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		bool bStartRoaming;
 
+	UFUNCTION(BlueprintImplementableEvent)
+		FName GetHeadBoneName();
+
 	UFUNCTION(BlueprintCallable, Category = "EnemyAI")
 		bool JumpscarePlayer();
 	
@@ -43,11 +46,6 @@ protected:
 	UPROPERTY() EEnemyState EnemyState;
 
 	virtual void BeginPlay() override;
-
-public: // Statics
-
-	UFUNCTION(BlueprintPure, Category = "EnemyAI")
-		static EEnemyState GetHighestEnemyState(const TArray<AFREnemyBase*>& InEnemies);
 };
 
 
@@ -63,12 +61,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		TObjectPtr<UVisionConeComponent> VisionCone;
 
-	UFUNCTION(BlueprintImplementableEvent)
-		FName GetHeadBoneName();
-
 protected:
 #if WITH_EDITOR
-	FName AttachedBoneName;
+	FName VisionAttachedBone;
 #endif
 	virtual void OnConstruction(const FTransform& Transform) override;
 };
