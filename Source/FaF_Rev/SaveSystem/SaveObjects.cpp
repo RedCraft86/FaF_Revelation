@@ -8,7 +8,7 @@
 
 FString USaveObjectBase::GetSavePath() const
 {
-	FString Directory(FPaths::ProjectSavedDir() / TEXT("SaveGame/"));
+	FString Directory(FPaths::ProjectSavedDir() / TEXT("SaveGames/"));
 	
 	const FName DemoVersion = FRSettings->DemoVersion;
 	if (!DemoVersion.IsNone()) Directory += TEXT("Demo_") + DemoVersion.ToString();
