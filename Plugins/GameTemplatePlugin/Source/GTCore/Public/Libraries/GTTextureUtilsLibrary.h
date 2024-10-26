@@ -27,7 +27,7 @@ struct FGTTextureData
 		return Ar;
 	}
 	
-	bool HasValidData() const { return Pixels.Num() == Size.X * Size.Y; }
+	bool HasValidData() const { return !Pixels.IsEmpty() && Size.Size() > 0 && Pixels.Num() == Size.X * Size.Y; }
 };
 
 UCLASS(DisplayName = "Texture Utils Library")
@@ -52,12 +52,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "TextureUtils")
 		static UTexture2D* ConvertRenderTargetToTexture(UTextureRenderTarget2D* InRenderTarget, const bool bHasAlpha);
 
-	UFUNCTION(BlueprintCallable, Category = "TextureUtils")
-		static void SaveTextureDataToFile(const FGTTextureData& InData, const FString InPath, const bool bAsync = true);
+	UFUNCTION(BlueprintCallable, Category = "TextureUtils", meta = (AdvancedDisplay = "FileExtension"))
+		static UTexture2D* LoadTextureFromFile(const FString& InPath, const FString& FileExtension = TEXT(""));
 	
-	UFUNCTION(BlueprintCallable, Category = "TextureUtils")
-		static void SaveTextureToFile(const UTexture2D* InTexture, const FString InPath, const bool bAsync = true);
+	UFUNCTION(BlueprintCallable, Category = "TextureUtils", meta = (AdvancedDisplay = "FileExtension"))
+		static void SaveTextureDataToFile(const FGTTextureData& InData, const FString& InPath, const bool bAsync = true, const FString& FileExtension = TEXT(""));
+	
+	UFUNCTION(BlueprintCallable, Category = "TextureUtils", meta = (AdvancedDisplay = "FileExtension"))
+		static void SaveTextureToFile(const UTexture2D* InTexture, const FString& InPath, const bool bAsync = true, const FString& FileExtension = TEXT(""));
 
 	UFUNCTION(BlueprintCallable, Category = "TextureUtils")
-		static void SaveRenderTargetToFile(UTextureRenderTarget2D* InRenderTarget, const FString InPath, const bool bHasAlpha, const bool bAsync = true);
+		static void SaveRenderTargetToFile(UTextureRenderTarget2D* InRenderTarget, const FString& InPath, const bool bHasAlpha, const bool bAsync = true);
 };

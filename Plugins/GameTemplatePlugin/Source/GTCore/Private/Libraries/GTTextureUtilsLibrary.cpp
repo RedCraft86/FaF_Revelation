@@ -1,6 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Libraries/GTTextureUtilsLibrary.h"
+
+#include "IImageWrapper.h"
+#include "IImageWrapperModule.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "Slate/WidgetRenderer.h"
 #include "Blueprint/UserWidget.h"
@@ -67,23 +70,55 @@ UTexture2D* UGTTextureUtilsLibrary::ConvertRenderTargetToTexture(UTextureRenderT
 	return CreateTextureFromData(GetDataFromRenderTarget(InRenderTarget, bHasAlpha));
 }
 
-void UGTTextureUtilsLibrary::SaveTextureDataToFile(const FGTTextureData& InData, const FString InPath, const bool bAsync)
+UTexture2D* UGTTextureUtilsLibrary::LoadTextureFromFile(const FString& InPath, const FString& FileExtension)
 {
-	AsyncTask(bAsync ? ENamedThreads::AnyBackgroundHiPriTask : ENamedThreads::GameThread, [InData, InPath]() {
+	TArray<uint8> ByteArray;
+	if (InPath.IsEmpty() || !FFileHelper::LoadFileToArray(ByteArray, *(InPath + (FileExtension.IsEmpty() ? TEXT(".png") : FileExtension)))) return nullptr;
+	if (IImageWrapperModule* IWModule = FModuleManager::LoadModulePtr<IImageWrapperModule>("ImageWrapper"))
+	{
+		const TSharedPtr<IImageWrapper> ImageWrapper = IWModule->CreateImageWrapper(EImageFormat::PNG);
+		if (!ImageWrapper->SetCompressed(ByteArray.GetData(), MAX_int32)) return nullptr;
+			
+		TArray<uint8> Uncompressed;
+		if (!ImageWrapper->GetRaw(ERGBFormat::BGRA, 8, Uncompressed)) return nullptr;
+			
+		if (UTexture2D* Tex = UTexture2D::CreateTransient(ImageWrapper->GetWidth(), ImageWrapper->GetHeight(), PF_B8G8R8A8))
+		{
+			Tex->bNoTiling = true;
+#if WITH_EDITORONLY_DATA
+			Tex->MipGenSettings = TMGS_NoMipmaps;
+#endif
+			void* TextureData = Tex->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
+			FMemory::Memcpy(TextureData, Uncompressed.GetData(), Uncompressed.Num());
+			Tex->GetPlatformData()->Mips[0].BulkData.Unlock();
+			Tex->UpdateResource();
+			return Tex;
+		}
+	}
+	
+	return nullptr;
+}
+
+void UGTTextureUtilsLibrary::SaveTextureDataToFile(const FGTTextureData& InData, const FString& InPath, const bool bAsync, const FString& FileExtension)
+{
+	if (InPath.IsEmpty() || !InData.HasValidData()) return;
+	AsyncTask(bAsync ? ENamedThreads::AnyBackgroundHiPriTask : ENamedThreads::GameThread, [InData, InPath, FileExtension]() {
 		TArray64<uint8> ImageBinary;
 		FImageUtils::PNGCompressImageArray(InData.Size.X, InData.Size.Y, InData.Pixels, ImageBinary);
-		FFileHelper::SaveArrayToFile(ImageBinary, *(InPath + TEXT(".png")));
+		FFileHelper::SaveArrayToFile(ImageBinary, *(InPath + (FileExtension.IsEmpty() ? TEXT(".png") : FileExtension)));
 	});
 }
 
-void UGTTextureUtilsLibrary::SaveTextureToFile(const UTexture2D* InTexture, const FString InPath, const bool bAsync)
+void UGTTextureUtilsLibrary::SaveTextureToFile(const UTexture2D* InTexture, const FString& InPath, const bool bAsync, const FString& FileExtension)
 {
+	if (InPath.IsEmpty() || !InTexture) return;
 	const FGTTextureData Data = GetDataFromTexture(InTexture);
-	SaveTextureDataToFile(Data, InPath, bAsync);
+	SaveTextureDataToFile(Data, InPath, bAsync, FileExtension);
 }
 
-void UGTTextureUtilsLibrary::SaveRenderTargetToFile(UTextureRenderTarget2D* InRenderTarget, const FString InPath, const bool bHasAlpha, const bool bAsync)
+void UGTTextureUtilsLibrary::SaveRenderTargetToFile(UTextureRenderTarget2D* InRenderTarget, const FString& InPath, const bool bHasAlpha, const bool bAsync)
 {
+	if (InPath.IsEmpty() || !InRenderTarget) return;
 	const FGTTextureData Data = GetDataFromRenderTarget(InRenderTarget, bHasAlpha);
 	SaveTextureDataToFile(Data, InPath, bAsync);
 }
