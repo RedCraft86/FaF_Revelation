@@ -51,9 +51,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "TextureUtils")
 		static UTexture2D* ConvertRenderTargetToTexture(UTextureRenderTarget2D* InRenderTarget, const bool bHasAlpha);
-
-	UFUNCTION(BlueprintCallable, Category = "TextureUtils", meta = (AdvancedDisplay = "FileExtension"))
-		static UTexture2D* LoadTextureFromFile(const FString& InPath, const FString& FileExtension = TEXT(""));
 	
 	UFUNCTION(BlueprintCallable, Category = "TextureUtils", meta = (AdvancedDisplay = "FileExtension"))
 		static void SaveTextureDataToFile(const FGTTextureData& InData, const FString& InPath, const bool bAsync = true, const FString& FileExtension = TEXT(""));

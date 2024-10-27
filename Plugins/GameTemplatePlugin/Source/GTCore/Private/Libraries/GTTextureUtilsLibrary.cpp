@@ -1,9 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Libraries/GTTextureUtilsLibrary.h"
-
-#include "IImageWrapper.h"
-#include "IImageWrapperModule.h"
 #include "Engine/TextureRenderTarget2D.h"
 #include "Slate/WidgetRenderer.h"
 #include "Blueprint/UserWidget.h"
@@ -59,7 +56,7 @@ UTexture2D* UGTTextureUtilsLibrary::CreateTextureFromData(const FGTTextureData& 
 	void* TextureData = PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
 	FMemory::Memcpy(TextureData, InData.Pixels.GetData(), sizeof(FColor) * InData.Size.X * InData.Size.Y);
 	PlatformData->Mips[0].BulkData.Unlock();
-	Image->SetPlatformData(PlatformData);
+	//Image->SetPlatformData(PlatformData);
 	Image->UpdateResource();
 	
 	return Image;
@@ -68,35 +65,6 @@ UTexture2D* UGTTextureUtilsLibrary::CreateTextureFromData(const FGTTextureData& 
 UTexture2D* UGTTextureUtilsLibrary::ConvertRenderTargetToTexture(UTextureRenderTarget2D* InRenderTarget, const bool bHasAlpha)
 {
 	return CreateTextureFromData(GetDataFromRenderTarget(InRenderTarget, bHasAlpha));
-}
-
-UTexture2D* UGTTextureUtilsLibrary::LoadTextureFromFile(const FString& InPath, const FString& FileExtension)
-{
-	TArray<uint8> ByteArray;
-	if (InPath.IsEmpty() || !FFileHelper::LoadFileToArray(ByteArray, *(InPath + (FileExtension.IsEmpty() ? TEXT(".png") : FileExtension)))) return nullptr;
-	if (IImageWrapperModule* IWModule = FModuleManager::LoadModulePtr<IImageWrapperModule>("ImageWrapper"))
-	{
-		const TSharedPtr<IImageWrapper> ImageWrapper = IWModule->CreateImageWrapper(EImageFormat::PNG);
-		if (!ImageWrapper->SetCompressed(ByteArray.GetData(), MAX_int32)) return nullptr;
-			
-		TArray<uint8> Uncompressed;
-		if (!ImageWrapper->GetRaw(ERGBFormat::BGRA, 8, Uncompressed)) return nullptr;
-			
-		if (UTexture2D* Tex = UTexture2D::CreateTransient(ImageWrapper->GetWidth(), ImageWrapper->GetHeight(), PF_B8G8R8A8))
-		{
-			Tex->bNoTiling = true;
-#if WITH_EDITORONLY_DATA
-			Tex->MipGenSettings = TMGS_NoMipmaps;
-#endif
-			void* TextureData = Tex->GetPlatformData()->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
-			FMemory::Memcpy(TextureData, Uncompressed.GetData(), Uncompressed.Num());
-			Tex->GetPlatformData()->Mips[0].BulkData.Unlock();
-			Tex->UpdateResource();
-			return Tex;
-		}
-	}
-	
-	return nullptr;
 }
 
 void UGTTextureUtilsLibrary::SaveTextureDataToFile(const FGTTextureData& InData, const FString& InPath, const bool bAsync, const FString& FileExtension)
