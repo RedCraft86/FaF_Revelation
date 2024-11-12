@@ -1,6 +1,7 @@
 {
 	"FileVersion": 3,
 	"EngineAssociation": "{E49A5AAF-42C3-FB0E-F221-8BB27F284BA4}",
+	"DevCategory": "FadingLanternInt",
 	"Category": "",
 	"Description": "",
 	"Modules": [
