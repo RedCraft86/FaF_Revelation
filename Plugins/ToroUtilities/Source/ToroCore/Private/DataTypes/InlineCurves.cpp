@@ -34,7 +34,7 @@ void FInlineFloatCurve::GetTimeRange(float& Min, float& Max) const
 
 void FInlineFloatCurve::GetTimeRange(double& Min, double& Max) const
 {
-	float X, Y = 0.0f;
+	float X, Y;
 	GetTimeRange(X, Y);
 	Min = X; Max = Y;
 }
@@ -46,7 +46,7 @@ void FInlineFloatCurve::GetValueRange(float& Min, float& Max) const
 
 void FInlineFloatCurve::GetValueRange(double& Min, double& Max) const
 {
-	float X, Y = 0.0f;
+	float X, Y;
 	GetValueRange(X, Y);
 	Min = X; Max = Y;
 }
@@ -84,8 +84,8 @@ FVector FInlineVectorCurve::GetValue(float InTime) const
 
 void FInlineVectorCurve::GetTimeRange(float& Min, float& Max) const
 {
-	float Min1, Min2, Min3 = 0.0f;
-	float Max1, Max2, Max3 = 0.0f;
+	float Min1, Min2, Min3;
+	float Max1, Max2, Max3;
 
 	GetRichCurveConst(0)->GetTimeRange(Min1, Max1);
 	GetRichCurveConst(1)->GetTimeRange(Min2, Max2);
@@ -97,15 +97,15 @@ void FInlineVectorCurve::GetTimeRange(float& Min, float& Max) const
 
 void FInlineVectorCurve::GetTimeRange(double& Min, double& Max) const
 {
-	float X, Y = 0.0f;
+	float X, Y;
 	GetTimeRange(X, Y);
 	Min = X; Max = Y;
 }
 
 void FInlineVectorCurve::GetValueRange(FVector& Min, FVector& Max) const
 {
-	float MinX, MinY, MinZ = 0.0f;
-	float MaxX, MaxY, MaxZ = 0.0f;
+	float MinX, MinY, MinZ;
+	float MaxX, MaxY, MaxZ;
 
 	GetRichCurveConst(0)->GetValueRange(MinX, MaxX);
 	GetRichCurveConst(1)->GetValueRange(MinY, MaxY);
@@ -174,8 +174,8 @@ FLinearColor FInlineColorCurve::GetValue(float InTime) const
 
 void FInlineColorCurve::GetTimeRange(float& Min, float& Max) const
 {
-	float Min1, Min2, Min3, Min4 = 0.0f;
-	float Max1, Max2, Max3, Max4 = 0.0f;
+	float Min1, Min2, Min3, Min4;
+	float Max1, Max2, Max3, Max4;
 
 	GetRichCurveConst(0)->GetTimeRange(Min1, Max1);
 	GetRichCurveConst(1)->GetTimeRange(Min2, Max2);
@@ -188,15 +188,15 @@ void FInlineColorCurve::GetTimeRange(float& Min, float& Max) const
 
 void FInlineColorCurve::GetTimeRange(double& Min, double& Max) const
 {
-	float X, Y = 0.0f;
+	float X, Y;
 	GetTimeRange(X, Y);
 	Min = X; Max = Y;
 }
 
 void FInlineColorCurve::GetValueRange(FLinearColor& Min, FLinearColor& Max) const
 {
-	float MinR, MinG, MinB, MinA = 0.0f;
-	float MaxR, MaxG, MaxB, MaxA = 0.0f;
+	float MinR, MinG, MinB, MinA;
+	float MaxR, MaxG, MaxB, MaxA;
 
 	GetRichCurveConst(0)->GetValueRange(MinR, MaxR);
 	GetRichCurveConst(1)->GetValueRange(MinG, MaxG);
