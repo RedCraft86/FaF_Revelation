@@ -1,12 +1,12 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Tools/StaticMeshBakerTool.h"
+#include "Tools/StaticMeshBaker.h"
 #include "Subsystems/EditorActorSubsystem.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Engine/StaticMeshActor.h"
 #include "EditorDialogLibrary.h"
 
-void FStaticMeshBakerTool::ExecuteAction()
+void FStaticMeshBaker::ExecuteAction()
 {
 	if (UEditorActorSubsystem* Subsystem = GEditor ? GEditor->GetEditorSubsystem<UEditorActorSubsystem>() : nullptr)
 	{
@@ -84,7 +84,7 @@ void FStaticMeshBakerTool::ExecuteAction()
 	}
 }
 
-AStaticMeshActor* FStaticMeshBakerTool::SpawnActor(UEditorActorSubsystem* Subsystem, UStaticMesh* Mesh, const FTransform& Transform, const FString& Label,const FString& Folder)
+AStaticMeshActor* FStaticMeshBaker::SpawnActor(UEditorActorSubsystem* Subsystem, UStaticMesh* Mesh, const FTransform& Transform, const FString& Label,const FString& Folder)
 {
 	if (!Subsystem || !Mesh) return nullptr;
 	if (AStaticMeshActor* NewActor = Cast<AStaticMeshActor>(Subsystem->SpawnActorFromClass(AStaticMeshActor::StaticClass(),

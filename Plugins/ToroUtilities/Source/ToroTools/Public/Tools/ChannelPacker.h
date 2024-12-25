@@ -5,23 +5,22 @@
 #include "ToroToolCommands.h"
 #include "Framework/Commands/Commands.h"
 
-class FStaticMeshBakerTool
+class FChannelPacker
 {
 public:
 
 	static void Register(const TSharedPtr<FUICommandList>& Commands)
 	{
-		MAP_TOOL(StaticMeshBaker, FStaticMeshBakerTool);
+		MAP_TOOL(ChannelPacker, FChannelPacker);
 	}
 	
 	static void RegisterMenus(const TSharedPtr<FUICommandList>& Commands)
 	{
-		REGISTER_TOP_MENU(StaticMeshBaker)
-		REGISTER_TOOLBAR(StaticMeshBaker, Actor)
+		REGISTER_TOP_MENU(ChannelPacker)
+		REGISTER_TOOLBAR(ChannelPacker, General)
 	}
 
 private:
 
 	static void ExecuteAction();
-	static AStaticMeshActor* SpawnActor(class UEditorActorSubsystem* Subsystem, UStaticMesh* Mesh, const FTransform& Transform, const FString& Label, const FString& Folder);
 };

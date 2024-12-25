@@ -7,8 +7,11 @@
 #include "Styling/SlateStyleRegistry.h"
 #include "Styling/SlateStyleMacros.h"
 
-#include "Tools/RestartEditorTool.h"
-#include "Tools/StaticMeshBakerTool.h"
+#include "Tools/RestartEditor.h"
+#include "Tools/StaticMeshBaker.h"
+#include "Tools/StaticMeshMerger.h"
+#include "Tools/StaticMeshInstancer.h"
+#include "Tools/ChannelPacker.h"
 
 #define REGISTER_TOOL(Tool) Tool::Register(PluginCommands);
 #define REGISTER_TOOL_MENUS(Tool) Tool::RegisterMenus(PluginCommands);
@@ -20,8 +23,11 @@ void FToroToolsModule::StartupModule()
 	FToroToolCommands::Register();
     
 	PluginCommands = MakeShareable(new FUICommandList);
-	REGISTER_TOOL(FRestartEditorTool);
-	REGISTER_TOOL(FStaticMeshBakerTool);
+	REGISTER_TOOL(FRestartEditor)
+	REGISTER_TOOL(FStaticMeshBaker)
+	REGISTER_TOOL(FStaticMeshMerger)
+	// REGISTER_TOOL(FStaticMeshInstancer)
+	// REGISTER_TOOL(FChannelPacker)
 
 	IMainFrameModule& MainFrame = FModuleManager::Get().LoadModuleChecked<IMainFrameModule>("MainFrame");
 	MainFrame.GetMainFrameCommandBindings()->Append(PluginCommands.ToSharedRef());
@@ -42,8 +48,11 @@ void FToroToolsModule::RegisterMenus()
 {
 	FToolMenuOwnerScoped OwnerScoped(this);
 	{
-		REGISTER_TOOL_MENUS(FRestartEditorTool);
-		REGISTER_TOOL_MENUS(FStaticMeshBakerTool);
+		REGISTER_TOOL_MENUS(FRestartEditor)
+		REGISTER_TOOL_MENUS(FStaticMeshBaker)
+		REGISTER_TOOL_MENUS(FStaticMeshMerger)
+		// REGISTER_TOOL_MENUS(FStaticMeshInstancer)
+		// REGISTER_TOOL_MENUS(FChannelPacker)
 	}
 }
 
