@@ -203,7 +203,7 @@ void FInlineColorCurve::GetValueRange(FLinearColor& Min, FLinearColor& Max) cons
 	GetRichCurveConst(2)->GetValueRange(MinB, MaxB);
 
 	const FRichCurve* Alpha = GetRichCurveConst(3);
-	const bool HasAlpha = Alpha->GetNumKeys() == 0;
+	const bool HasAlpha = Alpha->GetNumKeys() > 0;
 	Alpha->GetTimeRange(MinA, MaxA);
 
 	Min = { MinR, MinG, MinB, HasAlpha ? MinA : 1.0f };
