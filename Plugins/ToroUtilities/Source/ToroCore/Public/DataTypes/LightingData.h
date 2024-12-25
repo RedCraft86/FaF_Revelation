@@ -262,7 +262,7 @@ struct TOROCORE_API FRectLightProperties : public FBaseLightProperties
 };
 
 UCLASS(DisplayName = "Lighting Function Library")
-class TOROCORE_API ULightingDataLibrary : public UBlueprintFunctionLibrary
+class TOROCORE_API ULightingDataLibrary final : public UBlueprintFunctionLibrary
 {
     GENERATED_BODY()
 

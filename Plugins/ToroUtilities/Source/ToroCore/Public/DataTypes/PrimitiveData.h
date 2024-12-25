@@ -131,7 +131,7 @@ private:
 };
 
 UCLASS()
-class TOROCORE_API UPrimitiveDataLibrary : public UBlueprintFunctionLibrary
+class TOROCORE_API UPrimitiveDataLibrary final : public UBlueprintFunctionLibrary
 {
     GENERATED_BODY()
 

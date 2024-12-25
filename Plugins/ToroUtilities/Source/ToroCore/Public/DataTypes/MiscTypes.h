@@ -125,7 +125,7 @@ private:
 };
 
 UCLASS(DisplayName = "Currency Function Library")
-class TOROCORE_API UGameCurrencyLibrary : public UBlueprintFunctionLibrary
+class TOROCORE_API UGameCurrencyLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

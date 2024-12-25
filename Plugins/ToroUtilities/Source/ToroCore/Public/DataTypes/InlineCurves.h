@@ -64,7 +64,7 @@ struct TOROCORE_API FInlineColorCurve
 };
 
 UCLASS(DisplayName = "Inline Curves Function Library")
-class TOROCORE_API UInlineCurveLibrary : public UBlueprintFunctionLibrary
+class TOROCORE_API UInlineCurveLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
