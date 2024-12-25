@@ -6,6 +6,9 @@
 #include "Engine/GameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
+#define SETTING_GETTER(Class) static const Class* Get() { return GetDefault<Class>(); }
+#define SETTING_GETTER_MUTABLE(Class) static Class* Get() { return GetMutableDefault<Class>(); }
+
 #define LOCAL_PLAYER_SUBSYSTEM_GETTER(Class) \
 	static Class* Get(const UObject* WorldContext, const int PlayerIndex = 0) \
 	{ \
@@ -23,7 +26,13 @@
 	}
 
 #define ENGINE_SUBSYSTEM_GETTER(Class) \
-	static Class* Get(const UObject* WorldContext) \
+	static Class* Get() \
 	{ \
 		return GEngine ? GEngine->GetEngineSubsystem<Class>() : nullptr; \
+	}
+
+#define EDITOR_SUBSYSTEM_GETTER(Class) \
+	static Class* Get() \
+	{ \
+		return GEditor ? GEditor->GetEditorSubsystem<Class>() : nullptr; \
 	}
