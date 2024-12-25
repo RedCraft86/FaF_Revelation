@@ -34,6 +34,7 @@ public class DataGraphEd : ModuleRules
                 "ApplicationCore",
                 "DeveloperSettings",
                 "DataGraph",
+                "ToroCore"
             }
         );
     }

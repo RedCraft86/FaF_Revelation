@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Helpers/ClassGetterHelpers.h"
 #include "DataGraphEdSettings.generated.h"
 
 UENUM(BlueprintType)
@@ -11,14 +12,12 @@ enum class EDataGraphLayoutStrategy : uint8
 	ForceDirected,
 };
 
-UCLASS(Config = Editor, DefaultConfig, DisplayName = "Data Graph Settings")
+UCLASS(Config = Editor, DefaultConfig, DisplayName = "Data Graph")
 class DATAGRAPHED_API UDataGraphEdSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
 public:
-
-	static const UDataGraphEdSettings* Get() { return GetDefault<UDataGraphEdSettings>(); }
 
 	UDataGraphEdSettings() : OptimalDistance(100.f), AutoLayoutStrategy(EDataGraphLayoutStrategy::Tree)
 		, MaxIteration(50), bFirstPassOnly(false), bRandomInit(false), InitTemperature(10.f), CoolDownRate(10.f)
@@ -26,6 +25,8 @@ public:
 		CategoryName = TEXT("ToroUtilities");
 		SectionName = TEXT("DataGraphSettings");
 	}
+
+	SETTING_GETTER(UDataGraphEdSettings)
 
 	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
 		float OptimalDistance;

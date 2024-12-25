@@ -15,7 +15,6 @@ class TOROCORE_API UToroConfigManager final : public UGameInstanceSubsystem
 public:
 
 	UToroConfigManager() {}
-	
 	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroConfigManager)
 	static FString GetGameConfigPath()
 	{

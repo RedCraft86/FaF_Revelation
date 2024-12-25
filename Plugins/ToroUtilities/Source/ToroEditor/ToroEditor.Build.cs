@@ -12,16 +12,19 @@ public class ToroEditor : ModuleRules
             new[]
             {
                 "Core",
-            }
-        );
-
-        PrivateDependencyModuleNames.AddRange(
-            new[]
-            {
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "InputCore",
+                "UnrealEd",
+                "Projects",
+                "EditorSubsystem",
+                "DeveloperSettings",
+                "ComponentVisualizers",
+                "PropertyEditor",
+                "ToroRuntime",
+                "ToroCore"
             }
         );
     }
