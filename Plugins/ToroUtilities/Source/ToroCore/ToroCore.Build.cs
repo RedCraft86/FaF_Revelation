@@ -12,16 +12,16 @@ public class ToroCore : ModuleRules
             new[]
             {
                 "Core",
-            }
-        );
-
-        PrivateDependencyModuleNames.AddRange(
-            new[]
-            {
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "InputCore",
+                "MovieScene",
+                "LevelSequence",
+                "JsonUtilities",
+                "Json",
+                "UMG",
             }
         );
     }
