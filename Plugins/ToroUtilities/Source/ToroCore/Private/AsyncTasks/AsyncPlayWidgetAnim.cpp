@@ -2,6 +2,7 @@
 
 #include "AsyncTasks/AsyncPlayWidgetAnim.h"
 #include "Animation/UMGSequencePlayer.h"
+#include "Animation/WidgetAnimation.h"
 
 UAsyncPlayWidgetAnim* UAsyncPlayWidgetAnim::PlayWidgetAnimation(UUserWidget* Target, UWidgetAnimation* InAnimation, const float InPlaybackSpeed, const EUMGSequencePlayMode::Type InPlayDirection)
 {
@@ -17,14 +18,14 @@ void UAsyncPlayWidgetAnim::Activate()
 {
 	BEGIN_RUNNING
 	
-	if (!Widget)
+	if (!IsValid(Widget))
 	{
 		UE_KLOG_WARNING(2.0f, TEXT("Failed to run Async Action %s. Target User Widget is not provided."), *GetClass()->GetName())
 		FINISH_RUNNING
 		return;
 	}
 
-	if (!Animation)
+	if (!IsValid(Animation))
 	{
 		UE_KLOG_WARNING(2.0f, TEXT("Failed to run Async Action %s. Animation is not provided."), *GetClass()->GetName())
 		FINISH_RUNNING

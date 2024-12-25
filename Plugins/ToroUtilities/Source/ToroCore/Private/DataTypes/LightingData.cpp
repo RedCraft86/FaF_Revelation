@@ -137,7 +137,7 @@ void ULightingDataLibrary::SetBaseLightProperties(ULightComponent* Target, const
 FBaseLightProperties ULightingDataLibrary::GetBaseLightProperties(const ULightComponent* Target)
 {
 	FBaseLightProperties OutData;
-	if (Target)
+	if (IsValid(Target))
 	{
 		OutData.Intensity = Target->Intensity;
 		OutData.Color = Target->LightColor;

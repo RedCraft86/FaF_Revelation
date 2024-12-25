@@ -6,11 +6,11 @@
 UWorld* UToroAsyncActionBase::GetWorld() const
 {
 	UWorld* World = GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::LogAndReturnNull);
-	if (!World) World = Super::GetWorld();
+	if (!IsValid(World)) World = Super::GetWorld();
 	
 #if WITH_EDITOR
 	if (!FApp::IsGame()) return GEngine->GetCurrentPlayWorld();
-	if (!World)
+	if (!IsValid(World))
 	{
 		UE_KLOG_WARNING(2.0f, TEXT("Cannot access world on Async Action %s. Using last resort method."), *GetClass()->GetName())
 		World = GEngine->GetCurrentPlayWorld();
@@ -18,7 +18,7 @@ UWorld* UToroAsyncActionBase::GetWorld() const
 	
 	return World;
 #else
-	return World ? World : GEngine->GetCurrentPlayWorld();
+	return IsValid(World) ? World : GEngine->GetCurrentPlayWorld();
 #endif
 }
 

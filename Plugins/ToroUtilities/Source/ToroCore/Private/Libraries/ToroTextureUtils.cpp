@@ -18,7 +18,7 @@ void UToroTextureUtils::DrawWidgetToRenderTarget(UTextureRenderTarget2D* InRende
 
 FToroTextureData UToroTextureUtils::GetDataFromRenderTarget(UTextureRenderTarget2D* InRenderTarget, const bool bInvertAlpha)
 {
-	if (!InRenderTarget) return {};
+	if (!IsValid(InRenderTarget)) return {};
 	
 	FToroTextureData Result;
 	InRenderTarget->GameThread_GetRenderTargetResource()->ReadPixels(Result.Pixels);
@@ -35,7 +35,7 @@ FToroTextureData UToroTextureUtils::GetDataFromRenderTarget(UTextureRenderTarget
 
 FToroTextureData UToroTextureUtils::GetDataFromTexture(const UTexture2D* InTexture)
 {
-	if (!InTexture) return {};
+	if (!IsValid(InTexture)) return {};
 
 	FToroTextureData Result;
 	const FTexturePlatformData* PlatformData = InTexture->GetPlatformData();
@@ -56,7 +56,6 @@ UTexture2D* UToroTextureUtils::CreateTextureFromData(const FToroTextureData& InD
 	void* TextureData = PlatformData->Mips[0].BulkData.Lock(LOCK_READ_WRITE);
 	FMemory::Memcpy(TextureData, InData.Pixels.GetData(), sizeof(FColor) * InData.Size.X * InData.Size.Y);
 	PlatformData->Mips[0].BulkData.Unlock();
-	//Image->SetPlatformData(PlatformData);
 	Image->UpdateResource();
 	
 	return Image;
@@ -79,14 +78,14 @@ void UToroTextureUtils::SaveTextureDataToFile(const FToroTextureData& InData, co
 
 void UToroTextureUtils::SaveTextureToFile(const UTexture2D* InTexture, const FString& InPath, const bool bAsync, const FString& FileExtension)
 {
-	if (InPath.IsEmpty() || !InTexture) return;
+	if (InPath.IsEmpty() || !IsValid(InTexture)) return;
 	const FToroTextureData Data = GetDataFromTexture(InTexture);
 	SaveTextureDataToFile(Data, InPath, bAsync, FileExtension);
 }
 
 void UToroTextureUtils::SaveRenderTargetToFile(UTextureRenderTarget2D* InRenderTarget, const FString& InPath, const bool bHasAlpha, const bool bAsync)
 {
-	if (InPath.IsEmpty() || !InRenderTarget) return;
+	if (InPath.IsEmpty() || !IsValid(InRenderTarget)) return;
 	const FToroTextureData Data = GetDataFromRenderTarget(InRenderTarget, bHasAlpha);
 	SaveTextureDataToFile(Data, InPath, bAsync);
 }

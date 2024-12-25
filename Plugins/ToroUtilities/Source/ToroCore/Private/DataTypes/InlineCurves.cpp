@@ -122,7 +122,7 @@ FRichCurve* FInlineColorCurve::GetRichCurve(int32 Index)
 		return nullptr;
 	}
 
-	if (Curve.ExternalCurve)
+	if (IsValid(Curve.ExternalCurve))
 	{
 		return &Curve.ExternalCurve->FloatCurves[Index];
 	}
@@ -137,7 +137,7 @@ const FRichCurve* FInlineColorCurve::GetRichCurveConst(int32 Index) const
 		return nullptr;
 	}
 
-	if (Curve.ExternalCurve)
+	if (IsValid(Curve.ExternalCurve))
 	{
 		return &Curve.ExternalCurve->FloatCurves[Index];
 	}

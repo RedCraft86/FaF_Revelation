@@ -85,8 +85,8 @@ void UToroMathLibrary::GetCameraLineTraceVectors(const UObject* ContextObject, c
 	const float Distance, FVector& Start, FVector& End)
 {
 	const UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
-	const APlayerController* PC = World ? World->GetFirstPlayerController() : nullptr;
-	const APlayerCameraManager* PCM = PC ? PC->PlayerCameraManager : nullptr;
+	const APlayerController* PC = IsValid(World) ? World->GetFirstPlayerController() : nullptr;
+	const APlayerCameraManager* PCM = IsValid(PC) ? PC->PlayerCameraManager : nullptr;
 	if (!IsValid(PCM)) return;
 
 	FVector DirectionVector;
