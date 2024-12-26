@@ -40,12 +40,12 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -10))
 		bool bEnabled;
+	
+	UPROPERTY(EditAnywhere, Category = "Settings", NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -10))
+		FGuid RuntimeGuid;
 
 	UPROPERTY(EditAnywhere, Category = "Collision")
 		bool bStartWithCollisionEnabled;
-	
-	UPROPERTY(EditAnywhere, Category = "Actor", NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
-		FGuid RuntimeGuid;
 	
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;

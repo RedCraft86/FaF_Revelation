@@ -2,14 +2,16 @@
 
 #include "Actors/ToroActor.h"
 
-AToroActor::AToroActor() : bEnabled(true), bStartWithCollisionEnabled(true)
-	, RuntimeGuid(FGuid::NewGuid())
+AToroActor::AToroActor() : bEnabled(true), RuntimeGuid(FGuid::NewGuid())
+	, bStartWithCollisionEnabled(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
+
+	SetCanBeDamaged(false);
 }
 
 void AToroActor::SetEnabled(const bool bInEnabled)
