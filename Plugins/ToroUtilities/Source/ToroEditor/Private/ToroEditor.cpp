@@ -1,17 +1,20 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroEditor.h"
-#include "UnrealEdGlobals.h"
 #include "AssetToolsModule.h"
 #include "BlueprintEditorModule.h"
 #include "DataTypes/PrimitiveData.h"
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleRegistry.h"
 #include "Styling/SlateStyleMacros.h"
+#include "UnrealEd.h"
 
+#include "Actors/ToroActor.h"
+#include "DetailsCustomization/ToroActorDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
 #include "DetailsCustomization/InlineCurveDetails.h"
+#include "ComponentVisualizer/DebugShapeVisualizer.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -27,6 +30,8 @@ void FToroEditorModule::StartupModule()
 
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
+		
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveCustomization)
@@ -40,6 +45,7 @@ void FToroEditorModule::StartupModule()
 
 	if (GUnrealEd)
 	{
+		REGISTER_VISUALIZER(UDebugShapeComponent, FDebugShapeVisualizer)
 	}
 
 	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::LoadModulePtr<FAssetToolsModule>("AssetTools"))
@@ -63,6 +69,8 @@ void FToroEditorModule::ShutdownModule()
 
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
+		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
@@ -77,6 +85,7 @@ void FToroEditorModule::ShutdownModule()
 	
 	if (GUnrealEd)
 	{
+		UNREGISTER_VISUALIZER(UDebugShapeComponent);
 	}
 
 	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::GetModulePtr<FAssetToolsModule>("AssetTools"))
