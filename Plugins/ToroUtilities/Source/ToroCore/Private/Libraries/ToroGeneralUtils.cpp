@@ -139,6 +139,15 @@ UWorld* UToroGeneralUtils::GetPlayWorld()
 	return GEngine->GetCurrentPlayWorld();
 }
 
+bool UToroGeneralUtils::IsInEditor()
+{
+#if WITH_EDITOR
+	return !FApp::IsGame();
+#else
+	return false;
+#endif
+}
+
 void UToroGeneralUtils::RestartLevel(const UObject* ContextObject, const FString Options)
 {
 	UGameplayStatics::OpenLevel(ContextObject, *UGameplayStatics::GetCurrentLevelName(ContextObject), true, Options);
@@ -151,13 +160,4 @@ void UToroGeneralUtils::CallLocalEvent(UObject* Target, const FName EventName)
 	FOutputDeviceNull Ar;
 	Target->CallFunctionByNameWithArguments(*EventName.ToString(),
 		Ar, nullptr, true);
-}
-
-bool UToroGeneralUtils::IsInEditor()
-{
-#if WITH_EDITOR
-	return !FApp::IsGame();
-#else
-	return false;
-#endif
 }

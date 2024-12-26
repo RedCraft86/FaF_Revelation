@@ -23,7 +23,7 @@ public:
 	/* Gets the vertices/corner locations of the actor's bounding box.
 	* @param Target - Actor to use.
 	* @param bOnlyCollidingComponents - If enabled, only components that can collide will be used in calculation.
-	* @param bIncludeFromChildActors - Whether or not child actors should be included in the calculation.
+	* @param bIncludeFromChildActors - Whether child actors should be included in the calculation.
 	* @param Origin - Origin of the actor.
 	* @param BoxExtent - Bounding box extent of the actor.
 	* @return Locations of the 8 (or less) vertices of the bounding box.
@@ -38,7 +38,7 @@ public:
 	* @param bOriginOnly - If enabled, the checks will only make use of the actor's origin, bounds will not be used.
 	* @param bLineTraceCheck - Draw a line trace from the camera to the target when checking if it's in player view.
 	* @param TraceCheckParams - Settings to use when testing the different vertices of the actor's bounding box.
-	* @return Whether or not the actor is visible in screen with the given settings.
+	* @return Whether the actor is visible in screen with the given settings.
 	*/
 	UFUNCTION(BlueprintPure, Category = "Actor", meta = (DefaultToSelf = "Target", AutoCreateRefTerm = "TraceCheckParams"))
 	static bool IsActorInScreen(const AActor* Target, const float MaxDistance = 5000.0f, const bool bOriginOnly = false,
@@ -55,6 +55,10 @@ public:
 	/* Gets the active Game World. A way to get world context from anywhere but can be unreliable. */
 	UFUNCTION(BlueprintPure, Category = "World")
 		static UWorld* GetPlayWorld();
+
+	/* Check if we're currently in editor or in a PIE/Standalone game. */
+	UFUNCTION(BlueprintPure, Category = "World")
+		static bool IsInEditor();
 	
 	/* Restarts the current Level. Returns the Level Name. */
 	UFUNCTION(BlueprintCallable, Category = "World", meta = (WorldContext = "ContextObject", AdvancedDisplay = "Options"))
@@ -63,8 +67,4 @@ public:
 	/* Calls an event by name in the Target object. */
 	UFUNCTION(BlueprintCallable, Category = "Events", meta = (DefaultToSelf = "Target"))
 		static void CallLocalEvent(UObject* Target, const FName EventName);
-
-	/* Check if we're currently in editor or in a PIE/Standalone game. */
-	UFUNCTION(BlueprintPure, Category = "World")
-		static bool IsInEditor();
 };
