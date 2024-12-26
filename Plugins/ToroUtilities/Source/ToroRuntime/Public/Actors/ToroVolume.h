@@ -3,7 +3,6 @@
 #pragma once
 
 #include "ToroActor.h"
-#include "ActorIconData.h"
 #include "GameFramework/Volume.h"
 #include "ToroVolume.generated.h"
 

@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DebugShapeComponent.h"
+#include "Debugging/DebugShapeComponent.h"
 
 UDebugShapeComponent::UDebugShapeComponent()
 {

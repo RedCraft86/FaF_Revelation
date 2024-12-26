@@ -9,7 +9,9 @@
 #include "Styling/SlateStyleMacros.h"
 #include "UnrealEd.h"
 
-#include "Actors/ToroActor.h"
+#include "ToroActor.h"
+#include "ToroVolume.h"
+#include "Debugging/NavPathVisualizer.h"
 #include "DetailsCustomization/ToroActorDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
@@ -31,6 +33,8 @@ void FToroEditorModule::StartupModule()
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
 		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
@@ -70,6 +74,8 @@ void FToroEditorModule::ShutdownModule()
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)

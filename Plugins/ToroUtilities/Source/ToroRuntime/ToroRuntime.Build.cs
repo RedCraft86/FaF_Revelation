@@ -13,7 +13,8 @@ public class ToroRuntime : ModuleRules
             new[]
             {
                 Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/Actors"),
-                Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/DataTypes")
+                Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/DataTypes"),
+                Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/Framework"),
             }
         );
 
