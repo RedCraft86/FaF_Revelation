@@ -20,6 +20,7 @@ public class ToroCore : ModuleRules
                 "InputCore",
                 "MovieScene",
                 "LevelSequence",
+                "NavigationSystem",
                 "JsonUtilities",
                 "Json",
                 "UMG",
