@@ -1,12 +1,17 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroEditor.h"
+#include "UnrealEdGlobals.h"
+#include "AssetToolsModule.h"
 #include "BlueprintEditorModule.h"
+#include "DataTypes/PrimitiveData.h"
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleRegistry.h"
 #include "Styling/SlateStyleMacros.h"
 
 #include "DetailsCustomization/PropertyMetadataDetails.h"
+#include "DetailsCustomization/PrimitiveCollisionDetails.h"
+#include "DetailsCustomization/InlineCurveDetails.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -19,6 +24,31 @@ void FToroEditorModule::StartupModule()
 		BlueprintEditorModule->RegisterVariableCustomization(FProperty::StaticClass(),
 			FOnGetVariableCustomizationInstance::CreateStatic(&FPropertyMetadataCustomization::MakeInstance));
 	}
+
+	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
+	{
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionCustomization)
+
+		// for (TObjectIterator<UScriptStruct> It; It; ++It)
+		// {
+		// 	const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+		// }
+	}
+
+	if (GUnrealEd)
+	{
+	}
+
+	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::LoadModulePtr<FAssetToolsModule>("AssetTools"))
+	{
+		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
+		{
+			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());
+		}
+	}
 }
 
 void FToroEditorModule::ShutdownModule()
@@ -29,6 +59,32 @@ void FToroEditorModule::ShutdownModule()
 	{
 		const FDelegateHandle Handle;
 		BlueprintEditorModule->UnregisterVariableCustomization(FProperty::StaticClass(), Handle);
+	}
+
+	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
+	{
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
+		
+		// for (TObjectIterator<UScriptStruct> It; It; ++It)
+		// {
+		// 	const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+		// }
+	}
+
+	
+	if (GUnrealEd)
+	{
+	}
+
+	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::GetModulePtr<FAssetToolsModule>("AssetTools"))
+	{
+		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
+		{
+			if (Action.IsValid()) AssetToolsModule->Get().UnregisterAssetTypeActions(Action.ToSharedRef());
+		}
 	}
 }
 

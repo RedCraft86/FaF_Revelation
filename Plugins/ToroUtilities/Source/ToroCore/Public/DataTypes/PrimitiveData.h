@@ -56,7 +56,7 @@ USTRUCT(BlueprintType, meta = (DisableSplitPin, HasNativeMake = "/Script/ToroCor
 struct TOROCORE_API FPrimitiveCollision
 {
 #if WITH_EDITOR
-    friend class FPrimitiveCollisionDetails;
+    friend class FPrimitiveCollisionCustomization;
 #endif
     
     GENERATED_BODY()
