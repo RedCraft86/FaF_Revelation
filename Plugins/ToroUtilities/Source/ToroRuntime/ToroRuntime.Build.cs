@@ -33,20 +33,9 @@ public class ToroRuntime : ModuleRules
                 "StructUtils",
                 "GeometryCore",
                 "ApplicationCore",
-                "NavigationSystem",
                 "DeveloperSettings",
                 "ProceduralMeshComponent",
                 "ToroCore",
-            }
-        );
-
-        PrivateDependencyModuleNames.AddRange(
-            new[]
-            {
-                "CoreUObject",
-                "Engine",
-                "Slate",
-                "SlateCore"
             }
         );
     }
