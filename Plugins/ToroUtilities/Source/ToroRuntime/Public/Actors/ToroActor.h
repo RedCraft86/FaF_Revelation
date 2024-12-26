@@ -21,6 +21,11 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<USceneComponent> SceneRoot;
 
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(VisibleDefaultsOnly, Category = "Subobjects")
+		TObjectPtr<UBillboardComponent> DefaultIconBillboard;
+#endif
+
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
 		FActorEnableChangedSignature OnEnableStateChangedBP;
 	
