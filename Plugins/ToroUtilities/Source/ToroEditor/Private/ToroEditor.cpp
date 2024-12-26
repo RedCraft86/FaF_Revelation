@@ -1,20 +1,35 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroEditor.h"
+#include "BlueprintEditorModule.h"
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleRegistry.h"
 #include "Styling/SlateStyleMacros.h"
+
+#include "DetailsCustomization/PropertyMetadataDetails.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
 void FToroEditorModule::StartupModule()
 {
 	FToroEditorStyle::Init();
+
+	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>("Kismet"))
+	{
+		BlueprintEditorModule->RegisterVariableCustomization(FProperty::StaticClass(),
+			FOnGetVariableCustomizationInstance::CreateStatic(&FPropertyMetadataCustomization::MakeInstance));
+	}
 }
 
 void FToroEditorModule::ShutdownModule()
 {
 	FToroEditorStyle::Shutdown();
+
+	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::GetModulePtr<FBlueprintEditorModule>("Kismet"))
+	{
+		const FDelegateHandle Handle;
+		BlueprintEditorModule->UnregisterVariableCustomization(FProperty::StaticClass(), Handle);
+	}
 }
 
 #define RootToContentDir StyleSet->RootToContentDir

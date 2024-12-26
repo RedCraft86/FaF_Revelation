@@ -36,7 +36,7 @@
 		{
 			"Name": "ToroEditor",
 			"Type": "EditorNoCommandlet",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "PostEngineInit"
 		},
 		{
 			"Name": "ToroLoader",
@@ -51,7 +51,7 @@
 		{
 			"Name": "ToroTools",
 			"Type": "EditorNoCommandlet",
-			"LoadingPhase": "PostDefault"
+			"LoadingPhase": "PostEngineInit"
 		}
 	]
 }
