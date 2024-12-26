@@ -14,7 +14,7 @@ enum class EGameInputMode : uint8
 };
 
 USTRUCT(BlueprintType)
-struct GTRUNTIME_API FGameInputModeData
+struct TORORUNTIME_API FGameInputModeData
 {
 	GENERATED_BODY()
 
