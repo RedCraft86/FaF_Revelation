@@ -15,14 +15,17 @@ AToroVolume::AToroVolume() : bEnabled(true), RuntimeGuid(FGuid::NewGuid())
 
 #if WITH_EDITORONLY_DATA
 	DefaultIconBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DefaultIconBillboard");
-	DefaultIconBillboard->SetSprite(LoadObject<UTexture2D>(nullptr, TEXT("/Engine/EditorResources/S_TriggerBox.S_TriggerBox")));
-	DefaultIconBillboard->SetWorldScale3D(FVector{0.5f});
-	DefaultIconBillboard->bIsScreenSizeScaled = true;
-	DefaultIconBillboard->bIsEditorOnly = true;
-	DefaultIconBillboard->SetVisibility(false);
-	DefaultIconBillboard->SetHiddenInGame(true);
-	DefaultIconBillboard->SetIsVisualizationComponent(true);
-	DefaultIconBillboard->SetupAttachment(GetRootComponent());
+	if (DefaultIconBillboard)
+	{
+		DefaultIconBillboard->SetSprite(LoadObject<UTexture2D>(nullptr, TEXT("/Engine/EditorResources/S_TriggerBox.S_TriggerBox")));
+		DefaultIconBillboard->SetWorldScale3D(FVector{0.5f});
+		DefaultIconBillboard->bIsScreenSizeScaled = true;
+		DefaultIconBillboard->bIsEditorOnly = true;
+		DefaultIconBillboard->SetVisibility(false);
+		DefaultIconBillboard->SetHiddenInGame(true);
+		DefaultIconBillboard->SetIsVisualizationComponent(true);
+		DefaultIconBillboard->SetupAttachment(GetRootComponent());
+	}
 #endif
 
 	SetCanBeDamaged(false);

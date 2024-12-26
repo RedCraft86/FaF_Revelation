@@ -16,14 +16,17 @@ AToroActor::AToroActor() : bEnabled(true), RuntimeGuid(FGuid::NewGuid())
 
 #if WITH_EDITORONLY_DATA
 	DefaultIconBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DefaultIconBillboard");
-	DefaultIconBillboard->SetSprite(LoadObject<UTexture2D>(nullptr, TEXT("/Engine/EditorResources/EmptyActor.EmptyActor")));
-	DefaultIconBillboard->SetWorldScale3D(FVector{0.5f});
-	DefaultIconBillboard->bIsScreenSizeScaled = true;
-	DefaultIconBillboard->bIsEditorOnly = true;
-	DefaultIconBillboard->SetVisibility(false);
-	DefaultIconBillboard->SetHiddenInGame(true);
-	DefaultIconBillboard->SetIsVisualizationComponent(true);
-	DefaultIconBillboard->SetupAttachment(SceneRoot);
+	if (DefaultIconBillboard)
+	{
+		DefaultIconBillboard->SetSprite(LoadObject<UTexture2D>(nullptr, TEXT("/Engine/EditorResources/EmptyActor.EmptyActor")));
+		DefaultIconBillboard->SetWorldScale3D(FVector{0.5f});
+		DefaultIconBillboard->bIsScreenSizeScaled = true;
+		DefaultIconBillboard->bIsEditorOnly = true;
+		DefaultIconBillboard->SetVisibility(false);
+		DefaultIconBillboard->SetHiddenInGame(true);
+		DefaultIconBillboard->SetIsVisualizationComponent(true);
+		DefaultIconBillboard->SetupAttachment(SceneRoot);
+	}
 #endif
 
 	SetCanBeDamaged(false);
