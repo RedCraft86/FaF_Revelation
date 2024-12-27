@@ -41,16 +41,17 @@ void FStaticMeshBaker::ExecuteAction()
 				for (const UStaticMeshComponent* Comp : MeshCompArray)
 				{
 					if (!Comp || Comp->IsEditorOnly() || !Comp->GetStaticMesh()) continue;
+					FStaticMeshProperties MeshProp = UPrimitiveDataLibrary::GetStaticMeshProperties(Comp);
+					if (!MeshProp.IsValidData()) return;
+
+					AStaticMeshActor* NewActor = nullptr;
 					if (const UInstancedStaticMeshComponent* InstComp = Cast<UInstancedStaticMeshComponent>(Comp))
 					{
 						for (int i = 0; i < InstComp->GetNumInstances(); i++)
 						{
 							if (FTransform T; InstComp->GetInstanceTransform(i, T, true))
 							{
-								// TODO: Apply mesh info (temp code below)
-								UStaticMesh* Mesh = InstComp->GetStaticMesh();
-
-								AStaticMeshActor* NewActor = SpawnActor(Subsystem, Mesh, T, FString::Printf(TEXT("%s_Inst_%d"), *Mesh->GetName(), i + 1),
+								NewActor = SpawnActor(Subsystem, MeshProp, T, FString::Printf(TEXT("%s_Inst_%d"), *MeshProp.Mesh->GetName(), i + 1),
 								(Actor->GetFolderPath().IsNone() ? TEXT("Baked") : Actor->GetFolderPath()).ToString() / Actor->GetActorLabel());
 							}
 						}
@@ -58,15 +59,12 @@ void FStaticMeshBaker::ExecuteAction()
 					else
 					{
 						const FTransform Transform = Comp->GetComponentTransform();
-
-						// TODO: Apply mesh info (temp code below)
-						UStaticMesh* Mesh = Comp->GetStaticMesh();
-						
-						AStaticMeshActor* NewActor = SpawnActor(Subsystem, Mesh, Transform, FString::Printf(TEXT("%s_%d"), *Mesh->GetName(), Idx + 1),
+						NewActor = SpawnActor(Subsystem, MeshProp, Transform, FString::Printf(TEXT("%s_%d"), *MeshProp.Mesh->GetName(), Idx + 1),
 							(Actor->GetFolderPath().IsNone() ? TEXT("Baked") : Actor->GetFolderPath()).ToString() / Actor->GetActorLabel());
 					}
 
 					Idx++;
+					if (NewActor) Subsystem->SetActorSelectionState(NewActor, true);
 				}
 
 				Subsystem->SetActorSelectionState(Actor, false);
@@ -84,17 +82,14 @@ void FStaticMeshBaker::ExecuteAction()
 	}
 }
 
-AStaticMeshActor* FStaticMeshBaker::SpawnActor(UEditorActorSubsystem* Subsystem, UStaticMesh* Mesh, const FTransform& Transform, const FString& Label,const FString& Folder)
+AStaticMeshActor* FStaticMeshBaker::SpawnActor(UEditorActorSubsystem* Subsystem, const FStaticMeshProperties& MeshProperties, const FTransform& Transform, const FString& Label,const FString& Folder)
 {
-	if (!Subsystem || !Mesh) return nullptr;
+	if (!Subsystem || !MeshProperties.IsValidData()) return nullptr;
 	if (AStaticMeshActor* NewActor = Cast<AStaticMeshActor>(Subsystem->SpawnActorFromClass(AStaticMeshActor::StaticClass(),
 		Transform.GetTranslation(), Transform.GetRotation().Rotator())))
 	{
 		NewActor->SetActorScale3D(Transform.GetScale3D());
-
-		// TODO: Apply mesh info (temp code below)
-		NewActor->GetStaticMeshComponent()->SetStaticMesh(Mesh);
-
+		UPrimitiveDataLibrary::SetStaticMeshProperties(NewActor->GetStaticMeshComponent(), MeshProperties);
 		Subsystem->SetActorSelectionState(NewActor, true);
 		if (!Folder.IsEmpty()) NewActor->SetFolderPath(*Folder);
 		if (!Label.IsEmpty()) NewActor->SetActorLabel(Label);

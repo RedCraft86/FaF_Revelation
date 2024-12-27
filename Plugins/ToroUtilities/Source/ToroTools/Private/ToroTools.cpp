@@ -26,7 +26,7 @@ void FToroToolsModule::StartupModule()
 	REGISTER_TOOL(FRestartEditor)
 	REGISTER_TOOL(FStaticMeshBaker)
 	REGISTER_TOOL(FStaticMeshMerger)
-	// REGISTER_TOOL(FStaticMeshInstancer)
+	REGISTER_TOOL(FStaticMeshInstancer)
 	// REGISTER_TOOL(FChannelPacker)
 
 	IMainFrameModule& MainFrame = FModuleManager::Get().LoadModuleChecked<IMainFrameModule>("MainFrame");
@@ -51,7 +51,7 @@ void FToroToolsModule::RegisterMenus()
 		REGISTER_TOOL_MENUS(FRestartEditor)
 		REGISTER_TOOL_MENUS(FStaticMeshBaker)
 		REGISTER_TOOL_MENUS(FStaticMeshMerger)
-		// REGISTER_TOOL_MENUS(FStaticMeshInstancer)
+		REGISTER_TOOL_MENUS(FStaticMeshInstancer)
 		// REGISTER_TOOL_MENUS(FChannelPacker)
 	}
 }

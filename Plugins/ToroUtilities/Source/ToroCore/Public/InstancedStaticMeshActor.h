@@ -9,8 +9,8 @@
 
 class UInstancedStaticMeshComponent;
 
-UCLASS(MinimalAPI, ConversionRoot, ComponentWrapperClass, HideCategories = (Input), ShowCategories = ("Input|MouseInput", "Input|TouchInput"), meta = (ChildCanTick))
-class AInstancedStaticMeshActor : public AActor
+UCLASS(ConversionRoot, ComponentWrapperClass, HideCategories = (Input), ShowCategories = ("Input|MouseInput", "Input|TouchInput"), meta = (ChildCanTick))
+class TOROCORE_API AInstancedStaticMeshActor : public AActor
 {
 	GENERATED_BODY()
 
@@ -33,31 +33,31 @@ public:
 
 	/** Function to change mobility type */
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Mobility)
-		TOROCORE_API void SetMobility(const EComponentMobility::Type InMobility) const;
+		void SetMobility(const EComponentMobility::Type InMobility) const;
 
 	/** Returns StaticMeshComponent subobject **/
 	UInstancedStaticMeshComponent* GetStaticMeshComponent() const { return StaticMeshComponent; }
 
 #if WITH_EDITOR
-	TOROCORE_API virtual void PostLoad() override;	
-	TOROCORE_API virtual void CheckForErrors() override;
-	TOROCORE_API virtual bool GetReferencedContentObjects( TArray<UObject*>& Objects ) const override;
+	virtual void PostLoad() override;	
+	virtual void CheckForErrors() override;
+	virtual bool GetReferencedContentObjects( TArray<UObject*>& Objects ) const override;
 #endif
-	TOROCORE_API virtual void Serialize(FArchive& Ar) override;
+	virtual void Serialize(FArchive& Ar) override;
 	virtual ENavDataGatheringMode GetGeometryGatheringMode() const { return ENavDataGatheringMode::Default; }
 
 	/** Name of the StaticMeshComponent.  Use this name if you want to use a different class (with ObjectInitializer.SetDefaultSubobjectClass). */
-	static TOROCORE_API FName StaticMeshComponentName;
+	static FName StaticMeshComponentName;
 
 protected:
 	
 #if WITH_EDITOR
-	TOROCORE_API virtual void LoadedFromAnotherClass(const FName& OldClassName) override;
-	TOROCORE_API virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
-	TOROCORE_API virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void LoadedFromAnotherClass(const FName& OldClassName) override;
+	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
+	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
-	TOROCORE_API virtual FString GetDetailedInfoInternal() const override;
-	TOROCORE_API virtual void BeginPlay() override;
+	virtual FString GetDetailedInfoInternal() const override;
+	virtual void BeginPlay() override;
 	
 private:
 	
@@ -66,7 +66,7 @@ private:
 };
 
 UCLASS()
-class AHierarchicalInstancedStaticMeshActor : public AInstancedStaticMeshActor
+class TOROCORE_API AHierarchicalInstancedStaticMeshActor : public AInstancedStaticMeshActor
 {
 	GENERATED_BODY()
 

@@ -25,7 +25,8 @@ public class ToroTools : ModuleRules
                 "Blutility",
                 "UMGEditor",
                 "EngineSettings",
-                "EditorScriptingUtilities",
+                "EditorScriptingUtilities", 
+                "ToroCore"
             }
         );
     }

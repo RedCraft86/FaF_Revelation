@@ -4,6 +4,7 @@
 
 #include "ToroToolCommands.h"
 #include "Framework/Commands/Commands.h"
+#include "DataTypes/PrimitiveData.h"
 
 class FStaticMeshBaker
 {
@@ -23,5 +24,5 @@ public:
 private:
 
 	static void ExecuteAction();
-	static AStaticMeshActor* SpawnActor(class UEditorActorSubsystem* Subsystem, UStaticMesh* Mesh, const FTransform& Transform, const FString& Label, const FString& Folder);
+	static AStaticMeshActor* SpawnActor(class UEditorActorSubsystem* Subsystem, const FStaticMeshProperties& MeshProperties, const FTransform& Transform, const FString& Label, const FString& Folder);
 };
