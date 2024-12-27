@@ -9,7 +9,7 @@
 
 class UInstancedStaticMeshComponent;
 
-UCLASS(ConversionRoot, ComponentWrapperClass, HideCategories = (Input), ShowCategories = ("Input|MouseInput", "Input|TouchInput"), meta = (ChildCanTick))
+UCLASS(ConversionRoot, ComponentWrapperClass, HideCategories = (Input, Physics), ShowCategories = ("Input|MouseInput", "Input|TouchInput"), meta = (ChildCanTick))
 class TOROCORE_API AInstancedStaticMeshActor : public AActor
 {
 	GENERATED_BODY()
