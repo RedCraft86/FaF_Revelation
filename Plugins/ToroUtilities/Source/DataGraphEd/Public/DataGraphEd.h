@@ -4,7 +4,7 @@
 
 #include "Modules/ModuleManager.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(DataGraphEditor, All, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogDataGraphEditor, All, All);
 
 class FDataGraphEdModule final : public IModuleInterface
 {

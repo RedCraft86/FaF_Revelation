@@ -8,7 +8,7 @@
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleMacros.h"
 
-DEFINE_LOG_CATEGORY(DataGraphEditor);
+DEFINE_LOG_CATEGORY(LogDataGraphEditor);
 
 #define LOCTEXT_NAMESPACE "DataGraphEditor"
 

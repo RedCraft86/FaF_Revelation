@@ -397,7 +397,7 @@ void FDataGraphAssetEditor::RebuildDataGraph() const
 {
 	if (EditingGraph == nullptr)
 	{
-		UE_LOG(DataGraphEditor, Warning, TEXT("FDataGraphAssetEditor::RebuildDataGraph EditingGraph is nullptr"));
+		UE_LOG(LogDataGraphEditor, Warning, TEXT("FDataGraphAssetEditor::RebuildDataGraph EditingGraph is nullptr"));
 		return;
 	}
 
@@ -681,7 +681,7 @@ void FDataGraphAssetEditor::AutoArrange() const
 	}
 	else
 	{
-		UE_LOG(DataGraphEditor, Error, TEXT("FDataGraphAssetEditor::AutoArrange LayoutStrategy is null."));
+		UE_LOG(LogDataGraphEditor, Error, TEXT("FDataGraphAssetEditor::AutoArrange LayoutStrategy is null."));
 	}
 }
 

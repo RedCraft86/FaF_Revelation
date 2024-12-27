@@ -49,7 +49,7 @@ void UDataGraphEdGraph::RebuildDataGraph()
 					}
 					else
 					{
-						UE_LOG(DataGraphEditor, Error, TEXT("UDataGraphEdGraph::RebuildDataGraph can't find child node"));
+						UE_LOG(LogDataGraphEditor, Error, TEXT("UDataGraphEdGraph::RebuildDataGraph can't find child node"));
 					}
 				}
 			}
@@ -62,7 +62,7 @@ void UDataGraphEdGraph::RebuildDataGraph()
 
 			if (StartNode == nullptr || EndNode == nullptr || Edge == nullptr)
 			{
-				UE_LOG(DataGraphEditor, Error, TEXT("UDataGraphEdGraph::RebuildDataGraph add edge failed."));
+				UE_LOG(LogDataGraphEditor, Error, TEXT("UDataGraphEdGraph::RebuildDataGraph add edge failed."));
 				continue;
 			}
 
