@@ -1,6 +1,10 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Debugging/DebugShapeComponent.h"
+#if WITH_EDITOR
+#include "NavigationSystem.h"
+#include "NavigationPath.h"
+#endif
 
 UDebugShapeComponent::UDebugShapeComponent()
 {
@@ -13,7 +17,7 @@ UDebugShapeComponent::UDebugShapeComponent()
 
 FVector UDebugShapeComponent::TransformLocation(const FVector& LocalLocation) const
 {
-	return GetOwner()->GetActorTransform().TransformPosition(LocalLocation);
+	return GetOwner()->GetActorTransform().TransformPositionNoScale(LocalLocation);
 }
 
 FRotator UDebugShapeComponent::TransformRotation(const FRotator& LocalRotation) const
@@ -44,3 +48,22 @@ void UDebugShapeComponent::BeginPlay()
 		DestroyComponent();
 	});
 }
+
+#if WITH_EDITOR
+void UDebugShapeComponent::UpdateNavPoints()
+{
+	NavPathPoints.Empty();
+	
+	const int32 NumPoints = DebugNavPath.Targets.Num();
+	if (NumPoints < 2) return;
+
+	for (int i = 0; i < NumPoints - 1; i++)
+	{
+		if (const UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this,
+			TransformLocation(DebugNavPath.Targets[i]), TransformLocation(DebugNavPath.Targets[i + 1])))
+		{
+			NavPathPoints.Append(NavPath->PathPoints);
+		}
+	}
+}
+#endif

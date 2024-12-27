@@ -290,6 +290,39 @@ struct FDebugCapsuleData
 };
 
 USTRUCT(BlueprintType)
+struct FDebugNavPathData
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+        TArray<FVector> Targets;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+        float LineThickness;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+        float PointSize;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+        FLinearColor LineColor;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+        FLinearColor PointColor;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+        bool bRenderOnTopOfEverything;
+
+    FDebugNavPathData()
+        : Targets({})
+        , LineThickness(4.0f)
+        , PointSize(16.0f)
+        , LineColor(FColor::Yellow)
+        , PointColor(FColor::Green)
+        , bRenderOnTopOfEverything(true)
+    {}
+};
+
+USTRUCT(BlueprintType)
 struct FDebugStringData
 {
     GENERATED_BODY()
@@ -351,9 +384,14 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
         TMap<FName, FDebugCapsuleData> DebugCapsules;
-
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+        FDebugNavPathData DebugNavPath;
+    
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
         TMap<FName, FDebugStringData> DebugStrings;
+
+    UPROPERTY(Transient) TArray<FVector> NavPathPoints;
 #endif
     
     TOROCORE_API FVector TransformLocation(const FVector& LocalLocation) const;
@@ -361,8 +399,26 @@ public:
     TOROCORE_API FVector AsForwardVector(const FRotator& LocalRotation) const;
     TOROCORE_API FVector AsRightVector(const FRotator& LocalRotation) const;
     TOROCORE_API FVector AsUpVector(const FRotator& LocalRotation) const;
-    
-protected:
+
+#if WITH_EDITOR
+    TOROCORE_API void UpdateNavPoints();
+#endif
+private:
 
 	virtual void BeginPlay() override;
+#if WITH_EDITOR
+    virtual void PostInitProperties() override
+    {
+        Super::PostInitProperties();
+        UpdateNavPoints();
+    }
+    virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
+    {
+        Super::PostEditChangeProperty(PropertyChangedEvent);
+        if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, DebugNavPath))
+        {
+            UpdateNavPoints();
+        }
+    }
+#endif
 };

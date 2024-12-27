@@ -88,6 +88,24 @@ private:
 					Capsule.Value.Color, Capsule.Value.Radius, Capsule.Value.HalfHeight, Capsule.Value.NumOfSides,
 					Capsule.Value.bRenderOnTopOfEverything ? SDPG_Foreground : SDPG_World, Capsule.Value.Thickness);
 			}
+
+			const int32 NumNavPoints = VizComponent->NavPathPoints.Num();
+			for (int i = 0; i < NumNavPoints; i++)
+			{
+				PDI->DrawPoint(VizComponent->NavPathPoints[i], VizComponent->DebugNavPath.PointColor,
+					VizComponent->DebugNavPath.PointSize, VizComponent->DebugNavPath.bRenderOnTopOfEverything ? SDPG_Foreground : SDPG_World);
+
+				if (i < NumNavPoints - 1)
+				{
+					const FVector This = VizComponent->NavPathPoints[i], Next = VizComponent->NavPathPoints[i + 1];
+					if (!This.Equals(Next))
+					{
+						PDI->DrawLine( This, Next, VizComponent->DebugNavPath.LineColor,
+					   VizComponent->DebugNavPath.bRenderOnTopOfEverything ? SDPG_Foreground : SDPG_World,
+					   VizComponent->DebugNavPath.LineThickness);
+					}
+				}
+			}
 		}
 	}
 
