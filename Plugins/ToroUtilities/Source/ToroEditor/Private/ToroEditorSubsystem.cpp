@@ -5,12 +5,10 @@
 
 void UToroEditorSubsystem::RunCommand(const FString& Command) const
 {
-	if (UWorld* World = GEngine->GetWorldFromContextObject(this, EGetWorldErrorMode::ReturnNull))
+	UWorld* World = GEngine->GetWorldFromContextObject(this, EGetWorldErrorMode::ReturnNull);
+	if (!IConsoleManager::Get().ProcessUserConsoleInput(*Command, *GLog, World))
 	{
-		if (!IConsoleManager::Get().ProcessUserConsoleInput(*Command, *GLog, World))
-		{
-			GEngine->Exec(World, *Command);
-		}
+		GEngine->Exec(World, *Command);
 	}
 }
 
