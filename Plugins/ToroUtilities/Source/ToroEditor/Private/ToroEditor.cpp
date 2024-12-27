@@ -11,7 +11,7 @@
 
 #include "ToroActor.h"
 #include "ToroVolume.h"
-#include "Debugging/NavPathVisualizer.h"
+#include "Actors/NavPathVisualizer.h"
 #include "DetailsCustomization/ToroActorDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"

@@ -1,11 +1,11 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Tools/StaticMeshInstancer.h"
-#include "InstancedStaticMeshActor.h"
-#include "DataTypes/PrimitiveData.h"
-#include "Engine/StaticMeshActor.h"
 #include "Subsystems/EditorActorSubsystem.h"
+#include "Engine/StaticMeshActor.h"
 #include "EditorDialogLibrary.h"
+#include "DataTypes/PrimitiveData.h"
+#include "Actors/InstancedStaticMeshActor.h"
 
 void FStaticMeshInstancer::ExecuteAction()
 {

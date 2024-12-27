@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "InstancedStaticMeshActor.h"
+#include "Actors/InstancedStaticMeshActor.h"
 #include "Components/InstancedStaticMeshComponent.h"
 
 #if WITH_EDITOR

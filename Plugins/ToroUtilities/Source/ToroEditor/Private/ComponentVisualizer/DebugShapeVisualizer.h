@@ -3,7 +3,7 @@
 #pragma once
 
 #include "ComponentVisualizer.h"
-#include "Debugging/DebugShapeComponent.h"
+#include "Components/DebugShapeComponent.h"
 #include "ComponentVisualizer/VisualizerHelpers.h"
 
 class FDebugShapeVisualizer final : public FComponentVisualizer

@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Debugging/NavPathVisualizer.h"
+#include "Actors/NavPathVisualizer.h"
 #include "Components/BillboardComponent.h"
 
 ANavPathVisualizer::ANavPathVisualizer() : bRefresh(false), PathPoints({FVector{0.0f}})

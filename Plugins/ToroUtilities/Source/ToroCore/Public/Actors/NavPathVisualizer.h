@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "DebugShapeComponent.h"
+#include "Components/DebugShapeComponent.h"
 #include "NavPathVisualizer.generated.h"
 
 UCLASS(NotBlueprintable, NotBlueprintType, meta = (HiddenCategories = "Actor,Collision"))
