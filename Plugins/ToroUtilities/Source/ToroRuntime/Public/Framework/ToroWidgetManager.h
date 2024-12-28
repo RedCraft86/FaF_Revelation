@@ -3,9 +3,9 @@
 #pragma once
 
 #include "ExecPinEnums.h"
+#include "ToroUserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerState.h"
-#include "UserWidgets/ToroUserWidget.h"
 #include "ToroWidgetManager.generated.h"
 
 /* Player State is repurposed as a Widget Manager */
