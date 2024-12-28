@@ -11,6 +11,8 @@
 
 #include "ToroActor.h"
 #include "ToroVolume.h"
+#include "ToroMeshGenBase.h"
+#include "ZoneCullingVolume.h"
 #include "Actors/NavPathVisualizer.h"
 #include "DetailsCustomization/ToroActorDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
@@ -35,6 +37,8 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorDetails)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
@@ -76,6 +80,8 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
+		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)

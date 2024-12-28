@@ -40,18 +40,6 @@ struct TOROCORE_API FStaticMeshProperties
     void ToStaticMeshComponent(UStaticMeshComponent* InComponent) const;
 };
 
-USTRUCT(BlueprintType)
-struct TOROCORE_API FMovableMeshProperties : public FStaticMeshProperties
-{
-    GENERATED_BODY()
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 1))
-        FTransform Transform;
-
-    FMovableMeshProperties() : Transform(FTransform::Identity) {}
-    FStaticMeshProperties operator*() const { return {Mesh, Materials, bCastShadows}; }
-};
-
 USTRUCT(BlueprintType, meta = (DisableSplitPin, HasNativeMake = "/Script/ToroCore.PrimitiveDataLibrary.Make_PrimitiveCollision", HasNativeBreak = "/Script/ToroCore.PrimitiveDataLibrary.Break_PrimitiveCollision"))
 struct TOROCORE_API FPrimitiveCollision
 {

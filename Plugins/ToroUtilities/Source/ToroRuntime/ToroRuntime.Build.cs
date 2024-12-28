@@ -16,6 +16,7 @@ public class ToroRuntime : ModuleRules
                 Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/Components"),
                 Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/DataTypes"),
                 Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/Framework"),
+                Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/Procedural"),
                 Path.Combine(PluginDirectory, "Source/ToroRuntime/Public/UserWidgets"),
             }
         );
@@ -42,5 +43,16 @@ public class ToroRuntime : ModuleRules
                 "ExpressiveText",
             }
         );
+
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.AddRange(
+                new[]
+                {
+                    "UnrealEd",
+                    "EditorScriptingUtilities"
+                }
+            );
+        }
     }
 }
