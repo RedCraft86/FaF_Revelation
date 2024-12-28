@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroWidgetManager.h"
-#include "Blueprint/UserWidget.h"
 
 EToroValidPins AToroWidgetManager::GetToroWidgetManager(AToroWidgetManager*& OutObject,
 	const UObject* WorldContextObject, const TSubclassOf<AToroWidgetManager>& Class, const int32 PlayerIndex)
@@ -11,22 +10,22 @@ EToroValidPins AToroWidgetManager::GetToroWidgetManager(AToroWidgetManager*& Out
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-UUserWidget* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UUserWidget>& Class)
+UToroUserWidget* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroUserWidget>& Class)
 {
 	if (!Class) return nullptr;
-	UUserWidget* Widget = FindWidget(Class);
+	UToroUserWidget* Widget = FindWidget(Class);
 	if (!Widget)
 	{
-		Widget = CreateWidget<UUserWidget>(GetPlayerController(), Class);
+		Widget = UToroUserWidget::CreateSmartWidget(GetPlayerController(), Class);
 		WidgetObjs.Add(Class, Widget);
 	}
 	return Widget;
 }
 
-UUserWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UUserWidget>& Class)
+UToroUserWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UToroUserWidget>& Class)
 {
 	if (!Class) return nullptr;
-	if (const TObjectPtr<UUserWidget>* Widget = WidgetObjs.Find(Class); Widget && *Widget)
+	if (const TObjectPtr<UToroUserWidget>* Widget = WidgetObjs.Find(Class); Widget && *Widget)
 	{
 		return *Widget;
 	}
@@ -37,9 +36,10 @@ UUserWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UUserWidget>& Clas
 void AToroWidgetManager::BeginPlay()
 {
 	Super::BeginPlay();
-	for (const TSubclassOf<UUserWidget>& Class : DefaultWidgets)
+	APlayerController* PlayerController = GetPlayerController();
+	for (const TSubclassOf<UToroUserWidget>& Class : DefaultWidgets)
 	{
-		UUserWidget* Widget = CreateWidget<UUserWidget>(GetPlayerController(), Class);
+		UToroUserWidget* Widget = UToroUserWidget::CreateSmartWidget(PlayerController, Class);
 		WidgetObjs.Add(Class, Widget);
 	}
 }

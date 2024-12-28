@@ -5,6 +5,7 @@
 #include "ExecPinEnums.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerState.h"
+#include "UserWidgets/ToroUserWidget.h"
 #include "ToroWidgetManager.generated.h"
 
 /* Player State is repurposed as a Widget Manager */
@@ -19,7 +20,7 @@ public:
 	AToroWidgetManager() {}
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
-		TSet<TSubclassOf<UUserWidget>> DefaultWidgets;
+		TSet<TSubclassOf<UToroUserWidget>> DefaultWidgets;
 
 	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Widget Manager"))
 		static EToroValidPins GetToroWidgetManager(AToroWidgetManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroWidgetManager>& Class, const int32 PlayerIndex = 0);
@@ -31,18 +32,18 @@ public:
 	}
 	
 	UFUNCTION(BlueprintCallable, Category = "WidgetManager", meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
-		UUserWidget* FindOrAddWidget(const TSubclassOf<UUserWidget>& Class);
+		UToroUserWidget* FindOrAddWidget(const TSubclassOf<UToroUserWidget>& Class);
 	
 	UFUNCTION(BlueprintPure, Category = "WidgetManager", meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
-		UUserWidget* FindWidget(const TSubclassOf<UUserWidget>& Class);
+		UToroUserWidget* FindWidget(const TSubclassOf<UToroUserWidget>& Class);
 
-	template<typename T = UUserWidget>
+	template<typename T = UToroUserWidget>
 	T* GetWidget() { return Cast<T>(FindWidget(T::StaticClass())); }
 	
 protected:
 	
 	UPROPERTY(Transient)
-		TMap<TSubclassOf<UUserWidget>, TObjectPtr<UUserWidget>> WidgetObjs;
+		TMap<TSubclassOf<UToroUserWidget>, TObjectPtr<UToroUserWidget>> WidgetObjs;
 
 	virtual void BeginPlay() override;
 };
