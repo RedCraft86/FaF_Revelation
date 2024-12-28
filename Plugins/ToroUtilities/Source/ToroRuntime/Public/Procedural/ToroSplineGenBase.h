@@ -13,7 +13,7 @@ class TORORUNTIME_API AToroSplineGenBase : public AToroMeshGenBase
 
 public:
 	
-	AToroSplineGenBase() : SplineType(ESplinePointType::Curve), bClosedLoop(false)
+	AToroSplineGenBase() : bClosedLoop(false), SplineType(ESplinePointType::Curve)
 	{
 		SplineComponent = CreateDefaultSubobject<USplineComponent>("SplineComponent");
 		SplineComponent->AddSplinePoint(FVector(50.0f, 50.0f, 0.0f), ESplineCoordinateSpace::Local);
