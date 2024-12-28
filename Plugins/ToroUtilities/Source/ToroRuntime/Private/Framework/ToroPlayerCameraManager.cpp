@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroPlayerCameraManager.h"
-#include "Kismet/GameplayStatics.h"
 
 AToroPlayerCameraManager::AToroPlayerCameraManager()
 {
@@ -10,17 +9,11 @@ AToroPlayerCameraManager::AToroPlayerCameraManager()
 }
 
 EToroValidPins AToroPlayerCameraManager::GetToroPlayerCameraManager(AToroPlayerCameraManager*& OutObject,
-	const UObject* WorldContextObject, const int32 PlayerIndex, const TSubclassOf<AToroPlayerCameraManager>& Class)
+	const UObject* WorldContextObject, const TSubclassOf<AToroPlayerCameraManager>& Class, const int32 PlayerIndex)
 {
 	AToroPlayerCameraManager* Obj = Cast<AToroPlayerCameraManager>(UGameplayStatics::GetPlayerCameraManager(WorldContextObject, PlayerIndex));
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
-}
-
-template <typename T>
-T* AToroPlayerCameraManager::Get(const UObject* WorldContextObject, const int32 PlayerIndex)
-{
-	return Cast<T>(UGameplayStatics::GetPlayerCameraManager(WorldContextObject, PlayerIndex));
 }
 
 void AToroPlayerCameraManager::BeginPlay()

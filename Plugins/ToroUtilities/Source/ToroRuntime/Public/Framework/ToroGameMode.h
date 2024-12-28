@@ -4,6 +4,7 @@
 
 #include "ExecPinEnums.h"
 #include "ToroGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameModeBase.h"
 #include "ToroGameMode.generated.h"
 
@@ -20,10 +21,13 @@ public:
 		TObjectPtr<USceneComponent> SceneRoot;
 
 	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Game Mode"))
-		static EToroValidPins GetToroGameMode(AToroGameMode*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroGameMode>& Class = nullptr);
+		static EToroValidPins GetToroGameMode(AToroGameMode*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroGameMode>& Class);
 
 	template <typename T = AToroGameMode>
-	static T* Get(const UObject* WorldContextObject);
+	static T* Get(const UObject* WorldContextObject)
+	{
+		return Cast<T>(UGameplayStatics::GetGameMode(WorldContextObject));
+	}
 
 protected:
 

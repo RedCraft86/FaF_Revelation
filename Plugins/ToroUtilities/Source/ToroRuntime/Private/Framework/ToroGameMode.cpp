@@ -5,7 +5,6 @@
 #include "ToroWidgetManager.h"
 #include "ToroPlayerCharacter.h"
 #include "ToroPlayerController.h"
-#include "Kismet/GameplayStatics.h"
 
 AToroGameMode::AToroGameMode()
 {
@@ -26,16 +25,10 @@ EToroValidPins AToroGameMode::GetToroGameMode(AToroGameMode*& OutObject,
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-template <typename T>
-T* AToroGameMode::Get(const UObject* WorldContextObject)
-{
-	return Cast<T>(UGameplayStatics::GetGameMode(WorldContextObject));
-}
-
 void AToroGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	GameInstance = UToroGameInstance::Get(this);
+	GameInstance = UToroGameInstance::Get<UToroGameInstance>(this);
 	if (GameInstance) GameInstance->OnWorldBeginPlay(GetWorld());
 }
 

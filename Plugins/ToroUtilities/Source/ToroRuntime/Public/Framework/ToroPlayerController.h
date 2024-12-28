@@ -4,6 +4,7 @@
 
 #include "ExecPinEnums.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
 
@@ -101,13 +102,16 @@ public:
 		TObjectPtr<USceneComponent> SceneRoot;
 
 	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Controller"))
-		static EToroValidPins GetToroPlayerController(AToroPlayerController*& OutObject, const UObject* WorldContextObject, const int32 PlayerIndex = 0, const TSubclassOf<AToroPlayerController>& Class = nullptr);
+		static EToroValidPins GetToroPlayerController(AToroPlayerController*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerController>& Class, const int32 PlayerIndex = 0);
 
 	template <typename T = AToroPlayerController>
-	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0);
+	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0)
+	{
+		return Cast<T>(UGameplayStatics::GetPlayerController(WorldContextObject, PlayerIndex));
+	}
 
 	UFUNCTION(BlueprintCallable, Category = "Input", meta = (AdvancedDisplay = "MouseLock, bHideCursorOnCapture, FocusWidget, PlayerIndex"))
-		void SetGameInputMode(const EGameInputMode InputMode, const bool bShowMouseCursor = false, const EMouseLockMode MouseLock = EMouseLockMode::LockAlways, const bool bHideCursorOnCapture = true, UUserWidget* FocusWidget = nullptr);
+		void SetGameInputMode(const EGameInputMode InputMode, const bool bMouseCursor = false, const EMouseLockMode MouseLock = EMouseLockMode::LockAlways, const bool bHideCursorOnCapture = true, UUserWidget* FocusWidget = nullptr);
 	
 	UFUNCTION(BlueprintCallable, Category = "Input")
 		void SetInputModeData(const FGameInputModeData& InputMode);

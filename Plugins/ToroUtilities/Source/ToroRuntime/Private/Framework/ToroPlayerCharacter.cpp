@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroPlayerCharacter.h"
-#include "Kismet/GameplayStatics.h"
 
 AToroPlayerCharacter::AToroPlayerCharacter()
 {
@@ -9,17 +8,11 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 }
 
 EToroValidPins AToroPlayerCharacter::GetToroPlayerCharacter(AToroPlayerCharacter*& OutObject,
-	const UObject* WorldContextObject, const int32 PlayerIndex, const TSubclassOf<AToroPlayerCharacter>& Class)
+	const UObject* WorldContextObject, const TSubclassOf<AToroPlayerCharacter>& Class, const int32 PlayerIndex)
 {
 	AToroPlayerCharacter* Obj = Cast<AToroPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
-}
-
-template <typename T>
-T* AToroPlayerCharacter::Get(const UObject* WorldContextObject, const int32 PlayerIndex)
-{
-	return Cast<T>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));
 }
 
 void AToroPlayerCharacter::BeginPlay()

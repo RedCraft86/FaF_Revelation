@@ -2,7 +2,6 @@
 
 #include "ToroPlayerController.h"
 #include "ToroPlayerCameraManager.h"
-#include "Kismet/GameplayStatics.h"
 
 AToroPlayerController::AToroPlayerController()
 {
@@ -13,23 +12,17 @@ AToroPlayerController::AToroPlayerController()
 }
 
 EToroValidPins AToroPlayerController::GetToroPlayerController(AToroPlayerController*& OutObject,
-	const UObject* WorldContextObject, const int32 PlayerIndex, const TSubclassOf<AToroPlayerController>& Class)
+	const UObject* WorldContextObject, const TSubclassOf<AToroPlayerController>& Class, const int32 PlayerIndex)
 {
 	AToroPlayerController* Obj = Cast<AToroPlayerController>(UGameplayStatics::GetPlayerController(WorldContextObject, PlayerIndex));
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-template <typename T>
-T* AToroPlayerController::Get(const UObject* WorldContextObject, const int32 PlayerIndex)
-{
-	return Cast<T>(UGameplayStatics::GetPlayerController(WorldContextObject, PlayerIndex));
-}
-
-void AToroPlayerController::SetGameInputMode(const EGameInputMode InputMode, const bool bShowMouseCursor,
+void AToroPlayerController::SetGameInputMode(const EGameInputMode InputMode, const bool bMouseCursor,
 	const EMouseLockMode MouseLock, const bool bHideCursorOnCapture, UUserWidget* FocusWidget)
 {
-	SetInputModeData({InputMode, bShowMouseCursor, MouseLock, bHideCursorOnCapture, FocusWidget});
+	SetInputModeData({InputMode, bMouseCursor, MouseLock, bHideCursorOnCapture, FocusWidget});
 }
 
 void AToroPlayerController::SetInputModeData(const FGameInputModeData& InputMode)

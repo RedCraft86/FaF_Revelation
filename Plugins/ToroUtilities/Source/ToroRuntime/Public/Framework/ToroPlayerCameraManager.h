@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ExecPinEnums.h"
+#include "Kismet/GameplayStatics.h"
 #include "Camera/PlayerCameraManager.h"
 #include "ToroPlayerCameraManager.generated.h"
 
@@ -16,10 +17,13 @@ public:
 	AToroPlayerCameraManager();
 
 	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Camera Manager"))
-		static EToroValidPins GetToroPlayerCameraManager(AToroPlayerCameraManager*& OutObject, const UObject* WorldContextObject, const int32 PlayerIndex = 0, const TSubclassOf<AToroPlayerCameraManager>& Class = nullptr);
+		static EToroValidPins GetToroPlayerCameraManager(AToroPlayerCameraManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerCameraManager>& Class, const int32 PlayerIndex = 0);
 
 	template <typename T = AToroPlayerCameraManager>
-	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0);
+	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0)
+	{
+		return Cast<T>(UGameplayStatics::GetPlayerCameraManager(WorldContextObject, PlayerIndex));
+	}
 
 protected:
 	

@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroGameInstance.h"
-#include "Kismet/GameplayStatics.h"
 #if !UE_BUILD_SHIPPING
 #include "GeneralProjectSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
@@ -19,7 +18,7 @@ EToroValidPins UToroGameInstance::GetToroGameInstance(UToroGameInstance*& OutObj
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-void UToroGameInstance::OnWorldBeginPlay_Implementation(UWorld* InWorld)
+void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
 	if (UGameViewportClient* Viewport = InWorld ? InWorld->GetGameViewport() : nullptr)
 	{
@@ -51,10 +50,4 @@ void UToroGameInstance::Init()
 		}
 	}
 #endif
-}
-
-template <typename T>
-T* UToroGameInstance::Get(const UObject* WorldContextObject)
-{
-	return Cast<T>(UGameplayStatics::GetGameInstance(WorldContextObject));
 }

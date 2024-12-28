@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ExecPinEnums.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/Character.h"
 #include "ToroPlayerCharacter.generated.h"
 
@@ -16,10 +17,13 @@ public:
 	AToroPlayerCharacter();
 
 	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Character"))
-		static EToroValidPins GetToroPlayerCharacter(AToroPlayerCharacter*& OutObject, const UObject* WorldContextObject, const int32 PlayerIndex = 0, const TSubclassOf<AToroPlayerCharacter>& Class = nullptr);
+		static EToroValidPins GetToroPlayerCharacter(AToroPlayerCharacter*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerCharacter>& Class, const int32 PlayerIndex = 0);
 
 	template <typename T = AToroPlayerCharacter>
-	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0);
+	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0)
+	{
+		return Cast<T>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));
+	}
 
 protected:
 	

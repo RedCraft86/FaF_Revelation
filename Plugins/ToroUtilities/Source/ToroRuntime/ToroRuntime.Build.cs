@@ -32,6 +32,7 @@ public class ToroRuntime : ModuleRules
                 "GameplayTags",
                 "StructUtils",
                 "GeometryCore",
+                "EngineSettings",
                 "ApplicationCore",
                 "DeveloperSettings",
                 "ProceduralMeshComponent",
