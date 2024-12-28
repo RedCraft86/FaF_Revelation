@@ -53,5 +53,25 @@
 			"Type": "EditorNoCommandlet",
 			"LoadingPhase": "PostEngineInit"
 		}
+	],
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Plugins": [
+		{
+			"Name": "StructUtils",
+			"Enabled": true
+		},
+		{
+			"Name": "ProceduralMeshComponent",
+			"Enabled": true
+		},
+		{
+			"Name": "EditorScriptingUtilities",
+			"Enabled": true
+		},
+		{
+			"Name": "ExpressiveText",
+			"Enabled": true
+		}
 	]
 }
