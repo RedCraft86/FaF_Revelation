@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/ToroUserWidget.h"
+#include "ToroUserWidget.h"
 
 UToroUserWidget::UToroUserWidget(const FObjectInitializer& ObjectInitializer)
 	: UUserWidget(ObjectInitializer),ZOrder(0), bAutoAdd(false), bRemoving(false), bWidgetHidden(false)
@@ -49,12 +49,12 @@ void UToroUserWidget::SetWidgetHidden(const bool bInHidden)
 
 void UToroUserWidget::AddUserWidget(FToroWidgetAddRemoveSignature OnFinished)
 {
-	AddWidget(OnFinished.IsBound() ? [OnFinished](){ OnFinished.Execute(); } : nullptr);
+	OnFinished.IsBound() ? AddWidget([OnFinished](){ OnFinished.Execute(); }) : AddWidget(nullptr);
 }
 
 void UToroUserWidget::RemoveUserWidget(FToroWidgetAddRemoveSignature OnFinished)
 {
-	RemoveWidget(OnFinished.IsBound() ? [OnFinished](){ OnFinished.Execute(); } : nullptr);
+	OnFinished.IsBound() ? RemoveWidget([OnFinished](){ OnFinished.Execute(); }) : RemoveWidget(nullptr);
 }
 
 void UToroUserWidget::InitWidget()
