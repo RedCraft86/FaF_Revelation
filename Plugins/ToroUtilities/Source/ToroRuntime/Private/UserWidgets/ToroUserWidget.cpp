@@ -71,12 +71,14 @@ void UToroUserWidget::AddWidget(const TFunction<void()>& OnFinished)
 	{
 		if (UUMGSequencePlayer* Player = PlayAnimationForward(ShowHideAnim))
 		{
-			if (!OnFinished) return;
-			Player->OnSequenceFinishedPlaying().Clear();
-			Player->OnSequenceFinishedPlaying().AddLambda([OnFinished](UUMGSequencePlayer&)
+			if (OnFinished)
 			{
-				if (OnFinished) OnFinished();
-			});
+				Player->OnSequenceFinishedPlaying().Clear();
+				Player->OnSequenceFinishedPlaying().AddLambda([OnFinished](UUMGSequencePlayer&)
+				{
+					OnFinished();
+				});
+			}
 		}
 	}
 	else if (OnFinished)
