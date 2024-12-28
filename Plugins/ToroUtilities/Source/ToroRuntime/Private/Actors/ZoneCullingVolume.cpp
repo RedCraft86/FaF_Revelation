@@ -9,6 +9,7 @@
 AZoneCullingVolume::AZoneCullingVolume() : bInvert(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = false;
 	PrimaryActorTick.TickInterval = 0.1f;
 
 #if WITH_EDITORONLY_DATA
@@ -57,7 +58,11 @@ void AZoneCullingVolume::BeginPlay()
 		}
 	}
 	
-	if (!CullingComponents.IsEmpty()) CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	if (!CullingComponents.IsEmpty())
+	{
+		SetActorTickEnabled(false);
+		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	}
 }
 
 void AZoneCullingVolume::Tick(float DeltaTime)

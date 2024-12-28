@@ -6,7 +6,7 @@
 #include "ZoneCullingComponent.h"
 #include "ZoneCullingVolume.generated.h"
 
-UCLASS()
+UCLASS(meta = (AllowedCategories = "Tools"))
 class TORORUNTIME_API AZoneCullingVolume : public AVolume
 {
 	GENERATED_BODY()
