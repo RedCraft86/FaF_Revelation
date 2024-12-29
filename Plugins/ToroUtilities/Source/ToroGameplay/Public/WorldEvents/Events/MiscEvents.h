@@ -5,7 +5,7 @@
 #include "WorldEvents/WorldEventBase.h"
 #include "MiscEvents.generated.h"
 
-USTRUCT(BlueprintInternalUseOnly, DisplayName = "Misc")
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "Misc", meta = (Hidden))
 struct TOROGAMEPLAY_API FWEMiscBase : public FWorldEventBase
 { GENERATED_BODY() };
 

@@ -7,7 +7,7 @@
 #include "WorldEvents/WorldEventBase.h"
 #include "SoundEvents.generated.h"
 
-USTRUCT(BlueprintInternalUseOnly, DisplayName = "Sound")
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "Sound", meta = (Hidden))
 struct TOROGAMEPLAY_API FWESoundBase : public FWorldEventBase
 { GENERATED_BODY() };
 

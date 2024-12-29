@@ -8,7 +8,7 @@ public class ToroGameplay : ModuleRules
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-        PrivateDependencyModuleNames.AddRange(
+        PublicDependencyModuleNames.AddRange(
             new[]
             {
                 "Core",
@@ -16,6 +16,8 @@ public class ToroGameplay : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "MovieScene",
+                "LevelSequence",
                 "GameplayTags",
                 "ToroCore"
             }

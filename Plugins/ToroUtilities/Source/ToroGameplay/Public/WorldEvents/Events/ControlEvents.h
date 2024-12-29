@@ -5,7 +5,7 @@
 #include "WorldEvents/WorldEventBase.h"
 #include "ControlEvents.generated.h"
 
-USTRUCT(BlueprintInternalUseOnly, DisplayName = "Control")
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "Control", meta = (Hidden))
 struct TOROGAMEPLAY_API FWCBase : public FWorldEventBase
 { GENERATED_BODY() };
 

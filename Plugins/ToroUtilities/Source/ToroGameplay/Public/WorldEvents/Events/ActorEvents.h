@@ -5,7 +5,7 @@
 #include "WorldEvents/WorldEventBase.h"
 #include "ActorEvents.generated.h"
 
-USTRUCT(BlueprintInternalUseOnly, DisplayName = "Actors")
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "Actors", meta = (Hidden))
 struct TOROGAMEPLAY_API FWEActorsBase : public FWorldEventBase
 { GENERATED_BODY() };
 
@@ -94,7 +94,7 @@ protected:
 	virtual void RunEvent(const UObject* WorldContext) override;
 };
 
-USTRUCT(BlueprintInternalUseOnly, DisplayName = "Static Mesh")
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "Static Mesh", meta = (Hidden))
 struct TOROGAMEPLAY_API FWEStaticMeshActorBase : public FWEActorsBase
 { GENERATED_BODY() };
 
