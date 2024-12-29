@@ -10,13 +10,13 @@ struct TOROCORE_API FStaticMeshProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 0))
         TSoftObjectPtr<UStaticMesh> Mesh;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 0))
         TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 0))
         bool bCastShadows;
 
     FStaticMeshProperties() : Mesh(nullptr), Materials({}), bCastShadows(true) {}
