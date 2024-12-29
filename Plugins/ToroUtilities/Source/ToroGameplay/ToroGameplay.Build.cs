@@ -17,7 +17,6 @@ public class ToroGameplay : ModuleRules
                 "Slate",
                 "SlateCore",
                 "GameplayTags",
-                "StructUtils",
                 "ToroCore"
             }
         );
