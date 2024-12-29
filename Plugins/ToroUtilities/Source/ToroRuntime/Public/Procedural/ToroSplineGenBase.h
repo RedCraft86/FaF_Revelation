@@ -35,10 +35,11 @@ public:
 protected:
 	virtual void OnConstruction(const FTransform& Transform) override
 	{
-		Super::OnConstruction(Transform);
 		SplineComponent->SetClosedLoop(bClosedLoop);
 		for (int i = 0; i < SplineComponent->GetNumberOfSplinePoints(); i++)
 			SplineComponent->SetSplinePointType(i, SplineType);
+		
+		Super::OnConstruction(Transform);
 	}
 #endif
 };
