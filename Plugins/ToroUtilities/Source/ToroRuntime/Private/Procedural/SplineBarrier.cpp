@@ -52,10 +52,8 @@ void ASplineBarrier::Construct()
 #if WITH_EDITOR
 	LoadObjects();
 #endif
-	SplineComponent->SetClosedLoop(bClosedLoop);
-	const int PointCount = SplineComponent->GetNumberOfSplinePoints();
-	for (int i = 0; i < PointCount; i++) SplineComponent->SetSplinePointType(i, ESplinePointType::Linear);
-	const int GenPointCount = PointCount - (bClosedLoop ? 0 : 1);
+
+	const int GenPointCount = SplineComponent->GetNumberOfSplinePoints() - (bClosedLoop ? 0 : 1);
 	
 	WallMeshComponent->ClearInstances();
 	WallMeshComponent->SetStaticMesh(Mesh);
