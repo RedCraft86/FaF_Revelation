@@ -33,8 +33,6 @@ public class ToroCore : ModuleRules
                 "EngineSettings",
                 "DeveloperSettings",
                 "ProceduralMeshComponent",
-                "GameplayTags",
-                "StructUtils",
                 "ExpressiveText",
             }
         );
