@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "InstancedStruct.h"
+#include "StructUtils/InstancedStruct.h"
 #include "WorldEventBase.generated.h"
 
 UENUM(BlueprintType, DisplayName = "Event Change Type")
