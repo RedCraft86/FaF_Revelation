@@ -18,7 +18,6 @@ AToroActor::AToroActor() : bEnabled(true), RuntimeGuid(FGuid::NewGuid())
 	DefaultIconBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DefaultIconBillboard");
 	if (DefaultIconBillboard)
 	{
-		DefaultIconBillboard->SetSprite(LoadObject<UTexture2D>(nullptr, TEXT("/Engine/EditorResources/EmptyActor.EmptyActor")));
 		DefaultIconBillboard->SetWorldScale3D(FVector{0.5f});
 		DefaultIconBillboard->bIsScreenSizeScaled = true;
 		DefaultIconBillboard->bIsEditorOnly = true;
@@ -46,12 +45,6 @@ void AToroActor::BeginPlay()
 	Super::BeginPlay();
 	SetActorEnableCollision(bStartWithCollisionEnabled);
 	if (!bEnabled) OnEnableStateChanged(bEnabled);
-#if WITH_EDITORONLY_DATA
-	if (DefaultIconBillboard)
-	{
-		DefaultIconBillboard->DestroyComponent();
-	}
-#endif
 }
 
 void AToroActor::OnConstruction(const FTransform& Transform)
@@ -64,13 +57,19 @@ void AToroActor::OnConstruction(const FTransform& Transform)
 #if WITH_EDITORONLY_DATA
 	if (DefaultIconBillboard)
 	{
-		TArray<USceneComponent*> TempChildren;
-		DefaultIconBillboard->GetChildrenComponents(false, TempChildren);
-		for (USceneComponent* Child : TempChildren)
+		TArray<USceneComponent*> Components;
+		GetComponents<USceneComponent>(Components);
+		const bool bVisible = Components.Num() <= 2;
+		DefaultIconBillboard->SetVisibility(bVisible);
+		if (bVisible)
 		{
-			Child->AttachToComponent(GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+			if (!BillboardIcon.Equals(BillboardIconTexture.ToString()))
+			{
+				BillboardIconTexture = FSoftObjectPath(BillboardIcon);
+			}
+			
+			DefaultIconBillboard->SetSprite(BillboardIconTexture.LoadSynchronous());
 		}
-		DefaultIconBillboard->SetVisibility(GetComponents().Num() <= 2);
 	}
 #endif
 }

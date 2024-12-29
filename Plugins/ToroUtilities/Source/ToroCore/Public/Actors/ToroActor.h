@@ -51,6 +51,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Collision")
 		bool bStartWithCollisionEnabled;
+
+#if WITH_EDITORONLY_DATA
+	UPROPERTY() FString BillboardIcon = TEXT("/Engine/EditorResources/EmptyActor.EmptyActor");
+	UPROPERTY(Transient) TSoftObjectPtr<UTexture2D> BillboardIconTexture;
+#endif
 	
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
