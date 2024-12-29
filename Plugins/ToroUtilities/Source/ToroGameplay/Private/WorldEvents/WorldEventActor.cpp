@@ -15,5 +15,8 @@ AWorldEventActor::AWorldEventActor()
 
 void AWorldEventActor::RunEvents() const
 {
-	WorldEvents->RunEvents();
+	if (IsEnabled())
+	{
+		WorldEvents->RunEvents();
+	}
 }
