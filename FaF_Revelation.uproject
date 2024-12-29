@@ -32,10 +32,6 @@
 				"Mac",
 				"Linux"
 			]
-		},
-		{
-			"Name": "Flow",
-			"Enabled": false
 		}
 	]
 }
