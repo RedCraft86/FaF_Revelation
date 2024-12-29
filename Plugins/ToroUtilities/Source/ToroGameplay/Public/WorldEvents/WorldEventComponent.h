@@ -16,8 +16,8 @@ public:
 
 	UWorldEventComponent();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", meta = (BaseStruct = "/Script/ToroGameplay.WorldEventBase", ExcludeBaseStruct, ShowTreeView))
-		TArray<FInstancedStruct> Events;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", meta = (ExcludeBaseStruct, ShowTreeView))
+		TArray<TInstancedStruct<FWorldEventBase>> Events;
 
 	UFUNCTION(BlueprintCallable, Category = "WorldEvents")
 		void SetupEvents();

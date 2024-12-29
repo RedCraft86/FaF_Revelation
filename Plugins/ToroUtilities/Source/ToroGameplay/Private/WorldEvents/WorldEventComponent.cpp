@@ -12,9 +12,9 @@ void UWorldEventComponent::SetupEvents()
 {
 	SetComponentTickEnabled(false);
 	EventPtrs.Empty(Events.Num());
-	for (FInstancedStruct& Event : Events)
+	for (TInstancedStruct<FWorldEventBase>& Event : Events)
 	{
-		if (FWorldEventBase* EventPtr = Event.GetMutablePtr<FWorldEventBase>())
+		if (FWorldEventBase* EventPtr = Event.GetMutablePtr())
 		{
 			EventPtrs.Add(EventPtr);
 			if (EventPtr->bRequiresTick && !IsComponentTickEnabled())
@@ -58,9 +58,9 @@ void UWorldEventComponent::PostLoad()
 {
 	Super::PostLoad();
 	if (FApp::IsGame()) return;
-	for (FInstancedStruct& Event : Events)
+	for (TInstancedStruct<FWorldEventBase>& Event : Events)
 	{
-		if (FWorldEventBase* EventPtr = Event.GetMutablePtr<FWorldEventBase>())
+		if (FWorldEventBase* EventPtr = Event.GetMutablePtr())
 		{
 			EventPtr->OnConstruction(this, true);
 		}
@@ -71,9 +71,9 @@ void UWorldEventComponent::PostEditChangeProperty(FPropertyChangedEvent& Propert
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	if (FApp::IsGame()) return;
-	for (FInstancedStruct& Event : Events)
+	for (TInstancedStruct<FWorldEventBase>& Event : Events)
 	{
-		if (FWorldEventBase* EventPtr = Event.GetMutablePtr<FWorldEventBase>())
+		if (FWorldEventBase* EventPtr = Event.GetMutablePtr())
 		{
 			EventPtr->OnConstruction(this, true);
 		}
