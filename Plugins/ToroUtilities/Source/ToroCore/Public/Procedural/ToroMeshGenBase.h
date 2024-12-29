@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "PrimitiveData.h"
 #include "GameFramework/Actor.h"
-#include "DataTypes/PrimitiveData.h"
 #include "Components/SplineMeshComponent.h"
 #include "ToroMeshGenBase.generated.h"
 
@@ -16,7 +16,7 @@ enum class EGeneratorLoopMode : uint8
 };
 
 USTRUCT(BlueprintType)
-struct TORORUNTIME_API FTransformMeshData : public FStaticMeshProperties
+struct TOROCORE_API FTransformMeshData : public FStaticMeshProperties
 {
 	GENERATED_BODY()
 
@@ -28,7 +28,7 @@ struct TORORUNTIME_API FTransformMeshData : public FStaticMeshProperties
 };
 
 USTRUCT(BlueprintType)
-struct TORORUNTIME_API FSplineMeshData : public FStaticMeshProperties
+struct TOROCORE_API FSplineMeshData : public FStaticMeshProperties
 {
 	GENERATED_BODY()
 
@@ -40,7 +40,7 @@ struct TORORUNTIME_API FSplineMeshData : public FStaticMeshProperties
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API AToroMeshGenBase : public AActor
+class TOROCORE_API AToroMeshGenBase : public AActor
 {
 	GENERATED_BODY()
 

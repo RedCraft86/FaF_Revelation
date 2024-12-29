@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Helpers/LoggingHelpers.h"
+#include "LoggingHelpers.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
 #include "ToroAsyncActionBase.generated.h"
 

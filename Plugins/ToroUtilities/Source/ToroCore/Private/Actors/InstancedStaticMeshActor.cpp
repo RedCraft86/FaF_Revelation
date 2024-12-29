@@ -1,8 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Actors/InstancedStaticMeshActor.h"
+#include "InstancedStaticMeshActor.h"
 #include "Components/InstancedStaticMeshComponent.h"
-
 #if WITH_EDITOR
 #include "Misc/MapErrors.h"
 #include "Misc/UObjectToken.h"

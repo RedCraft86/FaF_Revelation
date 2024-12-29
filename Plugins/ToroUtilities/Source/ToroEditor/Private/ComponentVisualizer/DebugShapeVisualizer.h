@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "DebugShapeComponent.h"
 #include "ComponentVisualizer.h"
-#include "Components/DebugShapeComponent.h"
 #include "ComponentVisualizer/VisualizerHelpers.h"
 
 class FDebugShapeVisualizer final : public FComponentVisualizer

@@ -2,7 +2,7 @@
 
 #include "ExpressiveTextData.h"
 #include "ToroSettings.h"
-#include "ToroRuntime.h"
+#include "ToroCore.h"
 
 FExpressiveTextData::FExpressiveTextData() : bUseAsset(false), TextFields({}), TextAsset(nullptr)
 {
@@ -27,7 +27,7 @@ FExpressiveText FExpressiveTextData::GetExpressiveText()
 	if (bUseAsset)
 	{
 		if (TextAsset) Result.SetFields(TextAsset->Fields);
-		else UE_LOG(LogToroRuntime, Error, TEXT("Cannot use TextAsset, it is NULL"))
+		else UE_LOG(LogToroCore, Error, TEXT("Cannot use TextAsset, it is NULL"))
 	}
 	else
 	{

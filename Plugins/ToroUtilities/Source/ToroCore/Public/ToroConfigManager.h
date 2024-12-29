@@ -3,7 +3,7 @@
 #pragma once
 
 #include "JsonObjectWrapper.h"
-#include "Helpers/ClassGetterHelpers.h"
+#include "ClassGetterHelpers.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ToroConfigManager.generated.h"
 

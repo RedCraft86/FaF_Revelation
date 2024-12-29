@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/LightingData.h"
+#include "LightingData.h"
 #include "Components/LightComponent.h"
 #include "Components/LocalLightComponent.h"
 #include "Components/PointLightComponent.h"

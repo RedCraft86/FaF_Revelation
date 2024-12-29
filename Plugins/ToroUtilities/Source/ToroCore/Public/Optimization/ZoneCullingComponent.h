@@ -7,7 +7,7 @@
 #include "ZoneCullingComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Optimization), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UZoneCullingComponent final : public UActorComponent
+class TOROCORE_API UZoneCullingComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 

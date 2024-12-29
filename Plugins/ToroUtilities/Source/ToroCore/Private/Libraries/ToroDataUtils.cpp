@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Libraries/ToroDataUtils.h"
+#include "ToroDataUtils.h"
 #include "Compression/OodleDataCompressionUtil.h"
 
 FString UToroDataUtils::EncryptAES(const FString& String, const FString& Key)

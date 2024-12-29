@@ -4,8 +4,8 @@
 #include "Subsystems/EditorActorSubsystem.h"
 #include "Engine/StaticMeshActor.h"
 #include "EditorDialogLibrary.h"
-#include "DataTypes/PrimitiveData.h"
-#include "Actors/InstancedStaticMeshActor.h"
+#include "InstancedStaticMeshActor.h"
+#include "PrimitiveData.h"
 
 void FStaticMeshInstancer::ExecuteAction()
 {

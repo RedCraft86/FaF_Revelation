@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
-#include "Helpers/ClassGetterHelpers.h"
 #include "ToroEditorSettings.generated.h"
 
 UCLASS(Config = Editor, DefaultConfig, DisplayName = "Editor Settings")

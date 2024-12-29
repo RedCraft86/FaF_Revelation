@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/InlineCurves.h"
+#include "InlineCurves.h"
 
 FRichCurve* FInlineFloatCurve::GetRichCurve()
 {

@@ -7,7 +7,7 @@
 #include "ToroSplineGenBase.generated.h"
 
 UCLASS(Abstract)
-class TORORUNTIME_API AToroSplineGenBase : public AToroMeshGenBase
+class TOROCORE_API AToroSplineGenBase : public AToroMeshGenBase
 {
 	GENERATED_BODY()
 

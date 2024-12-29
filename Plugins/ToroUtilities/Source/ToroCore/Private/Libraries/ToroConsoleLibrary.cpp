@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Libraries/ToroConsoleLibrary.h"
+#include "ToroConsoleLibrary.h"
 
 TMap<FString, IConsoleVariable*> UToroConsoleLibrary::CachedCVars = {};
 

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "EditorSubsystem.h"
-#include "Helpers/ClassGetterHelpers.h"
+#include "ClassGetterHelpers.h"
 #include "ToroEditorSubsystem.generated.h"
 
 UCLASS()

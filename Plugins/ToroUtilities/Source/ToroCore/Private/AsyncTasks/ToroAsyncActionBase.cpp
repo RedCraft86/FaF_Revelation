@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "AsyncTasks/ToroAsyncActionBase.h"
-#include "Helpers/LoggingHelpers.h"
+#include "ToroAsyncActionBase.h"
+#include "LoggingHelpers.h"
 
 UWorld* UToroAsyncActionBase::GetWorld() const
 {

@@ -4,7 +4,7 @@
 
 #include "ToroToolCommands.h"
 #include "Framework/Commands/Commands.h"
-#include "DataTypes/PrimitiveData.h"
+#include "PrimitiveData.h"
 
 class FStaticMeshBaker
 {

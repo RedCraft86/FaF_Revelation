@@ -7,7 +7,7 @@
 #include "ZoneCullingVolume.generated.h"
 
 UCLASS()
-class TORORUNTIME_API AZoneCullingVolume : public AVolume
+class TOROCORE_API AZoneCullingVolume : public AVolume
 {
 	GENERATED_BODY()
 

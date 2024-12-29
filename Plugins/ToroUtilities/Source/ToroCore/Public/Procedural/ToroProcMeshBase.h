@@ -7,7 +7,7 @@
 #include "ToroProcMeshBase.generated.h"
 
 UCLASS(Abstract)
-class TORORUNTIME_API AToroProcMeshBase : public AToroMeshGenBase
+class TOROCORE_API AToroProcMeshBase : public AToroMeshGenBase
 {
 	GENERATED_BODY()
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/MiscTypes.h"
+#include "MiscTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ToroGeneralUtils.generated.h"
 

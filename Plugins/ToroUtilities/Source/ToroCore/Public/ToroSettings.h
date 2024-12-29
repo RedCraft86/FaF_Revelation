@@ -2,13 +2,13 @@
 
 #pragma once
 
+#include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
-#include "Helpers/ClassGetterHelpers.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Runtime Settings")
-class TORORUNTIME_API UToroSettings : public UDeveloperSettings
+class TOROCORE_API UToroSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
 

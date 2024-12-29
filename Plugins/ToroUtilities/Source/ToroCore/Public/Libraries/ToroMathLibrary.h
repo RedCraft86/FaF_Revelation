@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/MathTypes.h"
+#include "MathTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ToroMathLibrary.generated.h"
 

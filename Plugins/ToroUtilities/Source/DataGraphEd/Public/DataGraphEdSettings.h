@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "Helpers/ClassGetterHelpers.h"
+#include "ClassGetterHelpers.h"
 #include "DataGraphEdSettings.generated.h"
 
 UENUM(BlueprintType)

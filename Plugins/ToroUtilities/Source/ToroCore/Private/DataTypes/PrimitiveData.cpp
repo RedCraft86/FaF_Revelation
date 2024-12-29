@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/PrimitiveData.h"
-#include "Helpers/CollisionHelpers.h"
+#include "PrimitiveData.h"
+#include "CollisionHelpers.h"
 
 void FStaticMeshProperties::FillMaterials()
 {

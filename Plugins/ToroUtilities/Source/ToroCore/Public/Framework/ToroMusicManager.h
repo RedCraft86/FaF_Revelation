@@ -10,7 +10,7 @@
 /* Game State is repurposed as a Widget Manager */
 
 UCLASS()
-class TORORUNTIME_API AToroMusicManager : public AGameStateBase
+class TOROCORE_API AToroMusicManager : public AGameStateBase
 {
 	GENERATED_BODY()
 

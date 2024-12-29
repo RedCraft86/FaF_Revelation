@@ -10,7 +10,7 @@ class UBorder;
 class UExpressiveTextRendererWidget;
 
 UCLASS(NotBlueprintable, DisplayName = "Expressive Text Block")
-class TORORUNTIME_API UExprTextBlock final : public UUserWidget
+class TOROCORE_API UExprTextBlock final : public UUserWidget
 {
 	GENERATED_BODY()
 

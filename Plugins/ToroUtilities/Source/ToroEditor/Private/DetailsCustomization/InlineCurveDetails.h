@@ -5,7 +5,7 @@
 #include "IDetailPropertyRow.h"
 #include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
-#include "DataTypes/InlineCurves.h"
+#include "InlineCurves.h"
 
 class FInlineCurveCustomization final : public IPropertyTypeCustomization
 {

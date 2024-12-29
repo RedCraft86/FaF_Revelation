@@ -11,7 +11,7 @@
 /* Player State is repurposed as a Widget Manager */
 
 UCLASS()
-class TORORUNTIME_API AToroWidgetManager : public APlayerState
+class TOROCORE_API AToroWidgetManager : public APlayerState
 {
 	GENERATED_BODY()
 

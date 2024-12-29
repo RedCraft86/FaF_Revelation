@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Components/DebugShapeComponent.h"
+#include "DebugShapeComponent.h"
 #if WITH_EDITOR
 #include "NavigationSystem.h"
 #include "NavigationPath.h"

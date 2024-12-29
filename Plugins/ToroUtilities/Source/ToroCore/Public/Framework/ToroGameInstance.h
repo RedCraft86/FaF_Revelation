@@ -8,7 +8,7 @@
 #include "ToroGameInstance.generated.h"
 
 UCLASS()
-class TORORUNTIME_API UToroGameInstance : public UGameInstance
+class TOROCORE_API UToroGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 

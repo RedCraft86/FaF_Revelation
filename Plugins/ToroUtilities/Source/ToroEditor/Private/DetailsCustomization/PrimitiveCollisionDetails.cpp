@@ -1,11 +1,11 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "PrimitiveCollisionDetails.h"
-#include "Helpers/CollisionHelpers.h"
 #include "IDetailChildrenBuilder.h"
 #include "DetailLayoutBuilder.h"
 #include "DetailWidgetRow.h"
 #include "IDocumentation.h"
+#include "CollisionHelpers.h"
 
 #define LOCTEXT_NAMESPACE "BodyInstanceCustomization"
 

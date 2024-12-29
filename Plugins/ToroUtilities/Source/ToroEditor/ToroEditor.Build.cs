@@ -23,7 +23,6 @@ public class ToroEditor : ModuleRules
                 "DeveloperSettings",
                 "ComponentVisualizers",
                 "PropertyEditor",
-                "ToroRuntime",
                 "ToroCore"
             }
         );

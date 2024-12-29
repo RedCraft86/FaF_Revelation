@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/PrimitiveData.h"
+#include "PrimitiveData.h"
 
 struct FCollisionChannelInfo
 {

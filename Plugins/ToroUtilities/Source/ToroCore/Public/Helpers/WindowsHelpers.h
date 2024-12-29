@@ -3,7 +3,7 @@
 #pragma once
 #pragma warning(disable : 4668)
 
-#include "DataTypes/MiscTypes.h"
+#include "MiscTypes.h"
 #include "shlobj.h"
 
 namespace WindowsHelpers

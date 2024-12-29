@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Libraries/ToroLoadUtils.h"
+#include "ToroLoadUtils.h"
 #include "Engine/CoreSettings.h"
 
 float UToroLoadUtils::DefaultLevelStreamingComponentsRegistrationGranularity;

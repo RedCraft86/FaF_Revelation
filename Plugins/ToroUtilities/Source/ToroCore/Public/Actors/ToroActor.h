@@ -2,18 +2,24 @@
 
 #pragma once
 
-#include "ToroActor.h"
-#include "GameFramework/Volume.h"
-#include "ToroVolume.generated.h"
+#include "GameFramework/Actor.h"
+#include "ToroActor.generated.h"
 
-UCLASS()
-class TORORUNTIME_API AToroVolume : public AVolume
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEnableChangedSignature, const bool, bEnabled);
+
+#define ON_ENABLE_STATE_CHANGED { OnEnableStateChanged(bEnabled); OnEnableStateChangedEvent.Broadcast(bEnabled); OnEnableStateChangedBP.Broadcast(bEnabled); }
+
+UCLASS(Abstract)
+class TOROCORE_API AToroActor : public AActor
 {
 	GENERATED_BODY()
 
 public:
 
-	AToroVolume();
+	AToroActor();
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+		TObjectPtr<USceneComponent> SceneRoot;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(VisibleDefaultsOnly, Category = "Subobjects")
@@ -24,7 +30,7 @@ public:
 		FActorEnableChangedSignature OnEnableStateChangedBP;
 	
 	UFUNCTION(BlueprintCallable, Category = "Actor")
-		void SetEnabled(const bool bInEnabled);
+		virtual void SetEnabled(const bool bInEnabled);
 	
 	UFUNCTION(BlueprintPure, Category = "Actor")
 		bool IsEnabled() const { return bEnabled; }
@@ -33,7 +39,7 @@ public:
 		FGuid GetRuntimeGuid() const { return RuntimeGuid; }
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FActorEnableChanged, const bool);
-		FActorEnableChanged OnEnableStateChangedEvent;
+	FActorEnableChanged OnEnableStateChangedEvent;
 
 protected:
 
@@ -42,6 +48,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -10))
 		FGuid RuntimeGuid;
+
+	UPROPERTY(EditAnywhere, Category = "Collision")
+		bool bStartWithCollisionEnabled;
 	
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;

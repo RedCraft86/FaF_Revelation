@@ -1,5 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
+using System.IO;
 using UnrealBuildTool;
 
 public class ToroCore : ModuleRules
@@ -8,7 +9,10 @@ public class ToroCore : ModuleRules
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = false;
-
+        
+        // Include all the immediate folders under .../ToroCore/Public/
+        PublicIncludePaths.AddRange(Directory.GetDirectories(Path.Combine(PluginDirectory, "Source/ToroCore/Public/")));
+        
         PublicDependencyModuleNames.AddRange(
             new[]
             {
@@ -17,14 +21,33 @@ public class ToroCore : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "UMG",
+                "Json",
+                "JsonUtilities",
                 "InputCore",
+                "GeometryCore",
+                "ApplicationCore",
                 "MovieScene",
                 "LevelSequence",
                 "NavigationSystem",
-                "JsonUtilities",
-                "Json",
-                "UMG",
+                "EngineSettings",
+                "DeveloperSettings",
+                "ProceduralMeshComponent",
+                "GameplayTags",
+                "StructUtils",
+                "ExpressiveText",
             }
         );
+        
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.AddRange(
+                new[]
+                {
+                    "UnrealEd",
+                    "EditorScriptingUtilities"
+                }
+            );
+        }
     }
 }

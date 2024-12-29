@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Libraries/ToroMathLibrary.h"
+#include "ToroMathLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 
 float UToroMathLibrary::GetHorizontalDistance(const FVector A, const FVector B)

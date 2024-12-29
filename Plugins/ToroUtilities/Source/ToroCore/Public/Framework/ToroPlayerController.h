@@ -17,7 +17,7 @@ enum class EGameInputMode : uint8
 };
 
 USTRUCT(BlueprintType)
-struct TORORUNTIME_API FGameInputModeData
+struct TOROCORE_API FGameInputModeData
 {
 	GENERATED_BODY()
 
@@ -90,7 +90,7 @@ public:
 };
 
 UCLASS()
-class TORORUNTIME_API AToroPlayerController : public APlayerController
+class TOROCORE_API AToroPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
