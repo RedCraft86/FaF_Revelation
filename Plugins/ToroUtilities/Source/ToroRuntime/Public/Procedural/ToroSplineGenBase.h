@@ -25,10 +25,10 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<USplineComponent> SplineComponent;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -10))
 		bool bClosedLoop;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -10))
 		TEnumAsByte<ESplinePointType::Type> SplineType;
 
 #if WITH_EDITOR
