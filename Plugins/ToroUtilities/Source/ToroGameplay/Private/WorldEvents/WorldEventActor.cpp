@@ -8,7 +8,6 @@
 AWorldEventActor::AWorldEventActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	PrimaryActorTick.bStartWithTickEnabled = false;
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
@@ -28,6 +27,8 @@ AWorldEventActor::AWorldEventActor()
 #endif
 	
 	WorldEvents = CreateDefaultSubobject<UWorldEventComponent>("WorldEvents");
+
+	SetCanBeDamaged(false);
 }
 
 void AWorldEventActor::RunEvents() const
