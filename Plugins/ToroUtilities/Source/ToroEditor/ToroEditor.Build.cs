@@ -23,6 +23,9 @@ public class ToroEditor : ModuleRules
                 "DeveloperSettings",
                 "ComponentVisualizers",
                 "PropertyEditor",
+                "AssetRegistry",
+                "ContentBrowser",
+                "ContentBrowserData",
                 "ToroCore"
             }
         );
