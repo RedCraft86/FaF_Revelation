@@ -1,25 +1,24 @@
-﻿using UnrealBuildTool;
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
+
+using UnrealBuildTool;
 
 public class ToroGameplay : ModuleRules
 {
     public ToroGameplay(ReadOnlyTargetRules Target) : base(Target)
     {
-        PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-
-        PublicDependencyModuleNames.AddRange(
-            new string[]
-            {
-                "Core",
-            }
-        );
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PrivateDependencyModuleNames.AddRange(
-            new string[]
+            new[]
             {
+                "Core",
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "GameplayTags",
+                "StructUtils",
+                "ToroCore"
             }
         );
     }
