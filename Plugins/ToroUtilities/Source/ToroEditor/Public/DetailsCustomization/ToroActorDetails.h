@@ -76,7 +76,8 @@ private:
 			if (CategoryNames.Contains(Pair.Key))
 			{
 				CategoryNames.Remove(Pair.Key);
-				DetailBuilder.EditCategory(Pair.Key, FText::GetEmpty(), Pair.Value);
+				DetailBuilder.EditCategory(Pair.Key, Pair.Key == TEXT("TransformCommon")
+					? INVTEXT("Transform") : FText::GetEmpty(), Pair.Value);
 			}
 		}
 		

@@ -21,7 +21,6 @@ AWorldEventActor::AWorldEventActor()
 		DefaultIconBillboard->SetWorldScale3D(FVector{0.5f});
 		DefaultIconBillboard->bIsScreenSizeScaled = true;
 		DefaultIconBillboard->bIsEditorOnly = true;
-		DefaultIconBillboard->SetVisibility(false);
 		DefaultIconBillboard->SetHiddenInGame(true);
 		DefaultIconBillboard->SetIsVisualizationComponent(true);
 		DefaultIconBillboard->SetupAttachment(SceneRoot);
