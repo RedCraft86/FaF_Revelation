@@ -36,7 +36,10 @@ public:
     virtual void ShutdownModule() override;
     
 private:
-	
+    
+    void RegisterMenus();
+    
+    TSharedPtr<FUICommandList> PluginCommands;
     TSet<TSharedPtr<class IAssetTypeActions>> AssetTypeActions;
 };
 

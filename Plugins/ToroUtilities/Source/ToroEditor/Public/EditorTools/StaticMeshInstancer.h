@@ -2,22 +2,22 @@
 
 #pragma once
 
-#include "ToroToolCommands.h"
+#include "ToroEditorCommands.h"
 #include "Framework/Commands/Commands.h"
 
-class FChannelPacker
+class FStaticMeshInstancer
 {
 public:
 
 	static void Register(const TSharedPtr<FUICommandList>& Commands)
 	{
-		MAP_TOOL(ChannelPacker, FChannelPacker);
+		MAP_TOOL(StaticMeshInstancer, FStaticMeshInstancer);
 	}
 	
 	static void RegisterMenus(const TSharedPtr<FUICommandList>& Commands)
 	{
-		REGISTER_TOP_MENU(ChannelPacker)
-		REGISTER_TOOLBAR(ChannelPacker, General)
+		REGISTER_TOP_MENU(StaticMeshBaker)
+		REGISTER_TOOLBAR(StaticMeshInstancer, Actor)
 	}
 
 private:

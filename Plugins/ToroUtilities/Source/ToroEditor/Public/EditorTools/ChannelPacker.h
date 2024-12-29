@@ -2,28 +2,25 @@
 
 #pragma once
 
-#include "ToroToolCommands.h"
+#include "ToroEditorCommands.h"
 #include "Framework/Commands/Commands.h"
 
-class FRestartEditor
+class FChannelPacker
 {
 public:
 
 	static void Register(const TSharedPtr<FUICommandList>& Commands)
 	{
-		MAP_TOOL(RestartEditor, FRestartEditor);
+		MAP_TOOL(ChannelPacker, FChannelPacker);
 	}
 	
 	static void RegisterMenus(const TSharedPtr<FUICommandList>& Commands)
 	{
-		REGISTER_TOP_MENU(RestartEditor)
-		REGISTER_TOOLBAR(RestartEditor, General)
+		REGISTER_TOP_MENU(ChannelPacker)
+		REGISTER_TOOLBAR(ChannelPacker, General)
 	}
 
 private:
 
-	static void ExecuteAction()
-	{
-		FUnrealEdMisc::Get().RestartEditor(false);
-	}
+	static void ExecuteAction();
 };

@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Tools/ChannelPacker.h"
+#include "EditorTools/ChannelPacker.h"
 
 void FChannelPacker::ExecuteAction()
 {

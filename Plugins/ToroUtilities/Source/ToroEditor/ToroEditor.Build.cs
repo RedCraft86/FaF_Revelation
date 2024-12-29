@@ -19,6 +19,10 @@ public class ToroEditor : ModuleRules
                 "InputCore",
                 "UnrealEd",
                 "Projects",
+                "MainFrame",
+                "ToolMenus",
+                "Blutility",
+                "EngineSettings",
                 "EditorSubsystem",
                 "DeveloperSettings",
                 "ComponentVisualizers",
@@ -26,6 +30,7 @@ public class ToroEditor : ModuleRules
                 "AssetRegistry",
                 "ContentBrowser",
                 "ContentBrowserData",
+                "EditorScriptingUtilities", 
                 "ToroCore"
             }
         );

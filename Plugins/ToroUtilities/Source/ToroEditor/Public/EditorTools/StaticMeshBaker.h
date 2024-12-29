@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroToolCommands.h"
+#include "ToroEditorCommands.h"
 #include "Framework/Commands/Commands.h"
 #include "PrimitiveData.h"
 

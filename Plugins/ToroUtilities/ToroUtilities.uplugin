@@ -42,11 +42,6 @@
 			"Name": "ToroLoader",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
-		},
-		{
-			"Name": "ToroTools",
-			"Type": "EditorNoCommandlet",
-			"LoadingPhase": "PostEngineInit"
 		}
 	],
 	"IsExperimentalVersion": false,

@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Tools/StaticMeshInstancer.h"
+#include "EditorTools/StaticMeshInstancer.h"
 #include "Subsystems/EditorActorSubsystem.h"
 #include "Engine/StaticMeshActor.h"
 #include "EditorDialogLibrary.h"
@@ -44,7 +44,7 @@ void FStaticMeshInstancer::ExecuteAction()
 		
 		// Inner scope
 		{
-			const FScopedTransaction Transaction(NSLOCTEXT("ToroTools", "ConvertMeshesToInstances", "Convert Meshes to Instances"));
+			const FScopedTransaction Transaction(NSLOCTEXT("ToroEditor", "ConvertMeshesToInstances", "Convert Meshes to Instances"));
 		
 			FStaticMeshProperties MeshProp;
 			TArray<FInstancerMeshes> Meshes;
@@ -161,7 +161,7 @@ void FStaticMeshInstancer::ExecuteAction()
 
 		// Transaction scope
 		{
-			const FScopedTransaction Transaction(NSLOCTEXT("ToroTools", "DestroySourceMeshes", "Destroy Source Meshes (Delete and Undo to fix)"));
+			const FScopedTransaction Transaction(NSLOCTEXT("ToroEditor", "DestroySourceMeshes", "Destroy Source Meshes (Delete and Undo to fix)"));
 			Subsystem->DestroyActors(Actors);
 		}
 	}

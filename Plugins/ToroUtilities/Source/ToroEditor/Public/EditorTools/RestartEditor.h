@@ -2,25 +2,28 @@
 
 #pragma once
 
-#include "ToroToolCommands.h"
+#include "ToroEditorCommands.h"
 #include "Framework/Commands/Commands.h"
 
-class FStaticMeshInstancer
+class FRestartEditor
 {
 public:
 
 	static void Register(const TSharedPtr<FUICommandList>& Commands)
 	{
-		MAP_TOOL(StaticMeshInstancer, FStaticMeshInstancer);
+		MAP_TOOL(RestartEditor, FRestartEditor);
 	}
 	
 	static void RegisterMenus(const TSharedPtr<FUICommandList>& Commands)
 	{
-		REGISTER_TOP_MENU(StaticMeshBaker)
-		REGISTER_TOOLBAR(StaticMeshInstancer, Actor)
+		REGISTER_TOP_MENU(RestartEditor)
+		REGISTER_TOOLBAR(RestartEditor, General)
 	}
 
 private:
 
-	static void ExecuteAction();
+	static void ExecuteAction()
+	{
+		FUnrealEdMisc::Get().RestartEditor(false);
+	}
 };

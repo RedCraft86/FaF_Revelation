@@ -2,33 +2,33 @@
 
 #pragma once
 
-#include "ToroTools.h"
+#include "ToroEditor.h"
 
 #define MAP_TOOL(Tool, ThisClass) \
-	Commands->MapAction(FToroToolCommands::Get().Tool, FExecuteAction::CreateStatic(&ThisClass::ExecuteAction), FCanExecuteAction());
+	Commands->MapAction(FToroEditorCommands::Get().Tool, FExecuteAction::CreateStatic(&ThisClass::ExecuteAction), FCanExecuteAction());
 
 #define REGISTER_TOP_MENU(Tool) \
 	if (UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools")) \
 	{ \
-		FToolMenuSection& Section = Menu->FindOrAddSection("ToolsButton.ToroTools", INVTEXT("Toro Utilities")); \
-		Section.AddMenuEntry(FToroToolCommands::Get().Tool); \
+		FToolMenuSection& Section = Menu->FindOrAddSection("ToolsButton.ToroEditor", INVTEXT("Toro Utilities")); \
+		Section.AddMenuEntry(FToroEditorCommands::Get().Tool); \
 	}
 
 #define REGISTER_TOOLBAR(Tool, Category) \
 	if (UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar.PlayToolBar")) \
 	{ \
-		FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("ToolbarButton.ToroTools."#Category); \
-		Section.AddEntry(FToolMenuEntry::InitToolBarButton(FToroToolCommands::Get().Tool)).SetCommandList(Commands); \
+		FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("ToolbarButton.ToroEditor."#Category); \
+		Section.AddEntry(FToolMenuEntry::InitToolBarButton(FToroEditorCommands::Get().Tool)).SetCommandList(Commands); \
 	}
 
-#define LOCTEXT_NAMESPACE "ToroTools"
-class FToroToolCommands final : public TCommands<FToroToolCommands>
+#define LOCTEXT_NAMESPACE "ToroEditor"
+class FToroEditorCommands final : public TCommands<FToroEditorCommands>
 {
 public:
 
-	FToroToolCommands()
-		: TCommands(TEXT("ToroTools"), LOCTEXT("Contexts", "ToroTools"),
-			NAME_None, FToroToolsEdStyle::GetStyleSetName())
+	FToroEditorCommands()
+		: TCommands(TEXT("ToroEditor"), LOCTEXT("Contexts", "ToroEditor"),
+			NAME_None, FToroEditorStyle::GetStyleSetName())
 	{}
 
 	virtual void RegisterCommands() override

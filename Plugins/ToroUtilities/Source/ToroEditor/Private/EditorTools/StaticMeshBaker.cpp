@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Tools/StaticMeshBaker.h"
+#include "EditorTools/StaticMeshBaker.h"
 #include "Subsystems/EditorActorSubsystem.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Engine/StaticMeshActor.h"
@@ -29,7 +29,7 @@ void FStaticMeshBaker::ExecuteAction()
 
 		// Transaction scope
 		{
-			const FScopedTransaction Transaction(NSLOCTEXT("ToroTools", "BakeStaticMeshes", "Bake Static Meshes"));
+			const FScopedTransaction Transaction(NSLOCTEXT("ToroEditor", "BakeStaticMeshes", "Bake Static Meshes"));
 			for (AActor* Actor : Actors)
 			{
 				if (!Actor) continue;
@@ -73,7 +73,7 @@ void FStaticMeshBaker::ExecuteAction()
 
 		// Transaction scope
 		{
-			const FScopedTransaction Transaction(NSLOCTEXT("ToroTools", "DestroySourceMeshes", "Destroy Source Meshes (Delete and Undo to fix)"));
+			const FScopedTransaction Transaction(NSLOCTEXT("ToroEditor", "DestroySourceMeshes", "Destroy Source Meshes (Delete and Undo to fix)"));
 			if (bDestroySourceActors)
 			{
 				Subsystem->DestroyActors(Actors);
