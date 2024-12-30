@@ -2,32 +2,27 @@
 
 #pragma once
 
-#include "WorldEventBase.h"
+#include "WorldActionBase.h"
 #include "Components/ActorComponent.h"
 #include "StructUtils/InstancedStruct.h"
-#include "WorldEventComponent.generated.h"
+#include "WorldActionComponent.generated.h"
 
-UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
-class TOROGAMEPLAY_API UWorldEventComponent final : public UActorComponent
+UCLASS(NotBlueprintable, ClassGroup=(Game), meta=(BlueprintSpawnableComponent))
+class TOROGAMEPLAY_API UWorldActionComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-
-	UWorldEventComponent();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings", meta = (ExcludeBaseStruct, ShowTreeView))
-		TArray<TInstancedStruct<FWorldEventBase>> Events;
-
-	UFUNCTION(BlueprintCallable, Category = "WorldEvents")
-		void SetupEvents();
+	
+	UWorldActionComponent();
+	
+	UPROPERTY(EditAnywhere, Category = "Settings", NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
+		TArray<TInstancedStruct<FWorldActionBase>> Actions;
 
 	UFUNCTION(BlueprintCallable, Category = "WorldEvents")
 		void RunEvents();
-
-protected:
 	
-	TSet<FWorldEventBase*> EventPtrs;
+protected:
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

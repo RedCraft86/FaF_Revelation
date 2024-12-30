@@ -3,17 +3,17 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "WorldEventComponent.h"
-#include "WorldEventActor.generated.h"
+#include "WorldActionComponent.h"
+#include "WorldActionActor.generated.h"
 
 UCLASS(meta = (HiddenCategories = "Collision, Actor"))
-class TOROGAMEPLAY_API AWorldEventActor final : public AActor
+class TOROGAMEPLAY_API AWorldActionActor final : public AActor
 {
 	GENERATED_BODY()
 
 public:
 
-	AWorldEventActor();
+	AWorldActionActor();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<USceneComponent> SceneRoot;
@@ -24,7 +24,7 @@ public:
 #endif
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Subobjects")
-		TObjectPtr<UWorldEventComponent> WorldEvents;
+		TObjectPtr<UWorldActionComponent> WorldActions;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "WorldEvents")
 		void RunEvents() const;

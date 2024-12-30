@@ -1,11 +1,11 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "WorldEvents/WorldEventActor.h"
+#include "WorldActions/WorldActionActor.h"
 #if WITH_EDITOR
 #include "Components/BillboardComponent.h"
 #endif
 
-AWorldEventActor::AWorldEventActor()
+AWorldActionActor::AWorldActionActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -26,12 +26,12 @@ AWorldEventActor::AWorldEventActor()
 	}
 #endif
 	
-	WorldEvents = CreateDefaultSubobject<UWorldEventComponent>("WorldEvents");
+	WorldActions = CreateDefaultSubobject<UWorldActionComponent>("WorldActions");
 
 	SetCanBeDamaged(false);
 }
 
-void AWorldEventActor::RunEvents() const
+void AWorldActionActor::RunEvents() const
 {
-	WorldEvents->RunEvents();
+	WorldActions->RunEvents();
 }
