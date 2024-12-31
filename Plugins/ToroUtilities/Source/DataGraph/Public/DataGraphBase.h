@@ -8,7 +8,7 @@
 class UDataEdgeBase;
 class UDataNodeBase;
 
-UCLASS(BlueprintType, meta = (IsBlueprintBase = false))
+UCLASS(NotBlueprintable, BlueprintType)
 class DATAGRAPH_API UDataGraphBase : public UDataAsset
 {
 	GENERATED_BODY()
