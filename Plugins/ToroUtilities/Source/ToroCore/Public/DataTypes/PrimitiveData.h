@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Components/SplineMeshComponent.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "PrimitiveData.generated.h"
 
@@ -38,6 +39,30 @@ struct TOROCORE_API FStaticMeshProperties
     FORCEINLINE bool IsValidData() const { return !Mesh.IsNull(); }
     void FromStaticMeshComponent(const UStaticMeshComponent* InComponent);
     void ToStaticMeshComponent(UStaticMeshComponent* InComponent) const;
+};
+
+USTRUCT(BlueprintType)
+struct TOROCORE_API FTransformMeshData : public FStaticMeshProperties
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 1))
+        FTransform Transform;
+
+    FTransformMeshData() : Transform(FTransform::Identity) {}
+    FStaticMeshProperties operator*() const { return {Mesh, Materials, bCastShadows}; }
+};
+
+USTRUCT(BlueprintType)
+struct TOROCORE_API FSplineMeshData : public FStaticMeshProperties
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = -1))
+        TEnumAsByte<ESplineMeshAxis::Type> MeshAxis;
+
+    FSplineMeshData() : MeshAxis(ESplineMeshAxis::X) {}
+    FStaticMeshProperties operator*() const { return {Mesh, Materials, bCastShadows}; }
 };
 
 USTRUCT(BlueprintType, meta = (DisableSplitPin, HasNativeMake = "/Script/ToroCore.PrimitiveDataLibrary.Make_PrimitiveCollision", HasNativeBreak = "/Script/ToroCore.PrimitiveDataLibrary.Break_PrimitiveCollision"))

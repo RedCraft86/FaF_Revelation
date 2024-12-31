@@ -15,30 +15,6 @@ enum class EGeneratorLoopMode : uint8
 	Random
 };
 
-USTRUCT(BlueprintType)
-struct TOROCORE_API FTransformMeshData : public FStaticMeshProperties
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 1))
-		FTransform Transform;
-
-	FTransformMeshData() : Transform(FTransform::Identity) {}
-	FStaticMeshProperties operator*() const { return {Mesh, Materials, bCastShadows}; }
-};
-
-USTRUCT(BlueprintType)
-struct TOROCORE_API FSplineMeshData : public FStaticMeshProperties
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = -1))
-		TEnumAsByte<ESplineMeshAxis::Type> MeshAxis;
-
-	FSplineMeshData() : MeshAxis(ESplineMeshAxis::X) {}
-	FStaticMeshProperties operator*() const { return {Mesh, Materials, bCastShadows}; }
-};
-
 UCLASS(Abstract)
 class TOROCORE_API AToroMeshGenBase : public AActor
 {
