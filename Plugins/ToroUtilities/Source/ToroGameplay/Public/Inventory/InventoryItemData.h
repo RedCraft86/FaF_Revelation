@@ -90,11 +90,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = General, meta = (ClampMin = 1, UIMin = 1, EditCondition = "StackingMode != EInventoryStackType::UntilMax"))
 		uint8 StackingValue;
 
-	UPROPERTY(EditAnywhere, Category = General, DisplayName = "Category")
-		EInventoryItemType ItemType;
+	UPROPERTY(EditAnywhere, Category = General)
+		EInventoryItemType Category;
 	
 	UPROPERTY(EditAnywhere, Category = General, meta = (EditCondition = "ItemType == EInventoryItemType::Custom"))
-		FText CustomType;
+		FText CategoryValue;
 	
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		FVector2D PreviewZoomRange;
