@@ -3,7 +3,7 @@
 #include "Inventory/InventoryItemData.h"
 
 UInventoryItemData::UInventoryItemData() : Priority(1), StackingMode(EInventoryStackType::UntilMax)
-	, MaxStackSize(10), MaxNumOfSlots(5), ItemType(EInventoryItemType::Uncategorized), PreviewZoomRange({2.0f})
+	, StackingValue(5), ItemType(EInventoryItemType::Uncategorized), PreviewZoomRange({2.0f})
 {
 #if WITH_EDITORONLY_DATA
 	MetadataKeyGuide = {

@@ -22,8 +22,8 @@ UENUM(BlueprintType)
 enum class EInventoryStackType : uint8
 {
 	UntilMax,
-	Defined,
-	Unique
+	DefinedCount,
+	UniqueSlots
 };
 
 UENUM(BlueprintType)
@@ -84,19 +84,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = General, meta = (MultiLine = true))
 		FText Description;
 	
-	UPROPERTY(EditAnywhere, Category = General)
+	UPROPERTY(EditAnywhere, Category = General, DisplayName = "Stacking")
 		EInventoryStackType StackingMode;
 	
-	UPROPERTY(EditAnywhere, Category = General, meta = (ClampMin = 2, UIMin = 2, EditCondition = "StackingMode == EInventoryStackType::Defined", EditConditionHides))
-		uint8 MaxStackSize;
+	UPROPERTY(EditAnywhere, Category = General, meta = (ClampMin = 1, UIMin = 1, EditCondition = "StackingMode != EInventoryStackType::UntilMax"))
+		uint8 StackingValue;
 
-	UPROPERTY(EditAnywhere, Category = General, meta = (ClampMin = 1, UIMin = 1, EditCondition = "StackingMode == EInventoryStackType::Unique", EditConditionHides))
-		uint8 MaxNumOfSlots;
-
-	UPROPERTY(EditAnywhere, Category = General)
+	UPROPERTY(EditAnywhere, Category = General, DisplayName = "Category")
 		EInventoryItemType ItemType;
 	
-	UPROPERTY(EditAnywhere, Category = General, meta = (EditCondition = "ItemType == EInventoryItemType::Custom", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = General, meta = (EditCondition = "ItemType == EInventoryItemType::Custom"))
 		FText CustomType;
 	
 	UPROPERTY(EditAnywhere, Category = Mesh)
@@ -108,7 +105,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Advanced, meta = (MultiLine = true))
 		TMap<FName, FString> DefaultMetadata;
 
-	UPROPERTY(EditAnywhere, Category = Advanced, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
+	UPROPERTY(EditAnywhere, Category = Advanced, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TArray<TInstancedStruct<FInventoryItemAttribute>> Attributes;
 
 #if WITH_EDITORONLY_DATA
