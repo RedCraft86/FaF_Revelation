@@ -22,13 +22,13 @@ struct TOROGAMEPLAY_API FWTaskWorldSound final : public FWTaskSoundActions
 	UPROPERTY(EditAnywhere, Category = WorldSound, meta = (ClampMin = 0.0f, UIMin = 0.0f, EditCondition = "!bStopSound", EditConditionHides))
 		float StartTime;
 	
-	UPROPERTY(EditAnywhere, Category = "WorldSound|Fade")
+	UPROPERTY(EditAnywhere, Category = WorldSound)
 		bool bFade;
 
-	UPROPERTY(EditAnywhere, Category = "WorldSound|Fade", meta = (ClampMin = 0.1f, UIMin = 0.1f, EditCondition = "bFade", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = WorldSound, meta = (ClampMin = 0.1f, UIMin = 0.1f, EditCondition = "bFade", EditConditionHides))
 		float FadeTime;
 	
-	UPROPERTY(EditAnywhere, Category = "WorldSound|Fade", meta = (EditCondition = "bFade", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = WorldSound, meta = (EditCondition = "bFade", EditConditionHides))
 		EAudioFaderCurve FadeCurve;
 
 	UPROPERTY(EditAnywhere, Category = WorldSound)

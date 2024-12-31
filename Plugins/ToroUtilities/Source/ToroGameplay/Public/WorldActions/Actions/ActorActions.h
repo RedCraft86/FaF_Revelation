@@ -17,7 +17,7 @@ struct TOROGAMEPLAY_API FWTaskActorVisibility final : public FWTaskActorActions
 	UPROPERTY(EditAnywhere, Category = Visibility)
 		EWorldActionChangeType ChangeType;
 
-	UPROPERTY(EditAnywhere, Category = Visibility, meta = (EditCondition = "ChangeType == 0", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = Visibility, meta = (EditCondition = "ChangeType == EWorldActionChangeType::Set", EditConditionHides))
 		bool bVisible;
 
 	UPROPERTY(EditAnywhere, Category = Visibility)
@@ -38,7 +38,7 @@ struct TOROGAMEPLAY_API FWTaskActorCollision final : public FWTaskActorActions
 	UPROPERTY(EditAnywhere, Category = Collision)
 		EWorldActionChangeType ChangeType;
 
-	UPROPERTY(EditAnywhere, Category = Collision, meta = (EditCondition = "ChangeType == 0", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = Collision, meta = (EditCondition = "ChangeType == EWorldActionChangeType::Set", EditConditionHides))
 		bool bCollision;
 
 	UPROPERTY(EditAnywhere, Category = Collision)
@@ -78,13 +78,13 @@ struct TOROGAMEPLAY_API FWTaskActorEnabled final : public FWTaskActorActions
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "ActorEnabled")
+	UPROPERTY(EditAnywhere, Category = Enabled)
 		EWorldActionChangeType ChangeType;
 
-	UPROPERTY(EditAnywhere, Category = "ActorEnabled", meta = (EditCondition = "ChangeType == 0", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = Enabled, meta = (EditCondition = "ChangeType == EWorldActionChangeType::Set", EditConditionHides))
 		bool bEnabled;
 
-	UPROPERTY(EditAnywhere, Category = "ActorEnabled", meta = (AllowedClasses = "/Script/ToroCore.ToroActor,/Script/ToroCore.ToroActor"))
+	UPROPERTY(EditAnywhere, Category = Enabled, meta = (AllowedClasses = "/Script/ToroCore.ToroActor,/Script/ToroCore.ToroActor"))
 		TSet<TSoftObjectPtr<AActor>> Targets;
 	
 	FWTaskActorEnabled() : ChangeType(ACTION_TYPE::Set), bEnabled(true) {}
