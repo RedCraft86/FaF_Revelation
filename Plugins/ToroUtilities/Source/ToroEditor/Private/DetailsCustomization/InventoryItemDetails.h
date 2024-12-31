@@ -55,12 +55,12 @@ private:
 				]
 			];
 
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, ItemType, Category);
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, CustomType, CategoryValue);
+			GET_CLASS_PROPERTY_VAR(UInventoryItemData, ItemType, ItemType);
+			GET_CLASS_PROPERTY_VAR(UInventoryItemData, CustomType, CustomType);
 			GeneralCat.AddCustomRow(INVTEXT("Category"))
 			.NameContent()
 			[
-				Category->CreatePropertyNameWidget()
+				ItemType->CreatePropertyNameWidget()
 			]
 			.ValueContent()
 			[
@@ -70,13 +70,13 @@ private:
 				.MinWidth(110.0f)
 				.AutoWidth()
 				[
-					Category->CreatePropertyValueWidget()
+					ItemType->CreatePropertyValueWidget()
 				]
 				+SHorizontalBox::Slot()
 				.MinWidth(250.0f)
 				.AutoWidth()
 				[
-					CategoryValue->CreatePropertyValueWidget()
+					CustomType->CreatePropertyValueWidget()
 				]
 			];
 		}
