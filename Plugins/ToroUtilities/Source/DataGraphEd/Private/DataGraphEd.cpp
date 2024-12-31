@@ -52,7 +52,7 @@ void FDataGraphEdStyle::Init()
     StyleSet = MakeShareable(new FSlateStyleSet("DataGraphEdStyle"));
     StyleSet->SetContentRoot(IPluginManager::Get().FindPlugin(TEXT("ToroUtilities"))->GetBaseDir() / TEXT("Resources/Icons"));
     
-    StyleSet->Set("ClassThumbnail.GenericDataGraph", new IMAGE_BRUSH_SVG(TEXT("DataGraphIcon"), FVector2D(64.0f)));
+    StyleSet->Set("ClassThumbnail.DataGraphBase", new IMAGE_BRUSH_SVG(TEXT("DataGraphIcon"), FVector2D(64.0f)));
     StyleSet->Set("DataGraph.AutoArrangeNodes", new IMAGE_BRUSH_SVG(TEXT("DataGraphArrange"), FVector2D(20.0f)));
 	
     FSlateStyleRegistry::RegisterSlateStyle(*StyleSet.Get());
