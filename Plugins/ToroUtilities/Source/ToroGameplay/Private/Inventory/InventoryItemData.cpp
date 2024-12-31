@@ -2,8 +2,10 @@
 
 #include "Inventory/InventoryItemData.h"
 
-UInventoryItemData::UInventoryItemData() : Priority(1), StackingMode(EInventoryStackType::UntilMax)
-	, StackingValue(5), Category(EInventoryItemType::Uncategorized), PreviewZoomRange({2.0f})
+UInventoryItemData::UInventoryItemData() : Priority(1), UniqueID(FGuid::NewGuid())
+	, DisplayName(INVTEXT("Generic Item")), Description(INVTEXT("This is a generic item!"))
+	, StackingMode(EInventoryStackType::UntilMax), StackingValue(5)
+	, ItemType(EInventoryItemType::Uncategorized), PreviewZoom({0.5f, 2.0f})
 {
 #if WITH_EDITORONLY_DATA
 	MetadataKeyGuide = {
@@ -70,9 +72,20 @@ void UInventoryItemData::PostInitProperties()
 	UpdateEditorPreviews();
 }
 
-void UInventoryItemData::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent)
+void UInventoryItemData::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
-	UpdateEditorPreviews();
+	if (PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, PreviewZoom))
+	{
+		if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(FVector2D, X))
+		{
+			PreviewZoom.X = FMath::Min(PreviewZoom.X, PreviewZoom.Y - 0.1f);
+		}
+		else
+		{
+			PreviewZoom.Y = FMath::Max(PreviewZoom.X + 0.1f, PreviewZoom.Y);
+		}
+	}
+	else UpdateEditorPreviews();
 }
 #endif

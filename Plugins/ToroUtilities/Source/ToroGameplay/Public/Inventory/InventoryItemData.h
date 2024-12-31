@@ -84,20 +84,20 @@ public:
 	UPROPERTY(EditAnywhere, Category = General, meta = (MultiLine = true))
 		FText Description;
 	
-	UPROPERTY(EditAnywhere, Category = General, DisplayName = "Stacking")
+	UPROPERTY(EditAnywhere, Category = General)
 		EInventoryStackType StackingMode;
 	
 	UPROPERTY(EditAnywhere, Category = General, meta = (ClampMin = 1, UIMin = 1, EditCondition = "StackingMode != EInventoryStackType::UntilMax"))
 		uint8 StackingValue;
 
 	UPROPERTY(EditAnywhere, Category = General)
-		EInventoryItemType Category;
+		EInventoryItemType ItemType;
 	
 	UPROPERTY(EditAnywhere, Category = General, meta = (EditCondition = "ItemType == EInventoryItemType::Custom"))
-		FText CategoryValue;
+		FString CustomType;
 	
-	UPROPERTY(EditAnywhere, Category = Mesh)
-		FVector2D PreviewZoomRange;
+	UPROPERTY(EditAnywhere, Category = Mesh, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		FVector2D PreviewZoom;
 	
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		FTransformMeshData BaseMesh;
@@ -139,6 +139,6 @@ public:
 #if WITH_EDITOR
 	void UpdateEditorPreviews();
 	virtual void PostInitProperties() override;
-	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 };

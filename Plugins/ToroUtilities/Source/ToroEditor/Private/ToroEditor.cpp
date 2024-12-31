@@ -23,6 +23,7 @@
 #include "ZoneCullingVolume.h"
 #include "WorldActions/WorldActionActor.h"
 #include "DetailsCustomization/ToroActorDetails.h"
+#include "DetailsCustomization/InventoryItemDetails.h"
 #include "DetailsCustomization/InlineCurveDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
@@ -71,6 +72,8 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorDetails)
+		
+		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
@@ -124,6 +127,8 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
+		
+		UNREGISTER_CLASS_CUSTOMIZATION(UInventoryItemData)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
