@@ -21,13 +21,18 @@ public:
 
 	virtual bool ConfigureProperties() override
 	{
-		DataClass = UDataAsset::StaticClass();
+		DataClass = SupportedClass;
 		return DataClass ? true : false;
 	}
 
 	virtual FString GetDefaultNewAssetName() const override
 	{
-		return TEXT("New") + (DataClass ? DataClass->GetName() : GetSupportedClass()->GetName());
+		if (!AssetName.IsEmpty())
+		{
+			const_cast<UToroAssetFactory*>(this)->AssetName = FPaths::MakeValidFileName(AssetName);
+			if (AssetName.Len() > 5) return TEXT("New") + AssetName;
+		}
+		return TEXT("New") + (DataClass ? DataClass->GetName() : SupportedClass->GetName());
 	}
 
 	virtual UObject* FactoryCreateNew(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, FFeedbackContext* Warn) override
@@ -39,5 +44,6 @@ public:
 	
 protected:
 
+	FString AssetName;
 	TSubclassOf<UDataAsset> DataClass;
 };
