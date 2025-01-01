@@ -29,6 +29,8 @@
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
+#include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
+
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
 #define REGISTER_TOOL(Tool) Tool::Register(PluginCommands);
@@ -95,6 +97,7 @@ void FToroEditorModule::StartupModule()
 	// Asset Type Actions
 	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::LoadModulePtr<FAssetToolsModule>("AssetTools"))
 	{
+		AssetTypeActions.Add(MakeShareable(new FInventoryItemAssetTypeActions()));
 		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
 		{
 			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());
@@ -188,8 +191,8 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ToroEditor.StaticMeshMerger", new IMAGE_BRUSH_SVG(TEXT("StaticMeshMerger"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshInstancer", new IMAGE_BRUSH_SVG(TEXT("StaticMeshInstancer"), Icon20x20));
 	StyleSet->Set("ToroEditor.InventoryGrid", new IMAGE_BRUSH_SVG(TEXT("InventoryGridSmall"), Icon20x20));
-	StyleSet->Set("ClassThumbnail.InventoryItemBase", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.MusicDataBase", new IMAGE_BRUSH_SVG(TEXT("MusicData"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.WorldMusicData", new IMAGE_BRUSH_SVG(TEXT("MusicData"), Icon64x64));
 	
 	FSlateStyleRegistry::RegisterSlateStyle(*StyleSet.Get());
 }
