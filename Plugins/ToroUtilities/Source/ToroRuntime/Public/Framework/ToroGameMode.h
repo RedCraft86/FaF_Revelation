@@ -9,7 +9,7 @@
 #include "ToroGameMode.generated.h"
 
 UCLASS()
-class TOROCORE_API AToroGameMode : public AGameModeBase
+class TORORUNTIME_API AToroGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 

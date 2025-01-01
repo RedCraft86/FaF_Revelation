@@ -8,7 +8,7 @@
 #include "ToroPlayerCharacter.generated.h"
 
 UCLASS()
-class TOROCORE_API AToroPlayerCharacter : public ACharacter
+class TORORUNTIME_API AToroPlayerCharacter : public ACharacter
 {
 	GENERATED_BODY()
 

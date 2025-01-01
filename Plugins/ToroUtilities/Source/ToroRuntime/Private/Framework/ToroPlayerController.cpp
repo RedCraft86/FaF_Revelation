@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroPlayerController.h"
-#include "ToroPlayerCameraManager.h"
+#include "Framework/ToroPlayerController.h"
+#include "Framework/ToroPlayerCameraManager.h"
 
 AToroPlayerController::AToroPlayerController()
 {

@@ -14,10 +14,13 @@ public class ToroRuntime : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore",
                 "MovieScene",
                 "LevelSequence",
+                "EngineSettings",
+                "ApplicationCore",
                 "GameplayTags",
                 "ToroCore"
             }

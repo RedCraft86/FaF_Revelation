@@ -1,17 +1,17 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroGameMode.h"
-#include "ToroGameState.h"
-#include "ToroWidgetManager.h"
-#include "ToroPlayerCharacter.h"
-#include "ToroPlayerController.h"
+#include "Framework/ToroGameMode.h"
+#include "Framework/ToroMusicManager.h"
+#include "Framework/ToroWidgetManager.h"
+#include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroPlayerController.h"
 
 AToroGameMode::AToroGameMode()
 {
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
-	GameStateClass = AToroGameState::StaticClass();
+	GameStateClass = AToroMusicManager::StaticClass();
 	PlayerControllerClass = AToroPlayerController::StaticClass();
 	PlayerStateClass = AToroWidgetManager::StaticClass();
 	DefaultPawnClass = AToroPlayerCharacter::StaticClass();
