@@ -59,7 +59,7 @@ inline FString LexToString(const EInventoryItemType& InType)
 }
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TOROGAMEPLAY_API UInventoryItemData : public UDataAsset
+class TORORUNTIME_API UInventoryItemData : public UDataAsset
 {
 	GENERATED_BODY()
 

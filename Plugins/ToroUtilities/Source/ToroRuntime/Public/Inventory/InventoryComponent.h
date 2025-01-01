@@ -6,7 +6,7 @@
 #include "InventoryComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup=(Game), meta=(BlueprintSpawnableComponent))
-class TOROGAMEPLAY_API UInventoryComponent : public UActorComponent
+class TORORUNTIME_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()
 

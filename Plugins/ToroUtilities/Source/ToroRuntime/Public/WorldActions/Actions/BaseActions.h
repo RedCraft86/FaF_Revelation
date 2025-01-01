@@ -6,7 +6,7 @@
 #include "BaseActions.generated.h"
 
 USTRUCT(BlueprintType, DisplayName = "Delay")
-struct TOROGAMEPLAY_API FWControlDelay final : public FWorldActionBase
+struct TORORUNTIME_API FWControlDelay final : public FWorldActionBase
 {
 	GENERATED_BODY()
 
@@ -31,7 +31,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Flip Flop")
-struct TOROGAMEPLAY_API FWControlFlipFlop final : public FWorldActionBase
+struct TORORUNTIME_API FWControlFlipFlop final : public FWorldActionBase
 {
 	GENERATED_BODY()
 
@@ -53,7 +53,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Do Once")
-struct TOROGAMEPLAY_API FWControlDoOnce final : public FWorldActionBase
+struct TORORUNTIME_API FWControlDoOnce final : public FWorldActionBase
 {
 	GENERATED_BODY()
 

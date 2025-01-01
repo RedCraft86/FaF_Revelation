@@ -8,11 +8,11 @@
 #include "SoundActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Sound Actions", meta = (Hidden))
-struct TOROGAMEPLAY_API FWTaskSoundActions : public FWorldActionBase
+struct TORORUNTIME_API FWTaskSoundActions : public FWorldActionBase
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "World Sound")
-struct TOROGAMEPLAY_API FWTaskWorldSound final : public FWTaskSoundActions
+struct TORORUNTIME_API FWTaskWorldSound final : public FWTaskSoundActions
 {
 	GENERATED_BODY()
 
@@ -45,7 +45,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "2D Sound")
-struct TOROGAMEPLAY_API FWTaskSound2D final : public FWTaskSoundActions
+struct TORORUNTIME_API FWTaskSound2D final : public FWTaskSoundActions
 {
 	GENERATED_BODY()
 

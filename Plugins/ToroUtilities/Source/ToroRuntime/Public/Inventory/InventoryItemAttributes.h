@@ -6,7 +6,7 @@
 #include "InventoryItemAttributes.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
-struct TOROGAMEPLAY_API FInventoryItemAttribute
+struct TORORUNTIME_API FInventoryItemAttribute
 {
 	GENERATED_BODY()
 
@@ -15,7 +15,7 @@ struct TOROGAMEPLAY_API FInventoryItemAttribute
 };
 
 USTRUCT(DisplayName = "Alt Names")
-struct TOROGAMEPLAY_API FInvItemAltName : public FInventoryItemAttribute
+struct TORORUNTIME_API FInvItemAltName : public FInventoryItemAttribute
 {
 	GENERATED_BODY()
 
@@ -33,7 +33,7 @@ struct TOROGAMEPLAY_API FInvItemAltName : public FInventoryItemAttribute
 };
 
 USTRUCT(DisplayName = "Alt Descriptions")
-struct TOROGAMEPLAY_API FInvItemAltDescription : public FInventoryItemAttribute
+struct TORORUNTIME_API FInvItemAltDescription : public FInventoryItemAttribute
 {
 	GENERATED_BODY()
 
@@ -51,7 +51,7 @@ struct TOROGAMEPLAY_API FInvItemAltDescription : public FInventoryItemAttribute
 };
 
 USTRUCT(DisplayName = "Alt Previews")
-struct TOROGAMEPLAY_API FInvItemAltPreview : public FInventoryItemAttribute
+struct TORORUNTIME_API FInvItemAltPreview : public FInventoryItemAttribute
 {
 	GENERATED_BODY()
 
@@ -62,7 +62,7 @@ struct TOROGAMEPLAY_API FInvItemAltPreview : public FInventoryItemAttribute
 };
 
 USTRUCT(DisplayName = "Viewable")
-struct TOROGAMEPLAY_API FInvItemViewable : public FInventoryItemAttribute
+struct TORORUNTIME_API FInvItemViewable : public FInventoryItemAttribute
 {
 	GENERATED_BODY()
 
@@ -79,7 +79,7 @@ struct TOROGAMEPLAY_API FInvItemViewable : public FInventoryItemAttribute
 };
 
 USTRUCT(DisplayName = "Consumable")
-struct TOROGAMEPLAY_API FInvItemConsumable : public FInventoryItemAttribute
+struct TORORUNTIME_API FInvItemConsumable : public FInventoryItemAttribute
 {
 	GENERATED_BODY()
 
@@ -93,7 +93,7 @@ struct TOROGAMEPLAY_API FInvItemConsumable : public FInventoryItemAttribute
 };
 
 USTRUCT(DisplayName = "Equipment")
-struct TOROGAMEPLAY_API FInvItemEquipment : public FInventoryItemAttribute
+struct TORORUNTIME_API FInvItemEquipment : public FInventoryItemAttribute
 {
 	GENERATED_BODY()
 

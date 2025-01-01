@@ -28,7 +28,7 @@ enum class EWorldActionChangeType : uint8
 #define ACTION_TYPE EWorldActionChangeType
 
 USTRUCT(BlueprintInternalUseOnly)
-struct TOROGAMEPLAY_API FWorldActionBase
+struct TORORUNTIME_API FWorldActionBase
 {
 	GENERATED_BODY()
 

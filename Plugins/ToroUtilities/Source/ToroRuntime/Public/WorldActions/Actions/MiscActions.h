@@ -6,11 +6,11 @@
 #include "MiscActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Misc Actions", meta = (Hidden))
-struct TOROGAMEPLAY_API FWTaskMiscActions : public FWorldActionBase
+struct TORORUNTIME_API FWTaskMiscActions : public FWorldActionBase
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Level Streaming")
-struct TOROGAMEPLAY_API FWTaskLevelStreaming final : public FWTaskMiscActions
+struct TORORUNTIME_API FWTaskLevelStreaming final : public FWTaskMiscActions
 {
 	GENERATED_BODY()
 
@@ -31,7 +31,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Level Sequence")
-struct TOROGAMEPLAY_API FWTaskLevelSequence final : public FWTaskMiscActions
+struct TORORUNTIME_API FWTaskLevelSequence final : public FWTaskMiscActions
 {
 	GENERATED_BODY()
 

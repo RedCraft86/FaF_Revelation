@@ -8,7 +8,7 @@
 #include "WorldActionComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup=(Game), meta=(BlueprintSpawnableComponent))
-class TOROGAMEPLAY_API UWorldActionComponent final : public UActorComponent
+class TORORUNTIME_API UWorldActionComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 

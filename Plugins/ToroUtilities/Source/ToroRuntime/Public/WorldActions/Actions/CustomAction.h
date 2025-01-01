@@ -7,7 +7,7 @@
 #include "CustomAction.generated.h"
 
 UCLASS(Abstract, EditInlineNew, Blueprintable, BlueprintType)
-class TOROGAMEPLAY_API UWorldActionObject : public UObject
+class TORORUNTIME_API UWorldActionObject : public UObject
 {
 	GENERATED_BODY()
 
@@ -54,7 +54,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Custom")
-struct TOROGAMEPLAY_API FWControlObject final : public FWorldActionBase
+struct TORORUNTIME_API FWControlObject final : public FWorldActionBase
 {
 	GENERATED_BODY()
 

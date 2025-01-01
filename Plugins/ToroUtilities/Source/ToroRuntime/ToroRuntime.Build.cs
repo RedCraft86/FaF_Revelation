@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class ToroGameplay : ModuleRules
+public class ToroRuntime : ModuleRules
 {
-    public ToroGameplay(ReadOnlyTargetRules Target) : base(Target)
+    public ToroRuntime(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 

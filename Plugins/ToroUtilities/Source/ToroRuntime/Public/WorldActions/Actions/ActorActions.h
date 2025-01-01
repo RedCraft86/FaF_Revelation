@@ -6,11 +6,11 @@
 #include "ActorActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Actor Actions", meta = (Hidden))
-struct TOROGAMEPLAY_API FWTaskActorActions : public FWorldActionBase
+struct TORORUNTIME_API FWTaskActorActions : public FWorldActionBase
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Visibility")
-struct TOROGAMEPLAY_API FWTaskActorVisibility final : public FWTaskActorActions
+struct TORORUNTIME_API FWTaskActorVisibility final : public FWTaskActorActions
 {
 	GENERATED_BODY()
 	
@@ -31,7 +31,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Collision")
-struct TOROGAMEPLAY_API FWTaskActorCollision final : public FWTaskActorActions
+struct TORORUNTIME_API FWTaskActorCollision final : public FWTaskActorActions
 {
 	GENERATED_BODY()
 	
@@ -52,7 +52,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Tags")
-struct TOROGAMEPLAY_API FWTaskActorTags final : public FWTaskActorActions
+struct TORORUNTIME_API FWTaskActorTags final : public FWTaskActorActions
 {
 	GENERATED_BODY()
 
@@ -74,7 +74,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Enabled")
-struct TOROGAMEPLAY_API FWTaskActorEnabled final : public FWTaskActorActions
+struct TORORUNTIME_API FWTaskActorEnabled final : public FWTaskActorActions
 {
 	GENERATED_BODY()
 
@@ -95,11 +95,11 @@ protected:
 };
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Static Mesh", meta = (Hidden))
-struct TOROGAMEPLAY_API FWTaskSMActorActions : public FWTaskActorActions
+struct TORORUNTIME_API FWTaskSMActorActions : public FWTaskActorActions
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Override Materials")
-struct TOROGAMEPLAY_API FWTaskSMMaterial final : public FWTaskSMActorActions
+struct TORORUNTIME_API FWTaskSMMaterial final : public FWTaskSMActorActions
 {
 	GENERATED_BODY()
 
@@ -117,7 +117,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Primitive Data")
-struct TOROGAMEPLAY_API FWTaskSMPrimitiveData final : public FWTaskSMActorActions
+struct TORORUNTIME_API FWTaskSMPrimitiveData final : public FWTaskSMActorActions
 {
 	GENERATED_BODY()
 	

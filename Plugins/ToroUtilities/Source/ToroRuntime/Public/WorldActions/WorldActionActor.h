@@ -7,7 +7,7 @@
 #include "WorldActionActor.generated.h"
 
 UCLASS(meta = (HiddenCategories = "Collision, Actor"))
-class TOROGAMEPLAY_API AWorldActionActor final : public AActor
+class TORORUNTIME_API AWorldActionActor final : public AActor
 {
 	GENERATED_BODY()
 

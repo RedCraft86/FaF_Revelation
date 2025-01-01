@@ -32,7 +32,7 @@ public class ToroEditor : ModuleRules
                 "ContentBrowserData",
                 "EditorScriptingUtilities", 
                 "ToroCore",
-                "ToroGameplay"
+                "ToroRuntime"
             }
         );
     }

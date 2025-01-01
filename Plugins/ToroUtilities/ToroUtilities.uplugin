@@ -39,7 +39,7 @@
 			"LoadingPhase": "PostEngineInit"
 		},
 		{
-			"Name": "ToroGameplay",
+			"Name": "ToroRuntime",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
