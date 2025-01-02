@@ -77,8 +77,8 @@ void UToroShortcutLibrary::SkipLevelSequence(const ALevelSequenceActor* Target)
 
 void UToroShortcutLibrary::BindOnSequenceFinished(const ALevelSequenceActor* Target, const FRCBasicDelegate& Callback)
 {
-	ULevelSequencePlayer* Player = IsValid(Target) ? Target->GetSequencePlayer() : nullptr;
-	if (Player && Callback.IsBound())
+	if (!Callback.IsBound()) return;
+	if (ULevelSequencePlayer* Player = IsValid(Target) ? Target->GetSequencePlayer() : nullptr)
 	{
 		Player->OnFinished.AddUnique(Callback);
 	}
@@ -86,50 +86,10 @@ void UToroShortcutLibrary::BindOnSequenceFinished(const ALevelSequenceActor* Tar
 
 void UToroShortcutLibrary::UnbindOnSequenceFinished(const ALevelSequenceActor* Target, const FRCBasicDelegate& Callback)
 {
-	ULevelSequencePlayer* Player = IsValid(Target) ? Target->GetSequencePlayer() : nullptr;
-	if (Player && Callback.IsBound())
+	if (!Callback.IsBound()) return;
+	if (ULevelSequencePlayer* Player = IsValid(Target) ? Target->GetSequencePlayer() : nullptr)
 	{
 		Player->OnFinished.Remove(Callback);
-	}
-}
-
-void UToroShortcutLibrary::PlayAmbientSound(const AAmbientSound* Target, const float StartTime)
-{
-	if (UAudioComponent* Audio = IsValid(Target) ? Target->GetAudioComponent() : nullptr)
-	{
-		Audio->Play(StartTime);
-	}
-}
-
-void UToroShortcutLibrary::StopAmbientSound(const AAmbientSound* Target, const float DelayTime)
-{
-	if (UAudioComponent* Audio = IsValid(Target) ? Target->GetAudioComponent() : nullptr)
-	{
-		Audio->StopDelayed(DelayTime);
-	}
-}
-
-void UToroShortcutLibrary::FadeInAmbientSound(const AAmbientSound* Target, const float FadeTime, const float FadeVolume, const float StartTime)
-{
-	if (UAudioComponent* Audio = IsValid(Target) ? Target->GetAudioComponent() : nullptr)
-	{
-		Audio->FadeIn(FadeTime, FadeVolume, StartTime);
-	}
-}
-
-void UToroShortcutLibrary::FadeOutAmbientSound(const AAmbientSound* Target, const float FadeTime, const float FadeVolume)
-{
-	if (UAudioComponent* Audio = IsValid(Target) ? Target->GetAudioComponent() : nullptr)
-	{
-		Audio->FadeOut(FadeTime, FadeVolume);
-	}
-}
-
-void UToroShortcutLibrary::AdjustAmbientSoundVolume(const AAmbientSound* Target, const float FadeTime, const float FadeVolume)
-{
-	if (UAudioComponent* Audio = IsValid(Target) ? Target->GetAudioComponent() : nullptr)
-	{
-		Audio->AdjustVolume(FadeTime, FadeVolume);
 	}
 }
 

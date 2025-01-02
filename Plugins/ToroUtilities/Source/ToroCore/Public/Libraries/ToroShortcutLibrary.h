@@ -82,26 +82,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "LevelSequence", meta = (DefaultToSelf = "Target"))
 		static void UnbindOnSequenceFinished(const ALevelSequenceActor* Target, const FRCBasicDelegate& Callback);
 
-	/* Plays an Ambient Sound actor with optional Start Time. */
-	UFUNCTION(BlueprintCallable, Category = "AmbientSound", DisplayName = "Play", meta = (DefaultToSelf = "Target"))
-		static void PlayAmbientSound(const AAmbientSound* Target, const float StartTime = 0.0f);
-
-	/* Stops an Ambient Sound actor with optional Delay Time. */
-	UFUNCTION(BlueprintCallable, Category = "AmbientSound", DisplayName = "Stop", meta = (DefaultToSelf = "Target"))
-		static void StopAmbientSound(const AAmbientSound* Target, const float DelayTime = 0.0f);
-	
-	/* Fades In an Ambient Sound actor with optional Start Time. */
-	UFUNCTION(BlueprintCallable, Category = "AmbientSound", DisplayName = "Fade In", meta = (DefaultToSelf = "Target"))
-		static void FadeInAmbientSound(const AAmbientSound* Target, const float FadeTime = 1.0f, const float FadeVolume = 1.0f, const float StartTime = 0.0f);
-
-	/* Fades Out Ambient Sound actor. */
-	UFUNCTION(BlueprintCallable, Category = "AmbientSound", DisplayName = "Fade Out", meta = (DefaultToSelf = "Target"))
-		static void FadeOutAmbientSound(const AAmbientSound* Target, const float FadeTime = 1.0f, const float FadeVolume = 0.0f);
-
-	/* Adjust an Ambient Sound actor's volume level smoothly. */
-	UFUNCTION(BlueprintCallable, Category = "AmbientSound", DisplayName = "Adjust Volume", meta = (DefaultToSelf = "Target"))
-		static void AdjustAmbientSoundVolume(const AAmbientSound* Target, const float FadeTime = 1.0f, const float FadeVolume = 1.0f);
-
 	/* EDITOR ONLY - Adds a component to an actor similar to the add component functions but also refreshes component list to include this new one. */
 	UFUNCTION(BlueprintCallable, Category = "Actor", meta = (DeterminesOutputType = "InClass", DynamicOutputParam = "ReturnValue"))
 		static UActorComponent* AddActorInstanceComponent(AActor* Target, const TSubclassOf<UActorComponent> InClass);
