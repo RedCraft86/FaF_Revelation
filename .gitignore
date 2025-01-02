@@ -31,12 +31,13 @@
 
 .idea/
 .vs/
-Binaries/
-Archives/
-DerivedDataCache/
-Intermediate/
+/Archives/
+/Binaries/
 /Config/
 /Content/
+/DerivedDataCache/
+/FMODProject/
+/Intermediate/
 /Saved/
 
 Build/*
@@ -45,7 +46,9 @@ Build/*/**
 !/Build/*/PakBlacklist*.txt
 !/Build/**/*.ico
 
-Plugins/*
-!Plugins/ToroUtilities/
+/Plugins/*
+!/Plugins/ToroUtilities/
+/Plugins/ToroUtilities/Binaries/
+/Plugins/ToroUtilities/Intermediate/
 
 Backup.Lock
