@@ -58,6 +58,14 @@
 		{
 			"Name": "ExpressiveText",
 			"Enabled": true
+		},
+		{
+			"Name": "Narrative",
+			"Enabled": true
+		},
+		{
+			"Name": "FMODStudio",
+			"Enabled": true
 		}
 	]
 }
