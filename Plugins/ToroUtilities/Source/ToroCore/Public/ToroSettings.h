@@ -7,7 +7,7 @@
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "ToroSettings.generated.h"
 
-UCLASS(Config = Game, DefaultConfig, DisplayName = "Runtime Settings")
+UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro - Runtime")
 class TOROCORE_API UToroSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -16,8 +16,8 @@ public:
 
 	UToroSettings()
 	{
-		CategoryName = TEXT("ToroUtilities");
-		SectionName = TEXT("RuntimeSettings");
+		CategoryName = TEXT("Project");
+		SectionName = TEXT("ToroRuntime");
 	}
 
 	SETTING_GETTER(UToroSettings)

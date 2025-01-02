@@ -12,7 +12,7 @@ enum class EDataGraphLayoutStrategy : uint8
 	ForceDirected,
 };
 
-UCLASS(Config = Editor, DefaultConfig, DisplayName = "Data Graph")
+UCLASS(Config = Editor, DefaultConfig, DisplayName = "Toro - Data Graph")
 class DATAGRAPHED_API UDataGraphEdSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -22,8 +22,8 @@ public:
 	UDataGraphEdSettings() : OptimalDistance(100.f), AutoLayoutStrategy(EDataGraphLayoutStrategy::Tree)
 		, MaxIteration(50), bFirstPassOnly(false), bRandomInit(false), InitTemperature(10.f), CoolDownRate(10.f)
 	{
-		CategoryName = TEXT("ToroUtilities");
-		SectionName = TEXT("DataGraphSettings");
+		CategoryName = TEXT("Project");
+		SectionName = TEXT("ToroDataGraph");
 	}
 
 	SETTING_GETTER(UDataGraphEdSettings)

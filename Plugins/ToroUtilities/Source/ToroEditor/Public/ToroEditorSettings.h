@@ -6,7 +6,7 @@
 #include "Engine/DeveloperSettings.h"
 #include "ToroEditorSettings.generated.h"
 
-UCLASS(Config = Editor, DefaultConfig, DisplayName = "Editor Settings")
+UCLASS(Config = Editor, DefaultConfig, DisplayName = "Toro - Editor")
 class TOROEDITOR_API UToroEditorSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -19,8 +19,8 @@ public:
 			{ TEXT("r.Streaming.PoolSize"), TEXT("3000") }
 		})
 	{
-		CategoryName = TEXT("ToroUtilities");
-		SectionName = TEXT("EditorSettings");
+		CategoryName = TEXT("Project");
+		SectionName = TEXT("ToroEditor");
 	}
 
 	SETTING_GETTER(UToroEditorSettings)
