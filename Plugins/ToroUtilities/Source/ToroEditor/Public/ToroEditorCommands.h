@@ -10,14 +10,14 @@
 #define REGISTER_TOP_MENU(Tool) \
 	if (UToolMenu* Menu = UToolMenus::Get()->ExtendMenu("LevelEditor.MainMenu.Tools")) \
 	{ \
-		FToolMenuSection& Section = Menu->FindOrAddSection("ToolsButton.ToroEditor", INVTEXT("Toro Utilities")); \
+		FToolMenuSection& Section = Menu->FindOrAddSection("ToroEditor", INVTEXT("Toro Utilities")); \
 		Section.AddMenuEntry(FToroEditorCommands::Get().Tool); \
 	}
 
 #define REGISTER_TOOLBAR(Tool, Category) \
 	if (UToolMenu* ToolbarMenu = UToolMenus::Get()->ExtendMenu("LevelEditor.LevelEditorToolBar.PlayToolBar")) \
 	{ \
-		FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("ToolbarButton.ToroEditor."#Category); \
+		FToolMenuSection& Section = ToolbarMenu->FindOrAddSection("Toolbar."#Category); \
 		Section.AddEntry(FToolMenuEntry::InitToolBarButton(FToroEditorCommands::Get().Tool)).SetCommandList(Commands); \
 	}
 
