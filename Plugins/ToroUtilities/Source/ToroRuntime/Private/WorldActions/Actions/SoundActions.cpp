@@ -5,18 +5,10 @@
 
 void FWTaskWorldSound::RunEvent(const UObject* WorldContext)
 {
-	FOR_EACH_SOFT_PTR(Targets, AAmbientSound, {
-		if (UAudioComponent* AudioComp = Ptr->GetAudioComponent())
+	FOR_EACH_SOFT_PTR(Targets, AFMODAmbientSound, {
+		if (UFMODAudioComponent* AudioComp = Ptr->AudioComponent)
 		{
-			if (bFade)
-			{
-				bStopSound ? AudioComp->FadeOut(FadeTime, 0.0f, FadeCurve) :
-					AudioComp->FadeIn(FadeTime, 1.0f, StartTime, FadeCurve);
-			}
-			else
-			{
-				bStopSound ? AudioComp->Stop() : AudioComp->Play();
-			}
+			bStopSound ? AudioComp->Stop() : AudioComp->Play();
 		}
 	})
 }

@@ -2,8 +2,7 @@
 
 #pragma once
 
-#include "Sound/AmbientSound.h"
-#include "Components/AudioComponent.h"
+#include "FMODAmbientSound.h"
 #include "WorldActions/WorldActionBase.h"
 #include "SoundActions.generated.h"
 
@@ -18,26 +17,12 @@ struct TORORUNTIME_API FWTaskWorldSound final : public FWTaskSoundActions
 
 	UPROPERTY(EditAnywhere, Category = WorldSound)
 		bool bStopSound;
-	
-	UPROPERTY(EditAnywhere, Category = WorldSound, meta = (ClampMin = 0.0f, UIMin = 0.0f, EditCondition = "!bStopSound", EditConditionHides))
-		float StartTime;
-	
-	UPROPERTY(EditAnywhere, Category = WorldSound)
-		bool bFade;
-
-	UPROPERTY(EditAnywhere, Category = WorldSound, meta = (ClampMin = 0.1f, UIMin = 0.1f, EditCondition = "bFade", EditConditionHides))
-		float FadeTime;
-	
-	UPROPERTY(EditAnywhere, Category = WorldSound, meta = (EditCondition = "bFade", EditConditionHides))
-		EAudioFaderCurve FadeCurve;
 
 	UPROPERTY(EditAnywhere, Category = WorldSound)
-		TSet<TSoftObjectPtr<AAmbientSound>> Targets;
+	// ReSharper disable once UnrealHeaderToolError
+	TSet<TSoftObjectPtr<AFMODAmbientSound>> Targets;
 
-	FWTaskWorldSound()
-		: bStopSound(false), StartTime(0.0f), bFade(false), FadeTime(1.0f)
-		, FadeCurve(EAudioFaderCurve::Linear), Targets({})
-	{}
+	FWTaskWorldSound() : bStopSound(false) {}
 
 protected:
 	
