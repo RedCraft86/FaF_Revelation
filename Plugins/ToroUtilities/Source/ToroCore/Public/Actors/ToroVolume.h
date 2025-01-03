@@ -32,6 +32,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Actor")
 		FGuid GetRuntimeGuid() const { return RuntimeGuid; }
 
+	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
+		void EnableStateChangedEvent(const bool bState);
+	
 	DECLARE_MULTICAST_DELEGATE_OneParam(FActorEnableChanged, const bool);
 		FActorEnableChanged OnEnableStateChangedEvent;
 

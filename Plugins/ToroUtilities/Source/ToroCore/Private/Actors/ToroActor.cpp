@@ -44,7 +44,7 @@ void AToroActor::BeginPlay()
 {
 	Super::BeginPlay();
 	SetActorEnableCollision(bStartWithCollisionEnabled);
-	if (!bEnabled) OnEnableStateChanged(bEnabled);
+	if (!bEnabled) ON_ENABLE_STATE_CHANGED
 }
 
 void AToroActor::OnConstruction(const FTransform& Transform)

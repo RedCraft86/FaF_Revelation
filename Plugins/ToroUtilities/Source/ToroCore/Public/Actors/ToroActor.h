@@ -7,7 +7,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEnableChangedSignature, const bool, bEnabled);
 
-#define ON_ENABLE_STATE_CHANGED { OnEnableStateChanged(bEnabled); OnEnableStateChangedEvent.Broadcast(bEnabled); OnEnableStateChangedBP.Broadcast(bEnabled); }
+#define ON_ENABLE_STATE_CHANGED { OnEnableStateChanged(bEnabled); OnEnableStateChangedEvent.Broadcast(bEnabled); EnableStateChangedEvent(bEnabled); OnEnableStateChangedBP.Broadcast(bEnabled); }
 
 UCLASS(Abstract)
 class TOROCORE_API AToroActor : public AActor
@@ -38,6 +38,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Actor")
 		FGuid GetRuntimeGuid() const { return RuntimeGuid; }
 
+	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
+		void EnableStateChangedEvent(const bool bState);
+	
 	DECLARE_MULTICAST_DELEGATE_OneParam(FActorEnableChanged, const bool);
 	FActorEnableChanged OnEnableStateChangedEvent;
 
