@@ -6,7 +6,7 @@
 #include "Engine/DeveloperSettings.h"
 #include "ToroEditorSettings.generated.h"
 
-UCLASS(Config = Editor, DefaultConfig, DisplayName = "Toro - Editor")
+UCLASS(Config = Editor, DefaultConfig, DisplayName = "Toro Editor")
 class TOROEDITOR_API UToroEditorSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
