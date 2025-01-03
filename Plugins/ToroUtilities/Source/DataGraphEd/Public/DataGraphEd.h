@@ -10,8 +10,8 @@ class FDataGraphEdModule final : public IModuleInterface
 {
 public:
     
-    void StartupModule() override;
-    void ShutdownModule() override;
+    virtual void StartupModule() override;
+    virtual void ShutdownModule() override;
 
 private:
 
