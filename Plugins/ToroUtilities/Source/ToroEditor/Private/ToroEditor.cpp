@@ -190,7 +190,7 @@ void FToroEditorStyle::Init()
 	const FVector2D Icon64x64(64.0f, 64.0f);
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	
-	StyleSet->Set("ToroEditor.FMODOpener", new IMAGE_BRUSH_SVG(TEXT("MusicData"), Icon20x20));
+	StyleSet->Set("ToroEditor.FMODOpener", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon20x20));
 	StyleSet->Set("ToroEditor.RestartEditor", new IMAGE_BRUSH_SVG(TEXT("RestartEditor"), Icon20x20));
 	StyleSet->Set("ToroEditor.ChannelPacker", new IMAGE_BRUSH_SVG(TEXT("ChannelPacker"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshBaker", new IMAGE_BRUSH_SVG(TEXT("StaticMeshBaker"), Icon20x20));
