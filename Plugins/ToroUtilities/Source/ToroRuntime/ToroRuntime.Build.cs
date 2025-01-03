@@ -22,8 +22,7 @@ public class ToroRuntime : ModuleRules
                 "EngineSettings",
                 "ApplicationCore",
                 "GameplayTags",
-                "ToroCore",
-                "FMODStudio"
+                "ToroCore"
             }
         );
     }
