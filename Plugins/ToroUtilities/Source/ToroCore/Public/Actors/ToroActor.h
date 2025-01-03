@@ -46,7 +46,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -10))
 		bool bEnabled;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -10))
+	UPROPERTY(EditAnywhere, Category = "Settings", NonPIEDuplicateTransient, TextExportTransient, NonTransactional, AdvancedDisplay, meta = (DisplayPriority = 10))
 		FGuid RuntimeGuid;
 
 	UPROPERTY(EditAnywhere, Category = "Collision")
