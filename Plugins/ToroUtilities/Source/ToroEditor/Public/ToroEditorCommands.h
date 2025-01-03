@@ -33,9 +33,6 @@ public:
 
 	virtual void RegisterCommands() override
 	{
-		UI_COMMAND(FMODOpener, "Open FMOD Studio", "Opens the FMOD Studio Project associated to this game",
-			EUserInterfaceActionType::Button, FInputChord());
-		
 		UI_COMMAND(RestartEditor, "Restart Editor", "Restarts the Unreal Editor",
 			EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control | EModifierKey::Shift, EKeys::R));
 		
@@ -52,7 +49,6 @@ public:
 			EUserInterfaceActionType::Button, FInputChord());
 	}
 
-	TSharedPtr<FUICommandInfo> FMODOpener;
 	TSharedPtr<FUICommandInfo> RestartEditor;
 	TSharedPtr<FUICommandInfo> ChannelPacker;
 	TSharedPtr<FUICommandInfo> StaticMeshMerger;
