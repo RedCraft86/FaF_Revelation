@@ -28,6 +28,8 @@
 
 #define UNREGISTER_VISUALIZER(Component) GUnrealEd->UnregisterComponentVisualizer(Component::StaticClass()->GetFName());
 
+DECLARE_LOG_CATEGORY_EXTERN(LogToroEditor, All, All);
+
 class FToroEditorModule final : public IModuleInterface
 {
 public:

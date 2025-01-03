@@ -10,6 +10,7 @@
 #include "UnrealEd.h"
 
 #include "ToroEditorCommands.h"
+#include "EditorTools/FMODOpener.h"
 #include "EditorTools/RestartEditor.h"
 #include "EditorTools/StaticMeshBaker.h"
 #include "EditorTools/StaticMeshMerger.h"
@@ -36,6 +37,8 @@
 #define REGISTER_TOOL(Tool) Tool::Register(PluginCommands);
 #define REGISTER_TOOL_MENUS(Tool) Tool::RegisterMenus(PluginCommands);
 
+DEFINE_LOG_CATEGORY(LogToroEditor);
+
 void FToroEditorModule::StartupModule()
 {
 	FToroEditorStyle::Init();
@@ -45,6 +48,7 @@ void FToroEditorModule::StartupModule()
 		FToroEditorCommands::Register();
 
 		PluginCommands = MakeShareable(new FUICommandList);
+		REGISTER_TOOL(FFMODOpener)
 		REGISTER_TOOL(FRestartEditor)
 		REGISTER_TOOL(FStaticMeshBaker)
 		REGISTER_TOOL(FStaticMeshMerger)
@@ -166,6 +170,7 @@ void FToroEditorModule::RegisterMenus()
 {
 	FToolMenuOwnerScoped OwnerScoped(this);
 	{
+		REGISTER_TOOL_MENUS(FFMODOpener)
 		REGISTER_TOOL_MENUS(FRestartEditor)
 		REGISTER_TOOL_MENUS(FStaticMeshBaker)
 		REGISTER_TOOL_MENUS(FStaticMeshMerger)
@@ -185,17 +190,20 @@ void FToroEditorStyle::Init()
 	const FVector2D Icon64x64(64.0f, 64.0f);
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	
+	StyleSet->Set("ToroEditor.FMODOpener", new IMAGE_BRUSH_SVG(TEXT("MusicData"), Icon20x20));
 	StyleSet->Set("ToroEditor.RestartEditor", new IMAGE_BRUSH_SVG(TEXT("RestartEditor"), Icon20x20));
 	StyleSet->Set("ToroEditor.ChannelPacker", new IMAGE_BRUSH_SVG(TEXT("ChannelPacker"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshBaker", new IMAGE_BRUSH_SVG(TEXT("StaticMeshBaker"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshMerger", new IMAGE_BRUSH_SVG(TEXT("StaticMeshMerger"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshInstancer", new IMAGE_BRUSH_SVG(TEXT("StaticMeshInstancer"), Icon20x20));
 	StyleSet->Set("ToroEditor.InventoryGrid", new IMAGE_BRUSH_SVG(TEXT("InventoryGridSmall"), Icon20x20));
+	
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.WorldMusicData", new IMAGE_BRUSH_SVG(TEXT("MusicData"), Icon64x64));
-	
+
 	FSlateStyleRegistry::RegisterSlateStyle(*StyleSet.Get());
 }
+#undef RootToContentDir
 
 void FToroEditorStyle::Shutdown()
 {
@@ -206,7 +214,7 @@ void FToroEditorStyle::Shutdown()
 		StyleSet.Reset();
 	}
 }
-#undef RootToContentDir
+
     
 IMPLEMENT_MODULE(FToroEditorModule, ToroEditor)
 
