@@ -161,13 +161,13 @@ UCurveLinearColor* FInlineColorCurve::GetCurveAsset() const
 FLinearColor FInlineColorCurve::GetValue(float InTime) const
 {
 	FLinearColor Result = {
-		GetRichCurveConst(0)->Eval(InTime),
-		GetRichCurveConst(1)->Eval(InTime),
-		GetRichCurveConst(2)->Eval(InTime)
+		FMath::Max(0.0f, GetRichCurveConst(0)->Eval(InTime)),
+		FMath::Max(0.0f, GetRichCurveConst(1)->Eval(InTime)),
+		FMath::Max(0.0f, GetRichCurveConst(2)->Eval(InTime))
 	};
 	
 	const FRichCurve* Alpha = GetRichCurveConst(3);
-	Result.A = Alpha->GetNumKeys() == 0 ? 1.0f : Alpha->Eval(InTime);
+	Result.A = Alpha->GetNumKeys() == 0 ? 1.0f : FMath::Max(0.0f, Alpha->Eval(InTime));
 
 	return Result;
 }
