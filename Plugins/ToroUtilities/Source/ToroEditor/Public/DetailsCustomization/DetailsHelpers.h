@@ -3,7 +3,21 @@
 #pragma once
 
 #define GET_CLASS_PROPERTY(Class, Member) DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(Class, Member))
+#define GET_PROPERTY(Member) GET_CLASS_PROPERTY(CLASSNAME, Member)
 
 #define GET_CLASS_PROPERTY_VAR(Class, Member, VarName) \
 	TSharedRef<IPropertyHandle> VarName = GET_CLASS_PROPERTY(Class, Member); \
 	VarName->MarkHiddenByCustomization();
+
+#define GET_PROPERTY_VAR(Member, VarName) GET_CLASS_PROPERTY_VAR(CLASSNAME, Member, VarName)
+
+namespace DetailsHelpers
+{
+	TOROEDITOR_API inline bool IsPropertyFromChildClass(const TSharedRef<IPropertyHandle>& InHandle, const UClass* BaseClass)
+	{
+		if (!BaseClass) return false;
+		const FProperty* Property = InHandle->GetProperty();
+		const UClass* OwningClass = Property ? Property->GetOwnerClass() : nullptr;
+		return OwningClass ? BaseClass->IsChildOf(OwningClass) : false;
+	}
+}
