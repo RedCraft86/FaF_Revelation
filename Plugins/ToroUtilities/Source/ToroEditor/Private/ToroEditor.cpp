@@ -27,6 +27,7 @@
 #include "DetailsCustomization/InlineCurveDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
+#include "DetailsCustomization/ElectricLightDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
@@ -70,12 +71,14 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
-		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
 		
 		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
 		
@@ -132,6 +135,8 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
+		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
 		
 		UNREGISTER_CLASS_CUSTOMIZATION(UInventoryItemData)
 		
