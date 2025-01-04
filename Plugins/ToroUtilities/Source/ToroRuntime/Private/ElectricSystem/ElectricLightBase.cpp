@@ -3,7 +3,8 @@
 #include "ElectricSystem/ElectricLightBase.h"
 #include "Components/LightComponent.h"
 
-AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), MeshMulti(1.0f), MeshFresnel(0.5f)
+AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), FlickerRange(0.0f, 1.0f)
+	, MeshMulti(1.0f), MeshFresnel(0.5f), MeshFlicker(0.0f, 1.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
@@ -11,6 +12,7 @@ AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), MeshMulti(1.0f), 
 	ZoneCulling = CreateDefaultSubobject<UZoneCullingComponent>("ZoneCulling");
 
 	MinEnergy = 0;
+	
 	
 	if (FRichCurve* Curve = FlickerCurve.GetRichCurve())
 	{
@@ -142,6 +144,9 @@ void AElectricLightBase::BeginPlay()
 	Super::BeginPlay();
 	SetActorTickEnabled(ShouldTick());
 	UpdateCaches();
+	
+	bCachedState = GetState();
+	OnStateChanged(bCachedState);
 }
 
 #define GET_MAPPED_FLICKER(TargetRange) FMath::Max(0.0f,FMath::GetMappedRangeValueClamped(FlickerValRange, TargetRange, Value))
@@ -149,7 +154,7 @@ void AElectricLightBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 #if WITH_EDITOR
-	if (IsEnabled() && bCachedState && bFlicker)
+	if ((!FApp::IsGame() || !IsHidden()) && IsEnabled() && bCachedState && bFlicker)
 #else
 	if (!IsHidden() && IsEnabled() && bCachedState && bFlicker)
 #endif
@@ -192,7 +197,7 @@ void AElectricLightBase::OnConstruction(const FTransform& Transform)
 	if (!FApp::IsGame())
 	{
 		UpdateCaches();
-		bCachedState = GetState();
+		bCachedState = bPreviewState && IsEnabled();
 		OnStateChanged(bCachedState);
 	}
 }

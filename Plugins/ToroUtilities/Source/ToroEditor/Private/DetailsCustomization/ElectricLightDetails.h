@@ -23,6 +23,8 @@ private:
 		FElectricActorCustomization::CustomizeDetails(DetailBuilder);
 		
 		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(TEXT("Settings"));
+		Settings.AddProperty(GET_PROPERTY(bPreviewState));
+		
 		IDetailGroup& FlickerGroup = Settings.AddGroup(TEXT("Flicker"), INVTEXT("Flicker"));
 		{
 			FlickerGroup.HeaderProperty(GET_PROPERTY(bFlicker));
