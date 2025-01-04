@@ -39,9 +39,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<UZoneCullingComponent> ZoneCulling;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
-		bool bPreviewState;
-
 	UPROPERTY(EditAnywhere, Category = "Settings|Flicker")
 		bool bFlicker;
 

@@ -75,5 +75,6 @@ void AElectricActorBase::BeginPlay()
 
 void AElectricActorBase::OnEnableStateChanged(const bool bIsEnabled)
 {
-	OnStateChanged(GetState());
+	bCachedState = GetState();
+	OnStateChanged(bCachedState);
 }
