@@ -19,7 +19,8 @@ protected:
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
 		FToroActorCustomization::CustomizeDetails(DetailBuilder);
-		DetailBuilder.EditCategory(TEXT("Settings"))
-			.AddProperty(GET_CLASS_PROPERTY(AElectricActorBase, MinEnergy));
+		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(TEXT("Settings"));
+		Settings.AddProperty(GET_CLASS_PROPERTY(AElectricActorBase, bPreviewState));
+		Settings.AddProperty(GET_CLASS_PROPERTY(AElectricActorBase, MinEnergy));
 	}
 };

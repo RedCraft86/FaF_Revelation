@@ -13,7 +13,6 @@ AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), FlickerRange(0.0f
 
 	MinEnergy = 0;
 	
-	
 	if (FRichCurve* Curve = FlickerCurve.GetRichCurve())
 	{
 		Curve->UpdateOrAddKey(0.0f, 1.0f);
@@ -116,6 +115,7 @@ void AElectricLightBase::OnStateChanged(const bool bState)
 	SetActorTickEnabled(ShouldTick());
 	for (const FElectricLightEntry& Entry : CachedEntries)
 	{
+		if (Entry.Light) UE_LOG(LogTemp, Warning, TEXT("%s: %s -> %s"), *GetNameSafe(Entry.Light), *LexToString(Entry.Light->IsVisible()), *LexToString(bState))
 		if (Entry.Light) Entry.Light->SetVisibility(bState);
 		for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
 		{
@@ -127,10 +127,17 @@ void AElectricLightBase::OnStateChanged(const bool bState)
 			else
 			{
 				Mesh.Key->SetVisibility(true);
-				Mesh.Key->SetCustomPrimitiveDataFloat(3, bState ? Entry.Intensity : 0.0f);
+#if WITH_EDITOR
+				if (!FApp::IsGame())
+					Mesh.Key->SetDefaultCustomPrimitiveDataFloat(3, bState ? Entry.Intensity : 0.0f);
+				else
+#endif
+					Mesh.Key->SetCustomPrimitiveDataFloat(3, bState ? Entry.Intensity : 0.0f);
 			}
 		}
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("State: %s"), *LexToString(bState))
 }
 
 void AElectricLightBase::OnEnableStateChanged(const bool bIsEnabled)
@@ -141,12 +148,9 @@ void AElectricLightBase::OnEnableStateChanged(const bool bIsEnabled)
 
 void AElectricLightBase::BeginPlay()
 {
+	UpdateCaches();
 	Super::BeginPlay();
 	SetActorTickEnabled(ShouldTick());
-	UpdateCaches();
-	
-	bCachedState = GetState();
-	OnStateChanged(bCachedState);
 }
 
 #define GET_MAPPED_FLICKER(TargetRange) FMath::Max(0.0f,FMath::GetMappedRangeValueClamped(FlickerValRange, TargetRange, Value))
@@ -154,7 +158,7 @@ void AElectricLightBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 #if WITH_EDITOR
-	if ((!FApp::IsGame() || !IsHidden()) && IsEnabled() && bCachedState && bFlicker)
+	if ((!FApp::IsGame() || !IsHidden()) && IsEnabled() && GetState() && bFlicker)
 #else
 	if (!IsHidden() && IsEnabled() && bCachedState && bFlicker)
 #endif
@@ -193,12 +197,7 @@ void AElectricLightBase::Tick(float DeltaSeconds)
 #if WITH_EDITOR
 void AElectricLightBase::OnConstruction(const FTransform& Transform)
 {
+	if (!FApp::IsGame()) UpdateCaches();
 	Super::OnConstruction(Transform);
-	if (!FApp::IsGame())
-	{
-		UpdateCaches();
-		bCachedState = bPreviewState && IsEnabled();
-		OnStateChanged(bCachedState);
-	}
 }
 #endif

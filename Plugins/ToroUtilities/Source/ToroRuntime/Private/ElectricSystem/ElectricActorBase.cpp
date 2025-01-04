@@ -46,7 +46,11 @@ uint8 AElectricActorBase::GetEnergy()
 
 bool AElectricActorBase::GetState()
 {
+#if WITH_EDITOR
+	return IsEnabled() && (FApp::IsGame() ? GetEnergy() >= MinEnergy : bPreviewState);
+#else
 	return IsEnabled() && GetEnergy() >= MinEnergy;
+#endif
 }
 
 void AElectricActorBase::OnEnergyChanged(const uint8 Total)
@@ -79,3 +83,15 @@ void AElectricActorBase::OnEnableStateChanged(const bool bIsEnabled)
 	bCachedState = GetState();
 	OnStateChanged(bCachedState);
 }
+
+#if WITH_EDITOR
+void AElectricActorBase::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	if (!FApp::IsGame())
+	{
+		bCachedState = GetState();
+		OnStateChanged(bCachedState);
+	}
+}
+#endif

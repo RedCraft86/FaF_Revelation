@@ -16,7 +16,12 @@ public:
 
 	AElectricActorBase();
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bPreviewState = true;
+#endif
+
+	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 MinEnergy;
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On State Changed")
@@ -51,4 +56,7 @@ protected:
 	
 	virtual void BeginPlay() override;
 	virtual void OnEnableStateChanged(const bool bIsEnabled) override;
+#if WITH_EDITOR
+	virtual void OnConstruction(const FTransform& Transform) override;
+#endif
 };
