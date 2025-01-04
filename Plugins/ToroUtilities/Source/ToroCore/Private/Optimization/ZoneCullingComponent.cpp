@@ -7,6 +7,9 @@ UZoneCullingComponent::UZoneCullingComponent() : bDisableComponent(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickInterval = 1.0f;
+#if WITH_EDITOR
+	bTickInEditor = false;
+#endif
 }
 
 EToroFoundPins UZoneCullingComponent::GetZoneCullingComponent(UZoneCullingComponent*& OutComponent, const AActor* Target)
@@ -103,5 +106,8 @@ void UZoneCullingComponent::BeginPlay()
 void UZoneCullingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
 	CheckRenderRequests();
 }
