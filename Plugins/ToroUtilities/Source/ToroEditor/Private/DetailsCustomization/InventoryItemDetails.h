@@ -26,7 +26,6 @@ private:
 		IDetailCategoryBuilder& GeneralCat = DetailBuilder.EditCategory(TEXT("General"));
 		{
 			GeneralCat.AddProperty(GET_PROPERTY(Priority));
-			GeneralCat.AddProperty(GET_PROPERTY(UniqueID));
 			GeneralCat.AddProperty(GET_PROPERTY(Thumbnail));
 			GeneralCat.AddProperty(GET_PROPERTY(DisplayName));
 			GeneralCat.AddProperty(GET_PROPERTY(Description));

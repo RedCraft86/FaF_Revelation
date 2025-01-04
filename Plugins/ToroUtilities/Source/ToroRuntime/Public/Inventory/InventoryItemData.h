@@ -71,9 +71,6 @@ public:
 		uint8 Priority;
 
 	UPROPERTY(EditAnywhere, Category = General)
-		FGuid UniqueID;
-
-	UPROPERTY(EditAnywhere, Category = General)
 		TObjectPtr<UTexture2D> Thumbnail;
 
 	// Use "{mKEY}" where KEY is a metadata key to inject custom variables.
