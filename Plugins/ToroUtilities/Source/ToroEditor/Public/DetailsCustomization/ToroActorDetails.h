@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include "DetailsHelpers.h"
 #include "DetailLayoutBuilder.h"
+#include "DetailCategoryBuilder.h"
 #include "IDetailCustomization.h"
 
 inline TArray<FName> GetCleanedArrayMetadata(const FString& InMetadata)
@@ -23,21 +25,24 @@ inline TArray<FName> GetCleanedArrayMetadata(const FString& InMetadata)
 	return Result.IsEmpty() ? TArray<FName>{*MetaStr} : Result;
 }
 
-class TOROEDITOR_API FToroActorDetails : public IDetailCustomization
+class TOROEDITOR_API FToroActorCustomization : public IDetailCustomization
 {
 public:
 
 	static TSharedRef<IDetailCustomization> MakeInstance()
 	{
-		return MakeShared<FToroActorDetails>();
+		return MakeShared<FToroActorCustomization>();
 	}
 
-private:
+protected:
 
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
 		TArray<TWeakObjectPtr<UObject>> Objs;
 		DetailBuilder.GetObjectsBeingCustomized(Objs);
+		
+		DetailBuilder.EditCategory(TEXT("Settings"))
+			.AddProperty(GET_CLASS_PROPERTY(AToroActor, bEnabled));
 		
 		TArray<FName> Allowed = {TEXT("Actor"), TEXT("Collision"), TEXT("BrushSettings"), TEXT("Tick")};
 		TMap<FName, ECategoryPriority::Type> Priority = {

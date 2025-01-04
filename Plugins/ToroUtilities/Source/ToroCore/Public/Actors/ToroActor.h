@@ -14,6 +14,9 @@ class TOROCORE_API AToroActor : public AActor
 {
 	GENERATED_BODY()
 
+#if WITH_EDITOR
+	friend class FToroActorCustomization;
+#endif
 public:
 
 	AToroActor();
