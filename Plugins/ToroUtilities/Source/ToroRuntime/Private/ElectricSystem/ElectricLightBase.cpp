@@ -128,11 +128,10 @@ void AElectricLightBase::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 #if WITH_EDITOR
 	if (!FApp::IsGame())
-	{
 		if (!IsEnabled() || !bCachedState || !bFlicker) return;
-	}
-#endif
+#else
 	if (!IsHidden())
+#endif
 	{
 		FlickerTime = FlickerTime + DeltaSeconds * FlickerRate;
 		if (FlickerTime > FlickerTimeRange.Y) FlickerTime = FlickerTimeRange.X;
