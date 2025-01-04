@@ -9,6 +9,7 @@
 #include "DetailsCustomization/DetailsHelpers.h"
 #include "Inventory/InventoryItemData.h"
 
+#define CLASSNAME UInventoryItemData
 class FInventoryItemCustomization final : public IDetailCustomization
 {
 public:
@@ -24,14 +25,14 @@ private:
 	{
 		IDetailCategoryBuilder& GeneralCat = DetailBuilder.EditCategory(TEXT("General"));
 		{
-			GeneralCat.AddProperty(GET_CLASS_PROPERTY(UInventoryItemData, Priority));
-			GeneralCat.AddProperty(GET_CLASS_PROPERTY(UInventoryItemData, UniqueID));
-			GeneralCat.AddProperty(GET_CLASS_PROPERTY(UInventoryItemData, Thumbnail));
-			GeneralCat.AddProperty(GET_CLASS_PROPERTY(UInventoryItemData, DisplayName));
-			GeneralCat.AddProperty(GET_CLASS_PROPERTY(UInventoryItemData, Description));
+			GeneralCat.AddProperty(GET_PROPERTY(Priority));
+			GeneralCat.AddProperty(GET_PROPERTY(UniqueID));
+			GeneralCat.AddProperty(GET_PROPERTY(Thumbnail));
+			GeneralCat.AddProperty(GET_PROPERTY(DisplayName));
+			GeneralCat.AddProperty(GET_PROPERTY(Description));
 		
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, StackingMode, StackingMode);
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, StackingValue, StackingValue);
+			GET_PROPERTY_VAR(StackingMode, StackingMode);
+			GET_PROPERTY_VAR(StackingValue, StackingValue);
 			GeneralCat.AddCustomRow(INVTEXT("Stacking"))
 			.NameContent()
 			[
@@ -55,8 +56,8 @@ private:
 				]
 			];
 
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, ItemType, ItemType);
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, CustomType, CustomType);
+			GET_PROPERTY_VAR(ItemType, ItemType);
+			GET_PROPERTY_VAR(CustomType, CustomType);
 			GeneralCat.AddCustomRow(INVTEXT("Category"))
 			.NameContent()
 			[
@@ -83,7 +84,7 @@ private:
 
 		IDetailCategoryBuilder& MeshCat = DetailBuilder.EditCategory(TEXT("Mesh"));
 		{
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, PreviewZoom, PreviewZoom)
+			GET_PROPERTY_VAR(PreviewZoom, PreviewZoom)
 			MeshCat.AddCustomRow(INVTEXT("Preview Zoom"))
 			.OverrideResetToDefault(FResetToDefaultOverride::Create(
 				TAttribute<bool>::CreateLambda([PreviewZoom]() -> bool {
@@ -144,7 +145,7 @@ private:
 				]
 			];
 
-			GET_CLASS_PROPERTY_VAR(UInventoryItemData, BaseMesh, BaseMesh)
+			GET_PROPERTY_VAR(BaseMesh, BaseMesh)
 			
 			uint32 NumChildren;
 			BaseMesh->GetNumChildren(NumChildren);
@@ -155,3 +156,4 @@ private:
 		}
 	}
 };
+#undef CLASSNAME
