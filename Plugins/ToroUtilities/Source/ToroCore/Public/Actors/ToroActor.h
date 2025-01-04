@@ -49,7 +49,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -10))
+	UPROPERTY(EditAnywhere, Category = "Settings")
 		bool bEnabled;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", NonPIEDuplicateTransient, TextExportTransient, NonTransactional, AdvancedDisplay, meta = (DisplayPriority = 10))

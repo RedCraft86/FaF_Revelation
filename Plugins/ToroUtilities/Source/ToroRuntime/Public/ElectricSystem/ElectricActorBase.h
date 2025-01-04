@@ -16,7 +16,7 @@ public:
 
 	AElectricActorBase();
 
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, Category = "Settings")
 		uint8 MinEnergy;
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On State Changed")
