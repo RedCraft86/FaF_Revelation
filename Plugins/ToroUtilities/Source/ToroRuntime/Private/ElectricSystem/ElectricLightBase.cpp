@@ -3,8 +3,6 @@
 #include "ElectricSystem/ElectricLightBase.h"
 #include "Components/LightComponent.h"
 
-#define SHOULD_TICK IsEnabled() && bCachedState && (bFlicker || PrimaryActorTick.bStartWithTickEnabled)
-
 AElectricLightBase::AElectricLightBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -40,14 +38,33 @@ void AElectricLightBase::SetFlickerState(const bool bNewFlicker)
 	if (bFlicker != bNewFlicker)
 	{
 		bFlicker = bNewFlicker;
-		SetActorTickEnabled(SHOULD_TICK);
+		SetActorTickEnabled(ShouldTick());
+
+		// Reset multipliers
+		for (const FElectricLightEntry& Entry : CachedEntries)
+		{
+			if (Entry.Light) Entry.Light->SetIntensity(Entry.Intensity);
+			for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
+			{
+#if WITH_EDITOR
+				if (!FApp::IsGame())
+				{
+					Mesh.Key->SetDefaultCustomPrimitiveDataFloat(5, MeshMulti);
+				}
+				else
+#endif
+				{
+					Mesh.Key->SetCustomPrimitiveDataFloat(5, MeshMulti);
+				}
+			}
+		}
 	}
 }
 
 void AElectricLightBase::UpdateCaches()
 {
 	GetLightInfo(CachedEntries);
-	bCachedState = bPreviewState;
+	bCachedState = bPreviewState && IsEnabled();
 	
 	for (const FElectricLightEntry& Entry : CachedEntries)
 	{
@@ -86,10 +103,15 @@ void AElectricLightBase::UpdateCaches()
 	else FlickerValRange = FlickerTimeRange = {0.0f, 0.0f};
 }
 
+bool AElectricLightBase::ShouldTick() const
+{
+	return IsEnabled() && bCachedState && (bFlicker || WantsTick());
+}
+
 void AElectricLightBase::OnStateChanged(const bool bState)
 {
 	Super::OnStateChanged(bState);
-	SetActorTickEnabled(SHOULD_TICK);
+	SetActorTickEnabled(ShouldTick());
 	for (const FElectricLightEntry& Entry : CachedEntries)
 	{
 		if (Entry.Light) Entry.Light->SetVisibility(bState);
@@ -112,13 +134,13 @@ void AElectricLightBase::OnStateChanged(const bool bState)
 void AElectricLightBase::OnEnableStateChanged(const bool bIsEnabled)
 {
 	Super::OnEnableStateChanged(bIsEnabled);
-	SetActorTickEnabled(SHOULD_TICK);
+	SetActorTickEnabled(ShouldTick());
 }
 
 void AElectricLightBase::BeginPlay()
 {
 	Super::BeginPlay();
-	SetActorTickEnabled(SHOULD_TICK);
+	SetActorTickEnabled(ShouldTick());
 	UpdateCaches();
 }
 
@@ -127,13 +149,9 @@ void AElectricLightBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 #if WITH_EDITOR
-	if (!FApp::IsGame())
-	{
-		if (!IsEnabled() || !bCachedState || !bFlicker) return;
-	}
-	else if (IsHidden()) return;
+	if (IsEnabled() && bCachedState && bFlicker)
 #else
-	if (!IsHidden())
+	if (!IsHidden() && IsEnabled() && bCachedState && bFlicker)
 #endif
 	{
 		FlickerTime = FlickerTime + DeltaSeconds * FlickerRate;
@@ -174,7 +192,7 @@ void AElectricLightBase::OnConstruction(const FTransform& Transform)
 	if (!FApp::IsGame())
 	{
 		UpdateCaches();
-		OnStateChanged(bPreviewState);
+		OnStateChanged(bCachedState);
 	}
 }
 #endif

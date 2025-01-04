@@ -85,6 +85,9 @@ public:
 	 */
 	UFUNCTION(BlueprintImplementableEvent)
 		void GetLightInfo(TArray<FElectricLightEntry>& Entries) const;
+
+	UFUNCTION(BlueprintImplementableEvent)
+		bool WantsTick() const;
 	
 protected:
 	
@@ -93,6 +96,7 @@ protected:
 	UPROPERTY() FVector2D FlickerTimeRange;
 	UPROPERTY(Transient) TArray<FElectricLightEntry> CachedEntries;
 
+	bool ShouldTick() const;
 	virtual void OnStateChanged(const bool bState) override;
 	virtual void OnEnableStateChanged(const bool bIsEnabled) override;
 	
