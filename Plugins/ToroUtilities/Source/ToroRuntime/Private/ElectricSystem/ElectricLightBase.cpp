@@ -3,12 +3,14 @@
 #include "ElectricSystem/ElectricLightBase.h"
 #include "Components/LightComponent.h"
 
-AElectricLightBase::AElectricLightBase()
+AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), MeshMulti(1.0f), MeshFresnel(0.5f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	
 	ZoneCulling = CreateDefaultSubobject<UZoneCullingComponent>("ZoneCulling");
+
+	MinEnergy = 0;
 	
 	if (FRichCurve* Curve = FlickerCurve.GetRichCurve())
 	{
@@ -64,8 +66,6 @@ void AElectricLightBase::SetFlickerState(const bool bNewFlicker)
 void AElectricLightBase::UpdateCaches()
 {
 	GetLightInfo(CachedEntries);
-	bCachedState = bPreviewState && IsEnabled();
-	
 	for (const FElectricLightEntry& Entry : CachedEntries)
 	{
 		if (!Entry.Light) continue;
@@ -192,6 +192,7 @@ void AElectricLightBase::OnConstruction(const FTransform& Transform)
 	if (!FApp::IsGame())
 	{
 		UpdateCaches();
+		bCachedState = GetState();
 		OnStateChanged(bCachedState);
 	}
 }
