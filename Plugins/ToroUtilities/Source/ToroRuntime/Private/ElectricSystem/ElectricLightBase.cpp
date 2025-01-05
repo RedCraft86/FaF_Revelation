@@ -115,7 +115,6 @@ void AElectricLightBase::OnStateChanged(const bool bState)
 	SetActorTickEnabled(ShouldTick());
 	for (const FElectricLightEntry& Entry : CachedEntries)
 	{
-		if (Entry.Light) UE_LOG(LogTemp, Warning, TEXT("%s: %s -> %s"), *GetNameSafe(Entry.Light), *LexToString(Entry.Light->IsVisible()), *LexToString(bState))
 		if (Entry.Light) Entry.Light->SetVisibility(bState);
 		for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
 		{
@@ -136,8 +135,6 @@ void AElectricLightBase::OnStateChanged(const bool bState)
 			}
 		}
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("State: %s"), *LexToString(bState))
 }
 
 void AElectricLightBase::OnEnableStateChanged(const bool bIsEnabled)
