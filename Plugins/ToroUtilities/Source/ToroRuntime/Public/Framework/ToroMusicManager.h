@@ -16,10 +16,10 @@ struct TORORUNTIME_API FOneShotMusicLayer
 
 	friend class AToroMusicManager;
 	
+	FECFHandle FadeHandle;
 	UPROPERTY() bool bPaused;
 	UPROPERTY() FVector2D Start;
 	UPROPERTY() bool bAutoDestroy;
-	UPROPERTY() FECFHandle FadeHandle;
 	UPROPERTY(Transient) TObjectPtr<UAudioComponent> Component;
 	UPROPERTY(Transient) TObjectPtr<AToroMusicManager> Owner;
 	
@@ -80,7 +80,10 @@ public:
 
 protected:
 
-	UPROPERTY() FECFHandle ChangeHandle;
+	FECFHandle ChangeHandle;
 	UPROPERTY(Transient) TObjectPtr<UMetaSoundSource> MainTheme;
 	UPROPERTY(Transient) TMap<TObjectPtr<USoundBase>, FOneShotMusicLayer> OneShotLayers;
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 };

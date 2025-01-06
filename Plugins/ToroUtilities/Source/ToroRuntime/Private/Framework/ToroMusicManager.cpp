@@ -2,6 +2,7 @@
 
 #include "Framework/ToroMusicManager.h"
 #include "Components/AudioComponent.h"
+#include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 
 void FOneShotMusicLayer::Stop(const float FadeTime)
@@ -101,7 +102,7 @@ void FOneShotMusicLayer::OnAudioFinished(UAudioComponent* Comp)
 AToroMusicManager::AToroMusicManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bStartWithTickEnabled = false;
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 	PrimaryActorTick.TickInterval = 1.0f;
 	
@@ -163,6 +164,7 @@ bool AToroMusicManager::PlayLayer(USoundBase* Sound, const float FadeTime, const
 
 	OneShotLayers.Remove(Sound);
 	OneShotLayers.Emplace(Sound, NewLayer).Initialize(FadeTime);
+	SetActorTickEnabled(true);
 	return true;
 }
 
@@ -204,6 +206,11 @@ bool AToroMusicManager::SetLayerPaused(const USoundBase* Sound, const float Fade
 
 void AToroMusicManager::CleanOneShotTracks()
 {
+	if (OneShotLayers.IsEmpty())
+	{
+		SetActorTickEnabled(false);
+	}
+	
 	for (auto It = OneShotLayers.CreateIterator(); It; ++It)
 	{
 		if (!It.Value().Component)
@@ -211,4 +218,19 @@ void AToroMusicManager::CleanOneShotTracks()
 			It.RemoveCurrent();
 		}
 	}
+}
+
+void AToroMusicManager::BeginPlay()
+{
+	Super::BeginPlay();
+	FEnhancedCodeFlow::Delay(this, 1.0f, [this]()
+	{
+		ChangeMainTheme(UToroRuntimeSettings::Get()->DefaultTheme.LoadSynchronous());
+	});
+}
+
+void AToroMusicManager::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	CleanOneShotTracks();
 }

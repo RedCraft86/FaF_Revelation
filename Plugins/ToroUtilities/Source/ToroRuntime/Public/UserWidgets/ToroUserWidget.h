@@ -10,7 +10,7 @@
 DECLARE_DYNAMIC_DELEGATE(FToroWidgetAddRemoveSignature);
 
 UCLASS(Abstract)
-class TOROCORE_API UToroUserWidget : public UUserWidget
+class TORORUNTIME_API UToroUserWidget : public UUserWidget
 {
 	GENERATED_BODY()
 

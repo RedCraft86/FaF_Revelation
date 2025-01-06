@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ExprTextBlock.h"
+#include "UserWidgets/ExprTextBlock.h"
 #include "Widgets/ExpressiveTextRendererWidget.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/Border.h"

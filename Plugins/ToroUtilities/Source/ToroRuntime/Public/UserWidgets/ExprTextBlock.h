@@ -2,15 +2,15 @@
 
 #pragma once
 
-#include "ExpressiveTextData.h"
 #include "Blueprint/UserWidget.h"
+#include "DataTypes/ExpressiveTextData.h"
 #include "ExprTextBlock.generated.h"
 
 class UBorder;
 class UExpressiveTextRendererWidget;
 
 UCLASS(NotBlueprintable, DisplayName = "Expressive Text Block")
-class TOROCORE_API UExprTextBlock final : public UUserWidget
+class TORORUNTIME_API UExprTextBlock final : public UUserWidget
 {
 	GENERATED_BODY()
 

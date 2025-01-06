@@ -1,15 +1,15 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ExpressiveTextData.h"
-#include "ToroCoreSettings.h"
-#include "ToroCore.h"
+#include "DataTypes/ExpressiveTextData.h"
+#include "ToroRuntimeSettings.h"
+#include "ToroRuntime.h"
 
 FExpressiveTextData::FExpressiveTextData() : bUseAsset(false), TextFields({}), TextAsset(nullptr)
 {
 	TextFields.DefaultFontSize = 24;
 	TextFields.WrapSettings.Value = 0.0f;
 	TextFields.WrapSettings.ValueType = EExpressiveTextWrapMode::WrapAtPixelCount;
-	TextFields.DefaultStyle = UToroCoreSettings::Get()->DefaultTextStyle.LoadSynchronous();
+	TextFields.DefaultStyle = UToroRuntimeSettings::Get()->DefaultTextStyle.LoadSynchronous();
 }
 
 int64 FExpressiveTextData::CalcChecksum() const
@@ -27,14 +27,14 @@ FExpressiveText FExpressiveTextData::GetExpressiveText()
 	if (bUseAsset)
 	{
 		if (TextAsset) Result.SetFields(TextAsset->Fields);
-		else UE_LOG(LogToroCore, Error, TEXT("Cannot use TextAsset, it is NULL"))
+		else UE_LOG(LogToroRuntime, Error, TEXT("Cannot use TextAsset, it is NULL"))
 	}
 	else
 	{
 		Result.SetFields(TextFields);
 		if (!Result.GetDefaultStyle())
 		{
-			TextFields.DefaultStyle = UToroCoreSettings::Get()->DefaultTextStyle.LoadSynchronous();
+			TextFields.DefaultStyle = UToroRuntimeSettings::Get()->DefaultTextStyle.LoadSynchronous();
 			Result.SetDefaultStyle(TextFields.DefaultStyle);
 		}
 	}

@@ -17,13 +17,15 @@ public class ToroRuntime : ModuleRules
                 "UMG",
                 "Slate",
                 "SlateCore",
+                "GameplayTags",
                 "MovieScene",
                 "LevelSequence",
                 "EngineSettings",
                 "ApplicationCore",
-                "GameplayTags",
+                "DeveloperSettings",
                 "MetasoundEngine",
                 "ToroCore",
+                "ExpressiveText",
                 "EnhancedCodeFlow"
             }
         );

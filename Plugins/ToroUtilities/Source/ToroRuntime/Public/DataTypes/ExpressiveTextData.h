@@ -11,7 +11,7 @@
 // ExpressiveTextFields -> UseDefaultFontSize -> Add Metadata: InlineEditConditionToggle
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FExpressiveTextData
+struct TORORUNTIME_API FExpressiveTextData
 {
 	GENERATED_BODY()
 
@@ -36,7 +36,7 @@ private:
 };
 
 UCLASS(DisplayName = "Expressive Text Data")
-class TOROCORE_API UExprTextDataFunctionLibrary final : public UBlueprintFunctionLibrary
+class TORORUNTIME_API UExprTextDataFunctionLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

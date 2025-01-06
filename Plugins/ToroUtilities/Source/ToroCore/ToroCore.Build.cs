@@ -29,9 +29,7 @@ public class ToroCore : ModuleRules
                 "MovieScene",
                 "LevelSequence",
                 "NavigationSystem",
-                "DeveloperSettings",
                 "ProceduralMeshComponent",
-                "ExpressiveText",
             }
         );
         
