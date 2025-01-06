@@ -17,7 +17,7 @@ class TORORUNTIME_API AToroWidgetManager : public APlayerState
 
 public:
 
-	AToroWidgetManager() {}
+	AToroWidgetManager();
 
 	UPROPERTY(EditAnywhere, Category = "Settings")
 		TSet<TSubclassOf<UToroUserWidget>> DefaultWidgets;

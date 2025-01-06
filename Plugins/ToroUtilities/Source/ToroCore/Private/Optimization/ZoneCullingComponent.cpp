@@ -6,6 +6,8 @@ UZoneCullingComponent::UZoneCullingComponent() : bDisableComponent(false)
 	, bAffectTicking(false), bCachedHiddenState(false), bInitialTickState(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = true;
+	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
 	PrimaryComponentTick.TickInterval = 1.0f;
 #if WITH_EDITOR
 	bTickInEditor = false;

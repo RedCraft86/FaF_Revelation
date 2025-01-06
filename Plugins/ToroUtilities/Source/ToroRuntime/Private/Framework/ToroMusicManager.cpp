@@ -4,6 +4,11 @@
 
 AToroMusicManager::AToroMusicManager()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.TickGroup = TG_DuringPhysics;
+	PrimaryActorTick.TickInterval = 1.0f;
+	
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 }

@@ -2,6 +2,13 @@
 
 #include "Framework/ToroWidgetManager.h"
 
+AToroWidgetManager::AToroWidgetManager()
+{
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+	PrimaryActorTick.TickGroup = TG_DuringPhysics;
+}
+
 EToroValidPins AToroWidgetManager::GetToroWidgetManager(AToroWidgetManager*& OutObject,
 	const UObject* WorldContextObject, const TSubclassOf<AToroWidgetManager>& Class, const int32 PlayerIndex)
 {
