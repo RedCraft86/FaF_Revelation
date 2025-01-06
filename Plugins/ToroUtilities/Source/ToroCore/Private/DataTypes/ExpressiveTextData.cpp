@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ExpressiveTextData.h"
-#include "ToroSettings.h"
+#include "ToroCoreSettings.h"
 #include "ToroCore.h"
 
 FExpressiveTextData::FExpressiveTextData() : bUseAsset(false), TextFields({}), TextAsset(nullptr)
@@ -9,7 +9,7 @@ FExpressiveTextData::FExpressiveTextData() : bUseAsset(false), TextFields({}), T
 	TextFields.DefaultFontSize = 24;
 	TextFields.WrapSettings.Value = 0.0f;
 	TextFields.WrapSettings.ValueType = EExpressiveTextWrapMode::WrapAtPixelCount;
-	TextFields.DefaultStyle = UToroSettings::Get()->DefaultTextStyle.LoadSynchronous();
+	TextFields.DefaultStyle = UToroCoreSettings::Get()->DefaultTextStyle.LoadSynchronous();
 }
 
 int64 FExpressiveTextData::CalcChecksum() const
@@ -34,7 +34,7 @@ FExpressiveText FExpressiveTextData::GetExpressiveText()
 		Result.SetFields(TextFields);
 		if (!Result.GetDefaultStyle())
 		{
-			TextFields.DefaultStyle = UToroSettings::Get()->DefaultTextStyle.LoadSynchronous();
+			TextFields.DefaultStyle = UToroCoreSettings::Get()->DefaultTextStyle.LoadSynchronous();
 			Result.SetDefaultStyle(TextFields.DefaultStyle);
 		}
 	}

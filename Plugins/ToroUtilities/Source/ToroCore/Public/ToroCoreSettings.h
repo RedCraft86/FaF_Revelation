@@ -5,16 +5,16 @@
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
 #include "Styles/ExpressiveTextStyleBase.h"
-#include "ToroSettings.generated.h"
+#include "ToroCoreSettings.generated.h"
 
 UCLASS(Config = Engine, DefaultConfig, DisplayName = "Toro Utilities")
-class TOROCORE_API UToroSettings : public UDeveloperSettings
+class TOROCORE_API UToroCoreSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroSettings()
+	UToroCoreSettings()
 #if WITH_EDITOR
 		: StartupCommands({
 			{ TEXT("r.VSyncEditor"), TEXT("1") },
@@ -26,7 +26,7 @@ public:
 		SectionName = TEXT("ToroUtilities");
 	}
 
-	SETTING_GETTER(UToroSettings)
+	SETTING_GETTER(UToroCoreSettings)
 	
 	UPROPERTY(Config, EditAnywhere, Category = "Core")
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
