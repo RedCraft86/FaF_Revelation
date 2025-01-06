@@ -22,6 +22,7 @@ public class ToroRuntime : ModuleRules
                 "EngineSettings",
                 "ApplicationCore",
                 "GameplayTags",
+                "MetasoundEngine",
                 "ToroCore"
             }
         );
