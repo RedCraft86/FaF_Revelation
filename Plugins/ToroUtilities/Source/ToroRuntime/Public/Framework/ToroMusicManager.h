@@ -2,12 +2,39 @@
 
 #pragma once
 
+#include "ECFHandle.h"
 #include "ExecPinEnums.h"
+#include "MetasoundSource.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameStateBase.h"
 #include "ToroMusicManager.generated.h"
 
-/* Game State is repurposed as a Widget Manager */
+USTRUCT(BlueprintInternalUseOnly)
+struct TORORUNTIME_API FOneShotMusicLayer
+{
+	GENERATED_BODY()
+
+	friend class AToroMusicManager;
+	
+	UPROPERTY() bool bPaused;
+	UPROPERTY() FVector2D Start;
+	UPROPERTY() bool bAutoDestroy;
+	UPROPERTY() FECFHandle FadeHandle;
+	UPROPERTY(Transient) TObjectPtr<UAudioComponent> Component;
+	UPROPERTY(Transient) TObjectPtr<AToroMusicManager> Owner;
+	
+	void Stop(const float FadeTime);
+	void Restart(const float FadeTime);
+	void SetPaused(const float FadeTime, const bool bInPaused);
+	
+	bool CanRunFunctions() const;
+	void Initialize(const float FadeTime);
+	void OnAudioFinished(UAudioComponent* Comp);
+
+	FOneShotMusicLayer() : bPaused(false), Start(0.0f), bAutoDestroy(false) {}
+};
+
+/* Game State is repurposed as a Music Manager */
 
 UCLASS()
 class TORORUNTIME_API AToroMusicManager : public AGameStateBase
@@ -21,6 +48,9 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<USceneComponent> SceneRoot;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+		TObjectPtr<UAudioComponent> MainThemeComponent;
+
 	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Music Manager"))
 		static EToroValidPins GetMusicManager(AToroMusicManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroMusicManager>& Class);
 
@@ -29,4 +59,28 @@ public:
 	{
 		return Cast<T>(UGameplayStatics::GetGameState(WorldContextObject));
 	}
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		bool ChangeMainTheme(UMetaSoundSource* NewTheme);
+	
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		bool PlayLayer(USoundBase* Sound, const float FadeTime = 1.0f, const float Volume = 1.0f, const FVector2D& StartRange = FVector2D::ZeroVector);
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		bool StopLayer(const USoundBase* Sound, const float FadeTime = 1.0f);
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		bool RestartLayer(const USoundBase* Sound, const float FadeTime = 1.0f);
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		bool SetLayerPaused(const USoundBase* Sound, const float FadeTime = 1.0f, const bool bPaused = true);
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		void CleanOneShotTracks();
+
+protected:
+
+	UPROPERTY() FECFHandle ChangeHandle;
+	UPROPERTY(Transient) TObjectPtr<UMetaSoundSource> MainTheme;
+	UPROPERTY(Transient) TMap<TObjectPtr<USoundBase>, FOneShotMusicLayer> OneShotLayers;
 };
