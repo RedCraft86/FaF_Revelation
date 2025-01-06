@@ -7,7 +7,7 @@
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "ToroSettings.generated.h"
 
-UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Utilities")
+UCLASS(Config = Engine, DefaultConfig, DisplayName = "Toro Utilities")
 class TOROCORE_API UToroSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
@@ -15,6 +15,12 @@ class TOROCORE_API UToroSettings : public UDeveloperSettings
 public:
 
 	UToroSettings()
+#if WITH_EDITOR
+		: StartupCommands({
+			{ TEXT("r.VSyncEditor"), TEXT("1") },
+			{ TEXT("r.Streaming.PoolSize"), TEXT("3000") }
+		})
+#endif
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroUtilities");
@@ -22,6 +28,11 @@ public:
 
 	SETTING_GETTER(UToroSettings)
 	
-	UPROPERTY(Config, EditAnywhere, Category = "Runtime")
+	UPROPERTY(Config, EditAnywhere, Category = "Core")
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
+
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(Config, EditAnywhere, Category = "Editor")
+		TMap<FString, FString> StartupCommands;
+#endif
 };
