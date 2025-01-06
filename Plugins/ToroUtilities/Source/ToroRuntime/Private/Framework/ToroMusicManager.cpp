@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroMusicManager.h"
-#include "Components/AudioComponent.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 
@@ -149,6 +148,16 @@ bool AToroMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
 	return true;
 }
 
+void AToroMusicManager::SetThemeIntensity(const float InIntensity)
+{
+	GetSoundParamInterface()->SetFloatParameter(TEXT("Intensity"), InIntensity);
+}
+
+void AToroMusicManager::SetThemeState(const uint8 InState)
+{
+	GetSoundParamInterface()->SetIntParameter(TEXT("State"), InState);
+}
+
 bool AToroMusicManager::PlayLayer(USoundBase* Sound, const float FadeTime, const float Volume, const FVector2D& StartRange)
 {
 	if (!Sound) return false;
@@ -218,6 +227,11 @@ void AToroMusicManager::CleanOneShotTracks()
 			It.RemoveCurrent();
 		}
 	}
+}
+
+IAudioParameterControllerInterface* AToroMusicManager::GetSoundParamInterface() const
+{
+	return Cast<IAudioParameterControllerInterface>(MainThemeComponent);
 }
 
 void AToroMusicManager::BeginPlay()

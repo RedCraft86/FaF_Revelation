@@ -6,6 +6,7 @@
 #include "ExecPinEnums.h"
 #include "MetasoundSource.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/GameStateBase.h"
 #include "ToroMusicManager.generated.h"
 
@@ -62,6 +63,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		bool ChangeMainTheme(UMetaSoundSource* NewTheme);
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		void SetThemeIntensity(const float InIntensity);
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		void SetThemeState(const uint8 InState);
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		bool PlayLayer(USoundBase* Sound, const float FadeTime = 1.0f, const float Volume = 1.0f, const FVector2D& StartRange = FVector2D::ZeroVector);
@@ -84,6 +91,8 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<UMetaSoundSource> MainTheme;
 	UPROPERTY(Transient) TMap<TObjectPtr<USoundBase>, FOneShotMusicLayer> OneShotLayers;
 
+	IAudioParameterControllerInterface* GetSoundParamInterface() const;
+	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
 };
