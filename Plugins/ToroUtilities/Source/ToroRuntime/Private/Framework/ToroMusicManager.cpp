@@ -148,12 +148,12 @@ bool AToroMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
 	return true;
 }
 
-void AToroMusicManager::SetThemeIntensity(const float InIntensity)
+void AToroMusicManager::SetThemeIntensity(const float InIntensity) const
 {
 	GetSoundParamInterface()->SetFloatParameter(TEXT("Intensity"), InIntensity);
 }
 
-void AToroMusicManager::SetThemeState(const uint8 InState)
+void AToroMusicManager::SetThemeState(const uint8 InState) const
 {
 	GetSoundParamInterface()->SetIntParameter(TEXT("State"), InState);
 }

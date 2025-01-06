@@ -64,11 +64,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		bool ChangeMainTheme(UMetaSoundSource* NewTheme);
 
-	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetThemeIntensity(const float InIntensity);
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
+		void SetThemeIntensity(const float InIntensity) const;
 
-	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetThemeState(const uint8 InState);
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
+		void SetThemeState(const uint8 InState) const;
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		bool PlayLayer(USoundBase* Sound, const float FadeTime = 1.0f, const float Volume = 1.0f, const FVector2D& StartRange = FVector2D::ZeroVector);

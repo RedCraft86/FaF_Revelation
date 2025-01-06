@@ -21,6 +21,7 @@ public class ToroRuntime : ModuleRules
                 "MovieScene",
                 "LevelSequence",
                 "EngineSettings",
+                "AudioExtensions",
                 "ApplicationCore",
                 "DeveloperSettings",
                 "MetasoundEngine",
