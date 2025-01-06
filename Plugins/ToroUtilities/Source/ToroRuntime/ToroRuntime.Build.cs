@@ -23,7 +23,8 @@ public class ToroRuntime : ModuleRules
                 "ApplicationCore",
                 "GameplayTags",
                 "MetasoundEngine",
-                "ToroCore"
+                "ToroCore",
+                "EnhancedCodeFlow"
             }
         );
     }

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ECFHandle.h"
 #include "WorldActions/WorldActionBase.h"
 #include "BaseActions.generated.h"
 
@@ -23,7 +24,7 @@ struct TORORUNTIME_API FWControlDelay final : public FWorldActionBase
 
 protected:
 
-	FTimerHandle Handle;
+	FECFHandle DelayHandle;
 	virtual void RunEvent(const UObject* WorldContext) override;
 	virtual void OnBeginPlay(const UObject* WorldContext) override;
 	virtual void OnTick(const UObject* WorldContext, const float DeltaTime) override;

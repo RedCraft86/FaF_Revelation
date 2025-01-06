@@ -56,6 +56,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "EnhancedCodeFlow",
+			"Enabled": true
+		},
+		{
 			"Name": "ExpressiveText",
 			"Enabled": true
 		},

@@ -2,21 +2,19 @@
 
 #include "WorldActions/Actions/BaseActions.h"
 
+#include "EnhancedCodeFlow.h"
+
 void FWControlDelay::RunEvent(const UObject* WorldContext)
 {
-	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::LogAndReturnNull))
+	if (FEnhancedCodeFlow::IsActionRunning(WorldContext, DelayHandle) && !bRetriggerable) return;
+
+	FEnhancedCodeFlow::StopAction(WorldContext, DelayHandle);
+	DelayHandle = FEnhancedCodeFlow::Delay(WorldContext, Delay, [this, WorldContext]()
 	{
-		FTimerManager& Timer = World->GetTimerManager();
-		if (Timer.IsTimerActive(Handle) && !bRetriggerable) return;
-			
-		Timer.ClearTimer(Handle);
-		Timer.SetTimer(Handle, [this, WorldContext]()
-		{
-			FOR_EACH_ACTION(Events, {
-				ActionPtr->RunEvent(WorldContext);
-			})
-		}, Delay, false);
-	}
+		FOR_EACH_ACTION(Events, {
+			ActionPtr->RunEvent(WorldContext);
+		})
+	});
 }
 
 void FWControlDelay::OnBeginPlay(const UObject* WorldContext)
