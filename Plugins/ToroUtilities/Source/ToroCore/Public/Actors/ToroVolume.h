@@ -16,8 +16,7 @@ public:
 	AToroVolume();
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(VisibleDefaultsOnly, Category = "Subobjects")
-		TObjectPtr<UBillboardComponent> DefaultIconBillboard;
+	UPROPERTY() TObjectPtr<UDebugIconComponent> DebugIcon;
 #endif
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")

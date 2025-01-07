@@ -1,9 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroActor.h"
-#if WITH_EDITOR
-#include "Components/BillboardComponent.h"
-#endif
 
 AToroActor::AToroActor() : bEnabled(true), RuntimeGuid(FGuid::NewGuid())
 	, bStartWithCollisionEnabled(true)
@@ -15,17 +12,7 @@ AToroActor::AToroActor() : bEnabled(true), RuntimeGuid(FGuid::NewGuid())
 	SetRootComponent(SceneRoot);
 
 #if WITH_EDITORONLY_DATA
-	DefaultIconBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DefaultIconBillboard");
-	if (DefaultIconBillboard)
-	{
-		DefaultIconBillboard->SetWorldScale3D(FVector{0.5f});
-		DefaultIconBillboard->bIsScreenSizeScaled = true;
-		DefaultIconBillboard->bIsEditorOnly = true;
-		DefaultIconBillboard->SetVisibility(false);
-		DefaultIconBillboard->SetHiddenInGame(true);
-		DefaultIconBillboard->SetIsVisualizationComponent(true);
-		DefaultIconBillboard->SetupAttachment(SceneRoot);
-	}
+	CREATE_DEBUG_ICON(DebugIcon)
 #endif
 
 	SetCanBeDamaged(false);
@@ -50,28 +37,13 @@ void AToroActor::BeginPlay()
 void AToroActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+#if WITH_EDITORONLY_DATA
+	UPDATE_DEBUG_ICON(DebugIcon);
+#endif
 	if (!RuntimeGuid.IsValid())
 	{
 		RuntimeGuid = FGuid::NewGuid();
 	}
-#if WITH_EDITORONLY_DATA
-	if (DefaultIconBillboard)
-	{
-		TArray<USceneComponent*> Components;
-		GetComponents<USceneComponent>(Components);
-		const bool bVisible = Components.Num() <= 2;
-		DefaultIconBillboard->SetVisibility(bVisible);
-		if (bVisible)
-		{
-			if (!BillboardIcon.Equals(BillboardIconTexture.ToString()))
-			{
-				BillboardIconTexture = FSoftObjectPath(BillboardIcon);
-			}
-			
-			DefaultIconBillboard->SetSprite(BillboardIconTexture.LoadSynchronous());
-		}
-	}
-#endif
 }
 
 void AToroActor::OnEnableStateChanged(const bool bIsEnabled)
