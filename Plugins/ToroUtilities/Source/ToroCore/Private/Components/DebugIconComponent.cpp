@@ -29,10 +29,10 @@ void UDebugIconComponent::OnConstruction()
 	SetVisibility(Components.IsEmpty());
 }
 
-void UDebugIconComponent::SetupComponent(const AActor* Owner)
+void UDebugIconComponent::SetupComponent(const AActor* Owner, const float Size)
 {
 	SetupAttachment(Owner->GetRootComponent());
-	SetWorldScale3D(FVector{0.5f});
+	SetWorldScale3D(FVector{Size});
 }
 
 void UDebugIconComponent::OnChildAttached(USceneComponent* ChildComponent)
