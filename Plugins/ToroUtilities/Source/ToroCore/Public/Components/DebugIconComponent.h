@@ -26,8 +26,8 @@ private:
 #endif
 #if WITH_EDITOR
 public:
-	void OnConstruction();
-	void SetupComponent(const AActor* Owner);
+	TOROCORE_API void OnConstruction();
+	TOROCORE_API void SetupComponent(const AActor* Owner);
 private:
 	virtual void OnChildAttached(USceneComponent* ChildComponent) override;
 	virtual bool CanAttachAsChild(const USceneComponent* ChildComponent, FName SocketName) const override
