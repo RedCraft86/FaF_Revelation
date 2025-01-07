@@ -16,6 +16,9 @@ public:
 
 	AElectricActorBase();
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+		TObjectPtr<USceneComponent> SceneRoot;
+
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bPreviewState = true;

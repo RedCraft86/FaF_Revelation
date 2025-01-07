@@ -6,6 +6,12 @@ AElectricSwitchBase::AElectricSwitchBase() : bState(false), PowerValue(1)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
+#if WITH_EDITORONLY_DATA
+	SceneRoot->bVisualizeComponent = true;
+#endif
+	SetRootComponent(SceneRoot);
 }
 
 void AElectricSwitchBase::SetState(const bool bNewState)
