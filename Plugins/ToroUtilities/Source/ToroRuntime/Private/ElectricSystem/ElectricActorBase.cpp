@@ -6,6 +6,13 @@ AElectricActorBase::AElectricActorBase() : MinEnergy(1), bRequiresCollision(fals
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
+	SetRootComponent(SceneRoot);
+	
+#if WITH_EDITORONLY_DATA
+	CREATE_DEBUG_ICON(DebugIcon)
+#endif
 }
 
 void AElectricActorBase::AddEnergy(const FName Key, const uint8 Value)
@@ -83,6 +90,9 @@ void AElectricActorBase::BeginPlay()
 void AElectricActorBase::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+#if WITH_EDITORONLY_DATA
+	UPDATE_DEBUG_ICON(DebugIcon);
+#endif
 	if (!FApp::IsGame())
 	{
 		bCachedState = GetState();

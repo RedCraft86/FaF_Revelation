@@ -2,7 +2,10 @@
 
 #pragma once
 
-#include "ToroActor.h"
+#if WITH_EDITOR
+#include "DebugIconComponent.h"
+#endif
+#include "GameFramework/Actor.h"
 #include "ElectricActorBase.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FElectricStateChangedSignature, const bool, bNewState);
@@ -18,6 +21,10 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<USceneComponent> SceneRoot;
+
+#if WITH_EDITORONLY_DATA
+	UPROPERTY() TObjectPtr<UDebugIconComponent> DebugIcon;
+#endif
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Settings)
