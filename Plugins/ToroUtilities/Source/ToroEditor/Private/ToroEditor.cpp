@@ -200,6 +200,7 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ToroEditor.InventoryGrid", new IMAGE_BRUSH_SVG(TEXT("InventoryGridSmall"), Icon20x20));
 	
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.WorldMusicVolume", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
 
 	FSlateStyleRegistry::RegisterSlateStyle(*StyleSet.Get());
 }
