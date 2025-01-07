@@ -40,10 +40,7 @@ protected:
 	{
 		TArray<TWeakObjectPtr<UObject>> Objs;
 		DetailBuilder.GetObjectsBeingCustomized(Objs);
-		
-		DetailBuilder.EditCategory(TEXT("Settings"))
-			.AddProperty(GET_CLASS_PROPERTY(AToroActor, bEnabled));
-		
+
 		TArray<FName> Allowed = {TEXT("Actor"), TEXT("Collision"), TEXT("BrushSettings"), TEXT("Tick")};
 		TMap<FName, ECategoryPriority::Type> Priority = {
 			{TEXT("Transform"), ECategoryPriority::Transform},
@@ -54,8 +51,10 @@ protected:
 		
 		for (const TWeakObjectPtr<UObject>& Obj : Objs)
 		{
-			if (Obj.IsValid() && !Obj->IsTemplate())
+			if (Obj.IsValid())
 			{
+				if (Obj->IsTemplate()) return;
+				
 				if (FString Meta = Obj->GetClass()->GetMetaData(TEXT("AllowedCategories")); !Meta.IsEmpty())
 				{
 					Allowed.Append(GetCleanedArrayMetadata(Meta));
@@ -73,6 +72,9 @@ protected:
 			}
 		}
 
+		DetailBuilder.EditCategory(TEXT("Settings"))
+			.AddProperty(GET_CLASS_PROPERTY(AToroActor, bEnabled));
+		
 		TArray<FName> CategoryNames;
 		DetailBuilder.GetCategoryNames(CategoryNames);
 		
