@@ -6,7 +6,7 @@
 #include "GameFramework/Volume.h"
 #include "ToroVolume.generated.h"
 
-UCLASS(Abstract, meta = (AllowedCategories = "Collision, BrushSettings"))
+UCLASS(Abstract)
 class TOROCORE_API AToroVolume : public AVolume
 {
 	GENERATED_BODY()

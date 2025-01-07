@@ -24,13 +24,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, NoClear)
 		TObjectPtr<USoundBase> Sound;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound", ClampMin = 0.1f))
-		float FadeTime;
-
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound", ClampMin = 0.1f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound != nullptr", ClampMin = 0.1f))
 		float Volume;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound", ClampMin = 0.0f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound != nullptr", ClampMin = 0.1f))
+		float FadeTime;
+
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound != nullptr", ClampMin = 0.0f))
 		FVector2D StartRange;
 
 private:

@@ -27,6 +27,7 @@
 #include "DetailsCustomization/InlineCurveDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
+#include "DetailsCustomization/WorldMusicVolumeDetails.h"
 #include "DetailsCustomization/ElectricLightDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
@@ -77,6 +78,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume, FWorldMusicVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
 		
@@ -135,6 +137,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
 		

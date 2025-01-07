@@ -54,6 +54,11 @@ protected:
 			if (Obj.IsValid())
 			{
 				if (Obj->IsTemplate()) return;
+
+				if (Obj->IsA<AToroVolume>())
+				{
+					Allowed.Append({TEXT("Collision"), TEXT("BrushSettings")});
+				}
 				
 				if (FString Meta = Obj->GetClass()->GetMetaData(TEXT("AllowedCategories")); !Meta.IsEmpty())
 				{

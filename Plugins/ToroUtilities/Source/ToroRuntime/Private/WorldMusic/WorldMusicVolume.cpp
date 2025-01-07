@@ -4,7 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 
 AWorldMusicVolume::AWorldMusicVolume() : bStopOnExit(false), Cooldown(10.0f)
-	, FadeTime(1.0), Volume(1.0), StartRange(0.0f)
+	, Volume(1.0), FadeTime(1.0), StartRange(0.0f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 #if WITH_EDITOR
