@@ -2,7 +2,7 @@
 
 #include "ElectricSystem/ElectricActorBase.h"
 
-AElectricActorBase::AElectricActorBase() : MinEnergy(1), bCachedState(false)
+AElectricActorBase::AElectricActorBase() : MinEnergy(1), bRequiresCollision(false), bCachedState(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -47,9 +47,9 @@ uint8 AElectricActorBase::GetEnergy()
 bool AElectricActorBase::GetState()
 {
 #if WITH_EDITOR
-	return IsEnabled() && (FApp::IsGame() ? GetEnergy() >= MinEnergy : bPreviewState);
+	return FApp::IsGame() ? GetEnergy() >= MinEnergy : bPreviewState;
 #else
-	return IsEnabled() && GetEnergy() >= MinEnergy;
+	return GetEnergy() >= MinEnergy;
 #endif
 }
 
@@ -76,12 +76,7 @@ void AElectricActorBase::BeginPlay()
 	Super::BeginPlay();
 	bCachedState = GetState();
 	OnStateChanged(bCachedState);
-}
-
-void AElectricActorBase::OnEnableStateChanged(const bool bIsEnabled)
-{
-	bCachedState = GetState();
-	OnStateChanged(bCachedState);
+	SetActorEnableCollision(bRequiresCollision);
 }
 
 #if WITH_EDITOR

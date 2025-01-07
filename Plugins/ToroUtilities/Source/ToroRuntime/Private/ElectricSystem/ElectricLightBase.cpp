@@ -96,17 +96,14 @@ void AElectricLightBase::UpdateCaches()
 		}
 	}
 	
-	if (bEnabled)
-	{
-		FlickerCurve.GetValueRange(FlickerValRange.X, FlickerValRange.Y);
-		FlickerCurve.GetTimeRange(FlickerTimeRange.X, FlickerTimeRange.Y);
-	}
-	else FlickerValRange = FlickerTimeRange = {0.0f, 0.0f};
+
+	FlickerCurve.GetValueRange(FlickerValRange.X, FlickerValRange.Y);
+	FlickerCurve.GetTimeRange(FlickerTimeRange.X, FlickerTimeRange.Y);
 }
 
 bool AElectricLightBase::ShouldTick() const
 {
-	return IsEnabled() && bCachedState && (bFlicker || WantsTick());
+	return bCachedState && (bFlicker || WantsTick());
 }
 
 void AElectricLightBase::OnStateChanged(const bool bState)
@@ -137,12 +134,6 @@ void AElectricLightBase::OnStateChanged(const bool bState)
 	}
 }
 
-void AElectricLightBase::OnEnableStateChanged(const bool bIsEnabled)
-{
-	Super::OnEnableStateChanged(bIsEnabled);
-	SetActorTickEnabled(ShouldTick());
-}
-
 void AElectricLightBase::BeginPlay()
 {
 	UpdateCaches();
@@ -155,9 +146,9 @@ void AElectricLightBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 #if WITH_EDITOR
-	if ((!FApp::IsGame() || !IsHidden()) && IsEnabled() && GetState() && bFlicker)
+	if ((!FApp::IsGame() || !IsHidden()) && GetState() && bFlicker)
 #else
-	if (!IsHidden() && IsEnabled() && bCachedState && bFlicker)
+	if (!IsHidden() && bCachedState && bFlicker)
 #endif
 	{
 		FlickerTime = FlickerTime + DeltaSeconds * FlickerRate;

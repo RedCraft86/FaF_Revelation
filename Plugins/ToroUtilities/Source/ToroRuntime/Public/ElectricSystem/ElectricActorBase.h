@@ -8,7 +8,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FElectricStateChangedSignature, const bool, bNewState);
 
 UCLASS(Abstract)
-class TORORUNTIME_API AElectricActorBase : public AToroActor
+class TORORUNTIME_API AElectricActorBase : public AActor
 {
 	GENERATED_BODY()
 
@@ -24,6 +24,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 MinEnergy;
 
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
+		bool bRequiresCollision;
+	
 	UPROPERTY(BlueprintAssignable, DisplayName = "On State Changed")
 		FElectricStateChangedSignature OnStateChangedBP;
 
@@ -55,7 +58,6 @@ protected:
 	virtual void OnStateChanged(const bool bInState);
 	
 	virtual void BeginPlay() override;
-	virtual void OnEnableStateChanged(const bool bIsEnabled) override;
 #if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif

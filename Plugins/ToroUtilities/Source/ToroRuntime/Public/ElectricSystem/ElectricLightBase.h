@@ -95,7 +95,6 @@ protected:
 
 	bool ShouldTick() const;
 	virtual void OnStateChanged(const bool bState) override;
-	virtual void OnEnableStateChanged(const bool bIsEnabled) override;
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
