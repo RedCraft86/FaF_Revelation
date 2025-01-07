@@ -8,7 +8,11 @@ AWorldMusicVolume::AWorldMusicVolume() : bStopOnExit(false), Cooldown(10.0f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 #if WITH_EDITOR
-	if (DebugIcon) DebugIcon->IconPath = TEXT("/ToroUtilities/Icons/MusicVolume.MusicVolume");
+	if (DebugIcon)
+	{
+		DebugIcon->SetWorldScale3D(FVector{0.25f});
+		DebugIcon->IconPath = TEXT("/ToroUtilities/Icons/MusicVolume.MusicVolume");
+	}
 #endif
 }
 
