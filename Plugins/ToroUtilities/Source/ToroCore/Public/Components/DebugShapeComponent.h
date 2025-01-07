@@ -393,14 +393,12 @@ public:
 
     UPROPERTY(Transient) TArray<FVector> NavPathPoints;
 #endif
-    
+#if WITH_EDITOR
     TOROCORE_API FVector TransformLocation(const FVector& LocalLocation) const;
     TOROCORE_API FRotator TransformRotation(const FRotator& LocalRotation) const;
     TOROCORE_API FVector AsForwardVector(const FRotator& LocalRotation) const;
     TOROCORE_API FVector AsRightVector(const FRotator& LocalRotation) const;
     TOROCORE_API FVector AsUpVector(const FRotator& LocalRotation) const;
-
-#if WITH_EDITOR
     TOROCORE_API void UpdateNavPoints();
 #endif
 private:

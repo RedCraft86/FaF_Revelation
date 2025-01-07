@@ -9,12 +9,14 @@
 UDebugShapeComponent::UDebugShapeComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+	bAutoActivate = false;
 	bIsEditorOnly = true;
 #if WITH_EDITORONLY_DATA
 	SetIsVisualizationComponent(true);
 #endif
 }
 
+#if WITH_EDITOR
 FVector UDebugShapeComponent::TransformLocation(const FVector& LocalLocation) const
 {
 	return GetOwner()->GetActorTransform().TransformPositionNoScale(LocalLocation);
@@ -40,16 +42,6 @@ FVector UDebugShapeComponent::AsUpVector(const FRotator& LocalRotation) const
 	return FRotationMatrix(TransformRotation(LocalRotation)).GetScaledAxis(EAxis::Z);
 }
 
-void UDebugShapeComponent::BeginPlay()
-{
-	Super::BeginPlay();
-	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
-	{
-		DestroyComponent();
-	});
-}
-
-#if WITH_EDITOR
 void UDebugShapeComponent::UpdateNavPoints()
 {
 	NavPathPoints.Empty();
@@ -67,3 +59,9 @@ void UDebugShapeComponent::UpdateNavPoints()
 	}
 }
 #endif
+
+void UDebugShapeComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	DestroyComponent();
+}
