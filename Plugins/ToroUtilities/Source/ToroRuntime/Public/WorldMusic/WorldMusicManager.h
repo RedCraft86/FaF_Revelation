@@ -8,21 +8,21 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 #include "GameFramework/GameStateBase.h"
-#include "ToroMusicManager.generated.h"
+#include "WorldMusicManager.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FOneShotMusicLayer
 {
 	GENERATED_BODY()
 
-	friend class AToroMusicManager;
+	friend class AWorldMusicManager;
 	
 	FECFHandle FadeHandle;
 	UPROPERTY() bool bPaused;
 	UPROPERTY() FVector2D Start;
 	UPROPERTY() bool bAutoDestroy;
 	UPROPERTY(Transient) TObjectPtr<UAudioComponent> Component;
-	UPROPERTY(Transient) TObjectPtr<AToroMusicManager> Owner;
+	UPROPERTY(Transient) TObjectPtr<AWorldMusicManager> Owner;
 	
 	void Stop(const float FadeTime);
 	void Restart(const float FadeTime);
@@ -38,13 +38,13 @@ struct TORORUNTIME_API FOneShotMusicLayer
 /* Game State is repurposed as a Music Manager */
 
 UCLASS()
-class TORORUNTIME_API AToroMusicManager : public AGameStateBase
+class TORORUNTIME_API AWorldMusicManager : public AGameStateBase
 {
 	GENERATED_BODY()
 
 public:
 
-	AToroMusicManager();
+	AWorldMusicManager();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<USceneComponent> SceneRoot;
@@ -53,9 +53,9 @@ public:
 		TObjectPtr<UAudioComponent> MainThemeComponent;
 
 	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Music Manager"))
-		static EToroValidPins GetMusicManager(AToroMusicManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroMusicManager>& Class);
+		static EToroValidPins GetMusicManager(AWorldMusicManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AWorldMusicManager>& Class);
 
-	template <typename T = AToroMusicManager>
+	template <typename T = AWorldMusicManager>
 	static T* Get(const UObject* WorldContextObject)
 	{
 		return Cast<T>(UGameplayStatics::GetGameState(WorldContextObject));

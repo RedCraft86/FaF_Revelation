@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Framework/ToroMusicManager.h"
+#include "WorldMusic/WorldMusicManager.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 
@@ -98,7 +98,7 @@ void FOneShotMusicLayer::OnAudioFinished(UAudioComponent* Comp)
 	if (Owner) Owner->CleanOneShotTracks();
 }
 
-AToroMusicManager::AToroMusicManager()
+AWorldMusicManager::AWorldMusicManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -116,15 +116,15 @@ AToroMusicManager::AToroMusicManager()
 	MainThemeComponent->bIsMusic = true;
 }
 
-EToroValidPins AToroMusicManager::GetMusicManager(AToroMusicManager*& OutObject,
-	const UObject* WorldContextObject, const TSubclassOf<AToroMusicManager>& Class)
+EToroValidPins AWorldMusicManager::GetMusicManager(AWorldMusicManager*& OutObject,
+	const UObject* WorldContextObject, const TSubclassOf<AWorldMusicManager>& Class)
 {
-	AToroMusicManager* Obj = Cast<AToroMusicManager>(UGameplayStatics::GetGameState(WorldContextObject));
+	AWorldMusicManager* Obj = Cast<AWorldMusicManager>(UGameplayStatics::GetGameState(WorldContextObject));
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-bool AToroMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
+bool AWorldMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
 {
 	if (!NewTheme || NewTheme == MainTheme) return false;
 	if (!MainTheme)
@@ -148,17 +148,17 @@ bool AToroMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
 	return true;
 }
 
-void AToroMusicManager::SetThemeIntensity(const float InIntensity) const
+void AWorldMusicManager::SetThemeIntensity(const float InIntensity) const
 {
 	GetSoundParamInterface()->SetFloatParameter(TEXT("Intensity"), InIntensity);
 }
 
-void AToroMusicManager::SetThemeState(const uint8 InState) const
+void AWorldMusicManager::SetThemeState(const uint8 InState) const
 {
 	GetSoundParamInterface()->SetIntParameter(TEXT("State"), InState);
 }
 
-bool AToroMusicManager::PlayLayer(USoundBase* Sound, const float FadeTime, const float Volume, const FVector2D& StartRange)
+bool AWorldMusicManager::PlayLayer(USoundBase* Sound, const float FadeTime, const float Volume, const FVector2D& StartRange)
 {
 	if (!Sound) return false;
 	if (const FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
@@ -177,7 +177,7 @@ bool AToroMusicManager::PlayLayer(USoundBase* Sound, const float FadeTime, const
 	return true;
 }
 
-bool AToroMusicManager::StopLayer(const USoundBase* Sound, const float FadeTime)
+bool AWorldMusicManager::StopLayer(const USoundBase* Sound, const float FadeTime)
 {
 	if (!Sound) return false;
 	if (FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
@@ -189,7 +189,7 @@ bool AToroMusicManager::StopLayer(const USoundBase* Sound, const float FadeTime)
 	return false;
 }
 
-bool AToroMusicManager::RestartLayer(const USoundBase* Sound, const float FadeTime)
+bool AWorldMusicManager::RestartLayer(const USoundBase* Sound, const float FadeTime)
 {
 	if (!Sound) return false;
 	if (FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
@@ -201,7 +201,7 @@ bool AToroMusicManager::RestartLayer(const USoundBase* Sound, const float FadeTi
 	return false;
 }
 
-bool AToroMusicManager::SetLayerPaused(const USoundBase* Sound, const float FadeTime, const bool bPaused)
+bool AWorldMusicManager::SetLayerPaused(const USoundBase* Sound, const float FadeTime, const bool bPaused)
 {
 	if (!Sound) return false;
 	if (FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
@@ -213,7 +213,7 @@ bool AToroMusicManager::SetLayerPaused(const USoundBase* Sound, const float Fade
 	return false;
 }
 
-void AToroMusicManager::CleanOneShotTracks()
+void AWorldMusicManager::CleanOneShotTracks()
 {
 	if (OneShotLayers.IsEmpty())
 	{
@@ -229,12 +229,12 @@ void AToroMusicManager::CleanOneShotTracks()
 	}
 }
 
-IAudioParameterControllerInterface* AToroMusicManager::GetSoundParamInterface() const
+IAudioParameterControllerInterface* AWorldMusicManager::GetSoundParamInterface() const
 {
 	return Cast<IAudioParameterControllerInterface>(MainThemeComponent);
 }
 
-void AToroMusicManager::BeginPlay()
+void AWorldMusicManager::BeginPlay()
 {
 	Super::BeginPlay();
 	FEnhancedCodeFlow::Delay(this, 1.0f, [this]()
@@ -243,7 +243,7 @@ void AToroMusicManager::BeginPlay()
 	});
 }
 
-void AToroMusicManager::Tick(float DeltaSeconds)
+void AWorldMusicManager::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	CleanOneShotTracks();
