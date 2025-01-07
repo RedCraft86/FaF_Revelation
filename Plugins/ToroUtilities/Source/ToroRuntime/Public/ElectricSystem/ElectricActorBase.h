@@ -10,7 +10,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FElectricStateChangedSignature, const bool, bNewState);
 
-UCLASS(Abstract)
+UCLASS(Abstract, meta = (HiddenCategories = "Collision"))
 class TORORUNTIME_API AElectricActorBase : public AActor
 {
 	GENERATED_BODY()

@@ -15,22 +15,22 @@ public:
 	
 	AWorldMusicVolume();
 	
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bStopOnExit;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 1.0f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 1.0f))
 		float Cooldown;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", NoClear)
+	UPROPERTY(EditAnywhere, Category = Settings, NoClear)
 		TObjectPtr<USoundBase> Sound;
 
-	UPROPERTY(EditAnywhere, Category = "Settings|Sound", meta = (EditCondition = "Sound", ClampMin = 0.1f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound", ClampMin = 0.1f))
 		float FadeTime;
 
-	UPROPERTY(EditAnywhere, Category = "Settings|Sound", meta = (EditCondition = "Sound", ClampMin = 0.1f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound", ClampMin = 0.1f))
 		float Volume;
 
-	UPROPERTY(EditAnywhere, Category = "Settings|Sound", meta = (EditCondition = "Sound", ClampMin = 0.0f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (EditCondition = "Sound", ClampMin = 0.0f))
 		FVector2D StartRange;
 
 private:

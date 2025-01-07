@@ -34,13 +34,13 @@ public:
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
 		FActorEnableChangedSignature OnEnableStateChangedBP;
 	
-	UFUNCTION(BlueprintCallable, Category = "Actor")
+	UFUNCTION(BlueprintCallable, Category = Actor)
 		virtual void SetEnabled(const bool bInEnabled);
 	
-	UFUNCTION(BlueprintPure, Category = "Actor")
+	UFUNCTION(BlueprintPure, Category = Actor)
 		bool IsEnabled() const { return bEnabled; }
 	
-	UFUNCTION(BlueprintPure, Category = "Actor")
+	UFUNCTION(BlueprintPure, Category = Actor)
 		FGuid GetRuntimeGuid() const { return RuntimeGuid; }
 
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
@@ -51,13 +51,13 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bEnabled;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", NonPIEDuplicateTransient, TextExportTransient, NonTransactional, AdvancedDisplay, meta = (DisplayPriority = 10))
+	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
 		FGuid RuntimeGuid;
 
-	UPROPERTY(EditAnywhere, Category = "Collision")
+	UPROPERTY(EditAnywhere, Category = Actor)
 		bool bStartWithCollisionEnabled;
 	
 	virtual void BeginPlay() override;

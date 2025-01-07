@@ -41,7 +41,7 @@ protected:
 		TArray<TWeakObjectPtr<UObject>> Objs;
 		DetailBuilder.GetObjectsBeingCustomized(Objs);
 
-		TArray<FName> Allowed = {TEXT("Actor"), TEXT("Collision"), TEXT("BrushSettings"), TEXT("Tick")};
+		TArray<FName> Allowed = {TEXT("Actor"), TEXT("Tick")};
 		TMap<FName, ECategoryPriority::Type> Priority = {
 			{TEXT("Transform"), ECategoryPriority::Transform},
 			{TEXT("TransformCommon"), ECategoryPriority::Transform},

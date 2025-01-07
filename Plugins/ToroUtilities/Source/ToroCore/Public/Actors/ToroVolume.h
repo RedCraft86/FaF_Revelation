@@ -6,7 +6,7 @@
 #include "GameFramework/Volume.h"
 #include "ToroVolume.generated.h"
 
-UCLASS()
+UCLASS(Abstract, meta = (AllowedCategories = "Collision, BrushSettings"))
 class TOROCORE_API AToroVolume : public AVolume
 {
 	GENERATED_BODY()
@@ -22,13 +22,13 @@ public:
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
 		FActorEnableChangedSignature OnEnableStateChangedBP;
 	
-	UFUNCTION(BlueprintCallable, Category = "Actor")
+	UFUNCTION(BlueprintCallable, Category = Actor)
 		void SetEnabled(const bool bInEnabled);
 	
-	UFUNCTION(BlueprintPure, Category = "Actor")
+	UFUNCTION(BlueprintPure, Category = Actor)
 		bool IsEnabled() const { return bEnabled; }
 	
-	UFUNCTION(BlueprintPure, Category = "Actor")
+	UFUNCTION(BlueprintPure, Category = Actor)
 		FGuid GetRuntimeGuid() const { return RuntimeGuid; }
 
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
@@ -39,10 +39,10 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -10))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -10))
 		bool bEnabled;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", NonPIEDuplicateTransient, TextExportTransient, NonTransactional, meta = (DisplayPriority = -10))
+	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
 		FGuid RuntimeGuid;
 	
 	virtual void BeginPlay() override;
