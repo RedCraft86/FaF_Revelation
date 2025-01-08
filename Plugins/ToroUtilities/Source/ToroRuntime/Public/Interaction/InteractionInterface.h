@@ -5,6 +5,8 @@
 #include "UObject/Interface.h"
 #include "InteractionInterface.generated.h"
 
+class AToroPlayerCharacter;
+
 UENUM(BlueprintType)
 enum class EInteractableType : uint8
 {
@@ -57,14 +59,67 @@ class TORORUNTIME_API IInteractionInterface
 	GENERATED_BODY()
 
 public:
-
 	
+	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Begin Interact")
+		void OnBeginInteract(AToroPlayerCharacter* Player, const FHitResult& HitResult);
+	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult) {}
+
+	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "End Interact")
+		void OnEndInteract(AToroPlayerCharacter* Player);
+	virtual void OnEndInteract_Implementation(AToroPlayerCharacter* Player) {}
+
+	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Begin Pawn Interact")
+		void OnBeginPawnInteract(APawn* Pawn, const FHitResult& HitResult);
+	virtual void OnBeginPawnInteract_Implementation(APawn* Pawn, const FHitResult& HitResult) {}
+
+	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
+		bool GetInteractionInfo(FInteractableInfo& Info);
+	virtual bool GetInteractionInfo_Implementation(FInteractableInfo& Info)
+	{
+		Info = {};
+		return false;
+	}
 };
 
-namespace IInteract
+namespace IInteraction
 {
 	static bool ImplementedBy(const UObject* Target) 
 	{ 
 		return IsValid(Target) ? Target->Implements<UInteractionInterface>() : false; 
+	}
+	
+	static void BeginInteract(UObject* Target, AToroPlayerCharacter* Player, const FHitResult& HitResult)
+	{
+		if (ImplementedBy(Target))
+		{
+			IInteractionInterface::Execute_OnBeginInteract(Target, Player, HitResult);
+		}
+	}
+	
+	static void EndInteract(UObject* Target, AToroPlayerCharacter* Player)
+	{
+		if (ImplementedBy(Target))
+		{
+			IInteractionInterface::Execute_OnEndInteract(Target, Player);
+		}
+	}
+
+	static void BeginPawnInteract(UObject* Target, APawn* Pawn, const FHitResult& HitResult)
+	{
+		if (ImplementedBy(Target))
+		{
+			IInteractionInterface::Execute_OnBeginPawnInteract(Target, Pawn, HitResult);
+		}
+	}
+
+	static bool GetInteractionInfo(UObject* Target, FInteractableInfo& Info)
+	{
+		if (ImplementedBy(Target))
+		{
+			return IInteractionInterface::Execute_GetInteractionInfo(Target, Info);
+		}
+
+		Info = {};
+		return false;
 	}
 }
