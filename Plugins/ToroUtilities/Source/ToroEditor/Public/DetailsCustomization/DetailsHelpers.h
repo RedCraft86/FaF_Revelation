@@ -11,6 +11,15 @@
 
 #define GET_PROPERTY_VAR(Member, VarName) GET_CLASS_PROPERTY_VAR(CLASSNAME, Member, VarName)
 
+#define STRUCT_CLASS_PROPERTY(Struct, Member) StructPropertyHandle->GetChildHandle(GET_MEMBER_NAME_CHECKED(Struct, Member))
+#define STRUCT_PROPERTY(Member) STRUCT_CLASS_PROPERTY(STRUCTNAME, Member)
+
+#define STRUCT_CLASS_PROPERTY_VAR(Struct, Member, VarName) \
+	TSharedPtr<IPropertyHandle> VarName = STRUCT_CLASS_PROPERTY(Struct, Member); \
+	VarName->MarkHiddenByCustomization();
+
+#define STRUCT_PROPERTY_VAR(Member, VarName) STRUCT_CLASS_PROPERTY_VAR(STRUCTNAME, Member, VarName)
+
 namespace DetailsHelpers
 {
 	TOROEDITOR_API inline bool IsPropertyFromChildClass(const TSharedRef<IPropertyHandle>& InHandle, const UClass* BaseClass)

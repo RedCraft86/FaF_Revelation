@@ -16,17 +16,17 @@
 #include "EditorTools/StaticMeshInstancer.h"
 #include "EditorTools/ChannelPacker.h"
 
-#include "ToroActor.h"
-#include "ToroVolume.h"
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
 #include "ZoneCullingVolume.h"
 #include "WorldActions/WorldActionActor.h"
+
 #include "DetailsCustomization/ToroActorDetails.h"
 #include "DetailsCustomization/InventoryItemDetails.h"
 #include "DetailsCustomization/InlineCurveDetails.h"
-#include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
+#include "DetailsCustomization/InteractableInfoDetails.h"
+#include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/WorldMusicVolumeDetails.h"
 #include "DetailsCustomization/ElectricLightDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
@@ -88,6 +88,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FInteractableInfo, FInteractableInfoCustomization)
 
 		// for (TObjectIterator<UScriptStruct> It; It; ++It)
 		// {
@@ -147,6 +148,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInteractableInfo)
 		
 		// for (TObjectIterator<UScriptStruct> It; It; ++It)
 		// {
