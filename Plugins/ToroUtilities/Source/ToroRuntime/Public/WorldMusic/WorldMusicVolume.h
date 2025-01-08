@@ -16,6 +16,9 @@ public:
 	AWorldMusicVolume();
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bSingleUse;
+	
+	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bStopOnExit;
 	
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 1.0f))

@@ -3,8 +3,8 @@
 #include "WorldMusic/WorldMusicVolume.h"
 #include "Kismet/GameplayStatics.h"
 
-AWorldMusicVolume::AWorldMusicVolume() : bStopOnExit(false), Cooldown(10.0f)
-	, Volume(1.0), FadeTime(1.0), StartRange(0.0f)
+AWorldMusicVolume::AWorldMusicVolume() : bSingleUse(true), bStopOnExit(false)
+	, Cooldown(10.0f), Volume(1.0), FadeTime(1.0), StartRange(0.0f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 #if WITH_EDITOR
@@ -24,6 +24,11 @@ void AWorldMusicVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	{
 		MusicManager->PlayLayer(Sound, FadeTime, Volume, StartRange);
 	}
+
+	if (!bStopOnExit && bSingleUse)
+	{
+		SetActorEnableCollision(false);
+	}
 }
 
 void AWorldMusicVolume::NotifyActorEndOverlap(AActor* OtherActor)
@@ -33,9 +38,16 @@ void AWorldMusicVolume::NotifyActorEndOverlap(AActor* OtherActor)
 	{
 		MusicManager->StopLayer(Sound, FadeTime);
 	}
-	
-	GetWorldTimerManager().SetTimer(CooldownTimer, this,
-		&AWorldMusicVolume::EmptyFunction, Cooldown, false);
+
+	if (!bSingleUse)
+	{
+		if (Cooldown > 1.0f) GetWorldTimerManager().SetTimer(CooldownTimer, this,
+		   &AWorldMusicVolume::EmptyFunction, Cooldown, false);
+	}
+	else
+	{
+		SetActorEnableCollision(false);
+	}
 }
 
 void AWorldMusicVolume::BeginPlay()
