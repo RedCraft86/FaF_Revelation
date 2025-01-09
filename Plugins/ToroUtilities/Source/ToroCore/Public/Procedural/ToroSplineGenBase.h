@@ -22,7 +22,7 @@ public:
 		SceneRoot->SetupAttachment(SplineComponent);
 	}
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USplineComponent> SplineComponent;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -10))

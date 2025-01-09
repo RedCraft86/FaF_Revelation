@@ -24,7 +24,7 @@ public:
 
 	AToroMeshGenBase();
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 	
 	template<typename T>

@@ -16,16 +16,16 @@ public:
 
 	ASplineCable();
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TSet<TObjectPtr<USplineMeshComponent>> SplineMeshComponents;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TArray<TObjectPtr<UInstancedStaticMeshComponent>> AttachMeshComponents;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UStaticMeshComponent> StartMeshComponent;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UStaticMeshComponent> EndMeshComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Settings")

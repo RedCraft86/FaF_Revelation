@@ -15,15 +15,15 @@ public:
 
 	AWorldActionActor();
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(VisibleDefaultsOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, Category = Subobjects)
 		TObjectPtr<UBillboardComponent> DefaultIconBillboard;
 #endif
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UWorldActionComponent> WorldActions;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "WorldEvents")

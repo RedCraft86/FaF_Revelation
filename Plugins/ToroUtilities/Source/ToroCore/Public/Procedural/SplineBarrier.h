@@ -15,7 +15,7 @@ public:
 
 	ASplineBarrier();
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UInstancedStaticMeshComponent> WallMeshComponent;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.5f, UIMin = 0.5f))

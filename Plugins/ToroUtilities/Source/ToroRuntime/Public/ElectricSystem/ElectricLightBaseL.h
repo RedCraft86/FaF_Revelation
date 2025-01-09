@@ -36,7 +36,7 @@ public:
 
 	AElectricLightBaseL();
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UZoneCullingComponent> ZoneCulling;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings|Flicker")

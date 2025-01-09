@@ -14,7 +14,7 @@ public:
 
 	ATriggerField();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UWorldActionComponent> WorldEventComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", meta = (DisplayPriority = -1))

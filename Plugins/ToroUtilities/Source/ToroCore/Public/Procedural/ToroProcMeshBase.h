@@ -15,7 +15,7 @@ public:
 
 	AToroProcMeshBase();
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UProceduralMeshComponent> ProceduralMesh;
 	
 #if WITH_EDITORONLY_DATA

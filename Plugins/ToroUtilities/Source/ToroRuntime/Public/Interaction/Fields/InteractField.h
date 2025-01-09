@@ -21,7 +21,7 @@ public:
 
 	AInteractField();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Subobjects")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UWorldActionComponent> WorldEventComponent;
 
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -1))
