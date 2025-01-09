@@ -44,7 +44,7 @@ void AElectricLightBaseL::SetFlickerState(const bool bNewFlicker)
 		SetActorTickEnabled(ShouldTick());
 
 		// Reset multipliers
-		for (const FElectricLightEntry& Entry : CachedEntries)
+		for (const FElectricLightEntry2& Entry : CachedEntries)
 		{
 			if (Entry.Light) Entry.Light->SetIntensity(Entry.Intensity);
 			for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
@@ -67,7 +67,7 @@ void AElectricLightBaseL::SetFlickerState(const bool bNewFlicker)
 void AElectricLightBaseL::UpdateCaches()
 {
 	GetLightInfo(CachedEntries);
-	for (const FElectricLightEntry& Entry : CachedEntries)
+	for (const FElectricLightEntry2& Entry : CachedEntries)
 	{
 		if (!Entry.Light) continue;
 		for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
@@ -110,7 +110,7 @@ void AElectricLightBaseL::OnStateChanged(const bool bState)
 {
 	Super::OnStateChanged(bState);
 	SetActorTickEnabled(ShouldTick());
-	for (const FElectricLightEntry& Entry : CachedEntries)
+	for (const FElectricLightEntry2& Entry : CachedEntries)
 	{
 		if (Entry.Light) Entry.Light->SetVisibility(bState);
 		for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
@@ -158,7 +158,7 @@ void AElectricLightBaseL::Tick(float DeltaSeconds)
 #if WITH_EDITORONLY_DATA
 		FlickerPlayback = GET_MAPPED_FLICKER(FlickerRange);
 #endif
-		for (const FElectricLightEntry& Entry : CachedEntries)
+		for (const FElectricLightEntry2& Entry : CachedEntries)
 		{
 			if (!Entry.Light) continue;
 			Entry.Light->SetIntensity(Entry.Intensity * GET_MAPPED_FLICKER(FlickerRange));

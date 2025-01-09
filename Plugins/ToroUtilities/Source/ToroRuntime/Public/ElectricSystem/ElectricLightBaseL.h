@@ -8,7 +8,7 @@
 #include "ElectricLightBaseL.generated.h"
 
 USTRUCT(BlueprintType)
-struct FElectricLightEntry
+struct FElectricLightEntry2
 {
 	GENERATED_BODY()
 
@@ -24,7 +24,7 @@ struct FElectricLightEntry
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightEntry")
 		TMap<TObjectPtr<UStaticMeshComponent>, bool> Meshes;
 
-	FElectricLightEntry() : Intensity(0.0f) {}
+	FElectricLightEntry2() : Intensity(0.0f) {}
 };
 
 UCLASS(Abstract)
@@ -81,7 +81,7 @@ public:
 	 * Idx 5		: Multiplier
 	 */
 	UFUNCTION(BlueprintImplementableEvent)
-		void GetLightInfo(TArray<FElectricLightEntry>& Entries) const;
+		void GetLightInfo(TArray<FElectricLightEntry2>& Entries) const;
 
 	UFUNCTION(BlueprintImplementableEvent)
 		bool WantsTick() const;
@@ -91,7 +91,7 @@ protected:
 	UPROPERTY() float FlickerTime;
 	UPROPERTY() FVector2D FlickerValRange;
 	UPROPERTY() FVector2D FlickerTimeRange;
-	UPROPERTY(Transient) TArray<FElectricLightEntry> CachedEntries;
+	UPROPERTY(Transient) TArray<FElectricLightEntry2> CachedEntries;
 
 	bool ShouldTick() const;
 	virtual void OnStateChanged(const bool bState) override;
