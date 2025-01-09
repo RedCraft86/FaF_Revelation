@@ -73,11 +73,10 @@ public:
 	virtual void OnBeginPawnInteract_Implementation(APawn* Pawn, const FHitResult& HitResult) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
-		bool GetInteractionInfo(FInteractableInfo& Info);
-	virtual bool GetInteractionInfo_Implementation(FInteractableInfo& Info)
+		FInteractableInfo GetInteractionInfo();
+	virtual FInteractableInfo GetInteractionInfo_Implementation()
 	{
-		Info = {};
-		return false;
+		return {};
 	}
 };
 
@@ -112,14 +111,13 @@ namespace IInteraction
 		}
 	}
 
-	static bool GetInteractionInfo(UObject* Target, FInteractableInfo& Info)
+	static FInteractableInfo GetInteractionInfo(UObject* Target)
 	{
 		if (ImplementedBy(Target))
 		{
-			return IInteractionInterface::Execute_GetInteractionInfo(Target, Info);
+			return IInteractionInterface::Execute_GetInteractionInfo(Target);
 		}
 
-		Info = {};
-		return false;
+		return {};
 	}
 }
