@@ -3,7 +3,7 @@
 #include "ZoneCullingComponent.h"
 
 UZoneCullingComponent::UZoneCullingComponent() : bDisableComponent(false)
-	, bAffectTicking(false), bCachedHiddenState(false), bInitialTickState(false)
+	, bAffectTicking(true), bCachedHiddenState(false), bInitialTickState(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
