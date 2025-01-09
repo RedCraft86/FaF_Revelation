@@ -3,10 +3,10 @@
 #pragma once
 
 #include "IDetailGroup.h"
-#include "ElectricSystem/ElectricLightBase.h"
+#include "ElectricSystem/ElectricLightBaseL.h"
 #include "DetailsCustomization/ElectricActorDetails.h"
 
-#define CLASSNAME AElectricLightBase
+#define CLASSNAME AElectricLightBaseL
 class TOROEDITOR_API FElectricLightCustomization final : public FElectricActorCustomization
 {
 public:

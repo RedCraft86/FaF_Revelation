@@ -28,7 +28,7 @@
 #include "DetailsCustomization/InteractableInfoDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/WorldMusicVolumeDetails.h"
-#include "DetailsCustomization/ElectricLightDetails.h"
+#include "DetailsCustomization/ElectricLightDetailsL.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
@@ -80,7 +80,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume, FWorldMusicVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBaseL, FElectricLightCustomization)
 		
 		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
 		
@@ -139,7 +139,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume)
-		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
+		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBaseL)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
 		
 		UNREGISTER_CLASS_CUSTOMIZATION(UInventoryItemData)

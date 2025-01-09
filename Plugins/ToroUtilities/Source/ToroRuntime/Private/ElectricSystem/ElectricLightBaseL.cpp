@@ -1,9 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ElectricSystem/ElectricLightBase.h"
+#include "ElectricSystem/ElectricLightBaseL.h"
 #include "Components/LightComponent.h"
 
-AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), FlickerRange(0.0f, 1.0f)
+AElectricLightBaseL::AElectricLightBaseL() : FlickerRate(0.25f), FlickerRange(0.0f, 1.0f)
 	, MeshMulti(1.0f), MeshFresnel(0.5f), MeshFlicker(0.0f, 1.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -36,7 +36,7 @@ AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), FlickerRange(0.0f
 	}
 }
 
-void AElectricLightBase::SetFlickerState(const bool bNewFlicker)
+void AElectricLightBaseL::SetFlickerState(const bool bNewFlicker)
 {
 	if (bFlicker != bNewFlicker)
 	{
@@ -64,7 +64,7 @@ void AElectricLightBase::SetFlickerState(const bool bNewFlicker)
 	}
 }
 
-void AElectricLightBase::UpdateCaches()
+void AElectricLightBaseL::UpdateCaches()
 {
 	GetLightInfo(CachedEntries);
 	for (const FElectricLightEntry& Entry : CachedEntries)
@@ -101,12 +101,12 @@ void AElectricLightBase::UpdateCaches()
 	FlickerCurve.GetTimeRange(FlickerTimeRange.X, FlickerTimeRange.Y);
 }
 
-bool AElectricLightBase::ShouldTick() const
+bool AElectricLightBaseL::ShouldTick() const
 {
 	return bCachedState && (bFlicker || WantsTick());
 }
 
-void AElectricLightBase::OnStateChanged(const bool bState)
+void AElectricLightBaseL::OnStateChanged(const bool bState)
 {
 	Super::OnStateChanged(bState);
 	SetActorTickEnabled(ShouldTick());
@@ -134,7 +134,7 @@ void AElectricLightBase::OnStateChanged(const bool bState)
 	}
 }
 
-void AElectricLightBase::BeginPlay()
+void AElectricLightBaseL::BeginPlay()
 {
 	UpdateCaches();
 	Super::BeginPlay();
@@ -142,7 +142,7 @@ void AElectricLightBase::BeginPlay()
 }
 
 #define GET_MAPPED_FLICKER(TargetRange) FMath::Max(0.0f,FMath::GetMappedRangeValueClamped(FlickerValRange, TargetRange, Value))
-void AElectricLightBase::Tick(float DeltaSeconds)
+void AElectricLightBaseL::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 #if WITH_EDITOR
@@ -183,7 +183,7 @@ void AElectricLightBase::Tick(float DeltaSeconds)
 }
 #undef GET_MAPPED_FLICKER
 #if WITH_EDITOR
-void AElectricLightBase::OnConstruction(const FTransform& Transform)
+void AElectricLightBaseL::OnConstruction(const FTransform& Transform)
 {
 	if (!FApp::IsGame()) UpdateCaches();
 	Super::OnConstruction(Transform);

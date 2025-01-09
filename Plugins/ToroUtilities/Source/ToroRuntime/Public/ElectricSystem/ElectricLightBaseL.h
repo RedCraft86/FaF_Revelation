@@ -5,7 +5,7 @@
 #include "InlineCurves.h"
 #include "ElectricActorBase.h"
 #include "ZoneCullingComponent.h"
-#include "ElectricLightBase.generated.h"
+#include "ElectricLightBaseL.generated.h"
 
 USTRUCT(BlueprintType)
 struct FElectricLightEntry
@@ -28,13 +28,13 @@ struct FElectricLightEntry
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API AElectricLightBase final : public AElectricActorBase
+class TORORUNTIME_API AElectricLightBaseL final : public AElectricActorBase
 {
 	GENERATED_BODY()
 	
 public:
 
-	AElectricLightBase();
+	AElectricLightBaseL();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Subobjects")
 		TObjectPtr<UZoneCullingComponent> ZoneCulling;
