@@ -3,10 +3,10 @@
 #pragma once
 
 #include "IDetailGroup.h"
-#include "ElectricSystem/ElectricLightBaseL.h"
+#include "ElectricSystem/ElectricLightBase.h"
 #include "DetailsCustomization/ElectricActorDetails.h"
 
-#define CLASSNAME AElectricLightBaseL
+#define CLASSNAME AElectricLightBase
 class TOROEDITOR_API FElectricLightCustomization final : public FElectricActorCustomization
 {
 public:
@@ -25,7 +25,6 @@ private:
 		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(TEXT("Settings"));
 		IDetailGroup& FlickerGroup = Settings.AddGroup(TEXT("Flicker"), INVTEXT("Flicker"));
 		{
-			FlickerGroup.HeaderProperty(GET_PROPERTY(bFlicker));
 			FlickerGroup.AddPropertyRow(GET_PROPERTY(FlickerRate));
 			FlickerGroup.AddPropertyRow(GET_PROPERTY(FlickerRange));
 			FlickerGroup.AddPropertyRow(GET_PROPERTY(FlickerPlayback));

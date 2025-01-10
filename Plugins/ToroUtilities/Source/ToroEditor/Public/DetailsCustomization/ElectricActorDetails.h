@@ -21,7 +21,7 @@ protected:
 		FToroActorCustomization::CustomizeDetails(DetailBuilder);
 		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(TEXT("Settings"));
 		Settings.AddProperty(GET_CLASS_PROPERTY(AElectricActorBase, bPreviewState));
-		Settings.AddProperty(GET_CLASS_PROPERTY(AElectricActorBase, BreakStage));
 		Settings.AddProperty(GET_CLASS_PROPERTY(AElectricActorBase, MinEnergy));
+		Settings.AddProperty(GET_CLASS_PROPERTY(AElectricActorBase, BreakStage));
 	}
 };

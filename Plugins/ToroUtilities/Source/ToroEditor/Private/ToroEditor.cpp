@@ -26,10 +26,9 @@
 #include "DetailsCustomization/InlineCurveDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
 #include "DetailsCustomization/InteractableInfoDetails.h"
-#include "DetailsCustomization/ElectricLightAnimDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/WorldMusicVolumeDetails.h"
-#include "DetailsCustomization/ElectricLightDetailsL.h"
+#include "DetailsCustomization/ElectricLightDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
@@ -81,7 +80,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume, FWorldMusicVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBaseL, FElectricLightCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
 		
 		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
 		
@@ -90,7 +89,6 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInteractableInfo, FInteractableInfoCustomization)
-		REGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim, FElectricLightAnimCustomization)
 
 		// for (TObjectIterator<UScriptStruct> It; It; ++It)
 		// {
@@ -141,7 +139,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume)
-		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBaseL)
+		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
 		
 		UNREGISTER_CLASS_CUSTOMIZATION(UInventoryItemData)
@@ -151,7 +149,6 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInteractableInfo)
-		UNREGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim)
 		
 		// for (TObjectIterator<UScriptStruct> It; It; ++It)
 		// {

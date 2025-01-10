@@ -1,80 +1,19 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ElectricSystem/ElectricLightBase.h"
+#include "Components/LightComponent.h"
 
-FElectricLightAnim::FElectricLightAnim() : bEnabled(false), PlayRate(1.0f), IntensityRange(0.0f, 1.0f)
-	, bPlaying(false), bLooping(false), AnimTime(0.0f), TimeRange(0.0f), AlphaRange(0.0f)
+AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), FlickerRange(0.0f, 1.0f)
+	, MeshMulti(1.0f), MeshFresnel(0.5f), MeshFlicker(0.0f, 1.0f)
 {
-	for (uint8 i = 0; i < 4; i++)
-	{
-		if (FRichCurve* Curve = AnimCurve.GetRichCurve(i))
-		{
-			Curve->UpdateOrAddKey(0.0f, 1.0f);
-			Curve->UpdateOrAddKey(0.5f, 1.0f);
-		}
-	}
-}
-
-void FElectricLightAnim::Stop()
-{
-	if (!bPlaying) return;
-	bPlaying = false;
-	bLooping = false;
-	AnimTime = TimeRange.X;
-}
-
-void FElectricLightAnim::Play()
-{
-	if (bPlaying) return;
-	AnimTime = TimeRange.X;
-	bLooping = false;
-	bPlaying = true;
-}
-
-void FElectricLightAnim::PlayLooping()
-{
-	if (bPlaying) return;
-	AnimTime = TimeRange.X;
-	bLooping = true;
-	bPlaying = true;
-}
-
-void FElectricLightAnim::CacheValues()
-{
-	AnimCurve.GetTimeRange(TimeRange.X, TimeRange.Y);
-	if (const FRichCurve* Curve = AnimCurve.GetRichCurveConst(3))
-	{
-		float X, Y;
-		Curve->GetValueRange(X, Y);
-		AlphaRange.X = X; AlphaRange.Y = Y;
-	}
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
 	
-	AnimTime = TimeRange.X;
-}
+	ZoneCulling = CreateDefaultSubobject<UZoneCullingComponent>("ZoneCulling");
 
-FLinearColor FElectricLightAnim::OnTick(const float DeltaTime)
-{
-	if (!bPlaying) return FLinearColor::White;
-
-	AnimTime += DeltaTime * PlayRate;
-	if (AnimTime > TimeRange.Y)
-	{
-		AnimTime = TimeRange.X;
-		if (!bLooping)
-		{
-			bPlaying = false;
-			return FLinearColor::White;
-		}
-	}
+	MinEnergy = 0;
 	
-	FLinearColor Color = AnimCurve.GetValue(FMath::Clamp(AnimTime, TimeRange.X, TimeRange.Y));
-	Color.A = FMath::Max(0.0f, FMath::GetMappedRangeValueClamped(AlphaRange, IntensityRange, Color.A));
-	return Color;
-}
-
-void FElectricLightAnim::SetFlickerCurve(FElectricLightAnim& InAnim)
-{
-	if (FRichCurve* Curve = InAnim.AnimCurve.GetRichCurve(3))
+	if (FRichCurve* Curve = FlickerCurve.GetRichCurve())
 	{
 		Curve->UpdateOrAddKey(0.0f, 1.0f);
 		Curve->UpdateOrAddKey(0.0f, 1.0f);
@@ -97,15 +36,150 @@ void FElectricLightAnim::SetFlickerCurve(FElectricLightAnim& InAnim)
 	}
 }
 
-AElectricLightBase::AElectricLightBase()
+void AElectricLightBase::UpdateCaches()
 {
-	PrimaryActorTick.bCanEverTick = true;
-	PrimaryActorTick.bStartWithTickEnabled = true;
-	PrimaryActorTick.TickGroup = TG_DuringPhysics;
-	
-	ZoneCulling = CreateDefaultSubobject<UZoneCullingComponent>("ZoneCulling");
+	GetLightInfo(CachedEntries);
+	for (const FElectricLightEntry& Entry : CachedEntries)
+	{
+		if (!Entry.Light) continue;
+		for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
+		{
+			if (!Mesh.Key) continue;
+			FLinearColor Color = Entry.Light->GetLightColor();
+			if (Entry.Light->bUseTemperature)
+				Color *= FLinearColor::MakeFromColorTemperature(Entry.Light->Temperature);
 
-	MinEnergy = 0;
+			Color.A = Entry.Intensity;
+			
+#if WITH_EDITOR
+			if (!FApp::IsGame())
+			{
+				Mesh.Key->SetDefaultCustomPrimitiveDataVector4(0, Color);
+				Mesh.Key->SetDefaultCustomPrimitiveDataFloat(4, MeshFresnel);
+				Mesh.Key->SetDefaultCustomPrimitiveDataFloat(5, MeshMulti);
+			}
+			else
+#endif
+			{
+				Mesh.Key->SetCustomPrimitiveDataVector4(0, Color);
+				Mesh.Key->SetCustomPrimitiveDataFloat(4, MeshFresnel);
+				Mesh.Key->SetCustomPrimitiveDataFloat(5, MeshMulti);
+			}
+		}
+	}
 
-	FElectricLightAnim::SetFlickerCurve(FlickerAnim);
+	FlickerCurve.GetValueRange(FlickerValRange.X, FlickerValRange.Y);
+	FlickerCurve.GetTimeRange(FlickerTimeRange.X, FlickerTimeRange.Y);
 }
+
+bool AElectricLightBase::ShouldTick() const
+{
+	return bCachedState && (BreakStage == EElectricBreakStage::Breaking || WantsTick());
+}
+
+void AElectricLightBase::UpdateLight() const
+{
+	const bool bLightState = bCachedState && BreakStage != EElectricBreakStage::Broken;
+	for (const FElectricLightEntry& Entry : CachedEntries)
+	{
+		if (Entry.Light)
+		{
+			Entry.Light->SetVisibility(bLightState);
+			Entry.Light->SetIntensity(Entry.Intensity);
+		}
+		for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
+		{
+			if (!Mesh.Key) continue;
+			if (Mesh.Value)
+			{
+				Mesh.Key->SetVisibility(bLightState);
+			}
+			else
+			{
+				Mesh.Key->SetVisibility(true);
+#if WITH_EDITOR
+				if (!FApp::IsGame())
+				{
+					Mesh.Key->SetDefaultCustomPrimitiveDataFloat(3, bLightState ? Entry.Intensity : 0.0f);
+					Mesh.Key->SetDefaultCustomPrimitiveDataFloat(5, MeshMulti);
+				}
+				else
+#endif
+				{
+					Mesh.Key->SetCustomPrimitiveDataFloat(3, bLightState ? Entry.Intensity : 0.0f);
+					Mesh.Key->SetCustomPrimitiveDataFloat(5, MeshMulti);
+				}
+			}
+		}
+	}
+}
+
+void AElectricLightBase::OnStateChanged(const bool bState)
+{
+	SetActorTickEnabled(ShouldTick());
+	Super::OnStateChanged(bState);
+	UpdateLight();
+}
+
+void AElectricLightBase::OnBreakStageChanged(const EElectricBreakStage BreakState)
+{
+	SetActorTickEnabled(ShouldTick());
+	Super::OnBreakStageChanged(BreakState);
+	UpdateLight();
+}
+
+void AElectricLightBase::BeginPlay()
+{
+	UpdateCaches();
+	Super::BeginPlay();
+	SetActorTickEnabled(ShouldTick());
+}
+
+#define GET_MAPPED_FLICKER(TargetRange) FMath::Max(0.0f,FMath::GetMappedRangeValueClamped(FlickerValRange, TargetRange, Value))
+void AElectricLightBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+#if WITH_EDITOR
+	if ((!FApp::IsGame() || !IsHidden()) && GetState() && BreakStage == EElectricBreakStage::Breaking)
+#else
+	if (!IsHidden() && bCachedState && BreakStage == EElectricBreakStage::Breaking)
+#endif
+	{
+		FlickerTime = FlickerTime + DeltaSeconds * FlickerRate;
+		if (FlickerTime > FlickerTimeRange.Y) FlickerTime = FlickerTimeRange.X;
+
+		const float Value = FlickerCurve.GetValue(FlickerTime);
+#if WITH_EDITORONLY_DATA
+		FlickerPlayback = GET_MAPPED_FLICKER(FlickerRange);
+#endif
+		for (const FElectricLightEntry& Entry : CachedEntries)
+		{
+			if (!Entry.Light) continue;
+			Entry.Light->SetIntensity(Entry.Intensity * GET_MAPPED_FLICKER(FlickerRange));
+			for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Entry.Meshes)
+			{
+				if (Mesh.Key)
+				{
+#if WITH_EDITOR
+					if (!FApp::IsGame())
+					{
+						Mesh.Key->SetDefaultCustomPrimitiveDataFloat(5, MeshMulti
+							* GET_MAPPED_FLICKER(bMeshFlicker ? MeshFlicker : FlickerRange));
+					}
+					else
+#endif
+						Mesh.Key->SetCustomPrimitiveDataFloat(5, MeshMulti
+							* GET_MAPPED_FLICKER(bMeshFlicker ? MeshFlicker : FlickerRange));
+				}
+			}
+		}
+	}
+}
+#undef GET_MAPPED_FLICKER
+#if WITH_EDITOR
+void AElectricLightBase::OnConstruction(const FTransform& Transform)
+{
+	if (!FApp::IsGame()) UpdateCaches();
+	Super::OnConstruction(Transform);
+}
+#endif
