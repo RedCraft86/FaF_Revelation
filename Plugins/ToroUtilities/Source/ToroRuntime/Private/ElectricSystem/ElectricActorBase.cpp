@@ -2,7 +2,8 @@
 
 #include "ElectricSystem/ElectricActorBase.h"
 
-AElectricActorBase::AElectricActorBase() : MinEnergy(1), bRequiresCollision(false), bCachedState(false)
+AElectricActorBase::AElectricActorBase() : BreakStage(EElectricBreakStage::Working)
+	, MinEnergy(1), bRequiresCollision(false), bCachedState(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -13,6 +14,16 @@ AElectricActorBase::AElectricActorBase() : MinEnergy(1), bRequiresCollision(fals
 #if WITH_EDITORONLY_DATA
 	CREATE_DEBUG_ICON(DebugIcon)
 #endif
+}
+
+void AElectricActorBase::SetBreakStage(const EElectricBreakStage InStage)
+{
+	if (BreakStage != InStage)
+	{
+		BreakStage = InStage;
+		bCachedState = GetState();
+		OnStateChanged(bCachedState, BreakStage);
+	}
 }
 
 void AElectricActorBase::AddEnergy(const FName Key, const uint8 Value)
@@ -66,15 +77,15 @@ void AElectricActorBase::OnEnergyChanged(const uint8 Total)
 	if (bCachedState != bState)
 	{
 		bCachedState = bState;
-		OnStateChanged(bCachedState);
+		OnStateChanged(bCachedState, BreakStage);
 	}
 	
 	EnergyChangedEvent(Total);
 }
 
-void AElectricActorBase::OnStateChanged(const bool bInState)
+void AElectricActorBase::OnStateChanged(const bool bInState, const EElectricBreakStage BreakState)
 {
-	StateChangedEvent(bInState);
+	StateChangedEvent(bInState, BreakState);
 	OnStateChangedBP.Broadcast(bInState);
 }
 
@@ -82,7 +93,7 @@ void AElectricActorBase::BeginPlay()
 {
 	Super::BeginPlay();
 	bCachedState = GetState();
-	OnStateChanged(bCachedState);
+	OnStateChanged(bCachedState, BreakStage);
 	SetActorEnableCollision(bRequiresCollision);
 }
 
@@ -96,7 +107,7 @@ void AElectricActorBase::OnConstruction(const FTransform& Transform)
 	if (!FApp::IsGame())
 	{
 		bCachedState = GetState();
-		OnStateChanged(bCachedState);
+		OnStateChanged(bCachedState, BreakStage);
 	}
 }
 #endif

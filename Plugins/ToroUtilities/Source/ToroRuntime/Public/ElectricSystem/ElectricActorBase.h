@@ -10,6 +10,14 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FElectricStateChangedSignature, const bool, bNewState);
 
+UENUM(BlueprintType)
+enum class EElectricBreakStage : uint8
+{
+	Working,
+	Breaking,
+	Broken
+};
+
 UCLASS(Abstract, meta = (HiddenCategories = "Collision"))
 class TORORUNTIME_API AElectricActorBase : public AActor
 {
@@ -32,6 +40,9 @@ public:
 #endif
 
 	UPROPERTY(EditAnywhere, Category = Settings)
+		EElectricBreakStage BreakStage;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 MinEnergy;
 
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
@@ -39,24 +50,27 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, DisplayName = "On State Changed")
 		FElectricStateChangedSignature OnStateChangedBP;
+	
+	UFUNCTION(BlueprintCallable, Category = ElectricActor)
+		void SetBreakStage(const EElectricBreakStage InStage);
 
-	UFUNCTION(BlueprintCallable, Category = "ElectricActor")
+	UFUNCTION(BlueprintCallable, Category = ElectricActor)
 		void AddEnergy(const FName Key, const uint8 Value);
 
-	UFUNCTION(BlueprintCallable, Category = "ElectricActor")
+	UFUNCTION(BlueprintCallable, Category = ElectricActor)
 		void RemoveEnergy(const FName Key);
 
-	UFUNCTION(BlueprintPure, Category = "ElectricActor")
+	UFUNCTION(BlueprintPure, Category = ElectricActor)
 		uint8 GetEnergy();
 
-	UFUNCTION(BlueprintPure, Category = "ElectricActor")
+	UFUNCTION(BlueprintPure, Category = ElectricActor)
 		bool GetState();
 
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Energy Changed")
 		void EnergyChangedEvent(const uint8 Total);
 	
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "State Changed")
-		void StateChangedEvent(const bool bState);
+		void StateChangedEvent(const bool bState, const EElectricBreakStage BreakState);
 	
 protected:
 
@@ -65,7 +79,7 @@ protected:
 	UPROPERTY() TOptional<uint8> CachedEnergy;
 	
 	virtual void OnEnergyChanged(const uint8 Total);
-	virtual void OnStateChanged(const bool bInState);
+	virtual void OnStateChanged(const bool bInState, const EElectricBreakStage BreakState);
 	
 	virtual void BeginPlay() override;
 #if WITH_EDITOR
