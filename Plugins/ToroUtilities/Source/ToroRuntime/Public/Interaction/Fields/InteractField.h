@@ -28,7 +28,7 @@ public:
 		bool bSingleUse;
 
 	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Settings", meta = (DisplayPriority = -1))
-		FInteractableInfo Interaction;
+		FInteractionInfo Interaction;
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Interacted")
 		FToroFieldEvent OnInteractedEvent;
@@ -37,6 +37,6 @@ public:
 private:
 	
 	virtual void OnConstruction(const FTransform& Transform) override;
-	virtual FInteractableInfo GetInteractionInfo_Implementation() override;
+	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult) override;
 	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult) override;
 };

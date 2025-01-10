@@ -2,23 +2,22 @@
 
 #pragma once
 
-#include "DetailWidgetRow.h"
-#include "IDetailPropertyRow.h"
-#include "IDetailChildrenBuilder.h"
 #include "IDetailGroup.h"
+#include "DetailWidgetRow.h"
+#include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
 #include "DetailsCustomization/DetailsHelpers.h"
 #include "Interaction/InteractionInterface.h"
 
-#define STRUCTNAME FInteractableInfo
+#define STRUCTNAME FInteractionInfo
 
-class FInteractableInfoCustomization final : public IPropertyTypeCustomization
+class FInteractionInfoCustomization final : public IPropertyTypeCustomization
 {
 public:
 
 	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
 	{
-		return MakeShared<FInteractableInfoCustomization>();
+		return MakeShared<FInteractionInfoCustomization>();
 	}
 
 private:

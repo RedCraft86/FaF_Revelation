@@ -22,7 +22,7 @@ void AInteractField::OnConstruction(const FTransform& Transform)
 	}
 }
 
-FInteractableInfo AInteractField::GetInteractionInfo_Implementation()
+FInteractionInfo AInteractField::GetInteractionInfo_Implementation(const FHitResult& HitResult)
 {
 	return Interaction;
 }

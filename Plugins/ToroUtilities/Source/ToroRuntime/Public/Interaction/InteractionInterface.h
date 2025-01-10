@@ -21,14 +21,14 @@ enum class EInteractableType : uint8
 };
 
 USTRUCT(BlueprintType)
-struct TORORUNTIME_API FInteractableInfo
+struct TORORUNTIME_API FInteractionInfo
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Info)
 		EInteractableType Interaction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Info, meta = (EditCondition = "Interaction == EInteractableType::Held"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Info, meta = (EditCondition = "Interaction == EInteractableType::Held", ClampMin = 0.5f, UIMin = 0.5f))
 		float HoldingTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Info, meta = (EditCondition = "Interaction != EInteractableType::None", MultiLine = true))
@@ -43,9 +43,11 @@ struct TORORUNTIME_API FInteractableInfo
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Info, meta = (EditCondition = "Interaction != EInteractableType::None", AllowPreserveRatio = true, ClampMin = 0.1f, UIMin = 0.1f))
 		FVector2D IconSize;
 	
-	FInteractableInfo() : Interaction(EInteractableType::Instant), HoldingTime(1.0f)
+	FInteractionInfo() : Interaction(EInteractableType::Instant), HoldingTime(1.0f)
 		, Label(INVTEXT("Interact")), LabelOffset(0.0f), Icon(nullptr), IconSize(35.0f)
 	{}
+
+	bool CanInteract() const { return Interaction != EInteractableType::None; }
 };
 
 UINTERFACE()
@@ -73,11 +75,8 @@ public:
 	virtual void OnBeginPawnInteract_Implementation(APawn* Pawn, const FHitResult& HitResult) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
-		FInteractableInfo GetInteractionInfo();
-	virtual FInteractableInfo GetInteractionInfo_Implementation()
-	{
-		return {};
-	}
+		FInteractionInfo GetInteractionInfo(const FHitResult& HitResult);
+	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult)  { return {}; }
 };
 
 namespace IInteraction
@@ -111,13 +110,14 @@ namespace IInteraction
 		}
 	}
 
-	static FInteractableInfo GetInteractionInfo(UObject* Target)
+	static bool GetInteractionInfo(UObject* Target, const FHitResult& HitResult, FInteractionInfo& InteractionInfo)
 	{
 		if (ImplementedBy(Target))
 		{
-			return IInteractionInterface::Execute_GetInteractionInfo(Target);
+			InteractionInfo = IInteractionInterface::Execute_GetInteractionInfo(Target, HitResult);
+			return InteractionInfo.CanInteract();
 		}
 
-		return {};
+		return false;
 	}
 }
