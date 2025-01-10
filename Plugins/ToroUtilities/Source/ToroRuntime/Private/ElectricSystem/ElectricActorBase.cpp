@@ -21,8 +21,7 @@ void AElectricActorBase::SetBreakStage(const EElectricBreakStage InStage)
 	if (BreakStage != InStage)
 	{
 		BreakStage = InStage;
-		bCachedState = GetState();
-		OnStateChanged(bCachedState, BreakStage);
+		OnBreakStageChanged(InStage);
 	}
 }
 
@@ -77,23 +76,28 @@ void AElectricActorBase::OnEnergyChanged(const uint8 Total)
 	if (bCachedState != bState)
 	{
 		bCachedState = bState;
-		OnStateChanged(bCachedState, BreakStage);
+		OnStateChanged(bCachedState);
 	}
 	
 	EnergyChangedEvent(Total);
 }
 
-void AElectricActorBase::OnStateChanged(const bool bInState, const EElectricBreakStage BreakState)
+void AElectricActorBase::OnStateChanged(const bool bInState)
 {
-	StateChangedEvent(bInState, BreakState);
+	StateChangedEvent(bInState);
 	OnStateChangedBP.Broadcast(bInState);
+}
+
+void AElectricActorBase::OnBreakStageChanged(const EElectricBreakStage BreakState)
+{
+	BreakStageChangedEvent(BreakState);
 }
 
 void AElectricActorBase::BeginPlay()
 {
 	Super::BeginPlay();
 	bCachedState = GetState();
-	OnStateChanged(bCachedState, BreakStage);
+	OnStateChanged(bCachedState);
 	SetActorEnableCollision(bRequiresCollision);
 }
 
@@ -107,7 +111,7 @@ void AElectricActorBase::OnConstruction(const FTransform& Transform)
 	if (!FApp::IsGame())
 	{
 		bCachedState = GetState();
-		OnStateChanged(bCachedState, BreakStage);
+		OnStateChanged(bCachedState);
 	}
 }
 #endif

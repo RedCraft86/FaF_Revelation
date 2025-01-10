@@ -70,7 +70,10 @@ public:
 		void EnergyChangedEvent(const uint8 Total);
 	
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "State Changed")
-		void StateChangedEvent(const bool bState, const EElectricBreakStage BreakState);
+		void StateChangedEvent(const bool bState);
+		
+	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Break Stage Changed")
+		void BreakStageChangedEvent(const EElectricBreakStage BreakState);
 	
 protected:
 
@@ -79,7 +82,8 @@ protected:
 	UPROPERTY() TOptional<uint8> CachedEnergy;
 	
 	virtual void OnEnergyChanged(const uint8 Total);
-	virtual void OnStateChanged(const bool bInState, const EElectricBreakStage BreakState);
+	virtual void OnStateChanged(const bool bInState);
+	virtual void OnBreakStageChanged(const EElectricBreakStage BreakState);
 	
 	virtual void BeginPlay() override;
 #if WITH_EDITOR
