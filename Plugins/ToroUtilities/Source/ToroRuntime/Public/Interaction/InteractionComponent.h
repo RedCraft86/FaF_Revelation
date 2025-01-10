@@ -41,6 +41,18 @@ public:
 
 	UInteractionComponent();
 
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void SetEnabled(const bool bInEnabled);
+
+	UFUNCTION(BlueprintPure, Category = Interaction)
+		bool IsEnabled() const { return bEnabled; }
+
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void SetInteracting(const bool bInInteracting);
+
+	UFUNCTION(BlueprintPure, Category = Interaction)
+		bool IsInteracting() const { return bInteracting; }
+
 	DECLARE_DELEGATE_RetVal(FHitResult, FInteractionLogic)
 	FInteractionLogic InteractionLogic;
 

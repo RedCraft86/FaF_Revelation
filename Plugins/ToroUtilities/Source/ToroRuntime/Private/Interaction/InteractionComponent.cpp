@@ -8,6 +8,32 @@ UInteractionComponent::UInteractionComponent() : bEnabled(true), HoldTime(0.0f),
 	PrimaryComponentTick.TickInterval = 0.05f;
 }
 
+void UInteractionComponent::SetEnabled(const bool bInEnabled)
+{
+	if (bEnabled != bInEnabled)
+	{
+		bEnabled = bInEnabled;
+		SetComponentTickEnabled(bInEnabled);
+		// TODO: Handle widget
+		if (!bEnabled && bInteracting)
+		{
+			SetInteracting(false);
+		}
+	}
+}
+
+void UInteractionComponent::SetInteracting(const bool bInInteracting)
+{
+	if (bInteracting != bInInteracting)
+	{
+		bInteracting = bInInteracting;
+		if (!bInteracting)
+		{
+			CleanupInteraction();
+		}
+	}
+}
+
 void UInteractionComponent::CleanupInteraction()
 {
 	if (InteractCache.Target)
