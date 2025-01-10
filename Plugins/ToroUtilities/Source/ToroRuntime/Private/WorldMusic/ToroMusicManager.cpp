@@ -6,8 +6,10 @@
 
 void FOneShotMusicLayer::Stop(const float FadeTime)
 {
-	if (!CanRunFunctions()) return;
-
+	if (!IsValid(Component) || !IsValid(Owner)) return;
+	FEnhancedCodeFlow::StopAction(Owner, PauseHandle);
+	FEnhancedCodeFlow::StopAction(Owner, FadeHandle);
+	
 	auto StopFunc = [this]()
 	{
 		if (Component)
@@ -27,7 +29,7 @@ void FOneShotMusicLayer::Stop(const float FadeTime)
 	else
 	{
 		Component->FadeOut(FadeTime, 0.0f);
-		FadeHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime + UE_KINDA_SMALL_NUMBER, StopFunc);
+		FadeHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime, StopFunc);
 	}
 }
 
@@ -37,7 +39,7 @@ void FOneShotMusicLayer::Restart(const float FadeTime)
 
 	bAutoDestroy = false;
 	Component->FadeOut(FadeTime, 0.0f);
-	FadeHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime + UE_KINDA_SMALL_NUMBER, [this, FadeTime]()
+	FadeHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime, [this, FadeTime]()
 	{
 		if (Component) Component->FadeIn(FadeTime, 1.0f,
 			FMath::RandRange(Start.GetMin(), Start.GetMax()));
@@ -55,7 +57,7 @@ void FOneShotMusicLayer::SetPaused(const float FadeTime, const bool bInPaused)
 		if (bInPaused)
 		{
 			Component->AdjustVolume(FadeTime, 0.05f);
-			FadeHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime + UE_KINDA_SMALL_NUMBER, [this]()
+			PauseHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime, [this]()
 			{
 				if (Component) Component->SetPaused(true);
 			});

@@ -18,6 +18,7 @@ struct TORORUNTIME_API FOneShotMusicLayer
 	friend class AWorldMusicManager;
 	
 	FECFHandle FadeHandle;
+	FECFHandle PauseHandle;
 	UPROPERTY() bool bPaused;
 	UPROPERTY() FVector2D Start;
 	UPROPERTY() bool bAutoDestroy;
