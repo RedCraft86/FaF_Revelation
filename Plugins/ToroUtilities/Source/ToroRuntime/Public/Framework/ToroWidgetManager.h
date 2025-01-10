@@ -38,7 +38,10 @@ public:
 		UToroUserWidget* FindWidget(const TSubclassOf<UToroUserWidget>& Class);
 
 	template<typename T = UToroUserWidget>
-	T* GetWidget() { return Cast<T>(FindWidget(T::StaticClass())); }
+	T* FindOrAddWidget() { return Cast<T>(FindOrAddWidget(T::StaticClass())); }
+	
+	template<typename T = UToroUserWidget>
+	T* FindWidget() { return Cast<T>(FindWidget(T::StaticClass())); }
 	
 protected:
 	
