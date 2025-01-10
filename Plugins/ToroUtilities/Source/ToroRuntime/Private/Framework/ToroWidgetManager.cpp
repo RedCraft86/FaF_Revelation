@@ -32,11 +32,13 @@ UToroUserWidget* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroUser
 UToroUserWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UToroUserWidget>& Class)
 {
 	if (!Class) return nullptr;
-	if (const TObjectPtr<UToroUserWidget>* Widget = WidgetObjs.Find(Class); Widget && *Widget)
+	for (const TPair<TSubclassOf<UToroUserWidget>, TObjectPtr<UToroUserWidget>>& Pair : WidgetObjs)
 	{
-		return *Widget;
+		if (Pair.Value && Pair.Value->IsA(Class))
+		{
+			return Pair.Value;
+		}
 	}
-
 	return nullptr;
 }
 
