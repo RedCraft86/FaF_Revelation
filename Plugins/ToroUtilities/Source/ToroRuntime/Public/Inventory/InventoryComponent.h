@@ -5,7 +5,7 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
-UCLASS(NotBlueprintable, ClassGroup=(Game), meta=(BlueprintSpawnableComponent))
+UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TORORUNTIME_API UInventoryComponent : public UActorComponent
 {
 	GENERATED_BODY()

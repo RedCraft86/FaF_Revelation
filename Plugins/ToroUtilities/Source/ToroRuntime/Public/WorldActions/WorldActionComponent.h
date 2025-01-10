@@ -7,7 +7,7 @@
 #include "StructUtils/InstancedStruct.h"
 #include "WorldActionComponent.generated.h"
 
-UCLASS(NotBlueprintable, ClassGroup=(Game), meta=(BlueprintSpawnableComponent))
+UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TORORUNTIME_API UWorldActionComponent final : public UActorComponent
 {
 	GENERATED_BODY()
