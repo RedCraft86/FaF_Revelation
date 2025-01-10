@@ -7,6 +7,8 @@
 #include "GameFramework/Character.h"
 #include "ToroPlayerCharacter.generated.h"
 
+class AToroPlayerController;
+
 UCLASS()
 class TORORUNTIME_API AToroPlayerCharacter : public ACharacter
 {
@@ -24,6 +26,9 @@ public:
 	{
 		return Cast<T>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));
 	}
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		AToroPlayerController* GetPlayerController() const;
 
 protected:
 	
