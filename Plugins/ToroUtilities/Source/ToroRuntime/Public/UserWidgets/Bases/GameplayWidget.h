@@ -26,7 +26,7 @@ public:
 		void UpdateProgress(const float Progress);
 	
 	UFUNCTION(BlueprintImplementableEvent)
-		void UpdateLabelPos(UExprTextBlock* Label, const FVector2D& BaseOffset, const float IconSizeRatio);
+		void UpdateLabelPos(UExprTextBlock* LabelObj, const FVector2D& BaseOffset, const float IconSizeRatio);
 	
 private:
 
