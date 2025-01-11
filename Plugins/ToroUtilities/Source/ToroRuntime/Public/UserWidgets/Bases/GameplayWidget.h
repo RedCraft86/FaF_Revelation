@@ -48,7 +48,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 		TObjectPtr<class UProgressBar> StaminaBar;
 	
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
+	UPROPERTY(meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> InteractHideAnim;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
