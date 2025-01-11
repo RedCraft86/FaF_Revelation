@@ -3,7 +3,8 @@
 #include "UserWidgets/ToroUserWidget.h"
 
 UToroUserWidget::UToroUserWidget(const FObjectInitializer& ObjectInitializer)
-	: UUserWidget(ObjectInitializer),ZOrder(0), bAutoAdd(false), bRemoving(false), bWidgetHidden(false)
+	: UUserWidget(ObjectInitializer), ZOrder(0), bAutoAdd(false), AutoHideInterval(0.25f)
+	, bRemoving(false), bHidden(false), bCachedHidden(false), HideCheck(0.0f)
 {
 }
 
@@ -20,31 +21,9 @@ UToroUserWidget* UToroUserWidget::CreateSmartWidget(APlayerController* Owner, co
 	return nullptr;
 }
 
-void UToroUserWidget::SetWidgetHidden(const bool bInHidden)
+void UToroUserWidget::SetHidden(const bool bInHidden)
 {
-	if (!IsInViewport() || bRemoving) return;
-	if (bWidgetHidden != bInHidden)
-	{
-		bWidgetHidden = bInHidden;
-		if (IsValid(ShowHideAnim))
-		{
-			UUMGSequencePlayer* Player;
-			if (bWidgetHidden)
-			{
-				Player = PlayAnimationReverse(ShowHideAnim);
-			}
-			else
-			{
-				Player = PlayAnimationForward(ShowHideAnim);
-			}
-
-			if (Player) Player->OnSequenceFinishedPlaying().Clear();
-		}
-		else
-		{
-			SetVisibility(bWidgetHidden ? ESlateVisibility::Collapsed : ESlateVisibility::SelfHitTestInvisible);
-		}
-	}
+	bHidden = bInHidden;
 }
 
 void UToroUserWidget::AddUserWidget(FToroWidgetAddRemoveSignature OnFinished)
@@ -67,9 +46,9 @@ void UToroUserWidget::AddWidget(const TFunction<void()>& OnFinished)
 	if (IsInViewport()) return;
 
 	AddToViewport(ZOrder);
-	if (ShowHideAnim)
+	if (FadeAnim)
 	{
-		if (UUMGSequencePlayer* Player = PlayAnimationForward(ShowHideAnim))
+		if (UUMGSequencePlayer* Player = PlayAnimationForward(FadeAnim))
 		{
 			if (OnFinished)
 			{
@@ -92,10 +71,10 @@ void UToroUserWidget::RemoveWidget(const TFunction<void()>& OnFinished)
 	if (!IsInViewport() || bRemoving) return;
 
 	bRemoving = true;
-	bWidgetHidden = false;
-	if (ShowHideAnim)
+	bHidden = false;
+	if (FadeAnim)
 	{
-		if (UUMGSequencePlayer* Player = PlayAnimationReverse(ShowHideAnim))
+		if (UUMGSequencePlayer* Player = PlayAnimationReverse(FadeAnim))
 		{
 			Player->OnSequenceFinishedPlaying().Clear();
 			Player->OnSequenceFinishedPlaying().AddLambda([this, OnFinished](UUMGSequencePlayer&)
@@ -111,5 +90,41 @@ void UToroUserWidget::RemoveWidget(const TFunction<void()>& OnFinished)
 		bRemoving = false;
 		RemoveFromParent();
 		if (OnFinished) OnFinished();
+	}
+}
+
+void UToroUserWidget::HandleAutoHiding(const bool bInHidden)
+{
+	if (bCachedHidden != bInHidden)
+	{
+		bCachedHidden = bInHidden;
+		if (IsValid(AutoHideAnim))
+		{
+			if (bCachedHidden)
+			{
+				PlayAnimationReverse(AutoHideAnim);
+			}
+			else
+			{
+				PlayAnimationForward(AutoHideAnim);
+			}
+		}
+		else
+		{
+			SetVisibility(bCachedHidden ? ESlateVisibility::Collapsed
+				: ESlateVisibility::SelfHitTestInvisible);
+		}
+	}
+}
+
+void UToroUserWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	if (!IsInViewport() || bRemoving) return;
+	HideCheck += InDeltaTime;
+	if (HideCheck > AutoHideInterval)
+	{
+		HideCheck = 0.0f;
+		HandleAutoHiding(ShouldHide());
 	}
 }
