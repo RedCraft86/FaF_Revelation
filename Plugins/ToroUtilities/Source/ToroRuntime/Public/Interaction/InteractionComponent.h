@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 
+class UGameplayWidgetBase;
+
 USTRUCT(BlueprintType)
 struct TORORUNTIME_API FInteractionData
 {
@@ -15,7 +17,7 @@ struct TORORUNTIME_API FInteractionData
 		TObjectPtr<AActor> Target;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Data)
-		FInteractionInfo Result;
+		FInteractionInfo Info;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Data)
 		bool bTriggered;
@@ -23,12 +25,12 @@ struct TORORUNTIME_API FInteractionData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Data)
 		float Progress;
 
-	FInteractionData() : Target(nullptr), Result({}), bTriggered(false), Progress(0.0f) {}
+	FInteractionData() : Target(nullptr), Info({}), bTriggered(false), Progress(0.0f) {}
 	void Reset()
 	{
 		Target = nullptr;
 		Progress = 0.0f;
-		Result = {};
+		Info = {};
 	}
 };
 
@@ -53,18 +55,26 @@ public:
 	UFUNCTION(BlueprintPure, Category = Interaction)
 		bool IsInteracting() const { return bInteracting; }
 
+	UFUNCTION(BlueprintPure, Category = Interaction)
+		const FInteractionData& GetCacheData() const { return InteractCache; }
+
 	DECLARE_DELEGATE_RetVal(FHitResult, FInteractionLogic)
 	FInteractionLogic InteractionLogic;
 
 private:
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TSubclassOf<UGameplayWidgetBase> GameplayWidget;
+
 	UPROPERTY() bool bEnabled;
 	UPROPERTY() float HoldTime;
 	UPROPERTY() bool bInteracting;
 	UPROPERTY() FInteractionData InteractCache;
+	UPROPERTY(Transient) TObjectPtr<UGameplayWidgetBase> Widget;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> Player;
 
 	void CleanupInteraction();
 	void HandleInteractionTick(float DeltaTime, const FHitResult& HitResult, const FInteractionInfo& InteractResult);
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void BeginPlay() override;
 };

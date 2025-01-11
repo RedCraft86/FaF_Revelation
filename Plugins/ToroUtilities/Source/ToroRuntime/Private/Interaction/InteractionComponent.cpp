@@ -1,8 +1,11 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Interaction/InteractionComponent.h"
+#include "UserWidgets/Bases/GameplayWidget.h"
+#include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroWidgetManager.h"
 
-UInteractionComponent::UInteractionComponent() : bEnabled(true), HoldTime(0.0f), bInteracting(false)
+UInteractionComponent::UInteractionComponent() : bEnabled(false), HoldTime(0.0f), bInteracting(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickInterval = 0.05f;
@@ -10,15 +13,19 @@ UInteractionComponent::UInteractionComponent() : bEnabled(true), HoldTime(0.0f),
 
 void UInteractionComponent::SetEnabled(const bool bInEnabled)
 {
+	if (!Widget)
+	{
+		bEnabled = false;
+		SetComponentTickEnabled(false);
+		SetInteracting(false);
+	}
+	
 	if (bEnabled != bInEnabled)
 	{
 		bEnabled = bInEnabled;
 		SetComponentTickEnabled(bInEnabled);
-		// TODO: Handle widget
-		if (!bEnabled && bInteracting)
-		{
-			SetInteracting(false);
-		}
+		Widget->SetInteractionHidden(!bInEnabled);
+		if (!bInEnabled ) SetInteracting(false);
 	}
 }
 
@@ -51,7 +58,7 @@ void UInteractionComponent::HandleInteractionTick(const float DeltaTime, const F
 		const bool bHeldInteraction = InteractResult.Interaction == EInteractableType::Held;
 		HoldTime = bHeldInteraction ? InteractResult.HoldingTime : 0.0f;
 		InteractCache.Target = HitResult.GetActor();
-		InteractCache.Result = InteractResult;
+		InteractCache.Info = InteractResult;
 		if (bHeldInteraction)
 		{
 			InteractCache.bTriggered = false;
@@ -69,7 +76,7 @@ void UInteractionComponent::HandleInteractionTick(const float DeltaTime, const F
 	{
 		HoldTime -= DeltaTime;
 		InteractCache.Progress = FMath::GetMappedRangeValueClamped(
-			FVector2D{0.0f, InteractCache.Result.HoldingTime},
+			FVector2D{0.0f, InteractCache.Info.HoldingTime},
 			FVector2D{1.0f, 0.0f}, HoldTime);
 
 		if (HoldTime < 0.0f)
@@ -88,18 +95,34 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 	if (!InteractionLogic.IsBound()) return;
 	const FHitResult HitResult = InteractionLogic.Execute();
 	if (!HitResult.IsValidBlockingHit()) return;
-
-	if (FInteractionInfo InteractInfo; IInteraction::GetInteractionInfo(
+	
+	FInteractionInfo InteractInfo; 
+	if (bInteracting && IInteraction::GetInteractionInfo(
 		HitResult.GetActor(), HitResult, InteractInfo))
 	{
-		// TODO: Widget updates, these need tick
-		
-		if (bInteracting)
+		HandleInteractionTick(DeltaTime, HitResult, InteractInfo);
+	}
+	else
+	{
+		CleanupInteraction();
+	}
+	
+	Widget->UpdateInteraction();
+}
+
+void UInteractionComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	Player = AToroPlayerCharacter::Get(this);
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		Widget = Manager->FindOrAddWidget<UGameplayWidgetBase>(GameplayWidget);
+		Widget->Component = this;
+		if (!bEnabled)
 		{
-			HandleInteractionTick(DeltaTime, HitResult, InteractInfo);
-			return;
+			Widget->SetInteractionHidden(true);
+			SetComponentTickEnabled(false);
 		}
 	}
-
-	CleanupInteraction();
+	if (!Widget) SetEnabled(false);
 }
