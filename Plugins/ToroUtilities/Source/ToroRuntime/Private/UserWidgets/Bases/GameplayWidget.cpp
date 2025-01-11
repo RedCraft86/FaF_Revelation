@@ -82,6 +82,11 @@ void UGameplayWidgetBase::UpdateInteraction()
 	}
 }
 
+bool UGameplayWidgetBase::ShouldHide() const
+{
+	return Super::ShouldHide() || PlayerController->bCinematicMode || PlayerController->IsPaused();
+}
+
 void UGameplayWidgetBase::NativeConstruct()
 {
 	Super::NativeConstruct();

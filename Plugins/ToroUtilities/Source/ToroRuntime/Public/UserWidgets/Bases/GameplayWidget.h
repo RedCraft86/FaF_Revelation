@@ -62,5 +62,6 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UInteractionComponent> Component;
 	
 	void UpdateInteraction();
+	virtual bool ShouldHide() const override;
 	virtual void NativeConstruct() override;
 };
