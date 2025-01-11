@@ -20,6 +20,11 @@
 
 #define STRUCT_PROPERTY_VAR(Member, VarName) STRUCT_CLASS_PROPERTY_VAR(STRUCTNAME, Member, VarName)
 
+#define GENERIC_PROPERTY_LABEL(InText) \
+	SNew(STextBlock) \
+	.Text(INVTEXT(#InText)) \
+	.Font(IDetailLayoutBuilder::GetDetailFont()) \
+
 namespace DetailsHelpers
 {
 	TOROEDITOR_API inline bool IsPropertyFromChildClass(const TSharedRef<IPropertyHandle>& InHandle, const UClass* BaseClass)

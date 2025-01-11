@@ -110,9 +110,7 @@ private:
 					.VAlign(VAlign_Center)
 					.AutoWidth()
 					[
-						SNew(STextBlock)
-						.Text(INVTEXT("Min"))
-						.Font(IDetailLayoutBuilder::GetDetailFont())
+						GENERIC_PROPERTY_LABEL(Min)
 					]
 					+SHorizontalBox::Slot()
 					.MinWidth(75.0f)
@@ -131,9 +129,7 @@ private:
 					.VAlign(VAlign_Center)
 					.AutoWidth()
 					[
-						SNew(STextBlock)
-						.Text(INVTEXT("Max"))
-						.Font(IDetailLayoutBuilder::GetDetailFont())
+						GENERIC_PROPERTY_LABEL(Max)
 					]
 					+SHorizontalBox::Slot()
 					.MinWidth(75.0f)
