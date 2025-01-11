@@ -24,7 +24,7 @@ UToroUserWidget* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroUser
 	if (!Widget)
 	{
 		Widget = UToroUserWidget::CreateSmartWidget(GetPlayerController(), Class);
-		WidgetObjs.Add(Class, Widget);
+		WidgetObjs.Add(Widget);
 	}
 	return Widget;
 }
@@ -49,6 +49,6 @@ void AToroWidgetManager::BeginPlay()
 	for (const TSubclassOf<UToroUserWidget>& Class : DefaultWidgets)
 	{
 		UToroUserWidget* Widget = UToroUserWidget::CreateSmartWidget(PlayerController, Class);
-		WidgetObjs.Add(Class, Widget);
+		WidgetObjs.Add(Widget);
 	}
 }
