@@ -14,6 +14,9 @@ class TOROCORE_API UZoneCullingComponent final : public UActorComponent
 public:
 
 	UZoneCullingComponent();
+	
+	UPROPERTY(EditAnywhere, Category = "ZoneCulling")
+		bool bAffectTicking;
 
 	UFUNCTION(BlueprintCallable, Category = "ZoneCulling", meta = (DefaultToSelf = "Target", ExpandEnumAsExecs = "ReturnValue"))
 		static EToroFoundPins GetZoneCullingComponent(UZoneCullingComponent*& OutComponent, const AActor* Target);
@@ -32,9 +35,6 @@ protected:
 	
 	UPROPERTY(EditAnywhere, Category = "ZoneCulling")
 		bool bDisableComponent;
-	
-	UPROPERTY(EditAnywhere, Category = "ZoneCulling")
-		bool bAffectTicking;
 
 	UPROPERTY(EditAnywhere, Category = "ZoneCulling")
 		TSet<TSoftObjectPtr<const UObject>> RenderRequests;
