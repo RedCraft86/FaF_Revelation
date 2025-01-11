@@ -18,7 +18,7 @@ public:
 
 	UExprTextBlock(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Content", meta = (ShowOnlyInnerProperties))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Content, meta = (ShowOnlyInnerProperties))
 		FExpressiveTextData ExpressiveText;
 
 	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
@@ -35,10 +35,10 @@ public:
 
 private:
 
-	UPROPERTY(BlueprintReadOnly, Category = "Elements", meta = (AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (AllowPrivateAccess = true))
 		TObjectPtr<UBorder> RootBorder;
 	
-	UPROPERTY(BlueprintReadOnly, Category = "Elements", meta = (AllowPrivateAccess = true))
+	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (AllowPrivateAccess = true))
 		TObjectPtr<UExpressiveTextRendererWidget> Renderer;
 	
 	int64 CachedChecksum;
