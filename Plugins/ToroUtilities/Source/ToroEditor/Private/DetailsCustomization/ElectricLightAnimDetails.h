@@ -60,7 +60,7 @@ private:
 		]
 		.ValueContent()
 		[
-			MeshRange->CreatePropertyNameWidget()
+			MeshRange->CreatePropertyValueWidget()
 		];
 
 		StructBuilder.AddProperty(STRUCT_PROPERTY(AnimTime));
