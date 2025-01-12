@@ -105,13 +105,20 @@ void AElectricActorBase::BeginPlay()
 void AElectricActorBase::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-#if WITH_EDITORONLY_DATA
 	UPDATE_DEBUG_ICON(DebugIcon);
-#endif
 	if (!FApp::IsGame())
 	{
 		bCachedState = GetState();
 		OnStateChanged(bCachedState);
+	}
+}
+
+void AElectricActorBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, BreakStage))
+	{
+		OnBreakStageChanged(BreakStage);
 	}
 }
 #endif
