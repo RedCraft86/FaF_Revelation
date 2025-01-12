@@ -108,43 +108,23 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UZoneCullingComponent> ZoneCulling;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f))
-		float FlickerRate;
-
 	UPROPERTY(EditAnywhere, Category = Settings)
-		FVector2D FlickerRange;
-
-#if WITH_EDITORONLY_DATA
-	UPROPERTY(VisibleAnywhere, Category = Settings)
-		float FlickerPlayback = 0.0f;
-#endif
+		EElectricLightTick LightTickType;
 	
-	UPROPERTY(EditAnywhere, Category = Settings)
-		FInlineFloatCurve FlickerCurve;
-
-	UPROPERTY(EditAnywhere, Category = "Settings|Mesh", DisplayName = "Multiplier")
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Multiplier, meta = (ClampMin = 0.05f, UIMin = 0.05f))
 		float MeshMulti;
 
-	UPROPERTY(EditAnywhere, Category = "Settings|Mesh", DisplayName = "Fresnel")
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Fresnel)
 		float MeshFresnel;
 
-	UPROPERTY(EditAnywhere, Category = "Settings|Mesh", meta = (InlineEditConditionToggle))
-		bool bMeshFlicker;
-	
-	UPROPERTY(EditAnywhere, Category = "Settings|Mesh", DisplayName = "Flicker Range", meta = (EditCondition = "bMeshFlicker"))
-		FVector2D MeshFlicker;
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Warmup, AdvancedDisplay = true)
+		FElectricLightAnim WarmupAnim;
 
-	UFUNCTION(BlueprintCallable, Category = ElectricActor)
-		void UpdateCaches();
-	
-	/**
-	 * Primitive Data for Meshes
-	 * Idx 0 -> 3	: Color and Base Intensity
-	 * Idx 4		: Fresnel
-	 * Idx 5		: Multiplier
-	 */
-	UFUNCTION(BlueprintImplementableEvent)
-		void GetLightInfo(TArray<FElectricLightEntry>& Entries) const;
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Flicker, AdvancedDisplay = true)
+		FElectricLightAnim FlickerAnim;
+
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Break, AdvancedDisplay = true)
+		FElectricLightAnim BreakAnim;
 
 	UFUNCTION(BlueprintImplementableEvent)
 		bool WantsTick() const;
