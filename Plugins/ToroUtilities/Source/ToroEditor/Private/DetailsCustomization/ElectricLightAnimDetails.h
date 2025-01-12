@@ -38,32 +38,78 @@ private:
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
 		StructBuilder.AddProperty(STRUCT_PROPERTY(PlayRate));
-		StructBuilder.AddProperty(STRUCT_PROPERTY(LightRange));
-		
-		STRUCT_PROPERTY_VAR(bMeshRange, bMeshRange);
-		STRUCT_PROPERTY_VAR(MeshRange, MeshRange);
-		StructBuilder.AddCustomRow(INVTEXT("Mesh Range"))
+		StructBuilder.AddProperty(STRUCT_PROPERTY(AnimTime));
+
+		STRUCT_PROPERTY_VAR(LightRange, LightRange);
+		STRUCT_PROPERTY_VAR(bLightRange, bLightRange);
+		StructBuilder.AddCustomRow(INVTEXT("Light Range"))
 		.NameContent()
+		[
+			LightRange->CreatePropertyNameWidget()
+		]
+		.ValueContent()
 		[
 			SNew(SHorizontalBox)
 			+SHorizontalBox::Slot()
 			.Padding(0.0f, 0.0f, 5.0f, 0.0f)
 			.AutoWidth()
 			[
-				MeshRange->CreatePropertyNameWidget()
+				bLightRange->CreatePropertyValueWidget()
 			]
 			+SHorizontalBox::Slot()
 			.AutoWidth()
 			[
-				bMeshRange->CreatePropertyValueWidget()
+				SNew(SHorizontalBox)
+				+SHorizontalBox::Slot()
+				.MinWidth(75.0f)
+				.AutoWidth()
+				[
+					LightRange->GetChildHandle(0)->CreatePropertyValueWidget()
+				]
+				+SHorizontalBox::Slot()
+				.MinWidth(75.0f)
+				.AutoWidth()
+				[
+					LightRange->GetChildHandle(1)->CreatePropertyValueWidget()
+				]
 			]
+		];
+
+		STRUCT_PROPERTY_VAR(MeshRange, MeshRange);
+		STRUCT_PROPERTY_VAR(bMeshRange, bMeshRange);
+		StructBuilder.AddCustomRow(INVTEXT("Mesh Range"))
+		.NameContent()
+		[
+			MeshRange->CreatePropertyNameWidget()
 		]
 		.ValueContent()
 		[
-			MeshRange->CreatePropertyValueWidget()
+			SNew(SHorizontalBox)
+			+SHorizontalBox::Slot()
+			.Padding(0.0f, 0.0f, 5.0f, 0.0f)
+			.AutoWidth()
+			[
+				bMeshRange->CreatePropertyValueWidget()
+			]
+			+SHorizontalBox::Slot()
+			.AutoWidth()
+			[
+				SNew(SHorizontalBox)
+				+SHorizontalBox::Slot()
+				.MinWidth(75.0f)
+				.AutoWidth()
+				[
+					MeshRange->GetChildHandle(0)->CreatePropertyValueWidget()
+				]
+				+SHorizontalBox::Slot()
+				.MinWidth(75.0f)
+				.AutoWidth()
+				[
+					MeshRange->GetChildHandle(1)->CreatePropertyValueWidget()
+				]
+			]
 		];
-
-		StructBuilder.AddProperty(STRUCT_PROPERTY(AnimTime));
+		
 		StructBuilder.AddProperty(STRUCT_PROPERTY(AnimCurve));
 	}
 };

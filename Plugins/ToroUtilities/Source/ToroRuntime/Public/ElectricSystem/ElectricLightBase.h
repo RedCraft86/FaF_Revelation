@@ -38,7 +38,7 @@ struct FElectricLightEntry
 	FElectricLightEntry() : LightColor(FLinearColor::Black), MeshColor(FLinearColor::Black) {}
 
 	void SetLightColorIntensity(const FLinearColor& InValue) const;
-	void ForEachMesh(const TFunctionRef<void(UStaticMeshComponent*)>& Func);
+	void ForEachMesh(const TFunctionRef<void(UStaticMeshComponent*, const bool)>& Func) const;
 	void UpdateCaches(const float MeshMulti, const float MeshFresnel);
 };
 
@@ -53,17 +53,20 @@ struct FElectricLightAnim
 	UPROPERTY(EditAnywhere, Category = LightAnim, meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		float PlayRate;
 	
+	UPROPERTY(VisibleAnywhere, Category = LightAnim)
+		float AnimTime;
+
 	UPROPERTY(EditAnywhere, Category = LightAnim)
+		bool bLightRange;
+	
+	UPROPERTY(EditAnywhere, Category = LightAnim, meta = (EditCondition = "bLightRange"))
 		FVector2D LightRange;
 	
 	UPROPERTY(EditAnywhere, Category = LightAnim)
 		bool bMeshRange;
 	
-	UPROPERTY(EditAnywhere, Category = LightAnim, meta = (EditCondition = "bMeshIntensity"))
+	UPROPERTY(EditAnywhere, Category = LightAnim, meta = (EditCondition = "bMeshRange"))
 		FVector2D MeshRange;
-	
-	UPROPERTY(VisibleAnywhere, Category = LightAnim)
-		float AnimTime;
 	
 	UPROPERTY(EditAnywhere, Category = LightAnim)
 		FInlineColorCurve AnimCurve;
@@ -71,18 +74,18 @@ struct FElectricLightAnim
 	DECLARE_DELEGATE(FOnAnimationFinished)
 	FOnAnimationFinished OnAnimFinished;
 	
+	UPROPERTY() bool bFinished;
+	
 	FElectricLightAnim();
 
 	void Play();
 	void Stop(const bool bMarkAsDone);
-	void Reset();
 	
 	void OnTick(const float DeltaTime);
 	void ModifyValues(FLinearColor& Light, FLinearColor& Mesh) const;
 	void UpdateCaches();
 
 	bool IsPlaying() const { return bPlaying; }
-	bool IsFinished() const { return bFinished; }
 	
 	static void SetWarmupCurve(FElectricLightAnim& InAnim);
 	static void SetFlickerCurve(FElectricLightAnim& InAnim);
@@ -91,7 +94,6 @@ struct FElectricLightAnim
 private:
 
 	UPROPERTY() bool bPlaying;
-	UPROPERTY() bool bFinished;
 	UPROPERTY() FVector2D TimeRange;
 	UPROPERTY() FVector2D AlphaRange;
 };
@@ -126,18 +128,36 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Break, AdvancedDisplay = true)
 		FElectricLightAnim BreakAnim;
 
+	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Apply Light Settings")
+		void ApplyLightSettings() const;
+	
+	/**
+	 * Primitive Data for Meshes
+	 * Idx 0 -> 3	: Color and Base Intensity
+	 * Idx 4		: Fresnel
+	 */
 	UFUNCTION(BlueprintImplementableEvent)
-		bool WantsTick() const;
+		void GetLights(TArray<FElectricLightEntry>& Entries) const;
+
+	UFUNCTION(BlueprintCallable, Category = ElectricActor)
+		void UpdateCaches();
 	
 protected:
-	
-	UPROPERTY() float FlickerTime;
-	UPROPERTY() FVector2D FlickerValRange;
-	UPROPERTY() FVector2D FlickerTimeRange;
-	UPROPERTY(Transient) TArray<FElectricLightEntry> CachedEntries;
 
-	bool ShouldTick() const;
-	void UpdateLight() const;
+	UPROPERTY() bool bReapplyState;
+	UPROPERTY(Transient) TArray<FElectricLightEntry> LightEntries;
+
+	void UpdateLights();
+	void ApplyLightState();
+	bool GetLightState() const;
+	
+	void StopAnimations(const bool bReset);
+	void HandleLightAnims();
+
+	bool CanTick() const;
+	bool TickCondition();
+	bool IsPlayingAnimations() const;
+	
 	virtual void OnStateChanged(const bool bState) override;
 	virtual void OnBreakStageChanged(const EElectricBreakStage BreakState) override;
 	
