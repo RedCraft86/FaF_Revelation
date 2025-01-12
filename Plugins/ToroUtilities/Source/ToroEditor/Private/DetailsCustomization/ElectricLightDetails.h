@@ -21,14 +21,11 @@ private:
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
 		FElectricActorCustomization::CustomizeDetails(DetailBuilder);
-		
 		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(TEXT("Settings"));
-		IDetailGroup& FlickerGroup = Settings.AddGroup(TEXT("Flicker"), INVTEXT("Flicker"));
+		IDetailGroup& MeshGroup = Settings.AddGroup(TEXT("Mesh"), INVTEXT("Mesh"));
 		{
-			FlickerGroup.AddPropertyRow(GET_PROPERTY(FlickerRate));
-			FlickerGroup.AddPropertyRow(GET_PROPERTY(FlickerRange));
-			FlickerGroup.AddPropertyRow(GET_PROPERTY(FlickerPlayback));
-			FlickerGroup.AddPropertyRow(GET_PROPERTY(FlickerCurve));
+			MeshGroup.AddPropertyRow(GET_PROPERTY(MeshMulti));
+			MeshGroup.AddPropertyRow(GET_PROPERTY(MeshFresnel));
 		}
 	}
 };
