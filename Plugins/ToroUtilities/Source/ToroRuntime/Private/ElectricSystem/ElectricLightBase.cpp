@@ -121,7 +121,7 @@ void FElectricLightAnim::OnTick(const float DeltaTime)
 	}
 }
 
-#define GET_MAPPED_ALPHA(RemapRange) FMath::GetMappedRangeValueClamped(AlphaRange, RemapRange, RawColor.A)
+#define GET_MAPPED_ALPHA(RemapRange) FMath::GetMappedRangeValueClamped(AlphaRange, {RemapRange.GetMin(), RemapRange.GetMax()}, RawColor.A)
 void FElectricLightAnim::ModifyValues(FLinearColor& Light, FLinearColor& Mesh) const
 {
 	if (!bEnabled || !bPlaying) return;
