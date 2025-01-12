@@ -17,13 +17,6 @@ AElectricLightBase::AElectricLightBase() : FlickerRate(0.25f), FlickerRange(0.0f
 void SetPrimitiveDataFloat(UStaticMeshComponent* InComp, const int Idx, const float Value)
 {
 #if WITH_EDITOR
-			if (!FApp::IsGame())
-			{
-				Mesh.Key->SetDefaultCustomPrimitiveDataVector4(0, Color);
-				Mesh.Key->SetDefaultCustomPrimitiveDataFloat(4, MeshFresnel);
-				Mesh.Key->SetDefaultCustomPrimitiveDataFloat(5, MeshMulti);
-			}
-			else
 	if (!FApp::IsGame())
 		InComp->SetDefaultCustomPrimitiveDataFloat(Idx, Value);
 	else
