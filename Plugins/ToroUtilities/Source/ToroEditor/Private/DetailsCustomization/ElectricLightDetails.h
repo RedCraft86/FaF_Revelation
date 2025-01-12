@@ -22,6 +22,8 @@ private:
 	{
 		FElectricActorCustomization::CustomizeDetails(DetailBuilder);
 		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(TEXT("Settings"));
+		Settings.AddProperty(GET_PROPERTY(LightTickType));
+		
 		IDetailGroup& MeshGroup = Settings.AddGroup(TEXT("Mesh"), INVTEXT("Mesh"));
 		{
 			MeshGroup.AddPropertyRow(GET_PROPERTY(MeshMulti));
