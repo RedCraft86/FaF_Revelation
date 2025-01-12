@@ -36,18 +36,18 @@ private:
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructPropertyHandle, IDetailChildrenBuilder& StructBuilder,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
-		StructBuilder.AddProperty(STRUCT_PROPERTY(HoldingTime).ToSharedRef());
+		StructBuilder.AddProperty(STRUCT_PROPERTY(HoldingTime));
 		
 		IDetailGroup& LabelGroup = StructBuilder.AddGroup(TEXT("Label"), INVTEXT("Label"));
 		{
-			LabelGroup.HeaderProperty(STRUCT_PROPERTY(Label).ToSharedRef());
-			LabelGroup.AddPropertyRow(STRUCT_PROPERTY(LabelOffset).ToSharedRef());
+			LabelGroup.HeaderProperty(STRUCT_PROPERTY(Label));
+			LabelGroup.AddPropertyRow(STRUCT_PROPERTY(LabelOffset));
 		}
 		
 		IDetailGroup& IconGroup = StructBuilder.AddGroup(TEXT("Icon"), INVTEXT("Icon"));
 		{
-			IconGroup.HeaderProperty(STRUCT_PROPERTY(Icon).ToSharedRef());
-			IconGroup.AddPropertyRow(STRUCT_PROPERTY(IconSize).ToSharedRef());
+			IconGroup.HeaderProperty(STRUCT_PROPERTY(Icon));
+			IconGroup.AddPropertyRow(STRUCT_PROPERTY(IconSize));
 		}
 	}
 };
