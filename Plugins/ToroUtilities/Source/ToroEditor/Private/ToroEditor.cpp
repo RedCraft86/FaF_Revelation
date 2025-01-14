@@ -19,6 +19,7 @@
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
 #include "ZoneCullingVolume.h"
+#include "Misc/ToroPostProcess.h"
 #include "WorldActions/WorldActionActor.h"
 
 #include "DetailsCustomization/ToroActorDetails.h"
@@ -78,6 +79,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroPostProcess, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume, FWorldMusicVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
@@ -139,6 +141,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroPostProcess)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)

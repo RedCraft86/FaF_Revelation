@@ -6,22 +6,6 @@
 #include "Components/BoxComponent.h"
 #include "Components/PostProcessComponent.h"
 
-void FPPBloomChoice::ApplyChoice(FPostProcessSettings& Settings, const bool bFancy) const
-{
-#if WITH_EDITOR
-	if (!FApp::IsGame())
-	{
-		bPreviewFancy ? FancyBloom.AlterPostProcess(Settings)
-			: SimpleBloom.AlterPostProcess(Settings);
-	}
-	else
-#endif
-	{
-		bFancy ? FancyBloom.AlterPostProcess(Settings)
-			: SimpleBloom.AlterPostProcess(Settings);
-	}
-}
-
 AToroPostProcess::AToroPostProcess() : Priority(0.0f), BlendRadius(100.0f)
 	, BlendWeight(1.0f), bEnabled(true), bUnbound(true)
 {
@@ -37,7 +21,11 @@ AToroPostProcess::AToroPostProcess() : Priority(0.0f), BlendRadius(100.0f)
 	
 #if WITH_EDITORONLY_DATA
 	CREATE_DEBUG_ICON(DebugIcon);
-	if (DebugIcon) DebugIcon->IconPath = TEXT("/Engine/EditorResources/S_BoxReflectionCapture.S_BoxReflectionCapture");
+	if (DebugIcon)
+	{
+		DebugIcon->MaxComponents = 1;
+		DebugIcon->IconPath = TEXT("/Engine/EditorResources/S_BoxReflectionCapture.S_BoxReflectionCapture");
+	}
 #endif
 
 	Settings.bOverride_AutoExposureMethod = true;
@@ -107,7 +95,7 @@ void AToroPostProcess::CopyFromTarget()
 
 void AToroPostProcess::ApplySettings()
 {
-	Bloom.ApplyChoice(Settings, UserSettings->GetFancyBloom());
+	SettingOverrides.ApplyChoice(Settings, UserSettings);
 	PostProcess->Settings = Settings;
 	PostProcess->Priority = Priority;
 	PostProcess->BlendWeight = BlendWeight;
