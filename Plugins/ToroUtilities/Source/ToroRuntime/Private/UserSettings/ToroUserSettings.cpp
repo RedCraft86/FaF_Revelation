@@ -54,11 +54,11 @@ DEFINE_PROPERTY_SETTER(uint8, LumenGIQuality, {
 	
 })
 
-DEFINE_PROPERTY_SETTER(bool, ReflectionMethod, {
+DEFINE_PROPERTY_SETTER(bool, LumenReflections, {
 	
 })
 
-DEFINE_PROPERTY_SETTER(uint8, LumenReflectionMode, {
+DEFINE_PROPERTY_SETTER(bool, HitLightingReflections, {
 	
 })
 
@@ -106,7 +106,7 @@ DEFINE_PROPERTY_SETTER(uint8, SMAAQuality, {
 	
 })
 
-DEFINE_PROPERTY_SETTER(uint8, SMAAEdgeDetection, {
+DEFINE_PROPERTY_SETTER(uint8, SMAAEdgeMode, {
 	
 })
 
@@ -139,10 +139,6 @@ DEFINE_PROPERTY_SETTER(float, FSRSharpness, {
 })
 
 DEFINE_PROPERTY_SETTER(bool, FSRFrameGeneration, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(bool, FSRAsyncFrameInterp, {
 	
 })
 
