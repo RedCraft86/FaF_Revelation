@@ -23,6 +23,7 @@ public:
 	
 	UDebugIconComponent();
 #if WITH_EDITORONLY_DATA
+	UPROPERTY() uint8 MaxComponents = 0;
 	UPROPERTY() FString IconPath = TEXT("/Engine/EditorResources/EmptyActor.EmptyActor");
 private:
 	UPROPERTY() TSoftObjectPtr<UTexture2D> CachedIcon;

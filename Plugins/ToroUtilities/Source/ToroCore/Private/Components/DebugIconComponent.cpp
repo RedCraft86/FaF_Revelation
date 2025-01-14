@@ -26,7 +26,7 @@ void UDebugIconComponent::OnConstruction()
 	Components.Remove(GetOwner()->GetRootComponent());
 	Components.Remove(this);
 	
-	SetVisibility(Components.IsEmpty());
+	SetVisibility(Components.Num() >= MaxComponents);
 }
 
 void UDebugIconComponent::SetupComponent(const AActor* Owner, const float Size)
