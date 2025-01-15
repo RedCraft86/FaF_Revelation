@@ -119,13 +119,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Fresnel)
 		float MeshFresnel;
 
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Warmup, AdvancedDisplay = true)
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Warmup, AdvancedDisplay)
 		FElectricLightAnim WarmupAnim;
 
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Flicker, AdvancedDisplay = true)
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Flicker, AdvancedDisplay)
 		FElectricLightAnim FlickerAnim;
 
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Break, AdvancedDisplay = true)
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = Break, AdvancedDisplay)
 		FElectricLightAnim BreakAnim;
 
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Apply Light Settings")
