@@ -209,15 +209,15 @@ struct FPPSettingOverrides
 			if (!bDisableOverrideReflections)
 			{
 				PostProcess.bOverride_ReflectionMethod = true;
-				PostProcess.ReflectionMethod = Settings->GetLumenGI()
+				PostProcess.ReflectionMethod = Settings->GetLumenReflections()
 					? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
 			}
 
 			if (!bDisableOverrideHitLighting)
 			{
 				PostProcess.bOverride_LumenRayLightingMode = true;
-				PostProcess.LumenRayLightingMode = Settings->GetHitLightingReflections() ?
-					ELumenRayLightingModeOverride::HitLightingForReflections
+				PostProcess.LumenRayLightingMode = Settings->GetHitLightingReflections()
+					? ELumenRayLightingModeOverride::HitLightingForReflections
 					: ELumenRayLightingModeOverride::SurfaceCache;
 			}
 		}
