@@ -55,6 +55,20 @@ DEFINE_PROPERTY_SETTER(uint8, MotionBlurAmount, {
 DEFINE_PROPERTY_SETTER(bool, LumenGI, {
 	
 })
+DEFINE_SETTER(uint8, MotionBlur, 
+	if (InValue == 0)
+	{
+		SET_CONSOLE_VAR(TEXT("r.DefaultFeature.MotionBlur"), 0);
+	}
+	else
+	{
+		OnDynamicSettingsChanged.Broadcast(this);
+	}
+)
+
+DEFINE_SETTER_DYNAMIC(uint8, LumenGI)
+DEFINE_SETTER_DYNAMIC(uint8, LumenReflection)
+DEFINE_SETTER(bool, HitLightingReflections)
 
 DEFINE_PROPERTY_SETTER(uint8, LumenGIQuality, {
 	

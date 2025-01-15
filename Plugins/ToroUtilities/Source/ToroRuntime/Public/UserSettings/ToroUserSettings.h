@@ -63,6 +63,11 @@ public:
 	DECLARE_PROPERTY_FUNCTIONS(bool, LumenReflections)
 	DECLARE_PROPERTY_FUNCTIONS(bool, HitLightingReflections)
 	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, LumenReflectionQuality, 0, 3)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3)
+
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflection, 0, 3)
+	DECLARE_PROPERTY_FUNC(bool, HitLightingReflections)
 	
 	DECLARE_CONVERTABLE_FUNCTIONS(EColorBlindMode, ColorBlindMode, uint8, Int)
 	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
@@ -117,16 +122,14 @@ private:
 	UPROPERTY(Config) uint8 Brightness;
 	UPROPERTY(Config) bool FancyBloom;
 	UPROPERTY(Config) bool ScreenSpaceFogScattering;
-	UPROPERTY(Config) uint8 MotionBlurAmount;
+	UPROPERTY(Config) uint8 MotionBlur;
 
 	// Global Illumination
-	UPROPERTY(Config) bool LumenGI;
-	UPROPERTY(Config) uint8 LumenGIQuality;
+	UPROPERTY(Config) uint8 LumenGI;
 
 	// Reflections
-	UPROPERTY(Config) bool LumenReflections;
+	UPROPERTY(Config) uint8 LumenReflection;
 	UPROPERTY(Config) bool HitLightingReflections;
-	UPROPERTY(Config) uint8 LumenReflectionQuality;
 
 	/* Color Correction */
 	UPROPERTY(Config) EColorBlindMode ColorBlindMode;

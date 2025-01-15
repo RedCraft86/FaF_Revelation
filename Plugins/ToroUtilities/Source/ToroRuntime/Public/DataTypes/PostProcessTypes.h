@@ -169,8 +169,8 @@ struct FPPSettingOverrides
 		TArray<FPPMotionBlur> MotionBlur;
 	
 	FPPSettingOverrides() : bDisableOverrideGI(false), bDisableOverrideReflections(false)
-		, bDisableOverrideHitLighting(false), LumenQuality({{}, {}, {}, {}})
-		, MotionBlur({{}, {}, {}, {}})
+		, bDisableOverrideHitLighting(false), LumenQuality({{}, {}, {}})
+		, MotionBlur({{}, {}, {}})
 	{}
 
 	void ApplyChoice(FPostProcessSettings& PostProcess, const UToroUserSettings* Settings) const
@@ -193,23 +193,26 @@ struct FPPSettingOverrides
 		{
 			Settings->GetFancyBloom() ? FancyBloom.ModifyPP(PostProcess)
 				: SimpleBloom.ModifyPP(PostProcess);
-			
-			LumenQuality[Settings->GetLumenGIQuality()].ModifyGI(PostProcess);
-			LumenQuality[Settings->GetReflectionQuality()].ModifyReflection(PostProcess);
 
-			MotionBlur[Settings->GetMotionBlurAmount()].ModifyPP(PostProcess);
+			const int32 GI = Settings->GetLumenGI() - 1;
+			LumenQuality[FMath::Max(0, GI)].ModifyGI(PostProcess);
+			
+			const int32 Reflection = Settings->GetLumenReflection() - 1;
+			LumenQuality[FMath::Max(0, Reflection)].ModifyReflection(PostProcess);
+
+			MotionBlur[FMath::Max(0, (int32)Settings->GetMotionBlur() - 1)].ModifyPP(PostProcess);
 
 			if (!bDisableOverrideGI)
 			{
 				PostProcess.bOverride_DynamicGlobalIlluminationMethod = true;
-				PostProcess.DynamicGlobalIlluminationMethod = Settings->GetLumenGI()
+				PostProcess.DynamicGlobalIlluminationMethod = GI >= 0
 					? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::None;
 			}
 
 			if (!bDisableOverrideReflections)
 			{
 				PostProcess.bOverride_ReflectionMethod = true;
-				PostProcess.ReflectionMethod = Settings->GetLumenReflections()
+				PostProcess.ReflectionMethod = Reflection >= 0
 					? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
 			}
 
