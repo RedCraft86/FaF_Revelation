@@ -6,6 +6,7 @@
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
 #include "Styles/ExpressiveTextStyleBase.h"
+#include "UserSettings/ToroUserSettings.h"
 #include "ToroRuntimeSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Runtime")
@@ -21,11 +22,20 @@ public:
 		SectionName = TEXT("ToroRuntime");
 	}
 
-	SETTING_GETTER(UToroRuntimeSettings)
+	SETTING_GETTER_MUTABLE(UToroRuntimeSettings);
 	
-	UPROPERTY(Config, EditAnywhere, Category = "Runtime")
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
-	UPROPERTY(Config, EditAnywhere, Category = "Runtime")
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
+
+	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
+		TSoftObjectPtr<UMaterialParameterCollection> BaseMPC;
+	
+	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
+		TSoftObjectPtr<USoundMix> BaseSoundMix;
+
+	UPROPERTY(Config, EditAnywhere, Category = UserSettings, meta = (ArraySizeEnum = "/Script/ToroRuntime.ESoundClassType"))
+		TSoftObjectPtr<USoundClass> SoundClasses[static_cast<uint8>(ESoundClassType::MAX)];
 };
