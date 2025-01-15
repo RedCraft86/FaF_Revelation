@@ -153,17 +153,27 @@ struct FPPSettingOverrides
 	UPROPERTY(Interp, EditAnywhere, Category = Settings)
 		FPPBloom FancyBloom;
 
+	UPROPERTY(Interp, EditAnywhere, Category = Settings)
+		bool bDisableOverrideGI;
+
+	UPROPERTY(Interp, EditAnywhere, Category = Settings)
+		bool bDisableOverrideReflections;
+
+	UPROPERTY(Interp, EditAnywhere, Category = Settings)
+		bool bDisableOverrideHitLighting;
+
 	UPROPERTY(Interp, EditAnywhere, Category = Settings, EditFixedSize)
 		TArray<FPPLumen> LumenQuality;
 
 	UPROPERTY(Interp, EditAnywhere, Category = Settings, EditFixedSize)
 		TArray<FPPMotionBlur> MotionBlur;
 	
-	FPPSettingOverrides() : LumenQuality({{}, {}, {}, {}})
+	FPPSettingOverrides() : bDisableOverrideGI(false), bDisableOverrideReflections(false)
+		, bDisableOverrideHitLighting(false), LumenQuality({{}, {}, {}, {}})
 		, MotionBlur({{}, {}, {}, {}})
 	{}
-	
-	void ApplyChoice(FPostProcessSettings& PostProcess, const UToroUserSettings* User) const
+
+	void ApplyChoice(FPostProcessSettings& PostProcess, const UToroUserSettings* Settings) const
 	{
 #if WITH_EDITORONLY_DATA
 		if (!FApp::IsGame())
@@ -175,29 +185,41 @@ struct FPPSettingOverrides
 			LumenQuality[ViewQualities.Y].ModifyReflection(PostProcess);
 
 			MotionBlur[ViewQualities.Z].ModifyPP(PostProcess);
+
+			return;
 		}
-		else
 #endif
+		if (Settings)
 		{
-			User->GetFancyBloom() ? FancyBloom.ModifyPP(PostProcess)
+			Settings->GetFancyBloom() ? FancyBloom.ModifyPP(PostProcess)
 				: SimpleBloom.ModifyPP(PostProcess);
 			
-			LumenQuality[User->GetLumenGIQuality()].ModifyGI(PostProcess);
-			LumenQuality[User->GetReflectionQuality()].ModifyReflection(PostProcess);
+			LumenQuality[Settings->GetLumenGIQuality()].ModifyGI(PostProcess);
+			LumenQuality[Settings->GetReflectionQuality()].ModifyReflection(PostProcess);
 
-			MotionBlur[User->GetMotionBlurAmount()].ModifyPP(PostProcess);
+			MotionBlur[Settings->GetMotionBlurAmount()].ModifyPP(PostProcess);
 
-			PostProcess.bOverride_DynamicGlobalIlluminationMethod = true;
-			PostProcess.DynamicGlobalIlluminationMethod = User->GetLumenGI()
-				? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::None;
+			if (!bDisableOverrideGI)
+			{
+				PostProcess.bOverride_DynamicGlobalIlluminationMethod = true;
+				PostProcess.DynamicGlobalIlluminationMethod = Settings->GetLumenGI()
+					? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::None;
+			}
 
-			PostProcess.bOverride_ReflectionMethod = true;
-			PostProcess.ReflectionMethod = User->GetLumenGI()
-				? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
+			if (!bDisableOverrideReflections)
+			{
+				PostProcess.bOverride_ReflectionMethod = true;
+				PostProcess.ReflectionMethod = Settings->GetLumenGI()
+					? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
+			}
 
-			PostProcess.bOverride_LumenRayLightingMode = true;
-			PostProcess.LumenRayLightingMode = User->GetHitLightingReflections() ?
-				ELumenRayLightingModeOverride::HitLightingForReflections : ELumenRayLightingModeOverride::SurfaceCache;
+			if (!bDisableOverrideHitLighting)
+			{
+				PostProcess.bOverride_LumenRayLightingMode = true;
+				PostProcess.LumenRayLightingMode = Settings->GetHitLightingReflections() ?
+					ELumenRayLightingModeOverride::HitLightingForReflections
+					: ELumenRayLightingModeOverride::SurfaceCache;
+			}
 		}
 	}
 };
