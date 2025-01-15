@@ -23,7 +23,7 @@ protected:
 	TSet<int32> EditorSections = {1};
 #endif
 #if WITH_EDITOR
-	UFUNCTION(CallInEditor, Category = "Tools", DisplayName = "Create Asset")
+	UFUNCTION(CallInEditor, Category = Tools, DisplayName = "Create Asset")
 	virtual void CreateStaticMesh();
 #endif
 };

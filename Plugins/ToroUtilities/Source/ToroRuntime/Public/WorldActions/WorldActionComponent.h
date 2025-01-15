@@ -16,10 +16,10 @@ public:
 	
 	UWorldActionComponent();
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
+	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
 		TArray<TInstancedStruct<FWorldActionBase>> Actions;
 
-	UFUNCTION(BlueprintCallable, Category = "WorldEvents")
+	UFUNCTION(BlueprintCallable, Category = WorldEvents)
 		void RunEvents();
 	
 protected:

@@ -25,11 +25,11 @@ struct FElectricLightEntry
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightEntry")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightEntry)
 		TObjectPtr<ULightComponent> Light;
 
 	// Key: Mesh Component | Value: Should the mesh turn invisible when off?
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightEntry")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightEntry)
 		TMap<TObjectPtr<UStaticMeshComponent>, bool> Meshes;
 
 	UPROPERTY() FLinearColor LightColor;

@@ -18,24 +18,24 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UInstancedStaticMeshComponent> WallMeshComponent;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0.5f, UIMin = 0.5f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.5f, UIMin = 0.5f))
 		float WallHeight;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (ClampMin = 0, UIMin = 0))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0, UIMin = 0))
 		TSet<int32> SkipIndexes;
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = Settings)
 		FPrimitiveCollision Collision;
 	
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		TObjectPtr<UStaticMesh> Mesh;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		TObjectPtr<UMaterialInterface> Material;
 
 private:
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		TObjectPtr<UMaterialInterface> OverlayMaterial = nullptr;
 #endif
 #if WITH_EDITOR

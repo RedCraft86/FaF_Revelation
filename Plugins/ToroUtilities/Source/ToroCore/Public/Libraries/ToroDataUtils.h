@@ -12,15 +12,15 @@ class TOROCORE_API UToroDataUtils final : public UBlueprintFunctionLibrary
 	
 public:
 	
-	UFUNCTION(BlueprintCallable, Category = "DataUtils")
+	UFUNCTION(BlueprintCallable, Category = DataUtils)
 		static FString EncryptAES(const FString& String, const FString& Key);
 
-	UFUNCTION(BlueprintCallable, Category = "DataUtils")
+	UFUNCTION(BlueprintCallable, Category = DataUtils)
 		static FString DecryptAES(const FString& String, const FString& Key);
 
-	UFUNCTION(BlueprintCallable, Category = "DataUtils")
+	UFUNCTION(BlueprintCallable, Category = DataUtils)
 		static TArray<uint8> CompressBytes(const TArray<uint8>& InBytes);
 
-	UFUNCTION(BlueprintCallable, Category = "DataUtils")
+	UFUNCTION(BlueprintCallable, Category = DataUtils)
 		static TArray<uint8> DecompressBytes(const TArray<uint8>& InBytes);
 };

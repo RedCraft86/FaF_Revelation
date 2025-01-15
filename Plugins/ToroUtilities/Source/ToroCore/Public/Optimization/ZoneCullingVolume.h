@@ -15,14 +15,14 @@ public:
 
 	AZoneCullingVolume();
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bInvert;
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = Settings)
 		TSet<TSoftObjectPtr<AActor>> TargetActors;
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Category = "Tools", meta = (HideAlphaChannel))
+	UPROPERTY(EditAnywhere, Category = Tools, meta = (HideAlphaChannel))
 		FLinearColor Color = FLinearColor::MakeRandomColor();
 	
 	UPROPERTY(EditAnywhere, Category = "Tools|Finder")
@@ -33,10 +33,10 @@ public:
 #endif
 private:
 #if WITH_EDITOR
-	UFUNCTION(CallInEditor, Category = "Tools")
+	UFUNCTION(CallInEditor, Category = Tools)
 		void RandomizeColor();
 	
-	UFUNCTION(CallInEditor, Category = "Tools")
+	UFUNCTION(CallInEditor, Category = Tools)
 		void FindActors();
 #endif
 

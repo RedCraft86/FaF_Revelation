@@ -53,7 +53,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UAudioComponent> MainThemeComponent;
 
-	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Music Manager"))
+	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Music Manager"))
 		static EToroValidPins GetMusicManager(AWorldMusicManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AWorldMusicManager>& Class);
 
 	template <typename T = AWorldMusicManager>

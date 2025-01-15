@@ -20,7 +20,7 @@ public:
 
 	SDataGraphNode* SNode;
 	
-	UPROPERTY(VisibleAnywhere, Instanced, Category = "DataGraph")
+	UPROPERTY(VisibleAnywhere, Instanced, Category = DataGraph)
 		TObjectPtr<UDataNodeBase> GraphNode;
 
 	void SetDataGraphNode(UDataNodeBase* InNode);

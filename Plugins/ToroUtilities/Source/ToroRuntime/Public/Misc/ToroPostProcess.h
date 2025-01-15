@@ -60,13 +60,13 @@ public:
 		bool bUnbound;
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Category = "Tools")
+	UPROPERTY(EditAnywhere, Category = Tools)
 		bool bPreserveExposure = true;
 	
-	UPROPERTY(EditAnywhere, Category = "Tools")
+	UPROPERTY(EditAnywhere, Category = Tools)
 		TSoftObjectPtr<const AActor> CopyTarget = nullptr;
 	
-	UFUNCTION(CallInEditor, Category = "Tools")
+	UFUNCTION(CallInEditor, Category = Tools)
 		void CopyFromTarget();
 #endif
 private:

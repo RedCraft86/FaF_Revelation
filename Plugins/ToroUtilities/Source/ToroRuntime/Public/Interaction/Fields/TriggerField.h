@@ -17,7 +17,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UWorldActionComponent> WorldEventComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings", meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (DisplayPriority = -1))
 		bool bSingleUse;
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Triggered")

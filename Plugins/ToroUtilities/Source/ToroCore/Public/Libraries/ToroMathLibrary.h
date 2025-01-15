@@ -73,7 +73,7 @@ public:
 			const float Distance, FVector& Start, FVector& End);
 	
 	/* Rotator Addition */
-	UFUNCTION(BlueprintPure, Category="Math|Rotator", meta = (DisplayName = "rotator + rotator", CompactNodeTitle = "+", ScriptMethod = "Add", ScriptOperator = "+;+=", Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = "true"))
+	UFUNCTION(BlueprintPure, Category = "Math|Rotator", meta = (DisplayName = "rotator + rotator", CompactNodeTitle = "+", ScriptMethod = "Add", ScriptOperator = "+;+=", Keywords = "+ add plus", CommutativeAssociativeBinaryOperator = "true"))
 		static FRotator Add_RotatorRotator(const FRotator A, const FRotator B);
 	
 	/* Creates a Linear Color from the given Hex code */

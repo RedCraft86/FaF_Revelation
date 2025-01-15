@@ -55,16 +55,16 @@ struct TOROCORE_API FActorBoundsCheckParams
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActorBoundsCheckParams")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
 		TEnumAsByte<ECollisionChannel> LineTraceChannel;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActorBoundsCheckParams")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
 		FVector BoundingBoxLerp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActorBoundsCheckParams")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
 		bool bOnlyCollidingComponents;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActorBoundsCheckParams")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
 		bool bIncludeFromChildActors;
 
 	FActorBoundsCheckParams()
@@ -120,7 +120,7 @@ struct TOROCORE_API FGameCurrency
 
 private:
 	
-	UPROPERTY(EditAnywhere, Category = "GameCurrency", meta = (ClampMin = 0, UIMin = 0))
+	UPROPERTY(EditAnywhere, Category = GameCurrency, meta = (ClampMin = 0, UIMin = 0))
 		int64 CurrencyUnits;
 };
 
@@ -131,18 +131,18 @@ class TOROCORE_API UGameCurrencyLibrary final : public UBlueprintFunctionLibrary
 
 public:
 
-	UFUNCTION(BlueprintPure, Category = "GameCurrency")
+	UFUNCTION(BlueprintPure, Category = GameCurrency)
 		static int64 GetMoney(const FGameCurrency& Target) { return Target.GetAmount(); }
 
-	UFUNCTION(BlueprintCallable, Category = "GameCurrency")
+	UFUNCTION(BlueprintCallable, Category = GameCurrency)
 		static void SetMoney(UPARAM(ref) FGameCurrency& Target, const int64 InMoney) { return Target.SetAmount(InMoney); }
 
-	UFUNCTION(BlueprintPure, Category = "GameCurrency")
+	UFUNCTION(BlueprintPure, Category = GameCurrency)
 		static bool HasEnoughMoney(const FGameCurrency& Target, const int64 InRequirement) { return Target.HasEnoughMoney(InRequirement); }
 
-	UFUNCTION(BlueprintCallable, Category = "GameCurrency")
+	UFUNCTION(BlueprintCallable, Category = GameCurrency)
 		static void RemoveMoney(UPARAM(ref) FGameCurrency& Target, const int64 InRemoval) { return Target.RemoveMoney(InRemoval); }
 
-	UFUNCTION(BlueprintCallable, Category = "GameCurrency")
+	UFUNCTION(BlueprintCallable, Category = GameCurrency)
 		static void AddMoney(UPARAM(ref) FGameCurrency& Target, const int64 InAddition) { return Target.AddMoney(InAddition); }
 };

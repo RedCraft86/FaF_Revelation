@@ -21,19 +21,19 @@ struct TORORUNTIME_API FGameInputModeData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "InputModeData")
+	UPROPERTY(EditAnywhere, Category = InputModeData)
 		EGameInputMode InputMode;
 
-	UPROPERTY(EditAnywhere, Category = "InputModeData", meta = (EditCondition = "InputMode != EGameInputMode::GameOnly", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = InputModeData, meta = (EditCondition = "InputMode != EGameInputMode::GameOnly", EditConditionHides))
 		bool bShowMouseCursor;
 
-	UPROPERTY(EditAnywhere, Category = "InputModeData", meta = (EditCondition = "InputMode != EGameInputMode::GameOnly", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = InputModeData, meta = (EditCondition = "InputMode != EGameInputMode::GameOnly", EditConditionHides))
 		EMouseLockMode MouseLock;
 	
-	UPROPERTY(EditAnywhere, Category = "InputModeData", meta = (EditCondition = "InputMode == EGameInputMode::GameAndUI", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = InputModeData, meta = (EditCondition = "InputMode == EGameInputMode::GameAndUI", EditConditionHides))
 		bool bHideCursorOnCapture;
 
-	UPROPERTY(EditAnywhere, Category = "InputModeData", meta = (EditCondition = false, DisplayThumbnail = false))
+	UPROPERTY(EditAnywhere, Category = InputModeData, meta = (EditCondition = false, DisplayThumbnail = false))
 		TObjectPtr<UUserWidget> FocusWidget;
 
 private:
@@ -101,7 +101,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
-	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Controller"))
+	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Controller"))
 		static EToroValidPins GetToroPlayerController(AToroPlayerController*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerController>& Class, const int32 PlayerIndex = 0);
 
 	template <typename T = AToroPlayerController>
@@ -110,13 +110,13 @@ public:
 		return Cast<T>(UGameplayStatics::GetPlayerController(WorldContextObject, PlayerIndex));
 	}
 
-	UFUNCTION(BlueprintCallable, Category = "Input", meta = (AdvancedDisplay = "MouseLock, bHideCursorOnCapture, FocusWidget, PlayerIndex"))
+	UFUNCTION(BlueprintCallable, Category = Input, meta = (AdvancedDisplay = "MouseLock, bHideCursorOnCapture, FocusWidget, PlayerIndex"))
 		void SetGameInputMode(const EGameInputMode InputMode, const bool bMouseCursor = false, const EMouseLockMode MouseLock = EMouseLockMode::LockAlways, const bool bHideCursorOnCapture = true, UUserWidget* FocusWidget = nullptr);
 	
-	UFUNCTION(BlueprintCallable, Category = "Input")
+	UFUNCTION(BlueprintCallable, Category = Input)
 		void SetInputModeData(const FGameInputModeData& InputMode);
 
-	UFUNCTION(BlueprintPure, Category = "Input")
+	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
 
 protected:

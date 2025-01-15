@@ -19,10 +19,10 @@ public:
 
 	AToroWidgetManager();
 
-	UPROPERTY(EditAnywhere, Category = "Settings")
+	UPROPERTY(EditAnywhere, Category = Settings)
 		TSet<TSubclassOf<UToroUserWidget>> DefaultWidgets;
 
-	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Widget Manager"))
+	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Widget Manager"))
 		static EToroValidPins GetToroWidgetManager(AToroWidgetManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroWidgetManager>& Class, const int32 PlayerIndex = 0);
 
 	template <typename T = AToroWidgetManager>
@@ -31,10 +31,10 @@ public:
 		return Cast<T>(UGameplayStatics::GetPlayerState(WorldContextObject, PlayerIndex));
 	}
 	
-	UFUNCTION(BlueprintCallable, Category = "WidgetManager", meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+	UFUNCTION(BlueprintCallable, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
 		UToroUserWidget* FindOrAddWidget(const TSubclassOf<UToroUserWidget>& Class);
 	
-	UFUNCTION(BlueprintPure, Category = "WidgetManager", meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+	UFUNCTION(BlueprintPure, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
 		UToroUserWidget* FindWidget(const TSubclassOf<UToroUserWidget>& Class);
 
 	template<typename T = UToroUserWidget>

@@ -39,6 +39,6 @@ public:
 
 private:
 	
-	UPROPERTY(Category = "3DWidgetActor", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "3D Widget Actor", meta = (AllowPrivateAccess = true))
 		TObjectPtr<UWidgetComponent> WidgetComponent;
 };

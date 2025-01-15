@@ -25,6 +25,6 @@ public:
 
 	SETTING_GETTER(UToroEditorSettings)
 
-	UPROPERTY(Config, EditAnywhere, Category = "Editor")
+	UPROPERTY(Config, EditAnywhere, Category = Editor)
 		TMap<FString, FString> StartupCommands;
 };

@@ -21,13 +21,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Content, meta = (ShowOnlyInnerProperties))
 		FExpressiveTextData ExpressiveText;
 
-	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextBlock)
 		void SetText(const FText InText, const bool bUseFieldsFromAsset = true);
 
-	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextBlock)
 		void SetTextFields(const FExpressiveTextFields& InFields);
 
-	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextBlock)
 		void SetTextAsset(UExpressiveTextAsset* InAsset);
 
 	UBorder* GetRootBorder() const { return RootBorder; } 

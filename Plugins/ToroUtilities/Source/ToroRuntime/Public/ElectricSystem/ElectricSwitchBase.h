@@ -30,10 +30,10 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "State Changed")
 		void StateChangedEvent(const bool bNewState);
 
-	UFUNCTION(BlueprintCallable, Category = "ElectricSwitch")
+	UFUNCTION(BlueprintCallable, Category = ElectricSwitch)
 		void SetState(const bool bNewState);
 
-	UFUNCTION(BlueprintCallable, Category = "ElectricSwitch")
+	UFUNCTION(BlueprintCallable, Category = ElectricSwitch)
 		void ToggleState();
 
 protected:

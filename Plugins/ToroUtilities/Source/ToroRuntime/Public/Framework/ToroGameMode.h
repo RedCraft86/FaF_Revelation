@@ -20,7 +20,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
-	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Game Mode"))
+	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Game Mode"))
 		static EToroValidPins GetToroGameMode(AToroGameMode*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroGameMode>& Class);
 
 	template <typename T = AToroGameMode>

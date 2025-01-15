@@ -11,13 +11,13 @@ struct TOROCORE_API FStaticMeshProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 0))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties, meta = (DisplayPriority = 0))
         TSoftObjectPtr<UStaticMesh> Mesh;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 0))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties, meta = (DisplayPriority = 0))
         TArray<TSoftObjectPtr<UMaterialInterface>> Materials;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 0))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties, meta = (DisplayPriority = 0))
         bool bCastShadows;
 
     FStaticMeshProperties() : Mesh(nullptr), Materials({}), bCastShadows(true) {}
@@ -46,7 +46,7 @@ struct TOROCORE_API FTransformMeshData : public FStaticMeshProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties, meta = (DisplayPriority = 1))
         FTransform Transform;
 
     FTransformMeshData() : Transform(FTransform::Identity) {}
@@ -58,7 +58,7 @@ struct TOROCORE_API FSplineMeshData : public FStaticMeshProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "MeshProperties", meta = (DisplayPriority = -1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MeshProperties, meta = (DisplayPriority = -1))
         TEnumAsByte<ESplineMeshAxis::Type> MeshAxis;
 
     FSplineMeshData() : MeshAxis(ESplineMeshAxis::X) {}
@@ -131,10 +131,10 @@ private:
     * Physics Only      : Only used for physics simulation (rigid body, constraints). Cannot be used for spatial queries (raycasts, sweeps, overlaps). Useful for jiggly bits on characters that do not need per bone detection. Performance gains by keeping data out of query tree
     * Collision Enabled : Can be used for both spatial queries (raycasts, sweeps, overlaps) and simulation (rigid body, constraints).
     */
-    UPROPERTY(EditAnywhere, Category = "PrimitiveCollision") TEnumAsByte<ECollisionEnabled::Type> CollisionEnabled;
+    UPROPERTY(EditAnywhere, Category = PrimitiveCollision) TEnumAsByte<ECollisionEnabled::Type> CollisionEnabled;
 
     /* Enum indicating what type of object this should be considered as when it moves */
-    UPROPERTY(EditAnywhere, Category = "PrimitiveCollision") TEnumAsByte<ECollisionChannel> ObjectType;
+    UPROPERTY(EditAnywhere, Category = PrimitiveCollision) TEnumAsByte<ECollisionChannel> ObjectType;
     
     /* Channels and Responses */
     UPROPERTY() TMap<TEnumAsByte<ECollisionChannel>, TEnumAsByte<ECollisionResponse>> Responses;
@@ -197,9 +197,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Components|StaticMesh", meta = (DefaultToSelf = "Target"))
         static void SetStaticMeshProperties(UStaticMeshComponent* Target, const FStaticMeshProperties& Properties);
 
-    UFUNCTION(BlueprintPure, Category = "Collision", meta = (DefaultToSelf = "Target"))
+    UFUNCTION(BlueprintPure, Category = Collision, meta = (DefaultToSelf = "Target"))
         static FPrimitiveCollision GetPrimitiveCollision(const UPrimitiveComponent* Target);
 
-    UFUNCTION(BlueprintCallable, Category = "Collision", meta = (DefaultToSelf = "Target"))
+    UFUNCTION(BlueprintCallable, Category = Collision, meta = (DefaultToSelf = "Target"))
         static void SetPrimitiveCollision(UPrimitiveComponent* Target, const FPrimitiveCollision& Properties);
 };

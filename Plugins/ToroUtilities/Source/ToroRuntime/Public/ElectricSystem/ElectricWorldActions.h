@@ -16,10 +16,10 @@ public:
 
 	AElectricWorldActions();
 
-	UPROPERTY(EditAnywhere, Category = "Settings", NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
+	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
 		TArray<TInstancedStruct<FWorldActionBase>> Activate;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
+	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
 		TArray<TInstancedStruct<FWorldActionBase>> Deactivate;
 
 protected:

@@ -47,10 +47,10 @@ public:
 	
 protected:
 
-	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		bool bRealtimeConstruction;
 	
-	UFUNCTION(CallInEditor, Category = "Tools")
+	UFUNCTION(CallInEditor, Category = Tools)
 		virtual void Construct() { EventConstruct(); }
 	
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Construct")

@@ -20,7 +20,7 @@ public:
 	UPROPERTY()
 		TObjectPtr<UEdGraph> Graph;
 
-	UPROPERTY(VisibleAnywhere, Instanced, Category = "DataGraph")
+	UPROPERTY(VisibleAnywhere, Instanced, Category = DataGraph)
 		TObjectPtr<UDataEdgeBase> GraphEdge;
 
 	void SetEdge(UDataEdgeBase* Edge);

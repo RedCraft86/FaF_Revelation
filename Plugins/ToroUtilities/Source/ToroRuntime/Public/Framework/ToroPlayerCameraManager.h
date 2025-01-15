@@ -16,7 +16,7 @@ public:
 
 	AToroPlayerCameraManager();
 
-	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Camera Manager"))
+	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Camera Manager"))
 		static EToroValidPins GetToroPlayerCameraManager(AToroPlayerCameraManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerCameraManager>& Class, const int32 PlayerIndex = 0);
 
 	template <typename T = AToroPlayerCameraManager>

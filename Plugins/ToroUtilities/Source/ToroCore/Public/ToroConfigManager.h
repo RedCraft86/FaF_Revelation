@@ -21,28 +21,28 @@ public:
 		return FPaths::ProjectSavedDir() / TEXT("game-config.json");
 	}
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "GameConfig", DisplayName = "Set Game Config (Boolean)")
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = GameConfig, DisplayName = "Set Game Config (Boolean)")
 		void SetGameConfigBool(const FString& InKey, const bool InValue) const;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "GameConfig", DisplayName = "Set Game Config (Float)")
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = GameConfig, DisplayName = "Set Game Config (Float)")
 		void SetGameConfigFloat(const FString& InKey, const float InValue) const;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "GameConfig", DisplayName = "Set Game Config (Integer)")
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = GameConfig, DisplayName = "Set Game Config (Integer)")
 		void SetGameConfigInt(const FString& InKey, const int32 InValue) const;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "GameConfig", DisplayName = "Set Game Config (String)")
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = GameConfig, DisplayName = "Set Game Config (String)")
 		void SetGameConfigString(const FString& InKey, const FString& InValue) const;
 
-	UFUNCTION(BlueprintPure, Category = "GameConfig", DisplayName = "Get Game Config (Boolean)", meta = (AdvancedDisplay = "InDefault"))
+	UFUNCTION(BlueprintPure, Category = GameConfig, DisplayName = "Get Game Config (Boolean)", meta = (AdvancedDisplay = "InDefault"))
 		bool GetGameConfigBool(const FString& InKey, const bool InDefault = false) const;
 
-	UFUNCTION(BlueprintPure, Category = "GameConfig", DisplayName = "Get Game Config (Float)", meta = (AdvancedDisplay = "InDefault"))
+	UFUNCTION(BlueprintPure, Category = GameConfig, DisplayName = "Get Game Config (Float)", meta = (AdvancedDisplay = "InDefault"))
 		float GetGameConfigFloat(const FString& InKey, const float InDefault = 0.0f) const;
 
-	UFUNCTION(BlueprintPure, Category = "GameConfig", DisplayName = "Get Game Config (Integer)", meta = (AdvancedDisplay = "InDefault"))
+	UFUNCTION(BlueprintPure, Category = GameConfig, DisplayName = "Get Game Config (Integer)", meta = (AdvancedDisplay = "InDefault"))
 		int32 GetGameConfigInt(const FString& InKey, const int32 InDefault = 0) const;
 
-	UFUNCTION(BlueprintPure, Category = "GameConfig", DisplayName = "Get Game Config (String)", meta = (AdvancedDisplay = "InDefault"))
+	UFUNCTION(BlueprintPure, Category = GameConfig, DisplayName = "Get Game Config (String)", meta = (AdvancedDisplay = "InDefault"))
 		FString GetGameConfigString(const FString& InKey, const FString& InDefault = TEXT("")) const;
 
 

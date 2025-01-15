@@ -10,8 +10,12 @@ DEFINE_PROPERTY_SETTER(FString, Username, {
 	
 })
 
+void UToroUserSettings::SetAudioVolume(const ESoundType InType, const uint8 InVolume)
+{
+}
+
 DEFINE_PROPERTY_SETTER(uint8, FieldOfView, {
-	
+
 })
 
 DEFINE_PROPERTY_SETTER(bool, SmoothCamera, {

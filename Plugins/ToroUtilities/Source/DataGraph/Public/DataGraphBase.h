@@ -39,19 +39,19 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Graph, AdvancedDisplay)
 		TArray<TObjectPtr<UDataNodeBase>> AllNodes;
 
-	UFUNCTION(BlueprintPure, Category = "DataGraphs")
+	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		int32 GetNodeDepth() const;
 
-	UFUNCTION(BlueprintPure, Category = "DataGraphs")
+	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		TArray<uint8> ValidateSequence(const TArray<uint8>& InSequence, const bool bRootFallback = true) const;
 	
-	UFUNCTION(BlueprintPure, Category = "DataGraphs")
+	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		TArray<UDataNodeBase*> GetNodesInSequence(const TArray<uint8>& InSequence, const bool bRootFallback = true) const;
 
-	UFUNCTION(BlueprintPure, Category = "DataGraphs")
+	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		UDataNodeBase* GetLeafInSequence(const TArray<uint8>& InSequence, const bool bRootFallback = true) const;
 
-	UFUNCTION(BlueprintPure, Category = "DataGraphs")
+	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		TArray<uint8> GetSequenceFromNode(UDataNodeBase* InNode) const;
 
 #if WITH_EDITOR

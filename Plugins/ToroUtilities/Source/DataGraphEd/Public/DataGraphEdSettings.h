@@ -28,24 +28,24 @@ public:
 
 	SETTING_GETTER(UDataGraphEdSettings)
 
-	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
+	UPROPERTY(EditDefaultsOnly, Category = AutoArrange)
 		float OptimalDistance;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
+	UPROPERTY(EditDefaultsOnly, Category = AutoArrange)
 		EDataGraphLayoutStrategy AutoLayoutStrategy;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
+	UPROPERTY(EditDefaultsOnly, Category = AutoArrange)
 		uint8 MaxIteration;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
+	UPROPERTY(EditDefaultsOnly, Category = AutoArrange)
 		bool bFirstPassOnly;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
+	UPROPERTY(EditDefaultsOnly, Category = AutoArrange)
 		bool bRandomInit;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
+	UPROPERTY(EditDefaultsOnly, Category = AutoArrange)
 		float InitTemperature;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AutoArrange")
+	UPROPERTY(EditDefaultsOnly, Category = AutoArrange)
 		float CoolDownRate;
 };

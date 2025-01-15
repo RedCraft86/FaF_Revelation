@@ -13,7 +13,7 @@ struct TOROCORE_API FInlineFloatCurve
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, Category = "InlineFloatCurve")
+	UPROPERTY(EditAnywhere, Category = InlineFloatCurve)
 		FRuntimeFloatCurve Curve;
 
 	FRichCurve* GetRichCurve();
@@ -32,7 +32,7 @@ struct TOROCORE_API FInlineVectorCurve
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, Category = "InlineVectorCurve")
+	UPROPERTY(EditAnywhere, Category = InlineVectorCurve)
 		FRuntimeVectorCurve Curve;
 
 	FRichCurve* GetRichCurve(int32 Index);
@@ -50,7 +50,7 @@ struct TOROCORE_API FInlineColorCurve
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, Category = "InlineColorCurve")
+	UPROPERTY(EditAnywhere, Category = InlineColorCurve)
 		FRuntimeCurveLinearColor Curve;
 
 	FRichCurve* GetRichCurve(int32 Index);

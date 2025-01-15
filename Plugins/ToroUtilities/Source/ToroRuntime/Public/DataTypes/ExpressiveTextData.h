@@ -25,13 +25,13 @@ struct TORORUNTIME_API FExpressiveTextData
 	
 private:
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ExpressiveText", meta = (AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ExpressiveText, meta = (AllowPrivateAccess = true))
 		bool bUseAsset;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ExpressiveText", meta = (EditCondition = "!bUseAsset", EditConditionHides, AllowPrivateAccess = true, ShowOnlyInnerProperties))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ExpressiveText, meta = (EditCondition = "!bUseAsset", EditConditionHides, AllowPrivateAccess = true, ShowOnlyInnerProperties))
 		FExpressiveTextFields TextFields;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "ExpressiveText", meta = (EditCondition = "bUseAsset", EditConditionHides, AllowPrivateAccess = true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ExpressiveText, meta = (EditCondition = "bUseAsset", EditConditionHides, AllowPrivateAccess = true))
 		TObjectPtr<UExpressiveTextAsset> TextAsset;
 };
 
@@ -42,15 +42,15 @@ class TORORUNTIME_API UExprTextDataFunctionLibrary final : public UBlueprintFunc
 
 public:
 
-	UFUNCTION(BlueprintCallable, Category = "Expressive Text Data")
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData)
 		static FExpressiveText GetExpressiveText(UPARAM(ref) FExpressiveTextData& InData);
 
-	UFUNCTION(BlueprintCallable, Category = "Expressive Text Data")
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData)
 		static void SetText(UPARAM(ref) FExpressiveTextData& InData, const FText InText, const bool bUseFieldsFromAsset = false);
 
-	UFUNCTION(BlueprintCallable, Category = "Expressive Text Data")
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData)
 		static void SetTextFields(UPARAM(ref) FExpressiveTextData& InData, const FExpressiveTextFields& InFields);
 	
-	UFUNCTION(BlueprintCallable, Category = "Expressive Text Data")
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData)
 		static void SetTextAsset(UPARAM(ref) FExpressiveTextData& InData, UExpressiveTextAsset* InAsset);
 };

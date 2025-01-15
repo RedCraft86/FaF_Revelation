@@ -10,16 +10,16 @@ struct FDebugPointData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugPointData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugPointData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugPointData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugPointData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Size;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugPointData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugPointData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugPointData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugPointData)
         bool bRenderOnTopOfEverything;
 
     FDebugPointData()
@@ -35,19 +35,19 @@ struct FDebugLineData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugLineData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugLineData)
         FVector Start;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugLineData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugLineData)
         FVector End;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugLineData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugLineData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Thickness;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugLineData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugLineData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugLineData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugLineData)
         bool bRenderOnTopOfEverything;
 
     FDebugLineData()
@@ -64,25 +64,25 @@ struct FDebugCircleData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCircleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCircleData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCircleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCircleData)
         FRotator Rotation;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCircleData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCircleData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Radius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCircleData", meta = (ClampMin = 1, UIMin = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCircleData, meta = (ClampMin = 1, UIMin = 1))
         uint8 NumOfSides;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCircleData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCircleData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Thickness;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCircleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCircleData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCircleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCircleData)
         bool bRenderOnTopOfEverything;
 
     FDebugCircleData()
@@ -101,31 +101,31 @@ struct FDebugArcData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData)
         FRotator Rotation;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData", meta = (ClampMin = -360.0f, UIMin = -360.0f, ClampMax = 360.0f, UIMax = 360.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData, meta = (ClampMin = -360.0f, UIMin = -360.0f, ClampMax = 360.0f, UIMax = 360.0f))
         float MinAngle;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData", meta = (ClampMin = -360.0f, UIMin = -360.0f, ClampMax = 360.0f, UIMax = 360.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData, meta = (ClampMin = -360.0f, UIMin = -360.0f, ClampMax = 360.0f, UIMax = 360.0f))
         float MaxAngle;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData", meta = (ClampMin = 1, UIMin = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData, meta = (ClampMin = 1, UIMin = 1))
         float Radius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         uint8 Sections;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Thickness;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugArcData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugArcData)
         bool bRenderOnTopOfEverything;
 
     FDebugArcData()
@@ -146,22 +146,22 @@ struct FDebugBoxData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugBoxData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugBoxData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugBoxData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugBoxData)
         FRotator Rotation;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugBoxData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugBoxData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         FVector Extents;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugBoxData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugBoxData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Thickness;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugBoxData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugBoxData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugBoxData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugBoxData)
         bool bRenderOnTopOfEverything;
 
     FDebugBoxData()
@@ -179,22 +179,22 @@ struct FDebugSphereData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugSphereData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugSphereData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugSphereData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugSphereData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Radius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugSphereData", meta = (ClampMin = 1, UIMin = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugSphereData, meta = (ClampMin = 1, UIMin = 1))
         uint8 NumOfSides;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugSphereData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugSphereData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Thickness;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugSphereData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugSphereData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugSphereData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugSphereData)
         bool bRenderOnTopOfEverything;
 
     FDebugSphereData()
@@ -212,28 +212,28 @@ struct FDebugCylinderData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData)
         FRotator Rotation;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Radius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float HalfHeight;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData", meta = (ClampMin = 1, UIMin = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData, meta = (ClampMin = 1, UIMin = 1))
         uint8 NumOfSides;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Thickness;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCylinderData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCylinderData)
         bool bRenderOnTopOfEverything;
 
     FDebugCylinderData()
@@ -253,28 +253,28 @@ struct FDebugCapsuleData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData)
         FRotator Rotation;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Radius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float HalfHeight;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData", meta = (ClampMin = 1, UIMin = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData, meta = (ClampMin = 1, UIMin = 1))
         uint8 NumOfSides;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float Thickness;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugCapsuleData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugCapsuleData)
         bool bRenderOnTopOfEverything;
 
     FDebugCapsuleData()
@@ -294,22 +294,22 @@ struct FDebugNavPathData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugNavPathData)
         TArray<FVector> Targets;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugNavPathData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float LineThickness;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData", meta = (ClampMin = 1.0f, UIMin = 1.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugNavPathData, meta = (ClampMin = 1.0f, UIMin = 1.0f))
         float PointSize;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugNavPathData)
         FLinearColor LineColor;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugNavPathData)
         FLinearColor PointColor;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugNavPathData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugNavPathData)
         bool bRenderOnTopOfEverything;
 
     FDebugNavPathData()
@@ -327,19 +327,19 @@ struct FDebugStringData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugStringData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugStringData)
         FString String;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugStringData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugStringData)
         FVector Location;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugStringData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugStringData)
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugStringData", meta = (ClampMin = 1, UIMin = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugStringData, meta = (ClampMin = 1, UIMin = 1))
         uint8 FontScale;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DebugStringData")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = DebugStringData)
         bool bDrawShadow;
 
     FDebugStringData()
@@ -361,34 +361,34 @@ public:
 	UDebugShapeComponent();
 
 #if WITH_EDITORONLY_DATA
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugPointData> DebugPoints;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugLineData> DebugLines;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugCircleData> DebugCircles;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugArcData> DebugArcs;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugBoxData> DebugBoxes;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugSphereData> DebugSpheres;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugCylinderData> DebugCylinders;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugCapsuleData> DebugCapsules;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         FDebugNavPathData DebugNavPath;
     
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visuals")
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Visuals)
         TMap<FName, FDebugStringData> DebugStrings;
 
     UPROPERTY(Transient) TArray<FVector> NavPathPoints;

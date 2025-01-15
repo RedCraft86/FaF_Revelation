@@ -16,7 +16,7 @@ public:
 
 	UToroGameInstance();
 
-	UFUNCTION(BlueprintCallable, Category = "Game", meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Game Instance"))
+	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Game Instance"))
 		static EToroValidPins GetToroGameInstance(UToroGameInstance*& OutObject, const UObject* WorldContextObject, const TSubclassOf<UToroGameInstance>& Class);
 
 	template <typename T = UToroGameInstance>
@@ -28,7 +28,7 @@ public:
 	virtual void OnWorldBeginPlay(UWorld* InWorld);
 	virtual void OnWorldTick(const float DeltaSeconds) {}
 
-	UFUNCTION(BlueprintCallable, Category = "GameInstance")
+	UFUNCTION(BlueprintCallable, Category = GameInstance)
 		void SetUnlitViewmode(const bool bUnlit);
 
 protected:

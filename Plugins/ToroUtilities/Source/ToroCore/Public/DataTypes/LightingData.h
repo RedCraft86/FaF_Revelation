@@ -15,13 +15,13 @@ struct TOROCORE_API FLightDrawDistance
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties)
 		bool bUseDrawDistance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (EditCondition = "bUseDrawDistance", ClampMin = 0.0f, UIMin = 0.0f))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (EditCondition = "bUseDrawDistance", ClampMin = 0.0f, UIMin = 0.0f))
 		float MaxDrawDistance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (EditCondition = "bUseDrawDistance", ClampMin = 0.0f, UIMin = 0.0f))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (EditCondition = "bUseDrawDistance", ClampMin = 0.0f, UIMin = 0.0f))
 		float MaxDistanceFadeRange;
 
     FLightDrawDistance()
@@ -59,40 +59,40 @@ struct TOROCORE_API FBaseLightProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 0))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 0))
         ELightUnits IntensityUnits;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (ClampMin = 0.0f, UIMin = 0.0f, ShouldShowInViewport = true, DisplayPriority = 0))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (ClampMin = 0.0f, UIMin = 0.0f, ShouldShowInViewport = true, DisplayPriority = 0))
         float Intensity;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (HideAlphaChannel, ShouldShowInViewport = true, DisplayPriority = 0))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (HideAlphaChannel, ShouldShowInViewport = true, DisplayPriority = 0))
         FLinearColor Color;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (ClampMin = 0.0f, UIMin = 8.0f, UIMax = 16384.0f, ShouldShowInViewport = true, DisplayPriority = 0))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (ClampMin = 0.0f, UIMin = 8.0f, UIMax = 16384.0f, ShouldShowInViewport = true, DisplayPriority = 0))
         float AttenuationRadius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (InlineEditConditionToggle, DisplayPriority = 2))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (InlineEditConditionToggle, DisplayPriority = 2))
         bool bUseTemperature;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (UIMin = 1700.0f, UIMax = 12000.0f, ShouldShowInViewport = true, EditCondition = "bUseTemperature", DisplayPriority = 2))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (UIMin = 1700.0f, UIMax = 12000.0f, ShouldShowInViewport = true, EditCondition = "bUseTemperature", DisplayPriority = 2))
         float Temperature;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (UIMin = 0.0f, UIMax = 6.0f, DisplayPriority = 2))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (UIMin = 0.0f, UIMax = 6.0f, DisplayPriority = 2))
         float IndirectIntensity;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (UIMin = 0.25f, UIMax = 4.0f, DisplayPriority = 2))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (UIMin = 0.25f, UIMax = 4.0f, DisplayPriority = 2))
         float VolumetricScatteringIntensity;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 2))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 2))
         bool bLightCastShadows;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 2))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 2))
         bool bCastVolumetricShadows;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (ClampMin = 0.0f, ClampMax = 1.0f, UIMin = 0.0f, UIMax = 1.0f, DisplayPriority = 3))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (ClampMin = 0.0f, ClampMax = 1.0f, UIMin = 0.0f, UIMax = 1.0f, DisplayPriority = 3))
         float SpecularScale;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 3))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 3))
         FLightDrawDistance DrawDistance;
 
     FBaseLightProperties()
@@ -137,19 +137,19 @@ struct TOROCORE_API FPointLightProperties : public FBaseLightProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (ShouldShowInViewport = true, DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (ShouldShowInViewport = true, DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
         float SourceRadius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
         float SoftSourceRadius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
         float SourceLength;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (InlineEditConditionToggle, DisplayPriority = 3))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (InlineEditConditionToggle, DisplayPriority = 3))
         bool bUseInverseSquaredFalloff;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (UIMin = 2.0f, UIMax = 16.0f, EditCondition = "!bUseInverseSquaredFalloff", DisplayPriority = 3))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (UIMin = 2.0f, UIMax = 16.0f, EditCondition = "!bUseInverseSquaredFalloff", DisplayPriority = 3))
         float LightFalloffExponent;
 
     FPointLightProperties()
@@ -178,25 +178,25 @@ struct TOROCORE_API FSpotLightProperties : public FBaseLightProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (UIMin = 1.0f, UIMax = 80.0f, ShouldShowInViewport = true, DisplayPriority = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (UIMin = 1.0f, UIMax = 80.0f, ShouldShowInViewport = true, DisplayPriority = 1))
         float InnerConeAngle;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (UIMin = 1.0f, UIMax = 80.0f, ShouldShowInViewport = true, DisplayPriority = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (UIMin = 1.0f, UIMax = 80.0f, ShouldShowInViewport = true, DisplayPriority = 1))
         float OuterConeAngle;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (ShouldShowInViewport = true, DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (ShouldShowInViewport = true, DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
         float SourceRadius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
         float SoftSourceRadius;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 1, ClampMin = 0.0f, UIMin = 0.0f))
         float SourceLength;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (InlineEditConditionToggle, DisplayPriority = 3))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (InlineEditConditionToggle, DisplayPriority = 3))
         bool bUseInverseSquaredFalloff;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (UIMin = 2.0f, UIMax = 16.0f, EditCondition = "!bUseInverseSquaredFalloff", DisplayPriority = 3))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (UIMin = 2.0f, UIMax = 16.0f, EditCondition = "!bUseInverseSquaredFalloff", DisplayPriority = 3))
         float LightFalloffExponent;
 
     FSpotLightProperties()
@@ -227,19 +227,19 @@ struct TOROCORE_API FRectLightProperties : public FBaseLightProperties
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 1, ClampMin = 10.0f, UIMin = 10.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 1, ClampMin = 10.0f, UIMin = 10.0f))
         float SourceWidth;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 1, ClampMin = 10.0f, UIMin = 10.0f))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 1, ClampMin = 10.0f, UIMin = 10.0f))
         float SourceHeight;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (ClampMin = 0.0f, ClampMax = 90.0f, UIMin = 0.0f, UIMax = 90.0f, DisplayPriority = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (ClampMin = 0.0f, ClampMax = 90.0f, UIMin = 0.0f, UIMax = 90.0f, DisplayPriority = 1))
         float BarnDoorAngle;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (ClampMin = 1.0f, UIMin = 1.0f, DisplayPriority = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (ClampMin = 1.0f, UIMin = 1.0f, DisplayPriority = 1))
         float BarnDoorLength;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LightProperties", meta = (DisplayPriority = 1))
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = LightProperties, meta = (DisplayPriority = 1))
         TObjectPtr<UTexture> SourceTexture;
 
     FRectLightProperties()

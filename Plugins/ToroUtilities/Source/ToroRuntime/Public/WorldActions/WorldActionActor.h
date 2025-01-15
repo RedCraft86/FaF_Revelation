@@ -26,6 +26,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UWorldActionComponent> WorldActions;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "WorldEvents")
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = WorldEvents)
 		void RunEvents() const;
 };

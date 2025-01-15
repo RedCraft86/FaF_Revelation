@@ -24,10 +24,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UWorldActionComponent> WorldEventComponent;
 
-	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1))
 		bool bSingleUse;
 
-	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = "Settings", meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, AdvancedDisplay, Category = Settings, meta = (DisplayPriority = -1))
 		FInteractionInfo Interaction;
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Interacted")
