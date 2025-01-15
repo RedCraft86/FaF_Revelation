@@ -71,9 +71,8 @@ public:
 #endif
 private:
 
-	UPROPERTY(Transient) TObjectPtr<UToroUserSettings> UserSettings;
+	void ApplySettings(const UToroUserSettings* InSettings);
 
-	void ApplySettings();
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 #if WITH_EDITOR

@@ -88,14 +88,14 @@ void AToroPostProcess::CopyFromTarget()
 		CopyTarget = nullptr;
 		Settings = NewSettings;
 		SceneRoot->SetVisibility(!bUnbound);
-		ApplySettings();
+		ApplySettings(nullptr);
 	}
 }
 #endif
 
-void AToroPostProcess::ApplySettings()
+void AToroPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 {
-	SettingOverrides.ApplyChoice(Settings, UserSettings);
+	SettingOverrides.ApplyChoice(Settings, InSettings);
 	PostProcess->Settings = Settings;
 	PostProcess->Priority = Priority;
 	PostProcess->BlendWeight = BlendWeight;
@@ -107,7 +107,11 @@ void AToroPostProcess::ApplySettings()
 void AToroPostProcess::BeginPlay()
 {
 	Super::BeginPlay();
-	UserSettings = UToroUserSettings::Get();
+	if (UToroUserSettings* Settings = UToroUserSettings::Get())
+	{
+		Settings->OnDynamicSettingsChanged.AddUObject(this, &ThisClass::ApplySettings);
+		Settings->OnSettingsApplied.AddUObject(this, &ThisClass::ApplySettings);
+	}
 }
 
 void AToroPostProcess::OnConstruction(const FTransform& Transform)
@@ -117,7 +121,7 @@ void AToroPostProcess::OnConstruction(const FTransform& Transform)
 	UPDATE_DEBUG_ICON(DebugIcon);
 	SceneRoot->SetVisibility(!bUnbound);
 #endif
-	ApplySettings();
+	ApplySettings(nullptr);
 }
 
 #if WITH_EDITOR
