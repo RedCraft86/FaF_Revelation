@@ -2,63 +2,9 @@
 
 #pragma once
 
+#include "DataTypes/UserSettingTypes.h"
 #include "GameFramework/GameUserSettings.h"
 #include "ToroUserSettings.generated.h"
-
-UENUM(BlueprintType)
-enum class EColorBlindMode : uint8
-{
-	None,
-	
-	// Deuteranope (red-green weak/blind)
-	Deuteranope,
-	
-	// Protanope (red weak/blind)
-	Protanope,
-	
-	// Tritanope (blue-yellow weak / bind)
-	Tritanope
-};
-
-UENUM(BlueprintType)
-enum class ESoundType : uint8
-{
-	Master,
-	Music,
-	SoundFX,
-	Voice
-};
-
-UENUM(BlueprintType)
-enum class EImageFidelityMode : uint8
-{
-	// No Anti-Aliasing or Upscaling
-	None,
-	
-	// Fast Approximate Anti-Aliasing
-	FXAA,
-
-	// Temporal Anti-Aliasing
-	TAA,
-
-	// Enhanced Subpixel Morphological Anti-Aliasing
-	SMAA,
-
-	// Temporal Super-Resolution (Upscaler)
-	TSR,
-
-	// Nvidia Deep Learning Super Sampling (Upscaler)
-	DLSS,
-
-	// FidelityFX™ Super Resolution 3.1 (Upscaler)
-	FSR,
-
-	// Intel® Xe Super Sampling (Upscaler)
-	XeSS,
-	
-	// Nvidia Image Scaling (Upscaler)
-	NIS
-};
 
 #define DECLARE_PROPERTY_FUNCTIONS(Type, Name) \
 	void Set##Name(const Type InValue); \
@@ -88,9 +34,17 @@ public:
 
 	DECLARE_PROPERTY_FUNCTIONS(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNCTIONS(FString, Username)
+	void SetAudioVolume(const ESoundClassType InType, const uint8 InVolume);
+	uint8 GetAudioVolume(const ESoundClassType InType) const
+	{
+		return FMath::Clamp(AudioVolume.FindRef(InType), 25, 150);
+	}
 	
 	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, FieldOfView, 0, 50)
-	void SetFieldOfViewUI(const int32 InFieldOfView) { SetFieldOfView(FMath::Clamp(InFieldOfView + 25, 0, 50)); }
+	void SetFieldOfViewUI(const int32 InFieldOfView)
+	{
+		SetFieldOfView(FMath::Clamp(InFieldOfView + 25, 0, 50));
+	}
 	int32 GetFieldOfViewUI() const { return GetFieldOfView() - 25; }
 	
 	DECLARE_PROPERTY_FUNCTIONS(bool, SmoothCamera)
@@ -143,10 +97,14 @@ public:
 	
 private:
 
+	void ApplyAudioSettings() const;
+
+	virtual UWorld* GetWorld() const override;
+
 	/* Misc */
 	UPROPERTY(Config) bool ShowFPS;
 	UPROPERTY(Config) FString Username;
-	UPROPERTY(Config) TMap<ESoundType, uint8> SoundTypeToVolume;
+	UPROPERTY(Config) TMap<ESoundClassType, uint8> AudioVolume;
 
 	/* Camera */
 	UPROPERTY(Config) uint8 FieldOfView;
