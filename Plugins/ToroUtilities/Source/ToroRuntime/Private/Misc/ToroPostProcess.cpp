@@ -107,10 +107,11 @@ void AToroPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 void AToroPostProcess::BeginPlay()
 {
 	Super::BeginPlay();
-	if (UToroUserSettings* Settings = UToroUserSettings::Get())
+	if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
-		Settings->OnDynamicSettingsChanged.AddUObject(this, &ThisClass::ApplySettings);
-		Settings->OnSettingsApplied.AddUObject(this, &ThisClass::ApplySettings);
+		UserSettings->OnDynamicSettingsChanged.AddUObject(this, &ThisClass::ApplySettings);
+		UserSettings->OnSettingsApplied.AddUObject(this, &ThisClass::ApplySettings);
+		ApplySettings(UserSettings);
 	}
 }
 
