@@ -1,64 +1,78 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserSettings/ToroUserSettings.h"
+#include "Kismet/KismetMaterialLibrary.h"
 #include "ToroRuntimeSettings.h"
 #include "AudioDevice.h"
 
-DEFINE_PROPERTY_SETTER(bool, ShowFPS, {
+void UToroUserSettings::AutoConfigureQuality()
+{
+	const float Res = ScalabilityQuality.ResolutionQuality;
+	RunHardwareBenchmark();
+	SetResolutionScaleValueEx(Res);
+	CacheScalabilityDefaults();
+	ApplyHardwareBenchmarkResults();
+}
 
-})
+void UToroUserSettings::SetOverallQuality(const uint8 InValue)
+{
+	if (InValue > 0)
+	{
+		SetViewDistanceQuality(InValue - 1);
+		SetAntiAliasingQuality(InValue - 1);
+		SetShadowQuality(InValue - 1);
+		SetGlobalIlluminationQuality(InValue - 1);
+		SetReflectionQuality(InValue - 1);
+		SetPostProcessingQuality(InValue - 1);
+		SetTextureQuality(InValue - 1);
+		SetVisualEffectQuality(InValue - 1);
+		SetFoliageQuality(InValue - 1);
+		SetShadingQuality(InValue - 1);
+	}
+}
 
-DEFINE_PROPERTY_SETTER(FString, Username, {
-	
-})
+uint8 UToroUserSettings::GetOverallQuality() const
+{
+	const int32 Target = GetViewDistanceQuality();
+	if (Target == GetAntiAliasingQuality()
+		&& Target == GetShadowQuality()
+		&& Target == GetGlobalIlluminationQuality()
+		&& Target == GetReflectionQuality()
+		&& Target == GetPostProcessingQuality()
+		&& Target == GetTextureQuality()
+		&& Target == GetVisualEffectQuality()
+		&& Target == GetFoliageQuality()
+		&& Target == GetShadingQuality())
+	{
+		return Target + 1;
+	}
+
+	return 0;
+}
 
 void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8 InVolume)
 {
+	if (InType == ESoundClassType::MAX) return;
+	AudioVolume.FindOrAdd(InType) = FMath::Clamp(InVolume, 25, 150);
+	ApplyAudioSettings();
 }
 
-DEFINE_PROPERTY_SETTER(uint8, FieldOfView, {
+DEFINE_SETTER(bool, ShowFPS, ApplyShowFPS();)
+DEFINE_SETTER_BASIC(FString, Username)
 
-})
+DEFINE_SETTER_DYNAMIC(uint8, FieldOfView)
+DEFINE_SETTER_BASIC(bool, SmoothCamera)
+DEFINE_SETTER_BASIC(float, SensitivityX)
+DEFINE_SETTER_BASIC(float, SensitivityY)
 
-DEFINE_PROPERTY_SETTER(bool, SmoothCamera, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(float, SensitivityX, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(float, SensitivityY, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(float, Gamma, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(uint8, Brightness, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(bool, FancyBloom, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(bool, ScreenSpaceFogScattering, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(uint8, MotionBlurAmount, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(bool, LumenGI, {
-	
-})
+DEFINE_SETTER(float, Gamma, if (GEngine) GEngine->DisplayGamma = GetGamma();)
+DEFINE_SETTER(uint8, Brightness, ApplyBrightness();)
+DEFINE_SETTER_DYNAMIC(bool, FancyBloom)
+DEFINE_SETTER_CONSOLE(bool, ScreenSpaceFogScattering, r.SSFS)
 DEFINE_SETTER(uint8, MotionBlur, 
 	if (InValue == 0)
 	{
-		SET_CONSOLE_VAR(TEXT("r.DefaultFeature.MotionBlur"), 0);
+		SET_CONSOLE_VAR(r.DefaultFeature.MotionBlur, 0);
 	}
 	else
 	{
@@ -68,137 +82,195 @@ DEFINE_SETTER(uint8, MotionBlur,
 
 DEFINE_SETTER_DYNAMIC(uint8, LumenGI)
 DEFINE_SETTER_DYNAMIC(uint8, LumenReflection)
-DEFINE_SETTER(bool, HitLightingReflections)
+DEFINE_SETTER_BASIC(bool, HitLightingReflections)
 
-DEFINE_PROPERTY_SETTER(uint8, LumenGIQuality, {
-	
-})
+DEFINE_SETTER(EColorBlindMode, ColorBlindMode, ApplyColorBlindSettings();)
+DEFINE_SETTER(uint8, ColorBlindIntensity, ApplyColorBlindSettings();)
 
-DEFINE_PROPERTY_SETTER(bool, LumenReflections, {
+DEFINE_SETTER(bool, RTXDynamicVibrance, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(bool, HitLightingReflections, {
+DEFINE_SETTER(float, DynamicVibranceIntensity, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(uint8, LumenReflectionQuality, {
+DEFINE_SETTER(float, DynamicVibranceSaturation, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(EColorBlindMode, ColorBlindMode, {
-	
-})
+DEFINE_SETTER(EImageFidelityMode, ImageFidelityMode, ApplyImageFidelityMode();)
 
-DEFINE_PROPERTY_SETTER(uint8, ColorBlindIntensity, {
-	
-})
+DEFINE_SETTER(uint8, FXAADithering, SET_CONSOLE_VAR(r.FXAA.Quality, GetFXAADithering() + 1))
+DEFINE_SETTER_CONSOLE(uint8, TAAUpsampling, r.TemporalAA.Quality)
+DEFINE_SETTER_CONSOLE(uint8, TSRResolution, r.ScreenPercentage)
 
-DEFINE_PROPERTY_SETTER(bool, RTXDynamicVibrance, {
-	
-})
+DEFINE_SETTER_CONSOLE(uint8, SMAAQuality, r.SMAA.Quality)
+DEFINE_SETTER_CONSOLE(uint8, SMAAEdgeMode, r.SMAA.EdgeDetector)
 
-DEFINE_PROPERTY_SETTER(float, DynamicVibranceIntensity, {
+DEFINE_SETTER(uint8, DLSSQuality, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(float, DynamicVibranceSaturation, {
+DEFINE_SETTER(float, DLSSSharpness, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(EImageFidelityMode, ImageFidelityMode, {
+DEFINE_SETTER(bool, DLSSRayReconstruction, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(uint8, FXAADithering, {
+DEFINE_SETTER(bool, DLSSFrameGeneration, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(uint8, TAAUpsampling, {
+DEFINE_SETTER(uint8, NvidiaReflex, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(uint8, TSRResolution, {
-	
-})
+DEFINE_SETTER_CONSOLE(uint8, FSRQuality, r.FidelityFX.FSR3.QualityMode)
+DEFINE_SETTER_CONSOLE(float, FSRSharpness, r.FidelityFX.FSR3.Sharpness)
+DEFINE_SETTER_CONSOLE(bool, FSRFrameGeneration, r.FidelityFX.FI.Enabled)
 
-DEFINE_PROPERTY_SETTER(uint8, SMAAQuality, {
+DEFINE_SETTER(uint8, XeSSQuality, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(uint8, SMAAEdgeMode, {
+DEFINE_SETTER(uint8, NISQuality, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(uint8, DLSSQuality, {
+DEFINE_SETTER(float, NISSharpness, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(float, DLSSSharpness, {
+DEFINE_SETTER(float, NISScreenPercentage, 
 	
-})
+)
 
-DEFINE_PROPERTY_SETTER(bool, DLSSRayReconstruction, {
-	
-})
+void UToroUserSettings::ApplyShowFPS() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+}
 
-DEFINE_PROPERTY_SETTER(bool, DLSSFrameGeneration, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(uint8, NvidiaReflex, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(uint8, FSRQuality, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(float, FSRSharpness, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(bool, FSRFrameGeneration, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(uint8, XeSSQuality, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(uint8, NISQuality, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(float, NISSharpness, {
-	
-})
-
-DEFINE_PROPERTY_SETTER(float, NISScreenPercentage, {
-	
-})
+void UToroUserSettings::ApplyBrightness() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
+	if (UMaterialParameterCollection* MPC = Settings ? Settings->MainMPC.LoadSynchronous() : nullptr)
+	{
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MPC,
+			TEXT("Brightness"), GetBrightness());
+	}
+}
 
 void UToroUserSettings::ApplyAudioSettings() const
 {
 #if WITH_EDITOR
 	if (!FApp::IsGame()) return;
 #endif
-	const UWorld* World = GetWorld();
-	FAudioDeviceHandle AudioDevice = World ? World->GetAudioDevice() : FAudioDeviceHandle();
-	if (!AudioDevice.IsValid()) return;
-	
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (USoundMix* SoundMix = Settings ? Settings->BaseSoundMix.LoadSynchronous() : nullptr)
+	if (USoundMix* SoundMix = Settings ? Settings->MainSoundMix.LoadSynchronous() : nullptr)
 	{
 		for (const ESoundClassType Type : TEnumRange<ESoundClassType>())
 		{
 			if (USoundClass* SoundClass = Settings->SoundClasses[static_cast<uint8>(Type)].LoadSynchronous())
 			{
-				AudioDevice->SetSoundMixClassOverride(SoundMix, SoundClass,
+				
+				UGameplayStatics::SetSoundMixClassOverride(this, SoundMix, SoundClass,
 					GetAudioVolume(Type), 1.0f, 0.5f, true);
 			}
 		}
 	}
+}
+
+void UToroUserSettings::ApplyColorBlindSettings() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	FSlateApplication::Get().GetRenderer()->SetColorVisionDeficiencyType(static_cast<EColorVisionDeficiency>(ColorBlindMode),
+		GetColorBlindIntensity(), true, false);
+}
+
+void UToroUserSettings::ApplyImageFidelityMode()
+{
+	if (SupportedFidelityModes.Contains(ImageFidelityMode))
+	{
+		uint8 AAMode = 0;
+		bool bSMAA = false, bDLSS = false, bFSR = false, bXeSS = false, bNIS = false;
+		switch (ImageFidelityMode)
+		{
+		case EImageFidelityMode::None: break;
+		case EImageFidelityMode::FXAA:
+			AAMode = 1;
+			break;
+		case EImageFidelityMode::TAA:
+			AAMode = 2;
+			break;
+		case EImageFidelityMode::SMAA:
+			bSMAA = true;
+			break;
+		case EImageFidelityMode::TSR:
+			AAMode = 4;
+			break;
+		case EImageFidelityMode::DLSS:
+			bDLSS = true;
+			break;
+		case EImageFidelityMode::FSR:
+			bFSR = true;
+			break;
+		case EImageFidelityMode::XeSS:
+			bXeSS = true;
+			break;
+		case EImageFidelityMode::NIS:
+			bNIS = true;
+			break;
+		}
+		
+		SET_CONSOLE_VAR(r.XeSS.Enabled, bXeSS)
+		SET_CONSOLE_VAR(r.SMAA, bSMAA)
+		
+		SET_CONSOLE_VAR(r.AntiAliasingMethod, AAMode)
+		SET_CONSOLE_VAR(r.ScreenPercentage, AAMode == 4 ? TSRResolution : 100.0f);
+		
+		SET_CONSOLE_VAR(r.FidelityFX.FSR3.Enable, bFSR)
+		SET_CONSOLE_VAR(r.FidelityFX.FI.Enabled, bFSR ? FSRFrameGeneration : false)
+
+		// TODO: Add support for DLSS and NIS
+	}
+	else
+	{
+		// Should never hit this fallback unless someone edits the file
+		SetImageFidelityMode(EImageFidelityMode::TAA);
+	}
+}
+
+void UToroUserSettings::CacheScalabilityDefaults()
+{
+	ScalabilityDefaults[0] = GetOverallQuality();
+	ScalabilityDefaults[1] = GetViewDistanceQuality();
+	ScalabilityDefaults[2] = GetAntiAliasingQuality();
+	ScalabilityDefaults[3] = GetShadowQuality();
+	ScalabilityDefaults[4] = GetGlobalIlluminationQuality();
+	ScalabilityDefaults[5] = GetReflectionQuality();
+	ScalabilityDefaults[6] = GetPostProcessingQuality();
+	ScalabilityDefaults[7] = GetTextureQuality();
+	ScalabilityDefaults[8] = GetVisualEffectQuality();
+	ScalabilityDefaults[9] = GetFoliageQuality();
+	ScalabilityDefaults[10] = GetShadingQuality();
+}
+
+void UToroUserSettings::SetToDefaults()
+{
+	SupportedFidelityModes = {EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
+		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
+	
+	Super::SetToDefaults();
 }
 
 UWorld* UToroUserSettings::GetWorld() const

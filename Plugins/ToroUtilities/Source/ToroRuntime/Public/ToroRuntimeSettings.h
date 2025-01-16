@@ -6,6 +6,7 @@
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
 #include "Styles/ExpressiveTextStyleBase.h"
+#include "Materials/MaterialParameterCollection.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "ToroRuntimeSettings.generated.h"
 
@@ -31,10 +32,10 @@ public:
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
 
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
-		TSoftObjectPtr<UMaterialParameterCollection> BaseMPC;
+		TSoftObjectPtr<UMaterialParameterCollection> MainMPC;
 	
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
-		TSoftObjectPtr<USoundMix> BaseSoundMix;
+		TSoftObjectPtr<USoundMix> MainSoundMix;
 
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings, meta = (ArraySizeEnum = "/Script/ToroRuntime.ESoundClassType"))
 		TSoftObjectPtr<USoundClass> SoundClasses[static_cast<uint8>(ESoundClassType::MAX)];

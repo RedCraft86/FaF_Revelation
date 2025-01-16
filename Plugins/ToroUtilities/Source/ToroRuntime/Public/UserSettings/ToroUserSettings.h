@@ -2,26 +2,44 @@
 
 #pragma once
 
+#include "ToroConsoleLibrary.h"
 #include "DataTypes/UserSettingTypes.h"
 #include "GameFramework/GameUserSettings.h"
 #include "ToroUserSettings.generated.h"
 
-#define DECLARE_PROPERTY_FUNCTIONS(Type, Name) \
+#define SET_CONSOLE_VAR(Command, Value) \
+	if (IConsoleVariable* CVar = UToroConsoleLibrary::FindCVar(TEXT(#Command))) \
+	{ \
+		CVar->Set(Value, ECVF_SetByConsole); \
+	} 
+
+#define DECLARE_PROPERTY_FUNC(Type, Name) \
 	void Set##Name(const Type InValue); \
 	Type Get##Name() const { return Name; } \
 
-#define DECLARE_PROPERTY_FUNCTIONS_CLAMPED(Type, Name, Min, Max) \
+#define DECLARE_PROPERTY_FUNC_CLAMPED(Type, Name, Min, Max) \
 	void Set##Name(const Type InValue); \
 	Type Get##Name() const { return FMath::Clamp(Name, Min, Max); } \
 
-#define DEFINE_PROPERTY_SETTER(Type, Name, Code) \
-	void UToroUserSettings::Set##Name(const Type InValue) \
-		Code \
-
-#define DECLARE_CONVERTABLE_FUNCTIONS(Type, Name, AltType, AltTypeName) \
-	DECLARE_PROPERTY_FUNCTIONS(Type, Name) \
+#define DECLARE_CONVERTABLE_FUNC(Type, Name, AltType, AltTypeName) \
+	DECLARE_PROPERTY_FUNC(Type, Name) \
 	void Set##Name##AltTypeName(const AltType InValue) { Set##Name(static_cast<Type>(InValue)); } \
 	AltType Get##Name##AltTypeName() const { return static_cast<AltType>(Name); }
+
+#define DEFINE_SETTER(Type, Name, Code) \
+	void UToroUserSettings::Set##Name(const Type InValue) \
+	{ \
+		if (Name != InValue) \
+		{ \
+			Name = InValue; \
+			Code \
+		} \
+	}
+#define DEFINE_SETTER_BASIC(Type, Name) DEFINE_SETTER(Type, Name, )
+#define DEFINE_SETTER_DYNAMIC(Type, Name) DEFINE_SETTER(Type, Name, OnDynamicSettingsChanged.Broadcast(this);)
+#define DEFINE_SETTER_CONSOLE(Type, Name, Command) \
+	DEFINE_SETTER(Type, Name, \
+	SET_CONSOLE_VAR(Command, Get##Name()))
 
 UCLASS(NotBlueprintable, BlueprintType)
 class TORORUNTIME_API UToroUserSettings final : public UGameUserSettings
@@ -29,81 +47,91 @@ class TORORUNTIME_API UToroUserSettings final : public UGameUserSettings
 	GENERATED_BODY()
 
 public:
-
+	
 	static UToroUserSettings* Get() { return Cast<UToroUserSettings>(GEngine->GameUserSettings); }
+	static inline TSet<EImageFidelityMode> SupportedFidelityModes = {};
+	
+	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const UToroUserSettings*)
+	FUserSettingsDelegate OnDynamicSettingsChanged;
+	FUserSettingsDelegate OnSettingsApplied;
+	FUserSettingsDelegate RefreshUI;
+	
+	void AutoConfigureQuality();
+	void SetOverallQuality(const uint8 InValue);
+	uint8 GetOverallQuality() const;
 
-	DECLARE_PROPERTY_FUNCTIONS(bool, ShowFPS)
-	DECLARE_PROPERTY_FUNCTIONS(FString, Username)
 	void SetAudioVolume(const ESoundClassType InType, const uint8 InVolume);
 	uint8 GetAudioVolume(const ESoundClassType InType) const
 	{
 		return FMath::Clamp(AudioVolume.FindRef(InType), 25, 150);
 	}
 	
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, FieldOfView, 0, 50)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FieldOfView, 0, 50)
 	void SetFieldOfViewUI(const int32 InFieldOfView)
 	{
 		SetFieldOfView(FMath::Clamp(InFieldOfView + 25, 0, 50));
 	}
 	int32 GetFieldOfViewUI() const { return GetFieldOfView() - 25; }
 	
-	DECLARE_PROPERTY_FUNCTIONS(bool, SmoothCamera)
-	DECLARE_PROPERTY_FUNCTIONS(float, SensitivityX)
-	DECLARE_PROPERTY_FUNCTIONS(float, SensitivityY)
+	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
+	DECLARE_PROPERTY_FUNC(FString, Username)
 	
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(float, Gamma, 1.0f, 5.0f)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, Brightness, 0, 100)
-	DECLARE_PROPERTY_FUNCTIONS(bool, FancyBloom)
-	DECLARE_PROPERTY_FUNCTIONS(bool, ScreenSpaceFogScattering)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, MotionBlurAmount, 0, 3)
-
-	DECLARE_PROPERTY_FUNCTIONS(bool, LumenGI)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, LumenGIQuality, 0, 3)
+	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, SensitivityX, -2.0f, 2.0f)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, SensitivityY, -2.0f, 2.0f)
 	
-	DECLARE_PROPERTY_FUNCTIONS(bool, LumenReflections)
-	DECLARE_PROPERTY_FUNCTIONS(bool, HitLightingReflections)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, LumenReflectionQuality, 0, 3)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, Gamma, 0.5f, 5.0f)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 100)
+	DECLARE_PROPERTY_FUNC(bool, FancyBloom)
+	DECLARE_PROPERTY_FUNC(bool, ScreenSpaceFogScattering)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflection, 0, 3)
 	DECLARE_PROPERTY_FUNC(bool, HitLightingReflections)
 	
-	DECLARE_CONVERTABLE_FUNCTIONS(EColorBlindMode, ColorBlindMode, uint8, Int)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
+	DECLARE_CONVERTABLE_FUNC(EColorBlindMode, ColorBlindMode, uint8, Int)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
 	
-	DECLARE_PROPERTY_FUNCTIONS(bool, RTXDynamicVibrance)
-	DECLARE_PROPERTY_FUNCTIONS(float, DynamicVibranceIntensity)
-	DECLARE_PROPERTY_FUNCTIONS(float, DynamicVibranceSaturation)
+	DECLARE_PROPERTY_FUNC(bool, RTXDynamicVibrance)
+	DECLARE_PROPERTY_FUNC(float, DynamicVibranceIntensity)
+	DECLARE_PROPERTY_FUNC(float, DynamicVibranceSaturation)
 	
-	DECLARE_CONVERTABLE_FUNCTIONS(EImageFidelityMode, ImageFidelityMode, uint8, Int)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, FXAADithering, 0, 4)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, TAAUpsampling, 0, 2)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, TSRResolution, 25, 200)
+	DECLARE_CONVERTABLE_FUNC(EImageFidelityMode, ImageFidelityMode, uint8, Int)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FXAADithering, 0, 4)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, TAAUpsampling, 0, 2)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, TSRResolution, 25, 200)
 	
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, SMAAQuality, 0, 3)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, SMAAEdgeMode, 0, 3)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, SMAAQuality, 0, 3)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, SMAAEdgeMode, 0, 3)
 
-	DECLARE_PROPERTY_FUNCTIONS(uint8, DLSSQuality)
-	DECLARE_PROPERTY_FUNCTIONS(float, DLSSSharpness)
-	DECLARE_PROPERTY_FUNCTIONS(bool, DLSSRayReconstruction)
-	DECLARE_PROPERTY_FUNCTIONS(bool, DLSSFrameGeneration)
-	DECLARE_PROPERTY_FUNCTIONS(uint8, NvidiaReflex)
+	DECLARE_PROPERTY_FUNC(uint8, DLSSQuality)
+	DECLARE_PROPERTY_FUNC(float, DLSSSharpness)
+	DECLARE_PROPERTY_FUNC(bool, DLSSRayReconstruction)
+	DECLARE_PROPERTY_FUNC(bool, DLSSFrameGeneration)
+	DECLARE_PROPERTY_FUNC(uint8, NvidiaReflex)
 
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, FSRQuality, 0, 4)
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(float, FSRSharpness, 0.0f, 1.0f)
-	DECLARE_PROPERTY_FUNCTIONS(bool, FSRFrameGeneration)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, FSRSharpness, 0.0f, 1.0f)
+	DECLARE_PROPERTY_FUNC(bool, FSRFrameGeneration)
 	
-	DECLARE_PROPERTY_FUNCTIONS_CLAMPED(uint8, XeSSQuality, 0, 6)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6)
 	
-	DECLARE_PROPERTY_FUNCTIONS(uint8, NISQuality)
-	DECLARE_PROPERTY_FUNCTIONS(float, NISSharpness)
-	DECLARE_PROPERTY_FUNCTIONS(float, NISScreenPercentage)
+	DECLARE_PROPERTY_FUNC(uint8, NISQuality)
+	DECLARE_PROPERTY_FUNC(float, NISSharpness)
+	DECLARE_PROPERTY_FUNC(float, NISScreenPercentage)
 	
 private:
 
+	void ApplyShowFPS() const;
+	void ApplyBrightness() const;
 	void ApplyAudioSettings() const;
+	void ApplyColorBlindSettings() const;
 
+	void ApplyImageFidelityMode();
+	void CacheScalabilityDefaults();
+
+	virtual void SetToDefaults() override;
 	virtual UWorld* GetWorld() const override;
 
 	/* Misc */
@@ -171,4 +199,7 @@ private:
 	UPROPERTY(Config) uint8 NISQuality;
 	UPROPERTY(Config) float NISSharpness;
 	UPROPERTY(Config) float NISScreenPercentage;
+
+	// Default values for scalability. Will get overridden by automatic configuration
+	UPROPERTY(Config) TArray<uint8> ScalabilityDefaults{3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 };
