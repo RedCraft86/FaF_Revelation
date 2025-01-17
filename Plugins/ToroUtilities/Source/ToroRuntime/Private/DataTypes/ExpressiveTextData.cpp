@@ -7,8 +7,9 @@
 FExpressiveTextData::FExpressiveTextData() : bUseAsset(false), TextFields({}), TextAsset(nullptr)
 {
 	TextFields.DefaultFontSize = 24;
-	TextFields.WrapSettings.Value = 0.0f;
-	TextFields.WrapSettings.ValueType = EExpressiveTextWrapMode::WrapAtPixelCount;
+	TextFields.UseDefaultFontSize = true;
+	TextFields.WrapSettings.Value = 1.0f;
+	TextFields.WrapSettings.ValueType = EExpressiveTextWrapMode::WrapAtPercentageOfParentSize;
 	TextFields.DefaultStyle = UToroRuntimeSettings::Get()->DefaultTextStyle.LoadSynchronous();
 }
 
