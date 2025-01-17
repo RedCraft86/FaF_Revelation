@@ -47,6 +47,8 @@ class TORORUNTIME_API UToroUserSettings final : public UGameUserSettings
 	GENERATED_BODY()
 
 public:
+
+	UToroUserSettings();
 	
 	static UToroUserSettings* Get() { return Cast<UToroUserSettings>(GEngine->GameUserSettings); }
 	static inline TSet<EImageFidelityMode> SupportedFidelityModes = {};
@@ -93,6 +95,8 @@ public:
 	DECLARE_CONVERTABLE_FUNC(EColorBlindMode, ColorBlindMode, uint8, Int)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
 	
+	DECLARE_PROPERTY_FUNC(uint8, NvidiaReflex)
+	
 	DECLARE_PROPERTY_FUNC(bool, RTXDynamicVibrance)
 	DECLARE_PROPERTY_FUNC(float, DynamicVibranceIntensity)
 	DECLARE_PROPERTY_FUNC(float, DynamicVibranceSaturation)
@@ -109,7 +113,6 @@ public:
 	DECLARE_PROPERTY_FUNC(float, DLSSSharpness)
 	DECLARE_PROPERTY_FUNC(bool, DLSSRayReconstruction)
 	DECLARE_PROPERTY_FUNC(bool, DLSSFrameGeneration)
-	DECLARE_PROPERTY_FUNC(uint8, NvidiaReflex)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, FSRSharpness, 0.0f, 1.0f)
@@ -132,6 +135,7 @@ private:
 	void CacheScalabilityDefaults();
 
 	virtual void SetToDefaults() override;
+	virtual void ApplyNonResolutionSettings() override;
 	virtual UWorld* GetWorld() const override;
 
 	/* Misc */
@@ -163,7 +167,8 @@ private:
 	UPROPERTY(Config) EColorBlindMode ColorBlindMode;
 	UPROPERTY(Config) uint8 ColorBlindIntensity;
 
-	// Nvidia RTX Dynamic Vibrance
+	// Nvidia Techonologies
+	UPROPERTY(Config) uint8 NvidiaReflex;
 	UPROPERTY(Config) bool RTXDynamicVibrance;
 	UPROPERTY(Config) float DynamicVibranceIntensity;
 	UPROPERTY(Config) float DynamicVibranceSaturation;
@@ -185,7 +190,6 @@ private:
 	UPROPERTY(Config) float DLSSSharpness;
 	UPROPERTY(Config) bool DLSSRayReconstruction;
 	UPROPERTY(Config) bool DLSSFrameGeneration;
-	UPROPERTY(Config) uint8 NvidiaReflex;
 
 	// FSR
 	UPROPERTY(Config) uint8 FSRQuality;

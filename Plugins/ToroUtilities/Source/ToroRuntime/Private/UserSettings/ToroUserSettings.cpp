@@ -5,6 +5,19 @@
 #include "ToroRuntimeSettings.h"
 #include "AudioDevice.h"
 
+UToroUserSettings::UToroUserSettings() : ShowFPS(false), FieldOfView(0), SmoothCamera(true)
+	, SensitivityX(1.0f), SensitivityY(1.0f), Gamma(2.2f), Brightness(100), FancyBloom(true)
+	, ScreenSpaceFogScattering(true), MotionBlur(2), LumenGI(0), LumenReflection(2)
+	, HitLightingReflections(false), ColorBlindMode(EColorBlindMode::None), ColorBlindIntensity(0)
+	, NvidiaReflex(0), RTXDynamicVibrance(false), DynamicVibranceIntensity(0.5f)
+	, DynamicVibranceSaturation(0.5f), ImageFidelityMode(EImageFidelityMode::TAA), FXAADithering(3)
+	, TAAUpsampling(2), TSRResolution(70), SMAAQuality(3), SMAAEdgeMode(3), DLSSQuality(3)
+	, DLSSSharpness(0.0f), DLSSRayReconstruction(false), DLSSFrameGeneration(true), FSRQuality(2)
+	, FSRSharpness(0.0f), FSRFrameGeneration(true), XeSSQuality(3), NISQuality(3), NISSharpness(0.0f)
+	, NISScreenPercentage(100.0f)
+{
+}
+
 void UToroUserSettings::AutoConfigureQuality()
 {
 	const float Res = ScalabilityQuality.ResolutionQuality;
@@ -87,6 +100,10 @@ DEFINE_SETTER_BASIC(bool, HitLightingReflections)
 DEFINE_SETTER(EColorBlindMode, ColorBlindMode, ApplyColorBlindSettings();)
 DEFINE_SETTER(uint8, ColorBlindIntensity, ApplyColorBlindSettings();)
 
+DEFINE_SETTER(uint8, NvidiaReflex, 
+	
+)
+
 DEFINE_SETTER(bool, RTXDynamicVibrance, 
 	
 )
@@ -124,9 +141,6 @@ DEFINE_SETTER(bool, DLSSFrameGeneration,
 	
 )
 
-DEFINE_SETTER(uint8, NvidiaReflex, 
-	
-)
 
 DEFINE_SETTER_CONSOLE(uint8, FSRQuality, r.FidelityFX.FSR3.QualityMode)
 DEFINE_SETTER_CONSOLE(float, FSRSharpness, r.FidelityFX.FSR3.Sharpness)
@@ -242,6 +256,8 @@ void UToroUserSettings::ApplyImageFidelityMode()
 		SET_CONSOLE_VAR(r.FidelityFX.FI.Enabled, bFSR ? FSRFrameGeneration : false)
 
 		// TODO: Add support for DLSS and NIS
+		
+		RefreshUI.Broadcast(this);
 	}
 	else
 	{
@@ -271,6 +287,13 @@ void UToroUserSettings::SetToDefaults()
 		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
 	
 	Super::SetToDefaults();
+}
+
+void UToroUserSettings::ApplyNonResolutionSettings()
+{
+	OnSettingsApplied.Broadcast(this);
+	Super::ApplyNonResolutionSettings();
+	SaveSettings();
 }
 
 UWorld* UToroUserSettings::GetWorld() const
