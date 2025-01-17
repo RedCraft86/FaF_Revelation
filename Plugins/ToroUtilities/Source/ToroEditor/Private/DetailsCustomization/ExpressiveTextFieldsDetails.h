@@ -23,21 +23,12 @@ private:
 
 	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructPropertyHandle, FDetailWidgetRow& HeaderRow,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
-	{
-		STRUCT_PROPERTY_VAR(Text, Text);
-		HeaderRow.NameContent()
-		[
-			StructPropertyHandle->CreatePropertyNameWidget()
-		]
-		.ValueContent()
-		[
-			Text->CreatePropertyValueWidget()
-		];
-	}
+	{}
 	
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructPropertyHandle, IDetailChildrenBuilder& StructBuilder,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
+		StructBuilder.AddProperty(STRUCT_PROPERTY(Text));
 		StructBuilder.AddProperty(STRUCT_PROPERTY(DefaultStyle));
 		StructBuilder.AddProperty(STRUCT_PROPERTY(Justification));
 
