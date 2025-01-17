@@ -87,12 +87,16 @@ void UZoneCullingComponent::UpdateRenderingState()
 void UZoneCullingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	if (bDisableComponent) DestroyComponent();
+	if (bDisableComponent)
+	{
+		DestroyComponent();
+		return;
+	}
 
 	TArray<UZoneCullingComponent*> Comps;
 	GetOwner()->GetComponents<UZoneCullingComponent>(Comps);
 #if WITH_EDITOR
-	ensureMsgf(Comps.Num() == 1, TEXT("Multiple Smart Culling Components found on actor %s (%s) [%s]."),
+	ensureMsgf(Comps.Num() == 1, TEXT("%d Smart Culling Components found on actor %s (%s) [%s]."), Comps.Num(),
 		*TSoftObjectPtr(GetOwner()).ToString(), *GetOwner()->GetActorLabel(), *GetOwner()->GetClass()->GetName());
 #endif
 	if (Comps.Num() != 1)
