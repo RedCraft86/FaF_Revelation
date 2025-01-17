@@ -28,6 +28,7 @@
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
 #include "DetailsCustomization/InteractionInfoDetails.h"
 #include "DetailsCustomization/ElectricLightAnimDetails.h"
+#include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/WorldMusicVolumeDetails.h"
 #include "DetailsCustomization/ElectricLightDetails.h"
@@ -93,6 +94,8 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo, FInteractionInfoCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim, FElectricLightAnimCustomization)
+		
+		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
 		// for (TObjectIterator<UScriptStruct> It; It; ++It)
 		// {
@@ -155,6 +158,8 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim)
+		
+		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		
 		// for (TObjectIterator<UScriptStruct> It; It; ++It)
 		// {
