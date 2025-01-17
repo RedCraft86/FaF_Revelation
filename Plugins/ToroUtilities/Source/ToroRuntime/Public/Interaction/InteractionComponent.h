@@ -6,8 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 
-class UGameplayWidgetBase;
-
 USTRUCT(BlueprintType)
 struct TORORUNTIME_API FInteractionData
 {
@@ -63,14 +61,10 @@ public:
 
 private:
 
-	UPROPERTY(EditAnywhere, Category = Settings)
-		TSubclassOf<UGameplayWidgetBase> GameplayWidget;
-
 	UPROPERTY() bool bEnabled;
 	UPROPERTY() float HoldTime;
 	UPROPERTY() bool bInteracting;
 	UPROPERTY() FInteractionData InteractCache;
-	UPROPERTY(Transient) TObjectPtr<UGameplayWidgetBase> Widget;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> Player;
 
 	void CleanupInteraction();
