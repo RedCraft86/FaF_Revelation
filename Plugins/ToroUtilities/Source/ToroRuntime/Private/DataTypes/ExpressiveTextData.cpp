@@ -28,7 +28,7 @@ FExpressiveText FExpressiveTextData::GetExpressiveText()
 	if (bUseAsset)
 	{
 		if (TextAsset) Result.SetFields(TextAsset->Fields);
-		else UE_LOG(LogToroRuntime, Error, TEXT("Cannot use TextAsset, it is NULL"))
+		else UE_LOG(LogToroRuntime, Warning, TEXT("Cannot use TextAsset, it is NULL"))
 	}
 	else
 	{
