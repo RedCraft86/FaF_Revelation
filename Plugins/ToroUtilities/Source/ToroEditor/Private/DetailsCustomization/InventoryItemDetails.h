@@ -85,14 +85,7 @@ private:
 		{
 			GET_PROPERTY_VAR(PreviewZoom, PreviewZoom)
 			MeshCat.AddCustomRow(INVTEXT("Preview Zoom"))
-			.OverrideResetToDefault(FResetToDefaultOverride::Create(
-				TAttribute<bool>::CreateLambda([PreviewZoom]() -> bool {
-					return PreviewZoom->DiffersFromDefault();
-				}),
-				FSimpleDelegate::CreateLambda([PreviewZoom]()
-				{
-					PreviewZoom->ResetToDefault();
-				})))
+			.OverrideResetToDefault(SIMPLE_RESET_TO_DEFAULT(PreviewZoom))
 			.NameContent()
 			[
 				PreviewZoom->CreatePropertyNameWidget()

@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "DetailLayoutBuilder.h"
+
 #define GET_CLASS_PROPERTY(Class, Member) DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(Class, Member))
 #define GET_PROPERTY(Member) GET_CLASS_PROPERTY(CLASSNAME, Member)
 
@@ -19,6 +21,14 @@
 	VarName->MarkHiddenByCustomization();
 
 #define STRUCT_PROPERTY_VAR(Member, VarName) STRUCT_CLASS_PROPERTY_VAR(STRUCTNAME, Member, VarName)
+
+#define SIMPLE_RESET_TO_DEFAULT(Property) \
+	FResetToDefaultOverride::Create(TAttribute<bool>::CreateLambda([Property]() -> bool { \
+		return Property->DiffersFromDefault(); \
+	}), FSimpleDelegate::CreateLambda([Property]() \
+	{ \
+		Property->ResetToDefault(); \
+	}))
 
 #define GENERIC_PROPERTY_LABEL(InText) \
 	SNew(STextBlock) \
