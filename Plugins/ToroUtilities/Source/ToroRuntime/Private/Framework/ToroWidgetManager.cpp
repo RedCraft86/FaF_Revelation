@@ -17,38 +17,8 @@ EToroValidPins AToroWidgetManager::GetToroWidgetManager(AToroWidgetManager*& Out
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-UToroUserWidget* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroUserWidget>& Class)
-{
-	if (!Class) return nullptr;
-	UToroUserWidget* Widget = FindWidget(Class);
-	if (!Widget)
-	{
-		Widget = UToroUserWidget::CreateSmartWidget(GetPlayerController(), Class);
-		WidgetObjs.Add(Widget);
-	}
-	return Widget;
-}
-
-UToroUserWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UToroUserWidget>& Class)
-{
-	if (!Class) return nullptr;
-	for (const TObjectPtr<UToroUserWidget>& Obj : WidgetObjs)
-	{
-		if (Obj && Obj->IsA(Class))
-		{
-			return Obj;
-		}
-	}
-	return nullptr;
-}
-
 void AToroWidgetManager::BeginPlay()
 {
 	Super::BeginPlay();
 	APlayerController* PlayerController = GetPlayerController();
-	for (const TSubclassOf<UToroUserWidget>& Class : DefaultWidgets)
-	{
-		UToroUserWidget* Widget = UToroUserWidget::CreateSmartWidget(PlayerController, Class);
-		WidgetObjs.Add(Widget);
-	}
 }
