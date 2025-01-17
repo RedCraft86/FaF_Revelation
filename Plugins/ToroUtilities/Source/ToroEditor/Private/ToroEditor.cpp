@@ -207,6 +207,7 @@ void FToroEditorStyle::Init()
 
 	const FVector2D Icon64x64(64.0f, 64.0f);
 	const FVector2D Icon20x20(20.0f, 20.0f);
+	const FVector2D Icon16x16(16.0f, 16.0f);
 	
 	StyleSet->Set("ToroEditor.RestartEditor", new IMAGE_BRUSH_SVG(TEXT("RestartEditor"), Icon20x20));
 	StyleSet->Set("ToroEditor.ChannelPacker", new IMAGE_BRUSH_SVG(TEXT("ChannelPacker"), Icon20x20));
@@ -218,6 +219,13 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.WorldMusicVolume", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
 
+	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))
+	{
+		StyleSet->Set("ClassIcon.ExprTextBlock", new FSlateImageBrush(
+			ExpressiveText->GetContentDir() / TEXT("Core/Editor/Resources/ExTextLogo.png"),
+			Icon16x16));
+	}
+	
 	FSlateStyleRegistry::RegisterSlateStyle(*StyleSet.Get());
 }
 #undef RootToContentDir
