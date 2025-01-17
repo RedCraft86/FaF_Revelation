@@ -167,7 +167,7 @@ private:
 	UPROPERTY(Config) EColorBlindMode ColorBlindMode;
 	UPROPERTY(Config) uint8 ColorBlindIntensity;
 
-	// Nvidia Techonologies
+	// Nvidia Technologies
 	UPROPERTY(Config) uint8 NvidiaReflex;
 	UPROPERTY(Config) bool RTXDynamicVibrance;
 	UPROPERTY(Config) float DynamicVibranceIntensity;
