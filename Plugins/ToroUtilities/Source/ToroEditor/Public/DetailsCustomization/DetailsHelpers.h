@@ -22,11 +22,10 @@
 
 #define STRUCT_PROPERTY_VAR(Member, VarName) STRUCT_CLASS_PROPERTY_VAR(STRUCTNAME, Member, VarName)
 
-#define SIMPLE_RESET_TO_DEFAULT(Property) \
-	FResetToDefaultOverride::Create(TAttribute<bool>::CreateLambda([Property]() -> bool { \
+#define SIMPLE_RESET_TO_DEFAULT(Property) FResetToDefaultOverride::Create( \
+	TAttribute<bool>::CreateLambda([Property]() -> bool { \
 		return Property->DiffersFromDefault(); \
-	}), FSimpleDelegate::CreateLambda([Property]() \
-	{ \
+	}), FSimpleDelegate::CreateLambda([Property]() { \
 		Property->ResetToDefault(); \
 	}))
 
