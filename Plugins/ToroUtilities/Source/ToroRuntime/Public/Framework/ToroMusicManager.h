@@ -7,7 +7,7 @@
 #include "MetasoundSource.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
-#include "DataTypes/OneShotSoundData.h"
+#include "DataTypes/OneShotDataTypes.h"
 #include "GameFramework/GameStateBase.h"
 #include "ToroMusicManager.generated.h"
 
@@ -46,16 +46,16 @@ public:
 		void SetThemeState(const uint8 InState) const;
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool PlayLayer(const UObject* InInstigator, const FName InSoundID);
+		bool PlayLayer(const UObject* InInstigator, const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool StopLayer(const UObject* InInstigator, const FName InSoundID);
+		bool StopLayer(const UObject* InInstigator, const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool RestartLayer(const FName InSoundID);
+		bool RestartLayer(const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool SetLayerPaused(const FName InSoundID, const bool bPaused);
+		bool SetLayerPaused(const FGameplayTag InSoundID, const bool bPaused);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void CleanOneShotTracks();
@@ -64,7 +64,7 @@ protected:
 
 	FECFHandle ChangeHandle;
 	UPROPERTY(Transient) TObjectPtr<UMetaSoundSource> MainTheme;
-	UPROPERTY(Transient) TMap<FName, FOneShotSoundLayer> OneShotLayers;
+	UPROPERTY(Transient) TMap<FGameplayTag, FOneShotLayer> OneShotLayers;
 
 	IAudioParameterControllerInterface* GetSoundParamInterface() const;
 	

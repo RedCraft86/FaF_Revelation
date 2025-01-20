@@ -1,47 +1,56 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/OneShotSoundData.h"
+#include "DataTypes/OneShotDataTypes.h"
 #include "Framework/ToroMusicManager.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 #include "ToroRuntime.h"
 
-#define GET_ONE_SHOT(Key) const FOneShotSoundData SoundData = FOneShotSoundData::Get(Key)
+#define GET_ONE_SHOT(Key) const FOneShotEntry SoundData = UOneShotDatabase::Get(Key)
 
-void FOneShotSoundData::OnDataTableChanged(const UDataTable* InDataTable, const FName InRowName)
+#if WITH_EDITOR
+void FOneShotEntry::Update()
 {
-	Super::OnDataTableChanged(InDataTable, InRowName);
 	bIsLooping = IsValid(Sound.LoadSynchronous()) && Sound.LoadSynchronous()->IsLooping();
 }
+#endif
 
-bool FOneShotSoundData::IsValidKey(const FName& Key)
+bool UOneShotDatabase::IsValidKey(const FGameplayTag& Key)
 {
-	if (Key.IsNone()) return false;
+	if (!Key.IsValid()) return false;
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (UDataTable* Table = Settings ? Settings->OneShotSoundTable.LoadSynchronous() : nullptr)
+	if (const UOneShotDatabase* Database = Settings ? Settings->OneShotDatabase.LoadSynchronous() : nullptr)
 	{
-		return Table->GetRowMap().Contains(Key);
+		return Database->OneShots.Contains(Key);
 	}
-
+	
 	return false;
 }
 
-FOneShotSoundData FOneShotSoundData::Get(const FName& Key)
+FOneShotEntry UOneShotDatabase::Get(const FGameplayTag& Key)
 {
-	if (Key.IsNone()) return {};
+	if (!Key.IsValid()) return {};
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (UDataTable* Table = Settings ? Settings->OneShotSoundTable.LoadSynchronous() : nullptr)
+	if (const UOneShotDatabase* Database = Settings ? Settings->OneShotDatabase.LoadSynchronous() : nullptr)
 	{
-		if (Table->GetRowMap().Contains(Key))
-		{
-			return *Table->FindRow<FOneShotSoundData>(Key, Table->GetName());
-		}
+		return Database->OneShots.FindRef(Key);
 	}
-
+	
 	return {};
 }
 
-void FOneShotSoundLayer::Stop()
+#if WITH_EDITOR
+void UOneShotDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	for (TPair<FGameplayTag, FOneShotEntry>& OneShot : OneShots)
+	{
+		OneShot.Value.Update();
+	}
+}
+#endif
+
+void FOneShotLayer::Stop()
 {
 	if (!IsValid(Component) || !IsValid(Owner)) return;
 	FEnhancedCodeFlow::StopAction(Owner, PauseHandle);
@@ -72,7 +81,7 @@ void FOneShotSoundLayer::Stop()
 	}
 }
 
-void FOneShotSoundLayer::Restart()
+void FOneShotLayer::Restart()
 {
 	if (!CanRunFunctions()) return;
 
@@ -89,7 +98,7 @@ void FOneShotSoundLayer::Restart()
 	});
 }
 
-void FOneShotSoundLayer::SetPaused(const bool bInPaused)
+void FOneShotLayer::SetPaused(const bool bInPaused)
 {
 	if (!CanRunFunctions()) return;
 	if (bPaused != bInPaused)
@@ -112,29 +121,29 @@ void FOneShotSoundLayer::SetPaused(const bool bInPaused)
 	}
 }
 
-void FOneShotSoundLayer::AddInstigator(const UObject* InObject)
+void FOneShotLayer::AddInstigator(const UObject* InObject)
 {
 	Instigators.Add(InObject);
 }
 
-void FOneShotSoundLayer::RemoveInstigator(const UObject* InObject)
+void FOneShotLayer::RemoveInstigator(const UObject* InObject)
 {
 	Instigators.Remove(InObject);
 	if (Instigators.IsEmpty()) Stop();
 }
 
-bool FOneShotSoundLayer::IsValidLayer() const
+bool FOneShotLayer::IsValidLayer() const
 {
 	return IsValid(Component) && !bStopping;
 }
 
-bool FOneShotSoundLayer::CanRunFunctions() const
+bool FOneShotLayer::CanRunFunctions() const
 {
 	return IsValid(Component) && IsValid(Owner)
 		&& !FEnhancedCodeFlow::IsActionRunning(Owner, FadeHandle);
 }
 
-void FOneShotSoundLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instigator)
+void FOneShotLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instigator)
 {
 	Owner = InOwner;
 	Instigators = {Instigator};
@@ -153,14 +162,14 @@ void FOneShotSoundLayer::Initialize(AToroMusicManager* InOwner, const UObject* I
 	{
 		Component->bIsMusic = true;
 		Component->bAutoDestroy = false;
-		Component->OnAudioFinishedNative.AddRaw(this, &FOneShotSoundLayer::OnAudioFinished);
+		Component->OnAudioFinishedNative.AddRaw(this, &FOneShotLayer::OnAudioFinished);
 		Component->FadeIn(SoundData.FadeTimes.X, 1.0f, SoundData.GetStartTime());
 		bAutoDestroy = true;
 	}
 	else Owner->CleanOneShotTracks();
 }
 
-void FOneShotSoundLayer::OnAudioFinished(UAudioComponent* Comp)
+void FOneShotLayer::OnAudioFinished(UAudioComponent* Comp)
 {
 	if (bAutoDestroy && Component)
 	{

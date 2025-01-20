@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroMusicManager.h"
-#include "DataTypes/OneShotSoundData.h"
+#include "DataTypes/OneShotDataTypes.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 
@@ -67,10 +67,10 @@ void AToroMusicManager::SetThemeState(const uint8 InState) const
 	GetSoundParamInterface()->SetIntParameter(TEXT("State"), InState);
 }
 
-bool AToroMusicManager::PlayLayer(const UObject* InInstigator, const FName InSoundID)
+bool AToroMusicManager::PlayLayer(const UObject* InInstigator, const FGameplayTag InSoundID)
 {
-	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
-	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (!UOneShotDatabase::IsValidKey(InSoundID)) return false;
+	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
@@ -79,16 +79,16 @@ bool AToroMusicManager::PlayLayer(const UObject* InInstigator, const FName InSou
 		}
 	}
 
-	FOneShotSoundLayer NewLayer(InSoundID);
+	FOneShotLayer NewLayer(InSoundID);
 	NewLayer.Initialize(this, InInstigator);
 	OneShotLayers.Emplace(InSoundID, NewLayer);
 	SetActorTickEnabled(true);
 	return true;
 }
 
-bool AToroMusicManager::StopLayer(const UObject* InInstigator, const FName InSoundID)
+bool AToroMusicManager::StopLayer(const UObject* InInstigator, const FGameplayTag InSoundID)
 {
-	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
@@ -100,9 +100,9 @@ bool AToroMusicManager::StopLayer(const UObject* InInstigator, const FName InSou
 	return false;
 }
 
-bool AToroMusicManager::RestartLayer(const FName InSoundID)
+bool AToroMusicManager::RestartLayer(const FGameplayTag InSoundID)
 {
-	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
@@ -114,9 +114,9 @@ bool AToroMusicManager::RestartLayer(const FName InSoundID)
 	return false;
 }
 
-bool AToroMusicManager::SetLayerPaused(const FName InSoundID, const bool bPaused)
+bool AToroMusicManager::SetLayerPaused(const FGameplayTag InSoundID, const bool bPaused)
 {
-	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
