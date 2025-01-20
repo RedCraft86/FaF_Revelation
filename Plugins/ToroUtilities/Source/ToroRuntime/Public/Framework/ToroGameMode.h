@@ -4,6 +4,7 @@
 
 #include "ExecPinEnums.h"
 #include "ToroGameInstance.h"
+#include "GameplayTagContainer.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameModeBase.h"
 #include "ToroGameMode.generated.h"
@@ -12,6 +13,8 @@ UCLASS()
 class TORORUNTIME_API AToroGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+	friend class ALevelZoneVolume;
 
 public:
 
@@ -29,9 +32,14 @@ public:
 		return Cast<T>(UGameplayStatics::GetGameMode(WorldContextObject));
 	}
 
+	/* Returns the last cached room a character is in. */
+	UFUNCTION(BlueprintCallable, Category = Game)
+		FGameplayTag GetCharacterRoom(const FGameplayTag& InCharacter) const;
+
 protected:
 
 	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
+	UPROPERTY(Transient) TMap<FGameplayTag, FGameplayTag> CharRoomMappings;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;

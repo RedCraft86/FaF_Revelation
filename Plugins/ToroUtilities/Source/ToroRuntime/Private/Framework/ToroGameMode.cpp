@@ -1,10 +1,10 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameMode.h"
-#include "Framework/ToroWidgetManager.h"
-#include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroMusicManager.h"
 #include "Framework/ToroPlayerController.h"
-#include "WorldMusic/WorldMusicManager.h"
+#include "Framework/ToroWidgetManager.h"
+#include "Characters/ToroPlayerBase.h"
 
 AToroGameMode::AToroGameMode()
 {
@@ -15,10 +15,10 @@ AToroGameMode::AToroGameMode()
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
-	GameStateClass = AWorldMusicManager::StaticClass();
+	GameStateClass = AToroMusicManager::StaticClass();
 	PlayerControllerClass = AToroPlayerController::StaticClass();
 	PlayerStateClass = AToroWidgetManager::StaticClass();
-	DefaultPawnClass = AToroPlayerCharacter::StaticClass();
+	DefaultPawnClass = AToroPlayerBase::StaticClass();
 }
 
 EToroValidPins AToroGameMode::GetToroGameMode(AToroGameMode*& OutObject,
@@ -27,6 +27,11 @@ EToroValidPins AToroGameMode::GetToroGameMode(AToroGameMode*& OutObject,
 	AToroGameMode* Obj = Cast<AToroGameMode>(UGameplayStatics::GetGameMode(WorldContextObject));
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
+}
+
+FGameplayTag AToroGameMode::GetCharacterRoom(const FGameplayTag& InCharacter) const
+{
+	return CharRoomMappings.FindRef(InCharacter);
 }
 
 void AToroGameMode::BeginPlay()
