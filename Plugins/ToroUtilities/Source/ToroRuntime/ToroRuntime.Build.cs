@@ -25,6 +25,7 @@ public class ToroRuntime : ModuleRules
                 "ApplicationCore",
                 "DeveloperSettings",
                 "MetasoundEngine",
+                "GameplayTags",
                 "CommonUI",
                 "ToroCore",
                 "ExpressiveText",
