@@ -4,7 +4,8 @@
 #include "Framework/ToroPlayerController.h"
 #include "LevelSequencePlayer.h"
 
-AToroSequenceActor::AToroSequenceActor() : bLockPlayer(false)
+AToroSequenceActor::AToroSequenceActor(const FObjectInitializer& Init)
+	: Super(Init), bLockPlayer(false)
 {
 }
 

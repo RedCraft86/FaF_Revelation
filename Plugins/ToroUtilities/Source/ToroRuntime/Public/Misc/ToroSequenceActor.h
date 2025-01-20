@@ -13,7 +13,7 @@ class TORORUNTIME_API AToroSequenceActor final : public ALevelSequenceActor
 
 public:
 
-	AToroSequenceActor();
+	AToroSequenceActor(const FObjectInitializer& Init);
 
 	UPROPERTY(EditAnywhere, Category = "General")
 		bool bLockPlayer;
