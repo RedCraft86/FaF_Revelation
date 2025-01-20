@@ -94,6 +94,8 @@ class TORORUNTIME_API AToroPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+	friend class AToroSequenceActor;
+	
 public:
 
 	AToroPlayerController();
@@ -119,9 +121,13 @@ public:
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
 
+	UFUNCTION(BlueprintPure, Category = Input)
+		const AToroSequenceActor* GetCinematicActor() const { return CinematicActor; }
+	
 protected:
 	
 	UPROPERTY() FGameInputModeData InputModeData;
+	UPROPERTY() TObjectPtr<AToroSequenceActor> CinematicActor;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };

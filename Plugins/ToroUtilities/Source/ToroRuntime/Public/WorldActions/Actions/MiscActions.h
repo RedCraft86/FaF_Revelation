@@ -42,7 +42,7 @@ struct TORORUNTIME_API FWTaskLevelSequence final : public FWTaskMiscActions
 		float PlayRate;
 
 	UPROPERTY(EditAnywhere, Category = LevelSequence)
-		TSet<TSoftObjectPtr<class ALevelSequenceActor>> Targets;
+		TSet<TSoftObjectPtr<class AToroSequenceActor>> Targets;
 
 	FWTaskLevelSequence() : bStopPlaying(false), PlayRate(1.0f) {}
 
