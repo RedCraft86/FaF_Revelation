@@ -18,7 +18,7 @@ public:
 private:
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		FGameplayTag RoomID;
+		FGameplayTag ZoneID;
 
 	UPROPERTY(Transient) TObjectPtr<class AToroGameMode> GameMode;
 

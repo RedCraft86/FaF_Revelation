@@ -39,7 +39,7 @@ public:
 protected:
 
 	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
-	UPROPERTY(Transient) TMap<FGameplayTag, FGameplayTag> CharRoomMappings;
+	UPROPERTY(Transient) TMap<FGameplayTag, FGameplayTag> CharacterZoneMap;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;

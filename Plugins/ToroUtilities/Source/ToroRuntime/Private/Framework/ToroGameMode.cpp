@@ -31,7 +31,7 @@ EToroValidPins AToroGameMode::GetToroGameMode(AToroGameMode*& OutObject,
 
 FGameplayTag AToroGameMode::GetCharacterRoom(const FGameplayTag& InCharacter) const
 {
-	return CharRoomMappings.FindRef(InCharacter);
+	return CharacterZoneMap.FindRef(InCharacter);
 }
 
 void AToroGameMode::BeginPlay()
