@@ -3,13 +3,16 @@
 #include "LevelZones/LevelZoneVolume.h"
 #include "Characters/ToroCharacterBase.h"
 #include "Framework/ToroPlayerCameraManager.h"
+#include "Framework/ToroMusicManager.h"
 #include "Characters/ToroPlayerBase.h"
 #include "Framework/ToroGameMode.h"
+#include "SmartCullingComponent.h"
 #if WITH_EDITOR
 #include "EngineUtils.h"
 #endif
 
-ALevelZoneVolume::ALevelZoneVolume() : bInvertCulling(false)
+ALevelZoneVolume::ALevelZoneVolume() : bInvertCulling(false), bOneShotPlayOnce(true)
+	, OneShotCooldown(1.0f), bCanPlayOneShot(true)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -56,19 +59,50 @@ void ALevelZoneVolume::UpdateSmartCulling()
 	}
 }
 
+bool ALevelZoneVolume::CanPlayOneShot() const
+{
+	if (!OneShotTag.IsValid()) return false;
+	const FTimerManager& TimerManager = GetWorldTimerManager();
+	return bCanPlayOneShot && !TimerManager.TimerExists(OneShotOffTimer)
+		&& !TimerManager.TimerExists(OneShotCooldownTimer);
+}
+
+void ALevelZoneVolume::PlayOneShot() const
+{
+	if (CanPlayOneShot())
+	{
+		MusicManager->PlayLayer(this, OneShotTag);
+	}
+}
+
+void ALevelZoneVolume::StopOneShot()
+{
+	if (CanPlayOneShot())
+	{
+		FTimerManager& TimerManager = GetWorldTimerManager();
+		TimerManager.SetTimer(OneShotOffTimer, [this]()
+		{
+			MusicManager->StopLayerIfLooping(this, OneShotTag);
+		}, 0.5f, false);
+
+		if (bOneShotPlayOnce)
+		{
+			bCanPlayOneShot = false;
+		}
+		else TimerManager.SetTimer(OneShotCooldownTimer,
+			[](){}, OneShotCooldown, false);
+	}
+}
+
 void ALevelZoneVolume::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = AToroGameMode::Get(this);
+	MusicManager = AToroMusicManager::Get(this);
 	CamManager = AToroPlayerCameraManager::Get(this);
 
 	GetWorldTimerManager().SetTimer(CullingTimer, this,
 		&ThisClass::UpdateSmartCulling, 0.1f, true);
-}
-
-void ALevelZoneVolume::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 }
 
 void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
@@ -84,6 +118,7 @@ void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (const AToroPlayerBase* Player = Cast<AToroPlayerBase>(OtherActor))
 	{
 		UpdateSmartCulling();
+		PlayOneShot();
 	}
 }
 
@@ -95,5 +130,6 @@ void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 	if (const AToroPlayerBase* Player = Cast<AToroPlayerBase>(OtherActor))
 	{
 		UpdateSmartCulling();
+		StopOneShot();
 	}
 }

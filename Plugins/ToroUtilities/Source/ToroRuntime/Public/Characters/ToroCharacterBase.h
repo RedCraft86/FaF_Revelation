@@ -20,7 +20,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "Character"))
 		FGameplayTag CharacterID;
 	
 	virtual void BeginPlay() override;

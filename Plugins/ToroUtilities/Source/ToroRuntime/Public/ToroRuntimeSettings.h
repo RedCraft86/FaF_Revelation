@@ -5,6 +5,7 @@
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
+#include "DataTypes/OneShotDataTypes.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "UserSettings/ToroUserSettings.h"
@@ -28,8 +29,8 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
-	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (RequiredAssetDataTags = "RowStructure=/Script/ToroRuntime.OneShotSoundData"))
-		TSoftObjectPtr<UDataTable> OneShotSoundTable;
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UOneShotDatabase> OneShotDatabase;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
