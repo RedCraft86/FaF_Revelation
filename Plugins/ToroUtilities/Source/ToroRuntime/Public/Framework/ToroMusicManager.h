@@ -46,16 +46,16 @@ public:
 		void SetThemeState(const uint8 InState) const;
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool PlayLayer(const UObject* Instigator, const FName InSoundID);
+		bool PlayLayer(const UObject* InInstigator, const FName InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool StopLayer(const UObject* Instigator, const FName InSoundID);
+		bool StopLayer(const UObject* InInstigator, const FName InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool RestartLayer(const USoundBase* Sound, const FName InSoundID);
+		bool RestartLayer(const FName InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool SetLayerPaused(const USoundBase* Sound, const FName InSoundID, const bool bPaused);
+		bool SetLayerPaused(const FName InSoundID, const bool bPaused);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void CleanOneShotTracks();

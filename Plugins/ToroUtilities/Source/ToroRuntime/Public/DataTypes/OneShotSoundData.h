@@ -64,9 +64,10 @@ public:
 	
 	bool IsValidLayer() const;
 	bool CanRunFunctions() const;
-	void Initialize(AToroMusicManager* InOwner);
+	void Initialize(AToroMusicManager* InOwner, const UObject* Instigator);
 	void OnAudioFinished(UAudioComponent* Comp);
 
+	FOneShotSoundLayer() : bPaused(false), bStopping(false), bAutoDestroy(false) {}
 	FOneShotSoundLayer(const FName& InSoundID)
 		: SoundID(InSoundID), bPaused(false), bStopping(false), bAutoDestroy(false)
 	{}

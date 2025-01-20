@@ -4,6 +4,7 @@
 #include "Framework/ToroMusicManager.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
+#include "ToroRuntime.h"
 
 #define GET_ONE_SHOT(Key) const FOneShotSoundData SoundData = FOneShotSoundData::Get(Key)
 
@@ -133,12 +134,20 @@ bool FOneShotSoundLayer::CanRunFunctions() const
 		&& !FEnhancedCodeFlow::IsActionRunning(Owner, FadeHandle);
 }
 
-void FOneShotSoundLayer::Initialize(AToroMusicManager* InOwner)
+void FOneShotSoundLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instigator)
 {
 	Owner = InOwner;
-	if (!Owner) return;
+	Instigators = {Instigator};
+	if (!Owner || Instigators.IsEmpty()) return;
 	
 	GET_ONE_SHOT(SoundID);
+	if (!SoundData.IsValidData())
+	{
+		UE_LOG(LogToroRuntime, Error, TEXT("Attempting to play one-shot %s but it is invalid!"), *SoundID.ToString())
+		Owner->CleanOneShotTracks();
+		return;
+	}
+	
 	Component = UGameplayStatics::CreateSound2D(Owner, SoundData.Sound.LoadSynchronous(), SoundData.Volume);
 	if (Component)
 	{

@@ -67,55 +67,62 @@ void AToroMusicManager::SetThemeState(const uint8 InState) const
 	GetSoundParamInterface()->SetIntParameter(TEXT("State"), InState);
 }
 
-bool AToroMusicManager::PlayLayer(const UObject* Instigator, const FName InSoundID)
+bool AToroMusicManager::PlayLayer(const UObject* InInstigator, const FName InSoundID)
 {
 	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
 	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
-			Layer->AddInstigator(Instigator);
+			Layer->AddInstigator(InInstigator);
 			return false;
 		}
 	}
 
-	OneShotLayers.Remove(InSoundID);
-	OneShotLayers.Emplace(InSoundID, FOneShotSoundLayer(InSoundID)).Initialize(this);
+	FOneShotSoundLayer NewLayer(InSoundID);
+	NewLayer.Initialize(this, InInstigator);
+	OneShotLayers.Emplace(InSoundID, NewLayer);
 	SetActorTickEnabled(true);
 	return true;
 }
 
-bool AToroMusicManager::StopLayer(const UObject* Instigator, const FName InSoundID)
+bool AToroMusicManager::StopLayer(const UObject* InInstigator, const FName InSoundID)
 {
-	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
 	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
-		Layer->RemoveInstigator(Instigator);
-		return true;
+		if (Layer->IsValidLayer())
+		{
+			Layer->RemoveInstigator(InInstigator);
+			return true;
+		}
 	}
 	
 	return false;
 }
 
-bool AToroMusicManager::RestartLayer(const USoundBase* Sound, const FName InSoundID)
+bool AToroMusicManager::RestartLayer(const FName InSoundID)
 {
-	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
 	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
-		Layer->Restart();
-		return true;
+		if (Layer->IsValidLayer())
+		{
+			Layer->Restart();
+			return true;
+		}
 	}
 	
 	return false;
 }
 
-bool AToroMusicManager::SetLayerPaused(const USoundBase* Sound, const FName InSoundID, const bool bPaused)
+bool AToroMusicManager::SetLayerPaused(const FName InSoundID, const bool bPaused)
 {
-	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
 	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
-		Layer->SetPaused(bPaused);
-		return true;
+		if (Layer->IsValidLayer())
+		{
+			Layer->SetPaused(bPaused);
+			return true;
+		}
 	}
 	
 	return false;
