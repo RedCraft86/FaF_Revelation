@@ -2,8 +2,8 @@
 
 #include "SmartCullingComponent.h"
 
-USmartCullingComponent::USmartCullingComponent() : bDisableComponent(false)
-	, bAffectTicking(false), bCachedHiddenState(false), bInitialTickState(false)
+USmartCullingComponent::USmartCullingComponent() : bAffectTicking(false)
+	, bDisableComponent(false), bCachedHiddenState(false), bInitialTickState(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
