@@ -38,6 +38,7 @@ public:
 
 private:
 
+	UPROPERTY() bool bHasPlayed;
 	UPROPERTY() FTimerHandle CooldownTimer;
 	UPROPERTY(Transient) TObjectPtr<APawn> Player;
 	UPROPERTY(Transient) TObjectPtr<AWorldMusicManager> MusicManager;
