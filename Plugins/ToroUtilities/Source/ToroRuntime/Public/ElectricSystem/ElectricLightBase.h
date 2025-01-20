@@ -4,7 +4,7 @@
 
 #include "InlineCurves.h"
 #include "ElectricActorBase.h"
-#include "ZoneCullingComponent.h"
+#include "SmartCullingComponent.h"
 #include "ElectricLightBase.generated.h"
 
 UENUM(BlueprintType)
@@ -108,7 +108,7 @@ public:
 	AElectricLightBase();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<UZoneCullingComponent> ZoneCulling;
+		TObjectPtr<USmartCullingComponent> ZoneCulling;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		EElectricLightTick LightTickType;

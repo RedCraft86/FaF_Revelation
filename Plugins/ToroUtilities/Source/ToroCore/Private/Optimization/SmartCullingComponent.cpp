@@ -1,8 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ZoneCullingComponent.h"
+#include "SmartCullingComponent.h"
 
-UZoneCullingComponent::UZoneCullingComponent() : bDisableComponent(false)
+USmartCullingComponent::USmartCullingComponent() : bDisableComponent(false)
 	, bAffectTicking(false), bCachedHiddenState(false), bInitialTickState(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -14,28 +14,22 @@ UZoneCullingComponent::UZoneCullingComponent() : bDisableComponent(false)
 #endif
 }
 
-EToroFoundPins UZoneCullingComponent::GetZoneCullingComponent(UZoneCullingComponent*& OutComponent, const AActor* Target)
+USmartCullingComponent* USmartCullingComponent::Get(const AActor* Target)
 {
-	OutComponent = GetZoneCullingComponent(Target);
-	return OutComponent ? EToroFoundPins::Found : EToroFoundPins::NotFound;
-}
-
-UZoneCullingComponent* UZoneCullingComponent::GetZoneCullingComponent(const AActor* Target)
-{
-	TArray<UZoneCullingComponent*> Comps;
-	if (Target) Target->GetComponents<UZoneCullingComponent>(Comps);
+	TArray<USmartCullingComponent*> Comps;
+	if (Target) Target->GetComponents<USmartCullingComponent>(Comps);
 	if (Comps.Num() == 1) return Comps[0];
 	return nullptr;
 }
 
-void UZoneCullingComponent::AddRenderRequest(const UObject* Object)
+void USmartCullingComponent::AddRenderRequest(const UObject* Object)
 {
 	if (bDisableComponent || !Object || RenderRequests.Contains(Object)) return;
 	RenderRequests.Add(Object);
 	UpdateRenderingState();
 }
 
-void UZoneCullingComponent::RemoveRenderRequest(const UObject* Object)
+void USmartCullingComponent::RemoveRenderRequest(const UObject* Object)
 {
 	if (bDisableComponent || !Object) return;
 	if (RenderRequests.Remove(Object) > 0)
@@ -44,7 +38,7 @@ void UZoneCullingComponent::RemoveRenderRequest(const UObject* Object)
 	}
 }
 
-void UZoneCullingComponent::CheckRenderRequests()
+void USmartCullingComponent::CheckRenderRequests()
 {
 	int32 NumRemoved = 0;
 	for (auto It = RenderRequests.CreateIterator(); It; ++It)
@@ -62,7 +56,7 @@ void UZoneCullingComponent::CheckRenderRequests()
 	}
 }
 
-void UZoneCullingComponent::UpdateRenderingState()
+void USmartCullingComponent::UpdateRenderingState()
 {
 	if (bDisableComponent) return;
 	if (bCachedHiddenState != RenderRequests.IsEmpty())
@@ -84,7 +78,7 @@ void UZoneCullingComponent::UpdateRenderingState()
 	}
 }
 
-void UZoneCullingComponent::BeginPlay()
+void USmartCullingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	if (bDisableComponent)
@@ -93,8 +87,8 @@ void UZoneCullingComponent::BeginPlay()
 		return;
 	}
 
-	TArray<UZoneCullingComponent*> Comps;
-	GetOwner()->GetComponents<UZoneCullingComponent>(Comps);
+	TArray<USmartCullingComponent*> Comps;
+	GetOwner()->GetComponents<USmartCullingComponent>(Comps);
 #if WITH_EDITOR
 	ensureMsgf(Comps.Num() == 1, TEXT("%d Smart Culling Components found on actor %s (%s) [%s]."), Comps.Num(),
 		*TSoftObjectPtr(GetOwner()).ToString(), *GetOwner()->GetActorLabel(), *GetOwner()->GetClass()->GetName());
@@ -109,7 +103,7 @@ void UZoneCullingComponent::BeginPlay()
 	UpdateRenderingState();
 }
 
-void UZoneCullingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void USmartCullingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 #if WITH_EDITOR

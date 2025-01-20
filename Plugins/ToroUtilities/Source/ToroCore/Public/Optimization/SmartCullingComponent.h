@@ -2,25 +2,22 @@
 
 #pragma once
 
-#include "ExecPinEnums.h"
 #include "Components/ActorComponent.h"
-#include "ZoneCullingComponent.generated.h"
+#include "SmartCullingComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Optimization), meta = (BlueprintSpawnableComponent))
-class TOROCORE_API UZoneCullingComponent final : public UActorComponent
+class TOROCORE_API USmartCullingComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	UZoneCullingComponent();
+	USmartCullingComponent();
+	
+	static USmartCullingComponent* Get(const AActor* Target);
 	
 	UPROPERTY(EditAnywhere, Category = ZoneCulling)
 		bool bAffectTicking;
-
-	UFUNCTION(BlueprintCallable, Category = ZoneCulling, meta = (DefaultToSelf = "Target", ExpandEnumAsExecs = "ReturnValue"))
-		static EToroFoundPins GetZoneCullingComponent(UZoneCullingComponent*& OutComponent, const AActor* Target);
-	static UZoneCullingComponent* GetZoneCullingComponent(const AActor* Target);
 
 	UFUNCTION(BlueprintCallable, Category = ZoneCulling)
 		void AddRenderRequest(const UObject* Object);
