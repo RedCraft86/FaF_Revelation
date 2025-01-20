@@ -8,14 +8,14 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 #include "GameFramework/GameStateBase.h"
-#include "WorldMusicManager.generated.h"
+#include "ToroMusicManager.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FOneShotMusicLayer
 {
 	GENERATED_BODY()
 
-	friend class AWorldMusicManager;
+	friend class AToroMusicManager;
 	
 	FECFHandle FadeHandle;
 	FECFHandle PauseHandle;
@@ -23,7 +23,7 @@ struct TORORUNTIME_API FOneShotMusicLayer
 	UPROPERTY() FVector2D Start;
 	UPROPERTY() bool bAutoDestroy;
 	UPROPERTY(Transient) TObjectPtr<UAudioComponent> Component;
-	UPROPERTY(Transient) TObjectPtr<AWorldMusicManager> Owner;
+	UPROPERTY(Transient) TObjectPtr<AToroMusicManager> Owner;
 	
 	void Stop(const float FadeTime);
 	void Restart(const float FadeTime);
@@ -39,13 +39,13 @@ struct TORORUNTIME_API FOneShotMusicLayer
 /* Game State is repurposed as a Music Manager */
 
 UCLASS()
-class TORORUNTIME_API AWorldMusicManager : public AGameStateBase
+class TORORUNTIME_API AToroMusicManager : public AGameStateBase
 {
 	GENERATED_BODY()
 
 public:
 
-	AWorldMusicManager();
+	AToroMusicManager();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
@@ -54,9 +54,9 @@ public:
 		TObjectPtr<UAudioComponent> MainThemeComponent;
 
 	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Music Manager"))
-		static EToroValidPins GetMusicManager(AWorldMusicManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AWorldMusicManager>& Class);
+		static EToroValidPins GetMusicManager(AToroMusicManager*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroMusicManager>& Class);
 
-	template <typename T = AWorldMusicManager>
+	template <typename T = AToroMusicManager>
 	static T* Get(const UObject* WorldContextObject)
 	{
 		return Cast<T>(UGameplayStatics::GetGameState(WorldContextObject));

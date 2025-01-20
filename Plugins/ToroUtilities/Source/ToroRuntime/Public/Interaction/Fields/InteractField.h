@@ -7,10 +7,10 @@
 #include "WorldActions/WorldActionComponent.h"
 #include "InteractField.generated.h"
 
-class AToroPlayerCharacter;
+class AToroPlayerBase;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FToroFieldEvent, AToroPlayerCharacter*, Player);
-DECLARE_MULTICAST_DELEGATE_OneParam(FToroFieldEventNative, AToroPlayerCharacter*);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FToroFieldEvent, AToroPlayerBase*, Player);
+DECLARE_MULTICAST_DELEGATE_OneParam(FToroFieldEventNative, AToroPlayerBase*);
 
 UCLASS(NotBlueprintable, BlueprintType)
 class TORORUNTIME_API AInteractField final : public AToroVolume, public IInteractionInterface
@@ -38,5 +38,5 @@ private:
 	
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult) override;
-	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult) override;
+	virtual void OnBeginInteract_Implementation(AToroPlayerBase* Player, const FHitResult& HitResult) override;
 };

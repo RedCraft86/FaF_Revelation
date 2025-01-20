@@ -3,7 +3,7 @@
 #pragma once
 
 #include "ToroVolume.h"
-#include "WorldMusicManager.h"
+#include "Framework/ToroMusicManager.h"
 #include "WorldMusicVolume.generated.h"
 
 UCLASS()
@@ -41,7 +41,7 @@ private:
 	UPROPERTY() bool bHasPlayed;
 	UPROPERTY() FTimerHandle CooldownTimer;
 	UPROPERTY(Transient) TObjectPtr<APawn> Player;
-	UPROPERTY(Transient) TObjectPtr<AWorldMusicManager> MusicManager;
+	UPROPERTY(Transient) TObjectPtr<AToroMusicManager> MusicManager;
 
 	void EmptyFunction() { CooldownTimer.Invalidate(); }
 	

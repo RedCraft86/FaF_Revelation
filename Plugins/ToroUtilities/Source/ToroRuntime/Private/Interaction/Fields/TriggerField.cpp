@@ -1,8 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Interaction/Fields/TriggerField.h"
+#include "Characters/ToroPlayerBase.h"
 #include "Components/BrushComponent.h"
-#include "Framework/ToroPlayerCharacter.h"
 
 ATriggerField::ATriggerField() : bSingleUse(true)
 {
@@ -15,7 +15,7 @@ void ATriggerField::NotifyActorBeginOverlap(AActor* OtherActor)
 	Super::NotifyActorBeginOverlap(OtherActor);
 
 	if (!bEnabled) return;
-	if (AToroPlayerCharacter* Player = Cast<AToroPlayerCharacter>(OtherActor))
+	if (AToroPlayerBase* Player = Cast<AToroPlayerBase>(OtherActor))
 	{
 		OnTriggered.Broadcast(Player);
 		OnTriggeredEvent.Broadcast(Player);

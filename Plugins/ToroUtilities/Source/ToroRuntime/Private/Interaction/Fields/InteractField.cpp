@@ -27,7 +27,7 @@ FInteractionInfo AInteractField::GetInteractionInfo_Implementation(const FHitRes
 	return Interaction;
 }
 
-void AInteractField::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult)
+void AInteractField::OnBeginInteract_Implementation(AToroPlayerBase* Player, const FHitResult& HitResult)
 {
 	if (!bEnabled) return;
 	OnInteracted.Broadcast(Player);

@@ -4,24 +4,24 @@
 
 #include "ExecPinEnums.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameFramework/Character.h"
-#include "ToroPlayerCharacter.generated.h"
+#include "Characters/ToroCharacterBase.h"
+#include "ToroPlayerBase.generated.h"
 
 class AToroPlayerController;
 
 UCLASS()
-class TORORUNTIME_API AToroPlayerCharacter : public ACharacter
+class TORORUNTIME_API AToroPlayerBase : public AToroCharacterBase
 {
 	GENERATED_BODY()
 
 public:
 	
-	AToroPlayerCharacter();
+	AToroPlayerBase();
 
 	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Character"))
-		static EToroValidPins GetToroPlayerCharacter(AToroPlayerCharacter*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerCharacter>& Class, const int32 PlayerIndex = 0);
+		static EToroValidPins GetToroPlayerCharacter(AToroPlayerBase*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerBase>& Class, const int32 PlayerIndex = 0);
 
-	template <typename T = AToroPlayerCharacter>
+	template <typename T = AToroPlayerBase>
 	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0)
 	{
 		return Cast<T>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));

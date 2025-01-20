@@ -5,7 +5,7 @@
 #include "UObject/Interface.h"
 #include "InteractionInterface.generated.h"
 
-class AToroPlayerCharacter;
+class AToroPlayerBase;
 
 UENUM(BlueprintType)
 enum class EInteractableType : uint8
@@ -63,12 +63,12 @@ class TORORUNTIME_API IInteractionInterface
 public:
 	
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Begin Interact")
-		void OnBeginInteract(AToroPlayerCharacter* Player, const FHitResult& HitResult);
-	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult) {}
+		void OnBeginInteract(AToroPlayerBase* Player, const FHitResult& HitResult);
+	virtual void OnBeginInteract_Implementation(AToroPlayerBase* Player, const FHitResult& HitResult) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "End Interact")
-		void OnEndInteract(AToroPlayerCharacter* Player);
-	virtual void OnEndInteract_Implementation(AToroPlayerCharacter* Player) {}
+		void OnEndInteract(AToroPlayerBase* Player);
+	virtual void OnEndInteract_Implementation(AToroPlayerBase* Player) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Begin Pawn Interact")
 		void OnBeginPawnInteract(APawn* Pawn, const FHitResult& HitResult);
@@ -86,7 +86,7 @@ namespace IInteraction
 		return IsValid(Target) ? Target->Implements<UInteractionInterface>() : false; 
 	}
 	
-	static void BeginInteract(UObject* Target, AToroPlayerCharacter* Player, const FHitResult& HitResult)
+	static void BeginInteract(UObject* Target, AToroPlayerBase* Player, const FHitResult& HitResult)
 	{
 		if (ImplementedBy(Target))
 		{
@@ -94,7 +94,7 @@ namespace IInteraction
 		}
 	}
 	
-	static void EndInteract(UObject* Target, AToroPlayerCharacter* Player)
+	static void EndInteract(UObject* Target, AToroPlayerBase* Player)
 	{
 		if (ImplementedBy(Target))
 		{

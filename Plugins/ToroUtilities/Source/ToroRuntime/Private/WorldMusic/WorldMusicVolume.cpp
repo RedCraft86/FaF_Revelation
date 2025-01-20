@@ -57,5 +57,5 @@ void AWorldMusicVolume::BeginPlay()
 {
 	Super::BeginPlay();
 	Player = UGameplayStatics::GetPlayerPawn(this, 0);
-	MusicManager = AWorldMusicManager::Get(this);
+	MusicManager = AToroMusicManager::Get(this);
 }

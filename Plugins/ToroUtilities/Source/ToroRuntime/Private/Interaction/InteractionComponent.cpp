@@ -1,8 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Interaction/InteractionComponent.h"
-#include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroWidgetManager.h"
+#include "Characters/ToroPlayerBase.h"
 
 UInteractionComponent::UInteractionComponent() : bEnabled(false), HoldTime(0.0f), bInteracting(false)
 {
@@ -114,7 +114,7 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 void UInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	Player = AToroPlayerCharacter::Get(this);
+	Player = AToroPlayerBase::Get(this);
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
 		// TODO: Manage widget

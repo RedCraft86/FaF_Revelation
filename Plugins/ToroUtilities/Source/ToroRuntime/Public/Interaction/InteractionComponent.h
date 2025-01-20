@@ -65,7 +65,7 @@ private:
 	UPROPERTY() float HoldTime;
 	UPROPERTY() bool bInteracting;
 	UPROPERTY() FInteractionData InteractCache;
-	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> Player;
+	UPROPERTY(Transient) TObjectPtr<AToroPlayerBase> Player;
 
 	void CleanupInteraction();
 	void HandleInteractionTick(float DeltaTime, const FHitResult& HitResult, const FInteractionInfo& InteractResult);
