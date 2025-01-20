@@ -23,7 +23,7 @@ void AWorldMusicVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (GetWorldTimerManager().TimerExists(CooldownTimer)) return;
 	if (MusicManager && OtherActor == Player)
 	{
-		bHasPlayed = MusicManager->PlayLayer(Sound, FadeTime, Volume, StartRange);
+		bHasPlayed = MusicManager->PlayLayer(this, Sound, FadeTime, Volume, StartRange);
 	}
 
 	if (!bStopOnExit && bSingleUse)
@@ -39,7 +39,7 @@ void AWorldMusicVolume::NotifyActorEndOverlap(AActor* OtherActor)
 	if (!bHasPlayed) return;
 	if (bStopOnExit && MusicManager && OtherActor == Player)
 	{
-		MusicManager->StopLayer(Sound, FadeTime);
+		MusicManager->StopLayer(this, Sound, FadeTime);
 	}
 
 	if (!bSingleUse)

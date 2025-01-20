@@ -1,104 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroMusicManager.h"
+#include "DataTypes/OneShotSoundData.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
-
-void FOneShotMusicLayer::Stop(const float FadeTime)
-{
-	if (!IsValid(Component) || !IsValid(Owner)) return;
-	FEnhancedCodeFlow::StopAction(Owner, PauseHandle);
-	FEnhancedCodeFlow::StopAction(Owner, FadeHandle);
-	
-	auto StopFunc = [this]()
-	{
-		if (Component)
-		{
-			Component->DestroyComponent();
-			Component = nullptr;
-		}
-		if (Owner)
-			Owner->CleanOneShotTracks();
-	};
-	
-	bAutoDestroy = false;
-	if (bPaused)
-	{
-		StopFunc();
-	}
-	else
-	{
-		Component->FadeOut(FadeTime, 0.0f);
-		FadeHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime, StopFunc);
-	}
-}
-
-void FOneShotMusicLayer::Restart(const float FadeTime)
-{
-	if (!CanRunFunctions()) return;
-
-	bAutoDestroy = false;
-	Component->FadeOut(FadeTime, 0.0f);
-	FadeHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime, [this, FadeTime]()
-	{
-		if (Component) Component->FadeIn(FadeTime, 1.0f,
-			FMath::RandRange(Start.GetMin(), Start.GetMax()));
-		
-		bAutoDestroy = true;
-	});
-}
-
-void FOneShotMusicLayer::SetPaused(const float FadeTime, const bool bInPaused)
-{
-	if (!CanRunFunctions()) return;
-	if (bPaused != bInPaused)
-	{
-		bPaused = bInPaused;
-		if (bInPaused)
-		{
-			Component->AdjustVolume(FadeTime, 0.05f);
-			PauseHandle = FEnhancedCodeFlow::Delay(Owner, FadeTime, [this]()
-			{
-				if (Component) Component->SetPaused(true);
-			});
-		}
-		else
-		{
-			Component->SetPaused(false);
-			Component->AdjustVolume(FadeTime, 1.0f);
-		}
-	}
-}
-
-bool FOneShotMusicLayer::CanRunFunctions() const
-{
-	return IsValid(Component) && IsValid(Owner)
-		&& !FEnhancedCodeFlow::IsActionRunning(Owner, FadeHandle);
-}
-
-void FOneShotMusicLayer::Initialize(const float FadeTime)
-{
-	if (Component)
-	{
-		Component->bIsMusic = true;
-		Component->bAutoDestroy = false;
-		Component->OnAudioFinishedNative.AddRaw(this, &FOneShotMusicLayer::OnAudioFinished);
-		Component->FadeIn(FadeTime, 1.0f, FMath::RandRange(Start.GetMin(), Start.GetMax()));
-		bAutoDestroy = true;
-	}
-	else if (Owner) Owner->CleanOneShotTracks();
-}
-
-void FOneShotMusicLayer::OnAudioFinished(UAudioComponent* Comp)
-{
-	if (bAutoDestroy && Component)
-	{
-		Component->DestroyComponent();
-		Component = nullptr;
-	}
-	
-	if (Owner) Owner->CleanOneShotTracks();
-}
 
 AToroMusicManager::AToroMusicManager()
 {
@@ -147,6 +52,8 @@ bool AToroMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
 		MainThemeComponent->FadeIn(1.0f);
 	});
 
+	SetThemeIntensity(0.0f);
+	SetThemeState(0);
 	return true;
 }
 
@@ -160,55 +67,54 @@ void AToroMusicManager::SetThemeState(const uint8 InState) const
 	GetSoundParamInterface()->SetIntParameter(TEXT("State"), InState);
 }
 
-bool AToroMusicManager::PlayLayer(USoundBase* Sound, const float FadeTime, const float Volume, const FVector2D& StartRange)
+bool AToroMusicManager::PlayLayer(const UObject* Instigator, const FName InSoundID)
 {
-	if (!Sound) return false;
-	if (const FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
+	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
+	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
-		if (Layer->Component) return false;
+		if (Layer->IsValidLayer())
+		{
+			Layer->AddInstigator(Instigator);
+			return false;
+		}
 	}
-	
-	FOneShotMusicLayer NewLayer;
-	NewLayer.Component = UGameplayStatics::CreateSound2D(this, Sound, Volume);
-	NewLayer.Owner = this;
-	NewLayer.Start = StartRange;
 
-	OneShotLayers.Remove(Sound);
-	OneShotLayers.Emplace(Sound, NewLayer).Initialize(FadeTime);
+	OneShotLayers.Remove(InSoundID);
+	OneShotLayers.Emplace(InSoundID, FOneShotSoundLayer(InSoundID)).Initialize(this);
 	SetActorTickEnabled(true);
 	return true;
 }
 
-bool AToroMusicManager::StopLayer(const USoundBase* Sound, const float FadeTime)
+bool AToroMusicManager::StopLayer(const UObject* Instigator, const FName InSoundID)
 {
-	if (!Sound) return false;
-	if (FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
+	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
+	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
-		Layer->Stop(FMath::Max(0.0f, FadeTime));
+		Layer->RemoveInstigator(Instigator);
 		return true;
 	}
 	
 	return false;
 }
 
-bool AToroMusicManager::RestartLayer(const USoundBase* Sound, const float FadeTime)
+bool AToroMusicManager::RestartLayer(const USoundBase* Sound, const FName InSoundID)
 {
-	if (!Sound) return false;
-	if (FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
+	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
+	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
-		Layer->Restart(FMath::Max(0.0f, FadeTime));
+		Layer->Restart();
 		return true;
 	}
 	
 	return false;
 }
 
-bool AToroMusicManager::SetLayerPaused(const USoundBase* Sound, const float FadeTime, const bool bPaused)
+bool AToroMusicManager::SetLayerPaused(const USoundBase* Sound, const FName InSoundID, const bool bPaused)
 {
-	if (!Sound) return false;
-	if (FOneShotMusicLayer* Layer = OneShotLayers.Find(Sound))
+	if (!FOneShotSoundData::IsValidKey(InSoundID)) return false;
+	if (FOneShotSoundLayer* Layer = OneShotLayers.Find(InSoundID))
 	{
-		Layer->SetPaused(FMath::Max(0.0f, FadeTime), bPaused);
+		Layer->SetPaused(bPaused);
 		return true;
 	}
 	
@@ -217,17 +123,17 @@ bool AToroMusicManager::SetLayerPaused(const USoundBase* Sound, const float Fade
 
 void AToroMusicManager::CleanOneShotTracks()
 {
-	if (OneShotLayers.IsEmpty())
-	{
-		SetActorTickEnabled(false);
-	}
-	
 	for (auto It = OneShotLayers.CreateIterator(); It; ++It)
 	{
-		if (!It.Value().Component)
+		if (!It.Value().IsValidLayer())
 		{
 			It.RemoveCurrent();
 		}
+	}
+	
+	if (OneShotLayers.IsEmpty())
+	{
+		SetActorTickEnabled(false);
 	}
 }
 

@@ -7,37 +7,11 @@
 #include "MetasoundSource.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
+#include "DataTypes/OneShotSoundData.h"
 #include "GameFramework/GameStateBase.h"
 #include "ToroMusicManager.generated.h"
 
-USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FOneShotMusicLayer
-{
-	GENERATED_BODY()
-
-	friend class AToroMusicManager;
-	
-	FECFHandle FadeHandle;
-	FECFHandle PauseHandle;
-	UPROPERTY() bool bPaused;
-	UPROPERTY() FVector2D Start;
-	UPROPERTY() bool bAutoDestroy;
-	UPROPERTY(Transient) TObjectPtr<UAudioComponent> Component;
-	UPROPERTY(Transient) TObjectPtr<AToroMusicManager> Owner;
-	
-	void Stop(const float FadeTime);
-	void Restart(const float FadeTime);
-	void SetPaused(const float FadeTime, const bool bInPaused);
-	
-	bool CanRunFunctions() const;
-	void Initialize(const float FadeTime);
-	void OnAudioFinished(UAudioComponent* Comp);
-
-	FOneShotMusicLayer() : bPaused(false), Start(0.0f), bAutoDestroy(false) {}
-};
-
 /* Game State is repurposed as a Music Manager */
-
 UCLASS()
 class TORORUNTIME_API AToroMusicManager : public AGameStateBase
 {
@@ -72,16 +46,16 @@ public:
 		void SetThemeState(const uint8 InState) const;
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool PlayLayer(USoundBase* Sound, const float FadeTime = 1.0f, const float Volume = 1.0f, const FVector2D& StartRange = FVector2D::ZeroVector);
+		bool PlayLayer(const UObject* Instigator, const FName InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool StopLayer(const USoundBase* Sound, const float FadeTime = 1.0f);
+		bool StopLayer(const UObject* Instigator, const FName InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool RestartLayer(const USoundBase* Sound, const float FadeTime = 1.0f);
+		bool RestartLayer(const USoundBase* Sound, const FName InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool SetLayerPaused(const USoundBase* Sound, const float FadeTime = 1.0f, const bool bPaused = true);
+		bool SetLayerPaused(const USoundBase* Sound, const FName InSoundID, const bool bPaused);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void CleanOneShotTracks();
@@ -90,7 +64,7 @@ protected:
 
 	FECFHandle ChangeHandle;
 	UPROPERTY(Transient) TObjectPtr<UMetaSoundSource> MainTheme;
-	UPROPERTY(Transient) TMap<TObjectPtr<USoundBase>, FOneShotMusicLayer> OneShotLayers;
+	UPROPERTY(Transient) TMap<FName, FOneShotSoundLayer> OneShotLayers;
 
 	IAudioParameterControllerInterface* GetSoundParamInterface() const;
 	

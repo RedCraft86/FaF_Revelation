@@ -28,6 +28,9 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
+	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (RequiredAssetDataTags = "RowStructure=/Script/ToroRuntime.OneShotSoundData"))
+		TSoftObjectPtr<UDataTable> OneShotSoundTable;
+	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
 
