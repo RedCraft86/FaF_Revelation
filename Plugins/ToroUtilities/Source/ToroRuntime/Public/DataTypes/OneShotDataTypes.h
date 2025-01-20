@@ -83,6 +83,7 @@ public:
 	void AddInstigator(const UObject* InObject);
 	void RemoveInstigator(const UObject* InObject);
 	
+	bool IsLooping() const;
 	bool IsValidLayer() const;
 	bool CanRunFunctions() const;
 	void Initialize(AToroMusicManager* InOwner, const UObject* Instigator);

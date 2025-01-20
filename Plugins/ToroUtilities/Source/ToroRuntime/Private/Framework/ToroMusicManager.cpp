@@ -100,6 +100,20 @@ bool AToroMusicManager::StopLayer(const UObject* InInstigator, const FGameplayTa
 	return false;
 }
 
+bool AToroMusicManager::StopLayerIfLooping(const UObject* InInstigator, const FGameplayTag InSoundID)
+{
+	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
+	{
+		if (Layer->IsValidLayer() && Layer->IsLooping())
+		{
+			Layer->RemoveInstigator(InInstigator);
+			return true;
+		}
+	}
+	
+	return false;
+}
+
 bool AToroMusicManager::RestartLayer(const FGameplayTag InSoundID)
 {
 	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))

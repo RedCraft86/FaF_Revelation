@@ -52,6 +52,9 @@ public:
 		bool StopLayer(const UObject* InInstigator, const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
+		bool StopLayerIfLooping(const UObject* InInstigator, const FGameplayTag InSoundID);
+
+	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		bool RestartLayer(const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)

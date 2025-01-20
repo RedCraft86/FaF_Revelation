@@ -132,6 +132,11 @@ void FOneShotLayer::RemoveInstigator(const UObject* InObject)
 	if (Instigators.IsEmpty()) Stop();
 }
 
+bool FOneShotLayer::IsLooping() const
+{
+	return Component && Component->Sound ? Component->Sound->IsLooping() : false;
+}
+
 bool FOneShotLayer::IsValidLayer() const
 {
 	return IsValid(Component) && !bStopping;
