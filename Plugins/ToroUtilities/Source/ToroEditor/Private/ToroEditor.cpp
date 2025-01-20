@@ -31,6 +31,7 @@
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/LevelZoneVolumeDetails.h"
 #include "DetailsCustomization/ElectricLightDetails.h"
+#include "DetailsCustomization/OneShotEntryDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
@@ -92,6 +93,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo, FInteractionInfoCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim, FElectricLightAnimCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FOneShotEntry, FOneShotEntryCustomization)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
@@ -155,6 +157,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FOneShotEntry)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		

@@ -32,7 +32,7 @@
 #define GENERIC_PROPERTY_LABEL(InText) \
 	SNew(STextBlock) \
 	.Text(INVTEXT(#InText)) \
-	.Font(IDetailLayoutBuilder::GetDetailFont()) \
+	.Font(IDetailLayoutBuilder::GetDetailFont())
 
 namespace DetailsHelpers
 {

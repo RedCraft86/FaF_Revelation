@@ -16,25 +16,26 @@ struct TORORUNTIME_API FOneShotEntry
 	UPROPERTY(EditAnywhere, Category = OneShot)
 		TSoftObjectPtr<USoundBase> Sound;
 
-	UPROPERTY(VisibleAnywhere, Category = OneShot)
-		bool bIsLooping;
+	UPROPERTY(EditAnywhere, Category = OneShot)
+		FVector Fades;
 	
-	UPROPERTY(EditAnywhere, Category = OneShot, meta = (ClampMin = 0.1f))
+	UPROPERTY(EditAnywhere, Category = OneShot)
 		float Volume;
 
-	UPROPERTY(EditAnywhere, Category = OneShot, meta = (ClampMin = 0.1f))
-		FVector FadeTimes;
-
-	UPROPERTY(EditAnywhere, Category = OneShot, meta = (ClampMin = 0.0f))
+	UPROPERTY(EditAnywhere, Category = OneShot)
 		FVector2D StartRange;
 
-	FOneShotEntry(): bIsLooping(false), Volume(1.0f), FadeTimes(1.0f), StartRange(0.0f) {}
+	FOneShotEntry() : Fades(1.0f), Volume(1.0f), StartRange(0.0f) {}
 #if WITH_EDITOR
 	void Update();
 #endif
 
 	bool IsValidData() const { return IsValid(Sound.LoadSynchronous()); }
-	float GetStartTime() const { return FMath::RandRange(StartRange.GetMin(), StartRange.GetMax()); }
+	float GetStartTime() const
+	{
+		if (FMath::IsNearlyEqual(StartRange.X, StartRange.Y)) return StartRange.X;
+		return FMath::RandRange(StartRange.GetMin(), StartRange.GetMax());
+	}
 };
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -54,6 +55,8 @@ public:
 	
 #if WITH_EDITOR
 private:
+	void UpdateSounds();
+	virtual void PostLoad() override;
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 };

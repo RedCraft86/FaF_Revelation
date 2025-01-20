@@ -11,7 +11,14 @@
 #if WITH_EDITOR
 void FOneShotEntry::Update()
 {
-	bIsLooping = IsValid(Sound.LoadSynchronous()) && Sound.LoadSynchronous()->IsLooping();
+	// ReSharper disable once CppExpressionWithoutSideEffects
+	Sound.LoadSynchronous();
+	Fades.X = FMath::Max(0.1f, Fades.X);
+	Fades.Y = FMath::Max(0.1f, Fades.Y);
+	Fades.Z = FMath::Max(0.1f, Fades.Z);
+	Volume = FMath::Max(0.1f, Volume);
+	StartRange.X = FMath::Max(0.0f, StartRange.X);
+	StartRange.Y = FMath::Max(0.0f, StartRange.Y);
 }
 #endif
 
@@ -40,13 +47,24 @@ FOneShotEntry UOneShotDatabase::Get(const FGameplayTag& Key)
 }
 
 #if WITH_EDITOR
-void UOneShotDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+void UOneShotDatabase::UpdateSounds()
 {
-	Super::PostEditChangeProperty(PropertyChangedEvent);
 	for (TPair<FGameplayTag, FOneShotEntry>& OneShot : OneShots)
 	{
 		OneShot.Value.Update();
 	}
+}
+
+void UOneShotDatabase::PostLoad()
+{
+	Super::PostLoad();
+	UpdateSounds();
+}
+
+void UOneShotDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	UpdateSounds();
 }
 #endif
 
@@ -76,8 +94,8 @@ void FOneShotLayer::Stop()
 	else
 	{
 		GET_ONE_SHOT(SoundID);
-		Component->FadeOut(SoundData.FadeTimes.Y, 0.0f);
-		FadeHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.FadeTimes.Y, StopFunc);
+		Component->FadeOut(SoundData.Fades.Y, 0.0f);
+		FadeHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.Fades.Y, StopFunc);
 	}
 }
 
@@ -87,12 +105,12 @@ void FOneShotLayer::Restart()
 
 	bAutoDestroy = false;
 	GET_ONE_SHOT(SoundID);
-	Component->FadeOut(SoundData.FadeTimes.Y, 0.0f);
-	FadeHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.FadeTimes.Y, [this, SoundData]()
+	Component->FadeOut(SoundData.Fades.Y, 0.0f);
+	FadeHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.Fades.Y, [this, SoundData]()
 	{
 		if (Component)
 		{
-			Component->FadeIn(SoundData.FadeTimes.X, 1.0f, SoundData.GetStartTime());
+			Component->FadeIn(SoundData.Fades.X, 1.0f, SoundData.GetStartTime());
 		}
 		bAutoDestroy = true;
 	});
@@ -107,8 +125,8 @@ void FOneShotLayer::SetPaused(const bool bInPaused)
 		GET_ONE_SHOT(SoundID);
 		if (bInPaused)
 		{
-			Component->AdjustVolume(SoundData.FadeTimes.Z, 0.05f);
-			PauseHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.FadeTimes.Z, [this]()
+			Component->AdjustVolume(SoundData.Fades.Z, 0.05f);
+			PauseHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.Fades.Z, [this]()
 			{
 				if (Component) Component->SetPaused(true);
 			});
@@ -116,7 +134,7 @@ void FOneShotLayer::SetPaused(const bool bInPaused)
 		else
 		{
 			Component->SetPaused(false);
-			Component->AdjustVolume(SoundData.FadeTimes.Z, 1.0f);
+			Component->AdjustVolume(SoundData.Fades.Z, 1.0f);
 		}
 	}
 }
@@ -168,7 +186,7 @@ void FOneShotLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instig
 		Component->bIsMusic = true;
 		Component->bAutoDestroy = false;
 		Component->OnAudioFinishedNative.AddRaw(this, &FOneShotLayer::OnAudioFinished);
-		Component->FadeIn(SoundData.FadeTimes.X, 1.0f, SoundData.GetStartTime());
+		Component->FadeIn(SoundData.Fades.X, 1.0f, SoundData.GetStartTime());
 		bAutoDestroy = true;
 	}
 	else Owner->CleanOneShotTracks();
