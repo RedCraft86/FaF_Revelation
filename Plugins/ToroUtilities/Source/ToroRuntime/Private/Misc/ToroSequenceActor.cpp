@@ -4,13 +4,17 @@
 #include "Framework/ToroPlayerController.h"
 #include "LevelSequencePlayer.h"
 
+AToroSequenceActor::AToroSequenceActor() : bLockPlayer(false)
+{
+}
+
 void AToroSequenceActor::Play()
 {
 	GetSequencePlayer()->Play();
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->CinematicActor = this;
-		PC->SetCinematicMode(true, true, false, true, true);
+		if (bLockPlayer) PC->SetCinematicMode(true, true, false, true, true);
 	}
 }
 
@@ -20,7 +24,7 @@ void AToroSequenceActor::Reverse()
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->CinematicActor = this;
-		PC->SetCinematicMode(true, true, false, true, true);
+		if (bLockPlayer) PC->SetCinematicMode(true, true, false, true, true);
 	}
 }
 
@@ -30,7 +34,7 @@ void AToroSequenceActor::Stop() const
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->CinematicActor = nullptr;
-		PC->SetCinematicMode(false, true, false, true, true);
+		if (bLockPlayer) PC->SetCinematicMode(false, true, false, true, true);
 	}
 }
 
@@ -40,7 +44,7 @@ void AToroSequenceActor::SkipToEnd() const
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->CinematicActor = nullptr;
-		PC->SetCinematicMode(false, true, false, true, true);
+		if (bLockPlayer) PC->SetCinematicMode(false, true, false, true, true);
 	}
 }
 
@@ -50,7 +54,7 @@ void AToroSequenceActor::StopAtCurrentTime() const
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->CinematicActor = nullptr;
-		PC->SetCinematicMode(false, true, false, true, true);
+		if (bLockPlayer) PC->SetCinematicMode(false, true, false, true, true);
 	}
 }
 

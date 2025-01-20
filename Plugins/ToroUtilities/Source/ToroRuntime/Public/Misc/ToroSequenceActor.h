@@ -13,6 +13,11 @@ class TORORUNTIME_API AToroSequenceActor final : public ALevelSequenceActor
 
 public:
 
+	AToroSequenceActor();
+
+	UPROPERTY(EditAnywhere, Category = "General")
+		bool bLockPlayer;
+
 	UFUNCTION(BlueprintCallable, Category = "Sequencer|Player")
 		void Play();
 
