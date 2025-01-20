@@ -19,23 +19,31 @@ public:
 		FGameplayTag ZoneID;
 
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Invert")
-		bool bInvertCulling;
+		bool Cull_Invert;
 
 	/* Actors with Smart Culling Components to render (or not render if inverted) when in volume. */
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Targets")
-		TSet<TSoftObjectPtr<AActor>> CullingTargets;
+		TSet<TSoftObjectPtr<AActor>> Cull_Targets;
+
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Bounded")
+		bool Cull_FindBounded = true;
+
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Find Tag")
+		FName Cull_FindTag = NAME_None;
+#endif
 	
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Sound Tag", meta = (Categories = "OneShot"))
-		FGameplayTag OneShotTag;
+		FGameplayTag OneShot_Tag;
 
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Play Once")
-		bool bOneShotPlayOnce;
+		bool OneShot_PlayOnce;
 	
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Cooldown", meta = (ClampMin = 1.0f))
-		float OneShotCooldown;
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Cooldown", meta = (EditCondition = "!OneShot_PlayOnce", ClampMin = 1.0f))
+		float OneShot_Cooldown;
 	
 #if WITH_EDITOR
-	void FindCullTargets(const bool bWithinBounds, const FName FindTag);
+	void FindCullTargets();
 #endif
 private:
 

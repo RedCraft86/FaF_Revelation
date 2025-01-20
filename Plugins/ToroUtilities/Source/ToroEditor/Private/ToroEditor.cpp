@@ -18,7 +18,6 @@
 
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
-#include "ZoneCullingVolume.h"
 #include "Misc/ToroPostProcess.h"
 #include "WorldActions/WorldActionActor.h"
 
@@ -30,7 +29,7 @@
 #include "DetailsCustomization/ElectricLightAnimDetails.h"
 #include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
-#include "DetailsCustomization/WorldMusicVolumeDetails.h"
+#include "DetailsCustomization/LevelZoneVolumeDetails.h"
 #include "DetailsCustomization/ElectricLightDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
@@ -79,10 +78,9 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AToroPostProcess, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume, FWorldMusicVolumeCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
 		
@@ -143,10 +141,9 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
-		UNREGISTER_CLASS_CUSTOMIZATION(AZoneCullingVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroPostProcess)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
-		UNREGISTER_CLASS_CUSTOMIZATION(AWorldMusicVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
 		
@@ -217,7 +214,7 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ToroEditor.InventoryGrid", new IMAGE_BRUSH_SVG(TEXT("InventoryGridSmall"), Icon20x20));
 	
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.WorldMusicVolume", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.OneShotDatabase", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
 
 	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))
 	{
