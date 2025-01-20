@@ -59,7 +59,7 @@ void AToroSequenceActor::SetPlayRate(const float InRate) const
 	GetSequencePlayer()->SetPlayRate(InRate);
 }
 
-void AToroSequenceActor::SetPlaybackPosition(FMovieSceneSequencePlaybackParams InParams) const
+void AToroSequenceActor::SetPlaybackPosition(const FMovieSceneSequencePlaybackParams InParams) const
 {
 	GetSequencePlayer()->SetPlaybackPosition(InParams);
 }
