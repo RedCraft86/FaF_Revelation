@@ -37,6 +37,11 @@ void ALevelZoneVolume::FindCullTargets()
 			}
 		}
 	}
+	
+	for (auto It = CullTargets.CreateIterator(); It; ++It)
+	{
+		if (!It->LoadSynchronous()) It.RemoveCurrent();
+	}
 	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 }
 #endif
