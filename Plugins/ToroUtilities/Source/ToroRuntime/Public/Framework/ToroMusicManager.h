@@ -45,13 +45,13 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
 		void SetThemeState(const uint8 InState) const;
 	
-	UFUNCTION(BlueprintCallable, Category = MusicManager)
+	UFUNCTION(BlueprintCallable, Category = MusicManager, meta = (DefaultToSelf = "InInstigator"))
 		bool PlayLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
 
-	UFUNCTION(BlueprintCallable, Category = MusicManager)
+	UFUNCTION(BlueprintCallable, Category = MusicManager, meta = (DefaultToSelf = "InInstigator"))
 		bool StopLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
 
-	UFUNCTION(BlueprintCallable, Category = MusicManager)
+	UFUNCTION(BlueprintCallable, Category = MusicManager, meta = (DefaultToSelf = "InInstigator"))
 		bool StopLayerIfLooping(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
