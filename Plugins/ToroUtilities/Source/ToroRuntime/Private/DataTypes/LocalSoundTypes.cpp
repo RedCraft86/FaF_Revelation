@@ -22,13 +22,35 @@ void FLocalSoundEntry::Update()
 }
 #endif
 
+bool ULocalSoundDatabase::IsKeyValid(const FGameplayTag& Key) const
+{
+	return !Key.MatchesTagExact(Tag_LocalSound) && LocalSounds.Contains(Key)
+		&& LocalSounds.FindRef(Key).IsValidData();
+}
+
+#if WITH_EDITOR
+uint8 ULocalSoundDatabase::GetValidCount() const
+{
+	uint8 Count = 0;
+	for (const TPair<FGameplayTag, FLocalSoundEntry>& Sound : LocalSounds)
+	{
+		if (Sound.Key.IsValid() && Sound.Key.MatchesTagExact(Tag_LocalSound) && Sound.Value.IsValidData())
+		{
+			Count++;
+		}
+	}
+
+	return Count;
+}
+#endif
+
 bool ULocalSoundDatabase::IsValidKey(const FGameplayTag& Key)
 {
 	if (!Key.IsValid()) return false;
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
 	if (const ULocalSoundDatabase* Database = Settings ? Settings->LocalSoundDatabase.LoadSynchronous() : nullptr)
 	{
-		return Database->LocalSounds.Contains(Key);
+		return Database->IsKeyValid(Key);
 	}
 	
 	return false;

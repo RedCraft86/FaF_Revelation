@@ -50,6 +50,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "LocalSound"))
 		TMap<FGameplayTag, FLocalSoundEntry> LocalSounds;
 
+	bool IsKeyValid(const FGameplayTag& Key) const;
+	uint8 GetValidCount() const;
+	
 	static bool IsValidKey(const FGameplayTag& Key);
 	static FLocalSoundEntry Get(const FGameplayTag& Key);
 	
