@@ -33,14 +33,14 @@ public:
 		FName CullFindTag = NAME_None;
 #endif
 	
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Sound Tag", meta = (Categories = "OneShot"))
-		FGameplayTag OneShotTag;
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Sound Tag", meta = (Categories = "LocalSound"))
+		FGameplayTag LocalSoundTag;
 
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Play Once")
-		bool OneShotPlayOnce;
+		bool LocalSoundPlayOnce;
 	
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Cooldown", meta = (EditCondition = "!OneShot_PlayOnce", ClampMin = 1.0f))
-		float OneShotCooldown;
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Cooldown", meta = (EditCondition = "!LocalSound_PlayOnce", ClampMin = 1.0f))
+		float LocalSoundCooldown;
 	
 #if WITH_EDITOR
 	void FindCullTargets();
@@ -49,18 +49,18 @@ private:
 
 	UPROPERTY() FTimerHandle CullingTimer;
 	
-	UPROPERTY() bool bCanPlayOneShot;
-	UPROPERTY() FTimerHandle OneShotOffTimer;
-	UPROPERTY() FTimerHandle OneShotCooldownTimer;
+	UPROPERTY() bool bCanPlayLocalSound;
+	UPROPERTY() FTimerHandle LocalSoundOffTimer;
+	UPROPERTY() FTimerHandle LocalSoundCooldownTimer;
 	
 	UPROPERTY(Transient) TObjectPtr<class AToroGameMode> GameMode;
 	UPROPERTY(Transient) TObjectPtr<class AToroMusicManager> MusicManager;
 	UPROPERTY(Transient) TObjectPtr<class AToroPlayerCameraManager> CamManager;
 
 	void UpdateSmartCulling();
-	bool CanPlayOneShot() const;
-	void PlayOneShot() const;
-	void StopOneShot();
+	bool CanPlayLocalSound() const;
+	void PlayLocalSound() const;
+	void StopLocalSound();
 	void EmptyFunc();
 	
 	virtual void BeginPlay() override;

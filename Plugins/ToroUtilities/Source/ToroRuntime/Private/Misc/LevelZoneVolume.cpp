@@ -11,8 +11,8 @@
 #include "EngineUtils.h"
 #endif
 
-ALevelZoneVolume::ALevelZoneVolume() : CullInvert(false), OneShotPlayOnce(true)
-	, OneShotCooldown(1.0f), bCanPlayOneShot(true)
+ALevelZoneVolume::ALevelZoneVolume() : CullInvert(false), LocalSoundPlayOnce(true)
+	, LocalSoundCooldown(1.0f), bCanPlayLocalSound(true)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -63,45 +63,45 @@ void ALevelZoneVolume::UpdateSmartCulling()
 	}
 }
 
-bool ALevelZoneVolume::CanPlayOneShot() const
+bool ALevelZoneVolume::CanPlayLocalSound() const
 {
-	if (!OneShotTag.IsValid()) return false;
+	if (!LocalSoundTag.IsValid()) return false;
 	const FTimerManager& TimerManager = GetWorldTimerManager();
-	return bCanPlayOneShot && !TimerManager.TimerExists(OneShotOffTimer)
-		&& !TimerManager.TimerExists(OneShotCooldownTimer);
+	return bCanPlayLocalSound && !TimerManager.TimerExists(LocalSoundOffTimer)
+		&& !TimerManager.TimerExists(LocalSoundCooldownTimer);
 }
 
-void ALevelZoneVolume::PlayOneShot() const
+void ALevelZoneVolume::PlayLocalSound() const
 {
-	if (CanPlayOneShot())
+	if (CanPlayLocalSound())
 	{
-		MusicManager->PlayLayer(this, OneShotTag);
+		MusicManager->PlayLayer(this, LocalSoundTag);
 	}
 }
 
-void ALevelZoneVolume::StopOneShot()
+void ALevelZoneVolume::StopLocalSound()
 {
-	if (CanPlayOneShot())
+	if (CanPlayLocalSound())
 	{
 		FTimerManager& TimerManager = GetWorldTimerManager();
-		TimerManager.SetTimer(OneShotOffTimer, [this]()
+		TimerManager.SetTimer(LocalSoundOffTimer, [this]()
 		{
-			MusicManager->StopLayerIfLooping(this, OneShotTag);
+			MusicManager->StopLayerIfLooping(this, LocalSoundTag);
 		}, 0.5f, false);
 
-		if (OneShotPlayOnce)
+		if (LocalSoundPlayOnce)
 		{
-			bCanPlayOneShot = false;
+			bCanPlayLocalSound = false;
 		}
-		else TimerManager.SetTimer(OneShotCooldownTimer, this,
-			&ThisClass::EmptyFunc, OneShotCooldown, false);
+		else TimerManager.SetTimer(LocalSoundCooldownTimer, this,
+			&ThisClass::EmptyFunc, LocalSoundCooldown, false);
 	}
 }
 
 void ALevelZoneVolume::EmptyFunc()
 {
-	OneShotOffTimer.Invalidate();
-	OneShotCooldownTimer.Invalidate();
+	LocalSoundOffTimer.Invalidate();
+	LocalSoundCooldownTimer.Invalidate();
 }
 
 void ALevelZoneVolume::BeginPlay()
@@ -128,7 +128,7 @@ void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (const AToroPlayerBase* Player = Cast<AToroPlayerBase>(OtherActor))
 	{
 		UpdateSmartCulling();
-		PlayOneShot();
+		PlayLocalSound();
 	}
 }
 
@@ -140,6 +140,6 @@ void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 	if (const AToroPlayerBase* Player = Cast<AToroPlayerBase>(OtherActor))
 	{
 		UpdateSmartCulling();
-		StopOneShot();
+		StopLocalSound();
 	}
 }

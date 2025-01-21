@@ -7,24 +7,24 @@
 #include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
 #include "DetailsCustomization/DetailsHelpers.h"
-#include "DataTypes/OneShotDataTypes.h"
+#include "DataTypes/LocalSoundTypes.h"
 
-#define STRUCTNAME FOneShotEntry
+#define STRUCTNAME FLocalSoundEntry
 
-FSlateFontInfo GetLoopingLabelFont()
+inline FSlateFontInfo GetLoopingLabelFont()
 {
 	FSlateFontInfo Info = IDetailLayoutBuilder::GetDetailFontBold();
 	Info.Size = 12;
 	return Info;
 }
 
-class FOneShotEntryCustomization final : public IPropertyTypeCustomization
+class FLocalSoundEntryCustomization final : public IPropertyTypeCustomization
 {
 public:
 
 	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
 	{
-		return MakeShared<FOneShotEntryCustomization>();
+		return MakeShared<FLocalSoundEntryCustomization>();
 	}
 
 private:

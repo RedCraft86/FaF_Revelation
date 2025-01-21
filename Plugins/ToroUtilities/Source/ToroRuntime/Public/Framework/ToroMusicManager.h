@@ -7,7 +7,7 @@
 #include "MetasoundSource.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
-#include "DataTypes/OneShotDataTypes.h"
+#include "DataTypes/LocalSoundTypes.h"
 #include "GameFramework/GameStateBase.h"
 #include "ToroMusicManager.generated.h"
 
@@ -46,28 +46,28 @@ public:
 		void SetThemeState(const uint8 InState) const;
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool PlayLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
+		bool PlayLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool StopLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
+		bool StopLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool StopLayerIfLooping(const UObject* InInstigator, UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
+		bool StopLayerIfLooping(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool RestartLayer(UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
+		bool RestartLayer(UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool SetLayerPaused(UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID, const bool bPaused);
+		bool SetLayerPaused(UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID, const bool bPaused);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void CleanOneShotTracks();
+		void CleanLocalSoundTracks();
 
 protected:
 
 	FECFHandle ChangeHandle;
 	UPROPERTY(Transient) TObjectPtr<UMetaSoundSource> MainTheme;
-	UPROPERTY(Transient) TMap<FGameplayTag, FOneShotLayer> OneShotLayers;
+	UPROPERTY(Transient) TMap<FGameplayTag, FLocalSoundLayer> LocalSoundLayers;
 
 	IAudioParameterControllerInterface* GetSoundParamInterface() const;
 	

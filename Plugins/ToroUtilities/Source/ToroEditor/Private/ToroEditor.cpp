@@ -31,11 +31,11 @@
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/LevelZoneVolumeDetails.h"
 #include "DetailsCustomization/ElectricLightDetails.h"
-#include "DetailsCustomization/OneShotEntryDetails.h"
+#include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
-#include "AssetFactories/OneShot/OneShotDatabaseAssetTypeActions.h"
+#include "AssetFactories/LocalSound/LocalSoundDatabaseAssetTypeActions.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -94,7 +94,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo, FInteractionInfoCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim, FElectricLightAnimCustomization)
-		REGISTER_STRUCT_CUSTOMIZATION(FOneShotEntry, FOneShotEntryCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry, FLocalSoundEntryCustomization)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
@@ -114,7 +114,7 @@ void FToroEditorModule::StartupModule()
 	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::LoadModulePtr<FAssetToolsModule>("AssetTools"))
 	{
 		AssetTypeActions.Add(MakeShareable(new FInventoryItemAssetTypeActions()));
-		AssetTypeActions.Add(MakeShareable(new FOneShotDatabaseAssetTypeActions()));
+		AssetTypeActions.Add(MakeShareable(new FLocalSoundDatabaseAssetTypeActions()));
 		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
 		{
 			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());
@@ -159,7 +159,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim)
-		UNREGISTER_STRUCT_CUSTOMIZATION(FOneShotEntry)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		
@@ -219,7 +219,7 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ToroEditor.InventoryGrid", new IMAGE_BRUSH_SVG(TEXT("InventoryGridSmall"), Icon20x20));
 	
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.OneShotDatabase", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.LocalSoundDatabase", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
 
 	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))
 	{

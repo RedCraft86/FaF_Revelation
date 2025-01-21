@@ -88,11 +88,11 @@ private:
 			];
 		}
 
-		IDetailGroup& OneShot = Settings.AddGroup(TEXT("OneShot"), INVTEXT("OneShot"));
+		IDetailGroup& LocalSound = Settings.AddGroup(TEXT("LocalSound"), INVTEXT("LocalSound"));
 		{
-			OneShot.HeaderProperty(GET_PROPERTY(OneShotTag)).DisplayName(INVTEXT("One Shot"));
-			OneShot.AddPropertyRow(GET_PROPERTY(OneShotPlayOnce));
-			OneShot.AddPropertyRow(GET_PROPERTY(OneShotCooldown));
+			LocalSound.HeaderProperty(GET_PROPERTY(LocalSoundTag)).DisplayName(INVTEXT("Local Sound"));
+			LocalSound.AddPropertyRow(GET_PROPERTY(LocalSoundPlayOnce));
+			LocalSound.AddPropertyRow(GET_PROPERTY(LocalSoundCooldown));
 		}
 	}
 };

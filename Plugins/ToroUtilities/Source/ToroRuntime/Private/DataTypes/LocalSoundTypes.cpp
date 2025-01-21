@@ -1,15 +1,15 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/OneShotDataTypes.h"
+#include "DataTypes/LocalSoundTypes.h"
 #include "Framework/ToroMusicManager.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 #include "ToroRuntime.h"
 
-#define GET_ONE_SHOT(Key) const FOneShotEntry SoundData = UOneShotDatabase::Get(Key)
+#define GET_ONE_SHOT(Key) const FLocalSoundEntry SoundData = ULocalSoundDatabase::Get(Key)
 
 #if WITH_EDITOR
-void FOneShotEntry::Update()
+void FLocalSoundEntry::Update()
 {
 	// ReSharper disable once CppExpressionWithoutSideEffects
 	Sound.LoadSynchronous();
@@ -22,53 +22,53 @@ void FOneShotEntry::Update()
 }
 #endif
 
-bool UOneShotDatabase::IsValidKey(const FGameplayTag& Key)
+bool ULocalSoundDatabase::IsValidKey(const FGameplayTag& Key)
 {
 	if (!Key.IsValid()) return false;
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (const UOneShotDatabase* Database = Settings ? Settings->OneShotDatabase.LoadSynchronous() : nullptr)
+	if (const ULocalSoundDatabase* Database = Settings ? Settings->LocalSoundDatabase.LoadSynchronous() : nullptr)
 	{
-		return Database->OneShots.Contains(Key);
+		return Database->LocalSounds.Contains(Key);
 	}
 	
 	return false;
 }
 
-FOneShotEntry UOneShotDatabase::Get(const FGameplayTag& Key)
+FLocalSoundEntry ULocalSoundDatabase::Get(const FGameplayTag& Key)
 {
 	if (!Key.IsValid()) return {};
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (const UOneShotDatabase* Database = Settings ? Settings->OneShotDatabase.LoadSynchronous() : nullptr)
+	if (const ULocalSoundDatabase* Database = Settings ? Settings->LocalSoundDatabase.LoadSynchronous() : nullptr)
 	{
-		return Database->OneShots.FindRef(Key);
+		return Database->LocalSounds.FindRef(Key);
 	}
 	
 	return {};
 }
 
 #if WITH_EDITOR
-void UOneShotDatabase::UpdateSounds()
+void ULocalSoundDatabase::UpdateSounds()
 {
-	for (TPair<FGameplayTag, FOneShotEntry>& OneShot : OneShots)
+	for (TPair<FGameplayTag, FLocalSoundEntry>& LocalSound : LocalSounds)
 	{
-		OneShot.Value.Update();
+		LocalSound.Value.Update();
 	}
 }
 
-void UOneShotDatabase::PostLoad()
+void ULocalSoundDatabase::PostLoad()
 {
 	Super::PostLoad();
 	UpdateSounds();
 }
 
-void UOneShotDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+void ULocalSoundDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	UpdateSounds();
 }
 #endif
 
-void FOneShotLayer::Stop()
+void FLocalSoundLayer::Stop()
 {
 	if (!IsValid(Component) || !IsValid(Owner)) return;
 	FEnhancedCodeFlow::StopAction(Owner, PauseHandle);
@@ -83,7 +83,7 @@ void FOneShotLayer::Stop()
 			Component = nullptr;
 		}
 		if (Owner)
-			Owner->CleanOneShotTracks();
+			Owner->CleanLocalSoundTracks();
 	};
 	
 	bAutoDestroy = false;
@@ -99,7 +99,7 @@ void FOneShotLayer::Stop()
 	}
 }
 
-void FOneShotLayer::Restart()
+void FLocalSoundLayer::Restart()
 {
 	if (!CanRunFunctions()) return;
 
@@ -116,7 +116,7 @@ void FOneShotLayer::Restart()
 	});
 }
 
-void FOneShotLayer::SetPaused(const bool bInPaused)
+void FLocalSoundLayer::SetPaused(const bool bInPaused)
 {
 	if (!CanRunFunctions()) return;
 	if (bPaused != bInPaused)
@@ -139,34 +139,34 @@ void FOneShotLayer::SetPaused(const bool bInPaused)
 	}
 }
 
-void FOneShotLayer::AddInstigator(const UObject* InObject)
+void FLocalSoundLayer::AddInstigator(const UObject* InObject)
 {
 	Instigators.Add(InObject);
 }
 
-void FOneShotLayer::RemoveInstigator(const UObject* InObject)
+void FLocalSoundLayer::RemoveInstigator(const UObject* InObject)
 {
 	Instigators.Remove(InObject);
 	if (Instigators.IsEmpty()) Stop();
 }
 
-bool FOneShotLayer::IsLooping() const
+bool FLocalSoundLayer::IsLooping() const
 {
 	return Component && Component->Sound ? Component->Sound->IsLooping() : false;
 }
 
-bool FOneShotLayer::IsValidLayer() const
+bool FLocalSoundLayer::IsValidLayer() const
 {
 	return IsValid(Component) && !bStopping;
 }
 
-bool FOneShotLayer::CanRunFunctions() const
+bool FLocalSoundLayer::CanRunFunctions() const
 {
 	return IsValid(Component) && IsValid(Owner)
 		&& !FEnhancedCodeFlow::IsActionRunning(Owner, FadeHandle);
 }
 
-void FOneShotLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instigator)
+void FLocalSoundLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instigator)
 {
 	Owner = InOwner;
 	Instigators = {Instigator};
@@ -176,7 +176,7 @@ void FOneShotLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instig
 	if (!SoundData.IsValidData())
 	{
 		UE_LOG(LogToroRuntime, Error, TEXT("Attempting to play one-shot %s but it is invalid!"), *SoundID.ToString())
-		Owner->CleanOneShotTracks();
+		Owner->CleanLocalSoundTracks();
 		return;
 	}
 	
@@ -185,14 +185,14 @@ void FOneShotLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instig
 	{
 		Component->bIsMusic = true;
 		Component->bAutoDestroy = false;
-		Component->OnAudioFinishedNative.AddRaw(this, &FOneShotLayer::OnAudioFinished);
+		Component->OnAudioFinishedNative.AddRaw(this, &FLocalSoundLayer::OnAudioFinished);
 		Component->FadeIn(SoundData.Fades.X, 1.0f, SoundData.GetStartTime());
 		bAutoDestroy = true;
 	}
-	else Owner->CleanOneShotTracks();
+	else Owner->CleanLocalSoundTracks();
 }
 
-void FOneShotLayer::OnAudioFinished(UAudioComponent* Comp)
+void FLocalSoundLayer::OnAudioFinished(UAudioComponent* Comp)
 {
 	if (bAutoDestroy && Component)
 	{
@@ -200,5 +200,5 @@ void FOneShotLayer::OnAudioFinished(UAudioComponent* Comp)
 		Component = nullptr;
 	}
 	
-	if (Owner) Owner->CleanOneShotTracks();
+	if (Owner) Owner->CleanLocalSoundTracks();
 }

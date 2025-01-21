@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroMusicManager.h"
-#include "DataTypes/OneShotDataTypes.h"
+#include "DataTypes/LocalSoundTypes.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 
@@ -69,8 +69,8 @@ void AToroMusicManager::SetThemeState(const uint8 InState) const
 
 bool AToroMusicManager::PlayLayer(const UObject* InInstigator, const FGameplayTag InSoundID)
 {
-	if (!UOneShotDatabase::IsValidKey(InSoundID)) return false;
-	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (!ULocalSoundDatabase::IsValidKey(InSoundID)) return false;
+	if (FLocalSoundLayer* Layer = LocalSoundLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
@@ -79,16 +79,16 @@ bool AToroMusicManager::PlayLayer(const UObject* InInstigator, const FGameplayTa
 		}
 	}
 
-	FOneShotLayer NewLayer(InSoundID);
+	FLocalSoundLayer NewLayer(InSoundID);
 	NewLayer.Initialize(this, InInstigator);
-	OneShotLayers.Emplace(InSoundID, NewLayer);
+	LocalSoundLayers.Emplace(InSoundID, NewLayer);
 	SetActorTickEnabled(true);
 	return true;
 }
 
 bool AToroMusicManager::StopLayer(const UObject* InInstigator, const FGameplayTag InSoundID)
 {
-	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (FLocalSoundLayer* Layer = LocalSoundLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
@@ -102,7 +102,7 @@ bool AToroMusicManager::StopLayer(const UObject* InInstigator, const FGameplayTa
 
 bool AToroMusicManager::StopLayerIfLooping(const UObject* InInstigator, const FGameplayTag InSoundID)
 {
-	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (FLocalSoundLayer* Layer = LocalSoundLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer() && Layer->IsLooping())
 		{
@@ -116,7 +116,7 @@ bool AToroMusicManager::StopLayerIfLooping(const UObject* InInstigator, const FG
 
 bool AToroMusicManager::RestartLayer(const FGameplayTag InSoundID)
 {
-	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (FLocalSoundLayer* Layer = LocalSoundLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
@@ -130,7 +130,7 @@ bool AToroMusicManager::RestartLayer(const FGameplayTag InSoundID)
 
 bool AToroMusicManager::SetLayerPaused(const FGameplayTag InSoundID, const bool bPaused)
 {
-	if (FOneShotLayer* Layer = OneShotLayers.Find(InSoundID))
+	if (FLocalSoundLayer* Layer = LocalSoundLayers.Find(InSoundID))
 	{
 		if (Layer->IsValidLayer())
 		{
@@ -142,9 +142,9 @@ bool AToroMusicManager::SetLayerPaused(const FGameplayTag InSoundID, const bool 
 	return false;
 }
 
-void AToroMusicManager::CleanOneShotTracks()
+void AToroMusicManager::CleanLocalSoundTracks()
 {
-	for (auto It = OneShotLayers.CreateIterator(); It; ++It)
+	for (auto It = LocalSoundLayers.CreateIterator(); It; ++It)
 	{
 		if (!It.Value().IsValidLayer())
 		{
@@ -152,7 +152,7 @@ void AToroMusicManager::CleanOneShotTracks()
 		}
 	}
 	
-	if (OneShotLayers.IsEmpty())
+	if (LocalSoundLayers.IsEmpty())
 	{
 		SetActorTickEnabled(false);
 	}
@@ -175,5 +175,5 @@ void AToroMusicManager::BeginPlay()
 void AToroMusicManager::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	CleanOneShotTracks();
+	CleanLocalSoundTracks();
 }

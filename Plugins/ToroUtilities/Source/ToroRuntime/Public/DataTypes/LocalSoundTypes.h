@@ -4,28 +4,28 @@
 
 #include "ECFHandle.h"
 #include "GameplayTagContainer.h"
-#include "OneShotDataTypes.generated.h"
+#include "LocalSoundTypes.generated.h"
 
 class AToroMusicManager;
 
 USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FOneShotEntry
+struct TORORUNTIME_API FLocalSoundEntry
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = OneShot)
+	UPROPERTY(EditAnywhere, Category = LocalSound)
 		TSoftObjectPtr<USoundBase> Sound;
 
-	UPROPERTY(EditAnywhere, Category = OneShot)
+	UPROPERTY(EditAnywhere, Category = LocalSound)
 		FVector Fades;
 	
-	UPROPERTY(EditAnywhere, Category = OneShot)
+	UPROPERTY(EditAnywhere, Category = LocalSound)
 		float Volume;
 
-	UPROPERTY(EditAnywhere, Category = OneShot)
+	UPROPERTY(EditAnywhere, Category = LocalSound)
 		FVector2D StartRange;
 
-	FOneShotEntry() : Fades(1.0f), Volume(1.0f), StartRange(0.0f) {}
+	FLocalSoundEntry() : Fades(1.0f), Volume(1.0f), StartRange(0.0f) {}
 #if WITH_EDITOR
 	void Update();
 #endif
@@ -39,19 +39,19 @@ struct TORORUNTIME_API FOneShotEntry
 };
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API UOneShotDatabase final : public UDataAsset
+class TORORUNTIME_API ULocalSoundDatabase final : public UDataAsset
 {
 	GENERATED_BODY()
 
 public:
 	
-	UOneShotDatabase() {}
+	ULocalSoundDatabase() {}
 
-	UPROPERTY(EditAnywhere, Category = OneShot, meta = (ForceInlineRow, Categories = "OneShot"))
-		TMap<FGameplayTag, FOneShotEntry> OneShots;
+	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "LocalSound"))
+		TMap<FGameplayTag, FLocalSoundEntry> LocalSounds;
 
 	static bool IsValidKey(const FGameplayTag& Key);
-	static FOneShotEntry Get(const FGameplayTag& Key);
+	static FLocalSoundEntry Get(const FGameplayTag& Key);
 	
 #if WITH_EDITOR
 private:
@@ -62,7 +62,7 @@ private:
 };
 
 USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FOneShotLayer
+struct TORORUNTIME_API FLocalSoundLayer
 {
 	GENERATED_BODY()
 
@@ -92,8 +92,8 @@ public:
 	void Initialize(AToroMusicManager* InOwner, const UObject* Instigator);
 	void OnAudioFinished(UAudioComponent* Comp);
 
-	FOneShotLayer() : bPaused(false), bStopping(false), bAutoDestroy(false) {}
-	FOneShotLayer(const FGameplayTag& InSoundID)
+	FLocalSoundLayer() : bPaused(false), bStopping(false), bAutoDestroy(false) {}
+	FLocalSoundLayer(const FGameplayTag& InSoundID)
 		: bPaused(false), bStopping(false), bAutoDestroy(false), SoundID(InSoundID)
 	{}
 };

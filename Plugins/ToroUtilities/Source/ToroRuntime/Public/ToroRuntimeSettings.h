@@ -5,7 +5,7 @@
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
-#include "DataTypes/OneShotDataTypes.h"
+#include "DataTypes/LocalSoundTypes.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "Materials/MaterialParameterCollection.h"
 #include "UserSettings/ToroUserSettings.h"
@@ -30,7 +30,7 @@ public:
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
-		TSoftObjectPtr<UOneShotDatabase> OneShotDatabase;
+		TSoftObjectPtr<ULocalSoundDatabase> LocalSoundDatabase;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
