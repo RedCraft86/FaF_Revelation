@@ -34,7 +34,7 @@ public:
 
 	/* Returns the last cached room a character is in. */
 	UFUNCTION(BlueprintCallable, Category = Game)
-		FGameplayTag GetCharacterRoom(const FGameplayTag& InCharacter) const;
+		FGameplayTag GetRoomFromCharacter(UPARAM(meta = (Categories = "Character")) const FGameplayTag& InCharacter) const;
 
 protected:
 

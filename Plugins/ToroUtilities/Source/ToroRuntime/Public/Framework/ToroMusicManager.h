@@ -46,19 +46,19 @@ public:
 		void SetThemeState(const uint8 InState) const;
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool PlayLayer(const UObject* InInstigator, const FGameplayTag InSoundID);
+		bool PlayLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool StopLayer(const UObject* InInstigator, const FGameplayTag InSoundID);
+		bool StopLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool StopLayerIfLooping(const UObject* InInstigator, const FGameplayTag InSoundID);
+		bool StopLayerIfLooping(const UObject* InInstigator, UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool RestartLayer(const FGameplayTag InSoundID);
+		bool RestartLayer(UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool SetLayerPaused(const FGameplayTag InSoundID, const bool bPaused);
+		bool SetLayerPaused(UPARAM(meta = (Categories = "OneShot")) const FGameplayTag InSoundID, const bool bPaused);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void CleanOneShotTracks();
