@@ -2,10 +2,12 @@
 
 #include "Characters/ToroPlayerBase.h"
 #include "Framework/ToroPlayerController.h"
+#include "ToroRuntime.h"
 
 AToroPlayerBase::AToroPlayerBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	CharacterID = Tag_Player;
 }
 
 EToroValidPins AToroPlayerBase::GetToroPlayerCharacter(AToroPlayerBase*& OutObject,
