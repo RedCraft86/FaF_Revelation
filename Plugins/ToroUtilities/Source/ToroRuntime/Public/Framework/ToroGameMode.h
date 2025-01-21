@@ -32,14 +32,18 @@ public:
 		return Cast<T>(UGameplayStatics::GetGameMode(WorldContextObject));
 	}
 
-	/* Returns the last cached room a character is in. */
+	/* Returns the last cached zone a character is in. */
 	UFUNCTION(BlueprintCallable, Category = Game)
-		FGameplayTag GetRoomFromCharacter(UPARAM(meta = (Categories = "Character")) const FGameplayTag& InCharacter) const;
+		FGameplayTag GetZoneFromCharacter(UPARAM(meta = (Categories = "Character")) const FGameplayTag& InCharacter) const;
 
+	/* Returns the last cached characters in a zone. */
+	UFUNCTION(BlueprintCallable, Category = Game)
+		TSet<FGameplayTag> GetCharactersInZone(UPARAM(meta = (Categories = "Zone")) const FGameplayTag& InZone) const;
+	
 protected:
 
 	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
-	UPROPERTY(Transient) TMap<FGameplayTag, FGameplayTag> CharacterZoneMap;
+	UPROPERTY(Transient) TMap<FGameplayTag, FGameplayTag> CharacterToZone;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;

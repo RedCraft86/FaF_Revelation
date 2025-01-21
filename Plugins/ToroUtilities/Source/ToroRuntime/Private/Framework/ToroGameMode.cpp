@@ -29,9 +29,23 @@ EToroValidPins AToroGameMode::GetToroGameMode(AToroGameMode*& OutObject,
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-FGameplayTag AToroGameMode::GetCharacterRoom(const FGameplayTag& InCharacter) const
+FGameplayTag AToroGameMode::GetZoneFromCharacter(const FGameplayTag& InCharacter) const
 {
-	return CharacterZoneMap.FindRef(InCharacter);
+	return CharacterToZone.FindRef(InCharacter);
+}
+
+TSet<FGameplayTag> AToroGameMode::GetCharactersInZone(const FGameplayTag& InZone) const
+{
+	TSet<FGameplayTag> Characters;
+	for (const TPair<FGameplayTag, FGameplayTag>& Pair : CharacterToZone)
+	{
+		if (Pair.Key.IsValid() && Pair.Value == InZone)
+		{
+			Characters.Add(Pair.Key);
+		}
+	}
+
+	return Characters;
 }
 
 void AToroGameMode::BeginPlay()

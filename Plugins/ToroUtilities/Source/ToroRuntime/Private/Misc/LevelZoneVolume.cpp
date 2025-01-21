@@ -122,7 +122,7 @@ void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	if (!IsEnabled() || !GameMode) return;
 	if (const AToroCharacterBase* Char = Cast<AToroCharacterBase>(OtherActor))
 	{
-		GameMode->CharacterZoneMap.Add(Char->GetCharacterID(), ZoneID);
+		GameMode->CharacterToZone.Add(Char->GetCharacterID(), ZoneID);
 	}
 
 	if (const AToroPlayerBase* Player = Cast<AToroPlayerBase>(OtherActor))
