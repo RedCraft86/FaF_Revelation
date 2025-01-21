@@ -26,15 +26,15 @@ private:
 
 		IDetailGroup& SmartCulling = Settings.AddGroup(TEXT("SmartCulling"), INVTEXT("Smart Culling"));
 		{
-			SmartCulling.AddPropertyRow(GET_PROPERTY(Cull_Invert));
-			SmartCulling.AddPropertyRow(GET_PROPERTY(Cull_Targets));
+			SmartCulling.AddPropertyRow(GET_PROPERTY(CullInvert));
+			SmartCulling.AddPropertyRow(GET_PROPERTY(CullTargets));
 
 			TArray<TWeakObjectPtr<UObject>> Objs;
 			DetailBuilder.GetObjectsBeingCustomized(Objs);
 			ALevelZoneVolume* Zone = Objs.Num() == 1 ? Cast<ALevelZoneVolume>(Objs[0]) : nullptr;
 
-			GET_PROPERTY_VAR(Cull_FindBounded, WithinBounds)
-			GET_PROPERTY_VAR(Cull_FindTag, FindTag)
+			GET_PROPERTY_VAR(CullFindBounded, WithinBounds)
+			GET_PROPERTY_VAR(CullFindTag, FindTag)
 			SmartCulling.AddWidgetRow().IsEnabled(IsValid(Zone))
 			.NameContent()
 			[
@@ -90,9 +90,9 @@ private:
 
 		IDetailGroup& OneShot = Settings.AddGroup(TEXT("OneShot"), INVTEXT("OneShot"));
 		{
-			OneShot.HeaderProperty(GET_PROPERTY(OneShot_Tag)).DisplayName(INVTEXT("One Shot"));
-			OneShot.AddPropertyRow(GET_PROPERTY(OneShot_PlayOnce));
-			OneShot.AddPropertyRow(GET_PROPERTY(OneShot_Cooldown));
+			OneShot.HeaderProperty(GET_PROPERTY(OneShotTag)).DisplayName(INVTEXT("One Shot"));
+			OneShot.AddPropertyRow(GET_PROPERTY(OneShotPlayOnce));
+			OneShot.AddPropertyRow(GET_PROPERTY(OneShotCooldown));
 		}
 	}
 };

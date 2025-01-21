@@ -11,8 +11,8 @@
 #include "EngineUtils.h"
 #endif
 
-ALevelZoneVolume::ALevelZoneVolume() : Cull_Invert(false), OneShot_PlayOnce(true)
-	, OneShot_Cooldown(1.0f), bCanPlayOneShot(true)
+ALevelZoneVolume::ALevelZoneVolume() : CullInvert(false), OneShotPlayOnce(true)
+	, OneShotCooldown(1.0f), bCanPlayOneShot(true)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -24,13 +24,16 @@ void ALevelZoneVolume::FindCullTargets()
 	PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	for (const AActor* Actor : TActorRange<AActor>(GetWorld()))
 	{
-		if (!USmartCullingComponent::Get(Actor)) continue;
-		if (!Cull_FindBounded || (Cull_FindBounded
+		if (!USmartCullingComponent::Get(Actor))
+		{
+			if (CullTargets.Contains(Actor)) CullTargets.Remove(Actor);
+		}
+		else if (!CullFindBounded || (CullFindBounded
 			&& EncompassesPoint(Actor->GetActorLocation())))
 		{
-			if (Cull_FindTag.IsNone() || Actor->ActorHasTag(Cull_FindTag))
+			if (CullFindTag.IsNone() || Actor->ActorHasTag(CullFindTag))
 			{
-				Cull_Targets.Add(Actor);
+				CullTargets.Add(Actor);
 			}
 		}
 	}
@@ -43,9 +46,9 @@ void ALevelZoneVolume::UpdateSmartCulling()
 	if (!CamManager) return;
 
 	bool bShouldRender = EncompassesPoint(CamManager->GetCameraLocation());
-	if (Cull_Invert) bShouldRender = !bShouldRender;
+	if (CullInvert) bShouldRender = !bShouldRender;
 
-	for (auto It = Cull_Targets.CreateIterator(); It; ++It)
+	for (auto It = CullTargets.CreateIterator(); It; ++It)
 	{
 		if (USmartCullingComponent* Comp = USmartCullingComponent::Get(It->LoadSynchronous()))
 		{
@@ -62,7 +65,7 @@ void ALevelZoneVolume::UpdateSmartCulling()
 
 bool ALevelZoneVolume::CanPlayOneShot() const
 {
-	if (!OneShot_Tag.IsValid()) return false;
+	if (!OneShotTag.IsValid()) return false;
 	const FTimerManager& TimerManager = GetWorldTimerManager();
 	return bCanPlayOneShot && !TimerManager.TimerExists(OneShotOffTimer)
 		&& !TimerManager.TimerExists(OneShotCooldownTimer);
@@ -72,7 +75,7 @@ void ALevelZoneVolume::PlayOneShot() const
 {
 	if (CanPlayOneShot())
 	{
-		MusicManager->PlayLayer(this, OneShot_Tag);
+		MusicManager->PlayLayer(this, OneShotTag);
 	}
 }
 
@@ -83,15 +86,15 @@ void ALevelZoneVolume::StopOneShot()
 		FTimerManager& TimerManager = GetWorldTimerManager();
 		TimerManager.SetTimer(OneShotOffTimer, [this]()
 		{
-			MusicManager->StopLayerIfLooping(this, OneShot_Tag);
+			MusicManager->StopLayerIfLooping(this, OneShotTag);
 		}, 0.5f, false);
 
-		if (OneShot_PlayOnce)
+		if (OneShotPlayOnce)
 		{
 			bCanPlayOneShot = false;
 		}
 		else TimerManager.SetTimer(OneShotCooldownTimer, this,
-			&ThisClass::EmptyFunc, OneShot_Cooldown, false);
+			&ThisClass::EmptyFunc, OneShotCooldown, false);
 	}
 }
 
