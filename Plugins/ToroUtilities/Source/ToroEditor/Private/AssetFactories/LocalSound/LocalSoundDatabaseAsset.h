@@ -16,7 +16,7 @@ public:
 	virtual FText GetAssetDescription(const FAssetData& AssetData) const override
 	{
 		const ULocalSoundDatabase* DB = Cast<ULocalSoundDatabase>(AssetData.GetAsset());
-		const int32 All = DB->LocalSounds.Num(), Valid = DB->GetValidCount();
+		const int32 All = DB->Entries.Num(), Valid = DB->GetValidCount();
 		FText OutText = FText::Format(INVTEXT("All: {0}\nValid: {1}\nInvalid: {2}"),
 			All, Valid, All - Valid);
 
