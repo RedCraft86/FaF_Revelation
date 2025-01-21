@@ -34,11 +34,11 @@ public:
 
 	/* Returns the last cached zone a character is in. */
 	UFUNCTION(BlueprintCallable, Category = Game)
-		FGameplayTag GetZoneFromCharacter(UPARAM(meta = (Categories = "Character")) const FGameplayTag& InCharacter) const;
+		FGameplayTag GetZoneFromCharacter(UPARAM(meta = (Categories = "Character")) const FGameplayTag InCharacter) const;
 
 	/* Returns the last cached characters in a zone. */
 	UFUNCTION(BlueprintCallable, Category = Game)
-		TSet<FGameplayTag> GetCharactersInZone(UPARAM(meta = (Categories = "Zone")) const FGameplayTag& InZone) const;
+		TSet<FGameplayTag> GetCharactersInZone(UPARAM(meta = (Categories = "Zone")) const FGameplayTag InZone) const;
 	
 protected:
 
