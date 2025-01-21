@@ -24,17 +24,17 @@ void FLocalSoundEntry::Update()
 
 bool ULocalSoundDatabase::IsKeyValid(const FGameplayTag& Key) const
 {
-	return Key != Tag_LocalSound && LocalSounds.Contains(Key)
-		&& LocalSounds.FindRef(Key).IsValidData();
+	return Key.IsValid() && Key != Tag_LocalSound
+		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
 #if WITH_EDITOR
 uint8 ULocalSoundDatabase::GetValidCount() const
 {
 	uint8 Count = 0;
-	for (const TPair<FGameplayTag, FLocalSoundEntry>& Sound : LocalSounds)
+	for (const TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
 	{
-		if (Sound.Key.IsValid() && Sound.Key != Tag_LocalSound && Sound.Value.IsValidData())
+		if (Entry.Key.IsValid() && Entry.Key != Tag_LocalSound && Entry.Value.IsValidData())
 		{
 			Count++;
 		}
@@ -62,7 +62,7 @@ FLocalSoundEntry ULocalSoundDatabase::Get(const FGameplayTag& Key)
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
 	if (const ULocalSoundDatabase* Database = Settings ? Settings->LocalSoundDatabase.LoadSynchronous() : nullptr)
 	{
-		return Database->LocalSounds.FindRef(Key);
+		return Database->Entries.FindRef(Key);
 	}
 	
 	return {};
@@ -71,9 +71,21 @@ FLocalSoundEntry ULocalSoundDatabase::Get(const FGameplayTag& Key)
 #if WITH_EDITOR
 void ULocalSoundDatabase::UpdateSounds()
 {
-	for (TPair<FGameplayTag, FLocalSoundEntry>& LocalSound : LocalSounds)
+	for (TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
 	{
-		LocalSound.Value.Update();
+		Entry.Value.Update();
+		if (!Entry.Key.IsValid() || Entry.Key == Tag_LocalSound)
+		{
+			Entry.Value.Label = TEXT("INVALID Tag");
+		}
+		else if (!Entry.Value.IsValidData())
+		{
+			Entry.Value.Label = TEXT("INVALID Data");
+		}
+		else
+		{
+			Entry.Value.Label = Entry.Value.Sound.GetAssetName();
+		}
 	}
 }
 

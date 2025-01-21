@@ -13,6 +13,11 @@ struct TORORUNTIME_API FLocalSoundEntry
 {
 	GENERATED_BODY()
 
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(VisibleDefaultsOnly, Category = LocalSound)
+		FString Label = TEXT("");
+#endif
+
 	UPROPERTY(EditAnywhere, Category = LocalSound)
 		TSoftObjectPtr<USoundBase> Sound;
 
@@ -47,8 +52,8 @@ public:
 	
 	ULocalSoundDatabase() {}
 
-	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "LocalSound"))
-		TMap<FGameplayTag, FLocalSoundEntry> LocalSounds;
+	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "LocalSound", TitleProperty = "Label"))
+		TMap<FGameplayTag, FLocalSoundEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;
 	uint8 GetValidCount() const;
