@@ -34,8 +34,8 @@
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
-#include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
-#include "AssetFactories/LocalSound/LocalSoundDatabaseAssetTypeActions.h"
+#include "AssetFactories/Inventory/InventoryItemAsset.h"
+#include "AssetFactories/LocalSound/LocalSoundDatabaseAsset.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -113,8 +113,8 @@ void FToroEditorModule::StartupModule()
 	// Asset Type Actions
 	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::LoadModulePtr<FAssetToolsModule>("AssetTools"))
 	{
-		AssetTypeActions.Add(MakeShareable(new FInventoryItemAssetTypeActions()));
-		AssetTypeActions.Add(MakeShareable(new FLocalSoundDatabaseAssetTypeActions()));
+		AssetTypeActions.Add(MakeShareable(new FInventoryItemAsset()));
+		AssetTypeActions.Add(MakeShareable(new FLocalSoundDatabaseAsset()));
 		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
 		{
 			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());

@@ -7,11 +7,11 @@
 #include "Inventory/InventoryItemData.h"
 #include "Widgets/Layout/SScaleBox.h"
 
-class FInventoryItemAssetTypeActions final : public FToroAssetTypeActions
+class FInventoryItemAsset final : public FToroAssetTypeActions
 {
 public:
 
-	explicit FInventoryItemAssetTypeActions() {}
+	explicit FInventoryItemAsset() {}
 	virtual FColor GetTypeColor() const override { return FColor(100, 25, 160); }
 	virtual UClass* GetSupportedClass() const override { return UInventoryItemData::StaticClass(); }
 	virtual FText GetName() const override { return NSLOCTEXT("ToroEditor", "InventoryItemName", "Inventory Item"); }
