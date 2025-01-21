@@ -35,6 +35,7 @@
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAssetTypeActions.h"
+#include "AssetFactories/OneShot/OneShotDatabaseAssetTypeActions.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -113,6 +114,7 @@ void FToroEditorModule::StartupModule()
 	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::LoadModulePtr<FAssetToolsModule>("AssetTools"))
 	{
 		AssetTypeActions.Add(MakeShareable(new FInventoryItemAssetTypeActions()));
+		AssetTypeActions.Add(MakeShareable(new FOneShotDatabaseAssetTypeActions()));
 		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
 		{
 			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());
