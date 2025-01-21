@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "LevelZones/LevelZoneVolume.h"
+#include "Misc/LevelZoneVolume.h"
 #include "Characters/ToroCharacterBase.h"
 #include "Framework/ToroPlayerCameraManager.h"
 #include "Framework/ToroMusicManager.h"
@@ -90,9 +90,15 @@ void ALevelZoneVolume::StopOneShot()
 		{
 			bCanPlayOneShot = false;
 		}
-		else TimerManager.SetTimer(OneShotCooldownTimer,
-			[](){}, OneShot_Cooldown, false);
+		else TimerManager.SetTimer(OneShotCooldownTimer, this,
+			&ThisClass::EmptyFunc, OneShot_Cooldown, false);
 	}
+}
+
+void ALevelZoneVolume::EmptyFunc()
+{
+	OneShotOffTimer.Invalidate();
+	OneShotCooldownTimer.Invalidate();
 }
 
 void ALevelZoneVolume::BeginPlay()

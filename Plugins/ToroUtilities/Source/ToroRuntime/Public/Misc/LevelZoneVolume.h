@@ -61,6 +61,7 @@ private:
 	bool CanPlayOneShot() const;
 	void PlayOneShot() const;
 	void StopOneShot();
+	void EmptyFunc();
 	
 	virtual void BeginPlay() override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
