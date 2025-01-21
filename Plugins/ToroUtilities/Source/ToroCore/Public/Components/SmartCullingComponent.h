@@ -15,7 +15,9 @@ public:
 	USmartCullingComponent();
 	
 	static USmartCullingComponent* Get(const AActor* Target);
-	
+	UFUNCTION(BlueprintCallable, Category = ZoneCulling)
+		static USmartCullingComponent* GetSmartCulling(const AActor* Target) { return Get(Target); }
+
 	UPROPERTY(EditAnywhere, Category = ZoneCulling)
 		bool bAffectTicking;
 
