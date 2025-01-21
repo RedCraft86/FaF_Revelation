@@ -191,8 +191,8 @@ AElectricLightBase::AElectricLightBase() : MeshMulti(1.0f), MeshFresnel(0.5f), b
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 	
-	ZoneCulling = CreateDefaultSubobject<USmartCullingComponent>("SmartCulling");
-	ZoneCulling->bAffectTicking = true;
+	SmartCulling = CreateDefaultSubobject<USmartCullingComponent>("SmartCulling");
+	SmartCulling->bAffectTicking = true;
 	
 	MinEnergy = 0;
 	FElectricLightAnim::SetFlickerCurve(FlickerAnim);

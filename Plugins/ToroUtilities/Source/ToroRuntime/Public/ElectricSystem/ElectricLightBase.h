@@ -108,7 +108,7 @@ public:
 	AElectricLightBase();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<USmartCullingComponent> ZoneCulling;
+		TObjectPtr<USmartCullingComponent> SmartCulling;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		EElectricLightTick LightTickType;
