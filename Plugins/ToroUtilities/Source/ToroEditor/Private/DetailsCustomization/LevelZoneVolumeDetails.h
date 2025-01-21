@@ -90,7 +90,7 @@ private:
 
 		IDetailGroup& OneShot = Settings.AddGroup(TEXT("OneShot"), INVTEXT("OneShot"));
 		{
-			OneShot.HeaderProperty(GET_PROPERTY(OneShot_Tag)).DisplayName(INVTEXT("OneShot Sound"));
+			OneShot.HeaderProperty(GET_PROPERTY(OneShot_Tag)).DisplayName(INVTEXT("One Shot"));
 			OneShot.AddPropertyRow(GET_PROPERTY(OneShot_PlayOnce));
 			OneShot.AddPropertyRow(GET_PROPERTY(OneShot_Cooldown));
 		}
