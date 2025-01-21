@@ -4,7 +4,7 @@
 
 #include "IDetailGroup.h"
 #include "DetailsCustomization/ToroActorDetails.h"
-#include "LevelZones/LevelZoneVolume.h"
+#include "Misc/LevelZoneVolume.h"
 
 #define CLASSNAME ALevelZoneVolume
 class TOROEDITOR_API FLevelZoneVolumeCustomization final : public FToroActorCustomization
