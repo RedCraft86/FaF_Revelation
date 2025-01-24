@@ -110,7 +110,7 @@ void AMasterPostProcess::BeginPlay()
 	if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
 		UserSettings->OnDynamicSettingsChanged.AddUObject(this, &ThisClass::ApplySettings);
-		UserSettings->OnSettingsApplied.AddUObject(this, &ThisClass::ApplySettings);
+		//UserSettings->OnSettingsApplied.AddUObject(this, &ThisClass::ApplySettings);
 		ApplySettings(UserSettings);
 	}
 }

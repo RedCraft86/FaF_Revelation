@@ -82,20 +82,11 @@ DEFINE_SETTER(float, Gamma, if (GEngine) GEngine->DisplayGamma = GetGamma();)
 DEFINE_SETTER(uint8, Brightness, ApplyBrightness();)
 DEFINE_SETTER_DYNAMIC(bool, FancyBloom)
 DEFINE_SETTER_CONSOLE(bool, ScreenSpaceFogScattering, r.SSFS)
-DEFINE_SETTER(uint8, MotionBlur, 
-	if (InValue == 0)
-	{
-		SET_CONSOLE_VAR(r.DefaultFeature.MotionBlur, 0);
-	}
-	else
-	{
-		OnDynamicSettingsChanged.Broadcast(this);
-	}
-)
+DEFINE_SETTER(uint8, MotionBlur, ApplyMotionBlur();)
 
-DEFINE_SETTER_DYNAMIC(uint8, LumenGI)
-DEFINE_SETTER_DYNAMIC(uint8, LumenReflection)
-DEFINE_SETTER_BASIC(bool, HitLightingReflections)
+DEFINE_SETTER(uint8, LumenGI, ApplyLumen();)
+DEFINE_SETTER(uint8, LumenReflection, ApplyLumen();)
+DEFINE_SETTER(bool, HitLightingReflections, ApplyLumen();)
 
 DEFINE_SETTER(EColorBlindMode, ColorBlindMode, ApplyColorBlindSettings();)
 DEFINE_SETTER(uint8, ColorBlindIntensity, ApplyColorBlindSettings();)
@@ -182,7 +173,7 @@ void UToroUserSettings::ApplyBrightness() const
 	}
 }
 
-void UToroUserSettings::ApplyAudioSettings() const
+void UToroUserSettings::ApplyMotionBlur() const
 {
 #if WITH_EDITOR
 	if (!FApp::IsGame()) return;
@@ -200,6 +191,26 @@ void UToroUserSettings::ApplyAudioSettings() const
 			}
 		}
 	}
+	const uint8 MotionBlur = GetMotionBlur();
+	SET_CONSOLE_VAR(r.DefaultFeature.MotionBlur, FMath::Min(1, (int32)MotionBlur));
+	if (MotionBlur != 0) OnDynamicSettingsChanged.Broadcast(this);
+}
+
+void UToroUserSettings::ApplyLumen() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	const bool bLumenGI = GetLumenGI() != 0;
+	SET_CONSOLE_VAR(r.DynamicGlobalIlluminationMethod,	bLumenGI ? 1 : 0);
+
+	const bool bLumenReflection = GetLumenReflection() != 0;
+	SET_CONSOLE_VAR(r.ReflectionMethod,	bLumenReflection ? 1 : 2);
+
+	const bool bHitLighting = GetHitLightingReflections();
+	SET_CONSOLE_VAR(r.Lumen.HardwareRayTracing.LightingMode, bHitLighting ? 2 : 0);
+	
+	if (bLumenGI || bLumenReflection || bHitLighting) OnDynamicSettingsChanged.Broadcast(this);
 }
 
 void UToroUserSettings::ApplyColorBlindSettings() const

@@ -126,12 +126,20 @@ public:
 	
 private:
 
-	void ApplyShowFPS() const;
-	void ApplyBrightness() const;
-	void ApplyAudioSettings() const;
-	void ApplyColorBlindSettings() const;
-
+	void ApplyNIS() const;
+	void ApplyFSR() const;
+	void ApplyDLSS() const;
 	void ApplyImageFidelityMode();
+	
+	void ApplyColorBlindSettings() const;
+	void ApplyDynamicVibrance() const;
+	void ApplyAudioSettings() const;
+	void ApplyBrightness() const;
+	void ApplyMotionBlur() const;
+	void ApplyLumen() const;
+	void ApplyShowFPS() const;
+
+	void CheckSupportedFidelityModes();
 	void CacheScalabilityDefaults();
 
 	virtual void SetToDefaults() override;

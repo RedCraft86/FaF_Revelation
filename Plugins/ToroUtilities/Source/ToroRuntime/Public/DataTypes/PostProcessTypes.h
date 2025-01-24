@@ -167,23 +167,13 @@ struct FPPSettingOverrides
 	UPROPERTY(Interp, EditAnywhere, Category = Settings)
 		FPPBloom FancyBloom;
 
-	UPROPERTY(Interp, EditAnywhere, Category = Settings)
-		bool bDisableOverrideGI;
-
-	UPROPERTY(Interp, EditAnywhere, Category = Settings)
-		bool bDisableOverrideReflections;
-
-	UPROPERTY(Interp, EditAnywhere, Category = Settings)
-		bool bDisableOverrideHitLighting;
-
 	UPROPERTY(Interp, EditAnywhere, Category = Settings, EditFixedSize)
 		TArray<FPPLumen> LumenQuality;
 
 	UPROPERTY(Interp, EditAnywhere, Category = Settings, EditFixedSize)
 		TArray<FPPMotionBlur> MotionBlur;
 	
-	FPPSettingOverrides() : bDisableOverrideGI(false), bDisableOverrideReflections(false)
-		, bDisableOverrideHitLighting(false), LumenQuality({{}, {}, {}})
+	FPPSettingOverrides() : LumenQuality({{}, {}, {}})
 		, MotionBlur({{}, {}, {}})
 	{}
 
@@ -208,35 +198,14 @@ struct FPPSettingOverrides
 			Settings->GetFancyBloom() ? FancyBloom.ModifyPP(PostProcess)
 				: SimpleBloom.ModifyPP(PostProcess);
 
-			const int32 GI = Settings->GetLumenGI();
-			LumenQuality[FMath::Max(0, GI - 1)].ModifyGI(PostProcess);
-			
-			const int32 Reflection = Settings->GetLumenReflection();
-			LumenQuality[FMath::Max(0, Reflection - 1)].ModifyReflection(PostProcess);
-
+			LumenQuality[FMath::Max(0, (int32)Settings->GetLumenGI() - 1)].ModifyGI(PostProcess);
+			LumenQuality[FMath::Max(0, (int32)Settings->GetLumenReflection() - 1)].ModifyReflection(PostProcess);
 			MotionBlur[FMath::Max(0, (int32)Settings->GetMotionBlur() - 1)].ModifyPP(PostProcess);
 
-			if (!bDisableOverrideGI)
-			{
-				PostProcess.bOverride_DynamicGlobalIlluminationMethod = true;
-				PostProcess.DynamicGlobalIlluminationMethod = GI > 0
-					? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::None;
-			}
-
-			if (!bDisableOverrideReflections)
-			{
-				PostProcess.bOverride_ReflectionMethod = true;
-				PostProcess.ReflectionMethod = Reflection > 0
-					? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
-			}
-
-			if (!bDisableOverrideHitLighting)
-			{
-				PostProcess.bOverride_LumenRayLightingMode = true;
-				PostProcess.LumenRayLightingMode = Settings->GetHitLightingReflections()
-					? ELumenRayLightingModeOverride::HitLightingForReflections
-					: ELumenRayLightingModeOverride::SurfaceCache;
-			}
+			PostProcess.bOverride_LumenRayLightingMode = true;
+			PostProcess.LumenRayLightingMode = Settings->GetHitLightingReflections()
+				? ELumenRayLightingModeOverride::HitLightingForReflections
+				: ELumenRayLightingModeOverride::SurfaceCache;
 		}
 	}
 };
