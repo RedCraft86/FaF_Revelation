@@ -32,6 +32,7 @@ public:
 	virtual void AutowireNewNode(UEdGraphPin* FromPin) override;
 
 	FText GetDescription() const;
+	FText GetIdentifierText() const;
 	FLinearColor GetBackgroundColor() const;
 	UEdGraphPin* GetInputPin() const { return Pins[0]; }
 	UEdGraphPin* GetOutputPin() const { return Pins[1]; }

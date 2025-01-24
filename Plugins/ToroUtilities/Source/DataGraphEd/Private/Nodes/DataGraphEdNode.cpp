@@ -54,6 +54,11 @@ FText UDataGraphEdNode::GetDescription() const
 	return GraphNode ? GraphNode->GetNodeDescription() : INVTEXT("Unknown Node");
 }
 
+FText UDataGraphEdNode::GetIdentifierText() const
+{
+	return GraphNode ? FText::FromString(GraphNode->NodeID.ToString()) : INVTEXT("Unknown ID");
+}
+
 FLinearColor UDataGraphEdNode::GetBackgroundColor() const
 {
 	return GraphNode ? GraphNode->BackgroundColor : FLinearColor::Black;

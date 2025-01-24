@@ -18,6 +18,7 @@ public:
 	virtual void AddPin(const TSharedRef<SGraphPin>& PinToAdd) override;
 	
 	FText GetDescription() const;
+	FText GetIdentifierText() const;
 	FSlateColor GetBackgroundColor() const;
 	void OnNameCommitted(const FText& InText, ETextCommit::Type CommitInfo);
 };

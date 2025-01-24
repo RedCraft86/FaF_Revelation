@@ -79,100 +79,111 @@ void SDataGraphNode::UpdateGraphNode()
 	constexpr FLinearColor TitleShadowColor(0.6f, 0.6f, 0.6f);
 	const TSharedPtr<SNodeTitle> NodeTitle = SNew(SNodeTitle, GraphNode);
 
+	FSlateFontInfo IdentifierFont = FCoreStyle::Get().GetWidgetStyle<FTextBlockStyle>("MonospacedText").Font;
+	IdentifierFont.Size = 9.0f;
+
 	ContentScale.Bind(this, &SGraphNode::GetContentScale);
 	GetOrAddSlot(ENodeZone::Center)
-		.HAlign(HAlign_Fill)
-		.VAlign(VAlign_Center)
+	.HAlign(HAlign_Fill)
+	.VAlign(VAlign_Center)
+	[
+		SNew(SBorder)
+		.Padding(0.0f)
+		.BorderImage(FAppStyle::GetBrush("Graph.StateNode.Body"))
+		.BorderBackgroundColor(this, &SDataGraphNode::GetBackgroundColor)
 		[
-			SNew(SBorder)
-			.Padding(0.0f)
-			.BorderImage(FAppStyle::GetBrush("Graph.StateNode.Body"))
-			.BorderBackgroundColor(this, &SDataGraphNode::GetBackgroundColor)
+			SNew(SOverlay)
+			+SOverlay::Slot()
+			.HAlign(HAlign_Fill)
+			.VAlign(VAlign_Fill)
 			[
-				SNew(SOverlay)
-				+ SOverlay::Slot()
-				.HAlign(HAlign_Fill)
-				.VAlign(VAlign_Fill)
+				SNew(SVerticalBox)
+				+ SVerticalBox::Slot()
+				.FillHeight(1)
 				[
-					SNew(SVerticalBox)
-					+ SVerticalBox::Slot()
-					.FillHeight(1)
-					[
-						SAssignNew(LeftNodeBox, SVerticalBox)
-					]
-					+ SVerticalBox::Slot()
-					.FillHeight(1)
-					[
-						SAssignNew(RightNodeBox, SVerticalBox)
-					]
+					SAssignNew(LeftNodeBox, SVerticalBox)
 				]
-				+ SOverlay::Slot()
+				+ SVerticalBox::Slot()
+				.FillHeight(1)
+				[
+					SAssignNew(RightNodeBox, SVerticalBox)
+				]
+			]
+			+SOverlay::Slot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			.Padding(8.0f)
+			[
+				SNew(SBorder)
+				.BorderImage(FAppStyle::GetBrush("Graph.StateNode.ColorSpill"))
+				.BorderBackgroundColor(TitleShadowColor)
 				.HAlign(HAlign_Center)
 				.VAlign(VAlign_Center)
-				.Padding(8.0f)
+				.Visibility(EVisibility::SelfHitTestInvisible)
+				.Padding(6.0f)
 				[
-					SNew(SBorder)
-					.BorderImage(FAppStyle::GetBrush("Graph.StateNode.ColorSpill"))
-					.BorderBackgroundColor(TitleShadowColor)
-					.HAlign(HAlign_Center)
-					.VAlign(VAlign_Center)
-					.Visibility(EVisibility::SelfHitTestInvisible)
-					.Padding(6.0f)
+					SAssignNew(NodeBody, SVerticalBox)
+					.Visibility(EVisibility::Visible)
+					+ SVerticalBox::Slot()
+					.AutoHeight()
 					[
-						SAssignNew(NodeBody, SVerticalBox)
-						.Visibility(EVisibility::Visible)
-						+ SVerticalBox::Slot()
-						.AutoHeight()
+						SNew(SHorizontalBox)
+						+SHorizontalBox::Slot()
+						.AutoWidth()
 						[
-							SNew(SHorizontalBox)
-							+ SHorizontalBox::Slot()
-							.AutoWidth()
+							SAssignNew(ErrorText, SErrorText)
+							.BackgroundColor(this, &SDataGraphNode::GetErrorColor)
+							.ToolTipText(this, &SDataGraphNode::GetErrorMsgToolTip)
+						]
+						+SHorizontalBox::Slot()
+						.AutoWidth()
+						.VAlign(VAlign_Center)
+						[
+							SNew(SImage)
+							.Image(NodeTypeIcon)
+						]
+						+SHorizontalBox::Slot()
+						.Padding(FMargin(4.0f, 0.0f, 4.0f, 0.0f))
+						[
+							SNew(SVerticalBox)
+							+SVerticalBox::Slot()
+							.AutoHeight()
 							[
-								SAssignNew(ErrorText, SErrorText)
-								.BackgroundColor(this, &SDataGraphNode::GetErrorColor)
-								.ToolTipText(this, &SDataGraphNode::GetErrorMsgToolTip)
+								SAssignNew(InlineEditableText, SInlineEditableTextBlock)
+								.Style(FAppStyle::Get(), "Graph.StateNode.NodeTitleInlineEditableText")
+								.Text(NodeTitle.Get(), &SNodeTitle::GetHeadTitle)
+								.OnVerifyTextChanged(this, &SDataGraphNode::OnVerifyNameTextChanged)
+								.OnTextCommitted(this, &SDataGraphNode::OnNameCommitted)
+								.IsReadOnly(this, &SDataGraphNode::IsNameReadOnly)
+								.IsSelected(this, &SDataGraphNode::IsSelectedExclusively)
 							]
-							+SHorizontalBox::Slot()
-							.AutoWidth()
-							.VAlign(VAlign_Center)
+							+SVerticalBox::Slot()
+							.AutoHeight()
 							[
-								SNew(SImage)
-								.Image(NodeTypeIcon)
-							]
-							+ SHorizontalBox::Slot()
-							.Padding(FMargin(4.0f, 0.0f, 4.0f, 0.0f))
-							[
-								SNew(SVerticalBox)
-								+ SVerticalBox::Slot()
-								.AutoHeight()
-								[
-									SAssignNew(InlineEditableText, SInlineEditableTextBlock)
-									.Style(FAppStyle::Get(), "Graph.StateNode.NodeTitleInlineEditableText")
-									.Text(NodeTitle.Get(), &SNodeTitle::GetHeadTitle)
-									.OnVerifyTextChanged(this, &SDataGraphNode::OnVerifyNameTextChanged)
-									.OnTextCommitted(this, &SDataGraphNode::OnNameCommitted)
-									.IsReadOnly(this, &SDataGraphNode::IsNameReadOnly)
-									.IsSelected(this, &SDataGraphNode::IsSelectedExclusively)
-								]
-								+ SVerticalBox::Slot()
-								.AutoHeight()
-								[
-									NodeTitle.ToSharedRef()
-								]
+								NodeTitle.ToSharedRef()
 							]
 						]
-						+ SVerticalBox::Slot()
-						.AutoHeight()
-						[
-							SNew(STextBlock)
-							.AutoWrapText(true)
-							.WrapTextAt(325.0f)
-							.Text(this, &SDataGraphNode::GetDescription)
-						]
+					]
+					+SVerticalBox::Slot()
+					.AutoHeight()
+					[
+						SNew(STextBlock)
+						.AutoWrapText(true)
+						.WrapTextAt(325.0f)
+						.Text(this, &SDataGraphNode::GetDescription)
+					]
+					+SVerticalBox::Slot()
+					.Padding(0.0f, 10.0f, 0.0f, 0.0f)
+					.AutoHeight()
+					[
+						SNew(STextBlock)
+						.Font(IdentifierFont)
+						.Text(this, &SDataGraphNode::GetIdentifierText)
 					]
 				]
 			]
-		];
+		]
+	];
 
 	TSharedPtr<SCommentBubble> CommentBubble;
 	const FSlateColor CommentColor = GetDefault<UGraphEditorSettings>()->DefaultCommentNodeTitleColor;
@@ -254,6 +265,12 @@ FText SDataGraphNode::GetDescription() const
 {
 	const UDataGraphEdNode* Node = CastChecked<UDataGraphEdNode>(GraphNode);
 	return Node ? Node->GetDescription() : INVTEXT("Unknown Node");
+}
+
+FText SDataGraphNode::GetIdentifierText() const
+{
+	const UDataGraphEdNode* Node = CastChecked<UDataGraphEdNode>(GraphNode);
+	return Node ? Node->GetIdentifierText() : INVTEXT("Unknown ID");
 }
 
 FSlateColor SDataGraphNode::GetBackgroundColor() const

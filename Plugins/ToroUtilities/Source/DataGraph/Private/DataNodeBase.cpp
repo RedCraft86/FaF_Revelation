@@ -21,8 +21,7 @@ FText UDataNodeBase::GetNodeTitle() const
 
 FText UDataNodeBase::GetNodeDescription() const
 {
-	if (Description.IsEmptyOrWhitespace()) return FText::FromString(TEXT("ID: ") + NodeID.ToString());
-	return FText::Format(INVTEXT("{0}{1}"), Description, FText::FromString(TEXT("\n\nID: ") + NodeID.ToString()));
+	return Description;
 }
 
 void UDataNodeBase::SetNodeTitle(const FText& NewTitle)
