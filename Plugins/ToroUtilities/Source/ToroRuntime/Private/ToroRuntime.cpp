@@ -4,6 +4,7 @@
 
 DEFINE_LOG_CATEGORY(LogToroRuntime);
 
+UE_DEFINE_GAMEPLAY_TAG(Tag_BGs, "Backgrounds");
 UE_DEFINE_GAMEPLAY_TAG(Tag_Zone, "Zone");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LocalSound, "LocalSound");
 UE_DEFINE_GAMEPLAY_TAG(Tag_Character, "Character");
