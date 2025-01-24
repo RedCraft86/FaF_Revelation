@@ -5,8 +5,8 @@
 MotionBlurAmount
     Off - Low - Medium - High
     
-LumenGIQuality & LumenReflectionQuality
-    Low - Medium - High
+LumenGI & LumenReflection
+    Off - Low - Medium - High
     
 FXAADithering: r.FXAA.Quality
     Setting value is offset by -1 since "Console" will not be an actual pickable option. Run commands with +1

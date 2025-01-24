@@ -208,25 +208,25 @@ struct FPPSettingOverrides
 			Settings->GetFancyBloom() ? FancyBloom.ModifyPP(PostProcess)
 				: SimpleBloom.ModifyPP(PostProcess);
 
-			const int32 GI = Settings->GetLumenGI() - 1;
-			LumenQuality[FMath::Max(0, GI)].ModifyGI(PostProcess);
+			const int32 GI = Settings->GetLumenGI();
+			LumenQuality[FMath::Max(0, GI - 1)].ModifyGI(PostProcess);
 			
-			const int32 Reflection = Settings->GetLumenReflection() - 1;
-			LumenQuality[FMath::Max(0, Reflection)].ModifyReflection(PostProcess);
+			const int32 Reflection = Settings->GetLumenReflection();
+			LumenQuality[FMath::Max(0, Reflection - 1)].ModifyReflection(PostProcess);
 
 			MotionBlur[FMath::Max(0, (int32)Settings->GetMotionBlur() - 1)].ModifyPP(PostProcess);
 
 			if (!bDisableOverrideGI)
 			{
 				PostProcess.bOverride_DynamicGlobalIlluminationMethod = true;
-				PostProcess.DynamicGlobalIlluminationMethod = GI >= 0
+				PostProcess.DynamicGlobalIlluminationMethod = GI > 0
 					? EDynamicGlobalIlluminationMethod::Lumen : EDynamicGlobalIlluminationMethod::None;
 			}
 
 			if (!bDisableOverrideReflections)
 			{
 				PostProcess.bOverride_ReflectionMethod = true;
-				PostProcess.ReflectionMethod = Reflection >= 0
+				PostProcess.ReflectionMethod = Reflection > 0
 					? EReflectionMethod::Lumen : EReflectionMethod::ScreenSpace;
 			}
 
