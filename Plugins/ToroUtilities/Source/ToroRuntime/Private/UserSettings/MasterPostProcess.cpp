@@ -2,6 +2,8 @@
 
 #include "UserSettings/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "ToroRuntime.h"
 #if WITH_EDITOR
 #include "UserSettings/LightProbeBase.h"
 #include "Camera/CameraComponent.h"
@@ -9,7 +11,7 @@
 #include "EngineUtils.h"
 #endif
 
-AMasterPostProcess::AMasterPostProcess() : Priority(1.0f), BlendWeight(1.0f), bEnabled(true)
+AMasterPostProcess::AMasterPostProcess()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -18,12 +20,15 @@ AMasterPostProcess::AMasterPostProcess() : Priority(1.0f), BlendWeight(1.0f), bE
 
 	PostProcess = CreateDefaultSubobject<UPostProcessComponent>("PostProcess");
 	PostProcess->SetupAttachment(SceneRoot);
+	PostProcess->BlendWeight = 1.0f;
+	PostProcess->Priority = 1.0f;
+	PostProcess->bUnbound = true;
+	PostProcess->bEnabled = true;
 	
 #if WITH_EDITORONLY_DATA
 	CREATE_DEBUG_ICON(DebugIcon);
 	if (DebugIcon)
 	{
-		DebugIcon->MaxComponents = 1;
 		DebugIcon->IconPath = TEXT("/Engine/EditorResources/S_BoxReflectionCapture.S_BoxReflectionCapture");
 	}
 #endif
@@ -35,39 +40,50 @@ AMasterPostProcess::AMasterPostProcess() : Priority(1.0f), BlendWeight(1.0f), bE
 	Settings.AutoExposureBias = 10.0f;
 }
 
+AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject)
+{
+#if WITH_EDITOR
+	TArray<AActor*> PostProcesses;
+	UGameplayStatics::GetAllActorsOfClass(ContextObject, StaticClass(), PostProcesses);
+	if (PostProcesses.Num() > 1)
+	{
+		UE_LOG(LogToroRuntime, Warning, TEXT("Multiple Master Post Process actors found! Getting the first one."));
+		for (AActor* Actor : PostProcesses) if (Actor) UE_LOG(LogToroRuntime, Warning,
+			TEXT("\t %s (%s) in level %s"), *Actor->GetActorLabel(),
+			(PostProcesses.Find(Actor) == 0 ? TEXT("Returned") : TEXT("")),
+			*GetNameSafe(Actor->GetLevel()));
+
+		return Cast<AMasterPostProcess>(PostProcesses[0]);
+	}
+#endif
+	return Cast<AMasterPostProcess>(UGameplayStatics::GetActorOfClass(ContextObject, StaticClass()));
+}
+
 #if WITH_EDITORONLY_DATA
 void AMasterPostProcess::CopyFromTarget()
 {
 	if (CopyTarget.LoadSynchronous())
 	{
 		FPostProcessSettings NewSettings = Settings;
-		if (const AMasterPostProcess* PPActor = Cast<AMasterPostProcess>(CopyTarget.LoadSynchronous()))
+		if (const AMasterPostProcess* PPActor = Cast<AMasterPostProcess>(CopyTarget.Get()))
 		{
 			NewSettings = PPActor->Settings;
-			Priority = PPActor->Priority;
-			BlendWeight = PPActor->BlendWeight;
 		}
-		else if (const APostProcessVolume* PPVolume = Cast<APostProcessVolume>(CopyTarget.LoadSynchronous()))
+		else if (const APostProcessVolume* PPVolume = Cast<APostProcessVolume>(CopyTarget.Get()))
 		{
 			NewSettings = PPVolume->Settings;
-			Priority = PPVolume->Priority;
-			BlendWeight = PPVolume->BlendWeight;
 		}
-		else if (const ACameraActor* CamActor = Cast<ACameraActor>(CopyTarget.LoadSynchronous()))
+		else if (const ACameraActor* CamActor = Cast<ACameraActor>(CopyTarget.Get()))
 		{
 			NewSettings = CamActor->GetCameraComponent()->PostProcessSettings;
-			BlendWeight = CamActor->GetCameraComponent()->PostProcessBlendWeight;
 		}
 		else if (const UPostProcessComponent* PPComp = CopyTarget ? CopyTarget->FindComponentByClass<UPostProcessComponent>() : nullptr)
 		{
 			NewSettings = PPComp->Settings;
-			Priority = PPComp->Priority;
-			BlendWeight = PPComp->BlendWeight;
 		}
 		else if (const UCameraComponent* CamComp = CopyTarget ? CopyTarget->FindComponentByClass<UCameraComponent>() : nullptr)
 		{
 			NewSettings = CamComp->PostProcessSettings;
-			BlendWeight = CamComp->PostProcessBlendWeight;
 		}
 
 		if (bPreserveExposure)
@@ -90,13 +106,10 @@ void AMasterPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 {
 	SettingOverrides.ApplyChoice(Settings, InSettings);
 	PostProcess->Settings = Settings;
-	PostProcess->Priority = Priority;
-	PostProcess->BlendWeight = BlendWeight;
-	PostProcess->bEnabled = bEnabled;
-	PostProcess->bUnbound = true;
 #if WITH_EDITOR
 	if (FApp::IsGame()) return;
-	const bool bUsingLumen = PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+	const bool bUsingLumen = !PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod
+		|| PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
 	for (ALightProbeBase* Probe : TActorRange<ALightProbeBase>(GetWorld()))
 	{
 		if (Probe) Probe->bUsingLumen = bUsingLumen;
@@ -110,9 +123,19 @@ void AMasterPostProcess::BeginPlay()
 	if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
 		UserSettings->OnDynamicSettingsChanged.AddUObject(this, &ThisClass::ApplySettings);
-		//UserSettings->OnSettingsApplied.AddUObject(this, &ThisClass::ApplySettings);
 		ApplySettings(UserSettings);
 	}
+	
+#if WITH_EDITOR
+	TArray<AActor*> PostProcesses;
+	UGameplayStatics::GetAllActorsOfClass(this, StaticClass(), PostProcesses);
+	if (PostProcesses.Num() > 1)
+	{
+		UE_LOG(LogToroRuntime, Warning, TEXT("Multiple Master Post Process actors found!"));
+		for (const AActor* Actor : PostProcesses) if (Actor) UE_LOG(LogToroRuntime, Warning,
+			TEXT("\t %s in level %s"), *Actor->GetActorLabel(), *GetNameSafe(Actor->GetLevel()));
+	}
+#endif
 }
 
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)

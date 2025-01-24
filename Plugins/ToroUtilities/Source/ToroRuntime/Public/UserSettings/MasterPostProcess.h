@@ -22,6 +22,8 @@ public:
 
 	AMasterPostProcess();
 
+	static AMasterPostProcess* Get(const UObject* ContextObject);
+
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
@@ -39,20 +41,6 @@ public:
 	/* Post process settings to use for this volume */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, Interp, meta = (ShowOnlyInnerProperties))
 		FPostProcessSettings Settings;
-
-	/* Priority of this post-processing. The one with the highest priority overrides the lower priority ones.
-	 * The order is undefined if two or more overlapping volumes have the same priority
-	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings)
-		float Priority;
-
-	/* 0: No effect, 1: Full effect */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings, Interp, meta = (UIMin = 0.0, UIMax = 1.0f))
-		float BlendWeight;
-
-	/* Whether this volume is enabled or not */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings, Interp)
-		bool bEnabled;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Tools)
