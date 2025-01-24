@@ -18,7 +18,7 @@
 
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
-#include "Misc/ToroPostProcess.h"
+#include "UserSettings/MasterPostProcess.h"
 #include "WorldActions/WorldActionActor.h"
 
 #include "DetailsCustomization/ToroActorDetails.h"
@@ -80,7 +80,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AToroPostProcess, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
@@ -145,7 +145,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroPostProcess)
+		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
