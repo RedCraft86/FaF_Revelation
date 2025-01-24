@@ -35,8 +35,14 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
 
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
+		TSoftObjectPtr<UMaterialParameterCollection> LightProbeMPC;
+	
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
+		TSoftObjectPtr<UMaterialInterface> LightProbePPM;
+	
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
-		TSoftObjectPtr<UMaterialParameterCollection> MainMPC;
+		TSoftObjectPtr<UMaterialInterface> BrightnessPPM;
 	
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
 		TSoftObjectPtr<USoundMix> MainSoundMix;

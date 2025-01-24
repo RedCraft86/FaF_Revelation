@@ -52,8 +52,17 @@ public:
 	UFUNCTION(CallInEditor, Category = Tools)
 		void CopyFromTarget();
 #endif
+
+	bool IsUsingLumen() const;
+	
 private:
 
+	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> Brightness;
+	UMaterialInstanceDynamic* GetBrightnessBlendable(const UToroUserSettings* InSettings);
+	
+	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> LightProbe;
+	UMaterialInstanceDynamic* GetLightProbeBlendable();
+	
 	void ApplySettings(const UToroUserSettings* InSettings);
 
 	virtual void BeginPlay() override;

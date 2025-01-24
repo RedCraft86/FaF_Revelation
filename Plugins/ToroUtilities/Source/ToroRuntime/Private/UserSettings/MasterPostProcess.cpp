@@ -3,12 +3,11 @@
 #include "UserSettings/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "ToroRuntimeSettings.h"
 #include "ToroRuntime.h"
 #if WITH_EDITOR
-#include "UserSettings/LightProbeBase.h"
 #include "Camera/CameraComponent.h"
 #include "Camera/CameraActor.h"
-#include "EngineUtils.h"
 #endif
 
 AMasterPostProcess::AMasterPostProcess()
@@ -102,19 +101,48 @@ void AMasterPostProcess::CopyFromTarget()
 }
 #endif
 
+bool AMasterPostProcess::IsUsingLumen() const
+{
+	if (PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod)
+	{
+		return PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+	}
+	
+	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
+	{
+		return UserSettings->GetLumenGI();
+	}
+	
+	return false;
+}
+
+UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable(const UToroUserSettings* InSettings)
+{
+	if (!Brightness) Brightness = UMaterialInstanceDynamic::Create(
+		UToroRuntimeSettings::Get()->BrightnessPPM.LoadSynchronous(), this);
+	
+	if (Brightness) Brightness->SetScalarParameterValue(TEXT("Brightness"),
+		(float)InSettings->GetBrightness() / 100.0f);
+	
+	return Brightness;
+}
+
+UMaterialInstanceDynamic* AMasterPostProcess::GetLightProbeBlendable()
+{
+	if (!LightProbe) LightProbe = UMaterialInstanceDynamic::Create(
+			UToroRuntimeSettings::Get()->LightProbePPM.LoadSynchronous(), this);
+
+	return LightProbe;
+}
+
 void AMasterPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 {
 	SettingOverrides.ApplyChoice(Settings, InSettings);
 	PostProcess->Settings = Settings;
-#if WITH_EDITOR
-	if (FApp::IsGame()) return;
-	const bool bUsingLumen = !PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod
-		|| PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
-	for (ALightProbeBase* Probe : TActorRange<ALightProbeBase>(GetWorld()))
-	{
-		if (Probe) Probe->bUsingLumen = bUsingLumen;
-	}
-#endif
+
+	PostProcess->Settings.AddBlendable(GetBrightnessBlendable(InSettings), 1.0f);
+	if (IsUsingLumen()) PostProcess->Settings.RemoveBlendable(GetLightProbeBlendable());
+	else PostProcess->Settings.AddBlendable(GetLightProbeBlendable(), 1.0f);
 }
 
 void AMasterPostProcess::BeginPlay()
