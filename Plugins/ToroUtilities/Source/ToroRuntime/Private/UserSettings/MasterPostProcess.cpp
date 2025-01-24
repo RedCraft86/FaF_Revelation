@@ -3,8 +3,10 @@
 #include "UserSettings/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
 #if WITH_EDITOR
+#include "UserSettings/LightProbeBase.h"
 #include "Camera/CameraComponent.h"
 #include "Camera/CameraActor.h"
+#include "EngineUtils.h"
 #endif
 
 AMasterPostProcess::AMasterPostProcess() : Priority(1.0f), BlendWeight(1.0f), bEnabled(true)
@@ -92,6 +94,14 @@ void AMasterPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 	PostProcess->BlendWeight = BlendWeight;
 	PostProcess->bEnabled = bEnabled;
 	PostProcess->bUnbound = true;
+#if WITH_EDITOR
+	if (FApp::IsGame()) return;
+	const bool bUsingLumen = PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+	for (ALightProbeBase* Probe : TActorRange<ALightProbeBase>(GetWorld()))
+	{
+		if (Probe) Probe->bUsingLumen = bUsingLumen;
+	}
+#endif
 }
 
 void AMasterPostProcess::BeginPlay()
