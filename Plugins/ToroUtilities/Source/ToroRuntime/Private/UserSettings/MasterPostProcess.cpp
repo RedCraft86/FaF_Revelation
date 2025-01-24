@@ -41,21 +41,31 @@ AMasterPostProcess::AMasterPostProcess()
 
 AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject)
 {
+	AMasterPostProcess* Out;
 #if WITH_EDITOR
 	TArray<AActor*> PostProcesses;
 	UGameplayStatics::GetAllActorsOfClass(ContextObject, StaticClass(), PostProcesses);
 	if (PostProcesses.Num() > 1)
 	{
-		UE_LOG(LogToroRuntime, Warning, TEXT("Multiple Master Post Process actors found! Getting the first one."));
+		UE_LOG(LogToroRuntime, Warning, TEXT("Multiple Master Post Process actors found! Returning the first one."));
 		for (AActor* Actor : PostProcesses) if (Actor) UE_LOG(LogToroRuntime, Warning,
 			TEXT("\t %s (%s) in level %s"), *Actor->GetActorLabel(),
 			(PostProcesses.Find(Actor) == 0 ? TEXT("Returned") : TEXT("")),
 			*GetNameSafe(Actor->GetLevel()));
 
-		return Cast<AMasterPostProcess>(PostProcesses[0]);
+		Out = Cast<AMasterPostProcess>(PostProcesses[0]);
 	}
 #endif
-	return Cast<AMasterPostProcess>(UGameplayStatics::GetActorOfClass(ContextObject, StaticClass()));
+	Out = Cast<AMasterPostProcess>(UGameplayStatics::GetActorOfClass(ContextObject, StaticClass()));
+	
+	if (!Out)
+	{
+		UE_LOG(LogToroRuntime, Warning, TEXT("Master Post Process actor not found! Attempting to spawn one."));
+		UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
+		Out = World ? World->SpawnActor<AMasterPostProcess>() : nullptr;
+	}
+
+	return Out;
 }
 
 #if WITH_EDITORONLY_DATA
