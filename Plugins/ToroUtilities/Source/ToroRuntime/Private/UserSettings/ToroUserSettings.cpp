@@ -259,9 +259,9 @@ void UToroUserSettings::ApplyMotionBlur() const
 #if WITH_EDITOR
 	if (!FApp::IsGame()) return;
 #endif
-	const uint8 MotionBlur = GetMotionBlur();
-	SET_CONSOLE_VAR(r.DefaultFeature.MotionBlur, FMath::Min(1, (int32)MotionBlur));
-	if (MotionBlur != 0) OnDynamicSettingsChanged.Broadcast(this);
+	const uint8 MotionBlurAmount = GetMotionBlur();
+	SET_CONSOLE_VAR(r.DefaultFeature.MotionBlur, FMath::Min(1, (int32)MotionBlurAmount));
+	if (MotionBlurAmount != 0) OnDynamicSettingsChanged.Broadcast(this);
 }
 
 void UToroUserSettings::ApplyLumen() const
