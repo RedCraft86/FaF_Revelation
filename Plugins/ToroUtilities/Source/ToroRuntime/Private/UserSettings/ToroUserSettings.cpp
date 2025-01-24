@@ -1,21 +1,12 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserSettings/ToroUserSettings.h"
-#include "Kismet/KismetMaterialLibrary.h"
 #include "ToroRuntimeSettings.h"
 #include "AudioDevice.h"
 
-UToroUserSettings::UToroUserSettings() : ShowFPS(false), FieldOfView(0), SmoothCamera(true)
-	, SensitivityX(1.0f), SensitivityY(1.0f), Gamma(2.2f), Brightness(100), FancyBloom(true)
-	, ScreenSpaceFogScattering(true), MotionBlur(2), LumenGI(0), LumenReflection(2)
-	, HitLightingReflections(false), ColorBlindMode(EColorBlindMode::None), ColorBlindIntensity(0)
-	, NvidiaReflex(0), RTXDynamicVibrance(false), DynamicVibranceIntensity(0.5f)
-	, DynamicVibranceSaturation(0.5f), ImageFidelityMode(EImageFidelityMode::TAA), FXAADithering(3)
-	, TAAUpsampling(2), TSRResolution(70), SMAAQuality(3), SMAAEdgeMode(3), DLSSQuality(3)
-	, DLSSSharpness(0.0f), DLSSRayReconstruction(false), DLSSFrameGeneration(false), FSRQuality(2)
-	, FSRSharpness(0.0f), FSRFrameGeneration(false), XeSSQuality(3), NISQuality(3), NISSharpness(0.0f)
-	, NISScreenPercentage(100.0f)
+UToroUserSettings::UToroUserSettings()
 {
+	SetToDefaults();
 }
 
 void UToroUserSettings::CheckSupportedFidelityModes()
@@ -85,7 +76,7 @@ DEFINE_SETTER_BASIC(float, SensitivityX)
 DEFINE_SETTER_BASIC(float, SensitivityY)
 
 DEFINE_SETTER(float, Gamma, if (GEngine) GEngine->DisplayGamma = GetGamma();)
-DEFINE_SETTER(uint8, Brightness, ApplyBrightness();)
+DEFINE_SETTER_DYNAMIC(uint8, Brightness)
 DEFINE_SETTER_DYNAMIC(bool, FancyBloom)
 DEFINE_SETTER_CONSOLE(bool, ScreenSpaceFogScattering, r.SSFS)
 DEFINE_SETTER(uint8, MotionBlur, ApplyMotionBlur();)
@@ -247,19 +238,6 @@ void UToroUserSettings::ApplyAudioSettings() const
 	}
 }
 
-void UToroUserSettings::ApplyBrightness() const
-{
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (UMaterialParameterCollection* MPC = Settings ? Settings->MainMPC.LoadSynchronous() : nullptr)
-	{
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MPC,
-			TEXT("Brightness"), GetBrightness());
-	}
-}
-
 void UToroUserSettings::ApplyMotionBlur() const
 {
 #if WITH_EDITOR
@@ -294,6 +272,28 @@ void UToroUserSettings::ApplyShowFPS() const
 #endif
 }
 
+void UToroUserSettings::ReapplySettings()
+{
+	ApplyImageFidelityMode();
+	ApplyColorBlindSettings();
+	ApplyDynamicVibrance();
+	ApplyAudioSettings();
+	ApplyMotionBlur();
+	ApplyLumen();
+	ApplyShowFPS();
+
+#if WITH_EDITOR
+	if (FApp::IsGame())
+#endif
+	{
+		if (GEngine) GEngine->DisplayGamma = GetGamma();
+		SET_CONSOLE_VAR(r.SSFS, ScreenSpaceFogScattering);
+		OnDynamicSettingsChanged.Broadcast(this);
+
+		ApplyNonResolutionSettings();
+	}
+}
+
 void UToroUserSettings::CacheScalabilityDefaults()
 {
 	ScalabilityDefaults[0] = GetOverallQuality();
@@ -311,24 +311,46 @@ void UToroUserSettings::CacheScalabilityDefaults()
 
 void UToroUserSettings::SetToDefaults()
 {
-	CheckSupportedFidelityModes();
-	ApplyImageFidelityMode();
-	ApplyColorBlindSettings();
-	ApplyDynamicVibrance();
-	ApplyAudioSettings();
-	ApplyBrightness();
-	ApplyMotionBlur();
-	ApplyLumen();
-	ApplyShowFPS();
-
-#if WITH_EDITOR
-	if (FApp::IsGame())
-#endif
-	{
-		if (GEngine) GEngine->DisplayGamma = GetGamma();
-		SET_CONSOLE_VAR(r.SSFS, ScreenSpaceFogScattering);
-	}
+	ShowFPS = false;
+	FieldOfView = 0;
+	SmoothCamera = true;
+	SensitivityX = 1.0f;
+	SensitivityY = 1.0f;
+	Gamma = 2.2f;
+	Brightness = 100;
+	FancyBloom = true;
+	ScreenSpaceFogScattering = true;
+	MotionBlur = 2;
+	LumenGI = 0;
+	LumenReflection = 2;;
+	HitLightingReflections = false;
+	ColorBlindMode = EColorBlindMode::None;
+	ColorBlindIntensity = 0;
+	NvidiaReflex = 0;
+	RTXDynamicVibrance = false;
+	DynamicVibranceIntensity = 0.5f;
+	DynamicVibranceSaturation = 0.5f;
+	ImageFidelityMode = EImageFidelityMode::TAA;
+	FXAADithering = 3;
+	TAAUpsampling = 2;
+	TSRResolution = 70;
+	SMAAQuality = 3;
+	SMAAEdgeMode = 3;
+	DLSSQuality = 3;
+	DLSSSharpness = 0.0f;
+	DLSSRayReconstruction = false;
+	DLSSFrameGeneration = false;
+	FSRQuality = 2;
+	FSRSharpness = 0.0f;
+	FSRFrameGeneration = false;
+	XeSSQuality = 3;
+	NISQuality = 3;
+	NISSharpness = 0.0f;
+	NISScreenPercentage = 100.0f;
 	
+	CheckSupportedFidelityModes();
+	
+	ReapplySettings();
 	Super::SetToDefaults();
 }
 
@@ -336,7 +358,13 @@ void UToroUserSettings::ApplyNonResolutionSettings()
 {
 	OnSettingsApplied.Broadcast(this);
 	Super::ApplyNonResolutionSettings();
-	SaveSettings();
+}
+
+void UToroUserSettings::LoadSettings(bool bForceReload)
+{
+	Super::LoadSettings(bForceReload);
+	ApplyResolutionSettings(true);
+	ReapplySettings();
 }
 
 UWorld* UToroUserSettings::GetWorld() const

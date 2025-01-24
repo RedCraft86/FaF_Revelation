@@ -135,15 +135,16 @@ private:
 	void ApplyColorBlindSettings() const;
 	void ApplyDynamicVibrance() const;
 	void ApplyAudioSettings() const;
-	void ApplyBrightness() const;
 	void ApplyMotionBlur() const;
 	void ApplyLumen() const;
 	void ApplyShowFPS() const;
 
+	void ReapplySettings();
 	void CacheScalabilityDefaults();
-
+	
 	virtual void SetToDefaults() override;
 	virtual void ApplyNonResolutionSettings() override;
+	virtual void LoadSettings(bool bForceReload) override;
 	virtual UWorld* GetWorld() const override;
 
 	/* Misc */
