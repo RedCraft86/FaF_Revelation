@@ -18,4 +18,7 @@ UGameSectionNode::UGameSectionNode()
 {
 	Name = INVTEXT("New Section");
 	Description = INVTEXT("A node containing data relevant to a section of the game.");
+#if WITH_EDITORONLY_DATA
+	ContextMenuName = INVTEXT("Game Section");
+#endif
 }
