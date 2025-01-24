@@ -16,15 +16,15 @@ class DATAGRAPH_API UDataNodeBase : public UDataAsset
 public:
 
 	UDataNodeBase();
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Node, meta = (SortPriority = -1))
+		FText Name;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Node, meta = (MultiLine = true, SortPriority = -1))
+		FText Description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Node)
 		FGuid NodeID;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Node)
-		FText Name;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Node, meta = (MultiLine = true))
-		FText Description;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Node, AdvancedDisplay)

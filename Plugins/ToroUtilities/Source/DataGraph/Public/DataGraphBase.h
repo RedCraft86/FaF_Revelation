@@ -17,7 +17,7 @@ public:
 
 	UDataGraphBase();
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Graph, meta = (MultiLine = true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Graph)
 		FGuid GraphID;
 	
 #if WITH_EDITORONLY_DATA
