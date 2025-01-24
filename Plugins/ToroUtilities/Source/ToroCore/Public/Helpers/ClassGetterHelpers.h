@@ -25,6 +25,13 @@
 		return IsValid(GI) ? GI->GetSubsystem<Class>() : nullptr; \
 	}
 
+#define WORLD_SUBSYSTEM_GETTER(Class) \
+	static Class* Get(const UObject* WorldContext) \
+	{ \
+		const UWorld* World = IsValid(WorldContext) ? GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::LogAndReturnNull) : nullptr; \
+		return IsValid(World) ? World->GetSubsystem<Class>() : nullptr; \
+	}
+
 #define ENGINE_SUBSYSTEM_GETTER(Class) \
 	static Class* Get() \
 	{ \
