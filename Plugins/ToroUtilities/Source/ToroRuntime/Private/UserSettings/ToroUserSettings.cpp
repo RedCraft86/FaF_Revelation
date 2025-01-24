@@ -12,8 +12,8 @@ UToroUserSettings::UToroUserSettings() : ShowFPS(false), FieldOfView(0), SmoothC
 	, NvidiaReflex(0), RTXDynamicVibrance(false), DynamicVibranceIntensity(0.5f)
 	, DynamicVibranceSaturation(0.5f), ImageFidelityMode(EImageFidelityMode::TAA), FXAADithering(3)
 	, TAAUpsampling(2), TSRResolution(70), SMAAQuality(3), SMAAEdgeMode(3), DLSSQuality(3)
-	, DLSSSharpness(0.0f), DLSSRayReconstruction(false), DLSSFrameGeneration(true), FSRQuality(2)
-	, FSRSharpness(0.0f), FSRFrameGeneration(true), XeSSQuality(3), NISQuality(3), NISSharpness(0.0f)
+	, DLSSSharpness(0.0f), DLSSRayReconstruction(false), DLSSFrameGeneration(false), FSRQuality(2)
+	, FSRSharpness(0.0f), FSRFrameGeneration(false), XeSSQuality(3), NISQuality(3), NISSharpness(0.0f)
 	, NISScreenPercentage(100.0f)
 {
 }
