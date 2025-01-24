@@ -46,10 +46,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings)
 		float Priority;
 
-	/* World space radius around the volume that is used for blending (only if not unbound) */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings, Interp, meta = (ClampMin = 0.0, UIMin = 0.0, UIMax = 6000.0f))
-		float BlendRadius;
-
 	/* 0: No effect, 1: Full effect */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings, Interp, meta = (UIMin = 0.0, UIMax = 1.0f))
 		float BlendWeight;

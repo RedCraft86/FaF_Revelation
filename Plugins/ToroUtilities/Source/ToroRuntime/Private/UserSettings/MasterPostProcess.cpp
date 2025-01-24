@@ -7,7 +7,7 @@
 #include "Camera/CameraActor.h"
 #endif
 
-AMasterPostProcess::AMasterPostProcess() : Priority(1.0f), BlendRadius(100.0f) , BlendWeight(1.0f), bEnabled(true)
+AMasterPostProcess::AMasterPostProcess() : Priority(1.0f), BlendWeight(1.0f), bEnabled(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -43,14 +43,12 @@ void AMasterPostProcess::CopyFromTarget()
 		{
 			NewSettings = PPActor->Settings;
 			Priority = PPActor->Priority;
-			BlendRadius = PPActor->BlendRadius;
 			BlendWeight = PPActor->BlendWeight;
 		}
 		else if (const APostProcessVolume* PPVolume = Cast<APostProcessVolume>(CopyTarget.LoadSynchronous()))
 		{
 			NewSettings = PPVolume->Settings;
 			Priority = PPVolume->Priority;
-			BlendRadius = PPVolume->BlendRadius;
 			BlendWeight = PPVolume->BlendWeight;
 		}
 		else if (const ACameraActor* CamActor = Cast<ACameraActor>(CopyTarget.LoadSynchronous()))
@@ -62,7 +60,6 @@ void AMasterPostProcess::CopyFromTarget()
 		{
 			NewSettings = PPComp->Settings;
 			Priority = PPComp->Priority;
-			BlendRadius = PPComp->BlendRadius;
 			BlendWeight = PPComp->BlendWeight;
 		}
 		else if (const UCameraComponent* CamComp = CopyTarget ? CopyTarget->FindComponentByClass<UCameraComponent>() : nullptr)
@@ -93,7 +90,6 @@ void AMasterPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 	PostProcess->Settings = Settings;
 	PostProcess->Priority = Priority;
 	PostProcess->BlendWeight = BlendWeight;
-	PostProcess->BlendRadius = BlendRadius;
 	PostProcess->bEnabled = bEnabled;
 	PostProcess->bUnbound = true;
 }
