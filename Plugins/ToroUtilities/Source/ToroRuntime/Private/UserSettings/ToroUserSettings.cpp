@@ -95,17 +95,9 @@ DEFINE_SETTER(uint8, NvidiaReflex,
 	
 )
 
-DEFINE_SETTER(bool, RTXDynamicVibrance, 
-	
-)
-
-DEFINE_SETTER(float, DynamicVibranceIntensity, 
-	
-)
-
-DEFINE_SETTER(float, DynamicVibranceSaturation, 
-	
-)
+DEFINE_SETTER(bool, RTXDynamicVibrance, ApplyDynamicVibrance();)
+DEFINE_SETTER(float, DynamicVibranceIntensity, ApplyDynamicVibrance();)
+DEFINE_SETTER(float, DynamicVibranceSaturation, ApplyDynamicVibrance();)
 
 DEFINE_SETTER(EImageFidelityMode, ImageFidelityMode, ApplyImageFidelityMode();)
 
@@ -116,114 +108,42 @@ DEFINE_SETTER_CONSOLE(uint8, TSRResolution, r.ScreenPercentage)
 DEFINE_SETTER_CONSOLE(uint8, SMAAQuality, r.SMAA.Quality)
 DEFINE_SETTER_CONSOLE(uint8, SMAAEdgeMode, r.SMAA.EdgeDetector)
 
-DEFINE_SETTER(uint8, DLSSQuality, 
-	
-)
-
-DEFINE_SETTER(float, DLSSSharpness, 
-	
-)
-
-DEFINE_SETTER(bool, DLSSRayReconstruction, 
-	
-)
-
+DEFINE_SETTER(uint8, DLSSQuality, ApplyDLSS();)
+DEFINE_SETTER(float, DLSSSharpness, ApplyDLSS();)
+DEFINE_SETTER(bool, DLSSRayReconstruction, ApplyDLSS();)
 DEFINE_SETTER(bool, DLSSFrameGeneration, 
 	
 )
 
-
-DEFINE_SETTER_CONSOLE(uint8, FSRQuality, r.FidelityFX.FSR3.QualityMode)
-DEFINE_SETTER_CONSOLE(float, FSRSharpness, r.FidelityFX.FSR3.Sharpness)
+DEFINE_SETTER(uint8, FSRQuality, ApplyFSR();)
+DEFINE_SETTER(float, FSRSharpness, ApplyFSR();)
 DEFINE_SETTER_CONSOLE(bool, FSRFrameGeneration, r.FidelityFX.FI.Enabled)
 
-DEFINE_SETTER(uint8, XeSSQuality, 
-	
-)
+DEFINE_SETTER_CONSOLE(uint8, XeSSQuality, r.XeSS.Quality)
 
-DEFINE_SETTER(uint8, NISQuality, 
-	
-)
+DEFINE_SETTER(uint8, NISQuality, ApplyNIS();)
+DEFINE_SETTER(float, NISSharpness, ApplyNIS();)
+DEFINE_SETTER(float, NISScreenPercentage, ApplyNIS();)
 
-DEFINE_SETTER(float, NISSharpness, 
-	
-)
-
-DEFINE_SETTER(float, NISScreenPercentage, 
-	
-)
-
-void UToroUserSettings::ApplyShowFPS() const
+void UToroUserSettings::ApplyNIS() const
 {
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
 }
 
-void UToroUserSettings::ApplyBrightness() const
+void UToroUserSettings::ApplyFSR() const
 {
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (UMaterialParameterCollection* MPC = Settings ? Settings->MainMPC.LoadSynchronous() : nullptr)
-	{
-		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MPC,
-			TEXT("Brightness"), GetBrightness());
-	}
+	SET_CONSOLE_VAR(r.FidelityFX.FSR3.QualityMode, GetFSRQuality())
+	SET_CONSOLE_VAR(r.FidelityFX.FSR3.Sharpness, GetFSRSharpness())
 }
 
-void UToroUserSettings::ApplyMotionBlur() const
+void UToroUserSettings::ApplyDLSS() const
 {
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (USoundMix* SoundMix = Settings ? Settings->MainSoundMix.LoadSynchronous() : nullptr)
-	{
-		for (const ESoundClassType Type : TEnumRange<ESoundClassType>())
-		{
-			if (USoundClass* SoundClass = Settings->SoundClasses[static_cast<uint8>(Type)].LoadSynchronous())
-			{
-				
-				UGameplayStatics::SetSoundMixClassOverride(this, SoundMix, SoundClass,
-					GetAudioVolume(Type), 1.0f, 0.5f, true);
-			}
-		}
-	}
-	const uint8 MotionBlur = GetMotionBlur();
-	SET_CONSOLE_VAR(r.DefaultFeature.MotionBlur, FMath::Min(1, (int32)MotionBlur));
-	if (MotionBlur != 0) OnDynamicSettingsChanged.Broadcast(this);
-}
-
-void UToroUserSettings::ApplyLumen() const
-{
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-	const bool bLumenGI = GetLumenGI() != 0;
-	SET_CONSOLE_VAR(r.DynamicGlobalIlluminationMethod,	bLumenGI ? 1 : 0);
-
-	const bool bLumenReflection = GetLumenReflection() != 0;
-	SET_CONSOLE_VAR(r.ReflectionMethod,	bLumenReflection ? 1 : 2);
-
-	const bool bHitLighting = GetHitLightingReflections();
-	SET_CONSOLE_VAR(r.Lumen.HardwareRayTracing.LightingMode, bHitLighting ? 2 : 0);
-	
-	if (bLumenGI || bLumenReflection || bHitLighting) OnDynamicSettingsChanged.Broadcast(this);
-}
-
-void UToroUserSettings::ApplyColorBlindSettings() const
-{
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-	FSlateApplication::Get().GetRenderer()->SetColorVisionDeficiencyType(static_cast<EColorVisionDeficiency>(ColorBlindMode),
-		GetColorBlindIntensity(), true, false);
 }
 
 void UToroUserSettings::ApplyImageFidelityMode()
 {
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
 	if (SupportedFidelityModes.Contains(ImageFidelityMode))
 	{
 		uint8 AAMode = 0;
@@ -233,27 +153,36 @@ void UToroUserSettings::ApplyImageFidelityMode()
 		case EImageFidelityMode::None: break;
 		case EImageFidelityMode::FXAA:
 			AAMode = 1;
+			SET_CONSOLE_VAR(r.FXAA.Quality, GetFXAADithering() + 1)
 			break;
 		case EImageFidelityMode::TAA:
 			AAMode = 2;
+			SET_CONSOLE_VAR(r.TemporalAA.Quality, GetTAAUpsampling())
 			break;
 		case EImageFidelityMode::SMAA:
 			bSMAA = true;
+			SET_CONSOLE_VAR(r.SMAA.Quality, GetSMAAQuality())
+			SET_CONSOLE_VAR(r.SMAA.EdgeDetector, GetSMAAEdgeMode())
 			break;
 		case EImageFidelityMode::TSR:
 			AAMode = 4;
+			SET_CONSOLE_VAR(r.ScreenPercentage, GetTSRResolution())
 			break;
 		case EImageFidelityMode::DLSS:
 			bDLSS = true;
+			ApplyDLSS();
 			break;
 		case EImageFidelityMode::FSR:
 			bFSR = true;
+			ApplyFSR();
 			break;
 		case EImageFidelityMode::XeSS:
 			bXeSS = true;
+			SET_CONSOLE_VAR(r.XeSS.Quality, GetXeSSQuality())
 			break;
 		case EImageFidelityMode::NIS:
 			bNIS = true;
+			ApplyNIS();
 			break;
 		}
 		
@@ -277,6 +206,94 @@ void UToroUserSettings::ApplyImageFidelityMode()
 	}
 }
 
+void UToroUserSettings::ApplyColorBlindSettings() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	FSlateApplication::Get().GetRenderer()->SetColorVisionDeficiencyType(static_cast<EColorVisionDeficiency>(ColorBlindMode),
+		GetColorBlindIntensity(), true, false);
+}
+
+void UToroUserSettings::ApplyDynamicVibrance() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+}
+
+void UToroUserSettings::ApplyAudioSettings() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
+	if (USoundMix* SoundMix = Settings ? Settings->MainSoundMix.LoadSynchronous() : nullptr)
+	{
+		for (const ESoundClassType Type : TEnumRange<ESoundClassType>())
+		{
+			if (USoundClass* SoundClass = Settings->SoundClasses[static_cast<uint8>(Type)].LoadSynchronous())
+			{
+				UGameplayStatics::SetSoundMixClassOverride(this, SoundMix, SoundClass,
+					GetAudioVolume(Type), 1.0f, 0.5f, true);
+			}
+		}
+	}
+}
+
+void UToroUserSettings::ApplyBrightness() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
+	if (UMaterialParameterCollection* MPC = Settings ? Settings->MainMPC.LoadSynchronous() : nullptr)
+	{
+		UKismetMaterialLibrary::SetScalarParameterValue(GetWorld(), MPC,
+			TEXT("Brightness"), GetBrightness());
+	}
+}
+
+void UToroUserSettings::ApplyMotionBlur() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	const uint8 MotionBlur = GetMotionBlur();
+	SET_CONSOLE_VAR(r.DefaultFeature.MotionBlur, FMath::Min(1, (int32)MotionBlur));
+	if (MotionBlur != 0) OnDynamicSettingsChanged.Broadcast(this);
+}
+
+void UToroUserSettings::ApplyLumen() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+	const bool bLumenGI = GetLumenGI() != 0;
+	SET_CONSOLE_VAR(r.DynamicGlobalIlluminationMethod,	bLumenGI ? 1 : 0);
+
+	const bool bLumenReflection = GetLumenReflection() != 0;
+	SET_CONSOLE_VAR(r.ReflectionMethod,	bLumenReflection ? 1 : 2);
+
+	const bool bHitLighting = GetHitLightingReflections();
+	SET_CONSOLE_VAR(r.Lumen.HardwareRayTracing.LightingMode, bHitLighting ? 2 : 0);
+	
+	if (bLumenGI || bLumenReflection || bHitLighting) OnDynamicSettingsChanged.Broadcast(this);
+}
+
+void UToroUserSettings::ApplyShowFPS() const
+{
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return;
+#endif
+}
+
+void UToroUserSettings::CheckSupportedFidelityModes()
+{
+	SupportedFidelityModes = {EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
+		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
+}
+
 void UToroUserSettings::CacheScalabilityDefaults()
 {
 	ScalabilityDefaults[0] = GetOverallQuality();
@@ -294,8 +311,23 @@ void UToroUserSettings::CacheScalabilityDefaults()
 
 void UToroUserSettings::SetToDefaults()
 {
-	SupportedFidelityModes = {EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
-		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
+	CheckSupportedFidelityModes();
+	ApplyImageFidelityMode();
+	ApplyColorBlindSettings();
+	ApplyDynamicVibrance();
+	ApplyAudioSettings();
+	ApplyBrightness();
+	ApplyMotionBlur();
+	ApplyLumen();
+	ApplyShowFPS();
+
+#if WITH_EDITOR
+	if (FApp::IsGame())
+#endif
+	{
+		if (GEngine) GEngine->DisplayGamma = GetGamma();
+		SET_CONSOLE_VAR(r.SSFS, ScreenSpaceFogScattering);
+	}
 	
 	Super::SetToDefaults();
 }
