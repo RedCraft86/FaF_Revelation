@@ -81,9 +81,17 @@ struct FPPLumen
 	/** Scales the Reflection quality. Larger scales reduce noise in reflections, but increase GPU cost. */
 	UPROPERTY(Interp, EditAnywhere, Category = Settings, meta = (ClampMin = 0.25f, UIMax = 2.0f))
 		float ReflectionQuality;
+
+	/** Sets the maximum number of recursive reflection bounces. 1 means a single reflection ray (no secondary reflections in mirrors). Currently only supported by Hardware Ray Tracing with Hit Lighting. */
+	UPROPERTY(Interp, EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 1, ClampMax = 8))
+		uint8 ReflectionBounces;
+
+	/** The maximum count of refraction event to trace. When hit lighting is used, Translucent meshes will be traced when LumenMaxRefractionBounces > 0, making the reflection tracing more expensive. */
+	UPROPERTY(Interp, EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0, ClampMax = 64))
+		uint8 RefractionBounces;
 	
-	FPPLumen() : SceneLightingQuality(1.0f), SceneDetail(1.0f), SceneLightingUpdateSpeed(1.0f)
-		, FinalGatherQuality(1.0f), FinalGatherLightingUpdateSpeed(1.0f), ReflectionQuality(1.0f)
+	FPPLumen() : SceneLightingQuality(1.0f), SceneDetail(1.0f), SceneLightingUpdateSpeed(1.0f), FinalGatherQuality(1.0f)
+		, FinalGatherLightingUpdateSpeed(1.0f), ReflectionQuality(1.0f), ReflectionBounces(1), RefractionBounces(0)
 	{}
 
 	void ModifyGI(FPostProcessSettings& Settings) const
@@ -105,6 +113,12 @@ struct FPPLumen
 	{
 		Settings.bOverride_LumenReflectionQuality = true;
 		Settings.LumenReflectionQuality = ReflectionQuality;
+		
+		Settings.bOverride_LumenMaxReflectionBounces = true;
+		Settings.LumenMaxReflectionBounces = ReflectionBounces;
+		
+		Settings.bOverride_LumenMaxRefractionBounces = true;
+		Settings.LumenMaxRefractionBounces = RefractionBounces;
 	}
 };
 
@@ -114,11 +128,11 @@ struct FPPMotionBlur
 	GENERATED_BODY()
 
 	/** Strength of motion blur, 0:off */
-	UPROPERTY(Interp, EditAnywhere, Category = Settings, meta = (ClampMin = "0.0", ClampMax = "1.0"))
+	UPROPERTY(Interp, EditAnywhere, Category = Settings, meta = (ClampMin = 0.0f, ClampMax = 1.0f))
 		float Amount;
 
 	/** Max distortion caused by motion blur, in percent of the screen width, 0:off */
-	UPROPERTY(Interp, EditAnywhere, Category = Settings, meta = (ClampMin = "0.0", ClampMax = "100.0"))
+	UPROPERTY(Interp, EditAnywhere, Category = Settings, meta = (ClampMin = 0.0f, ClampMax = 100.0f))
 		float MaxDistortion;
 	
 	FPPMotionBlur() : Amount(0.5f), MaxDistortion(5.0f) {}
