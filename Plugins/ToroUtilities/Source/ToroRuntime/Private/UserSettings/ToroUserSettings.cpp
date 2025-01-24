@@ -18,6 +18,12 @@ UToroUserSettings::UToroUserSettings() : ShowFPS(false), FieldOfView(0), SmoothC
 {
 }
 
+void UToroUserSettings::CheckSupportedFidelityModes()
+{
+	SupportedFidelityModes = {EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
+		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
+}
+
 void UToroUserSettings::AutoConfigureQuality()
 {
 	const float Res = ScalabilityQuality.ResolutionQuality;
@@ -286,12 +292,6 @@ void UToroUserSettings::ApplyShowFPS() const
 #if WITH_EDITOR
 	if (!FApp::IsGame()) return;
 #endif
-}
-
-void UToroUserSettings::CheckSupportedFidelityModes()
-{
-	SupportedFidelityModes = {EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
-		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
 }
 
 void UToroUserSettings::CacheScalabilityDefaults()

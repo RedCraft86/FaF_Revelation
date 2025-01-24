@@ -52,6 +52,7 @@ public:
 	
 	static UToroUserSettings* Get() { return Cast<UToroUserSettings>(GEngine->GameUserSettings); }
 	static inline TSet<EImageFidelityMode> SupportedFidelityModes = {};
+	static void CheckSupportedFidelityModes();
 	
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const UToroUserSettings*)
 	FUserSettingsDelegate OnDynamicSettingsChanged;
@@ -139,7 +140,6 @@ private:
 	void ApplyLumen() const;
 	void ApplyShowFPS() const;
 
-	void CheckSupportedFidelityModes();
 	void CacheScalabilityDefaults();
 
 	virtual void SetToDefaults() override;
