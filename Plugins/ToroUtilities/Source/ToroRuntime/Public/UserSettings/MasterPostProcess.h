@@ -8,19 +8,22 @@
 #include "GameFramework/Actor.h"
 #include "DataTypes/PostProcessTypes.h"
 #include "UserSettings/ToroUserSettings.h"
-#include "ToroPostProcess.generated.h"
+#include "MasterPostProcess.generated.h"
 
+/* Master/Global post-processing volume.
+ * Ideally, only one should exist per map.
+ */
 UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API AToroPostProcess final : public AActor
+class TORORUNTIME_API AMasterPostProcess final : public AActor
 {
 	GENERATED_BODY()
 
 public:
 
-	AToroPostProcess();
+	AMasterPostProcess();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<class UBoxComponent> SceneRoot;
+		TObjectPtr<USceneComponent> SceneRoot;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UPostProcessComponent> PostProcess;
@@ -37,8 +40,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, Interp, meta = (ShowOnlyInnerProperties))
 		FPostProcessSettings Settings;
 
-	/* Priority of this volume. In the case of overlapping volumes the one with the highest priority
-	* overrides the lower priority ones. The order is undefined if two or more overlapping volumes have the same priority
+	/* Priority of this post-processing. The one with the highest priority overrides the lower priority ones.
+	 * The order is undefined if two or more overlapping volumes have the same priority
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings)
 		float Priority;
@@ -54,10 +57,6 @@ public:
 	/* Whether this volume is enabled or not */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings, Interp)
 		bool bEnabled;
-
-	/* Set this false to use the parent shape component as volume bounds. True affects the whole world regardless */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, AdvancedDisplay, Category = Settings, Interp)
-		bool bUnbound;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Tools)

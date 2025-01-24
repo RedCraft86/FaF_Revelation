@@ -1,19 +1,17 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Misc/ToroPostProcess.h"
-#include "Camera/CameraActor.h"
-#include "Camera/CameraComponent.h"
-#include "Components/BoxComponent.h"
+#include "UserSettings/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
+#if WITH_EDITOR
+#include "Camera/CameraComponent.h"
+#include "Camera/CameraActor.h"
+#endif
 
-AToroPostProcess::AToroPostProcess() : Priority(0.0f), BlendRadius(100.0f)
-	, BlendWeight(1.0f), bEnabled(true), bUnbound(true)
+AMasterPostProcess::AMasterPostProcess() : Priority(1.0f), BlendRadius(100.0f) , BlendWeight(1.0f), bEnabled(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-	SceneRoot = CreateDefaultSubobject<UBoxComponent>("SceneRoot");
-	SceneRoot->SetCollisionProfileName(TEXT("NoCollision"));
-	SceneRoot->SetVisibility(false);
+	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
 	PostProcess = CreateDefaultSubobject<UPostProcessComponent>("PostProcess");
@@ -36,18 +34,17 @@ AToroPostProcess::AToroPostProcess() : Priority(0.0f), BlendRadius(100.0f)
 }
 
 #if WITH_EDITORONLY_DATA
-void AToroPostProcess::CopyFromTarget()
+void AMasterPostProcess::CopyFromTarget()
 {
 	if (CopyTarget.LoadSynchronous())
 	{
 		FPostProcessSettings NewSettings = Settings;
-		if (const AToroPostProcess* PPActor = Cast<AToroPostProcess>(CopyTarget.LoadSynchronous()))
+		if (const AMasterPostProcess* PPActor = Cast<AMasterPostProcess>(CopyTarget.LoadSynchronous()))
 		{
 			NewSettings = PPActor->Settings;
 			Priority = PPActor->Priority;
 			BlendRadius = PPActor->BlendRadius;
 			BlendWeight = PPActor->BlendWeight;
-			bUnbound = PPActor->bUnbound;
 		}
 		else if (const APostProcessVolume* PPVolume = Cast<APostProcessVolume>(CopyTarget.LoadSynchronous()))
 		{
@@ -55,7 +52,6 @@ void AToroPostProcess::CopyFromTarget()
 			Priority = PPVolume->Priority;
 			BlendRadius = PPVolume->BlendRadius;
 			BlendWeight = PPVolume->BlendWeight;
-			bUnbound = PPVolume->bUnbound;
 		}
 		else if (const ACameraActor* CamActor = Cast<ACameraActor>(CopyTarget.LoadSynchronous()))
 		{
@@ -68,7 +64,6 @@ void AToroPostProcess::CopyFromTarget()
 			Priority = PPComp->Priority;
 			BlendRadius = PPComp->BlendRadius;
 			BlendWeight = PPComp->BlendWeight;
-			bUnbound = PPComp->bUnbound;
 		}
 		else if (const UCameraComponent* CamComp = CopyTarget ? CopyTarget->FindComponentByClass<UCameraComponent>() : nullptr)
 		{
@@ -87,13 +82,12 @@ void AToroPostProcess::CopyFromTarget()
 
 		CopyTarget = nullptr;
 		Settings = NewSettings;
-		SceneRoot->SetVisibility(!bUnbound);
 		ApplySettings(nullptr);
 	}
 }
 #endif
 
-void AToroPostProcess::ApplySettings(const UToroUserSettings* InSettings)
+void AMasterPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 {
 	SettingOverrides.ApplyChoice(Settings, InSettings);
 	PostProcess->Settings = Settings;
@@ -101,10 +95,10 @@ void AToroPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 	PostProcess->BlendWeight = BlendWeight;
 	PostProcess->BlendRadius = BlendRadius;
 	PostProcess->bEnabled = bEnabled;
-	PostProcess->bUnbound = bUnbound;
+	PostProcess->bUnbound = true;
 }
 
-void AToroPostProcess::BeginPlay()
+void AMasterPostProcess::BeginPlay()
 {
 	Super::BeginPlay();
 	if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
@@ -115,18 +109,17 @@ void AToroPostProcess::BeginPlay()
 	}
 }
 
-void AToroPostProcess::OnConstruction(const FTransform& Transform)
+void AMasterPostProcess::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 #if WITH_EDITORONLY_DATA
 	UPDATE_DEBUG_ICON(DebugIcon);
-	SceneRoot->SetVisibility(!bUnbound);
 #endif
 	ApplySettings(nullptr);
 }
 
 #if WITH_EDITOR
-void AToroPostProcess::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+void AMasterPostProcess::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, CopyTarget))
