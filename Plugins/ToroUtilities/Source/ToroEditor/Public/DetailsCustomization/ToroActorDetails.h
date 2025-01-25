@@ -48,7 +48,9 @@ protected:
 			{TEXT("Transform"), ECategoryPriority::Transform},
 			{TEXT("TransformCommon"), ECategoryPriority::Transform},
 			{TEXT("Settings"), ECategoryPriority::Important},
-			{TEXT("Tools"), ECategoryPriority::Important}
+			{TEXT("Tools"), ECategoryPriority::Important},
+			{TEXT("Rendering"), ECategoryPriority::Default},
+			{TEXT("Actor"), ECategoryPriority::Default}
 		};
 		
 		for (const TWeakObjectPtr<UObject>& Obj : Objs)
