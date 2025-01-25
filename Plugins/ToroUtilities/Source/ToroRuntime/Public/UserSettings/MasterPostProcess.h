@@ -13,7 +13,7 @@
 /* Master/Global post-processing volume.
  * Ideally, only one should exist per map.
  */
-UCLASS(NotBlueprintable, BlueprintType)
+UCLASS(NotBlueprintable, meta = (AllowedCategories = "PostProcessing"))
 class TORORUNTIME_API AMasterPostProcess final : public AActor
 {
 	GENERATED_BODY()
@@ -35,11 +35,11 @@ public:
 #endif
 
 	/* Advanced bloom control for game settings */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, Interp, meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ShowOnlyInnerProperties))
 		FPPSettingOverrides SettingOverrides;
 
 	/* Post process settings to use for this volume */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, Interp, meta = (ShowOnlyInnerProperties))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = PostProcessing, Interp, meta = (ShowOnlyInnerProperties))
 		FPostProcessSettings Settings;
 
 #if WITH_EDITORONLY_DATA
