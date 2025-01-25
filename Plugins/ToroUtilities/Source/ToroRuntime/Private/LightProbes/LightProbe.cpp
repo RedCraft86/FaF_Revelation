@@ -4,7 +4,7 @@
 #include "LightProbes/LightProbeManager.h"
 #include "Materials/MaterialParameterCollectionInstance.h"
 
-ALightProbe::ALightProbe() : Intensity(1.0f), Radius(1000.0f), Falloff(2.0f), Color(FLinearColor::White)
+ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f), Color(FLinearColor::White)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -16,8 +16,11 @@ ALightProbe::ALightProbe() : Intensity(1.0f), Radius(1000.0f), Falloff(2.0f), Co
 	DebugBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>(TEXT("DebugBillboard"));
 	if (DebugBillboard)
 	{
+		DebugBillboard->bIsScreenSizeScaled = true;
+		DebugBillboard->SetupAttachment(SceneRoot);
+		DebugBillboard->SetWorldScale3D(FVector{0.5f});
 		DebugBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
-			TEXT("Texture2D'/ToroUtilities/Icons/LightProbeIcon.LightProbeIcon'")));
+			TEXT("Texture2D'/ToroUtilities/Icons/LightProbe.LightProbe'")));
 	}
 #endif
 }
@@ -68,8 +71,9 @@ void ALightProbe::OnConstruction(const FTransform& Transform)
 	if (DebugShape)
 	{
 		FDebugSphereData Data;
+		Data.NumOfSides = 64;
 		Data.Radius = Radius;
-		Data.Color = FColor::Turquoise;
+		Data.Color = FColor::FromHex(TEXT("97C1D0FF"));
 		DebugShape->DebugSpheres.Add(TEXT("Radius"), Data);
 	}
 }

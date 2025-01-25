@@ -28,8 +28,11 @@ AMasterPostProcess::AMasterPostProcess()
 	DebugBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>(TEXT("DebugBillboard"));
 	if (DebugBillboard)
 	{
+		DebugBillboard->bIsScreenSizeScaled = true;
+		DebugBillboard->SetupAttachment(SceneRoot);
+		DebugBillboard->SetWorldScale3D(FVector{0.5f});
 		DebugBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
-			TEXT("Texture2D'/Engine/EditorResources/S_BoxReflectionCapture.S_BoxReflectionCapture'")));
+			TEXT("Texture2D'/ToroUtilities/Icons/MasterPostProcess.MasterPostProcess'")));
 	}
 #endif
 
