@@ -121,7 +121,7 @@ bool AMasterPostProcess::IsUsingLumen() const
 	
 	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
-		return UserSettings->GetLumenGI();
+		return UserSettings->GetLumenGI() != 0;
 	}
 	
 	return false;
