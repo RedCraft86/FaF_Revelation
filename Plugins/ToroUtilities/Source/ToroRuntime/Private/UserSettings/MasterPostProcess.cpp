@@ -25,10 +25,11 @@ AMasterPostProcess::AMasterPostProcess()
 	PostProcess->bEnabled = true;
 	
 #if WITH_EDITORONLY_DATA
-	CREATE_DEBUG_ICON(DebugIcon);
-	if (DebugIcon)
+	DebugBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>(TEXT("DebugBillboard"));
+	if (DebugBillboard)
 	{
-		DebugIcon->IconPath = TEXT("/Engine/EditorResources/S_BoxReflectionCapture.S_BoxReflectionCapture");
+		DebugBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
+			TEXT("Texture2D'/Engine/EditorResources/S_BoxReflectionCapture.S_BoxReflectionCapture'")));
 	}
 #endif
 
@@ -179,9 +180,6 @@ void AMasterPostProcess::BeginPlay()
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-#if WITH_EDITORONLY_DATA
-	UPDATE_DEBUG_ICON(DebugIcon);
-#endif
 	ApplySettings(nullptr);
 }
 

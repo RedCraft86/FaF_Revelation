@@ -3,7 +3,7 @@
 #pragma once
 
 #if WITH_EDITOR
-#include "DebugIconComponent.h"
+#include "Components/BillboardComponent.h"
 #endif
 #include "GameFramework/Actor.h"
 #include "DataTypes/PostProcessTypes.h"
@@ -31,7 +31,7 @@ public:
 		TObjectPtr<class UPostProcessComponent> PostProcess;
 	
 #if WITH_EDITORONLY_DATA
-	UPROPERTY() TObjectPtr<UDebugIconComponent> DebugIcon;
+	UPROPERTY() TObjectPtr<UBillboardComponent> DebugBillboard;
 #endif
 
 	/* Advanced bloom control for game settings */
