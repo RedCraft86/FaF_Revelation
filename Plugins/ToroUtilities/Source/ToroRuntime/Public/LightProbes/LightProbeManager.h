@@ -11,7 +11,7 @@
 inline FName ParamName(const uint8 Idx, const bool bVec)
 {
 	return *FString::Printf(TEXT("%s_%d"),
-		bVec ? TEXT("Scalar") : TEXT("Vector"), Idx);
+		bVec ? TEXT("Scalar") : TEXT("Vector"), Idx + 1);
 }
 
 UCLASS()
