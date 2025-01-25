@@ -47,8 +47,7 @@ uint8 ULocalSoundDatabase::GetValidCount() const
 bool ULocalSoundDatabase::IsValidKey(const FGameplayTag& Key)
 {
 	if (!Key.IsValid()) return false;
-	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (const ULocalSoundDatabase* Database = Settings ? Settings->LocalSoundDatabase.LoadSynchronous() : nullptr)
+	if (const ULocalSoundDatabase* Database = UToroRuntimeSettings::Get()->LocalSoundDatabase.LoadSynchronous())
 	{
 		return Database->IsKeyValid(Key);
 	}
@@ -59,8 +58,7 @@ bool ULocalSoundDatabase::IsValidKey(const FGameplayTag& Key)
 FLocalSoundEntry ULocalSoundDatabase::Get(const FGameplayTag& Key)
 {
 	if (!Key.IsValid()) return {};
-	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (const ULocalSoundDatabase* Database = Settings ? Settings->LocalSoundDatabase.LoadSynchronous() : nullptr)
+	if (const ULocalSoundDatabase* Database = UToroRuntimeSettings::Get()->LocalSoundDatabase.LoadSynchronous())
 	{
 		return Database->Entries.FindRef(Key);
 	}

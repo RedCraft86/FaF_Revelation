@@ -225,7 +225,7 @@ void UToroUserSettings::ApplyAudioSettings() const
 	if (!FApp::IsGame()) return;
 #endif
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
-	if (USoundMix* SoundMix = Settings ? Settings->MainSoundMix.LoadSynchronous() : nullptr)
+	if (USoundMix* SoundMix = Settings->MainSoundMix.LoadSynchronous())
 	{
 		for (const ESoundClassType Type : TEnumRange<ESoundClassType>())
 		{
