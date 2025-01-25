@@ -42,7 +42,7 @@ void ALightProbe::ApplyData(UMaterialParameterCollectionInstance* Collection, co
 	if (Collection)
 	{
 		Collection->SetScalarParameterValue(ParamName(Idx, false), Radius);
-		Collection->SetVectorParameterValue(ParamName(Idx, true), {
+		Collection->SetVectorParameterValue(ParamName(Idx, true), FLinearColor{
 			Color.R * Intensity,
 			Color.G * Intensity,
 			Color.B * Intensity,
