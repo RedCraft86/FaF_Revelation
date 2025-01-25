@@ -45,7 +45,7 @@ AMasterPostProcess::AMasterPostProcess()
 
 AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject)
 {
-	AMasterPostProcess* Out;
+	AMasterPostProcess* Out = nullptr;
 #if WITH_EDITOR
 	TArray<AActor*> PostProcesses;
 	UGameplayStatics::GetAllActorsOfClass(ContextObject, StaticClass(), PostProcesses);
@@ -60,7 +60,7 @@ AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject)
 		Out = Cast<AMasterPostProcess>(PostProcesses[0]);
 	}
 #endif
-	Out = Cast<AMasterPostProcess>(UGameplayStatics::GetActorOfClass(ContextObject, StaticClass()));
+	if (!Out) Out = Cast<AMasterPostProcess>(UGameplayStatics::GetActorOfClass(ContextObject, StaticClass()));
 	
 	if (!Out)
 	{
