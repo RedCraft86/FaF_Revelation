@@ -132,19 +132,32 @@ bool AMasterPostProcess::IsUsingLumen() const
 
 UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable(const UToroUserSettings* InSettings)
 {
-	if (!Brightness) Brightness = UMaterialInstanceDynamic::Create(
-		UToroRuntimeSettings::Get()->BrightnessPPM.LoadSynchronous(), this);
+	if (!Brightness)
+	{
+		if (UMaterialInterface* BaseMat = UToroRuntimeSettings::Get()->BrightnessPPM.LoadSynchronous())
+		{
+			Brightness = UMaterialInstanceDynamic::Create(BaseMat, this);
+		}
+	}
 	
-	if (Brightness) Brightness->SetScalarParameterValue(TEXT("Brightness"),
-		(float)InSettings->GetBrightness() / 100.0f);
+	if (IsValid(Brightness))
+	{
+		Brightness->SetScalarParameterValue(TEXT("Brightness"),
+			(float)InSettings->GetBrightness() / 100.0f);
+	}
 	
 	return Brightness;
 }
 
 UMaterialInstanceDynamic* AMasterPostProcess::GetLightProbeBlendable()
 {
-	if (!LightProbe) LightProbe = UMaterialInstanceDynamic::Create(
-			UToroRuntimeSettings::Get()->LightProbePPM.LoadSynchronous(), this);
+	if (!LightProbe)
+	{
+		if (UMaterialInterface* BaseMat = UToroRuntimeSettings::Get()->LightProbePPM.LoadSynchronous())
+		{
+			LightProbe = UMaterialInstanceDynamic::Create(BaseMat, this);
+		}
+	}
 
 	return LightProbe;
 }
