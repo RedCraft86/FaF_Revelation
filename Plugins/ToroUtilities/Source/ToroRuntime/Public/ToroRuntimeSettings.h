@@ -23,6 +23,8 @@ public:
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroRuntime");
 
+		LightProbeMPC = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/MPC_LightProbe.MPC_LightProbe"));
+		LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbe.PPM_LightProbe"));
 		BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
 	}
 
