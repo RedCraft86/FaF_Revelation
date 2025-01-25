@@ -22,6 +22,8 @@ public:
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroRuntime");
+
+		BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
 	}
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings);

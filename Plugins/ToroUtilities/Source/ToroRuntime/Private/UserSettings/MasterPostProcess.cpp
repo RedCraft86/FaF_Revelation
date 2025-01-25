@@ -142,8 +142,17 @@ UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable(const UToro
 	
 	if (IsValid(Brightness))
 	{
-		Brightness->SetScalarParameterValue(TEXT("Brightness"),
-			(float)InSettings->GetBrightness() / 100.0f);
+#if WITH_EDITOR
+		if (!FApp::IsGame())
+		{
+			Brightness->SetScalarParameterValue(TEXT("Brightness"), 1.0f);
+		}
+		else
+#endif
+		{
+			Brightness->SetScalarParameterValue(TEXT("Brightness"),
+			   (float)InSettings->GetBrightness() / 100.0f);
+		}
 	}
 	
 	return Brightness;
