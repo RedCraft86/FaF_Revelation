@@ -18,6 +18,7 @@
 
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
+#include "LightProbes/LightProbe.h"
 #include "UserSettings/MasterPostProcess.h"
 #include "WorldActions/WorldActionActor.h"
 
@@ -78,6 +79,7 @@ void FToroEditorModule::StartupModule()
 	{
 		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ALightProbe, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorCustomization)
@@ -143,6 +145,7 @@ void FToroEditorModule::ShutdownModule()
 	{
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALightProbe)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
