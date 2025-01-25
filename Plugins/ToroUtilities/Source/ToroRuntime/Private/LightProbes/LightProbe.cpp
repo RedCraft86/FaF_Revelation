@@ -28,7 +28,7 @@ ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f), Col
 bool ALightProbe::IsRelevantProbe(const FTransform& Camera) const
 {
 	if (IsHidden()) return false;
-	if (FMath::IsNearlyZero(Intensity) || Radius < 1.0f) return false;
+	if (FMath::IsNearlyZero(Intensity) || Radius < 50.0f) return false;
 	
 	const FVector ThisLocation = GetActorLocation();
 	FVector CameraLocation = Camera.GetTranslation();

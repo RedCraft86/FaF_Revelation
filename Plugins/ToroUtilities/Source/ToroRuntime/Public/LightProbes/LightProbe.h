@@ -29,7 +29,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.0f))
 		float Intensity;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 10.0f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 50.0f))
 		float Radius;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.0f))
