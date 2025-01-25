@@ -33,5 +33,15 @@ public class ToroRuntime : ModuleRules
                 "EnhancedCodeFlow"
             }
         );
+        
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.AddRange(
+                new[]
+                {
+                    "UnrealEd",
+                }
+            );
+        }
     }
 }
