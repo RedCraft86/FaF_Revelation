@@ -20,14 +20,14 @@ class TORORUNTIME_API ULightProbeManager final : public UTickableWorldSubsystem
 
 public:
 
-	ULightProbeManager() : bDisabled(false), TickTime(0.0f), CachedMax(0) {}
+	ULightProbeManager() : bHasLumen(false), TickTime(0.0f), CachedMax(0) {}
 	WORLD_SUBSYSTEM_GETTER(ULightProbeManager);
 	
 	void ForceProbeRecollection();
 	
 private:
 
-	UPROPERTY() bool bDisabled;
+	UPROPERTY() bool bHasLumen;
 	UPROPERTY() float TickTime;
 	UPROPERTY() uint8 CachedMax;
 	UPROPERTY(Transient) TArray<TWeakObjectPtr<ALightProbe>> LightProbes;
