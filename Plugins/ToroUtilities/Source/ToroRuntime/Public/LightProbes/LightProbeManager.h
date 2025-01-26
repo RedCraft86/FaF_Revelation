@@ -30,10 +30,10 @@ private:
 	UPROPERTY() bool bDisabled;
 	UPROPERTY() float TickTime;
 	UPROPERTY() uint8 CachedMax;
-	UPROPERTY(Transient) TArray<TObjectPtr<ALightProbe>> LightProbes;
-	UPROPERTY(Transient) TObjectPtr<APlayerCameraManager> CamManager;
+	UPROPERTY(Transient) TArray<TWeakObjectPtr<ALightProbe>> LightProbes;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> ProbePPM;
 	UPROPERTY(Transient) TObjectPtr<class AMasterPostProcess> MasterPP;
+	UPROPERTY(Transient) TObjectPtr<APlayerCameraManager> CamManager;
 
 	void UpdateProbes();
 	void CollectProbes();

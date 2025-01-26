@@ -21,14 +21,15 @@ void ULightProbeManager::UpdateProbes()
 	if (!MasterPP || !ProbePPM) return;
 	
 	const FVector CamPos = GetCamera().GetTranslation();
-	LightProbes.Sort([CamPos](const TObjectPtr<ALightProbe>& A, const TObjectPtr<ALightProbe>& B)
+	LightProbes.RemoveAll([](const TWeakObjectPtr<ALightProbe>& Elem) { return !Elem.IsValid(); });
+	LightProbes.Sort([CamPos](const TWeakObjectPtr<ALightProbe>& A, const TWeakObjectPtr<ALightProbe>& B)
 	{
 		return FVector::Dist(A->GetActorLocation(), CamPos) < FVector::Dist(B->GetActorLocation(), CamPos);
 	});
 	
 	for (uint8 i = 0; i < CachedMax; i++)
 	{
-		if (LightProbes.IsValidIndex(i) && LightProbes[i])
+		if (LightProbes.IsValidIndex(i) && LightProbes[i].IsValid())
 		{
 			LightProbes[i]->ApplyData(ProbePPM, i, CamPos);
 		}
