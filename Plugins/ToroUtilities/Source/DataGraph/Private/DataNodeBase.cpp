@@ -4,7 +4,7 @@
 #include "DataGraphBase.h"
 
 UDataNodeBase::UDataNodeBase() : NodeID(FGuid::NewGuid()), BackgroundColor(0.1f, 0.1f, 0.1f)
-	, ContextMenuName(INVTEXT("Generic Data Node")), ParentLimit(255), ChildLimit(255)
+	, ContextMenuName(NSLOCTEXT("DataGraph", "GenericNodeName", "Generic Data Node")), ParentLimit(255), ChildLimit(255)
 	, CompatibleGraph(UDataGraphBase::StaticClass())
 {}
 
@@ -16,7 +16,7 @@ UDataEdgeBase* UDataNodeBase::GetEdge(UDataNodeBase* ChildNode) const
 
 FText UDataNodeBase::GetNodeTitle() const
 {
-	return Name.IsEmptyOrWhitespace() ? INVTEXT("Generic Data Node") : Name;
+	return Name.IsEmptyOrWhitespace() ? NSLOCTEXT("DataGraph", "GenericNodeName", "Generic Data Node") : Name;
 }
 
 FText UDataNodeBase::GetNodeDescription() const

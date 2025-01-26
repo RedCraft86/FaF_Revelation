@@ -18,7 +18,7 @@ void AInteractField::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 	if (Interaction.Label.IsEmptyOrWhitespace())
 	{
-		Interaction.Label = INVTEXT("Interact");
+		Interaction.Label = NSLOCTEXT("Toro", "Interact", "Interact");
 	}
 }
 

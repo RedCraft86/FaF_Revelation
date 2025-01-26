@@ -44,7 +44,7 @@ private:
 	}
 	virtual void OnCreationFromPalette() override
 	{
-		SetText(INVTEXT("[32rr](Expressive Text)"));
+		SetText(NSLOCTEXT("Toro", "ExprTextBlock", "[32rr](Expressive Text)"));
 		SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
 #endif

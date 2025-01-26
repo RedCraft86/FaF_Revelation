@@ -75,7 +75,7 @@ struct TORORUNTIME_API FInvItemViewable : public FInventoryItemAttribute
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		FText Text;
 	
-	FInvItemViewable() : Label(INVTEXT("View")) {}
+	FInvItemViewable() : Label(NSLOCTEXT("Toro", "View", "View")) {}
 };
 
 USTRUCT(DisplayName = "Consumable")
@@ -89,7 +89,7 @@ struct TORORUNTIME_API FInvItemConsumable : public FInventoryItemAttribute
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		TSubclassOf<UObject> Class;
 	
-	FInvItemConsumable() : Label(INVTEXT("Use")) {}
+	FInvItemConsumable() : Label(NSLOCTEXT("Toro", "Use", "Use")) {}
 };
 
 USTRUCT(DisplayName = "Equipment")
@@ -106,5 +106,7 @@ struct TORORUNTIME_API FInvItemEquipment : public FInventoryItemAttribute
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		TSubclassOf<AActor> Class;
 	
-	FInvItemEquipment() : EquipLabel(INVTEXT("Equip")), UnequipLabel(INVTEXT("Unequip")) {}
+	FInvItemEquipment() : EquipLabel(NSLOCTEXT("Toro", "Equip", "Equip"))
+		, UnequipLabel(NSLOCTEXT("Toro", "Unequip", "Unequip"))
+	{}
 };

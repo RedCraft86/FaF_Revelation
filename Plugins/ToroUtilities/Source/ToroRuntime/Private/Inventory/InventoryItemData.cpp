@@ -2,8 +2,8 @@
 
 #include "Inventory/InventoryItemData.h"
 
-UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(INVTEXT("Generic Item"))
-	, Description(INVTEXT("This is a generic item!")), StackingMode(EInventoryStackType::UntilMax)
+UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("Toro", "GenericItemName", "Generic Item"))
+	, Description(NSLOCTEXT("Toro", "GenericItemDesc", "This is a generic item!")), StackingMode(EInventoryStackType::UntilMax)
 	, StackingValue(5), ItemType(EInventoryItemType::Uncategorized), PreviewZoom({0.5f, 2.0f})
 {
 #if WITH_EDITORONLY_DATA
