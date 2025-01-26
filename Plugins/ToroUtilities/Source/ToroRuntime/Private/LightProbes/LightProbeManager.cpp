@@ -39,7 +39,7 @@ void ULightProbeManager::UpdateProbes()
 		}
 	}
 
-	MasterPP->UpdateProbeMaterial(ProbePPM);
+	MasterPP->UpdateProbeMaterial(LightProbes.IsEmpty() ? nullptr : ProbePPM);
 }
 
 void ULightProbeManager::CollectProbes()
