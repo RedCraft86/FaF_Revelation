@@ -37,14 +37,22 @@ bool ALightProbe::IsRelevantProbe(const FTransform& Camera) const
 	return FVector::DotProduct(Camera.GetRotation().Vector(), ProbeToCam) > 0.0f;
 }
 
-void ALightProbe::ApplyData(UMaterialInstanceDynamic* Material, const uint8 Idx) const
+void ALightProbe::ApplyData(UMaterialInstanceDynamic* Material, const uint8 Idx, const FVector& Camera) const
 {
 	if (Material)
 	{
+		float Multi = Intensity;
+		if (FadeRange > 50.0f)
+		{
+			Multi *= FMath::GetMappedRangeValueClamped(
+			   FVector2D{MaxDistance, MaxDistance - FadeRange},
+			   FVector2D{0.0f, 1.0f}, FVector::Dist(GetActorLocation(), Camera));
+		}
+
 		Material->SetVectorParameterValue(ParamName(Idx, false), FLinearColor{
-			Color.R * Intensity,
-			Color.G * Intensity,
-			Color.B * Intensity,
+			Color.R * Multi,
+			Color.G * Multi,
+			Color.B * Multi,
 			Falloff
 		});
 
