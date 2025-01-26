@@ -131,11 +131,14 @@ bool ULightProbeManager::IsTickable() const
 void ULightProbeManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (TickTime > 0.1f)
-	{
 #if WITH_EDITOR
+	if (TickTime > (FApp::IsGame() ? 0.1f : 0.025f))
+	{
 		if (!FApp::IsGame() && !MasterPP)
 			MasterPP = AMasterPostProcess::Get(this, false);
+#else
+	if (TickTime > 0.1f)
+	{
 #endif
 		bHasLumen = !MasterPP || (MasterPP && MasterPP->IsUsingLumen());
 		TickTime = 0.0f;
