@@ -17,7 +17,7 @@ ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f)
 	if (DebugBillboard)
 	{
 		DebugBillboard->SetupAttachment(SceneRoot);
-		DebugBillboard->SetWorldScale3D(FVector{0.5f});
+		DebugBillboard->SetHiddenInGame(true);
 	}
 #endif
 }
@@ -93,8 +93,16 @@ void ALightProbe::OnConstruction(const FTransform& Transform)
 		if (DebugMaterial)
 		{
 			DebugMaterial->SetVectorParameterValue(TEXT("Color"), Color);
-			DebugBillboard->AddElement(DebugMaterial, nullptr,
-				true, 1.0f, 1.0f, nullptr);
+			if (DebugBillboard->Elements.IsEmpty())
+			{
+				FMaterialSpriteElement Sprite;
+				Sprite.Material = DebugMaterial;
+				Sprite.BaseSizeX = Sprite.BaseSizeY = 40.0f;
+				Sprite.DistanceToSizeCurve = LoadObject<UCurveFloat>(nullptr,
+					TEXT("CurveFloat'/ToroUtilities/Icons/C_LightProbe.C_LightProbe'"));
+				
+				DebugBillboard->SetElements({Sprite});
+			}
 		}
 	}
 }

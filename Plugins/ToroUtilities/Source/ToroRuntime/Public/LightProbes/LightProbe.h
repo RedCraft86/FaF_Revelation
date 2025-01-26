@@ -4,7 +4,7 @@
 
 #if WITH_EDITOR
 #include "DebugShapeComponent.h"
-#include "Components/BillboardComponent.h"
+#include "Components/MaterialBillboardComponent.h"
 #endif
 #include "GameFramework/Actor.h"
 #include "LightProbe.generated.h"
@@ -23,7 +23,7 @@ public:
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UDebugShapeComponent> DebugShape;
-	UPROPERTY() TObjectPtr<class UMaterialBillboardComponent> DebugBillboard;
+	UPROPERTY() TObjectPtr<UMaterialBillboardComponent> DebugBillboard;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> DebugMaterial;
 #endif
 
