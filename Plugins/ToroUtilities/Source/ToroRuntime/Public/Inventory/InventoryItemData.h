@@ -4,19 +4,19 @@
 
 #include "PrimitiveData.h"
 #include "Engine/DataAsset.h"
+#include "NativeGameplayTags.h"
+#include "GameplayTagContainer.h"
 #include "InventoryItemAttributes.h"
 #include "StructUtils/InstancedStruct.h"
 #include "InventoryItemData.generated.h"
 
 #define ITEM_LIMIT_MAX 9999
 
-namespace InventoryNativeMeta
-{
-	static inline FName NameID		(TEXT("NameID"));
-	static inline FName DescID		(TEXT("DescID"));
-	static inline FName MeshID		(TEXT("MeshID"));
-	static inline FName KeyID		(TEXT("KeyID"));
-}
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvMeta);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvNameID);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvDescID);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvMeshID);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvKeyID);
 
 UENUM(BlueprintType)
 enum class EInventoryStackType : uint8
@@ -100,7 +100,7 @@ public:
 		FTransformMeshData BaseMesh;
 	
 	UPROPERTY(EditAnywhere, Category = Advanced, meta = (MultiLine = true))
-		TMap<FName, FString> DefaultMetadata;
+		TMap<FGameplayTag, FString> DefaultMetadata;
 
 	UPROPERTY(EditAnywhere, Category = Advanced, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TArray<TInstancedStruct<FInventoryItemAttribute>> Attributes;
@@ -113,7 +113,12 @@ public:
 		FText DescriptionPreview;
 	
 	UPROPERTY(VisibleAnywhere, Category = Editor)
-		TMap<FName, FString> MetadataKeyGuide;
+	TMap<FGameplayTag, FString> MetadataKeyGuide{
+			{Tag_InvNameID,	TEXT("Used with the Alt Names Attribute.")},
+			{Tag_InvDescID,	TEXT("Used with the Alt Descriptions Attribute.")},
+			{Tag_InvMeshID,	TEXT("Used with the Alt Meshes Attribute.")},
+			{Tag_InvKeyID,	TEXT("This item will be able to unlock locks with matching IDs.")}
+	};
 #endif
 
 	template<typename T = FInventoryItemAttribute>
@@ -130,8 +135,8 @@ public:
 		return nullptr;
 	}
 
-	FText GetDisplayName(const TMap<FName, FString>& InMetadata) const;
-	FText GetDescription(const TMap<FName, FString>& InMetadata) const;
+	FText GetDisplayName(const TMap<FGameplayTag, FString>& InMetadata) const;
+	FText GetDescription(const TMap<FGameplayTag, FString>& InMetadata) const;
 
 #if WITH_EDITOR
 	void UpdateEditorPreviews();

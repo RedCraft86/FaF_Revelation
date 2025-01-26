@@ -2,38 +2,37 @@
 
 #include "Inventory/InventoryItemData.h"
 
+UE_DEFINE_GAMEPLAY_TAG(Tag_InvMeta, "InventoryMeta");
+UE_DEFINE_GAMEPLAY_TAG(Tag_InvNameID, "InventoryMeta.NameID");
+UE_DEFINE_GAMEPLAY_TAG(Tag_InvDescID, "InventoryMeta.DescID");
+UE_DEFINE_GAMEPLAY_TAG(Tag_InvMeshID, "InventoryMeta.MeshID");
+UE_DEFINE_GAMEPLAY_TAG(Tag_InvKeyID, "InventoryMeta.KeyID");
+
 UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("Toro", "GenericItemName", "Generic Item"))
 	, Description(NSLOCTEXT("Toro", "GenericItemDesc", "This is a generic item!")), StackingMode(EInventoryStackType::UntilMax)
 	, StackingValue(5), ItemType(EInventoryItemType::Uncategorized), PreviewZoom({0.5f, 2.0f})
 {
-#if WITH_EDITORONLY_DATA
-	MetadataKeyGuide = {
-		{InventoryNativeMeta::NameID,	TEXT("Used with the Alt Names Attribute.")},
-		{InventoryNativeMeta::DescID,	TEXT("Used with the Alt Descriptions Attribute.")},
-		{InventoryNativeMeta::MeshID,	TEXT("Used with the Alt Meshes Attribute.")},
-		{InventoryNativeMeta::KeyID,	TEXT("This item will be able to unlock locks with matching IDs.")}
-	};
-#endif
 }
 
-FText InjectMetadataToText(const FText& InTextFmt, const TMap<FName, FString>& InMetadata)
+FText InjectMetadataToText(const FText& InTextFmt, const TMap<FGameplayTag, FString>& InMetadata)
 {
 	FFormatNamedArguments MetaArgs;
-	for (const TPair<FName, FString>& Meta : InMetadata)
+	for (const TPair<FGameplayTag, FString>& Meta : InMetadata)
 	{
-		if (!Meta.Key.IsNone() && !Meta.Value.IsEmpty())
+		if (Meta.Key.IsValid() && Meta.Key != Tag_InvMeta && !Meta.Value.IsEmpty())
 		{
-			MetaArgs.Add(TEXT("m") + Meta.Key.ToString(), FText::FromString(Meta.Value));
+			const FString MetaName = Meta.Key.ToString().Replace(TEXT("InventoryMeta."), TEXT(""));
+			MetaArgs.Add(TEXT("m") + MetaName, FText::FromString(Meta.Value));
 		}
 	}
 	
 	return FText::Format(InTextFmt, MetaArgs);
 }
 
-FText UInventoryItemData::GetDisplayName(const TMap<FName, FString>& InMetadata) const
+FText UInventoryItemData::GetDisplayName(const TMap<FGameplayTag, FString>& InMetadata) const
 {
 	FText TextFmt = DisplayName;
-	if (const FString* NameKey = InMetadata.Find(InventoryNativeMeta::NameID))
+	if (const FString* NameKey = InMetadata.Find(Tag_InvNameID))
 	{
 		if (const FInvItemAltName* AltNames = GetFirstAttribute<FInvItemAltName>())
 		{
@@ -44,10 +43,10 @@ FText UInventoryItemData::GetDisplayName(const TMap<FName, FString>& InMetadata)
 	return InjectMetadataToText(TextFmt, InMetadata);
 }
 
-FText UInventoryItemData::GetDescription(const TMap<FName, FString>& InMetadata) const
+FText UInventoryItemData::GetDescription(const TMap<FGameplayTag, FString>& InMetadata) const
 {
 	FText TextFmt = Description;
-	if (const FString* NameKey = InMetadata.Find(InventoryNativeMeta::DescID))
+	if (const FString* NameKey = InMetadata.Find(Tag_InvDescID))
 	{
 		if (const FInvItemAltDescription* AltDescriptions = GetFirstAttribute<FInvItemAltDescription>())
 		{
