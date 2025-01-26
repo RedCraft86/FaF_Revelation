@@ -3,8 +3,8 @@
 #include "LightProbes/LightProbe.h"
 #include "LightProbes/LightProbeManager.h"
 
-ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f)
-	, Color(FLinearColor::White), MaxDistance(3000.0f), FadeRange(100.0f)
+ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f), Color(FLinearColor::White)
+	, bDisableWithLumen(true), MaxDistance(3000.0f), FadeRange(100.0f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -22,9 +22,9 @@ ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f)
 #endif
 }
 
-bool ALightProbe::IsRelevantProbe(const FTransform& Camera) const
+bool ALightProbe::IsRelevantProbe(const FTransform& Camera, const bool bHasLumen) const
 {
-	if (IsHidden()) return false;
+	if (IsHidden() || (bHasLumen && bDisableWithLumen)) return false;
 	if (FMath::IsNearlyZero(Intensity) || Radius < 50.0f) return false;
 	
 	const FVector ThisLocation = GetActorLocation();

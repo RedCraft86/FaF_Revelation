@@ -37,7 +37,10 @@ public:
 		float Falloff;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (HideAlphaChannel))
-		FLinearColor Color;
+	FLinearColor Color;
+
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
+		bool bDisableWithLumen;
 
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay, meta = (ClampMin = 1000.0f))
 		float MaxDistance;
@@ -45,7 +48,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay, meta = (ClampMin = 0.0f))
 		float FadeRange;
 	
-	bool IsRelevantProbe(const FTransform& Camera) const;
+	bool IsRelevantProbe(const FTransform& Camera, const bool bHasLumen) const;
 	void ApplyData(UMaterialInstanceDynamic* Material, const uint8 Idx, const FVector& Camera) const;
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 

@@ -44,7 +44,7 @@ void ULightProbeManager::UpdateProbes()
 
 void ULightProbeManager::CollectProbes()
 {
-	if (bDisabled)
+	if (!MasterPP)
 	{
 		if (!LightProbes.IsEmpty())
 		{
@@ -62,7 +62,7 @@ void ULightProbeManager::CollectProbes()
 	for (ALightProbe* Probe : TActorRange<ALightProbe>(GetWorld()))
 	{
 		if (LightProbes.Num() >= 32) break;
-		if (Probe && Probe->IsRelevantProbe(Camera))
+		if (Probe && Probe->IsRelevantProbe(Camera, bHasLumen))
 		{
 			LightProbes.AddUnique(Probe);
 		}
@@ -139,12 +139,12 @@ void ULightProbeManager::Tick(float DeltaTime)
 #endif
 		CollectProbes();
 		TickTime = 0.0f;
-		bDisabled = !MasterPP || (MasterPP && MasterPP->IsUsingLumen());
+		bHasLumen = MasterPP && MasterPP->IsUsingLumen();
 	}
 	else
 	{
 		TickTime += DeltaTime;
-		if (!bDisabled) UpdateProbes();
+		if (!MasterPP) UpdateProbes();
 	}
 }
 
