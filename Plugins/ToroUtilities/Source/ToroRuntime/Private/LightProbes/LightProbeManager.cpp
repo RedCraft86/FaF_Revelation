@@ -13,79 +13,71 @@
 void ULightProbeManager::ForceProbeRecollection()
 {
 	TickTime = 1.0f;
-	bNewMat = true;
+	ProbePPM = nullptr;
 }
 
 void ULightProbeManager::UpdateProbes()
 {
-	if (!ProbePPM) return;
+	if (!MasterPP || !ProbePPM) return;
+	
 	const FVector CamPos = GetCamera().GetTranslation();
 	LightProbes.Sort([CamPos](const TObjectPtr<ALightProbe>& A, const TObjectPtr<ALightProbe>& B)
 	{
-		return FVector::Dist(A->GetActorLocation(), CamPos) < FVector::Distance(B->GetActorLocation(), CamPos);
+		return FVector::Dist(A->GetActorLocation(), CamPos) < FVector::Dist(B->GetActorLocation(), CamPos);
 	});
-
-	const uint8 Max = GetIterationMax();
-	for (uint8 i = 0; i < Max; i++)
+	
+	for (uint8 i = 0; i < CachedMax; i++)
 	{
 		if (LightProbes.IsValidIndex(i) && LightProbes[i])
 		{
-			LightProbes[i]->ApplyData(ProbePPM, i);
+			LightProbes[i]->ApplyData(ProbePPM, i, CamPos);
 		}
 		else
 		{
 			ResetPPM(i);
 		}
 	}
+
+	MasterPP->UpdateProbeMaterial(ProbePPM);
 }
 
 void ULightProbeManager::CollectProbes()
 {
-	if (!LightProbes.IsEmpty())
-	{
-		const uint8 Max = GetIterationMax();
-		for (uint8 i = 0; i < Max; i++)
-		{
-			ResetPPM(i);
-		}
-		LightProbes.Empty();
-	}
-
 	if (bDisabled)
 	{
-		if (bNewMat)
+		if (!LightProbes.IsEmpty())
 		{
-			ProbePPM = nullptr;
-			MasterPP->UpdateProbeMaterial(nullptr);
+			for (uint8 i = 0; i < CachedMax; i++)
+			{
+				ResetPPM(i);
+			}
+			LightProbes.Empty();
 		}
 		return;
 	}
-	
-	LightProbes.Reserve(32);
+
+	LightProbes.Empty();
 	const FTransform Camera = GetCamera();
 	for (ALightProbe* Probe : TActorRange<ALightProbe>(GetWorld()))
 	{
+		if (LightProbes.Num() >= 32) break;
 		if (Probe && Probe->IsRelevantProbe(Camera))
-			LightProbes.Add(Probe);
-	}
-
-	if (const uint8 Max = GetIterationMax(); LightProbes.Num() > Max)
-	{
-		LightProbes.SetNum(Max);
+		{
+			LightProbes.AddUnique(Probe);
+		}
 	}
 	
-	LightProbes.RemoveAll([](const TObjectPtr<ALightProbe>& Element)
+	const uint8 Max = GetIterationMax(); 
+	if (!ProbePPM || CachedMax != Max)
 	{
-		return !IsValid(Element);
-	});
-
-	if (!bNewMat && ProbePPM) return;
-	if (UMaterialInterface* Material = UToroRuntimeSettings::Get()->GetProbeMaterial(LightProbes.Num()))
-	{
-		bNewMat = false;
-		ProbePPM = UMaterialInstanceDynamic::Create(Material, this);
-		MasterPP->UpdateProbeMaterial(ProbePPM);
+		CachedMax = Max;
+		if (UMaterialInterface* Material = UToroRuntimeSettings::Get()->GetProbeMaterial(LightProbes.Num()))
+		{
+			ProbePPM = UMaterialInstanceDynamic::Create(Material, this);
+		}
 	}
+
+	UpdateProbes();
 }
 
 void ULightProbeManager::ResetPPM(const uint8 Idx) const
@@ -132,7 +124,7 @@ FTransform ULightProbeManager::GetCamera() const
 
 bool ULightProbeManager::IsTickable() const
 {
-	return Super::IsTickable() && IsValid(MasterPP) && (IsValid(CamManager) || !FApp::IsGame());
+	return Super::IsTickable() && ((MasterPP && CamManager) || !FApp::IsGame());
 }
 
 void ULightProbeManager::Tick(float DeltaTime)
@@ -140,9 +132,13 @@ void ULightProbeManager::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (TickTime > 0.1f)
 	{
+#if WITH_EDITOR
+		if (!FApp::IsGame() && !MasterPP)
+			MasterPP = AMasterPostProcess::Get(this, false);
+#endif
 		CollectProbes();
 		TickTime = 0.0f;
-		bDisabled = MasterPP->IsUsingLumen();
+		bDisabled = !MasterPP || (MasterPP && MasterPP->IsUsingLumen());
 	}
 	else
 	{
@@ -162,7 +158,7 @@ void ULightProbeManager::OnWorldBeginPlay(UWorld& InWorld)
 void ULightProbeManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	UE_LOG(LogToroRuntime, Display, TEXT("Light Probe Manager initialized!"));
-	if (!FApp::IsGame()) MasterPP = AMasterPostProcess::Get(this);
+	UE_LOG(LogToroRuntime, Display, TEXT("Light Probe Manager initialized by %s."), *GetNameSafe(GetWorld()));
+	if (!FApp::IsGame()) MasterPP = AMasterPostProcess::Get(this, false);
 }
 #endif

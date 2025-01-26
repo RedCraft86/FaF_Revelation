@@ -20,18 +20,16 @@ class TORORUNTIME_API ULightProbeManager final : public UTickableWorldSubsystem
 
 public:
 
-	ULightProbeManager() : bNewMat(true), bDisabled(false), TickTime(0.0f) {}
-
+	ULightProbeManager() : bDisabled(false), TickTime(0.0f), CachedMax(0) {}
 	WORLD_SUBSYSTEM_GETTER(ULightProbeManager);
 	
 	void ForceProbeRecollection();
-	UMaterialInstanceDynamic* GetPostProcessMat() const { return ProbePPM; }
 	
 private:
 
-	UPROPERTY() bool bNewMat;
 	UPROPERTY() bool bDisabled;
 	UPROPERTY() float TickTime;
+	UPROPERTY() uint8 CachedMax;
 	UPROPERTY(Transient) TArray<TObjectPtr<ALightProbe>> LightProbes;
 	UPROPERTY(Transient) TObjectPtr<APlayerCameraManager> CamManager;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> ProbePPM;

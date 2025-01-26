@@ -14,12 +14,9 @@
 AMasterPostProcess::AMasterPostProcess()
 {
 	PrimaryActorTick.bCanEverTick = false;
-
-	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
-	SetRootComponent(SceneRoot);
-
+	
 	PostProcess = CreateDefaultSubobject<UPostProcessComponent>("PostProcess");
-	PostProcess->SetupAttachment(SceneRoot);
+	SetRootComponent(PostProcess);
 	PostProcess->BlendWeight = 1.0f;
 	PostProcess->Priority = 1.0f;
 	PostProcess->bUnbound = true;
@@ -30,7 +27,7 @@ AMasterPostProcess::AMasterPostProcess()
 	if (DebugBillboard)
 	{
 		DebugBillboard->bIsScreenSizeScaled = true;
-		DebugBillboard->SetupAttachment(SceneRoot);
+		DebugBillboard->SetupAttachment(PostProcess);
 		DebugBillboard->SetWorldScale3D(FVector{0.5f});
 		DebugBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
 			TEXT("Texture2D'/ToroUtilities/Icons/MasterPostProcess.MasterPostProcess'")));
@@ -44,7 +41,7 @@ AMasterPostProcess::AMasterPostProcess()
 	Settings.AutoExposureBias = 10.0f;
 }
 
-AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject)
+AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject, const bool bCreateIfNotFound)
 {
 	AMasterPostProcess* Out = nullptr;
 #if WITH_EDITOR
@@ -63,7 +60,7 @@ AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject)
 #endif
 	if (!Out) Out = Cast<AMasterPostProcess>(UGameplayStatics::GetActorOfClass(ContextObject, StaticClass()));
 	
-	if (!Out)
+	if (!Out && bCreateIfNotFound)
 	{
 		UE_LOG(LogToroRuntime, Warning, TEXT("Master Post Process actor not found! Attempting to spawn one."));
 		UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
@@ -133,8 +130,13 @@ bool AMasterPostProcess::IsUsingLumen() const
 
 void AMasterPostProcess::UpdateProbeMaterial(UMaterialInstanceDynamic* InMaterial)
 {
-	LightProbe = InMaterial;
-	ApplySettings(UToroUserSettings::Get());
+	if (LightProbe != InMaterial)
+	{
+		PostProcess->Settings.RemoveBlendable(LightProbe);
+
+		LightProbe = InMaterial;
+		ApplySettings(UToroUserSettings::Get());
+	}
 }
 
 UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable(const UToroUserSettings* InSettings)

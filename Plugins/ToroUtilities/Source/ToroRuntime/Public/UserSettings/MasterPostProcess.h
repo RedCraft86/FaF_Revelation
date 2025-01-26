@@ -22,10 +22,7 @@ public:
 
 	AMasterPostProcess();
 
-	static AMasterPostProcess* Get(const UObject* ContextObject);
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<USceneComponent> SceneRoot;
+	static AMasterPostProcess* Get(const UObject* ContextObject, const bool bCreateIfNotFound = true);
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UPostProcessComponent> PostProcess;
