@@ -2,7 +2,7 @@
 
 #include "LightProbes/LightProbeManager.h"
 #include "Framework/ToroPlayerCameraManager.h"
-#include "UserSettings/MasterPostProcess.h"
+#include "Framework/MasterPostProcess.h"
 #include "ToroRuntimeSettings.h"
 #include "EngineUtils.h"
 #include "ToroRuntime.h"

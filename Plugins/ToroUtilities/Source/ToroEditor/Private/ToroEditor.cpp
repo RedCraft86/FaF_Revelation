@@ -19,7 +19,7 @@
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
 #include "LightProbes/LightProbe.h"
-#include "UserSettings/MasterPostProcess.h"
+#include "Framework/MasterPostProcess.h"
 #include "WorldActions/WorldActionActor.h"
 
 #include "DetailsCustomization/ToroActorDetails.h"

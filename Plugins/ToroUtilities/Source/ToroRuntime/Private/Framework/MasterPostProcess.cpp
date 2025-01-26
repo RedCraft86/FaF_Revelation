@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserSettings/MasterPostProcess.h"
+#include "Framework/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
 #include "LightProbes/LightProbeManager.h"
 #include "Kismet/GameplayStatics.h"
