@@ -8,10 +8,10 @@
 #include "GameSectionGraph.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FLoadingImageArray
+struct FLoadingImageSet
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, Category = LoadingImageArray)
+	UPROPERTY(EditAnywhere, Category = LoadingImageSet)
 		TSet<TSoftObjectPtr<UTexture2D>> Images;
 };
 
@@ -28,7 +28,7 @@ public:
 		TArray<FText> LoadingFacts;
 
 	UPROPERTY(EditAnywhere, Category = Graph, meta = (ForceInlineRow, Categories = "Backgrounds"))
-		TMap<FGameplayTag, FLoadingImageArray> Backgrounds;
+		TMap<FGameplayTag, FLoadingImageSet> Backgrounds;
 };
 
 UCLASS()
