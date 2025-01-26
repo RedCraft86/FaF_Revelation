@@ -172,7 +172,7 @@ void AMasterPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 	SettingOverrides.ApplyChoice(Settings, InSettings);
 	PostProcess->Settings = Settings;
 
-	if (!IsUsingLumen() && LightProbe) PostProcess->Settings.AddBlendable(LightProbe, 1.0f);
+	if (LightProbe) PostProcess->Settings.AddBlendable(LightProbe, 1.0f);
 	PostProcess->Settings.AddBlendable(GetBrightnessBlendable(InSettings), 1.0f);
 }
 
