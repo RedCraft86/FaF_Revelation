@@ -44,7 +44,7 @@ void ULightProbeManager::UpdateProbes()
 
 void ULightProbeManager::CollectProbes()
 {
-	if (!MasterPP)
+	if (bDisabled)
 	{
 		if (!LightProbes.IsEmpty())
 		{
@@ -62,7 +62,7 @@ void ULightProbeManager::CollectProbes()
 	for (ALightProbe* Probe : TActorRange<ALightProbe>(GetWorld()))
 	{
 		if (LightProbes.Num() >= 32) break;
-		if (Probe && Probe->IsRelevantProbe(Camera, bHasLumen))
+		if (Probe && Probe->IsRelevantProbe(Camera))
 		{
 			LightProbes.AddUnique(Probe);
 		}
@@ -137,14 +137,14 @@ void ULightProbeManager::Tick(float DeltaTime)
 		if (!FApp::IsGame() && !MasterPP)
 			MasterPP = AMasterPostProcess::Get(this, false);
 #endif
-		bHasLumen = MasterPP && MasterPP->IsUsingLumen();
-		TickTime = 0.0f;
 		CollectProbes();
+		TickTime = 0.0f;
+		bDisabled = !MasterPP || (MasterPP && MasterPP->IsUsingLumen());
 	}
 	else
 	{
 		TickTime += DeltaTime;
-		if (!MasterPP) UpdateProbes();
+		if (!bDisabled) UpdateProbes();
 	}
 }
 
