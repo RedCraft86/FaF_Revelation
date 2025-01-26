@@ -23,7 +23,8 @@ public:
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UDebugShapeComponent> DebugShape;
-	UPROPERTY() TObjectPtr<UBillboardComponent> DebugBillboard;
+	UPROPERTY() TObjectPtr<class UMaterialBillboardComponent> DebugBillboard;
+	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> DebugMaterial;
 #endif
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.0f))

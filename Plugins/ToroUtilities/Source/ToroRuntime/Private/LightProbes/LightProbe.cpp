@@ -2,9 +2,9 @@
 
 #include "LightProbes/LightProbe.h"
 #include "LightProbes/LightProbeManager.h"
-#include "Materials/MaterialParameterCollectionInstance.h"
 
-ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f), Color(FLinearColor::White)
+ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f)
+	, Color(FLinearColor::White), MaxDistance(3000.0f), FadeRange(100.0f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -13,14 +13,11 @@ ALightProbe::ALightProbe() : Intensity(1.0f), Radius(500.0f), Falloff(2.0f), Col
 
 #if WITH_EDITORONLY_DATA
 	DebugShape = CreateEditorOnlyDefaultSubobject<UDebugShapeComponent>(TEXT("DebugShape"));
-	DebugBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>(TEXT("DebugBillboard"));
+	DebugBillboard = CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>(TEXT("DebugBillboard"));
 	if (DebugBillboard)
 	{
-		DebugBillboard->bIsScreenSizeScaled = true;
 		DebugBillboard->SetupAttachment(SceneRoot);
 		DebugBillboard->SetWorldScale3D(FVector{0.5f});
-		DebugBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
-			TEXT("Texture2D'/ToroUtilities/Icons/LightProbe.LightProbe'")));
 	}
 #endif
 }
@@ -33,7 +30,7 @@ bool ALightProbe::IsRelevantProbe(const FTransform& Camera) const
 	const FVector ThisLocation = GetActorLocation();
 	FVector CameraLocation = Camera.GetTranslation();
 	
-	if (FVector::Dist(ThisLocation, CameraLocation) > 3000.0f) return false;
+	if (FVector::Dist(ThisLocation, CameraLocation) > MaxDistance) return false;
 
 	CameraLocation -= Camera.GetRotation().Vector() * Radius;
 	FVector ProbeToCam = ThisLocation - CameraLocation; ProbeToCam.Normalize();
@@ -79,6 +76,26 @@ void ALightProbe::OnConstruction(const FTransform& Transform)
 		Data.Radius = Radius;
 		Data.Color = FColor::FromHex(TEXT("97C1D0FF"));
 		DebugShape->DebugSpheres.Add(TEXT("Radius"), Data);
+	}
+	if (DebugBillboard)
+	{
+		if (!DebugMaterial)
+		{
+			if (UMaterialInterface* BaseMat = LoadObject<UMaterialInterface>(nullptr,
+				TEXT("MaterialInterface'/ToroUtilities/Icons/M_LightProbe.M_LightProbe'")))
+			{
+				DebugMaterial = UMaterialInstanceDynamic::Create(BaseMat, DebugBillboard);
+			}
+			
+			if (!DebugBillboard->Elements.IsEmpty()) DebugBillboard->SetElements({});
+		}
+
+		if (DebugMaterial)
+		{
+			DebugMaterial->SetVectorParameterValue(TEXT("Color"), Color);
+			DebugBillboard->AddElement(DebugMaterial, nullptr,
+				true, 1.0f, 1.0f, nullptr);
+		}
 	}
 }
 #endif
