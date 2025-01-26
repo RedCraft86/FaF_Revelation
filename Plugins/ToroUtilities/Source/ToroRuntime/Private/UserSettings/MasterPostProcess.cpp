@@ -2,6 +2,7 @@
 
 #include "UserSettings/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
+#include "LightProbes/LightProbeManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroRuntimeSettings.h"
 #include "ToroRuntime.h"
@@ -130,6 +131,12 @@ bool AMasterPostProcess::IsUsingLumen() const
 	return false;
 }
 
+void AMasterPostProcess::UpdateProbeMaterial(UMaterialInstanceDynamic* InMaterial)
+{
+	LightProbe = InMaterial;
+	ApplySettings(UToroUserSettings::Get());
+}
+
 UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable(const UToroUserSettings* InSettings)
 {
 	if (!Brightness)
@@ -158,27 +165,13 @@ UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable(const UToro
 	return Brightness;
 }
 
-UMaterialInstanceDynamic* AMasterPostProcess::GetLightProbeBlendable()
-{
-	if (!LightProbe)
-	{
-		if (UMaterialInterface* BaseMat = UToroRuntimeSettings::Get()->LightProbePPM.LoadSynchronous())
-		{
-			LightProbe = UMaterialInstanceDynamic::Create(BaseMat, this);
-		}
-	}
-
-	return LightProbe;
-}
-
 void AMasterPostProcess::ApplySettings(const UToroUserSettings* InSettings)
 {
 	SettingOverrides.ApplyChoice(Settings, InSettings);
 	PostProcess->Settings = Settings;
 
 	PostProcess->Settings.AddBlendable(GetBrightnessBlendable(InSettings), 1.0f);
-	if (IsUsingLumen()) PostProcess->Settings.RemoveBlendable(GetLightProbeBlendable());
-	else PostProcess->Settings.AddBlendable(GetLightProbeBlendable(), 1.0f);
+	if (!IsUsingLumen() && LightProbe) PostProcess->Settings.AddBlendable(LightProbe, 1.0f);
 }
 
 void AMasterPostProcess::BeginPlay()

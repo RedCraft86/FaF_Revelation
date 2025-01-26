@@ -2,30 +2,39 @@
 
 #include "LightProbes/LightProbeManager.h"
 #include "Framework/ToroPlayerCameraManager.h"
-#include "Materials/MaterialParameterCollectionInstance.h"
+#include "UserSettings/MasterPostProcess.h"
 #include "ToroRuntimeSettings.h"
 #include "EngineUtils.h"
+#include "ToroRuntime.h"
 #if WITH_EDITOR
 #include "Subsystems/UnrealEditorSubsystem.h"
 #endif
 
+void ULightProbeManager::ForceProbeRecollection()
+{
+	TickTime = 1.0f;
+	bNewMat = true;
+}
+
 void ULightProbeManager::UpdateProbes()
 {
+	if (!ProbePPM) return;
 	const FVector CamPos = GetCamera().GetTranslation();
 	LightProbes.Sort([CamPos](const TObjectPtr<ALightProbe>& A, const TObjectPtr<ALightProbe>& B)
 	{
 		return FVector::Dist(A->GetActorLocation(), CamPos) < FVector::Distance(B->GetActorLocation(), CamPos);
 	});
 
-	for (int32 i = 0; i < 32; i++)
+	const uint8 Max = GetIterationMax();
+	for (uint8 i = 0; i < Max; i++)
 	{
 		if (LightProbes.IsValidIndex(i) && LightProbes[i])
 		{
-			LightProbes[i]->ApplyData(ProbeMPC, i);
+			LightProbes[i]->ApplyData(ProbePPM, i);
 		}
 		else
 		{
-			ResetMPC(i);
+			ResetPPM(i);
 		}
 	}
 }
@@ -34,15 +43,23 @@ void ULightProbeManager::CollectProbes()
 {
 	if (!LightProbes.IsEmpty())
 	{
-		LightProbes.Empty();
-		for (int32 i = 0; i < 32; i++)
+		const uint8 Max = GetIterationMax();
+		for (uint8 i = 0; i < Max; i++)
 		{
-			ResetMPC(i);
+			ResetPPM(i);
 		}
+		LightProbes.Empty();
 	}
 
 	if (bDisabled)
+	{
+		if (bNewMat)
+		{
+			ProbePPM = nullptr;
+			MasterPP->UpdateProbeMaterial(nullptr);
+		}
 		return;
+	}
 	
 	LightProbes.Reserve(32);
 	const FTransform Camera = GetCamera();
@@ -52,14 +69,39 @@ void ULightProbeManager::CollectProbes()
 			LightProbes.Add(Probe);
 	}
 
-	if (LightProbes.Num() > 32)	LightProbes.SetNum(32);
-	LightProbes.RemoveAll([](const TObjectPtr<ALightProbe>& Element) { return !IsValid(Element); });
+	if (const uint8 Max = GetIterationMax(); LightProbes.Num() > Max)
+	{
+		LightProbes.SetNum(Max);
+	}
+	
+	LightProbes.RemoveAll([](const TObjectPtr<ALightProbe>& Element)
+	{
+		return !IsValid(Element);
+	});
+
+	if (!bNewMat && ProbePPM) return;
+	if (UMaterialInterface* Material = UToroRuntimeSettings::Get()->GetProbeMaterial(LightProbes.Num()))
+	{
+		bNewMat = false;
+		ProbePPM = UMaterialInstanceDynamic::Create(Material, this);
+		MasterPP->UpdateProbeMaterial(ProbePPM);
+	}
 }
 
-void ULightProbeManager::ResetMPC(const uint8 Idx) const
+void ULightProbeManager::ResetPPM(const uint8 Idx) const
 {
-	ProbeMPC->SetScalarParameterValue(ParamName(Idx, false), 0.0f);
-	ProbeMPC->SetVectorParameterValue(ParamName(Idx, true), FLinearColor::Transparent);
+	if (!ProbePPM) return;
+	ProbePPM->SetVectorParameterValue(ParamName(Idx, false), FLinearColor::Transparent);
+	ProbePPM->SetVectorParameterValue(ParamName(Idx, true), FLinearColor::Transparent);
+}
+
+uint8 ULightProbeManager::GetIterationMax() const
+{
+	const uint8 NumProbes = LightProbes.Num();
+	if (NumProbes <= 8) return 8;
+	if (NumProbes <= 16) return 16;
+	if (NumProbes <= 24) return 24;
+	return 32;
 }
 
 FTransform ULightProbeManager::GetCamera() const
@@ -90,8 +132,7 @@ FTransform ULightProbeManager::GetCamera() const
 
 bool ULightProbeManager::IsTickable() const
 {
-	return Super::IsTickable() && (IsValid(CamManager) || !FApp::IsGame())
-		&& IsValid(MasterPP) && IsValid(ProbeMPC);
+	return Super::IsTickable() && IsValid(MasterPP) && (IsValid(CamManager) || !FApp::IsGame());
 }
 
 void ULightProbeManager::Tick(float DeltaTime)
@@ -115,8 +156,13 @@ void ULightProbeManager::OnWorldBeginPlay(UWorld& InWorld)
 	Super::OnWorldBeginPlay(InWorld);
 	MasterPP = AMasterPostProcess::Get(this);
 	CamManager = AToroPlayerCameraManager::Get(this);
-	if (const UMaterialParameterCollection* Collection = UToroRuntimeSettings::Get()->LightProbeMPC.LoadSynchronous())
-	{
-		ProbeMPC = GetWorld()->GetParameterCollectionInstance(Collection);
-	}
 }
+
+#if WITH_EDITOR
+void ULightProbeManager::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+	UE_LOG(LogToroRuntime, Display, TEXT("Light Probe Manager initialized!"));
+	if (!FApp::IsGame()) MasterPP = AMasterPostProcess::Get(this);
+}
+#endif

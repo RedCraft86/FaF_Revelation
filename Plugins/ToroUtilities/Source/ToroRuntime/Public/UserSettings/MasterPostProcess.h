@@ -54,14 +54,13 @@ public:
 #endif
 
 	bool IsUsingLumen() const;
-	
+	void UpdateProbeMaterial(UMaterialInstanceDynamic* InMaterial);
+
 private:
 
+	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> LightProbe;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> Brightness;
 	UMaterialInstanceDynamic* GetBrightnessBlendable(const UToroUserSettings* InSettings);
-	
-	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> LightProbe;
-	UMaterialInstanceDynamic* GetLightProbeBlendable();
 	
 	void ApplySettings(const UToroUserSettings* InSettings);
 

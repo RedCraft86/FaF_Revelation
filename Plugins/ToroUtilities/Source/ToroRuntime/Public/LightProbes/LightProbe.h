@@ -39,7 +39,7 @@ public:
 		FLinearColor Color;
 	
 	bool IsRelevantProbe(const FTransform& Camera) const;
-	void ApplyData(UMaterialParameterCollectionInstance* Collection, const uint8 Idx) const;
+	void ApplyData(UMaterialInstanceDynamic* Material, const uint8 Idx) const;
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 
 #if WITH_EDITOR

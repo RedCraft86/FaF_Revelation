@@ -40,16 +40,20 @@ bool ALightProbe::IsRelevantProbe(const FTransform& Camera) const
 	return FVector::DotProduct(Camera.GetRotation().Vector(), ProbeToCam) > 0.0f;
 }
 
-void ALightProbe::ApplyData(UMaterialParameterCollectionInstance* Collection, const uint8 Idx) const
+void ALightProbe::ApplyData(UMaterialInstanceDynamic* Material, const uint8 Idx) const
 {
-	if (Collection)
+	if (Material)
 	{
-		Collection->SetScalarParameterValue(ParamName(Idx, false), Radius);
-		Collection->SetVectorParameterValue(ParamName(Idx, true), FLinearColor{
+		Material->SetVectorParameterValue(ParamName(Idx, false), FLinearColor{
 			Color.R * Intensity,
 			Color.G * Intensity,
 			Color.B * Intensity,
 			Falloff
+		});
+
+		const FVector Pos = GetActorLocation();
+		Material->SetVectorParameterValue(ParamName(Idx, true), FLinearColor{
+			(float)Pos.X, (float)Pos.Y, (float)Pos.Z, Radius
 		});
 	}
 }
