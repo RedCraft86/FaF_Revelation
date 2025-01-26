@@ -9,6 +9,8 @@
 
 class AToroPlayerController;
 
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Player);
+
 UCLASS()
 class TORORUNTIME_API AToroPlayerBase : public AToroCharacterBase
 {

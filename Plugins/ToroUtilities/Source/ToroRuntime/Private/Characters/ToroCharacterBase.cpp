@@ -2,6 +2,10 @@
 
 #include "Characters/ToroCharacterBase.h"
 
+UE_DEFINE_GAMEPLAY_TAG(Tag_Character, "Character");
+UE_DEFINE_GAMEPLAY_TAG(Tag_Friendly, "Character.Friendly");
+UE_DEFINE_GAMEPLAY_TAG(Tag_Enemy, "Character.Enemy");
+
 AToroCharacterBase::AToroCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;

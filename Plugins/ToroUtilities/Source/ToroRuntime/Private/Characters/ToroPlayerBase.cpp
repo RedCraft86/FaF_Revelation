@@ -2,7 +2,8 @@
 
 #include "Characters/ToroPlayerBase.h"
 #include "Framework/ToroPlayerController.h"
-#include "ToroRuntime.h"
+
+UE_DEFINE_GAMEPLAY_TAG(Tag_Player, "Character.Player");
 
 AToroPlayerBase::AToroPlayerBase()
 {

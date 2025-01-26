@@ -2,9 +2,14 @@
 
 #pragma once
 
+#include "NativeGameplayTags.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
 #include "ToroCharacterBase.generated.h"
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Character);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Friendly);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Enemy);
 
 UCLASS(Abstract)
 class TORORUNTIME_API AToroCharacterBase : public ACharacter
