@@ -21,7 +21,7 @@ enum class EElectricLightTick : uint8
 };
 
 USTRUCT(BlueprintType)
-struct FElectricLightEntry
+struct TORORUNTIME_API FElectricLightEntry
 {
 	GENERATED_BODY()
 
@@ -43,7 +43,7 @@ struct FElectricLightEntry
 };
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FElectricLightAnim
+struct TORORUNTIME_API FElectricLightAnim
 {
 	GENERATED_BODY()
 	

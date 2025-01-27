@@ -6,7 +6,7 @@
 #include "PostProcessTypes.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FPPBloom
+struct TORORUNTIME_API FPPBloom
 {
 	GENERATED_BODY()
 
@@ -58,7 +58,7 @@ struct FPPBloom
 };
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FPPLumen
+struct TORORUNTIME_API FPPLumen
 {
 	GENERATED_BODY()
 
@@ -132,7 +132,7 @@ struct FPPLumen
 };
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FPPMotionBlur
+struct TORORUNTIME_API FPPMotionBlur
 {
 	GENERATED_BODY()
 
@@ -162,7 +162,7 @@ struct FPPMotionBlur
 };
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FPPSettingOverrides
+struct TORORUNTIME_API FPPSettingOverrides
 {
 	GENERATED_BODY()
 

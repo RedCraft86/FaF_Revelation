@@ -8,7 +8,7 @@
 #include "GameSectionGraph.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FLoadingImageSet
+struct TORORUNTIME_API FLoadingImageSet
 {
 	GENERATED_BODY()
 	UPROPERTY(EditAnywhere, Category = LoadingImageSet)
