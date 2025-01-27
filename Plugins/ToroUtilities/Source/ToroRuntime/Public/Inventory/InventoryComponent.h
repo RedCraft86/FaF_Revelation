@@ -19,7 +19,7 @@ struct TORORUNTIME_API FInventorySlotData
 	UPROPERTY(EditAnywhere, Category = SlotData)
 		uint8 Amount;
 
-	UPROPERTY(EditAnywhere, Category = SlotData)
+	UPROPERTY(EditAnywhere, Category = SlotData, meta = (MultiLine = true, ForceInlineRow, Categories = "InventoryMeta"))
 		TMap<FGameplayTag, FString> Metadata;
 
 	FInventorySlotData() : Amount(0) {}

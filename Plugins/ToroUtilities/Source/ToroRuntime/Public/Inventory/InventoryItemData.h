@@ -99,25 +99,25 @@ public:
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		FTransformMeshData BaseMesh;
 	
-	UPROPERTY(EditAnywhere, Category = Advanced, meta = (MultiLine = true))
+	UPROPERTY(EditAnywhere, Category = Advanced, meta = (MultiLine = true, ForceInlineRow, Categories = "InventoryMeta"))
 		TMap<FGameplayTag, FString> DefaultMetadata;
 
 	UPROPERTY(EditAnywhere, Category = Advanced, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TArray<TInstancedStruct<FInventoryItemAttribute>> Attributes;
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(VisibleAnywhere, Category = Editor)
+	UPROPERTY(VisibleAnywhere, Category = Editor, Transient)
 		FText DisplayNamePreview;
 	
-	UPROPERTY(VisibleAnywhere, Category = Editor)
+	UPROPERTY(VisibleAnywhere, Category = Editor, Transient)
 		FText DescriptionPreview;
 	
-	UPROPERTY(VisibleAnywhere, Category = Editor)
+	UPROPERTY(VisibleAnywhere, Category = Editor, Transient, meta = (MultiLine = true, ForceInlineRow))
 	TMap<FGameplayTag, FString> MetadataKeyGuide{
 			{Tag_InvNameID,	TEXT("Used with the Alt Names Attribute.")},
 			{Tag_InvDescID,	TEXT("Used with the Alt Descriptions Attribute.")},
 			{Tag_InvMeshID,	TEXT("Used with the Alt Meshes Attribute.")},
-			{Tag_InvKeyID,	TEXT("This item will be able to unlock locks with matching IDs.")}
+			{Tag_InvKeyID,		TEXT("This item will be able to unlock locks with matching IDs.")}
 	};
 #endif
 
