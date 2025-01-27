@@ -7,7 +7,7 @@
 #include "CustomAction.generated.h"
 
 UCLASS(Abstract, EditInlineNew, Blueprintable, BlueprintType)
-class TORORUNTIME_API UWorldActionObject : public UObject
+class TORORUNTIME_API UWorldActionObject final : public UObject
 {
 	GENERATED_BODY()
 
