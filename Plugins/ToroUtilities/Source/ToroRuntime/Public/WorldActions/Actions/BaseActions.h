@@ -18,7 +18,7 @@ struct TORORUNTIME_API FWControlDelay final : public FWorldActionBase
 		float Delay;
 	
 	UPROPERTY(EditAnywhere, Category = Delay, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
-		TArray<TInstancedStruct<FWorldActionBase>> Events;
+		TArray<TInstancedStruct<FWorldActionBase>> Actions;
 
 	FWControlDelay() : bRetriggerable(false), Delay(0.25f) {}
 
@@ -59,7 +59,7 @@ struct TORORUNTIME_API FWControlDoOnce final : public FWorldActionBase
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, Category = DoOnce, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
-		TArray<TInstancedStruct<FWorldActionBase>> Events;
+		TArray<TInstancedStruct<FWorldActionBase>> Actions;
 
 	FWControlDoOnce() : bHasDone(false) {}
 

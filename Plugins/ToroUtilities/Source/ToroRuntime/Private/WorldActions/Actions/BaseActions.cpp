@@ -11,7 +11,7 @@ void FWControlDelay::RunEvent(const UObject* WorldContext)
 	FEnhancedCodeFlow::StopAction(WorldContext, DelayHandle);
 	DelayHandle = FEnhancedCodeFlow::Delay(WorldContext, Delay, [this, WorldContext]()
 	{
-		FOR_EACH_ACTION(Events, {
+		FOR_EACH_ACTION(Actions, {
 			ActionPtr->RunEvent(WorldContext);
 		})
 	});
@@ -19,14 +19,14 @@ void FWControlDelay::RunEvent(const UObject* WorldContext)
 
 void FWControlDelay::OnBeginPlay(const UObject* WorldContext)
 {
-	FOR_EACH_ACTION(Events, {
+	FOR_EACH_ACTION(Actions, {
 		ActionPtr->OnBeginPlay(WorldContext);
 	})
 }
 
 void FWControlDelay::OnTick(const UObject* WorldContext, const float DeltaTime)
 {
-	FOR_EACH_ACTION(Events, {
+	FOR_EACH_ACTION(Actions, {
 		if (ActionPtr->bCanEverTick) ActionPtr->OnTick(WorldContext, DeltaTime);
 	})
 }
@@ -34,7 +34,7 @@ void FWControlDelay::OnTick(const UObject* WorldContext, const float DeltaTime)
 void FWControlDelay::OnPostEditChange(const UObject* WorldContext)
 {
 	bCanEverTick = false;
-	FOR_EACH_ACTION(Events, {
+	FOR_EACH_ACTION(Actions, {
 		ActionPtr->OnPostEditChange(WorldContext);
 		if (!bCanEverTick) bCanEverTick = ActionPtr->bCanEverTick;
 	})
@@ -87,7 +87,7 @@ void FWControlDoOnce::RunEvent(const UObject* WorldContext)
 	if (!bHasDone)
 	{
 		bHasDone = true;
-		FOR_EACH_ACTION(Events, {
+		FOR_EACH_ACTION(Actions, {
 			ActionPtr->RunEvent(WorldContext);
 		})
 	}
@@ -95,14 +95,14 @@ void FWControlDoOnce::RunEvent(const UObject* WorldContext)
 
 void FWControlDoOnce::OnBeginPlay(const UObject* WorldContext)
 {
-	FOR_EACH_ACTION(Events, {
+	FOR_EACH_ACTION(Actions, {
 		ActionPtr->OnBeginPlay(WorldContext);
 	})
 }
 
 void FWControlDoOnce::OnTick(const UObject* WorldContext, const float DeltaTime)
 {
-	FOR_EACH_ACTION(Events, {
+	FOR_EACH_ACTION(Actions, {
 		if (ActionPtr->bCanEverTick) ActionPtr->OnTick(WorldContext, DeltaTime);
 	})
 }
@@ -110,7 +110,7 @@ void FWControlDoOnce::OnTick(const UObject* WorldContext, const float DeltaTime)
 void FWControlDoOnce::OnPostEditChange(const UObject* WorldContext)
 {
 	bCanEverTick = false;
-	FOR_EACH_ACTION(Events, {
+	FOR_EACH_ACTION(Actions, {
 		ActionPtr->OnPostEditChange(WorldContext);
 		if (!bCanEverTick) bCanEverTick = ActionPtr->bCanEverTick;
 	})
