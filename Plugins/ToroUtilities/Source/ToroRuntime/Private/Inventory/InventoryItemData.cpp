@@ -84,6 +84,20 @@ void UInventoryItemData::PostEditChangeProperty(FPropertyChangedEvent& PropertyC
 			PreviewZoom.Y = FMath::Max(PreviewZoom.X + 0.1f, PreviewZoom.Y);
 		}
 	}
-	else UpdateEditorPreviews();
+	if (PropertyChangedEvent.GetMemberPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, Attributes))
+	{
+		TSet<FName> ExistingAttributes;
+		ExistingAttributes.Reserve(Attributes.Num());
+		for (auto It = Attributes.CreateIterator(); It; ++It)
+		{
+			if (It->IsValid() && It->GetScriptStruct())
+			{
+				const FName StructName = It->GetScriptStruct()->GetFName();
+				if (ExistingAttributes.Contains(StructName)) It.RemoveCurrent();
+				else ExistingAttributes.Add(StructName);
+			}
+		}
+	}
+	UpdateEditorPreviews();
 }
 #endif
