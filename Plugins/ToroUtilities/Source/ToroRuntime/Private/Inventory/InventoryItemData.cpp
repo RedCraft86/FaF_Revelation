@@ -19,7 +19,7 @@ FText InjectMetadataToText(const FText& InTextFmt, const TMap<FGameplayTag, FStr
 	FFormatNamedArguments MetaArgs;
 	for (const TPair<FGameplayTag, FString>& Meta : InMetadata)
 	{
-		if (Meta.Key.IsValid() && Meta.Key != Tag_InvMeta && !Meta.Value.IsEmpty())
+		if (Meta.Key.IsValid() && !Meta.Value.IsEmpty())
 		{
 			const FString MetaName = Meta.Key.ToString().Replace(TEXT("InventoryMeta."), TEXT(""));
 			MetaArgs.Add(TEXT("m") + MetaName, FText::FromString(Meta.Value));
