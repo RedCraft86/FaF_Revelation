@@ -88,8 +88,11 @@ struct TORORUNTIME_API FInvItemConsumable : public FInventoryItemAttribute
 	
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		TSubclassOf<UObject> Class;
+
+	UPROPERTY(EditAnywhere, Category = Attribute)
+		uint8 Amount;
 	
-	FInvItemConsumable() : Label(NSLOCTEXT("Toro", "Use", "Use")) {}
+	FInvItemConsumable() : Label(NSLOCTEXT("Toro", "Use", "Use")), Amount(0) {}
 };
 
 USTRUCT(DisplayName = "Equipment")
