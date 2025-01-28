@@ -27,8 +27,7 @@ void ALevelZoneVolume::FindCullTargets()
 		{
 			if (CullTargets.Contains(Actor)) CullTargets.Remove(Actor);
 		}
-		else if (!CullFindBounded || (CullFindBounded
-			&& EncompassesPoint(Actor->GetActorLocation())))
+		else if (!CullFindBounded || (CullFindBounded && EncompassesPoint(Actor->GetActorLocation())))
 		{
 			if (CullFindTag.IsNone() || Actor->ActorHasTag(CullFindTag))
 			{
