@@ -1,11 +1,16 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Inventory/InventoryComponent.h"
-#include "Inventory/InventoryItemData.h"
 
-TMap<FGameplayTag, FString> FInventorySlotData::GetMetadata() const
+FInventorySlotData::FInventorySlotData(const UInventoryItemData* Data, const uint8 Amount, const FInventoryMetadata& InMetadata)
+	: Item(Data), Amount(Amount), Metadata(InMetadata)
 {
-	TMap<FGameplayTag, FString> Out;
+	Metadata.Validate();
+}
+
+FInventoryMetadata FInventorySlotData::GetMetadata() const
+{
+	FInventoryMetadata Out;
 	if (const UInventoryItemData* ItemObj = GetItem())
 	{
 		Out = ItemObj->DefaultMetadata;

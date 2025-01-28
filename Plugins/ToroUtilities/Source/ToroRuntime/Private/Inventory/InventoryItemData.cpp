@@ -8,28 +8,50 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_InvDescID, "InventoryMeta.DescID");
 UE_DEFINE_GAMEPLAY_TAG(Tag_InvMeshID, "InventoryMeta.MeshID");
 UE_DEFINE_GAMEPLAY_TAG(Tag_InvKeyID, "InventoryMeta.KeyID");
 
+void FInventoryMetadata::Validate()
+{
+	for (auto It = Metadata.CreateIterator(); It; ++It)
+	{
+		if (!It->Key.IsValid())
+		{
+			It.RemoveCurrent();
+		}
+	}
+}
+
+void FInventoryMetadata::Remove(const FGameplayTag& InKey)
+{
+	if (InKey.IsValid())
+	{
+		Metadata.Remove(InKey);
+		Validate();
+	}
+}
+
+void FInventoryMetadata::Add(const FGameplayTag& InKey, const FString& InValue)
+{
+	if (InKey.IsValid())
+	{
+		Metadata.Add(InKey, InValue);
+		Validate();
+	}
+}
+
+void FInventoryMetadata::ForEach(const TFunctionRef<void(const FGameplayTag& Key, const FString& Value)>& Func) const
+{
+	for (auto It = Metadata.CreateConstIterator(); It; ++It)
+	{
+		if (It && It.Key().IsValid()) Func(It.Key(), It.Value());
+	}
+}
+
 UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("Toro", "GenericItemName", "Generic Item"))
 	, Description(NSLOCTEXT("Toro", "GenericItemDesc", "This is a generic item!")), StackingMode(EInventoryStackType::UntilMax)
 	, StackingValue(5), ItemType(EInventoryItemType::Uncategorized), PreviewZoom({0.5f, 2.0f})
 {
 }
 
-FText InjectMetadataToText(const FText& InTextFmt, const TMap<FGameplayTag, FString>& InMetadata)
-{
-	FFormatNamedArguments MetaArgs;
-	for (const TPair<FGameplayTag, FString>& Meta : InMetadata)
-	{
-		if (Meta.Key.IsValid() && !Meta.Value.IsEmpty())
-		{
-			const FString MetaName = Meta.Key.ToString().Replace(TEXT("InventoryMeta."), TEXT(""));
-			MetaArgs.Add(TEXT("m") + MetaName, FText::FromString(Meta.Value));
-		}
-	}
-	
-	return FText::Format(InTextFmt, MetaArgs);
-}
-
-FText UInventoryItemData::GetDisplayName(const TMap<FGameplayTag, FString>& InMetadata) const
+FText UInventoryItemData::GetDisplayName(const FInventoryMetadata& InMetadata) const
 {
 	FText TextFmt = DisplayName;
 	if (const FString* NameKey = InMetadata.Find(Tag_InvNameID))
@@ -39,11 +61,10 @@ FText UInventoryItemData::GetDisplayName(const TMap<FGameplayTag, FString>& InMe
 			AltNames->GetName(*NameKey, TextFmt);
 		}
 	}
-	
 	return InjectMetadataToText(TextFmt, InMetadata);
 }
 
-FText UInventoryItemData::GetDescription(const TMap<FGameplayTag, FString>& InMetadata) const
+FText UInventoryItemData::GetDescription(const FInventoryMetadata& InMetadata) const
 {
 	FText TextFmt = Description;
 	if (const FString* NameKey = InMetadata.Find(Tag_InvDescID))
@@ -53,8 +74,17 @@ FText UInventoryItemData::GetDescription(const TMap<FGameplayTag, FString>& InMe
 			AltDescriptions->GetDescription(*NameKey, TextFmt);
 		}
 	}
-	
 	return InjectMetadataToText(TextFmt, InMetadata);
+}
+
+FText UInventoryItemData::InjectMetadataToText(const FText& InTextFmt, const FInventoryMetadata& InMetadata)
+{
+	FFormatNamedArguments MetaArgs;
+	InMetadata.ForEach([&MetaArgs](const FGameplayTag& Key, const FString& Value)
+	{
+		MetaArgs.Add(TEXT("m") + FInventoryMetadata::GetKeyName(Key), FText::FromString(Value));
+	});
+	return FText::Format(InTextFmt, MetaArgs);
 }
 
 #if WITH_EDITOR

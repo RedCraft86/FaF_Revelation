@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "GameplayTagContainer.h"
+#include "InventoryItemData.h"
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
@@ -19,11 +19,12 @@ struct TORORUNTIME_API FInventorySlotData
 	UPROPERTY(EditAnywhere, Category = SlotData)
 		uint8 Amount;
 
-	UPROPERTY(EditAnywhere, Category = SlotData, meta = (MultiLine = true, ForceInlineRow, Categories = "InventoryMeta"))
-		TMap<FGameplayTag, FString> Metadata;
+	UPROPERTY(EditAnywhere, Category = SlotData)
+		FInventoryMetadata Metadata;
 
 	FInventorySlotData() : Amount(0) {}
-    
+	explicit FInventorySlotData(const UInventoryItemData* Data, const uint8 Amount = 1, const FInventoryMetadata& InMetadata = {});
+	
 	friend FArchive& operator<<(FArchive& Ar, FInventorySlotData& SlotData)
 	{
 		Ar << SlotData.Item;
@@ -33,7 +34,7 @@ struct TORORUNTIME_API FInventorySlotData
 	}
 
 	bool IsValidData() const { return !Item.IsNull() && Amount > 0; }
-	TMap<FGameplayTag, FString> GetMetadata() const;
+	FInventoryMetadata GetMetadata() const;
 	UInventoryItemData* GetItem() const;
 };
 

@@ -58,6 +58,40 @@ inline FString LexToString(const EInventoryItemType& InType)
 	}
 }
 
+USTRUCT(BlueprintType)
+struct FInventoryMetadata
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Metadata, meta = (MultiLine = true, ForceInlineRow, Categories = "InventoryMeta"))
+		TMap<FGameplayTag, FString> Metadata;
+
+	FInventoryMetadata() : Metadata({}) {}
+	FInventoryMetadata(const TMap<FGameplayTag, FString>& InMetadata) : Metadata(InMetadata) {}
+	friend FArchive& operator<<(FArchive& Ar, FInventoryMetadata& InMetadata)
+	{
+		Ar << InMetadata.Metadata;
+		return Ar;
+	}
+
+	TMap<FGameplayTag, FString>& operator*() { return Metadata; }
+	const TMap<FGameplayTag, FString>& operator*() const { return Metadata; }
+
+	void Validate();
+	void Remove(const FGameplayTag& InKey);
+	void Add(const FGameplayTag& InKey, const FString& InValue);
+	void ForEach(const TFunctionRef<void(const FGameplayTag& Key, const FString& Value)>& Func) const;
+	
+	void Append(const FInventoryMetadata& InMetadata) { Metadata.Append(InMetadata.Metadata); }
+	const FString* Find(const FGameplayTag& InKey) const { return Metadata.Find(InKey); }
+	FString FindRef(const FGameplayTag& InKey) const { return Metadata.FindRef(InKey); }
+	
+	static FString GetKeyName(const FGameplayTag& InKey)
+	{
+		return InKey.ToString().Replace(TEXT("InventoryMeta."), TEXT(""));
+	}
+};
+
 UCLASS(NotBlueprintable, BlueprintType)
 class TORORUNTIME_API UInventoryItemData final : public UDataAsset
 {
@@ -99,8 +133,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = Mesh)
 		FTransformMeshData BaseMesh;
 	
-	UPROPERTY(EditAnywhere, Category = Advanced, meta = (MultiLine = true, ForceInlineRow, Categories = "InventoryMeta"))
-		TMap<FGameplayTag, FString> DefaultMetadata;
+	UPROPERTY(EditAnywhere, Category = Advanced)
+		FInventoryMetadata DefaultMetadata;
 
 	UPROPERTY(EditAnywhere, Category = Advanced, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TArray<TInstancedStruct<FInventoryItemAttribute>> Attributes;
@@ -135,8 +169,9 @@ public:
 		return nullptr;
 	}
 
-	FText GetDisplayName(const TMap<FGameplayTag, FString>& InMetadata) const;
-	FText GetDescription(const TMap<FGameplayTag, FString>& InMetadata) const;
+	FText GetDisplayName(const FInventoryMetadata& InMetadata) const;
+	FText GetDescription(const FInventoryMetadata& InMetadata) const;
+	static FText InjectMetadataToText(const FText& InTextFmt, const FInventoryMetadata& InMetadata);
 
 #if WITH_EDITOR
 	void UpdateEditorPreviews();
