@@ -2,8 +2,8 @@
 
 #include "Inventory/InventoryComponent.h"
 
-FInventorySlotData::FInventorySlotData(const UInventoryItemData* Data, const uint8 Amount, const FInventoryMetadata& InMetadata)
-	: Item(Data), Amount(Amount), Metadata(InMetadata)
+FInventorySlotData::FInventorySlotData(const UInventoryItemData* InItem, const uint8 InAmount, const FInventoryMetadata& InMetadata)
+	: Item(InItem), Amount(InAmount), Metadata(InMetadata)
 {
 	Metadata.Validate();
 }
