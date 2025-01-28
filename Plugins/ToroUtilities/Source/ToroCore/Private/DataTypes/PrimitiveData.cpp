@@ -38,12 +38,10 @@ void FStaticMeshProperties::FromStaticMeshComponent(const UStaticMeshComponent* 
 	bCastShadows = InComponent->CastShadow;
 	TArray<UMaterialInterface*> Mats = InComponent->GetMaterials();
 	Materials.Empty(Mats.Num());
-	PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	for (UMaterialInterface* Material : Mats)
 	{
-		Materials.Add(Material);
+		Materials.Add(TObjectPtr<UMaterialInterface>(Material));
 	}
-	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 	FillMaterials();
 }

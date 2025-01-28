@@ -21,8 +21,7 @@ ALevelZoneVolume::ALevelZoneVolume() : CullInvert(false), LocalSoundPlayOnce(tru
 #if WITH_EDITOR
 void ALevelZoneVolume::FindCullTargets()
 {
-	PRAGMA_DISABLE_DEPRECATION_WARNINGS
-	for (const AActor* Actor : TActorRange<AActor>(GetWorld()))
+	for (const TObjectPtr<AActor> Actor : TActorRange<AActor>(GetWorld()))
 	{
 		if (!USmartCullingComponent::Get(Actor))
 		{
@@ -42,7 +41,6 @@ void ALevelZoneVolume::FindCullTargets()
 	{
 		if (!It->LoadSynchronous()) It.RemoveCurrent();
 	}
-	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 }
 #endif
 
