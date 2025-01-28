@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "IDetailPropertyRow.h"
 #include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
+#include "DetailsCustomization/DetailsHelpers.h"
 #include "InlineCurves.h"
 
 class FInlineCurveCustomization final : public IPropertyTypeCustomization
@@ -24,7 +24,7 @@ private:
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructPropertyHandle, IDetailChildrenBuilder& StructBuilder,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 		{
-			const TSharedPtr<IPropertyHandle> CurveHandle = StructPropertyHandle->GetChildHandle(GET_MEMBER_NAME_CHECKED(FInlineFloatCurve, Curve));
-			StructBuilder.AddProperty(CurveHandle.ToSharedRef()).DisplayName(StructPropertyHandle->GetPropertyDisplayName());
+			StructBuilder.AddProperty(STRUCT_CLASS_PROPERTY(FInlineFloatCurve, Curve))
+				.DisplayName(StructPropertyHandle->GetPropertyDisplayName());
 		}
 };
