@@ -24,7 +24,6 @@ struct TORORUNTIME_API FInventorySlotData
 
 	FInventorySlotData() : Amount(0) {}
 	explicit FInventorySlotData(const TObjectPtr<UInventoryItemData>& InItem, const uint8 InAmount = 1, const FInventoryMetadata& InMetadata = {});
-	
 	friend FArchive& operator<<(FArchive& Ar, FInventorySlotData& SlotData)
 	{
 		Ar << SlotData.Item;
