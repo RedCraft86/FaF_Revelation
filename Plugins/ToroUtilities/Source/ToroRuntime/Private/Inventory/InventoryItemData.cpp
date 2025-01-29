@@ -80,6 +80,24 @@ UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("T
 {
 }
 
+uint8 UInventoryItemData::GetSlotLimit() const
+{
+	return StackingMode == EInventoryStackType::UniqueSlots ? StackingValue : 1;
+}
+
+uint8 UInventoryItemData::GetStackLimit() const
+{
+	switch (StackingMode)
+	{
+	case EInventoryStackType::UntilMax: return 255;
+	case EInventoryStackType::DefinedCount: return StackingValue;
+	case EInventoryStackType::UniqueSlots: return 1;
+	}
+
+	// How did we get here?
+	return 0;
+}
+
 FString UInventoryItemData::GetCategoryName() const
 {
 	if (ItemType == EInventoryItemType::Uncategorized)

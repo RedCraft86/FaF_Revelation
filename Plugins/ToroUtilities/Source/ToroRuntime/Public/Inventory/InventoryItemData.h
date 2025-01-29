@@ -10,8 +10,6 @@
 #include "StructUtils/InstancedStruct.h"
 #include "InventoryItemData.generated.h"
 
-#define ITEM_LIMIT_MAX 9999
-
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvMeta);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvNameID);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvDescID);
@@ -170,6 +168,8 @@ public:
 		return nullptr;
 	}
 
+	uint8 GetSlotLimit() const;
+	uint8 GetStackLimit() const;
 	FString GetCategoryName() const;
 	FText GetDisplayName(const FInventoryMetadata& InMetadata) const;
 	FText GetDescription(const FInventoryMetadata& InMetadata) const;
