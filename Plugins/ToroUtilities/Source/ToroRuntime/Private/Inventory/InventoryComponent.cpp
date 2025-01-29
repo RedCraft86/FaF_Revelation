@@ -76,6 +76,21 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 	return Out;
 }
 
+TArray<FGuid> UInventoryComponent::GetFilteredSlots(const TArray<FGuid>& InSlots, const TSet<EInventoryItemType>& TypeFilter, const bool bExcludeTypes) const
+{
+	TArray<FGuid> Out;
+	for (const FGuid& Slot : InSlots)
+	{
+		if (!ItemSlots.Contains(Slot)) continue;
+		if (const FInventorySlotData& SlotRef = ItemSlots[Slot]; SlotRef.IsValidData())
+		{
+			const bool bContains = TypeFilter.Contains(SlotRef.Item.LoadSynchronous()->ItemType);
+			if (bExcludeTypes ? !bContains : bContains) Out.Add(Slot);
+		}
+	}
+	return Out;
+}
+
 FGuid UInventoryComponent::FindSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter)
 {
 	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
