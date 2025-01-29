@@ -10,9 +10,9 @@ bool FInventoryMetaFilter::Filter(const FInventorySlotData& InSlot) const
 		{
 		case EInventoryMetaFilterMode::Unfiltered: return true;
 		case EInventoryMetaFilterMode::MatchAny:
-			return InSlot.GetMetadata().HasAnyMetadata(Metadata, !bCompareValues);
+			return InSlot.Metadata.HasAnyMetadata(Metadata, !bCompareValues);
 		case EInventoryMetaFilterMode::MatchAll:
-			return InSlot.GetMetadata().HasAllMetadata(Metadata, !bCompareValues);
+			return InSlot.Metadata.HasAllMetadata(Metadata, !bCompareValues);
 		}
 	}
 
@@ -21,7 +21,7 @@ bool FInventoryMetaFilter::Filter(const FInventorySlotData& InSlot) const
 
 bool FInventoryMetaFilter::Filter(const UInventoryItemData* InItem, const FInventorySlotData& InSlot) const
 {
-	if (InSlot.IsValidData() && InItem && InSlot.GetItem() == InItem)
+	if (InSlot.IsValidData() && InItem && InSlot.Item.LoadSynchronous() == InItem)
 	{
 		return Filter(InSlot);
 	}
@@ -30,26 +30,11 @@ bool FInventoryMetaFilter::Filter(const UInventoryItemData* InItem, const FInven
 }
 
 FInventorySlotData::FInventorySlotData(const TObjectPtr<UInventoryItemData>& InItem, const uint8 InAmount, const FInventoryMetadata& InMetadata)
-	: Item(InItem), Amount(InAmount), Metadata(InMetadata)
+	: Item(InItem), Amount(InAmount)
 {
+	Metadata = InItem->DefaultMetadata;
+	Metadata.Append(InMetadata);
 	Metadata.Validate();
-}
-
-FInventoryMetadata FInventorySlotData::GetMetadata() const
-{
-	FInventoryMetadata Out;
-	if (const UInventoryItemData* ItemObj = GetItem())
-	{
-		Out = ItemObj->DefaultMetadata;
-		Out.Append(Metadata);
-	}
-
-	return Out;
-}
-
-UInventoryItemData* FInventorySlotData::GetItem() const
-{
-	return Item.LoadSynchronous();
 }
 
 UInventoryComponent::UInventoryComponent()
@@ -73,7 +58,7 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 
 	Slots.Sort([](const TPair<FGuid, FInventorySlotData>& A, const TPair<FGuid, FInventorySlotData>& B)
 	{
-		const UInventoryItemData *ItemA = A.Value.GetItem(), *ItemB = B.Value.GetItem();
+		const UInventoryItemData *ItemA = A.Value.Item.LoadSynchronous(), *ItemB = B.Value.Item.LoadSynchronous();
 		if (ItemA->Priority != ItemB->Priority)
 		{
 			return ItemA->Priority < ItemB->Priority;
@@ -144,8 +129,8 @@ bool UInventoryComponent::SlotHasMetadata(const FGuid& InSlot, const FGameplayTa
 {
 	if (!InKey.IsValid() && ItemSlots.Contains(InSlot))
 	{
-		return ItemSlots[InSlot].GetMetadata().HasMetadata(
-			{InKey, InValue}, !InValue.Equals(TEXT("*FilterAny")));
+		return ItemSlots[InSlot].Metadata.HasMetadata({InKey, InValue},
+			!InValue.Equals(TEXT("*FilterAny")));
 	}
 
 	return false;
@@ -159,7 +144,7 @@ uint8 UInventoryComponent::AddItemToSlot(const FGuid& InSlot, const uint8 Amount
 		FInventorySlotData& SlotRef = ItemSlots[InSlot];
 
 		SlotRef.Amount += Amount;
-		const UInventoryItemData* Item = SlotRef.GetItem();
+		const UInventoryItemData* Item = SlotRef.Item.LoadSynchronous();
 		const uint8 StackSizeLimit = Item->GetStackLimit();
 		if (SlotRef.Amount > StackSizeLimit)
 		{
@@ -197,7 +182,7 @@ uint8 UInventoryComponent::RemoveItemFromSlot(const FGuid& InSlot, const uint8 A
 		FInventorySlotData& SlotRef = ItemSlots[InSlot];
 
 		SlotRef.Amount -= Amount;
-		const UInventoryItemData* Item = SlotRef.GetItem();
+		const UInventoryItemData* Item = SlotRef.Item.LoadSynchronous();
 		if (SlotRef.Amount <= 0)
 		{
 			Missing = FMath::Abs(SlotRef.Amount);

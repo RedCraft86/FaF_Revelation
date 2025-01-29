@@ -68,8 +68,6 @@ struct TORORUNTIME_API FInventorySlotData
 	}
 
 	bool IsValidData() const { return !Item.IsNull() && Amount > 0; }
-	FInventoryMetadata GetMetadata() const;
-	UInventoryItemData* GetItem() const;
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryUpdateSignature);
