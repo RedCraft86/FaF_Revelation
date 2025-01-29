@@ -117,15 +117,15 @@ public:
 		virtual uint8 AddItemToSlot(const FGuid& InSlot, const uint8 Amount, const bool bSilent = false);
 	
 	UFUNCTION(BlueprintCallable, Category = InventoryManager, meta = (AdvancedDisplay = "bSilent"))
-		virtual void AddInventoryItem(uint8& Overflow, TSet<FGuid>& Slots, const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent = false);
-	uint8 AddItem(const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent = false);
+		virtual void AddInventoryItem(uint8& Overflow, TSet<FGuid>& Slots, UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent = false);
+	uint8 AddItem(UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent = false);
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager, meta = (AdvancedDisplay = "bSilent"))
 		virtual uint8 RemoveItemFromSlot(const FGuid& InSlot, const uint8 Amount, const bool bSilent = false);
     
 	UFUNCTION(BlueprintCallable, Category = InventoryManager, meta = (AdvancedDisplay = "Filter,bSilent"))
-		virtual void RemoveInventoryItem(uint8& Missing, const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter = FInventoryMetaFilter(), const bool bSilent = false);
-	uint8 RemoveItem(const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter = {}, const bool bSilent = false);
+		virtual void RemoveInventoryItem(uint8& Missing, UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter = FInventoryMetaFilter(), const bool bSilent = false);
+	uint8 RemoveItem(UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter = {}, const bool bSilent = false);
 	
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;

@@ -49,7 +49,7 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 
 	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
 	{
-		if (Slot.Value.IsValidData())
+		if (Slot.Key.IsValid() && Slot.Value.IsValidData())
 		{
 			Slots.Emplace(Slot.Key, Slot.Value);
 		}
@@ -70,7 +70,7 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 	Out.Reserve(Slots.Num());
 	for (const TPair<FGuid, FInventorySlotData>& Slot : Slots)
 	{
-		Out.Emplace(Slot.Key);
+		Out.Add(Slot.Key);
 	}
 
 	return Out;
@@ -156,12 +156,61 @@ uint8 UInventoryComponent::AddItemToSlot(const FGuid& InSlot, const uint8 Amount
 	return Amount;
 }
 
-void UInventoryComponent::AddInventoryItem(uint8& Overflow, TSet<FGuid>& Slots, const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent)
+void UInventoryComponent::AddInventoryItem(uint8& Overflow, TSet<FGuid>& Slots, UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent)
 {
-	// TODO: implement AddInventoryItem
+	Slots = {};
+	Overflow = 0;
+	if (IsValid(Item) && Amount > 0)
+	{
+		int32 Sum, Final;
+		if (Item->StackingMode == EInventoryStackType::UniqueSlots)
+		{
+			uint8 Existing = FindSlots(Item).Num();
+			Sum = Existing + Amount;
+			Final = FMath::Min((int32)Item->StackingValue, Sum);
+			
+			for (int32 i = 0; i < Final - Existing; i++)
+			{
+				const FGuid ItemGuid(FGuid::NewGuid());
+				FInventorySlotData NewSlot(Item, 1, Metadata);
+				ItemSlots.Add(ItemGuid, NewSlot);
+				Slots.Add(ItemGuid);
+			}
+		}
+		else
+		{
+			if (const FGuid Slot = FindSlot(Item); Slot.IsValid())
+			{
+				FInventorySlotData& SlotRef = ItemSlots[Slot];
+				Sum = SlotRef.Amount + Amount;
+				Final = FMath::Min((int32)Item->GetStackLimit(), Sum);
+				Overflow = FMath::Max(Sum - Final, 0);
+				
+				SlotRef.Amount = (uint8)Final;
+				SlotRef.Metadata.Append(Metadata);
+			}
+			else
+			{
+				Sum = Amount;
+				Final = FMath::Min((int32)Item->GetStackLimit(), Sum);
+				Overflow = FMath::Max(Sum - Final, 0);
+				
+				const FGuid ItemGuid(FGuid::NewGuid());
+				FInventorySlotData NewSlot(Item, (uint8)Final, Metadata);
+				ItemSlots.Add(ItemGuid, NewSlot);
+				Slots.Add(ItemGuid);
+			}
+		}
+
+		if (Final > 0)
+		{
+			ValidateInventory();
+			if (!bSilent) ON_ITEM_ADDED(Item, Final);
+		}
+	}
 }
 
-uint8 UInventoryComponent::AddItem(const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent)
+uint8 UInventoryComponent::AddItem(UInventoryItemData* Item, const uint8 Amount, const FInventoryMetadata& Metadata, const bool bSilent)
 {
 	uint8 Overflow;
 	TSet<FGuid> Slots;
@@ -194,12 +243,58 @@ uint8 UInventoryComponent::RemoveItemFromSlot(const FGuid& InSlot, const uint8 A
 	return Amount;
 }
 
-void UInventoryComponent::RemoveInventoryItem(uint8& Missing, const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter, const bool bSilent)
+void UInventoryComponent::RemoveInventoryItem(uint8& Missing, UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter, const bool bSilent)
 {
-	// TODO: implement RemoveInventoryItem
+	Missing = 0;
+	if (IsValid(Item) && Amount > 0)
+	{
+		int32 Sum, Final;
+		if (Item->StackingMode == EInventoryStackType::UniqueSlots)
+		{
+			const TSet<FGuid> Slots = FindSlots(Item, Filter);
+			Sum = Slots.Num() - Amount;
+			Missing = Sum < 0 ? FMath::Abs(Sum) : 0;
+			Final = Amount - Missing;
+			Sum = Final;
+			
+			for (const FGuid& Slot : Slots)
+			{
+				Sum--;
+				ItemSlots.Remove(Slot);
+				if (Sum <= 0) break;
+			}
+		}
+		else
+		{
+			if (const FGuid Slot = FindSlot(Item); Slot.IsValid())
+			{
+				FInventorySlotData& SlotRef = ItemSlots[Slot];
+				Sum = SlotRef.Amount - Amount;
+				Missing = Sum < 0 ? FMath::Abs(Sum) : 0;
+				Final = Amount - Missing;
+
+				SlotRef.Amount = FMath::Max(SlotRef.Amount - Final, 0);
+				if (!SlotRef.IsValidData())
+				{
+					ItemSlots.Remove(Slot);
+				}
+			}
+			else
+			{
+				Missing = Amount;
+				Final = 0;
+			}
+		}
+
+		if (Final > 0)
+		{
+			ValidateInventory();
+			if (!bSilent) ON_ITEM_REMOVED(Item, Final);
+		}
+	}
 }
 
-uint8 UInventoryComponent::RemoveItem(const UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter, const bool bSilent)
+uint8 UInventoryComponent::RemoveItem(UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter, const bool bSilent)
 {
 	uint8 Missing;
 	RemoveInventoryItem(Missing, Item, Amount, Filter, bSilent);
