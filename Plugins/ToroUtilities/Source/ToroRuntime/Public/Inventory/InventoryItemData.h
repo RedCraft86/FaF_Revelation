@@ -29,13 +29,12 @@ enum class EInventoryStackType : uint8
 UENUM(BlueprintType)
 enum class EInventoryItemType : uint8
 {
-	Uncategorized,
 	Objective,
 	KeyItem,
 	Consumable,
 	Equipment,
 	Viewable,
-	Custom
+	Uncategorized
 };
 
 inline FString LexToString(const EInventoryItemType& InType)
@@ -52,8 +51,6 @@ inline FString LexToString(const EInventoryItemType& InType)
 			return TEXT("Equipment");
 		case EInventoryItemType::Viewable:
 			return TEXT("Viewable");
-		case EInventoryItemType::Custom:
-			return TEXT("Custom");
 		default: return TEXT("Uncategorized");
 	}
 }
@@ -128,7 +125,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = General)
 		EInventoryItemType ItemType;
 	
-	UPROPERTY(EditAnywhere, Category = General, meta = (EditCondition = "ItemType == EInventoryItemType::Custom"))
+	UPROPERTY(EditAnywhere, Category = General, meta = (EditCondition = "ItemType == EInventoryItemType::Uncategorized"))
 		FString CustomType;
 	
 	UPROPERTY(EditAnywhere, Category = Mesh, meta = (ClampMin = 0.1f, UIMin = 0.1f))
@@ -173,6 +170,7 @@ public:
 		return nullptr;
 	}
 
+	FString GetCategoryName() const;
 	FText GetDisplayName(const FInventoryMetadata& InMetadata) const;
 	FText GetDescription(const FInventoryMetadata& InMetadata) const;
 	static FText InjectMetadataToText(const FText& InTextFmt, const FInventoryMetadata& InMetadata);

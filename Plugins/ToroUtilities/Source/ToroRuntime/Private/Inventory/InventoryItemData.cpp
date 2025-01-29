@@ -80,6 +80,16 @@ UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("T
 {
 }
 
+FString UInventoryItemData::GetCategoryName() const
+{
+	if (ItemType == EInventoryItemType::Uncategorized)
+	{
+		return CustomType.IsEmpty() ? TEXT("Unknown") : CustomType;
+	}
+
+	return LexToString(ItemType);
+}
+
 FText UInventoryItemData::GetDisplayName(const FInventoryMetadata& InMetadata) const
 {
 	FText TextFmt = DisplayName;
