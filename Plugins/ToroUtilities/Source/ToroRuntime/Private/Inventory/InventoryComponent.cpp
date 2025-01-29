@@ -34,7 +34,6 @@ FInventorySlotData::FInventorySlotData(const TObjectPtr<UInventoryItemData>& InI
 {
 	Metadata = InItem->DefaultMetadata;
 	Metadata.Append(InMetadata);
-	Metadata.Validate();
 }
 
 UInventoryComponent::UInventoryComponent()
@@ -103,7 +102,6 @@ void UInventoryComponent::AppendSlotMetadata(const FGuid& InSlot, const FInvento
 	if (InSlot.IsValid() && ItemSlots.Contains(InSlot))
 	{
 		ItemSlots[InSlot].Metadata.Append(InMetadata);
-		ItemSlots[InSlot].Metadata.Validate();
 	}
 }
 
@@ -112,7 +110,6 @@ void UInventoryComponent::AddSlotMetadata(const FGuid& InSlot, const FGameplayTa
 	if (InSlot.IsValid() && ItemSlots.Contains(InSlot))
 	{
 		ItemSlots[InSlot].Metadata.Add(InKey, InValue);
-		ItemSlots[InSlot].Metadata.Validate();
 	}
 }
 
@@ -121,7 +118,6 @@ void UInventoryComponent::RemoveSlotMetadata(const FGuid& InSlot, const FGamepla
 	if (InSlot.IsValid() && ItemSlots.Contains(InSlot))
 	{
 		ItemSlots[InSlot].Metadata.Remove(InKey);
-		ItemSlots[InSlot].Metadata.Validate();
 	}
 }
 

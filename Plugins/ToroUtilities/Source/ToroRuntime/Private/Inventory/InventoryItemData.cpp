@@ -12,7 +12,7 @@ void FInventoryMetadata::Validate()
 {
 	for (auto It = Metadata.CreateIterator(); It; ++It)
 	{
-		if (!It->Key.IsValid())
+		if (!It->Key.IsValid() && It->Key != Tag_InvMeta)
 		{
 			It.RemoveCurrent();
 		}
@@ -21,29 +21,26 @@ void FInventoryMetadata::Validate()
 
 void FInventoryMetadata::Remove(const FGameplayTag& InKey)
 {
-	if (InKey.IsValid())
+	if (InKey.IsValid() && InKey != Tag_InvMeta)
 	{
 		Metadata.Remove(InKey);
-		Validate();
+		//Validate();
 	}
 }
 
 void FInventoryMetadata::Add(const FGameplayTag& InKey, const FString& InValue)
 {
-	if (InKey.IsValid())
+	if (InKey.IsValid() && InKey != Tag_InvMeta)
 	{
 		Metadata.Add(InKey, InValue);
-		Validate();
+		//Validate();
 	}
 }
 
-void FInventoryMetadata::ForEach(const TFunctionRef<void(const FGameplayTag& Key, const FString& Value)>& Func) const
+void FInventoryMetadata::Append(const FInventoryMetadata& InMetadata)
 {
-	const_cast<FInventoryMetadata*>(this)->Validate();
-	for (auto It = Metadata.CreateConstIterator(); It; ++It)
-	{
-		if (It.Key().IsValid()) Func(It.Key(), It.Value());
-	}
+	Metadata.Append(InMetadata.Metadata);
+	Validate();
 }
 
 bool FInventoryMetadata::HasMetadata(const TPair<FGameplayTag, FString>& InMetadata, const bool bAnyValue) const
@@ -72,6 +69,15 @@ bool FInventoryMetadata::HasAllMetadata(const TMap<FGameplayTag, FString>& InMet
 	}
 
 	return true;
+}
+
+void FInventoryMetadata::ForEach(const TFunctionRef<void(const FGameplayTag& Key, const FString& Value)>& Func) const
+{
+	const_cast<FInventoryMetadata*>(this)->Validate();
+	for (auto It = Metadata.CreateConstIterator(); It; ++It)
+	{
+		if (It.Key().IsValid()) Func(It.Key(), It.Value());
+	}
 }
 
 UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("Toro", "GenericItemName", "Generic Item"))
