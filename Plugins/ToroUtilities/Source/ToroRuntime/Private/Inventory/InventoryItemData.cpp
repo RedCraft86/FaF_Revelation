@@ -42,8 +42,36 @@ void FInventoryMetadata::ForEach(const TFunctionRef<void(const FGameplayTag& Key
 	const_cast<FInventoryMetadata*>(this)->Validate();
 	for (auto It = Metadata.CreateConstIterator(); It; ++It)
 	{
-		if (It && It.Key().IsValid()) Func(It.Key(), It.Value());
+		if (It.Key().IsValid()) Func(It.Key(), It.Value());
 	}
+}
+
+bool FInventoryMetadata::HasMetadata(const TPair<FGameplayTag, FString>& InMetadata, const bool bAnyValue) const
+{
+	if (!InMetadata.Key.IsValid()) return false;
+	return bAnyValue ? Metadata.Contains(InMetadata.Key) : Metadata.FindRef(InMetadata.Key) == InMetadata.Value;
+}
+
+bool FInventoryMetadata::HasAnyMetadata(const TMap<FGameplayTag, FString>& InMetadata, const bool bAnyValue) const
+{
+	if (Metadata.IsEmpty()) return false;
+	for (const TPair<FGameplayTag, FString>& Pair : InMetadata)
+	{
+		if (HasMetadata(Pair, bAnyValue)) return true;
+	}
+
+	return false;
+}
+
+bool FInventoryMetadata::HasAllMetadata(const TMap<FGameplayTag, FString>& InMetadata, const bool bAnyValue) const
+{
+	if (Metadata.IsEmpty()) return false;
+	for (const TPair<FGameplayTag, FString>& Pair : InMetadata)
+	{
+		if (!HasMetadata(Pair, bAnyValue)) return false;
+	}
+
+	return true;
 }
 
 UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("Toro", "GenericItemName", "Generic Item"))

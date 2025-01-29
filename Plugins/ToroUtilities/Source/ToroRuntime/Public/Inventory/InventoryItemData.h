@@ -59,7 +59,7 @@ inline FString LexToString(const EInventoryItemType& InType)
 }
 
 USTRUCT(BlueprintType)
-struct FInventoryMetadata
+struct TORORUNTIME_API FInventoryMetadata
 {
 	GENERATED_BODY()
 	
@@ -81,6 +81,10 @@ struct FInventoryMetadata
 	void Remove(const FGameplayTag& InKey);
 	void Add(const FGameplayTag& InKey, const FString& InValue);
 	void ForEach(const TFunctionRef<void(const FGameplayTag& Key, const FString& Value)>& Func) const;
+
+	bool HasMetadata(const TPair<FGameplayTag, FString>& InMetadata, const bool bAnyValue = true) const;
+	bool HasAnyMetadata(const TMap<FGameplayTag, FString>& InMetadata, const bool bAnyValue = true) const;
+	bool HasAllMetadata(const TMap<FGameplayTag, FString>& InMetadata, const bool bAnyValue = true) const;
 	
 	void Append(const FInventoryMetadata& InMetadata) { Metadata.Append(InMetadata.Metadata); }
 	const FString* Find(const FGameplayTag& InKey) const { return Metadata.Find(InKey); }

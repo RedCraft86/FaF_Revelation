@@ -8,6 +8,39 @@
 
 class UInventoryItemData;
 
+UENUM(BlueprintType)
+enum class EInventoryMetaFilterMode : uint8
+{
+	Unfiltered,
+	MatchAny,
+	MatchAll
+};
+
+USTRUCT(BlueprintType)
+struct TORORUNTIME_API FInventoryMetaFilter
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MetaFilter)
+		EInventoryMetaFilterMode FilterMode;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MetaFilter)
+		bool bCompareValues;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MetaFilter)
+		TMap<FGameplayTag, FString> Metadata;
+
+	FInventoryMetaFilter()
+		: FilterMode(EInventoryMetaFilterMode::Unfiltered), bCompareValues (false), Metadata({})
+	{}
+	
+	FInventoryMetaFilter(const EInventoryMetaFilterMode InMode, const bool InCompareValues, const TMap<FGameplayTag, FString>& InMetadata)
+		: FilterMode(InMode), bCompareValues (InCompareValues), Metadata(InMetadata)
+	{}
+
+	bool Filter(const struct FInventorySlotData& InSlot) const;
+};
+
 USTRUCT(BlueprintType)
 struct TORORUNTIME_API FInventorySlotData
 {

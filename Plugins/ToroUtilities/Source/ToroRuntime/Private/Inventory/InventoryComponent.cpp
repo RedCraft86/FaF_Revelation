@@ -2,6 +2,23 @@
 
 #include "Inventory/InventoryComponent.h"
 
+bool FInventoryMetaFilter::Filter(const FInventorySlotData& InSlot) const
+{
+	if (InSlot.IsValidData())
+	{
+		switch (FilterMode)
+		{
+		case EInventoryMetaFilterMode::Unfiltered: return true;
+		case EInventoryMetaFilterMode::MatchAny:
+			return InSlot.GetMetadata().HasAnyMetadata(Metadata, !bCompareValues);
+		case EInventoryMetaFilterMode::MatchAll:
+			return InSlot.GetMetadata().HasAllMetadata(Metadata, !bCompareValues);
+		}
+	}
+
+	return false;
+}
+
 FInventorySlotData::FInventorySlotData(const TObjectPtr<UInventoryItemData>& InItem, const uint8 InAmount, const FInventoryMetadata& InMetadata)
 	: Item(InItem), Amount(InAmount), Metadata(InMetadata)
 {
