@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "MiscTypes.h"
 #include "InventoryItemData.h"
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
@@ -46,13 +47,13 @@ struct TORORUNTIME_API FInventorySlotData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = SlotData)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SlotData)
 		TSoftObjectPtr<UInventoryItemData> Item;
 
-	UPROPERTY(EditAnywhere, Category = SlotData)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SlotData)
 		uint8 Amount;
 
-	UPROPERTY(EditAnywhere, Category = SlotData)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SlotData)
 		FInventoryMetadata Metadata;
 
 	FInventorySlotData() : Amount(0) {}
