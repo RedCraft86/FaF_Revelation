@@ -73,7 +73,7 @@ bool FInventoryMetadata::HasAllMetadata(const TMap<FGameplayTag, FString>& InMet
 
 void FInventoryMetadata::ForEach(const TFunctionRef<void(const FGameplayTag& Key, const FString& Value)>& Func) const
 {
-	const_cast<FInventoryMetadata*>(this)->Validate();
+	//const_cast<FInventoryMetadata*>(this)->Validate();
 	for (auto It = Metadata.CreateConstIterator(); It; ++It)
 	{
 		if (It.Key().IsValid()) Func(It.Key(), It.Value());
