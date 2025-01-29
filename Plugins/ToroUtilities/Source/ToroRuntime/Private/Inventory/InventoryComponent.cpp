@@ -100,7 +100,7 @@ TSet<FGuid> UInventoryComponent::FindSlots(const UInventoryItemData* Item, const
 
 void UInventoryComponent::AppendSlotMetadata(const FGuid& InSlot, const FInventoryMetadata& InMetadata)
 {
-	if (ItemSlots.Contains(InSlot))
+	if (InSlot.IsValid() && ItemSlots.Contains(InSlot))
 	{
 		ItemSlots[InSlot].Metadata.Append(InMetadata);
 		ItemSlots[InSlot].Metadata.Validate();
@@ -109,7 +109,7 @@ void UInventoryComponent::AppendSlotMetadata(const FGuid& InSlot, const FInvento
 
 void UInventoryComponent::AddSlotMetadata(const FGuid& InSlot, const FGameplayTag InKey, const FString InValue)
 {
-	if (ItemSlots.Contains(InSlot))
+	if (InSlot.IsValid() && ItemSlots.Contains(InSlot))
 	{
 		ItemSlots[InSlot].Metadata.Add(InKey, InValue);
 		ItemSlots[InSlot].Metadata.Validate();
@@ -118,7 +118,7 @@ void UInventoryComponent::AddSlotMetadata(const FGuid& InSlot, const FGameplayTa
 
 void UInventoryComponent::RemoveSlotMetadata(const FGuid& InSlot, const FGameplayTag InKey)
 {
-	if (ItemSlots.Contains(InSlot))
+	if (InSlot.IsValid() && ItemSlots.Contains(InSlot))
 	{
 		ItemSlots[InSlot].Metadata.Remove(InKey);
 		ItemSlots[InSlot].Metadata.Validate();
@@ -127,7 +127,7 @@ void UInventoryComponent::RemoveSlotMetadata(const FGuid& InSlot, const FGamepla
 
 bool UInventoryComponent::SlotHasMetadata(const FGuid& InSlot, const FGameplayTag InKey, const FString InValue)
 {
-	if (!InKey.IsValid() && ItemSlots.Contains(InSlot))
+	if (InSlot.IsValid() && ItemSlots.Contains(InSlot) && !InKey.IsValid())
 	{
 		return ItemSlots[InSlot].Metadata.HasMetadata({InKey, InValue},
 			!InValue.Equals(TEXT("*FilterAny")));
@@ -138,7 +138,7 @@ bool UInventoryComponent::SlotHasMetadata(const FGuid& InSlot, const FGameplayTa
 
 uint8 UInventoryComponent::AddItemToSlot(const FGuid& InSlot, const uint8 Amount, const bool bSilent)
 {
-	if (ItemSlots.Contains(InSlot) && Amount > 0)
+	if (InSlot.IsValid() && ItemSlots.Contains(InSlot) && Amount > 0)
 	{
 		uint8 Overflow = 0;
 		FInventorySlotData& SlotRef = ItemSlots[InSlot];
