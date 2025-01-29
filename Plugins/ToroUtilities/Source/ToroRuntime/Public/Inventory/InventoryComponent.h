@@ -96,7 +96,7 @@ public:
 		virtual TArray<FGuid> GetSortedSlots() const;
 	
 	UFUNCTION(BlueprintPure, Category = InventoryManager, meta = (AdvancedDisplay = "Filter"))
-		virtual FGuid FindFirstSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter = FInventoryMetaFilter());
+		virtual FGuid FindSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter = FInventoryMetaFilter());
 
 	UFUNCTION(BlueprintPure, Category = InventoryManager, meta = (AdvancedDisplay = "Filter"))
 		virtual TSet<FGuid> FindSlots(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter = FInventoryMetaFilter());

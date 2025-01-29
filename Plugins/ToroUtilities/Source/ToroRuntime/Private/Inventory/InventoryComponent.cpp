@@ -77,7 +77,7 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 	return Out;
 }
 
-FGuid UInventoryComponent::FindFirstSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter)
+FGuid UInventoryComponent::FindSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter)
 {
 	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
 	{
