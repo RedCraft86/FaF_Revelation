@@ -55,16 +55,16 @@ struct TOROCORE_API FActorBoundsCheckParams
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Params)
 		TEnumAsByte<ECollisionChannel> LineTraceChannel;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Params, meta = (ClampMin = 0.0f, UIMin = 0.0f, ClampMax = 1.0f, UIMax = 1.0f))
 		FVector BoundingBoxLerp;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Params)
 		bool bOnlyCollidingComponents;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActorBoundsCheckParams)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Params)
 		bool bIncludeFromChildActors;
 
 	FActorBoundsCheckParams()

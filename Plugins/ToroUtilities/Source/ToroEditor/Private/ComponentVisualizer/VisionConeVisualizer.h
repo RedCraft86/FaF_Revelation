@@ -40,10 +40,11 @@ private:
 
 	virtual void DrawVisualizationHUD(const UActorComponent* Component, const FViewport* Viewport, const FSceneView* View, FCanvas* Canvas) override
 	{
-		if (const UVisionConeComponent* ConeComponent = Cast<const UVisionConeComponent>(Component))
+		const UVisionConeComponent* ConeComponent = Cast<const UVisionConeComponent>(Component);
+		if (ConeComponent && ConeComponent->TraceMethod)
 		{
 			VisualizerHelpers::DrawText(View, Canvas, ConeComponent->GetComponentLocation(), FText::Format(INVTEXT("Trace: {0}"), 
-				FText::FromString(GetNameSafe(ConeComponent->TraceMethod))), 12, FLinearColor::Green, true);
+				FText::FromString(ConeComponent->TraceMethod->GetClass()->GetName())), 12, FLinearColor::Green, true);
 		}
 	}
 };
