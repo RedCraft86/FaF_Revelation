@@ -2,7 +2,7 @@
 
 #include "VisionCone/VisionConeComponent.h"
 
-UVisionConeComponent::UVisionConeComponent() : Distance(2000.0f), ViewAngle(60.0f), PeripheralAngle(20.0f)
+UVisionConeComponent::UVisionConeComponent() : Distance(2000.0f), ViewAngle(50.0f), PeripheralAngle(10.0f)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	TraceMethod = CreateDefaultSubobject<UActorTrace_BoundingBox>(TEXT("TraceMethod"));
