@@ -9,6 +9,13 @@ AToroPlayerBase::AToroPlayerBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	CharacterID = Tag_Player;
+	
+	Camera = CreateDefaultSubobject<UCineCameraComponent>(TEXT("Camera"));
+	Camera->SetRelativeLocation({0.0f, 0.0f, 70.0f});
+	Camera->SetupAttachment(GetMesh());
+
+	VisionComponent->SetRelativeLocation(FVector::ZeroVector);
+	VisionComponent->SetupAttachment(GetMesh());
 }
 
 EToroValidPins AToroPlayerBase::GetToroPlayerCharacter(AToroPlayerBase*& OutObject,

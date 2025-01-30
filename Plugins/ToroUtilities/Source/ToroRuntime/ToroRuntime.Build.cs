@@ -24,6 +24,7 @@ public class ToroRuntime : ModuleRules
                 "AudioExtensions",
                 "ApplicationCore",
                 "DeveloperSettings",
+                "CinematicCamera",
                 "MetasoundEngine",
                 "GameplayTags",
                 "CommonUI",

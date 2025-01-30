@@ -9,6 +9,17 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_Enemy, "Character.Enemy");
 AToroCharacterBase::AToroCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	VisionComponent = CreateDefaultSubobject<UVisionComponent>(TEXT("VisionComponent"));
+	VisionComponent->SetRelativeLocation({0.0f, 0.0f, 70.0f});
+	VisionComponent->SetupAttachment(GetMesh());
+}
+
+void AToroCharacterBase::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle)
+{
+	Location = VisionComponent->GetComponentLocation();
+	Forward = VisionComponent->GetForwardVector();
+	Angle = VisionComponent->ViewAngle;
 }
 
 void AToroCharacterBase::BeginPlay()

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ExecPinEnums.h"
+#include "CineCameraComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Characters/ToroCharacterBase.h"
 #include "ToroPlayerBase.generated.h"
@@ -20,6 +21,9 @@ public:
 	
 	AToroPlayerBase();
 
+	UPROPERTY(VisibleDefaultsOnly, Category = Subobjects)
+		TObjectPtr<UCineCameraComponent> Camera;
+
 	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Character"))
 		static EToroValidPins GetToroPlayerCharacter(AToroPlayerBase*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerBase>& Class, const int32 PlayerIndex = 0);
 
@@ -36,5 +40,5 @@ protected:
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 };
