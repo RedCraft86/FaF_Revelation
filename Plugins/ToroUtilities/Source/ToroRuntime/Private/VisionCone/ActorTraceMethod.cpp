@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "VisionCone/ActorTraceMethod.h"
+#include "ToroGeneralUtils.h"
 
 bool UActorTrace_Origin::TraceActor(const USceneComponent* Start, const AActor* Target)
 {
@@ -14,14 +15,29 @@ bool UActorTrace_Origin::TraceActor(const USceneComponent* Start, const AActor* 
 		Start->GetComponentLocation(), Target->GetActorLocation(), TraceChannel, Params);
 }
 
+TArray<FVector> UActorTrace_BoundingBox::ProcessVertices(const TArray<FVector>& InVertices, const FVector& Origin) const
+{
+	TArray<FVector> TestVectors {Origin};
+	for (const FVector& Vector : InVertices)
+	{
+		TestVectors.AddUnique(FVector(
+			FMath::Lerp(Origin.X, Vector.X, BoundingBoxLerp.X),
+			FMath::Lerp(Origin.Y, Vector.Y, BoundingBoxLerp.Y),
+			FMath::Lerp(Origin.Z, Vector.Z, BoundingBoxLerp.Z)
+		));
+	}
+
+	return TestVectors;
+}
+
 bool UActorTrace_BoundingBox::TraceActor(const USceneComponent* Start, const AActor* Target)
 {
 	if (!Start || !Target) return false;
 
 	FVector Origin, BoxExtent;
 	const TArray<FVector> Vertices = UToroGeneralUtils::GetBoundingBoxVertices(Target,
-		false, true, Origin, BoxExtent);
-	const TArray<FVector> Vectors = CheckParams.ProcessVertices(Vertices, Origin);
+		bOnlyCollidingComponents, bIncludeFromChildActors, Origin, BoxExtent);
+	const TArray<FVector> Vectors = ProcessVertices(Vertices, Origin);
 		
 	FHitResult Hit;
 	FCollisionQueryParams Params;
