@@ -10,7 +10,7 @@ AToroCharacterBase::AToroCharacterBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	VisionComponent = CreateDefaultSubobject<UVisionComponent>(TEXT("VisionComponent"));
+	VisionComponent = CreateDefaultSubobject<UVisionConeComponent>(TEXT("VisionComponent"));
 	VisionComponent->SetRelativeLocation({0.0f, 0.0f, 70.0f});
 	VisionComponent->SetupAttachment(GetMesh());
 }

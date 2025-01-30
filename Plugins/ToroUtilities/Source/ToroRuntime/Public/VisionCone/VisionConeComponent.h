@@ -4,7 +4,7 @@
 
 #include "ActorTraceMethod.h"
 #include "Components/ArrowComponent.h"
-#include "VisionComponent.generated.h"
+#include "VisionConeComponent.generated.h"
 
 UENUM(BlueprintType)
 enum class EVisionState : uint8
@@ -15,13 +15,13 @@ enum class EVisionState : uint8
 };
 
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UVisionComponent final : public UArrowComponent
+class TORORUNTIME_API UVisionConeComponent final : public UArrowComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	UVisionComponent();
+	UVisionConeComponent();
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f))
 		float Distance;

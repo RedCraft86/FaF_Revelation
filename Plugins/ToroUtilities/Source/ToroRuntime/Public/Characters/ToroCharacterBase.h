@@ -6,7 +6,7 @@
 #include "NativeGameplayTags.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
-#include "VisionCone/VisionComponent.h"
+#include "VisionCone/VisionConeComponent.h"
 #include "ToroCharacterBase.generated.h"
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Character);
@@ -23,7 +23,7 @@ public:
 	AToroCharacterBase();
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Subobjects)
-		TObjectPtr<UVisionComponent> VisionComponent;
+		TObjectPtr<UVisionConeComponent> VisionComponent;
 
 	UFUNCTION(BlueprintPure, Category = Game)
 		FGameplayTag GetCharacterID() const { return CharacterID; }

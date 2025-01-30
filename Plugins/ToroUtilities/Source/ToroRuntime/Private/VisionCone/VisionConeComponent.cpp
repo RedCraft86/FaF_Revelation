@@ -1,33 +1,33 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "VisionCone/VisionComponent.h"
+#include "VisionCone/VisionConeComponent.h"
 
-UVisionComponent::UVisionComponent() : Distance(2000.0f), ViewAngle(60.0f), PeripheralAngle(20.0f)
+UVisionConeComponent::UVisionConeComponent() : Distance(2000.0f), ViewAngle(60.0f), PeripheralAngle(20.0f)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	TraceMethod = CreateDefaultSubobject<UActorTrace_BoundingBox>(TEXT("TraceMethod"));
 }
 
-bool UVisionComponent::GetTraceToActor(const AActor* InActor) const
+bool UVisionConeComponent::GetTraceToActor(const AActor* InActor) const
 {
 	if (!InActor || !TraceMethod) return true;
 	return TraceMethod->TraceActor(this, InActor);
 }
 
-float UVisionComponent::GetAngleToActor(const AActor* InActor) const
+float UVisionConeComponent::GetAngleToActor(const AActor* InActor) const
 {
 	if (!InActor) return -1.0f;
 	const FVector DotA = InActor->GetActorLocation() - GetComponentLocation(), DotB = GetForwardVector();
 	return 180.0f / UE_PI * FMath::Acos(FVector::DotProduct(DotA.GetSafeNormal(), DotB.GetSafeNormal()));
 }
 
-bool UVisionComponent::IsActorInRange(const AActor* InActor) const
+bool UVisionConeComponent::IsActorInRange(const AActor* InActor) const
 {
 	if (!InActor) return false;
 	return FVector::Dist(GetComponentLocation(), InActor->GetActorLocation()) <= FMath::Max(Distance, 10.0f);
 }
 
-EVisionState UVisionComponent::GetActorVisionState(const AActor* InActor) const
+EVisionState UVisionConeComponent::GetActorVisionState(const AActor* InActor) const
 {
 	if (!IsActorInRange(InActor))
 		return EVisionState::None;
