@@ -3,7 +3,7 @@
 #include "VisionCone/ActorTraceMethod.h"
 #include "ToroGeneralUtils.h"
 
-bool UActorTrace_Origin::TraceActor(const USceneComponent* Start, const AActor* Target)
+bool UActorTrace_Origin::TraceActor_Implementation(const USceneComponent* Start, const AActor* Target)
 {
 	if (!Start || !Target) return false;
 		
@@ -30,7 +30,7 @@ TArray<FVector> UActorTrace_BoundingBox::ProcessVertices(const TArray<FVector>& 
 	return TestVectors;
 }
 
-bool UActorTrace_BoundingBox::TraceActor(const USceneComponent* Start, const AActor* Target)
+bool UActorTrace_BoundingBox::TraceActor_Implementation(const USceneComponent* Start, const AActor* Target)
 {
 	if (!Start || !Target) return false;
 

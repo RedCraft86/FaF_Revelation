@@ -17,7 +17,9 @@ protected:
 
 public:
 
-	virtual bool TraceActor(const USceneComponent* Start, const AActor* Target)
+	UFUNCTION(BlueprintImplementableEvent)
+		bool TraceActor(const USceneComponent* Start, const AActor* Target);
+	virtual bool TraceActor_Implementation(const USceneComponent* Start, const AActor* Target)
 	{
 		return false;
 	}
@@ -30,7 +32,7 @@ class TORORUNTIME_API UActorTrace_Origin final : public UActorTraceMethod
 
 public:
 
-	virtual bool TraceActor(const USceneComponent* Start, const AActor* Target) override;
+	virtual bool TraceActor_Implementation(const USceneComponent* Start, const AActor* Target) override;
 };
 
 UCLASS(NotBlueprintable, DisplayName = "Bounding Box")
@@ -51,5 +53,5 @@ class TORORUNTIME_API UActorTrace_BoundingBox final : public UActorTraceMethod
 	
 public:
 
-	virtual bool TraceActor(const USceneComponent* Start, const AActor* Target) override;
+	virtual bool TraceActor_Implementation(const USceneComponent* Start, const AActor* Target) override;
 };
