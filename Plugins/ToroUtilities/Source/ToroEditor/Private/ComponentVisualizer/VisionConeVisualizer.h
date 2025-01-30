@@ -44,7 +44,7 @@ private:
 		if (ConeComponent && ConeComponent->TraceMethod)
 		{
 			VisualizerHelpers::DrawText(View, Canvas, ConeComponent->GetComponentLocation(), FText::Format(INVTEXT("Trace: {0}"), 
-				FText::FromString(ConeComponent->TraceMethod->GetClass()->GetName())), 12, FLinearColor::Green, true);
+				ConeComponent->TraceMethod->GetClass()->GetDisplayNameText()), 12, FLinearColor::Green, true);
 		}
 	}
 };
