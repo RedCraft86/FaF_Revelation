@@ -5,7 +5,7 @@
 UVisionConeComponent::UVisionConeComponent() : Distance(2000.0f), ViewAngle(50.0f), PeripheralAngle(10.0f)
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	TraceMethod = CreateDefaultSubobject<UActorTrace_BoundingBox>(TEXT("TraceMethod"));
+	TraceMethod = CreateDefaultSubobject<UActorTrace_Origin>(TEXT("TraceMethod"));
 }
 
 bool UVisionConeComponent::GetTraceToActor(const AActor* InActor) const
