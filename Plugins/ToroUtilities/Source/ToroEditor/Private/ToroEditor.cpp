@@ -35,6 +35,7 @@
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "DetailsCustomization/InventoryMetadataDetails.h"
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
+#include "ComponentVisualizer/VisionConeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAsset.h"
 #include "AssetFactories/LocalSound/LocalSoundDatabaseAsset.h"
@@ -112,6 +113,7 @@ void FToroEditorModule::StartupModule()
 	if (GUnrealEd)
 	{
 		REGISTER_VISUALIZER(UDebugShapeComponent, FDebugShapeVisualizer)
+		REGISTER_VISUALIZER(UVisionConeComponent, FVisionConeVisualizer)
 	}
 
 	// Asset Type Actions
@@ -179,6 +181,7 @@ void FToroEditorModule::ShutdownModule()
 	if (GUnrealEd)
 	{
 		UNREGISTER_VISUALIZER(UDebugShapeComponent);
+		UNREGISTER_VISUALIZER(UVisionConeComponent);
 	}
 
 	// Asset Type Actions
