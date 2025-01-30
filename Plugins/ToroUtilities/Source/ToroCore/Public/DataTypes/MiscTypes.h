@@ -89,13 +89,19 @@ struct TOROCORE_API FActorBoundsCheckParams
 		, bIncludeFromChildActors(false)
 	{}
 	
-	friend FArchive& operator<<(FArchive& Ar, FActorBoundsCheckParams& Params)
+	TArray<FVector> ProcessVertices(const TArray<FVector>& InVertices, const FVector& Origin) const
 	{
-		Ar << Params.LineTraceChannel;
-		Ar << Params.BoundingBoxLerp;
-		Ar << Params.bOnlyCollidingComponents;
-		Ar << Params.bIncludeFromChildActors;
-		return Ar;
+		TArray<FVector> TestVectors {Origin};
+		for (const FVector& Vector : InVertices)
+		{
+			TestVectors.AddUnique(FVector(
+				FMath::Lerp(Origin.X, Vector.X, BoundingBoxLerp.X),
+				FMath::Lerp(Origin.Y, Vector.Y, BoundingBoxLerp.Y),
+				FMath::Lerp(Origin.Z, Vector.Z, BoundingBoxLerp.Z)
+			));
+		}
+
+		return TestVectors;
 	}
 };
 

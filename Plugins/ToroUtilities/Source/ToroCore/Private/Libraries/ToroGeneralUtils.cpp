@@ -78,15 +78,7 @@ bool UToroGeneralUtils::IsActorInScreen(const AActor* Target, const float MaxDis
 		TArray<FVector> BoundingBoxVertices = GetBoundingBoxVertices(Target, TraceCheckParams.bOnlyCollidingComponents,
 			TraceCheckParams.bIncludeFromChildActors, Origin, BoxExtent);
 
-		TestVectors.AddUnique(Origin);
-		for (const FVector Vector : BoundingBoxVertices)
-		{
-			TestVectors.AddUnique(FVector(
-				FMath::Lerp(Origin.X, Vector.X, TraceCheckParams.BoundingBoxLerp.X),
-				FMath::Lerp(Origin.Y, Vector.Y, TraceCheckParams.BoundingBoxLerp.Y),
-				FMath::Lerp(Origin.Z, Vector.Z, TraceCheckParams.BoundingBoxLerp.Z)
-			));
-		}
+		TestVectors = TraceCheckParams.ProcessVertices(BoundingBoxVertices, Origin);
 	}
 
 	bool bPassedScreenTest = false;
