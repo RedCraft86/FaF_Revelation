@@ -24,11 +24,9 @@ public:
 
 	UToroEditorSettings()
 		: StartupCommands({
-			{ TEXT("r.VSyncEditor"), TEXT("1") },
-			{ TEXT("r.Streaming.PoolSize"), TEXT("3000") }
-		})
 			  {TEXT("r.VSyncEditor"), TEXT("1")},
 			  {TEXT("r.Streaming.PoolSize"), TEXT("3000")}
+		}), AssetLibrary(TEXT("D:/UnrealEngine/Shared/AssetProject/Content/AssetPacks"))
 		, DFSize(5), DFSizeType(EDupliFilterSizeType::Megabytes)
 	{
 		CategoryName = TEXT("Project");
@@ -41,6 +39,9 @@ public:
 		TMap<FString, FString> StartupCommands;
 
 private:
+	
+	UPROPERTY(Config, EditAnywhere, Category = Editor)
+		FDirectoryPath AssetLibrary;
 	
 	UPROPERTY(Config, EditAnywhere, Category = DupliFilter, DisplayName = "Size", meta = (ClampMin = 0, UIMin = 0))
 		int64 DFSize;
@@ -61,4 +62,41 @@ public:
 		}
 	}
 
+	FString GetAssetLibraryPath() const
+	{
+		FString Path = AssetLibrary.Path;
+		FPaths::NormalizeDirectoryName(Path);
+		if (FPaths::DirectoryExists(Path))
+		{
+			FString ProjectDir, Remainder;
+			if (Path.Split(TEXT("/Content"), &ProjectDir, &Remainder))
+			{
+				if (!ProjectDir.IsEmpty() && FPaths::DirectoryExists(ProjectDir))
+				{
+					TArray<FString> Files;
+					IFileManager::Get().FindFiles(Files, *ProjectDir, TEXT(".uproject"));
+					if (Files.Num() == 1)
+					{
+						return Path;
+					}
+				}
+			}
+		}
+		
+		return TEXT("");
+	}
+
+private:
+
+	virtual void PostInitProperties() override
+	{
+		Super::PostInitProperties();
+		AssetLibrary.Path = GetAssetLibraryPath();
+	}
+
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
+	{
+		Super::PostEditChangeProperty(PropertyChangedEvent);
+		AssetLibrary.Path = GetAssetLibraryPath();
+	}
 };
