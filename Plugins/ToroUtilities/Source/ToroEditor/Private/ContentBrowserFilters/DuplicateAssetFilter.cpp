@@ -3,6 +3,8 @@
 #include "ContentBrowserFilters/DuplicateAssetFilter.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "FrontendFilterBase.h"
+#include "ToroEditorSettings.h"
+#include "ToroEditor.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(DuplicateAssetFilter)
 
@@ -11,6 +13,47 @@
 class FFrontendFilter_DuplicateAsset final : public FFrontendFilter
 {
 public:
+	
+	inline static int64 SizeTolerance = 0;
+	static int64 GetAssetSize(const FAssetData& InAsset)
+	{
+		if (!InAsset.IsValid()) return 0;
+		return IFileManager::Get().FileSize(*FPackageName::LongPackageNameToFilename(
+			InAsset.PackageName.ToString(), TEXT(".uasset")));
+	}
+	static bool CompareSizes(const int64& A, const int64& B)
+	{
+		return SizeTolerance < 0 ? true : FMath::Abs(A - B) <= SizeTolerance;
+	}
+	
+	struct FDuplicateAssetData
+	{
+		TSet<FString> Dupes;
+		TMap<FAssetData, int64> Assets;
+		void AddAsset(const FAssetData& InAsset)
+		{
+			const int64 Size = GetAssetSize(InAsset);
+			for (const TPair<FAssetData, int64>& Asset : Assets)
+			{
+				if (Asset.Key.AssetClassPath == InAsset.AssetClassPath && CompareSizes(Asset.Value, Size))
+				{
+					Dupes.Add(*InAsset.GetSoftObjectPath().ToString());
+					Dupes.Add(*Asset.Key.GetSoftObjectPath().ToString());
+				}
+			}
+			
+			Assets.Add(InAsset, Size);
+		}
+		void AppendDuplicates(TSet<FString>& InArray) const
+		{
+			InArray.Append(Dupes);
+		}
+	};
+
+	bool bActive;
+	TSet<FString> Duplicates;
+	TArray<FName> SourcePaths;
+	FDelegateHandle OnAssetAdded, OnAssetRemoved, OnAssetRenamed;
 	
 	explicit FFrontendFilter_DuplicateAsset(const TSharedPtr<FFrontendFilterCategory>& InCategory)
 		: FFrontendFilter(InCategory), bActive(false)
@@ -27,8 +70,8 @@ public:
 
 	virtual ~FFrontendFilter_DuplicateAsset() override
 	{
+		Duplicates.Empty();
 		SourcePaths.Empty();
-		DuplicateNames.Empty();
 		if (const FAssetRegistryModule* Module = FModuleManager::GetModulePtr<FAssetRegistryModule>("AssetRegistry"))
 		{
 			IAssetRegistry& AssetRegistry = Module->Get();
@@ -53,21 +96,18 @@ public:
 		bActive = InActive;
 		PopulateDuplicateNames();
 	}
+	virtual void LoadSettings(const FString& IniFilename, const FString& IniSection, const FString& SettingsString) override
+	{
+		if (IsActive()) SetActive(false); // Disable if left on to prevent engine startup stalls
+	}
 	// End of FFrontendFilter implementation
 
 	// IFilter implementation
 	virtual bool PassesFilter(FAssetFilterType InItem) const override
 	{
-		return DuplicateNames.Contains(InItem.GetItemName());
+		return Duplicates.Contains(InItem.GetInternalPath().ToString());
 	}
 	// End of IFilter implementation
-
-protected:
-
-	bool bActive;
-	TArray<FName> SourcePaths;
-	TArray<FName> DuplicateNames;
-	FDelegateHandle OnAssetAdded, OnAssetRemoved, OnAssetRenamed;
 	
 	bool IsValidAssetData(const FAssetData& InData)
 	{
@@ -87,22 +127,28 @@ protected:
 	{
 		if (!bActive) return;
 
-		DuplicateNames.Empty();
+		Duplicates.Empty();
+		SizeTolerance = UToroEditorSettings::Get()->CalcDupliFilterSize();
 		if (const FAssetRegistryModule* Module = FModuleManager::LoadModulePtr<FAssetRegistryModule>("AssetRegistry"))
 		{
 			TArray<FAssetData> AllAssets;
 			Module->Get().GetAllAssets(AllAssets);
+			if (const int32 NumAssets = AllAssets.Num(); NumAssets > 20000)
+			{
+				UE_LOG(LogToroEditor, Error, TEXT("Content browser failed to filter duplicates. Too many assets [%d/10,000]"), NumAssets)
+				SetActive(false);
+			}
 
-			TMap<FName, uint8> NameCountMap;
+			TMap<FName, FDuplicateAssetData> Dupes;
 			for (const FAssetData& Data : AllAssets)
 			{
 				if (!IsValidAssetData(Data)) continue;
-				NameCountMap.FindOrAdd(Data.AssetName)++;
+				Dupes.FindOrAdd(Data.AssetName).AddAsset(Data);
 			}
 
-			for (const TPair<FName, uint8>& Pair : NameCountMap)
+			for (const TPair<FName, FDuplicateAssetData>& Pair : Dupes)
 			{
-				if (Pair.Value > 1) DuplicateNames.Add(Pair.Key);
+				Pair.Value.AppendDuplicates(Duplicates);
 			}
 		}
 	}
