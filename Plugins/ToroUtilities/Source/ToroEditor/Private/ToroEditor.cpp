@@ -10,8 +10,8 @@
 #include "UnrealEd.h"
 
 #include "ToroEditorCommands.h"
-#include "EditorTools/RestartEditor.h"
 #include "EditorTools/LinkAssetLibrary.h"
+#include "EditorTools/RestartEditor.h"
 #include "EditorTools/StaticMeshBaker.h"
 #include "EditorTools/StaticMeshMerger.h"
 #include "EditorTools/StaticMeshInstancer.h"
@@ -57,8 +57,8 @@ void FToroEditorModule::StartupModule()
 		FToroEditorCommands::Register();
 
 		PluginCommands = MakeShareable(new FUICommandList);
-		REGISTER_TOOL(FRestartEditor)
 		REGISTER_TOOL(FLinkAssetLibrary)
+		REGISTER_TOOL(FRestartEditor)
 		REGISTER_TOOL(FStaticMeshBaker)
 		REGISTER_TOOL(FStaticMeshMerger)
 		REGISTER_TOOL(FStaticMeshInstancer)
@@ -202,8 +202,8 @@ void FToroEditorModule::RegisterMenus()
 {
 	FToolMenuOwnerScoped OwnerScoped(this);
 	{
-		REGISTER_TOOL_MENUS(FRestartEditor)
 		REGISTER_TOOL_MENUS(FLinkAssetLibrary)
+		REGISTER_TOOL_MENUS(FRestartEditor)
 		REGISTER_TOOL_MENUS(FStaticMeshBaker)
 		REGISTER_TOOL_MENUS(FStaticMeshMerger)
 		REGISTER_TOOL_MENUS(FStaticMeshInstancer)
@@ -223,8 +223,8 @@ void FToroEditorStyle::Init()
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	const FVector2D Icon16x16(16.0f, 16.0f);
 	
-	StyleSet->Set("ToroEditor.RestartEditor", new IMAGE_BRUSH_SVG(TEXT("RestartEditor"), Icon20x20));
 	StyleSet->Set("ToroEditor.LinkAssetLibrary", new IMAGE_BRUSH_SVG(TEXT("LinkFolder"), Icon20x20));
+	StyleSet->Set("ToroEditor.RestartEditor", new IMAGE_BRUSH_SVG(TEXT("RestartEditor"), Icon20x20));
 	StyleSet->Set("ToroEditor.ChannelPacker", new IMAGE_BRUSH_SVG(TEXT("ChannelPacker"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshBaker", new IMAGE_BRUSH_SVG(TEXT("StaticMeshBaker"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshMerger", new IMAGE_BRUSH_SVG(TEXT("StaticMeshMerger"), Icon20x20));

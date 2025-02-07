@@ -33,11 +33,11 @@ public:
 
 	virtual void RegisterCommands() override
 	{
-		UI_COMMAND(RestartEditor, "Restart Editor", "Restarts the Unreal Editor",
-			EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control | EModifierKey::Shift, EKeys::R));
-		
 		UI_COMMAND(LinkAssetLibrary, "Link Asset Library", "Links a shared asset library (Specified in ToroEditor settings)",
 			EUserInterfaceActionType::Button, FInputChord());
+		
+		UI_COMMAND(RestartEditor, "Restart Editor", "Restarts the Unreal Editor",
+			EUserInterfaceActionType::Button, FInputChord(EModifierKey::Control | EModifierKey::Shift, EKeys::R));
 		
 		UI_COMMAND(ChannelPacker, "Channel Packer", "Opens the Texture Channel Editor",
 			EUserInterfaceActionType::Button, FInputChord());
@@ -52,8 +52,8 @@ public:
 			EUserInterfaceActionType::Button, FInputChord());
 	}
 
-	TSharedPtr<FUICommandInfo> RestartEditor;
 	TSharedPtr<FUICommandInfo> LinkAssetLibrary;
+	TSharedPtr<FUICommandInfo> RestartEditor;
 	TSharedPtr<FUICommandInfo> ChannelPacker;
 	TSharedPtr<FUICommandInfo> StaticMeshMerger;
 	TSharedPtr<FUICommandInfo> StaticMeshBaker;
