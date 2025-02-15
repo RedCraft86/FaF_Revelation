@@ -10,8 +10,8 @@ UVisionConeComponent::UVisionConeComponent() : Distance(2000.0f), ViewAngle(50.0
 
 bool UVisionConeComponent::GetTraceToActor(const AActor* InActor) const
 {
-	if (!InActor || !TraceMethod) return true;
-	return TraceMethod->TraceActor(this, InActor);
+	if (!InActor) return false;
+	return TraceMethod ? TraceMethod->TraceActor(this, InActor) : false;
 }
 
 float UVisionConeComponent::GetAngleToActor(const AActor* InActor) const
