@@ -6,6 +6,7 @@
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
 #include "DataTypes/LocalSoundTypes.h"
+#include "SaveSystem/ToroSaveObject.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "ToroRuntimeSettings.generated.h"
@@ -39,6 +40,12 @@ public:
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
+
+	UPROPERTY(Config, EditAnywhere, Category = SaveSystem)
+		FName DemoVersion;
+	
+	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (Categories = "Saves"))
+		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> SaveObjects;
 	
 	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Post Process (Max 8 Probes)")
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM_8;
