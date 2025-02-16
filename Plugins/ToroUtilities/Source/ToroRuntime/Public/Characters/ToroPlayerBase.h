@@ -36,6 +36,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		AToroPlayerController* GetPlayerController() const;
 
+	virtual bool GetLookTarget_Implementation(FVector& Target) override;
+	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
+	
 protected:
 	
 	virtual void BeginPlay() override;

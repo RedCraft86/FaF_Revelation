@@ -31,6 +31,19 @@ AToroPlayerController* AToroPlayerBase::GetPlayerController() const
 	return GetController<AToroPlayerController>();
 }
 
+bool AToroPlayerBase::GetLookTarget_Implementation(FVector& Target)
+{
+	// TODO: Return a lock-on target's location
+	return false;
+}
+
+void AToroPlayerBase::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle)
+{
+	Location = Camera->GetComponentLocation();
+	Forward = Camera->GetForwardVector();
+	Angle = Camera->FieldOfView;
+}
+
 void AToroPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
