@@ -25,7 +25,8 @@ UToroSaveObject* UToroSaveObject::Create(UObject* Owner, const TSubclassOf<UToro
 			NewObj->SaveTag = Tag;
 			NewObj->SavePath = FPaths::MakeValidFileName(FString::Printf(TEXT("%sSaveGames/%s/%s.tsave"),
 				*FPaths::ProjectSavedDir(), *GetDemoStr(), *Name).Replace(TEXT("//"), TEXT("/")));
-		
+
+			NewObj->OnCreation();
 			NewObj->LoadObject(nullptr);
 			UE_LOG(LogTemp, Warning, TEXT("Created Save Slot For: %s"), *NewObj->SavePath);
 			return NewObj;

@@ -40,12 +40,7 @@ struct TORORUNTIME_API FSaveObjectInfo
 	}
 };
 
-inline uint32 GetTypeHash(const FSaveObjectInfo& Info)
-{
-	return HashCombine(GetTypeHash(Info.Tag), GetTypeHash(Info.Slot));
-}
-
-UCLASS()
+UCLASS(Abstract, BlueprintType, NotBlueprintable)
 class TORORUNTIME_API UToroSaveObject : public UObject
 {
 	GENERATED_BODY()
@@ -63,8 +58,9 @@ public:
 		FGameplayTag GetSaveTag() const { return SaveTag; }
 	
 	virtual void DeleteData();
-	void SaveObject(const TFunction<void(const ESaveGameError)>& Callback);
-	void LoadObject(const TFunction<void(const ESaveGameError)>& Callback);
+	virtual void OnCreation() {}
+	virtual void SaveObject(const TFunction<void(const ESaveGameError)>& Callback);
+	virtual void LoadObject(const TFunction<void(const ESaveGameError)>& Callback);
 
 protected:
 

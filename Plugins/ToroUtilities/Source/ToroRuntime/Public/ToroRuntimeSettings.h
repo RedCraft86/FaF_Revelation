@@ -6,7 +6,7 @@
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
 #include "DataTypes/LocalSoundTypes.h"
-#include "SaveSystem/ToroSaveObject.h"
+#include "SaveSystem/BaseSaveObjects.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "ToroRuntimeSettings.generated.h"
@@ -23,6 +23,11 @@ public:
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroRuntime");
 
+		SaveObjects = {
+			{Tag_GlobalSave, UGlobalSaveObjectBase::StaticClass()},
+			{Tag_GameSave, UGameSaveObjectBase::StaticClass()},
+		};
+		
 		LightProbePPM_8 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_8.PPMI_LightProbe_8"));
 		LightProbePPM_16 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_16.PPMI_LightProbe_16"));
 		LightProbePPM_24 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_24.PPMI_LightProbe_24"));
