@@ -2,6 +2,8 @@
 
 #include "GameSection/GameSectionGraph.h"
 
+UE_DEFINE_GAMEPLAY_TAG(Tag_Background, "Background");
+
 UGameSectionGraph::UGameSectionGraph()
 {
 	CompatibleNode = UGameSectionNode::StaticClass();

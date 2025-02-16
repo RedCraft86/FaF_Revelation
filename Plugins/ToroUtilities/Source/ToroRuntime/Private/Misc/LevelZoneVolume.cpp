@@ -11,6 +11,8 @@
 #include "EngineUtils.h"
 #endif
 
+UE_DEFINE_GAMEPLAY_TAG(Tag_Zone, "Zone");
+
 ALevelZoneVolume::ALevelZoneVolume() : CullInvert(false), LocalSoundPlayOnce(true)
 	, LocalSoundCooldown(1.0f), bCanPlayLocalSound(true)
 {

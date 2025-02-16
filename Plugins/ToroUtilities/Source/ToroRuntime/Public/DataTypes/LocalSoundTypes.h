@@ -4,9 +4,12 @@
 
 #include "ECFHandle.h"
 #include "GameplayTagContainer.h"
+#include "NativeGameplayTags.h"
 #include "LocalSoundTypes.generated.h"
 
 class AToroMusicManager;
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LocalSound);
 
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FLocalSoundEntry

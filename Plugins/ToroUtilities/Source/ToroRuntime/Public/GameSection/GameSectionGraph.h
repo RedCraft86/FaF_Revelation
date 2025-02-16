@@ -4,8 +4,11 @@
 
 #include "DataNodeBase.h"
 #include "DataGraphBase.h"
+#include "NativeGameplayTags.h"
 #include "GameplayTagContainer.h"
 #include "GameSectionGraph.generated.h"
+
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Background);
 
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FLoadingImageSet
