@@ -21,18 +21,3 @@ void AToroCharacterBase::GetViewPoint_Implementation(FVector& Location, FVector&
 	Forward = VisionComponent->GetForwardVector();
 	Angle = VisionComponent->ViewAngle;
 }
-
-void AToroCharacterBase::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void AToroCharacterBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void AToroCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}

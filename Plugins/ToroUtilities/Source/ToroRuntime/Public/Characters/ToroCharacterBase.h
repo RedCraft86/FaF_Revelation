@@ -34,8 +34,4 @@ protected:
 		FGameplayTag CharacterID;
 
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
-	
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 };
