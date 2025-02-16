@@ -8,7 +8,7 @@
 #include "ToroSaveSystem.generated.h"
 
 UCLASS(BlueprintType)
-class TORORUNTIME_API UToroSaveSystem final : public UGameInstanceSubsystem
+class TORORUNTIME_API UToroSaveSystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
