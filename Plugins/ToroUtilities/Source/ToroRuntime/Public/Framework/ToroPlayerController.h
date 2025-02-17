@@ -93,8 +93,6 @@ UCLASS()
 class TORORUNTIME_API AToroPlayerController : public APlayerController
 {
 	GENERATED_BODY()
-
-	friend class AToroSequenceActor;
 	
 public:
 
@@ -103,6 +101,8 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
+	UPROPERTY() TObjectPtr<AActor> CinematicActor;
+	
 	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Controller"))
 		static EToroValidPins GetToroPlayerController(AToroPlayerController*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerController>& Class, const int32 PlayerIndex = 0);
 
@@ -122,12 +122,11 @@ public:
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
 
 	UFUNCTION(BlueprintPure, Category = Input)
-		const AToroSequenceActor* GetCinematicActor() const { return CinematicActor; }
+		const AActor* GetCinematicActor() const { return CinematicActor; }
 	
 protected:
 	
 	UPROPERTY() FGameInputModeData InputModeData;
-	UPROPERTY() TObjectPtr<AToroSequenceActor> CinematicActor;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };
