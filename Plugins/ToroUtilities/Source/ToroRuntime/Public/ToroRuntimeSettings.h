@@ -36,6 +36,9 @@ public:
 	}
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings)
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UWorld> GameplayMap;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
@@ -73,6 +76,11 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings, meta = (ArraySizeEnum = "/Script/ToroRuntime.ESoundClassType"))
 		TSoftObjectPtr<USoundClass> SoundClasses[static_cast<uint8>(ESoundClassType::MAX)];
 
+	bool IsOnGameplayMap(const UObject* WorldContext) const
+	{
+		return UGameplayStatics::GetCurrentLevelName(WorldContext) == GameplayMap.GetAssetName();
+	}
+	
 	UMaterialInterface* GetProbeMaterial(const uint8 NumProbes) const
 	{
 		if (NumProbes <= 8) return LightProbePPM_8.LoadSynchronous();
