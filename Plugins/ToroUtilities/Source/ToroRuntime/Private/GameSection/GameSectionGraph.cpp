@@ -1,5 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
+#if 0
 #include "GameSection/GameSectionGraph.h"
 
 UE_DEFINE_GAMEPLAY_TAG(Tag_Background, "Background");
@@ -18,3 +19,4 @@ UGameSectionNode::UGameSectionNode()
 	ContextMenuName = INVTEXT("Game Section");
 #endif
 }
+#endif

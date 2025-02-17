@@ -2,6 +2,7 @@
 
 #pragma once
 
+#if 0
 #include "DataNodeBase.h"
 #include "DataGraphBase.h"
 #include "NativeGameplayTags.h"
@@ -46,3 +47,4 @@ public:
 	UPROPERTY(EditAnywhere, Category = GameSection)
 		TMap<TSoftObjectPtr<UWorld>, bool> Levels;
 };
+#endif
