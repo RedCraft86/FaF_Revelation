@@ -38,4 +38,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Sequencer|Player")
 		void SetPlaybackPosition(FMovieSceneSequencePlaybackParams InParams) const;
+
+private:
+
+	void LockPlayer();
+	void UnlockPlayer() const;
 };

@@ -12,51 +12,31 @@ AToroSequenceActor::AToroSequenceActor(const FObjectInitializer& Init)
 void AToroSequenceActor::Play()
 {
 	GetSequencePlayer()->Play();
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
-	{
-		PC->CinematicActor = this;
-		if (bLockPlayer) PC->SetCinematicMode(true, true, false, true, true);
-	}
+	LockPlayer();
 }
 
 void AToroSequenceActor::Reverse()
 {
 	GetSequencePlayer()->PlayReverse();
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
-	{
-		PC->CinematicActor = this;
-		if (bLockPlayer) PC->SetCinematicMode(true, true, false, true, true);
-	}
+	LockPlayer();
 }
 
 void AToroSequenceActor::Stop() const
 {
 	GetSequencePlayer()->Stop();
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
-	{
-		PC->CinematicActor = nullptr;
-		if (bLockPlayer) PC->SetCinematicMode(false, true, false, true, true);
-	}
+	UnlockPlayer();
 }
 
 void AToroSequenceActor::SkipToEnd() const
 {
 	GetSequencePlayer()->GoToEndAndStop();
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
-	{
-		PC->CinematicActor = nullptr;
-		if (bLockPlayer) PC->SetCinematicMode(false, true, false, true, true);
-	}
+	UnlockPlayer();
 }
 
 void AToroSequenceActor::StopAtCurrentTime() const
 {
 	GetSequencePlayer()->StopAtCurrentTime();
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
-	{
-		PC->CinematicActor = nullptr;
-		if (bLockPlayer) PC->SetCinematicMode(false, true, false, true, true);
-	}
+	UnlockPlayer();
 }
 
 void AToroSequenceActor::SetPlayRate(const float InRate) const
@@ -67,4 +47,22 @@ void AToroSequenceActor::SetPlayRate(const float InRate) const
 void AToroSequenceActor::SetPlaybackPosition(const FMovieSceneSequencePlaybackParams InParams) const
 {
 	GetSequencePlayer()->SetPlaybackPosition(InParams);
+}
+
+void AToroSequenceActor::LockPlayer()
+{
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+	{
+		PC->CinematicActor = this;
+		if (bLockPlayer) PC->SetCinematicMode(true, true, false, true, true);
+	}
+}
+
+void AToroSequenceActor::UnlockPlayer() const
+{
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+	{
+		PC->CinematicActor = nullptr;
+		if (bLockPlayer) PC->SetCinematicMode(false, false, false, true, true);
+	}
 }
