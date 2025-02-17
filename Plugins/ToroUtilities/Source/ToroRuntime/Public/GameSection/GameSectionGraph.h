@@ -28,7 +28,7 @@ public:
 	UGameSectionGraph();
 
 	UPROPERTY(EditAnywhere, Category = Graph, meta = (Multiline = true))
-		TArray<FText> LoadingFacts;
+		TMap<FName, FText> LoadingFacts;
 
 	UPROPERTY(EditAnywhere, Category = Graph, meta = (ForceInlineRow, Categories = "Backgrounds"))
 		TMap<FGameplayTag, FLoadingImageSet> Backgrounds;
@@ -42,4 +42,7 @@ class TORORUNTIME_API UGameSectionNode final : public UDataNodeBase
 public:
 	
 	UGameSectionNode();
+	
+	UPROPERTY(EditAnywhere, Category = GameSection)
+		TMap<TSoftObjectPtr<UWorld>, bool> Levels;
 };
