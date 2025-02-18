@@ -8,35 +8,37 @@
 #include "ToroRuntimeSettings.h"
 #include "ToroShortcutLibrary.h"
 
-void UGameSectionManager::StepSequence(const uint8 InIndex)
+void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag SaveTag)
 {
 	if (bLoading || !Graph) return;
 	
 	Sequence.Add(InIndex);
 	Sequence = Graph->ValidateSequence(Sequence);
-	if (UGameSectionNode* Node = Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true))
-	{
-		ChangeSection(Node);
-	}
-	else
-	{
-		Sequence.RemoveAt(Sequence.Num() - 1);
-	}
-}
-
-void UGameSectionManager::LoadSequence(const FGameplayTag InTag)
-{
-	if (!Graph || !InTag.IsValid() || InTag == Tag_Saves) return;
+	ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
+	
 	if (UToroSaveSystem* System = UToroSaveSystem::Get(this))
 	{
-		if (const UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(InTag))
+		if (UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(SaveTag))
 		{
-			Sequence = Graph->ValidateSequence(Save->Sequence);
+			Save->Sequence = Sequence;
 		}
 	}
 }
 
-void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection)
+void UGameSectionManager::LoadSequence(const FGameplayTag SaveTag)
+{
+	if (!Graph || !SaveTag.IsValid() || SaveTag == Tag_Saves) return;
+	if (UToroSaveSystem* System = UToroSaveSystem::Get(this))
+	{
+		if (const UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(SaveTag))
+		{
+			Sequence = Graph->ValidateSequence(Save->Sequence);
+			ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
+		}
+	}
+}
+
+void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGameplayTag SaveTag)
 {
 	if (bLoading || !NewSection || NewSection == Section
 		|| !Graph || !Graph->AllNodes.Contains(NewSection)) return;
@@ -79,6 +81,21 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection)
 	{
 		if (Section) GameMode->Narrative->ForgetQuest(Section->Quest.LoadSynchronous());
 		GameMode->Narrative->BeginQuest(NewSection->Quest.LoadSynchronous());
+
+		if (UToroSaveSystem* System = UToroSaveSystem::Get(this))
+		{
+			if (UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(SaveTag))
+			{
+				if (Section)
+				{
+					Save->Inventory.Add(NewSection->NodeID, GameMode->Inventory->GetSaveData());
+				}
+				else
+				{
+					GameMode->Inventory->SetSaveData(Save->Inventory.FindRef(NewSection->NodeID));
+				}
+			}
+		}
 
 		GameMode->Inventory->EnsureItems(Section->Inventory);
 	}

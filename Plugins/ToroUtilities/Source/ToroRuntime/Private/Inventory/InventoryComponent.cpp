@@ -346,6 +346,21 @@ void UInventoryComponent::EnsureItems(const TArray<FInventorySlotData>& InItems)
 	}
 }
 
+FInventorySaveData UInventoryComponent::GetSaveData()
+{
+	FInventorySaveData Data;
+	Data.CurrencyData = CurrencyData;
+	Data.ItemSlots = ItemSlots;
+	return Data;
+}
+
+void UInventoryComponent::SetSaveData(const FInventorySaveData& InData)
+{
+	CurrencyData = InData.CurrencyData;
+	ItemSlots = InData.ItemSlots;
+	ValidateInventory(true);
+}
+
 void UInventoryComponent::ValidateInventory(const bool bForceUpdate)
 {
 	bool bChanged = bForceUpdate;

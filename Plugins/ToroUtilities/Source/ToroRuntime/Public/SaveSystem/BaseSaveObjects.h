@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ToroSaveObject.h"
+#include "Inventory/InventoryComponent.h"
 #include "BaseSaveObjects.generated.h"
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_GlobalSave);
@@ -49,7 +50,7 @@ public:
 		TArray<uint8> Sequence;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TMap<FGuid, FGameplayTag> Inventory; // TODO: Replace with inventory save data
+		TMap<FGuid, FInventorySaveData> Inventory;
 
 	virtual void DeleteData() override;
 	virtual void OnCreation() override;

@@ -70,6 +70,28 @@ struct TORORUNTIME_API FInventorySlotData
 	bool IsValidData() const { return !Item.IsNull() && Amount > 0; }
 };
 
+USTRUCT(BlueprintType)
+struct TORORUNTIME_API FInventorySaveData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = SaveData)
+		FGameCurrency CurrencyData;
+	
+	UPROPERTY(EditAnywhere, Category = SaveData)
+		TMap<FGuid, FInventorySlotData> ItemSlots;
+
+	FInventorySaveData() {}
+	friend FArchive& operator<<(FArchive& Ar, FInventorySaveData& SaveData)
+	{
+		Ar << SaveData.CurrencyData;
+		Ar << SaveData.ItemSlots;
+		return Ar;
+	}
+
+	bool IsValidData() const { return CurrencyData.GetAmount() != 0 || !ItemSlots.IsEmpty(); }
+};
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInventoryUpdateSignature);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInventoryIOUpdateSignature, const UInventoryItemData*, Item, const uint8, Count);
 
@@ -133,6 +155,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
 		void EnsureItems(const TArray<FInventorySlotData>& InItems);
+
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		FInventorySaveData GetSaveData();
+
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		void SetSaveData(const FInventorySaveData& InData);
 
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;

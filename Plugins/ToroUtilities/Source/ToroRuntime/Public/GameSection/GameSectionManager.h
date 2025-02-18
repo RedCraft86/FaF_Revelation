@@ -20,13 +20,13 @@ public:
 	WORLD_SUBSYSTEM_GETTER(UGameSectionManager);
 
 	UFUNCTION(BlueprintCallable, Category = GameSection)
-		void StepSequence(const uint8 InIndex);
+		void StepSequence(const uint8 InIndex, UPARAM(meta = (Categories = "Saves")) const FGameplayTag SaveTag);
 
 	UFUNCTION(BlueprintCallable, Category = GameSection, meta = (InTag = "Saves.Game"))
-		void LoadSequence(UPARAM(meta = (Categories = "Saves")) const FGameplayTag InTag);
+		void LoadSequence(UPARAM(meta = (Categories = "Saves")) const FGameplayTag SaveTag);
 
 	UFUNCTION(BlueprintCallable, Category = GameSection)
-		void ChangeSection(UGameSectionNode* NewSection);
+		void ChangeSection(UGameSectionNode* NewSection, const FGameplayTag SaveTag);
 
 	UFUNCTION(BlueprintPure, Category = GameSection)
 		bool IsLoading() const { return bLoading; }
