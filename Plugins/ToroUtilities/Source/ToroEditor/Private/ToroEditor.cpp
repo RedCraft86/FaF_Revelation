@@ -22,7 +22,6 @@
 #include "LightProbes/LightProbe.h"
 #include "Framework/MasterPostProcess.h"
 #include "WorldActions/WorldActionActor.h"
-#include "GameSection/LevelTransitionActor.h"
 #include "Misc/TeleportTargetActor.h"
 
 #include "DetailsCustomization/ToroActorDetails.h"
@@ -91,7 +90,6 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ATeleportTargetActor, FToroActorCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(ALevelTransitionActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
@@ -160,6 +158,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
 		UNREGISTER_CLASS_CUSTOMIZATION(AWorldActionActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportTargetActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
@@ -238,7 +237,6 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.LocalSoundDatabase", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.MasterPostProcess", new IMAGE_BRUSH(TEXT("MasterPostProcess"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.LevelTransitionActor", new IMAGE_BRUSH(TEXT("LevelTransition"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.LightProbe", new IMAGE_BRUSH(TEXT("LightProbe"), Icon64x64));
 
 	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))

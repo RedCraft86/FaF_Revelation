@@ -8,6 +8,7 @@
 #include "DataTypes/LocalSoundTypes.h"
 #include "SaveSystem/BaseSaveObjects.h"
 #include "UserWidgets/ToroWidgetBase.h"
+#include "GameSection/GameSectionGraph.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "ToroRuntimeSettings.generated.h"
@@ -37,9 +38,6 @@ public:
 	}
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings)
-
-	UPROPERTY(Config, EditAnywhere, Category = Runtime)
-		TSoftObjectPtr<UWorld> GameplayMap;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
@@ -52,6 +50,12 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSet<TSoftClassPtr<UToroWidget>> DefaultWidgets;
+
+	UPROPERTY(Config, EditAnywhere, Category = GameSection)
+		TSoftObjectPtr<UWorld> GameplayMap;
+
+	UPROPERTY(Config, EditAnywhere, Category = GameSection)
+		TSoftObjectPtr<UGameSectionGraph> SectionGraph;
 
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem)
 		FName DemoVersion;

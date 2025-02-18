@@ -1,9 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#if 0
 #include "GameSection/GameSectionGraph.h"
-
-UE_DEFINE_GAMEPLAY_TAG(Tag_Background, "Background");
 
 UGameSectionGraph::UGameSectionGraph()
 {
@@ -11,7 +8,7 @@ UGameSectionGraph::UGameSectionGraph()
 	CompatibleEdge = nullptr;
 }
 
-UGameSectionNode::UGameSectionNode()
+UGameSectionNode::UGameSectionNode() : WidgetDelay(0.1f)
 {
 	Name = NSLOCTEXT("Toro", "NewSectionName", "New Section");
 	Description = NSLOCTEXT("Toro", "NewSectionDesc", "A node containing data relevant to a section of the game.");
@@ -19,4 +16,16 @@ UGameSectionNode::UGameSectionNode()
 	ContextMenuName = INVTEXT("Game Section");
 #endif
 }
-#endif
+
+TSet<TSoftObjectPtr<UWorld>> UGameSectionNode::GetLevels() const
+{
+	TArray<TSoftObjectPtr<UWorld>> AllLevels;
+	Levels.GenerateKeyArray(AllLevels);
+	AllLevels.Insert(MainLevel, 0);
+	AllLevels.RemoveAll([](const TSoftObjectPtr<UWorld>& Element)
+	{
+		return Element.IsNull();
+	});
+	
+	return TSet(AllLevels);
+}

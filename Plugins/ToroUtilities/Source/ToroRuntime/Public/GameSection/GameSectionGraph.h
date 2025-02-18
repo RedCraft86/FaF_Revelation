@@ -2,22 +2,11 @@
 
 #pragma once
 
-#if 0
 #include "DataNodeBase.h"
 #include "DataGraphBase.h"
-#include "NativeGameplayTags.h"
-#include "GameplayTagContainer.h"
+#include "Misc/ToroSequenceActor.h"
+#include "Misc/TeleportTargetActor.h"
 #include "GameSectionGraph.generated.h"
-
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Background);
-
-USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FLoadingImageSet
-{
-	GENERATED_BODY()
-	UPROPERTY(EditAnywhere, Category = LoadingImageSet)
-		TSet<TSoftObjectPtr<UTexture2D>> Images;
-};
 
 UCLASS()
 class TORORUNTIME_API UGameSectionGraph final : public UDataGraphBase
@@ -27,12 +16,6 @@ class TORORUNTIME_API UGameSectionGraph final : public UDataGraphBase
 public:
 	
 	UGameSectionGraph();
-
-	UPROPERTY(EditAnywhere, Category = Graph, meta = (Multiline = true))
-		TMap<FName, FText> LoadingFacts;
-
-	UPROPERTY(EditAnywhere, Category = Graph, meta = (ForceInlineRow, Categories = "Backgrounds"))
-		TMap<FGameplayTag, FLoadingImageSet> Backgrounds;
 };
 
 UCLASS()
@@ -44,7 +27,47 @@ public:
 	
 	UGameSectionNode();
 	
-	UPROPERTY(EditAnywhere, Category = GameSection)
+	UPROPERTY(EditAnywhere, Category = Level)
+		float WidgetDelay;
+	
+	UPROPERTY(EditAnywhere, Category = Level)
+		TSoftObjectPtr<ATeleportTargetActor> Teleport;
+	
+	UPROPERTY(EditAnywhere, Category = Level)
+		TSoftObjectPtr<UWorld> MainLevel;
+
+	UPROPERTY(EditAnywhere, Category = Level)
 		TMap<TSoftObjectPtr<UWorld>, bool> Levels;
+
+	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
+		TSoftObjectPtr<AToroSequenceActor> StartSequence;
+
+	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
+		TSoftObjectPtr<AToroSequenceActor> WaitSequence;
+
+	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
+		TSoftObjectPtr<AToroSequenceActor> EndSequence;
+
+	bool PlayStart() const
+	{
+		if (StartSequence.LoadSynchronous()) StartSequence->Play();
+		return StartSequence.IsValid();
+	}
+	bool PlayEnd() const
+	{
+		if (EndSequence.LoadSynchronous()) EndSequence->Play();
+		return EndSequence.IsValid();
+	}
+	bool PlayWait() const
+	{
+		if (WaitSequence.LoadSynchronous()) WaitSequence->Play();
+		return WaitSequence.IsValid();
+	}
+	bool StopWait() const
+	{
+		if (WaitSequence.LoadSynchronous()) WaitSequence->Stop();
+		return WaitSequence.IsValid();
+	}
+	
+	TSet<TSoftObjectPtr<UWorld>> GetLevels() const;
 };
-#endif
