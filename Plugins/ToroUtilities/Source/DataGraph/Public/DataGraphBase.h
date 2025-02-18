@@ -59,9 +59,9 @@ public:
 #endif
 	
 	template<typename T>
-	TArray<T*> GetNodesInSequence(const TArray<uint8>& InSequence) const
+	TArray<T*> GetNodesInSequence(const TArray<uint8>& InSequence, const bool bRootFallback) const
 	{
-		TArray<UDataNodeBase*> Nodes = GetNodesInSequence(InSequence);
+		TArray<UDataNodeBase*> Nodes = GetNodesInSequence(InSequence, bRootFallback);
 		TArray<TArray<T*>> OutNodes; OutNodes.Reserve(Nodes.Num());
 		for (const UDataNodeBase* Node : Nodes)
 		{
@@ -72,8 +72,8 @@ public:
 	}
 	
 	template<typename T>
-	T* GetLeafInSequence(const TArray<uint8>& InSequence) const
+	T* GetLeafInSequence(const TArray<uint8>& InSequence, const bool bRootFallback) const
 	{
-		return Cast<T>(GetLeafInSequence(InSequence));
+		return Cast<T>(GetLeafInSequence(InSequence, bRootFallback));
 	}
 };
