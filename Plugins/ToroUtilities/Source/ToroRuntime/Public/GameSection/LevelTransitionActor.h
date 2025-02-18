@@ -7,14 +7,6 @@
 #include "Misc/ToroSequenceActor.h"
 #include "LevelTransitionActor.generated.h"
 
-UENUM(BlueprintInternalUseOnly)
-enum class ELevelStreamState : uint8
-{
-	None,
-	Loaded,
-	Visible
-};
-
 UCLASS(NotBlueprintable, meta = (HiddenCategories = "Rendering"))
 class TORORUNTIME_API ALevelTransitionActor final : public AActor
 {
