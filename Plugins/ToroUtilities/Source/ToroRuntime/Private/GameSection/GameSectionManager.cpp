@@ -2,6 +2,7 @@
 
 #include "GameSection/GameSectionManager.h"
 #include "Framework/ToroWidgetManager.h"
+#include "Framework/ToroMusicManager.h"
 #include "SaveSystem/ToroSaveSystem.h"
 #include "Engine/LevelScriptActor.h"
 #include "ToroRuntimeSettings.h"
@@ -141,6 +142,11 @@ void UGameSectionManager::OnMainLevelLoaded()
 		Section->StopWait();
 		if (!Section->PlayEnd())
 			OnEndSequenceFinished();
+	}
+
+	if (AToroMusicManager* MusicManager = AToroMusicManager::Get(this))
+	{
+		MusicManager->ChangeMainTheme(Section->Theme.LoadSynchronous());
 	}
 }
 
