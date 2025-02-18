@@ -166,10 +166,14 @@ IAudioParameterControllerInterface* AToroMusicManager::GetSoundParamInterface() 
 void AToroMusicManager::BeginPlay()
 {
 	Super::BeginPlay();
-	FEnhancedCodeFlow::Delay(this, 1.0f, [this]()
+	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
+	if (!Settings->IsOnGameplayMap(this))
 	{
-		ChangeMainTheme(UToroRuntimeSettings::Get()->DefaultTheme.LoadSynchronous());
-	});
+		FEnhancedCodeFlow::Delay(this, 1.0f, [this, Settings]()
+		{
+			ChangeMainTheme(Settings->DefaultTheme.LoadSynchronous());
+		});
+	}
 }
 
 void AToroMusicManager::Tick(float DeltaSeconds)
