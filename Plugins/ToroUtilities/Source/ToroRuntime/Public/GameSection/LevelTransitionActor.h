@@ -15,7 +15,7 @@ enum class ELevelStreamState : uint8
 	Visible
 };
 
-UCLASS(NotBlueprintable)
+UCLASS(NotBlueprintable, meta = (HiddenCategories = "Rendering"))
 class TORORUNTIME_API ALevelTransitionActor final : public AActor
 {
 	GENERATED_BODY()

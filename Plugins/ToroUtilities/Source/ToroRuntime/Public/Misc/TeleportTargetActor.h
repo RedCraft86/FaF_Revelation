@@ -6,7 +6,7 @@
 #include "Characters/ToroPlayerBase.h"
 #include "TeleportTargetActor.generated.h"
 
-UCLASS(NotBlueprintable)
+UCLASS(NotBlueprintable, meta = (HiddenCategories = "Rendering"))
 class TORORUNTIME_API ATeleportTargetActor final : public ATargetPoint
 {
 	GENERATED_BODY()
