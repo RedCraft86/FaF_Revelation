@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ToroSaveObject.h"
+#include "ClassGetterHelpers.h"
 #include "GameplayTagContainer.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ToroSaveSystem.generated.h"
@@ -15,6 +16,7 @@ class TORORUNTIME_API UToroSaveSystem : public UGameInstanceSubsystem
 public:
 
 	UToroSaveSystem() {}
+	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroSaveSystem);
 
 	UFUNCTION(BlueprintPure, Category = SaveSystem)
 		UToroSaveObject* GetSaveObject(UPARAM(meta = (Categories = "Saves")) const FGameplayTag InTag);
