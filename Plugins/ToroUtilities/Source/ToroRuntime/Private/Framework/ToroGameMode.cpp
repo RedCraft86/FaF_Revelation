@@ -15,6 +15,9 @@ AToroGameMode::AToroGameMode()
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Narrative = CreateDefaultSubobject<UToroNarrativeComponent>("Narrative");
+
 	GameStateClass = AToroMusicManager::StaticClass();
 	PlayerControllerClass = AToroPlayerController::StaticClass();
 	PlayerStateClass = AToroWidgetManager::StaticClass();
