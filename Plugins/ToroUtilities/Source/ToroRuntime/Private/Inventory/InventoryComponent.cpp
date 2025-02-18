@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Inventory/InventoryComponent.h"
+#include "Framework/ToroGameMode.h"
 
 bool FInventoryMetaFilter::Filter(const FInventorySlotData& InSlot) const
 {
@@ -40,6 +41,16 @@ UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
+}
+
+UInventoryComponent* UInventoryComponent::Get(const UObject* WorldContext)
+{
+	if (const AToroGameMode* GameMode = AToroGameMode::Get(WorldContext))
+	{
+		return GameMode->Inventory;
+	}
+	
+	return nullptr;
 }
 
 TArray<FGuid> UInventoryComponent::GetSortedSlots() const

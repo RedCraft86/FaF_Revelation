@@ -85,6 +85,7 @@ class TORORUNTIME_API UInventoryComponent : public UActorComponent
 public:
 	
 	UInventoryComponent();
+	static UInventoryComponent* Get(const UObject* WorldContext);
 
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		virtual const TMap<FGuid, FInventorySlotData>& GetConstInventory() const { return ItemSlots; }
