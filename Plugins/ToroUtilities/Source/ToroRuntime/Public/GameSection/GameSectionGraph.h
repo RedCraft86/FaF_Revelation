@@ -65,7 +65,7 @@ public:
 		FUDSSettings SkyWeather; // TODO
 	
 	UPROPERTY(EditAnywhere, Category = Player)
-		TArray<FInventorySlotData> Inventory; // TODO
+		TArray<FInventorySlotData> Inventory;
 
 	bool PlayStart() const
 	{

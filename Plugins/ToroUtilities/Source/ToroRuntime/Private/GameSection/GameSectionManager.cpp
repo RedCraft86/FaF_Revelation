@@ -75,10 +75,12 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection)
 		LoadLevel(Level);
 	}
 
-	if (UToroNarrativeComponent* Narrative = UToroNarrativeComponent::Get(this))
+	if (const AToroGameMode* GameMode = AToroGameMode::Get(this))
 	{
-		if (Section) Narrative->ForgetQuest(Section->Quest.LoadSynchronous());
-		Narrative->BeginQuest(NewSection->Quest.LoadSynchronous());
+		if (Section) GameMode->Narrative->ForgetQuest(Section->Quest.LoadSynchronous());
+		GameMode->Narrative->BeginQuest(NewSection->Quest.LoadSynchronous());
+
+		GameMode->Inventory->EnsureItems(Section->Inventory);
 	}
 
 	Section = NewSection;

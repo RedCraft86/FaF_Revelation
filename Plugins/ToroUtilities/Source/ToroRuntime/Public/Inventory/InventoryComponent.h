@@ -130,7 +130,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = InventoryManager, meta = (AdvancedDisplay = "Filter,bSilent"))
 		virtual void RemoveInventoryItem(uint8& Missing, UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter = FInventoryMetaFilter(), const bool bSilent = false);
 	uint8 RemoveItem(UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter = {}, const bool bSilent = false);
-	
+
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		void EnsureItems(const TArray<FInventorySlotData>& InItems);
+
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;
 	

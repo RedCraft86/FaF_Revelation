@@ -327,6 +327,25 @@ uint8 UInventoryComponent::RemoveItem(UInventoryItemData* Item, const uint8 Amou
 	return Missing;
 }
 
+void UInventoryComponent::EnsureItems(const TArray<FInventorySlotData>& InItems)
+{
+	for (const FInventorySlotData& InSlot : InItems)
+	{
+		UInventoryItemData* ItemData = InSlot.Item.LoadSynchronous(); if (!ItemData) continue;
+		if (const FGuid SlotID = FindSlot(ItemData); SlotID.IsValid() && ItemSlots.Contains(SlotID))
+		{
+			FInventorySlotData& SlotData = ItemSlots[SlotID];
+			SlotData.Amount = FMath::Min(FMath::Max(SlotData.Amount, InSlot.Amount), ItemData->GetStackLimit());
+			SlotData.Metadata.Append(InSlot.Metadata);
+			SlotData.Metadata.Validate();
+		}
+		else
+		{
+			AddItem(ItemData, FMath::Min(InSlot.Amount, ItemData->GetStackLimit()), InSlot.Metadata, true);
+		}
+	}
+}
+
 void UInventoryComponent::ValidateInventory(const bool bForceUpdate)
 {
 	bool bChanged = bForceUpdate;
