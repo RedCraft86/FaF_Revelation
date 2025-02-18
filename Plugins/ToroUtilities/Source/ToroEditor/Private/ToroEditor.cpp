@@ -22,6 +22,8 @@
 #include "LightProbes/LightProbe.h"
 #include "Framework/MasterPostProcess.h"
 #include "WorldActions/WorldActionActor.h"
+#include "GameSection/LevelTransitionActor.h"
+#include "Misc/TeleportTargetActor.h"
 
 #include "DetailsCustomization/ToroActorDetails.h"
 #include "DetailsCustomization/InventoryItemDetails.h"
@@ -88,6 +90,8 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ATeleportTargetActor, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ALevelTransitionActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
