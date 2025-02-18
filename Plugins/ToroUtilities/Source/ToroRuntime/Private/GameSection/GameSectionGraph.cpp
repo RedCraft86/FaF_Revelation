@@ -8,7 +8,7 @@ UGameSectionGraph::UGameSectionGraph()
 	CompatibleEdge = nullptr;
 }
 
-UGameSectionNode::UGameSectionNode() : WidgetDelay(0.1f)
+UGameSectionNode::UGameSectionNode() : WidgetDelay(0.25f)
 {
 	Name = NSLOCTEXT("Toro", "NewSectionName", "New Section");
 	Description = NSLOCTEXT("Toro", "NewSectionDesc", "A node containing data relevant to a section of the game.");

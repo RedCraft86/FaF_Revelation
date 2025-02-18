@@ -32,21 +32,21 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = Level)
 		TSoftObjectPtr<ATeleportTargetActor> Teleport;
+
+	UPROPERTY(EditAnywhere, Category = Level)
+		TSoftObjectPtr<AToroSequenceActor> StartSequence;
+
+	UPROPERTY(EditAnywhere, Category = Level)
+		TSoftObjectPtr<AToroSequenceActor> WaitSequence;
+
+	UPROPERTY(EditAnywhere, Category = Level)
+		TSoftObjectPtr<AToroSequenceActor> EndSequence;
 	
 	UPROPERTY(EditAnywhere, Category = Level)
 		TSoftObjectPtr<UWorld> MainLevel;
 
 	UPROPERTY(EditAnywhere, Category = Level)
 		TMap<TSoftObjectPtr<UWorld>, bool> Levels;
-
-	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
-		TSoftObjectPtr<AToroSequenceActor> StartSequence;
-
-	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
-		TSoftObjectPtr<AToroSequenceActor> WaitSequence;
-
-	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
-		TSoftObjectPtr<AToroSequenceActor> EndSequence;
 
 	bool PlayStart() const
 	{
