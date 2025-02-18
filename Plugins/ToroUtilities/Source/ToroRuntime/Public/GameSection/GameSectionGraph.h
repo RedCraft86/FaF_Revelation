@@ -2,10 +2,14 @@
 
 #pragma once
 
+#include "Quest.h"
 #include "DataNodeBase.h"
 #include "DataGraphBase.h"
+#include "MetasoundSource.h"
 #include "Misc/ToroSequenceActor.h"
 #include "Misc/TeleportTargetActor.h"
+#include "DataTypes/UltraDynamicSky.h"
+#include "Inventory/InventoryComponent.h"
 #include "GameSectionGraph.generated.h"
 
 UCLASS()
@@ -32,21 +36,36 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = Level)
 		TSoftObjectPtr<ATeleportTargetActor> Teleport;
-
-	UPROPERTY(EditAnywhere, Category = Level)
-		TSoftObjectPtr<AToroSequenceActor> StartSequence;
-
-	UPROPERTY(EditAnywhere, Category = Level)
-		TSoftObjectPtr<AToroSequenceActor> WaitSequence;
-
-	UPROPERTY(EditAnywhere, Category = Level)
-		TSoftObjectPtr<AToroSequenceActor> EndSequence;
 	
 	UPROPERTY(EditAnywhere, Category = Level)
 		TSoftObjectPtr<UWorld> MainLevel;
 
 	UPROPERTY(EditAnywhere, Category = Level)
 		TMap<TSoftObjectPtr<UWorld>, bool> Levels;
+
+	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
+		TSoftObjectPtr<AToroSequenceActor> StartSequence;
+
+	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
+		TSoftObjectPtr<AToroSequenceActor> WaitSequence;
+
+	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
+		TSoftObjectPtr<AToroSequenceActor> EndSequence;
+
+	UPROPERTY(EditAnywhere, Category = Game)
+		FGameplayTagContainer UnlockContent; // TODO
+
+	UPROPERTY(EditAnywhere, Category = Game)
+		TSoftClassPtr<UQuest> Quest; // TODO
+
+	UPROPERTY(EditAnywhere, Category = Game)
+		TSoftObjectPtr<UMetaSoundSource> Theme;
+
+	UPROPERTY(EditAnywhere, Category = Game, DisplayName = "Sky & Weather")
+		FUDSSettings SkyWeather; // TODO
+	
+	UPROPERTY(EditAnywhere, Category = Player)
+		TArray<FInventorySlotData> Inventory; // TODO
 
 	bool PlayStart() const
 	{
@@ -70,4 +89,9 @@ public:
 	}
 	
 	TSet<TSoftObjectPtr<UWorld>> GetLevels() const;
+
+#if WITH_EDITOR
+private:
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
 };

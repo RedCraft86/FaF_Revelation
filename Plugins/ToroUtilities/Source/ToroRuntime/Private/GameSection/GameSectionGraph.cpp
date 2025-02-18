@@ -29,3 +29,10 @@ TSet<TSoftObjectPtr<UWorld>> UGameSectionNode::GetLevels() const
 	
 	return TSet(AllLevels);
 }
+#if WITH_EDITOR
+void UGameSectionNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	if (!MainLevel.IsNull()) Levels.Remove(MainLevel);
+}
+#endif

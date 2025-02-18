@@ -29,8 +29,9 @@ public class ToroRuntime : ModuleRules
                 "CommonUI",
                 "ToroCore",
                 "DataGraph",
+                "Narrative",
                 "ExpressiveText",
-                "EnhancedCodeFlow"
+                "EnhancedCodeFlow", 
             }
         );
         
