@@ -10,7 +10,7 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_Saves, "Saves");
 
 FString GetDemoStr()
 {
-	FString Str = UToroRuntimeSettings::Get()->DemoVersion.ToString();
+	const FString Str = UToroRuntimeSettings::Get()->DemoVersion.ToString();
 	return Str.IsEmpty() || Str == TEXT(" ") || Str.TrimStartAndEnd().IsEmpty() ? TEXT("") : Str;
 }
 
