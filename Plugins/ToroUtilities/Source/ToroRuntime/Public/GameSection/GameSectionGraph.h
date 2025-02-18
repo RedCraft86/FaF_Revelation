@@ -56,7 +56,7 @@ public:
 		FGameplayTagContainer UnlockContent; // TODO
 
 	UPROPERTY(EditAnywhere, Category = Game)
-		TSoftClassPtr<UQuest> Quest; // TODO
+		TSoftClassPtr<UQuest> Quest;
 
 	UPROPERTY(EditAnywhere, Category = Game)
 		TSoftObjectPtr<UMetaSoundSource> Theme;
