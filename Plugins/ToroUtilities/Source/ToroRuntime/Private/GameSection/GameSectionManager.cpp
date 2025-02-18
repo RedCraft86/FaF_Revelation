@@ -12,6 +12,7 @@ void UGameSectionManager::StepSequence(const uint8 InIndex)
 	if (bLoading || !Graph) return;
 	
 	Sequence.Add(InIndex);
+	Sequence = Graph->ValidateSequence(Sequence);
 	if (UGameSectionNode* Node = Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true))
 	{
 		ChangeSection(Node);
@@ -24,12 +25,12 @@ void UGameSectionManager::StepSequence(const uint8 InIndex)
 
 void UGameSectionManager::LoadSequence(const FGameplayTag InTag)
 {
+	if (!Graph || !InTag.IsValid() || InTag == Tag_Saves) return;
 	if (UToroSaveSystem* System = UToroSaveSystem::Get(this))
 	{
 		if (const UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(InTag))
 		{
-			Sequence = Save->Sequence;
-			if (Sequence.IsEmpty()) Sequence.Add(0);
+			Sequence = Graph->ValidateSequence(Save->Sequence);
 		}
 	}
 }
