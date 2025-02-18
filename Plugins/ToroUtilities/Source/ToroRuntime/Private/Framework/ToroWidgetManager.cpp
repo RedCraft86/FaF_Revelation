@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroWidgetManager.h"
+#include "ToroRuntimeSettings.h"
 
 AToroWidgetManager::AToroWidgetManager()
 {
@@ -17,8 +18,37 @@ EToroValidPins AToroWidgetManager::GetToroWidgetManager(AToroWidgetManager*& Out
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
+UToroWidget* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroWidget> Class)
+{
+	if (!Class) return nullptr;
+	UToroWidget* Obj = FindWidget(Class);
+	if (Obj) return Obj;
+	
+	Obj = UToroWidget::CreateNew(PlayerController, Class);
+	if (Obj) WidgetObjs.Add(Obj);
+	return Obj;
+}
+
+// ReSharper disable once CppPassValueParameterByConstReference
+UToroWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UToroWidget> Class)
+{
+	if (!Class) return nullptr;
+	WidgetObjs.Remove(nullptr);
+	for (const TObjectPtr<UToroWidget>& Obj : WidgetObjs)
+	{
+		if (Obj && Obj->IsA(Class)) return Obj;
+	}
+
+	return nullptr;
+}
+
 void AToroWidgetManager::BeginPlay()
 {
 	Super::BeginPlay();
-	APlayerController* PlayerController = GetPlayerController();
+	PlayerController = Cast<AToroPlayerController>(GetPlayerController());
+	const TSet<TSoftClassPtr<UToroWidget>>& Widgets = UToroRuntimeSettings::Get()->DefaultWidgets;
+	for (const TSoftClassPtr<UToroWidget>& Widget : Widgets)
+	{
+		FindOrAddWidget(Widget.LoadSynchronous());
+	}
 }

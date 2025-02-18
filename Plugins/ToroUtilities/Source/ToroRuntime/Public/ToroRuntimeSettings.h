@@ -7,6 +7,7 @@
 #include "Engine/DeveloperSettings.h"
 #include "DataTypes/LocalSoundTypes.h"
 #include "SaveSystem/BaseSaveObjects.h"
+#include "UserWidgets/ToroWidgetBase.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "ToroRuntimeSettings.generated.h"
@@ -48,6 +49,9 @@ public:
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSet<TSoftClassPtr<UToroWidget>> DefaultWidgets;
 
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem)
 		FName DemoVersion;

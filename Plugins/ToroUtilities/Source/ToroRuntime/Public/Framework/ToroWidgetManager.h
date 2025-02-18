@@ -5,6 +5,7 @@
 #include "ExecPinEnums.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerState.h"
+#include "UserWidgets/ToroWidgetBase.h"
 #include "ToroWidgetManager.generated.h"
 
 /* Player State is repurposed as a Widget Manager */
@@ -26,8 +27,23 @@ public:
 	{
 		return Cast<T>(UGameplayStatics::GetPlayerState(WorldContextObject, PlayerIndex));
 	}
+
+	UFUNCTION(BlueprintCallable, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+		UToroWidget* FindOrAddWidget(const TSubclassOf<UToroWidget> Class);
 	
+	UFUNCTION(BlueprintPure, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+		UToroWidget* FindWidget(const TSubclassOf<UToroWidget> Class);
+	
+	template<typename T>
+	T* FindWidget()
+	{
+		return Cast<T>(FindWidget(T::StaticClass()));
+	}
+
 protected:
+
+	UPROPERTY(Transient) TSet<TObjectPtr<UToroWidget>> WidgetObjs;
+	UPROPERTY(Transient) TObjectPtr<AToroPlayerController> PlayerController;
 
 	virtual void BeginPlay() override;
 };
