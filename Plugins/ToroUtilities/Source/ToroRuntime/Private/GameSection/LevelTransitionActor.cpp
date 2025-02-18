@@ -196,6 +196,6 @@ void ALevelTransitionActor::BeginPlay()
 void ALevelTransitionActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	Levels.Remove(MainLevel);
+	if (!MainLevel.IsNull()) Levels.Remove(MainLevel);
 }
 #endif
