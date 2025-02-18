@@ -27,7 +27,7 @@ ALevelTransitionActor::ALevelTransitionActor() : bWaiting(false), bMainLevelLoad
 		DebugBillboard->SetupAttachment(SceneRoot);
 		DebugBillboard->SetWorldScale3D(FVector{0.5f});
 		DebugBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
-			TEXT("Texture2D'/ToroUtilities/Icons/MasterPostProcess.MasterPostProcess'")));
+			TEXT("Texture2D'/ToroUtilities/Icons/LevelTransition.LevelTransition'")));
 	}
 #endif
 }
