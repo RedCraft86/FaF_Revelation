@@ -5,26 +5,24 @@
 
 void FStaticMeshProperties::FillMaterials()
 {
+	if (Mesh.IsNull())
 	{
-		if (Mesh.IsNull())
+		Materials.Empty();
+	}
+	else if (UStaticMesh* LoadedMesh = Mesh.LoadSynchronous())
+	{
+		const TArray<FStaticMaterial>& Mats = LoadedMesh->GetStaticMaterials();
+		if (Materials.IsEmpty() || Materials.Num() < Mats.Num())
 		{
-			Materials.Empty();
-		}
-		else if (UStaticMesh* LoadedMesh = Mesh.LoadSynchronous())
-		{
-			const TArray<FStaticMaterial>& Mats = LoadedMesh->GetStaticMaterials();
-			if (Materials.IsEmpty() || Materials.Num() < Mats.Num())
+			for (int32 i = 0; i < Mats.Num(); i++)
 			{
-				for (int32 i = 0; i < Mats.Num(); i++)
+				if (!Materials.IsValidIndex(i))
 				{
-					if (!Materials.IsValidIndex(i))
-					{
-						Materials.Add(Mats[i].MaterialInterface);
-					}
-					else if (Materials[i].IsNull())
-					{
-						Materials[i] = Mats[i].MaterialInterface;
-					}
+					Materials.Add(Mats[i].MaterialInterface);
+				}
+				else if (Materials[i].IsNull())
+				{
+					Materials[i] = Mats[i].MaterialInterface;
 				}
 			}
 		}

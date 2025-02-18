@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroDataUtils.h"
-#include "Compression/OodleDataCompressionUtil.h"
+#include "CompressionHelpers.h"
 
 FString UToroDataUtils::EncryptAES(const FString& String, const FString& Key)
 {
@@ -56,14 +56,13 @@ FString UToroDataUtils::DecryptAES(const FString& String, const FString& Key)
 TArray<uint8> UToroDataUtils::CompressBytes(const TArray<uint8>& InBytes)
 {
 	TArray<uint8> OutData;
-	FOodleCompressedArray::CompressTArray(OutData, InBytes,
-		FOodleDataCompression::ECompressor::Kraken, FOodleDataCompression::ECompressionLevel::SuperFast);
+	CompressionHelpers::OodleCompress(InBytes, OutData);
 	return OutData;
 }
 
 TArray<uint8> UToroDataUtils::DecompressBytes(const TArray<uint8>& InBytes)
 {
 	TArray<uint8> OutData;
-	FOodleCompressedArray::DecompressToTArray(OutData, InBytes);
+	CompressionHelpers::OodleDecompress(InBytes, OutData);
 	return OutData;
 }

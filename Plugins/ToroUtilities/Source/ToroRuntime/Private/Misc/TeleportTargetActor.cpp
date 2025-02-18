@@ -11,9 +11,9 @@ ATeleportTargetActor::ATeleportTargetActor()
 
 void ATeleportTargetActor::TeleportActor(AActor* TargetActor)
 {
-	if (const AToroPlayerBase* AsPlayer = Cast<AToroPlayerBase>(TargetActor))
+	if (AToroPlayerBase* AsPlayer = Cast<AToroPlayerBase>(TargetActor))
 	{
-		PlayerRef = AsPlayer;
+		PlayerRef = TObjectPtr<AToroPlayerBase>(AsPlayer);
 		TeleportPlayer();
 	}
 	else

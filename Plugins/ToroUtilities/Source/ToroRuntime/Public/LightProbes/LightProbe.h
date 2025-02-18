@@ -37,7 +37,7 @@ public:
 		float Falloff;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (HideAlphaChannel))
-	FLinearColor Color;
+		FLinearColor Color;
 
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		bool bDisableWithLumen;
