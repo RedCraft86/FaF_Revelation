@@ -21,9 +21,6 @@ public:
 		TMap<FGameplayTag, FDateTime> Endings;
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
-		TSet<FGameplayTag> Achievements;
-
-	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TSet<FGameplayTag> Content;
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
