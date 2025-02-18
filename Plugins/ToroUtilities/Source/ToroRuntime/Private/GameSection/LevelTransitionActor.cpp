@@ -11,7 +11,7 @@
 #include "Components/BillboardComponent.h"
 #endif
 
-ALevelTransitionActor::ALevelTransitionActor() : bWaiting(false), bMainLevelLoaded(false)
+ALevelTransitionActor::ALevelTransitionActor() : WidgetDelay(0.1f), bWaiting(false), bMainLevelLoaded(false)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -59,6 +59,7 @@ TSet<TSoftObjectPtr<UWorld>> ALevelTransitionActor::BeginTransition(const TSet<T
 	}
 	else
 	{
+		SetWidgetHidden(false);
 		UToroShortcutLibrary::SetCameraFade(this, 1.0f, FLinearColor::Black, true);
 	}
 	
@@ -146,14 +147,17 @@ void ALevelTransitionActor::OnStartSequenceFinished()
 	else
 	{
 		bWaiting = true;
-		SetWidgetHidden(false);
 		if (WaitSequence) WaitSequence->Play();
+		GetWorldTimerManager().SetTimer(WidgetTimer, this, &ThisClass::DelayedShowWidget,
+			FMath::Max(0.05f, WidgetDelay), false);
 	}
 }
 
 void ALevelTransitionActor::OnEndSequenceFinished()
 {
+	GetWorldTimerManager().ClearTimer(WidgetTimer);
 	SetWidgetHidden(true);
+	
 	for (const TSoftObjectPtr<UWorld>& Level : ToUnload)
 	{
 		UnloadLevel(Level);

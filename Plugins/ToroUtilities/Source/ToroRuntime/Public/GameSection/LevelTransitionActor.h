@@ -22,6 +22,9 @@ public:
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UBillboardComponent> DebugBillboard;
 #endif
+		
+	UPROPERTY(EditAnywhere, Category = Settings)
+		float WidgetDelay;
 	
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSoftObjectPtr<class ATeleportTargetActor> Teleport;
@@ -48,14 +51,16 @@ private:
 
 	static inline uint8 LatentID = 0;
 	static uint8 GetLatentID() { return LatentID++; }
-	
+
 	UPROPERTY() bool bWaiting;
 	UPROPERTY() bool bMainLevelLoaded;
+	UPROPERTY() FTimerHandle WidgetTimer;
 	UPROPERTY() TSet<TSoftObjectPtr<UWorld>> ToLoad;
 	UPROPERTY() TSet<TSoftObjectPtr<UWorld>> ToUnload;
 	UPROPERTY() TObjectPtr<USectionLoadWidget> Widget;
 
 	void SetWidgetHidden(const bool bInHidden);
+	void DelayedShowWidget() { SetWidgetHidden(false); }
 
 	void UnloadLevel(const TSoftObjectPtr<UWorld>& InLevel) const;
 	void LoadLevel(const TSoftObjectPtr<UWorld>& InLevel);
