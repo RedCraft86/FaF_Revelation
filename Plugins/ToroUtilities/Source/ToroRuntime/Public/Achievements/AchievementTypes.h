@@ -13,10 +13,22 @@ struct TORORUNTIME_API FAchievementEntry
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Achievement)
-		FString Title;
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(VisibleDefaultsOnly, Category = Achievement, meta = (EditCondition = false, EditConditionHides))
+		FString Label = TEXT("");
+#endif
+	
+	UPROPERTY(EditAnywhere, Category = Achievement)
+		TSoftObjectPtr<UTexture2D> Icon;
+	
+	UPROPERTY(EditAnywhere, Category = Achievement)
+		FText Name;
+	
+	UPROPERTY(EditAnywhere, Category = Achievement)
+		FText Description;
 
 	FAchievementEntry() {}
+	bool IsValidData() const { return !Icon.IsNull() && !Name.IsEmptyOrWhitespace(); }
 };
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -28,19 +40,19 @@ public:
 	
 	UAchievementDatabase() {}
 
-	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "Achievements", TitleProperty = "Title"))
+	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "Achievements", TitleProperty = "Label"))
 		TMap<FGameplayTag, FAchievementEntry> Entries;
 
-	// bool IsKeyValid(const FGameplayTag& Key) const;
-	// uint8 GetValidCount() const;
+	bool IsKeyValid(const FGameplayTag& Key) const;
+	uint8 GetValidCount() const;
 	
-	// static bool IsValidKey(const FGameplayTag& Key);
-	// static FAchievementEntry Get(const FGameplayTag& Key);
-	
+	static bool IsValidKey(const FGameplayTag& Key);
+	static FAchievementEntry Get(const FGameplayTag& Key);
+
 #if WITH_EDITOR
 private:
-	// void UpdateSounds();
-	// virtual void PostLoad() override;
-	// virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+	void UpdateAchievements();
+	virtual void PostLoad() override;
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 };

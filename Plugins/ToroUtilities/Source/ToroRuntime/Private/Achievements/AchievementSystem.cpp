@@ -7,3 +7,9 @@ bool UAchievementSystem::ShouldCreateSubsystem(UObject* Outer) const
 {
 	return Super::ShouldCreateSubsystem(Outer) && !UToroRuntimeSettings::Get()->AchievementDatabase.IsNull();
 }
+
+void UAchievementSystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+	Database = UToroRuntimeSettings::Get()->AchievementDatabase.LoadSynchronous();
+}

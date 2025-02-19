@@ -36,11 +36,13 @@
 #include "DetailsCustomization/ElectricLightDetails.h"
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "DetailsCustomization/InventoryMetadataDetails.h"
+
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 #include "ComponentVisualizer/VisionConeVisualizer.h"
 
 #include "AssetFactories/Inventory/InventoryItemAsset.h"
 #include "AssetFactories/LocalSound/LocalSoundDatabaseAsset.h"
+#include "AssetFactories/Achievement/AchievementDatabaseAsset.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -125,6 +127,7 @@ void FToroEditorModule::StartupModule()
 	{
 		AssetTypeActions.Add(MakeShareable(new FInventoryItemAsset()));
 		AssetTypeActions.Add(MakeShareable(new FLocalSoundDatabaseAsset()));
+		AssetTypeActions.Add(MakeShareable(new FAchievementDatabaseAsset()));
 		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
 		{
 			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());
@@ -236,6 +239,7 @@ void FToroEditorStyle::Init()
 	
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.LocalSoundDatabase", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.AchievementDatabase", new IMAGE_BRUSH_SVG(TEXT("Achievement"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.MasterPostProcess", new IMAGE_BRUSH(TEXT("MasterPostProcess"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.LightProbe", new IMAGE_BRUSH(TEXT("LightProbe"), Icon64x64));
 
