@@ -62,7 +62,7 @@ public:
 		TSoftObjectPtr<UMetaSoundSource> Theme;
 
 	UPROPERTY(EditAnywhere, Category = Game, DisplayName = "Sky & Weather")
-		FUDSSettings SkyWeather; // TODO
+		FUDSSettings SkyWeather;
 	
 	UPROPERTY(EditAnywhere, Category = Player)
 		TArray<FInventorySlotData> Inventory;

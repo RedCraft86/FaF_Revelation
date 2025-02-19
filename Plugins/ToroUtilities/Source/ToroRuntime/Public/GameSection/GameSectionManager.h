@@ -49,6 +49,7 @@ private:
 	UPROPERTY() TObjectPtr<USectionLoadWidget> Widget;
 
 	UPROPERTY() TArray<uint8> Sequence;
+	UPROPERTY() TObjectPtr<AActor> UltraDynamicSky;
 	UPROPERTY() TObjectPtr<UGameSectionNode> Section;
 	UPROPERTY() TObjectPtr<UGameSectionGraph> Graph;
 
@@ -65,4 +66,5 @@ private:
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
 };

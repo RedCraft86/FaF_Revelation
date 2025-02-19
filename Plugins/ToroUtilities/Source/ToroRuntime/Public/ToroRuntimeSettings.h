@@ -51,6 +51,9 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSet<TSoftClassPtr<UToroWidget>> DefaultWidgets;
 
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftClassPtr<AActor> UltraDynamicSky;
+
 	UPROPERTY(Config, EditAnywhere, Category = GameSection)
 		TSoftObjectPtr<UWorld> GameplayMap;
 
