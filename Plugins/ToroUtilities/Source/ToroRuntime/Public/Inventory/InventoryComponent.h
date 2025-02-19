@@ -157,7 +157,7 @@ public:
 		void EnsureItems(const TArray<FInventorySlotData>& InItems);
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
-		FInventorySaveData GetSaveData();
+		FInventorySaveData GetSaveData() const;
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
 		void SetSaveData(const FInventorySaveData& InData);

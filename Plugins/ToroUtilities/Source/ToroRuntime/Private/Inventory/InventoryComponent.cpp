@@ -346,7 +346,7 @@ void UInventoryComponent::EnsureItems(const TArray<FInventorySlotData>& InItems)
 	}
 }
 
-FInventorySaveData UInventoryComponent::GetSaveData()
+FInventorySaveData UInventoryComponent::GetSaveData() const
 {
 	FInventorySaveData Data;
 	Data.CurrencyData = CurrencyData;
