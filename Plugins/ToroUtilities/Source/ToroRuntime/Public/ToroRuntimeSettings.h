@@ -9,6 +9,7 @@
 #include "SaveSystem/BaseSaveObjects.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "GameSection/GameSectionGraph.h"
+#include "Achievements/AchievementTypes.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "ToroRuntimeSettings.generated.h"
@@ -42,6 +43,9 @@ public:
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
+	
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<ULocalSoundDatabase> LocalSoundDatabase;
