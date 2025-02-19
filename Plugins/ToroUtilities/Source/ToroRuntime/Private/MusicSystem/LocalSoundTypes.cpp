@@ -30,7 +30,6 @@ bool ULocalSoundDatabase::IsKeyValid(const FGameplayTag& Key) const
 		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
-#if WITH_EDITOR
 uint8 ULocalSoundDatabase::GetValidCount() const
 {
 	uint8 Count = 0;
@@ -44,7 +43,6 @@ uint8 ULocalSoundDatabase::GetValidCount() const
 
 	return Count;
 }
-#endif
 
 bool ULocalSoundDatabase::IsValidKey(const FGameplayTag& Key)
 {
