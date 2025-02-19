@@ -93,6 +93,7 @@ public:
 
 	bool IsOnGameplayMap(const UObject* WorldContext) const
 	{
+		if (GameplayMap.IsNull()) return false;
 		return UGameplayStatics::GetCurrentLevelName(WorldContext) == GameplayMap.GetAssetName();
 	}
 	
