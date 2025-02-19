@@ -158,6 +158,11 @@ void ULightProbeManager::OnWorldBeginPlay(UWorld& InWorld)
 	CamManager = AToroPlayerCameraManager::Get(this);
 }
 
+bool ULightProbeManager::ShouldCreateSubsystem(UObject* Outer) const
+{
+	return Super::ShouldCreateSubsystem(Outer) && UToroRuntimeSettings::Get()->IsUsingLightProbes();
+}
+
 #if WITH_EDITOR
 void ULightProbeManager::Initialize(FSubsystemCollectionBase& Collection)
 {

@@ -30,6 +30,7 @@ public:
 			{Tag_GameSave, UGameSaveObjectBase::StaticClass()},
 		};
 		
+		bUseLightProbes = true;
 		LightProbePPM_8 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_8.PPMI_LightProbe_8"));
 		LightProbePPM_16 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_16.PPMI_LightProbe_16"));
 		LightProbePPM_24 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_24.PPMI_LightProbe_24"));
@@ -65,6 +66,9 @@ public:
 	
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (Categories = "Saves"))
 		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> SaveObjects;
+
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
+		bool bUseLightProbes;
 	
 	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Post Process (Max 8 Probes)")
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM_8;
@@ -90,6 +94,12 @@ public:
 	bool IsOnGameplayMap(const UObject* WorldContext) const
 	{
 		return UGameplayStatics::GetCurrentLevelName(WorldContext) == GameplayMap.GetAssetName();
+	}
+	
+	bool IsUsingLightProbes() const
+	{
+		return bUseLightProbes && !LightProbePPM_8.IsNull() && !LightProbePPM_16.IsNull()
+			&& !LightProbePPM_24.IsNull() && !LightProbePPM_32.IsNull();
 	}
 	
 	UMaterialInterface* GetProbeMaterial(const uint8 NumProbes) const
