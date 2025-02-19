@@ -8,7 +8,7 @@
 
 #define GET_ONE_SHOT(Key) const FLocalSoundEntry SoundData = ULocalSoundDatabase::Get(Key)
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_LocalSound, "LocalSound");
+UE_DEFINE_GAMEPLAY_TAG(Tag_LocalSounds, "LocalSounds");
 
 #if WITH_EDITOR
 void FLocalSoundEntry::Update()
@@ -26,7 +26,7 @@ void FLocalSoundEntry::Update()
 
 bool ULocalSoundDatabase::IsKeyValid(const FGameplayTag& Key) const
 {
-	return Key.IsValid() && Key != Tag_LocalSound
+	return Key.IsValid() && Key != Tag_LocalSounds
 		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
@@ -36,7 +36,7 @@ uint8 ULocalSoundDatabase::GetValidCount() const
 	uint8 Count = 0;
 	for (const TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
 	{
-		if (Entry.Key.IsValid() && Entry.Key != Tag_LocalSound && Entry.Value.IsValidData())
+		if (Entry.Key.IsValid() && Entry.Key != Tag_LocalSounds && Entry.Value.IsValidData())
 		{
 			Count++;
 		}
@@ -74,7 +74,7 @@ void ULocalSoundDatabase::UpdateSounds()
 	for (TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
 	{
 		Entry.Value.Update();
-		if (!Entry.Key.IsValid() || Entry.Key == Tag_LocalSound)
+		if (!Entry.Key.IsValid() || Entry.Key == Tag_LocalSounds)
 		{
 			Entry.Value.Label = TEXT("INVALID Tag");
 		}

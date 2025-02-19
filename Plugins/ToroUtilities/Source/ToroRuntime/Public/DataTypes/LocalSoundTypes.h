@@ -9,7 +9,7 @@
 
 class AToroMusicManager;
 
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LocalSound);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LocalSounds);
 
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FLocalSoundEntry
@@ -55,7 +55,7 @@ public:
 	
 	ULocalSoundDatabase() {}
 
-	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "LocalSound", TitleProperty = "Label"))
+	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "LocalSounds", TitleProperty = "Label"))
 		TMap<FGameplayTag, FLocalSoundEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;

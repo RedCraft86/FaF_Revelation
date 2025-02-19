@@ -36,7 +36,7 @@ public:
 		FName CullFindTag = NAME_None;
 #endif
 	
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Sound Tag", meta = (Categories = "LocalSound"))
+	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Sound Tag", meta = (Categories = "LocalSounds"))
 		FGameplayTag LocalSoundTag;
 
 	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "Play Once")

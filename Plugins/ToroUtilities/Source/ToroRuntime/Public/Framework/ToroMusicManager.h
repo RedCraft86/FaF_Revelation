@@ -46,19 +46,19 @@ public:
 		void SetThemeState(const uint8 InState) const;
 	
 	UFUNCTION(BlueprintCallable, Category = MusicManager, meta = (DefaultToSelf = "InInstigator"))
-		bool PlayLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
+		bool PlayLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSounds")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager, meta = (DefaultToSelf = "InInstigator"))
-		bool StopLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
+		bool StopLayer(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSounds")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager, meta = (DefaultToSelf = "InInstigator"))
-		bool StopLayerIfLooping(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
+		bool StopLayerIfLooping(const UObject* InInstigator, UPARAM(meta = (Categories = "LocalSounds")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool RestartLayer(UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID);
+		bool RestartLayer(UPARAM(meta = (Categories = "LocalSounds")) const FGameplayTag InSoundID);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		bool SetLayerPaused(UPARAM(meta = (Categories = "LocalSound")) const FGameplayTag InSoundID, const bool bPaused);
+		bool SetLayerPaused(UPARAM(meta = (Categories = "LocalSounds")) const FGameplayTag InSoundID, const bool bPaused);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void CleanLocalSoundTracks();
