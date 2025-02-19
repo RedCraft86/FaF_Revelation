@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/LocalSoundTypes.h"
+#include "MusicSystem/LocalSoundTypes.h"
 #include "AssetFactories/ToroAssetTypeActions.h"
 
 class FLocalSoundDatabaseAsset final : public FToroAssetTypeActions

@@ -2,12 +2,11 @@
 
 #pragma once
 
-#include "IDetailGroup.h"
 #include "DetailWidgetRow.h"
 #include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
 #include "DetailsCustomization/DetailsHelpers.h"
-#include "DataTypes/LocalSoundTypes.h"
+#include "MusicSystem/LocalSoundTypes.h"
 
 #define STRUCTNAME FLocalSoundEntry
 

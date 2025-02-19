@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/LocalSoundTypes.h"
+#include "MusicSystem/LocalSoundTypes.h"
 #include "AssetFactories/ToroAssetFactory.h"
 #include "LocalSoundDatabaseFactory.generated.h"
 

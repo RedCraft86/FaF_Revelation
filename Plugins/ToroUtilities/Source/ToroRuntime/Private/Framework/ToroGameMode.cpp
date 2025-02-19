@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameMode.h"
-#include "Framework/ToroMusicManager.h"
+#include "MusicSystem/ToroMusicManager.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Characters/ToroPlayerBase.h"

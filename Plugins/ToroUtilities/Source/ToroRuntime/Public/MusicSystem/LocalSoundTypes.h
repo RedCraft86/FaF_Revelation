@@ -3,8 +3,8 @@
 #pragma once
 
 #include "ECFHandle.h"
-#include "GameplayTagContainer.h"
 #include "NativeGameplayTags.h"
+#include "GameplayTagContainer.h"
 #include "LocalSoundTypes.generated.h"
 
 class AToroMusicManager;

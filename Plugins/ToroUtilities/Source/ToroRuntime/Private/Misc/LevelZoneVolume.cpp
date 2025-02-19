@@ -3,7 +3,7 @@
 #include "Misc/LevelZoneVolume.h"
 #include "Characters/ToroCharacterBase.h"
 #include "Framework/ToroPlayerCameraManager.h"
-#include "Framework/ToroMusicManager.h"
+#include "MusicSystem/ToroMusicManager.h"
 #include "Characters/ToroPlayerBase.h"
 #include "Framework/ToroGameMode.h"
 #include "SmartCullingComponent.h"

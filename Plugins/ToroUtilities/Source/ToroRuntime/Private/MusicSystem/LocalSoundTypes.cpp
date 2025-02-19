@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/LocalSoundTypes.h"
-#include "Framework/ToroMusicManager.h"
+#include "MusicSystem/LocalSoundTypes.h"
+#include "MusicSystem/ToroMusicManager.h"
 #include "ToroRuntimeSettings.h"
 #include "EnhancedCodeFlow.h"
 #include "ToroRuntime.h"

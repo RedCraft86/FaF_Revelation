@@ -7,7 +7,7 @@
 #include "MetasoundSource.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
-#include "DataTypes/LocalSoundTypes.h"
+#include "MusicSystem/LocalSoundTypes.h"
 #include "GameFramework/GameStateBase.h"
 #include "ToroMusicManager.generated.h"
 
