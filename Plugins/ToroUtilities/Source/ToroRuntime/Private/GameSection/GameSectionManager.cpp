@@ -3,7 +3,7 @@
 #include "GameSection/GameSectionManager.h"
 #include "MusicSystem/ToroMusicManager.h"
 #include "Framework/ToroWidgetManager.h"
-#include "SaveSystem/ToroSaveSystem.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "Engine/LevelScriptActor.h"
 #include "ToroRuntimeSettings.h"
 #include "ToroShortcutLibrary.h"
@@ -211,7 +211,7 @@ UGameSaveObjectBase* UGameSectionManager::GetSaveObject(const FGameplayTag& Save
 	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != Tag_Saves ? SaveTag : Tag_GameSave;
 	
 	if (LastSaveTag == Tag && SaveObject) return SaveObject;
-	if (UToroSaveSystem* SaveSystem = UToroSaveSystem::Get(this))
+	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
 	{
 		LastSaveTag = Tag;
 		SaveObject = SaveSystem->GetSaveObject<UGameSaveObjectBase>(Tag);

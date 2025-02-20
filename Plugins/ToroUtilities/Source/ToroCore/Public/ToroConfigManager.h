@@ -7,7 +7,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ToroConfigManager.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType, DisplayName = "Config Manager")
 class TOROCORE_API UToroConfigManager final : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()

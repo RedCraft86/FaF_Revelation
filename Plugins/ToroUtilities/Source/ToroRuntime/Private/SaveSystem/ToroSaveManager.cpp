@@ -1,10 +1,10 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "SaveSystem/ToroSaveSystem.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "ToroRuntimeSettings.h"
 #include "ToroRuntime.h"
 
-UToroSaveObject* UToroSaveSystem::GetSaveObject(const FGameplayTag InTag)
+UToroSaveObject* UToroSaveManager::GetSaveObject(const FGameplayTag InTag)
 {
 	if (!InTag.IsValid() || InTag == Tag_Saves) return nullptr;
 	if (TObjectPtr<UToroSaveObject>* Ptr = SaveObjects.Find(InTag))
@@ -17,7 +17,7 @@ UToroSaveObject* UToroSaveSystem::GetSaveObject(const FGameplayTag InTag)
 	return nullptr;
 }
 
-void UToroSaveSystem::Initialize(FSubsystemCollectionBase& Collection)
+void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 	const UToroRuntimeSettings* Settings = UToroRuntimeSettings::Get();
@@ -30,7 +30,7 @@ void UToroSaveSystem::Initialize(FSubsystemCollectionBase& Collection)
 	}
 }
 
-void UToroSaveSystem::Deinitialize()
+void UToroSaveManager::Deinitialize()
 {
 	for (const TPair<FGameplayTag, TObjectPtr<UToroSaveObject>>& Obj : SaveObjects)
 	{

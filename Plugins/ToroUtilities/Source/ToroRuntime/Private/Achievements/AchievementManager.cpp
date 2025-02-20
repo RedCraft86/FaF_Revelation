@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Achievements/AchievementManager.h"
-#include "SaveSystem/ToroSaveSystem.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "ToroRuntimeSettings.h"
 
 void UAchievementManager::Grant(const FGameplayTag InTag, const uint8 Value)
@@ -40,7 +40,7 @@ bool UAchievementManager::HasAchievement(const FGameplayTag InTag)
 UGlobalSaveObjectBase* UAchievementManager::GetSaveObject()
 {
 	if (SaveObject) return SaveObject;
-	if (UToroSaveSystem* SaveSystem = UToroSaveSystem::Get(this))
+	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
 	{
 		SaveObject = SaveSystem->GetSaveObject<UGlobalSaveObjectBase>(Tag_GlobalSave);
 	}
