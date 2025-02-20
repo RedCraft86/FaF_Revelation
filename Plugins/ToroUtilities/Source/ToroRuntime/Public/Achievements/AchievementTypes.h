@@ -27,7 +27,10 @@ struct TORORUNTIME_API FAchievementEntry
 	UPROPERTY(EditAnywhere, Category = Achievement)
 		FText Description;
 
-	FAchievementEntry() {}
+	UPROPERTY(EditAnywhere, Category = Achievement, meta = (ClampMin = 1, UIMin = 1))
+		uint8 Requirement;
+
+	FAchievementEntry() : Requirement(1) {}
 	bool IsValidData() const { return !Icon.IsNull() && !Name.IsEmptyOrWhitespace(); }
 };
 
