@@ -5,10 +5,10 @@
 #include "ExecPinEnums.h"
 #include "ToroGameInstance.h"
 #include "GameplayTagContainer.h"
-#include "ToroNarrativeComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameModeBase.h"
 #include "Inventory/InventoryComponent.h"
+#include "Narrative/ToroNarrativeComponent.h"
 #include "ToroGameMode.generated.h"
 
 UCLASS()

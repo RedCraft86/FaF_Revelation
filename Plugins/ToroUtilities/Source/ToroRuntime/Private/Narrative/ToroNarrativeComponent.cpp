@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Framework/ToroNarrativeComponent.h"
+#include "Narrative/ToroNarrativeComponent.h"
 #include "Framework/ToroGameMode.h"
 
 UToroNarrativeComponent* UToroNarrativeComponent::Get(const UObject* WorldContext)
