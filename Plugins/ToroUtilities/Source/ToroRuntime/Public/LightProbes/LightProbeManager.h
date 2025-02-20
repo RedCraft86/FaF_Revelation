@@ -13,7 +13,7 @@ inline FName ParamName(const uint8 Idx, const bool bPos)
 		bPos ? TEXT("Position") : TEXT("Color"), Idx + 1);
 }
 
-UCLASS()
+UCLASS(BlueprintType, DisplayName = "Light Probes")
 class TORORUNTIME_API ULightProbeManager final : public UTickableWorldSubsystem
 {
 	GENERATED_BODY()

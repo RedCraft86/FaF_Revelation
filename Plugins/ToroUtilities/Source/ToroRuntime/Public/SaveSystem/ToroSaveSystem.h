@@ -8,7 +8,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ToroSaveSystem.generated.h"
 
-UCLASS(BlueprintType)
+UCLASS(BlueprintType, DisplayName = "Save Manager")
 class TORORUNTIME_API UToroSaveSystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
