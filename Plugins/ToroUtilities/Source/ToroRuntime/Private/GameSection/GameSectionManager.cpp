@@ -16,25 +16,19 @@ void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag S
 	Sequence = Graph->ValidateSequence(Sequence);
 	ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
 	
-	if (UToroSaveSystem* System = UToroSaveSystem::Get(this))
+	if (UGameSaveObjectBase* Save = GetSaveObject(SaveTag))
 	{
-		if (UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(SaveTag))
-		{
-			Save->Sequence = Sequence;
-		}
+		Save->Sequence = Sequence;
 	}
 }
 
 void UGameSectionManager::LoadSequence(const FGameplayTag SaveTag)
 {
-	if (!Graph || !SaveTag.IsValid() || SaveTag == Tag_Saves) return;
-	if (UToroSaveSystem* System = UToroSaveSystem::Get(this))
+	if (!Graph) return;
+	if (const UGameSaveObjectBase* Save = GetSaveObject(SaveTag))
 	{
-		if (const UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(SaveTag))
-		{
-			Sequence = Graph->ValidateSequence(Save->Sequence);
-			ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
-		}
+		Sequence = Graph->ValidateSequence(Save->Sequence);
+		ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
 	}
 }
 
@@ -82,18 +76,15 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 		if (Section) GameMode->Narrative->ForgetQuest(Section->Quest.LoadSynchronous());
 		GameMode->Narrative->BeginQuest(NewSection->Quest.LoadSynchronous());
 
-		if (UToroSaveSystem* System = UToroSaveSystem::Get(this))
+		if (UGameSaveObjectBase* Save = GetSaveObject(SaveTag))
 		{
-			if (UGameSaveObjectBase* Save = System->GetSaveObject<UGameSaveObjectBase>(SaveTag))
+			if (Section)
 			{
-				if (Section)
-				{
-					Save->Inventory.Add(NewSection->NodeID, GameMode->Inventory->GetSaveData());
-				}
-				else
-				{
-					GameMode->Inventory->SetSaveData(Save->Inventory.FindRef(NewSection->NodeID));
-				}
+				Save->Inventory.Add(NewSection->NodeID, GameMode->Inventory->GetSaveData());
+			}
+			else
+			{
+				GameMode->Inventory->SetSaveData(Save->Inventory.FindRef(NewSection->NodeID));
 			}
 		}
 
@@ -213,6 +204,21 @@ void UGameSectionManager::OnEndSequenceFinished()
 	}
 
 	bLoading = false;
+}
+
+UGameSaveObjectBase* UGameSectionManager::GetSaveObject(const FGameplayTag& SaveTag)
+{
+	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != Tag_Saves ? SaveTag : Tag_GameSave;
+	
+	if (LastSaveTag == Tag && SaveObject) return SaveObject;
+	if (UToroSaveSystem* SaveSystem = UToroSaveSystem::Get(this))
+	{
+		LastSaveTag = Tag;
+		SaveObject = SaveSystem->GetSaveObject<UGameSaveObjectBase>(Tag);
+		return SaveObject;
+	}
+
+	return nullptr;
 }
 
 bool UGameSectionManager::ShouldCreateSubsystem(UObject* Outer) const

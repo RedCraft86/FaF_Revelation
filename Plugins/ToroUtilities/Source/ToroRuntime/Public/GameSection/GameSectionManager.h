@@ -9,7 +9,7 @@
 #include "SaveSystem/BaseSaveObjects.h"
 #include "GameSectionManager.generated.h"
 
-UCLASS(BlueprintType)
+UCLASS(BlueprintType, DisplayName = "Game Section")
 class TORORUNTIME_API UGameSectionManager final : public UWorldSubsystem
 {
 	GENERATED_BODY()
@@ -19,14 +19,14 @@ public:
 	UGameSectionManager() : bLoading(false), bWaiting(false), bMainLevelLoaded(false) {}
 	WORLD_SUBSYSTEM_GETTER(UGameSectionManager);
 
-	UFUNCTION(BlueprintCallable, Category = GameSection)
+	UFUNCTION(BlueprintCallable, Category = GameSection, meta = (SaveTag = "Saves.Game"))
 		void StepSequence(const uint8 InIndex, UPARAM(meta = (Categories = "Saves")) const FGameplayTag SaveTag);
 
-	UFUNCTION(BlueprintCallable, Category = GameSection, meta = (InTag = "Saves.Game"))
+	UFUNCTION(BlueprintCallable, Category = GameSection, meta = (SaveTag = "Saves.Game"))
 		void LoadSequence(UPARAM(meta = (Categories = "Saves")) const FGameplayTag SaveTag);
 
-	UFUNCTION(BlueprintCallable, Category = GameSection)
-		void ChangeSection(UGameSectionNode* NewSection, const FGameplayTag SaveTag);
+	UFUNCTION(BlueprintCallable, Category = GameSection, meta = (SaveTag = "Saves.Game"))
+		void ChangeSection(UGameSectionNode* NewSection, UPARAM(meta = (Categories = "Saves")) const FGameplayTag SaveTag);
 
 	UFUNCTION(BlueprintPure, Category = GameSection)
 		bool IsLoading() const { return bLoading; }
@@ -52,6 +52,8 @@ private:
 	UPROPERTY() TObjectPtr<AActor> UltraDynamicSky;
 	UPROPERTY() TObjectPtr<UGameSectionNode> Section;
 	UPROPERTY() TObjectPtr<UGameSectionGraph> Graph;
+	UPROPERTY() TObjectPtr<UGameSaveObjectBase> SaveObject;
+	UPROPERTY() FGameplayTag LastSaveTag;
 
 	void SetWidgetHidden(const bool bInHidden);
 	void DelayedShowWidget() { SetWidgetHidden(false); }
@@ -63,6 +65,7 @@ private:
 	void OnStartSequenceFinished();
 	void OnEndSequenceFinished();
 
+	UGameSaveObjectBase* GetSaveObject(const FGameplayTag& SaveTag);
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
