@@ -6,7 +6,7 @@
 #include "SectionLoadWidget.generated.h"
 
 UCLASS(Abstract)
-class TORORUNTIME_API USectionLoadWidget final : public UToroWidget
+class TORORUNTIME_API USectionLoadWidget : public UToroWidget
 {
 	GENERATED_BODY()
 
@@ -14,6 +14,6 @@ public:
 
 	USectionLoadWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	{
-		ZOrder = 100;
+		ZOrder = 60;
 	}
 };

@@ -1,0 +1,6 @@
+﻿Interact ------------ 55
+Info ---------------- 56
+Narrative ----------- 57
+Inventory ----------- 58
+Pause + Settings ---- 59
+Loading ------------- 60
