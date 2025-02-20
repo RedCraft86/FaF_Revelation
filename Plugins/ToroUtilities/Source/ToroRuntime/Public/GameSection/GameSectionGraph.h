@@ -52,8 +52,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Level|Sequences")
 		TSoftObjectPtr<AToroSequenceActor> EndSequence;
 
-	UPROPERTY(EditAnywhere, Category = Game)
-		FGameplayTagContainer UnlockContent; // TODO
+	UPROPERTY(EditAnywhere, Category = Game, meta = (Categories = "Content"))
+		TSet<FGameplayTag> UnlockContent;
 
 	UPROPERTY(EditAnywhere, Category = Game)
 		TSoftClassPtr<UQuest> Quest;

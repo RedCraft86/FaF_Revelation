@@ -7,6 +7,8 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogToroRuntime, All, All);
 
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Content);
+
 class FToroRuntimeModule final : public IModuleInterface
 {
 public:

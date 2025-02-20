@@ -16,7 +16,7 @@ void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag S
 	Sequence = Graph->ValidateSequence(Sequence);
 	ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
 	
-	if (UGameSaveObjectBase* Save = GetSaveObject(SaveTag))
+	if (UGameSaveObjectBase* Save = GetGameSave(SaveTag))
 	{
 		Save->Sequence = Sequence;
 	}
@@ -25,7 +25,7 @@ void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag S
 void UGameSectionManager::LoadSequence(const FGameplayTag SaveTag)
 {
 	if (!Graph) return;
-	if (const UGameSaveObjectBase* Save = GetSaveObject(SaveTag))
+	if (const UGameSaveObjectBase* Save = GetGameSave(SaveTag))
 	{
 		Sequence = Graph->ValidateSequence(Save->Sequence);
 		ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
@@ -76,7 +76,7 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 		if (Section) GameMode->Narrative->ForgetQuest(Section->Quest.LoadSynchronous());
 		GameMode->Narrative->BeginQuest(NewSection->Quest.LoadSynchronous());
 
-		if (UGameSaveObjectBase* Save = GetSaveObject(SaveTag))
+		if (UGameSaveObjectBase* Save = GetGameSave(SaveTag))
 		{
 			if (Section)
 			{
@@ -89,6 +89,11 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 		}
 
 		GameMode->Inventory->EnsureItems(Section->Inventory);
+	}
+
+	if (UGlobalSaveObjectBase* Save = GetGlobalSave())
+	{
+		Save->Content.Append(NewSection->UnlockContent);
 	}
 
 	Section = NewSection;
@@ -206,16 +211,27 @@ void UGameSectionManager::OnEndSequenceFinished()
 	bLoading = false;
 }
 
-UGameSaveObjectBase* UGameSectionManager::GetSaveObject(const FGameplayTag& SaveTag)
+UGlobalSaveObjectBase* UGameSectionManager::GetGlobalSave()
+{
+	if (GlobalSave) return GlobalSave;
+	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
+	{
+		GlobalSave = SaveSystem->GetSaveObject<UGlobalSaveObjectBase>(Tag_GlobalSave);
+	}
+
+	return GlobalSave;
+}
+
+UGameSaveObjectBase* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 {
 	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != Tag_Saves ? SaveTag : Tag_GameSave;
 	
-	if (LastSaveTag == Tag && SaveObject) return SaveObject;
+	if (LastSaveTag == Tag && GameSave) return GameSave;
 	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
 	{
 		LastSaveTag = Tag;
-		SaveObject = SaveSystem->GetSaveObject<UGameSaveObjectBase>(Tag);
-		return SaveObject;
+		GameSave = SaveSystem->GetSaveObject<UGameSaveObjectBase>(Tag);
+		return GameSave;
 	}
 
 	return nullptr;

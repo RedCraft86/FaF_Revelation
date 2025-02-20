@@ -52,7 +52,8 @@ private:
 	UPROPERTY() TObjectPtr<AActor> UltraDynamicSky;
 	UPROPERTY() TObjectPtr<UGameSectionNode> Section;
 	UPROPERTY() TObjectPtr<UGameSectionGraph> Graph;
-	UPROPERTY() TObjectPtr<UGameSaveObjectBase> SaveObject;
+	UPROPERTY() TObjectPtr<UGlobalSaveObjectBase> GlobalSave;
+	UPROPERTY() TObjectPtr<UGameSaveObjectBase> GameSave;
 	UPROPERTY() FGameplayTag LastSaveTag;
 
 	void SetWidgetHidden(const bool bInHidden);
@@ -65,7 +66,8 @@ private:
 	void OnStartSequenceFinished();
 	void OnEndSequenceFinished();
 
-	UGameSaveObjectBase* GetSaveObject(const FGameplayTag& SaveTag);
+	UGlobalSaveObjectBase* GetGlobalSave();
+	UGameSaveObjectBase* GetGameSave(const FGameplayTag& SaveTag);
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
