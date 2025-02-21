@@ -26,7 +26,7 @@ public:
 	USettingTooltipBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 	
 	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> TooltipText;
+		TObjectPtr<UTextBlock> DescText;
 
 	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> PerformanceText;

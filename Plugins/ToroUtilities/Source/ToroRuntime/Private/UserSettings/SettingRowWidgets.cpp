@@ -6,7 +6,7 @@ void USettingTooltipBase::UpdateTooltip(const USettingRowBase* InRow) const
 {
 	if (InRow)
 	{
-		TooltipText->SetText(InRow->ToolTipText);
+		DescText->SetText(InRow->GetToolTipText());
 		PerformanceText->SetVisibility(ESlateVisibility::Collapsed);
 		switch (InRow->Performance)
 		{
@@ -25,7 +25,7 @@ void USettingTooltipBase::UpdateTooltip(const USettingRowBase* InRow) const
 				PerformanceText->SetText(INVTEXT("Impact: High"));
 				PerformanceText->SetColorAndOpacity(FLinearColor::Red);
 			} break;
-		case default:
+		default:
 			PerformanceText->SetVisibility(ESlateVisibility::HitTestInvisible);
 		}
 	}
@@ -33,7 +33,7 @@ void USettingTooltipBase::UpdateTooltip(const USettingRowBase* InRow) const
 
 void USettingRowBase::OnLabelHover()
 {
-	if (const USettingTooltipBase* SettingTooltip = Cast<USettingTooltipBase>(ToolTipWidget))
+	if (const USettingTooltipBase* SettingTooltip = Cast<USettingTooltipBase>(GetToolTip()))
 	{
 		SettingTooltip->UpdateTooltip(this);
 	}
