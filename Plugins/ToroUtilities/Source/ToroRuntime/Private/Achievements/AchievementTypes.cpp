@@ -48,7 +48,7 @@ FAchievementEntry UAchievementDatabase::Get(const FGameplayTag& Key)
 }
 
 #if WITH_EDITOR
-void UAchievementDatabase::UpdateAchievements()
+void UAchievementDatabase::UpdateEntries()
 {
 	for (TPair<FGameplayTag, FAchievementEntry>& Entry : Entries)
 	{
@@ -70,12 +70,12 @@ void UAchievementDatabase::UpdateAchievements()
 void UAchievementDatabase::PostLoad()
 {
 	Super::PostLoad();
-	UpdateAchievements();
+	UpdateEntries();
 }
 
 void UAchievementDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
-	UpdateAchievements();
+	UpdateEntries();
 }
 #endif

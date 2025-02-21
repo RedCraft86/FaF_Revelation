@@ -67,7 +67,7 @@ FLocalSoundEntry ULocalSoundDatabase::Get(const FGameplayTag& Key)
 }
 
 #if WITH_EDITOR
-void ULocalSoundDatabase::UpdateSounds()
+void ULocalSoundDatabase::UpdateEntries()
 {
 	for (TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
 	{
@@ -90,13 +90,13 @@ void ULocalSoundDatabase::UpdateSounds()
 void ULocalSoundDatabase::PostLoad()
 {
 	Super::PostLoad();
-	UpdateSounds();
+	UpdateEntries();
 }
 
 void ULocalSoundDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
-	UpdateSounds();
+	UpdateEntries();
 }
 #endif
 

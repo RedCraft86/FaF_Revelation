@@ -66,7 +66,7 @@ public:
 	
 #if WITH_EDITOR
 private:
-	void UpdateSounds();
+	void UpdateEntries();
 	virtual void PostLoad() override;
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
