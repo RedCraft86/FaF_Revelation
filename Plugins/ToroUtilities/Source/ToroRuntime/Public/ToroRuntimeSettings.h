@@ -21,7 +21,7 @@ class TORORUNTIME_API UToroRuntimeSettings final : public UDeveloperSettings
 
 public:
 
-	UToroRuntimeSettings()
+	UToroRuntimeSettings() : WordsPerSecond(2)
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroRuntime");
@@ -30,7 +30,7 @@ public:
 			{Tag_GlobalSave, UGlobalSaveObjectBase::StaticClass()},
 			{Tag_GameSave, UGameSaveObjectBase::StaticClass()},
 		};
-		
+
 		bUseLightProbes = true;
 		LightProbePPM_8 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_8.PPMI_LightProbe_8"));
 		LightProbePPM_16 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_16.PPMI_LightProbe_16"));
@@ -40,7 +40,7 @@ public:
 	}
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings)
-	
+
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
@@ -58,6 +58,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftClassPtr<AActor> UltraDynamicSky;
+	
+	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (ClampMin = 0, UIMin = 0))
+		uint8 WordsPerSecond;
 
 	UPROPERTY(Config, EditAnywhere, Category = GameSection)
 		TSoftObjectPtr<UWorld> GameplayMap;
@@ -95,6 +98,13 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings, meta = (ArraySizeEnum = "/Script/ToroRuntime.ESoundClassType"))
 		TSoftObjectPtr<USoundClass> SoundClasses[static_cast<uint8>(ESoundClassType::MAX)];
 
+	float GetReadingTime(const FString& InString) const
+	{
+		TArray<FString> Words;
+		InString.ParseIntoArray(Words, TEXT(" "));
+		return Words.Num() / FMath::Max(1.0f, (float)WordsPerSecond);
+	}
+	
 	bool IsOnGameplayMap(const UObject* WorldContext) const
 	{
 		if (GameplayMap.IsNull()) return false;
