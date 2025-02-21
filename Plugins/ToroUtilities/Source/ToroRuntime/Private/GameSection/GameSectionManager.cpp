@@ -56,7 +56,7 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 		if (!Level.IsNull() && !ToLoad.Contains(Level)) ToUnload.Add(Level);
 	}
 
-	if (ToUnload.IsEmpty())
+	if (ToUnload.IsEmpty() || !NewSection->StartSequence)
 	{
 		SetWidgetHidden(false);
 		UToroShortcutLibrary::SetCameraFade(this, 1.0f, FLinearColor::Black, true);
@@ -152,7 +152,7 @@ void UGameSectionManager::OnMainLevelLoaded()
 {
 	if (!Section) return;
 	bMainLevelLoaded = true;
-	if (ToUnload.IsEmpty())
+	if (ToUnload.IsEmpty() || !Section->StartSequence)
 	{
 		Section->Teleport->TeleportPlayer();
 		UToroShortcutLibrary::StartCameraFade(this, 1.0f, 0.0f, 2.0f);
