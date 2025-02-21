@@ -26,6 +26,7 @@ public class ToroRuntime : ModuleRules
                 "CinematicCamera",
                 "MetasoundEngine",
                 "GameplayTags",
+                "InputCore",
                 "CommonUI",
                 "ToroCore",
                 "DataGraph",

@@ -5,6 +5,7 @@
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
+#include "GuidePages/GuidePageTypes.h"
 #include "SaveSystem/BaseSaveObjects.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "MusicSystem/LocalSoundTypes.h"
@@ -40,15 +41,18 @@ public:
 	}
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings)
-
-	UPROPERTY(Config, EditAnywhere, Category = Runtime)
-		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<ULocalSoundDatabase> LocalSoundDatabase;
+	
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UGuidePageDatabase> GuidePageDatabase;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UExpressiveTextStyleBase> DefaultTextStyle;
