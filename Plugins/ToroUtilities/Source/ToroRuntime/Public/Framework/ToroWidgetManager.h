@@ -61,10 +61,10 @@ public:
 		void RemoveControlEntry(const UInputAction* InAction);
 
 	UFUNCTION(BlueprintCallable, Category = GuidePage)
-		void QueueGuidePage(UPARAM(meta = (Categories = "GuidePages")) const FGameplayTag PageID);
+		void QueueGuidePage(UPARAM(meta = (Categories = "GuidePages")) const FGameplayTag InPageID);
 
 	UFUNCTION(BlueprintCallable, Category = GuidePage)
-		void QueueGuidePages(UPARAM(meta = (Categories = "GuidePages")) const TArray<FGameplayTag>& PageIDs);
+		void QueueGuidePages(UPARAM(meta = (Categories = "GuidePages")) const TArray<FGameplayTag>& InPageIDs);
 
 protected:
 

@@ -1,9 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroWidgetManager.h"
-#include "ToroRuntimeSettings.h"
-#include "GuidePages/GuideWidgetBase.h"
 #include "UserWidgets/MessageWidgetBase.h"
+#include "GuidePages/GuideWidgetBase.h"
+#include "ToroRuntimeSettings.h"
 
 AToroWidgetManager::AToroWidgetManager()
 {
@@ -92,19 +92,19 @@ void AToroWidgetManager::RemoveControlEntry(const UInputAction* InAction)
 	}
 }
 
-void AToroWidgetManager::QueueGuidePage(const FGameplayTag PageID)
+void AToroWidgetManager::QueueGuidePage(const FGameplayTag InPageID)
 {
 	if (UGuideWidgetBase* Widget = FindWidget<UGuideWidgetBase>())
 	{
-		// TODO: QueueGuidePage
+		Widget->QueuePage(InPageID);
 	}
 }
 
-void AToroWidgetManager::QueueGuidePages(const TArray<FGameplayTag>& PageIDs)
+void AToroWidgetManager::QueueGuidePages(const TArray<FGameplayTag>& InPageIDs)
 {
 	if (UGuideWidgetBase* Widget = FindWidget<UGuideWidgetBase>())
 	{
-		// TODO: QueueGuidePages
+		Widget->QueuePages(InPageIDs);
 	}
 }
 

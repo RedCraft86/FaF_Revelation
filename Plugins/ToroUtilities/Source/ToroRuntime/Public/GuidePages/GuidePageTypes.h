@@ -22,7 +22,7 @@ struct TORORUNTIME_API FGuidePageEntry
 		TSoftClassPtr<UUserWidget> CustomWidget;
 
 	UPROPERTY(EditAnywhere, Category = GuidePage, meta = (EditCondition = "CustomWidget == nullptr"))
-		FText Name;
+		FText Title;
 
 	UPROPERTY(EditAnywhere, Category = GuidePage, meta = (EditCondition = "CustomWidget == nullptr", MultiLine = true))
 		FText Description;
@@ -32,14 +32,14 @@ struct TORORUNTIME_API FGuidePageEntry
 	
 	FGuidePageEntry()
 		: CustomWidget(nullptr)
-		, Name(INVTEXT(""))
+		, Title(INVTEXT(""))
 		, Description(INVTEXT(""))
 		, Image(nullptr)
 	{}
 
 	FORCEINLINE bool IsValidData() const
 	{
-		return !CustomWidget.IsNull() || (!Name.IsEmptyOrWhitespace() && !Description.IsEmptyOrWhitespace());
+		return !CustomWidget.IsNull() || (!Title.IsEmptyOrWhitespace() && !Description.IsEmptyOrWhitespace());
 	}
 };
 

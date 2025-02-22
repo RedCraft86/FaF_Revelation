@@ -63,7 +63,7 @@ void UGuidePageDatabase::UpdateEntries()
 		else
 		{
 			Entry.Value.Label = Entry.Value.CustomWidget.IsNull() ?
-				Entry.Value.Name.ToString() : Entry.Value.CustomWidget.GetAssetName();
+				Entry.Value.Title.ToString() : Entry.Value.CustomWidget.GetAssetName();
 		}
 	}
 }
