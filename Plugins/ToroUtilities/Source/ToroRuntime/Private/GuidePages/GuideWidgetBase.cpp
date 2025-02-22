@@ -3,12 +3,12 @@
 #include "GuidePages/GuideWidgetBase.h"
 #include "Animation/UMGSequencePlayer.h"
 #include "UserWidgets/ExprTextBlock.h"
+#include "Components/WidgetSwitcher.h"
 #include "Components/TextBlock.h"
 #include "Components/SizeBox.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "ToroRuntimeSettings.h"
-#include "Components/WidgetSwitcher.h"
 
 UGuideWidgetBase::UGuideWidgetBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), ImageHeight(0), bPrePauseState(false)
