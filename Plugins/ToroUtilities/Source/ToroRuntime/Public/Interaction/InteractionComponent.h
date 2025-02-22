@@ -66,6 +66,7 @@ private:
 	UPROPERTY() bool bInteracting;
 	UPROPERTY() FInteractionData InteractCache;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerBase> Player;
+	UPROPERTY(Transient) TObjectPtr<class UGameWidgetBase> Widget;
 
 	void CleanupInteraction();
 	void HandleInteractionTick(float DeltaTime, const FHitResult& HitResult, const FInteractionInfo& InteractResult);

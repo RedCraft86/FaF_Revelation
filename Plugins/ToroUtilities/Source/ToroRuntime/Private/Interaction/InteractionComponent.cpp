@@ -2,6 +2,7 @@
 
 #include "Interaction/InteractionComponent.h"
 #include "Framework/ToroWidgetManager.h"
+#include "UserWidgets/GameWidgetBase.h"
 #include "Characters/ToroPlayerBase.h"
 
 UInteractionComponent::UInteractionComponent() : bEnabled(false), HoldTime(0.0f), bInteracting(false)
@@ -12,20 +13,18 @@ UInteractionComponent::UInteractionComponent() : bEnabled(false), HoldTime(0.0f)
 
 void UInteractionComponent::SetEnabled(const bool bInEnabled)
 {
-	
-	// TODO: Manage widget
-	// if (!Widget)
-	// {
-	// 	bEnabled = false;
-	// 	SetComponentTickEnabled(false);
-	// 	SetInteracting(false);
-	// }
+	if (!Widget)
+	{
+		bEnabled = false;
+		SetComponentTickEnabled(false);
+		SetInteracting(false);
+	}
 	
 	if (bEnabled != bInEnabled)
 	{
 		bEnabled = bInEnabled;
 		SetComponentTickEnabled(bInEnabled);
-		// TODO: Manage widget
+		Widget->SetInteractionHidden(!bInEnabled);
 		if (!bInEnabled ) SetInteracting(false);
 	}
 }
@@ -108,7 +107,7 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 		CleanupInteraction();
 	}
 	
-	// TODO: Manage widget
+	Widget->UpdateInteraction(InteractCache);
 }
 
 void UInteractionComponent::BeginPlay()
@@ -117,6 +116,11 @@ void UInteractionComponent::BeginPlay()
 	Player = AToroPlayerBase::Get(this);
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
-		// TODO: Manage widget
+		Widget = Manager->FindWidget<UGameWidgetBase>();
+		if (!bEnabled)
+		{
+			Widget->SetInteractionHidden(true);
+			SetComponentTickEnabled(false);
+		}
 	}
 }
