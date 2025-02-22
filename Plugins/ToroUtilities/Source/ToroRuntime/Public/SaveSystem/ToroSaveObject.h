@@ -9,6 +9,9 @@
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Saves);
 
+class UToroSaveManager;
+class UInfoWidgetBase;
+
 UENUM(BlueprintInternalUseOnly)
 enum class ESaveGameError : uint8
 {
@@ -49,7 +52,7 @@ public:
 
 	UToroSaveObject() : LastError(ESaveGameError::None) {}
 
-	static UToroSaveObject* Create(UObject* Owner, const TSubclassOf<UToroSaveObject>& Class, const FGameplayTag& Tag);
+	static UToroSaveObject* Create(UToroSaveManager* Owner, const TSubclassOf<UToroSaveObject>& Class, const FGameplayTag& Tag);
 
 	UFUNCTION(BlueprintPure, Category = SaveObject)
 		ESaveGameError GetLastError() const { return LastError; }
@@ -67,5 +70,9 @@ protected:
 	UPROPERTY() FString SavePath;
 	UPROPERTY() FGameplayTag SaveTag;
 	UPROPERTY() ESaveGameError LastError;
+	UPROPERTY(Transient) TObjectPtr<UToroSaveManager> SaveManager;
+	UPROPERTY(Transient) TObjectPtr<UInfoWidgetBase> InfoWidget;
+	
+	UInfoWidgetBase* GetWidget();
 	virtual void SerializeData(FArchive& Ar) {}
 };

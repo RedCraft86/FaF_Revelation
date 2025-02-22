@@ -1,6 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "SaveSystem/ToroSaveObject.h"
+#include "UserWidgets/InfoWidgetBase.h"
+#include "SaveSystem/ToroSaveManager.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Serialization/BufferArchive.h"
 #include "ToroRuntimeSettings.h"
 #include "CompressionHelpers.h"
@@ -14,7 +17,7 @@ FString GetDemoStr()
 	return Str.IsEmpty() || Str == TEXT(" ") || Str.TrimStartAndEnd().IsEmpty() ? TEXT("") : Str;
 }
 
-UToroSaveObject* UToroSaveObject::Create(UObject* Owner, const TSubclassOf<UToroSaveObject>& Class, const FGameplayTag& Tag)
+UToroSaveObject* UToroSaveObject::Create(UToroSaveManager* Owner, const TSubclassOf<UToroSaveObject>& Class, const FGameplayTag& Tag)
 {
 	if (Owner && Class && Tag.IsValid() && Tag != Tag_Saves)
 	{
@@ -25,7 +28,8 @@ UToroSaveObject* UToroSaveObject::Create(UObject* Owner, const TSubclassOf<UToro
 			NewObj->SaveTag = Tag;
 			NewObj->SavePath = FPaths::MakeValidFileName(FString::Printf(TEXT("%sSaveGames/%s/%s.tsave"),
 				*FPaths::ProjectSavedDir(), *GetDemoStr(), *Name).Replace(TEXT("//"), TEXT("/")));
-
+			NewObj->SaveManager = Owner;
+			
 			NewObj->OnCreation();
 			NewObj->LoadObject(nullptr);
 			UE_LOG(LogTemp, Warning, TEXT("Created Save Slot For: %s"), *NewObj->SavePath);
@@ -81,6 +85,11 @@ void UToroSaveObject::SaveObject(const TFunction<void(const ESaveGameError)>& Ca
 
 	ToBinary.FlushCache();
 	ToBinary.Close();
+
+	if (UInfoWidgetBase* Widget = GetWidget())
+	{
+		Widget->OnSaveLoad(nullptr);
+	}
 }
 
 void UToroSaveObject::LoadObject(const TFunction<void(const ESaveGameError)>& Callback)
@@ -136,4 +145,20 @@ void UToroSaveObject::LoadObject(const TFunction<void(const ESaveGameError)>& Ca
 			if (Callback) Callback(LastError);
 		}
 	});
+
+	if (UInfoWidgetBase* Widget = GetWidget())
+	{
+		Widget->OnSaveLoad(nullptr);
+	}
+}
+
+UInfoWidgetBase* UToroSaveObject::GetWidget()
+{
+	if (InfoWidget) return InfoWidget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		InfoWidget = Manager->FindWidget<UInfoWidgetBase>();
+	}
+
+	return InfoWidget;
 }
