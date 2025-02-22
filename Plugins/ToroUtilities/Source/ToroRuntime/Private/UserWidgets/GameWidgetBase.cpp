@@ -81,7 +81,15 @@ void UGameWidgetBase::InitWidget()
 
 bool UGameWidgetBase::ShouldBeHidden()
 {
-	return Super::ShouldBeHidden() || IsValid(WorldSettings->GetPauserPlayerState());
+	if (Super::ShouldBeHidden() || IsValid(WorldSettings->GetPauserPlayerState()))
+	{
+		return true;
+	}
+	if (const AToroGameMode* GameMode = GetGameMode<AToroGameMode>())
+	{
+		return GameMode->Narrative->IsInDialogue();
+	}
+	return false;
 }
 
 void UGameWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

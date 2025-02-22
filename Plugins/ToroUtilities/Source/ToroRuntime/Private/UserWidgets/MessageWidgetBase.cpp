@@ -18,7 +18,6 @@ UMessageWidgetBase::UMessageWidgetBase(const FObjectInitializer& ObjectInitializ
 	: Super(ObjectInitializer), bControlBarState(false)
 {
 	ZOrder = 55;
-
 	ControlDividerBrush.TintColor = FLinearColor::Gray;
 	ControlDividerBrush.DrawAs = ESlateBrushDrawType::RoundedBox;
 	ControlDividerBrush.ImageSize = FVector2D(4.0f, 32.0f);
@@ -227,7 +226,15 @@ void UMessageWidgetBase::InitWidget()
 
 bool UMessageWidgetBase::ShouldBeHidden()
 {
-	return Super::ShouldBeHidden() || IsValid(WorldSettings->GetPauserPlayerState());
+	if (Super::ShouldBeHidden() || IsValid(WorldSettings->GetPauserPlayerState()))
+	{
+		return true;
+	}
+	if (const AToroGameMode* GameMode = GetGameMode<AToroGameMode>())
+	{
+		return GameMode->Narrative->IsInDialogue();
+	}
+	return false;
 }
 
 UControlEntryWidgetBase::UControlEntryWidgetBase(const FObjectInitializer& ObjectInitializer)

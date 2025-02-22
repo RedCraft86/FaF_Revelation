@@ -1,5 +1,5 @@
 ﻿Game ---------------- 55
-Info ---------------- 55
+Message ------------- 55
 Narrative ----------- 56
 Inventory ----------- 57
 Pause + Settings ---- 58
