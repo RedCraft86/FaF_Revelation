@@ -25,10 +25,10 @@ public:
 
 	USettingTooltipBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 	
-	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> DescText;
 
-	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> PerformanceText;
 
 	void UpdateTooltip(const class USettingRowBase* InRow) const;
@@ -45,13 +45,13 @@ public:
 		: Super(ObjectInitializer), Performance(ESettingPerformance::None)
 	{}
 
-	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> LabelText;
 	
-	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> LabelButton;
 
-	UPROPERTY(BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> ResetButton;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
