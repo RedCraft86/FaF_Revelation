@@ -2,8 +2,10 @@
 
 #pragma once
 
+#include "InputAction.h"
 #include "ExecPinEnums.h"
 #include "Kismet/GameplayStatics.h"
+#include "DataTypes/MessagingTypes.h"
 #include "GameFramework/PlayerState.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "ToroWidgetManager.generated.h"
@@ -39,6 +41,30 @@ public:
 	{
 		return Cast<T>(FindWidget(T::StaticClass()));
 	}
+
+	UFUNCTION(BlueprintCallable, Category = Messaging)
+		void QueueSmallNotice(const FSimpleMessageData& NoticeData, const bool bResetQueue = false);
+
+	UFUNCTION(BlueprintCallable, Category = Messaging)
+		void QueueLargeNotice(const FSimpleMessageData& NoticeData, const bool bResetQueue = false);
+
+	UFUNCTION(BlueprintCallable, Category = Messaging)
+		void QueueSubtitles(const TArray<FSimpleSubtitleData>& Subtitles, const bool bOverride = false);
+
+	UFUNCTION(BlueprintCallable, Category = Messaging)
+		void QueueSubtitle(const FSimpleSubtitleData& SubtitleData, const bool bOverride = false);
+
+	UFUNCTION(BlueprintCallable, Category = Messaging)
+		void AddControlEntry(const UInputAction* InAction);
+
+	UFUNCTION(BlueprintCallable, Category = Messaging)
+		void RemoveControlEntry(const UInputAction* InAction);
+
+	UFUNCTION(BlueprintCallable, Category = GuidePage)
+		void QueueGuidePage(UPARAM(meta = (Categories = "GuidePages")) const FGameplayTag PageID);
+
+	UFUNCTION(BlueprintCallable, Category = GuidePage)
+		void QueueGuidePages(UPARAM(meta = (Categories = "GuidePages")) const TArray<FGameplayTag>& PageIDs);
 
 protected:
 

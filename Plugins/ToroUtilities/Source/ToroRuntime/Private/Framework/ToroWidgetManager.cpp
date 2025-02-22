@@ -2,6 +2,8 @@
 
 #include "Framework/ToroWidgetManager.h"
 #include "ToroRuntimeSettings.h"
+#include "GuidePages/GuideWidgetBase.h"
+#include "UserWidgets/MessageWidgetBase.h"
 
 AToroWidgetManager::AToroWidgetManager()
 {
@@ -40,6 +42,70 @@ UToroWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UToroWidget> Class
 	}
 
 	return nullptr;
+}
+
+void AToroWidgetManager::QueueSmallNotice(const FSimpleMessageData& NoticeData, const bool bResetQueue)
+{
+	if (UMessageWidgetBase* Widget = FindWidget<UMessageWidgetBase>())
+	{
+		Widget->QueueSmallNotice(NoticeData, bResetQueue);
+	}
+}
+
+void AToroWidgetManager::QueueLargeNotice(const FSimpleMessageData& NoticeData, const bool bResetQueue)
+{
+	if (UMessageWidgetBase* Widget = FindWidget<UMessageWidgetBase>())
+	{
+		Widget->QueueLargeNotice(NoticeData, bResetQueue);
+	}
+}
+
+void AToroWidgetManager::QueueSubtitles(const TArray<FSimpleSubtitleData>& Subtitles, const bool bOverride)
+{
+	if (UMessageWidgetBase* Widget = FindWidget<UMessageWidgetBase>())
+	{
+		Widget->QueueSubtitles(Subtitles, bOverride);
+	}
+}
+
+void AToroWidgetManager::QueueSubtitle(const FSimpleSubtitleData& SubtitleData, const bool bOverride)
+{
+	if (UMessageWidgetBase* Widget = FindWidget<UMessageWidgetBase>())
+	{
+		Widget->QueueSubtitle(SubtitleData, bOverride);
+	}
+}
+
+void AToroWidgetManager::AddControlEntry(const UInputAction* InAction)
+{
+	if (UMessageWidgetBase* Widget = FindWidget<UMessageWidgetBase>())
+	{
+		Widget->AppendControlEntry(InAction);
+	}
+}
+
+void AToroWidgetManager::RemoveControlEntry(const UInputAction* InAction)
+{
+	if (UMessageWidgetBase* Widget = FindWidget<UMessageWidgetBase>())
+	{
+		Widget->RemoveControlEntry(InAction);
+	}
+}
+
+void AToroWidgetManager::QueueGuidePage(const FGameplayTag PageID)
+{
+	if (UGuideWidgetBase* Widget = FindWidget<UGuideWidgetBase>())
+	{
+		// TODO: QueueGuidePage
+	}
+}
+
+void AToroWidgetManager::QueueGuidePages(const TArray<FGameplayTag>& PageIDs)
+{
+	if (UGuideWidgetBase* Widget = FindWidget<UGuideWidgetBase>())
+	{
+		// TODO: QueueGuidePages
+	}
 }
 
 void AToroWidgetManager::BeginPlay()
