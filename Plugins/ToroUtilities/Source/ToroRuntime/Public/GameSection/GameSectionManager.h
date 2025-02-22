@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameSectionGraph.h"
-#include "SectionLoadWidget.h"
+#include "LoadingWidgetBase.h"
 #include "ClassGetterHelpers.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "SaveSystem/BaseSaveObjects.h"
@@ -46,7 +46,7 @@ private:
 	UPROPERTY() FTimerHandle WidgetTimer;
 	UPROPERTY() TSet<TSoftObjectPtr<UWorld>> ToLoad;
 	UPROPERTY() TSet<TSoftObjectPtr<UWorld>> ToUnload;
-	UPROPERTY() TObjectPtr<USectionLoadWidget> Widget;
+	UPROPERTY() TObjectPtr<ULoadingWidgetBase> Widget;
 
 	UPROPERTY() TArray<uint8> Sequence;
 	UPROPERTY() TObjectPtr<AActor> UltraDynamicSky;

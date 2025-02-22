@@ -14,6 +14,6 @@ public:
 
 	UNarrativeWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	{
-		ZOrder = 57;
+		ZOrder = 56;
 	}
 };

@@ -14,6 +14,6 @@ public:
 
 	USettingsWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	{
-		ZOrder = 59;
+		ZOrder = 58;
 	}
 };

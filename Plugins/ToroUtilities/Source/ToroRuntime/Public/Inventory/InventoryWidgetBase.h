@@ -24,7 +24,7 @@ public:
 
 	UInventoryWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	{
-		ZOrder = 58;
+		ZOrder = 57;
 	}
 
 	UPROPERTY(EditAnywhere, Category = Settings)

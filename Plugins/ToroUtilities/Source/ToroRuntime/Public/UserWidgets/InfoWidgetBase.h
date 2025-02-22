@@ -14,6 +14,6 @@ public:
 
 	UInfoWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	{
-		ZOrder = 56;
+		ZOrder = 55;
 	}
 };

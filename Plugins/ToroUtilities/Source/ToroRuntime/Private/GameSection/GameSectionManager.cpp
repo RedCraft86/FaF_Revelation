@@ -105,7 +105,7 @@ void UGameSectionManager::SetWidgetHidden(const bool bInHidden)
 	{
 		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 		{
-			Widget = Manager->FindWidget<USectionLoadWidget>();
+			Widget = Manager->FindWidget<ULoadingWidgetBase>();
 		}
 	}
 
