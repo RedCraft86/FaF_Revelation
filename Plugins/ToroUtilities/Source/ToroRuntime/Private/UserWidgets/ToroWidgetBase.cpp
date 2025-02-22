@@ -2,10 +2,12 @@
 
 #include "UserWidgets/ToroWidgetBase.h"
 
+#include "ToroRuntimeSettings.h"
+
 #define HIDE_CHECK_INTERVAL 0.5f
 
 UToroWidget::UToroWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), ZOrder(0)
-	, bHidden(false), bWantHidden(false), bBeforeHidden(false), AutoHideTimer(HIDE_CHECK_INTERVAL)
+	, bGameplayOnly(true), bHidden(false), bWantHidden(false), bBeforeHidden(false), AutoHideTimer(HIDE_CHECK_INTERVAL)
 {
 	bAutoActivate = true;
 }
@@ -90,5 +92,14 @@ void UToroWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 	else
 	{
 		UpdateHiddenState();
+	}
+}
+
+void UToroWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	if (bGameplayOnly && UToroRuntimeSettings::Get()->IsOnGameplayMap(this))
+	{
+		SetVisibility(ESlateVisibility::Collapsed);
 	}
 }

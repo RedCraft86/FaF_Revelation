@@ -22,6 +22,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 ZOrder;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bGameplayOnly;
+
 	UFUNCTION(BlueprintCallable, Category = UserWidget)
 		void SetHidden(const bool bInHidden);
 	
@@ -48,6 +51,7 @@ protected:
 	virtual void InternalProcessActivation() override;
 	virtual void InternalProcessDeactivation() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	virtual void NativeConstruct() override;
 
 public:
 	
