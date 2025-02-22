@@ -2,6 +2,8 @@
 
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCameraManager.h"
+#include "EnhancedInputSubsystems.h"
+#include "ToroRuntimeSettings.h"
 
 AToroPlayerController::AToroPlayerController()
 {
@@ -33,8 +35,28 @@ void AToroPlayerController::SetInputModeData(const FGameInputModeData& InputMode
 	FlushPressedKeys();
 }
 
+UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const
+{
+	if (const ULocalPlayer* Player = GetLocalPlayer())
+	{
+		return Player->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	}
+	
+	return nullptr;
+}
+
 void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	InputModeData.ClearReferences();
 	Super::EndPlay(EndPlayReason);
+}
+
+void AToroPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
+	{
+		Subsystem->ClearAllMappings();
+		Subsystem->AddMappingContext(UToroRuntimeSettings::Get()->DefaultInputMappings.LoadSynchronous(), 0);
+	}
 }

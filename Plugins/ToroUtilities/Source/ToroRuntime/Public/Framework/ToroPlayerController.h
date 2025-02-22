@@ -128,5 +128,7 @@ protected:
 	
 	UPROPERTY() FGameInputModeData InputModeData;
 
+	class UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	virtual void BeginPlay() override;
 };

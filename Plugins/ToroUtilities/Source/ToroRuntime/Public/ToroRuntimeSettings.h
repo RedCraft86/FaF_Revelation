@@ -52,6 +52,9 @@ public:
 		TSoftObjectPtr<UGuidePageDatabase> GuidePageDatabase;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UInputMappingContext> DefaultInputMappings;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
