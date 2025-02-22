@@ -1,3 +1,3 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "GuidePages/GuideBookWidgetBase.h"
+#include "GuidePages/GuideWidgetBase.h"
