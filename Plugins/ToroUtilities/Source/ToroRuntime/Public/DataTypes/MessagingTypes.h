@@ -72,29 +72,3 @@ struct TORORUNTIME_API FSimpleSubtitleData : public FSimpleMessageData
 		return UToroRuntimeSettings::Get()->GetReadingTime(Message.ToString()) + ExtraTime;
 	}
 };
-
-USTRUCT(BlueprintType)
-struct TORORUNTIME_API FControlListEntry
-{
-	GENERATED_BODY()
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Entry)
-		FText Name;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Entry)
-		TArray<FKey> Keys;
-
-	FControlListEntry() : Name(INVTEXT("")) {}
-	FControlListEntry(const FText& InName, const TArray<FKey>& InKey) : Name(InName), Keys(InKey) {}
-	friend uint32 GetTypeHash(const FControlListEntry& Data)
-	{
-		return HashCombine(GetTypeHash(Data.Name.ToString()), GetTypeHash(Data.Keys));
-	}
-	friend bool operator==(const FControlListEntry& A, const FControlListEntry& B)
-	{
-		return A.Name.ToString() == B.Name.ToString() && A.Keys == B.Keys;
-	}
-	friend bool operator!=(const FControlListEntry& A, const FControlListEntry& B) { return !(A == B); }
-	
-	FORCEINLINE bool IsValidData() const { return !Name.IsEmptyOrWhitespace() && !Keys.IsEmpty(); }
-};
