@@ -3,19 +3,12 @@
 #include "Characters/ToroPlayerBase.h"
 #include "Framework/ToroPlayerController.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_Player, "Character.Player");
+UE_DEFINE_GAMEPLAY_TAG(Tag_Player, "Characters.Player");
 
 AToroPlayerBase::AToroPlayerBase()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	CharacterID = Tag_Player;
-	
-	Camera = CreateDefaultSubobject<UCineCameraComponent>(TEXT("Camera"));
-	Camera->SetRelativeLocation({0.0f, 0.0f, 70.0f});
-	Camera->SetupAttachment(GetMesh());
-
-	VisionComponent->SetRelativeLocation(FVector::ZeroVector);
-	VisionComponent->SetupAttachment(GetMesh());
 }
 
 EToroValidPins AToroPlayerBase::GetToroPlayerCharacter(AToroPlayerBase*& OutObject,
@@ -31,30 +24,9 @@ AToroPlayerController* AToroPlayerBase::GetPlayerController() const
 	return GetController<AToroPlayerController>();
 }
 
-bool AToroPlayerBase::GetLookTarget_Implementation(FVector& Target)
-{
-	// TODO: Return a lock-on target's location
-	return false;
-}
-
-void AToroPlayerBase::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle)
-{
-	Location = Camera->GetComponentLocation();
-	Forward = Camera->GetForwardVector();
-	Angle = Camera->FieldOfView;
-}
-
 void AToroPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void AToroPlayerBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void AToroPlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	GameMode = AToroGameMode::Get(this);
+	GameInstance = UToroGameInstance::Get(this);
 }

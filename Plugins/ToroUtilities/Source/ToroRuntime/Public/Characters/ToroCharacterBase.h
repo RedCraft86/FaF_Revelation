@@ -9,7 +9,7 @@
 #include "VisionCone/VisionConeComponent.h"
 #include "ToroCharacterBase.generated.h"
 
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Character);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Characters);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Friendly);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Enemy);
 
@@ -30,7 +30,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "Character"))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "Characters"))
 		FGameplayTag CharacterID;
 
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;

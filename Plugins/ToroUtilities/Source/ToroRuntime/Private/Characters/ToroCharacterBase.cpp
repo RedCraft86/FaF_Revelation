@@ -2,9 +2,9 @@
 
 #include "Characters/ToroCharacterBase.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_Character, "Character");
-UE_DEFINE_GAMEPLAY_TAG(Tag_Friendly, "Character.Friendly");
-UE_DEFINE_GAMEPLAY_TAG(Tag_Enemy, "Character.Enemy");
+UE_DEFINE_GAMEPLAY_TAG(Tag_Characters, "Characters");
+UE_DEFINE_GAMEPLAY_TAG(Tag_Friendly, "Characters.Friendly");
+UE_DEFINE_GAMEPLAY_TAG(Tag_Enemy, "Characters.Enemy");
 
 AToroCharacterBase::AToroCharacterBase()
 {
