@@ -15,7 +15,7 @@ UInfoWidgetBase::UInfoWidgetBase(const FObjectInitializer& ObjectInitializer) : 
 	, GoodFrameRateColor(FLinearColor::Green), BadFrameRateColor(FLinearColor::Red)
 	, bShowFPS(false), FPSTick(0.0f), TargetFPS(60.0f)
 {
-	Visibility = ESlateVisibility::HitTestInvisible;
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UInfoWidgetBase::UpdateFrameRate() const

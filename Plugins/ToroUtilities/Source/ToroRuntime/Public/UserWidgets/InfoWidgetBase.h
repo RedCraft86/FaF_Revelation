@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "Blueprint/UserWidget.h"
+#include "ToroWidgetBase.h"
 #include "InfoWidgetBase.generated.h"
 
 class UTextBlock;
 class UToroUserSettings;
 
 UCLASS(Abstract)
-class TORORUNTIME_API UInfoWidgetBase : public UUserWidget
+class TORORUNTIME_API UInfoWidgetBase : public UToroWidget
 {
 	GENERATED_BODY()
 

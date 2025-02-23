@@ -85,9 +85,9 @@ bool UGameWidgetBase::ShouldBeHidden()
 	{
 		return true;
 	}
-	if (const AToroGameMode* GameMode = GetGameMode<AToroGameMode>())
+	if (const AToroGameMode* Mode = GetGameMode<AToroGameMode>())
 	{
-		return GameMode->Narrative->IsInDialogue();
+		return Mode->Narrative->IsInDialogue();
 	}
 	return false;
 }

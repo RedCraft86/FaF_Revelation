@@ -37,9 +37,9 @@ void AToroPlayerController::SetInputModeData(const FGameInputModeData& InputMode
 
 UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const
 {
-	if (const ULocalPlayer* Player = GetLocalPlayer())
+	if (const ULocalPlayer* LocPlayer = GetLocalPlayer())
 	{
-		return Player->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+		return LocPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
 	}
 	
 	return nullptr;

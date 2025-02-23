@@ -4,6 +4,7 @@
 
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
+#include "InputMappingContext.h"
 #include "Engine/DeveloperSettings.h"
 #include "GuidePages/GuidePageTypes.h"
 #include "SaveSystem/BaseSaveObjects.h"
