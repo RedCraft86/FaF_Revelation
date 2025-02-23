@@ -137,7 +137,6 @@ private:
 	void ApplyAudioSettings() const;
 	void ApplyMotionBlur() const;
 	void ApplyLumen() const;
-	void ApplyShowFPS() const;
 
 	void ReapplySettings();
 	void CacheScalabilityDefaults();

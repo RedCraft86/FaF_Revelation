@@ -67,7 +67,7 @@ void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8
 	ApplyAudioSettings();
 }
 
-DEFINE_SETTER(bool, ShowFPS, ApplyShowFPS();)
+DEFINE_SETTER_DYNAMIC(bool, ShowFPS)
 DEFINE_SETTER_BASIC(FString, Username)
 
 DEFINE_SETTER_DYNAMIC(uint8, FieldOfView)
@@ -265,13 +265,6 @@ void UToroUserSettings::ApplyLumen() const
 	if (bLumenGI || bLumenReflection || bHitLighting) OnDynamicSettingsChanged.Broadcast(this);
 }
 
-void UToroUserSettings::ApplyShowFPS() const
-{
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-}
-
 void UToroUserSettings::ReapplySettings()
 {
 	ApplyImageFidelityMode();
@@ -280,7 +273,6 @@ void UToroUserSettings::ReapplySettings()
 	ApplyAudioSettings();
 	ApplyMotionBlur();
 	ApplyLumen();
-	ApplyShowFPS();
 
 #if WITH_EDITOR
 	if (FApp::IsGame())
