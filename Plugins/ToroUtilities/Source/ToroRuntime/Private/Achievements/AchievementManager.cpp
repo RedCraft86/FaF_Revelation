@@ -3,19 +3,25 @@
 #include "Achievements/AchievementManager.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "ToroRuntimeSettings.h"
+#include "Framework/ToroWidgetManager.h"
 
 void UAchievementManager::Grant(const FGameplayTag InTag, const uint8 Value)
 {
 	if (!InTag.IsValid() || InTag == Tag_Achievements) return;
 	if (UGlobalSaveObjectBase* Save = GetSaveObject())
 	{
-		const uint8 Progress = FMath::Min(255, Save->Achievements.FindRef(InTag) + Value);
+		const uint8 Progress = FMath::Min(200, Save->Achievements.FindRef(InTag) + Value);
 		Save->Achievements.Add(InTag, Progress);
 		Save->SaveObject(nullptr);
-		
-		if (Database && Progress == Database->Entries.FindRef(InTag).Requirement)
+
+		const FAchievementEntry Entry = Database ? Database->Entries.FindRef(InTag) : FAchievementEntry();
+		if (Entry.IsValidData() && Progress == Entry.Requirement)
 		{
-			// TODO: Widget stuff
+			if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
+			{
+				WidgetManager->QueueLargeNotice({FText::Format(Database->NotifyFormat, Entry.Name), 0.0f});
+				UGameplayStatics::PlaySound2D(this, Database->Sound.LoadSynchronous());
+			}
 		}
 	}
 }

@@ -27,7 +27,7 @@ struct TORORUNTIME_API FAchievementEntry
 	UPROPERTY(EditAnywhere, Category = Achievement)
 		FText Description;
 
-	UPROPERTY(EditAnywhere, Category = Achievement, meta = (ClampMin = 1, UIMin = 1))
+	UPROPERTY(EditAnywhere, Category = Achievement, meta = (ClampMin = 1, UIMin = 1, ClampMax = 200, UIMax = 200))
 		uint8 Requirement;
 
 	FAchievementEntry() : Requirement(1) {}
@@ -41,9 +41,15 @@ class TORORUNTIME_API UAchievementDatabase final : public UDataAsset
 
 public:
 	
-	UAchievementDatabase() {}
+	UAchievementDatabase() : NotifyFormat(INVTEXT("[25pt](Achievement Unlocked)\n{0}")) {}
 
-	UPROPERTY(EditAnywhere, Category = LocalSound, meta = (ForceInlineRow, Categories = "Achievements", TitleProperty = "Label"))
+	UPROPERTY(EditAnywhere, Category = Achievements, meta = (Multiliine = true))
+		FText NotifyFormat;
+
+	UPROPERTY(EditAnywhere, Category = Achievements)
+		TSoftObjectPtr<USoundBase> Sound;
+
+	UPROPERTY(EditAnywhere, Category = Achievements, meta = (ForceInlineRow, Categories = "Achievements", TitleProperty = "Label"))
 		TMap<FGameplayTag, FAchievementEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;
