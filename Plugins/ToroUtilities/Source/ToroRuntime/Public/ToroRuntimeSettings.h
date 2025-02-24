@@ -95,16 +95,16 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
 		bool bUseLightProbes;
 	
-	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Post Process (Max 8 Probes)")
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Max 8 Probes PPM")
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM_8;
 	
-	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Post Process (Max 16 Probes)")
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Max 16 Probes PPM")
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM_16;
 	
-	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Post Process (Max 24 Probes)")
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Max 24 Probes PPM")
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM_24;
 	
-	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Post Process (Max 32 Probes)")
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes, DisplayName = "Max 32 Probes PPM")
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM_32;
 	
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
