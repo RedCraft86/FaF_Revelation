@@ -53,7 +53,7 @@ public:
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings)
 	
-	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (ClampMin = 0, UIMin = 0))
+	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (ClampMin = 1, UIMin = 1))
 		uint8 WordsPerSecond;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
