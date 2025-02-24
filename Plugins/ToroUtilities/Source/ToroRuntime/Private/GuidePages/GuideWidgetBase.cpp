@@ -11,7 +11,7 @@
 #include "ToroRuntimeSettings.h"
 
 UGuideWidgetBase::UGuideWidgetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), ImageHeight(0), bPrePauseState(false)
+	: Super(ObjectInitializer), ImageHeight(0.0f), bPrePauseState(false)
 {
 	ZOrder = 59;
 }
