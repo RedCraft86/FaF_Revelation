@@ -257,5 +257,8 @@ void UGameSectionManager::Initialize(FSubsystemCollectionBase& Collection)
 void UGameSectionManager::OnWorldBeginPlay(UWorld& InWorld)
 {
 	Super::OnWorldBeginPlay(InWorld);
-	UDSSetter = NewObject<UUDSSetterObject>(this, UToroRuntimeSettings::Get()->UDS_Setter.LoadSynchronous());
+	if (const TSubclassOf<UUDSSetterObject> Class = UToroRuntimeSettings::Get()->UDS_Setter.LoadSynchronous())
+	{
+		UDSSetter = NewObject<UUDSSetterObject>(this, Class);
+	}
 }
