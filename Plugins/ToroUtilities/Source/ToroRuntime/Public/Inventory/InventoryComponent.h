@@ -120,6 +120,9 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		virtual TArray<FGuid> GetFilteredSlots(const TArray<FGuid>& InSlots, const TSet<EInventoryItemType>& TypeFilter, const bool bExcludeTypes = false) const;
+
+	UFUNCTION(BlueprintPure, Category = InventoryManager)
+		virtual bool HasItem(const UInventoryItemData* Item);
 	
 	UFUNCTION(BlueprintPure, Category = InventoryManager, meta = (AdvancedDisplay = "Filter"))
 		virtual FGuid FindSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter = FInventoryMetaFilter());

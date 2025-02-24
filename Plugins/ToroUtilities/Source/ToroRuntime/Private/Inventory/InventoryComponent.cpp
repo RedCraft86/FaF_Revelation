@@ -102,6 +102,17 @@ TArray<FGuid> UInventoryComponent::GetFilteredSlots(const TArray<FGuid>& InSlots
 	return Out;
 }
 
+bool UInventoryComponent::HasItem(const UInventoryItemData* Item)
+{
+	if (!Item) return false;
+	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
+	{
+		if (Slot.Value.Item.LoadSynchronous() == Item) return true;
+	}
+
+	return false;
+}
+
 FGuid UInventoryComponent::FindSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter)
 {
 	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
