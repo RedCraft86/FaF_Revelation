@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "DataTypes/ExpressiveTextData.h"
+#include "DataTypes/ExpressiveTextTypes.h"
 #include "Widgets/ExpressiveTextRendererWidget.h"
 #include "ExprTextBlock.generated.h"
 

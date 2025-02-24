@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/ExpressiveTextData.h"
+#include "DataTypes/ExpressiveTextTypes.h"
 #include "ToroRuntimeSettings.h"
 #include "ToroRuntime.h"
 
@@ -66,22 +66,22 @@ void FExpressiveTextData::SetTextAsset(UExpressiveTextAsset* InAsset)
 	TextAsset = InAsset;
 }
 
-FExpressiveText UExprTextDataFunctionLibrary::GetExpressiveText(FExpressiveTextData& InData)
+FExpressiveText UExprTextDataLibrary::GetExpressiveText(FExpressiveTextData& InData)
 {
 	return InData.GetExpressiveText();
 }
 
-void UExprTextDataFunctionLibrary::SetText(FExpressiveTextData& InData, const FText InText, const bool bUseFieldsFromAsset)
+void UExprTextDataLibrary::SetText(FExpressiveTextData& InData, const FText InText, const bool bUseFieldsFromAsset)
 {
 	InData.SetText(InText, bUseFieldsFromAsset);
 }
 
-void UExprTextDataFunctionLibrary::SetTextFields(FExpressiveTextData& InData, const FExpressiveTextFields& InFields)
+void UExprTextDataLibrary::SetTextFields(FExpressiveTextData& InData, const FExpressiveTextFields& InFields)
 {
 	InData.SetTextFields(InFields);
 }
 
-void UExprTextDataFunctionLibrary::SetTextAsset(FExpressiveTextData& InData, UExpressiveTextAsset* InAsset)
+void UExprTextDataLibrary::SetTextAsset(FExpressiveTextData& InData, UExpressiveTextAsset* InAsset)
 {
 	InData.SetTextAsset(InAsset);
 }

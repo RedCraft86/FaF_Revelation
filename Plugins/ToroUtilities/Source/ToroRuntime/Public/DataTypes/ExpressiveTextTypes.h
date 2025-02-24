@@ -5,7 +5,7 @@
 #include "Handles/ExpressiveText.h"
 #include "Asset/ExpressiveTextAsset.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "ExpressiveTextData.generated.h"
+#include "ExpressiveTextTypes.generated.h"
 
 // ExpressiveTextFields -> DefaultFontSize -> Add Metadata: EditCondition = "UseDefaultFontSize"
 // ExpressiveTextFields -> UseDefaultFontSize -> Add Metadata: InlineEditConditionToggle
@@ -36,7 +36,7 @@ private:
 };
 
 UCLASS(DisplayName = "Expressive Text Data")
-class TORORUNTIME_API UExprTextDataFunctionLibrary final : public UBlueprintFunctionLibrary
+class TORORUNTIME_API UExprTextDataLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
