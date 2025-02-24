@@ -29,6 +29,7 @@ public:
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroRuntime");
 
+		DefaultTextStyle = FSoftObjectPath(TEXT("/ToroUtilities/Classes/DefaultExprTextStyle.DefaultExprTextStyle"));
 		UDS_Setter = FSoftClassPath(TEXT("/ToroUtilities/Classes/DefaultUDSSetter.DefaultUDSSetter_C"));
 
 		SaveObjects = {
