@@ -149,7 +149,7 @@ UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable(const UToro
 		}
 	}
 	
-	if (IsValid(Brightness))
+	if (InSettings && Brightness)
 	{
 #if WITH_EDITOR
 		if (!FApp::IsGame())
