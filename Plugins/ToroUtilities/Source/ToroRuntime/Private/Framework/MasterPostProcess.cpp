@@ -130,6 +130,7 @@ bool AMasterPostProcess::IsUsingLumen() const
 
 void AMasterPostProcess::UpdateProbeMaterial(UMaterialInstanceDynamic* InMaterial)
 {
+	if (!UToroRuntimeSettings::Get()->bUseLightProbes) return;
 	if (LightProbe != InMaterial)
 	{
 		PostProcess->Settings.RemoveBlendable(LightProbe);
