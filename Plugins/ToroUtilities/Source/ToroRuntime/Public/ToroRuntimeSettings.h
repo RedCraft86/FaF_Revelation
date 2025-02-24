@@ -37,10 +37,10 @@ public:
 		};
 
 		bUseLightProbes = true;
-		LightProbePPM_8 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_8.PPMI_LightProbe_8"));
-		LightProbePPM_16 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_16.PPMI_LightProbe_16"));
-		LightProbePPM_24 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_24.PPMI_LightProbe_24"));
-		LightProbePPM_32 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LightProbe_32.PPMI_LightProbe_32"));
+		LightProbePPM_8 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LP_8.PPMI_LP_8"));
+		LightProbePPM_16 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LP_16.PPMI_LP_16"));
+		LightProbePPM_24 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LP_24.PPMI_LP_24"));
+		LightProbePPM_32 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LP_32.PPMI_LP_32"));
 		BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
 	}
 
