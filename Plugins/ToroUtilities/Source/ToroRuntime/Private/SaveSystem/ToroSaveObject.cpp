@@ -13,8 +13,8 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_Saves, "Saves");
 
 FString GetDemoStr()
 {
-	const FString Str = UToroRuntimeSettings::Get()->DemoVersion.ToString();
-	return Str.IsEmpty() || Str == TEXT(" ") || Str.TrimStartAndEnd().IsEmpty() ? TEXT("") : Str;
+	const FName Ver = UToroRuntimeSettings::Get()->DemoVersion; const FString Str = Ver.ToString();
+	return Ver.IsNone() || Str == TEXT(" ") || Str.TrimStartAndEnd().IsEmpty() ? TEXT("") : Str;
 }
 
 UToroSaveObject* UToroSaveObject::Create(UToroSaveManager* Owner, const TSubclassOf<UToroSaveObject>& Class, const FGameplayTag& Tag)
