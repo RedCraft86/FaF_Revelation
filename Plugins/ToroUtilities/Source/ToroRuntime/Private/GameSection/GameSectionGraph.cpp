@@ -13,7 +13,7 @@ UGameSectionNode::UGameSectionNode() : WidgetDelay(0.25f)
 	Name = NSLOCTEXT("Toro", "NewSectionName", "New Section");
 	Description = NSLOCTEXT("Toro", "NewSectionDesc", "A node containing data relevant to a section of the game.");
 #if WITH_EDITORONLY_DATA
-	ContextMenuName = INVTEXT("Game Section");
+	ContextMenuName = NSLOCTEXT("Toro", "GameSection", "Game Section");
 #endif
 }
 

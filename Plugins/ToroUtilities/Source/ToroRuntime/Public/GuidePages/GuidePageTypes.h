@@ -32,8 +32,8 @@ struct TORORUNTIME_API FGuidePageEntry
 	
 	FGuidePageEntry()
 		: CustomWidget(nullptr)
-		, Title(INVTEXT(""))
-		, Description(INVTEXT(""))
+		, Title(FText::GetEmpty())
+		, Description(FText::GetEmpty())
 		, Image(nullptr)
 	{}
 

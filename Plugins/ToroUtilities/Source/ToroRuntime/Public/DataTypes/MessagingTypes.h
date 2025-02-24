@@ -17,7 +17,7 @@ struct TORORUNTIME_API FSimpleMessageData
 		float ExtraTime;
 
 	virtual ~FSimpleMessageData() = default;
-	FSimpleMessageData() : Message(INVTEXT("")), ExtraTime(0.25f) {}
+	FSimpleMessageData() : Message(FText::GetEmpty()), ExtraTime(0.25f) {}
 	FSimpleMessageData(const FText& InMessage, const float InTime) : Message(InMessage), ExtraTime(InTime) {}
 	friend uint32 GetTypeHash(const FSimpleMessageData& Data)
 	{
@@ -44,7 +44,7 @@ struct TORORUNTIME_API FSimpleSubtitleData : public FSimpleMessageData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Message, meta = (DisplayPriority = -1))
 		FText Speaker;
 
-	FSimpleSubtitleData() : Speaker(INVTEXT("You")) { ExtraTime = 1.0f; }
+	FSimpleSubtitleData() : Speaker(NSLOCTEXT("Toro", "Player", "You")) { ExtraTime = 1.0f; }
 	FSimpleSubtitleData(const FText& InSpeaker, const FText& InLine, const float InTime = 1.0f) : Speaker(InSpeaker)
 	{
 		Message = InLine;

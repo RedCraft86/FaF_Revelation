@@ -41,7 +41,9 @@ class TORORUNTIME_API UAchievementDatabase final : public UDataAsset
 
 public:
 	
-	UAchievementDatabase() : NotifyFormat(INVTEXT("[25pt](Achievement Unlocked)\n{0}")) {}
+	UAchievementDatabase()
+		: NotifyFormat(NSLOCTEXT("Toro", "AchievementNotifyFormat", "[25pt](Achievement Unlocked)\n{0}"))
+	{}
 
 	UPROPERTY(EditAnywhere, Category = Achievements, meta = (Multiliine = true))
 		FText NotifyFormat;

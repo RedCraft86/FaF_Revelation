@@ -12,17 +12,17 @@ void USettingTooltipBase::UpdateTooltip(const USettingRowBase* InRow) const
 		{
 		case ESettingPerformance::Low:
 			{
-				PerformanceText->SetText(INVTEXT("Impact: Low"));
+				PerformanceText->SetText(NSLOCTEXT("Toro", "PerformanceLow", "Impact: Low"));
 				PerformanceText->SetColorAndOpacity(FLinearColor::Green);
 			} break;
 		case ESettingPerformance::Medium:
 			{
-				PerformanceText->SetText(INVTEXT("Impact: Medium"));
+				PerformanceText->SetText(NSLOCTEXT("Toro", "PerformanceMedium", "Impact: Medium"));
 				PerformanceText->SetColorAndOpacity(FLinearColor::Yellow);
 			} break;
 		case ESettingPerformance::High:
 			{
-				PerformanceText->SetText(INVTEXT("Impact: High"));
+				PerformanceText->SetText(NSLOCTEXT("Toro", "PerformanceHigh", "Impact: High"));
 				PerformanceText->SetColorAndOpacity(FLinearColor::Red);
 			} break;
 		default:
