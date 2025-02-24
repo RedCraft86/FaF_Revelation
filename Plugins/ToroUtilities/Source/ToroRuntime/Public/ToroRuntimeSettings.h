@@ -29,6 +29,8 @@ public:
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroRuntime");
 
+		UDS_Setter = FSoftClassPath(TEXT("/ToroUtilities/Classes/DefaultUDSSetter.DefaultUDSSetter_C"));
+
 		SaveObjects = {
 			{Tag_GlobalSave, UGlobalSaveObjectBase::StaticClass()},
 			{Tag_GameSave, UGameSaveObjectBase::StaticClass()},
@@ -80,7 +82,7 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem)
 		FName DemoVersion;
 	
-	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (Categories = "Saves"))
+	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (ForceInlineRow, Categories = "Saves"))
 		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> SaveObjects;
 
 	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
