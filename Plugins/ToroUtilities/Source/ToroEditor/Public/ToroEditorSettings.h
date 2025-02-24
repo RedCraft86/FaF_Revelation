@@ -43,7 +43,7 @@ private:
 	UPROPERTY(Config, EditAnywhere, Category = Editor)
 		FDirectoryPath AssetLibrary;
 	
-	UPROPERTY(Config, EditAnywhere, Category = DupliFilter, DisplayName = "Size", meta = (ClampMin = 0, UIMin = 0))
+	UPROPERTY(Config, EditAnywhere, Category = DupliFilter, DisplayName = "Size Threshold", meta = (ClampMin = 0, UIMin = 0))
 		int64 DFSize;
 
 	UPROPERTY(Config, EditAnywhere, Category = DupliFilter, DisplayName = "Size Type")
