@@ -23,9 +23,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> EquipmentRoot;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<UAudioComponent> FootstepAudio;
-
 protected:
 	
 	virtual void BeginPlay() override;
