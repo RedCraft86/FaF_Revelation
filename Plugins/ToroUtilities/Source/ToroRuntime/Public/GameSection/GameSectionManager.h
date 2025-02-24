@@ -49,9 +49,9 @@ private:
 	UPROPERTY() TObjectPtr<ULoadingWidgetBase> Widget;
 
 	UPROPERTY() TArray<uint8> Sequence;
-	UPROPERTY() TObjectPtr<AActor> UltraDynamicSky;
-	UPROPERTY() TObjectPtr<UGameSectionNode> Section;
 	UPROPERTY() TObjectPtr<UGameSectionGraph> Graph;
+	UPROPERTY() TObjectPtr<UGameSectionNode> Section;
+	UPROPERTY() TObjectPtr<UUDSSetterObject> UDSSetter;
 	UPROPERTY() TObjectPtr<UGlobalSaveObjectBase> GlobalSave;
 	UPROPERTY() TObjectPtr<UGameSaveObjectBase> GameSave;
 	UPROPERTY() FGameplayTag LastSaveTag;

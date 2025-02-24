@@ -165,7 +165,7 @@ void UGameSectionManager::OnMainLevelLoaded()
 			OnEndSequenceFinished();
 	}
 
-	IUDSInterface::SetCustomSettings(UltraDynamicSky, Section->SkyWeather);
+	if (UDSSetter) UDSSetter->SetCustomSettings(this, Section->SkyWeather);
 	if (AToroMusicManager* MusicManager = AToroMusicManager::Get(this))
 	{
 		MusicManager->ChangeMainTheme(Section->Theme.LoadSynchronous());
@@ -257,6 +257,5 @@ void UGameSectionManager::Initialize(FSubsystemCollectionBase& Collection)
 void UGameSectionManager::OnWorldBeginPlay(UWorld& InWorld)
 {
 	Super::OnWorldBeginPlay(InWorld);
-	UltraDynamicSky = UGameplayStatics::GetActorOfClass(this,
-		UToroRuntimeSettings::Get()->UltraDynamicSky.LoadSynchronous());
+	UDSSetter = NewObject<UUDSSetterObject>(this, UToroRuntimeSettings::Get()->UDS_Setter.LoadSynchronous());
 }

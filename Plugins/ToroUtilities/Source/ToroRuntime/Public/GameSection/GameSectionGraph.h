@@ -6,9 +6,9 @@
 #include "DataNodeBase.h"
 #include "DataGraphBase.h"
 #include "MetasoundSource.h"
+#include "GameSection/UDSTypes.h"
 #include "Misc/ToroSequenceActor.h"
 #include "Misc/TeleportTargetActor.h"
-#include "DataTypes/UltraDynamicSky.h"
 #include "Inventory/InventoryComponent.h"
 #include "GameSectionGraph.generated.h"
 

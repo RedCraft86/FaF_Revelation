@@ -5,6 +5,7 @@
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "InputMappingContext.h"
+#include "GameSection/UDSTypes.h"
 #include "Engine/DeveloperSettings.h"
 #include "GuidePages/GuidePageTypes.h"
 #include "SaveSystem/BaseSaveObjects.h"
@@ -43,6 +44,9 @@ public:
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings)
 	
+	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (ClampMin = 0, UIMin = 0))
+		uint8 WordsPerSecond;
+	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
 	
@@ -63,13 +67,10 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSet<TSoftClassPtr<UToroWidget>> DefaultWidgets;
-
-	UPROPERTY(Config, EditAnywhere, Category = Runtime)
-		TSoftClassPtr<AActor> UltraDynamicSky;
 	
-	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (ClampMin = 0, UIMin = 0))
-		uint8 WordsPerSecond;
-
+	UPROPERTY(Config, EditAnywhere, Category = GameSection)
+		TSoftClassPtr<UUDSSetterObject> UDS_Setter;
+	
 	UPROPERTY(Config, EditAnywhere, Category = GameSection)
 		TSoftObjectPtr<UWorld> GameplayMap;
 
