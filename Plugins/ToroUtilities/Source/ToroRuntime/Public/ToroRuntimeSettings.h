@@ -43,6 +43,12 @@ public:
 		LightProbePPM_24 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LP_24.PPMI_LP_24"));
 		LightProbePPM_32 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LP_32.PPMI_LP_32"));
 		BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
+
+		MainSoundMix = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/SMC_Master.SMC_Master"));
+		SoundClasses[0] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/SC_Master.SC_Master"));
+		SoundClasses[1] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/SC_Music.SC_Music"));
+		SoundClasses[2] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/SC_SoundFX.SC_SoundFX"));
+		SoundClasses[3] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/SC_Voice.SC_Voice"));
 	}
 
 	SETTING_GETTER_MUTABLE(UToroRuntimeSettings)
