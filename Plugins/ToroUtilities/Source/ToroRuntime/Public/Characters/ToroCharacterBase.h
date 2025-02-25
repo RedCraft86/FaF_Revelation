@@ -22,6 +22,9 @@ public:
 	
 	AToroCharacterBase();
 
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1, Categories = "Characters"))
+		FGameplayTag CharacterID;
+
 	UPROPERTY(VisibleDefaultsOnly, Category = Subobjects)
 		TObjectPtr<UVisionConeComponent> VisionComponent;
 
@@ -29,9 +32,6 @@ public:
 		FGameplayTag GetCharacterID() const { return CharacterID; }
 
 protected:
-
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1, Categories = "Characters"))
-		FGameplayTag CharacterID;
 
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
 };
