@@ -75,14 +75,3 @@ struct TORORUNTIME_API FPlayerLockFlag
 	void ResetTag() { LockTag = Tag_PlayerLock; }
 #endif
 };
-
-UCLASS(DisplayName = "Player Data Library")
-class TORORUNTIME_API UPlayerDataLibrary final : public UBlueprintFunctionLibrary
-{
-	GENERATED_BODY()
-
-public:
-
-	UFUNCTION(BlueprintPure, Category = PlayerData)
-	static FName GetLockValue(const FPlayerLockFlag& InFlag) { return *InFlag; }
-};

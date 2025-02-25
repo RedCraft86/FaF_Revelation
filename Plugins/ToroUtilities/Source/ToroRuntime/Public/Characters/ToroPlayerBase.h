@@ -93,4 +93,9 @@ protected:
 	
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
+
+public: // Statics
+	
+	UFUNCTION(BlueprintPure, Category = PlayerData)
+		static FName GetLockValue(const FPlayerLockFlag& InFlag) { return *InFlag; }
 };
