@@ -54,18 +54,22 @@ struct TORORUNTIME_API FPlayerLockFlag
 	UPROPERTY(EditAnywhere, Category = PlayerLock)
 		FName LockKey;
 
-	FPlayerLock() : LockTag(Tag_PlayerLock) {}
-	FPlayerLock(const FGameplayTag& InLock) : LockTag(InLock) {}
-	FPlayerLock(const FName& InLock) : LockTag(Tag_PlayerLock), LockKey(InLock) {}
-	bool HasValidTag() const { return LockTag.IsValid() && LockTag != Tag_PlayerLock; }
-	FORCEINLINE friend uint32 GetTypeHash(const FPlayerLock& InLock)
+	FPlayerLockFlag() : LockTag(Tag_PlayerLock) {}
+	FPlayerLockFlag(const FGameplayTag& InLock) : LockTag(InLock) {}
+	FPlayerLockFlag(const FName& InLock) : LockTag(Tag_PlayerLock), LockKey(InLock) {}
+	FORCEINLINE friend bool operator==(const FPlayerLockFlag& A, const FPlayerLockFlag& B) { return *A == *B; }
+	FORCEINLINE friend bool operator!=(const FPlayerLockFlag& A, const FPlayerLockFlag& B) { return *A != *B; }
+	FORCEINLINE friend uint32 GetTypeHash(const FPlayerLockFlag& InLock)
 	{
 		return HashCombine(GetTypeHash(InLock.LockTag), GetTypeHash(InLock.LockKey));
 	}
-	FORCEINLINE friend FName operator*(const FPlayerLock& InLock)
+	FORCEINLINE friend FName operator*(const FPlayerLockFlag& InLock)
 	{
 		return InLock.HasValidTag() ? InLock.LockTag.GetTagName() : InLock.LockKey;
 	}
+
+	bool IsValidFlag() const { return HasValidTag() || !LockKey.IsNone(); }
+	bool HasValidTag() const { return LockTag.IsValid() && LockTag != Tag_PlayerLock; }
 
 #if WITH_EDITOR
 	void ResetTag() { LockTag = Tag_PlayerLock; }
