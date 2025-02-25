@@ -14,11 +14,11 @@
 #define UNREGISTER_STRUCT_CUSTOMIZATION(Property) UNREGISTER_STRUCT_CUSTOMIZATION_DIRECT(Property::StaticStruct())
 
 #define REGISTER_STRUCT_CUSTOMIZATION_INHERITED(Type, Customization) \
-    if (ScriptStruct == Type::StaticStruct() || (ScriptStruct->IsChildOf(Type::StaticStruct()) && ScriptStruct->HasMetaData(TEXT("ApplyBaseStructCustomization")))) \
+    if (ScriptStruct == Type::StaticStruct() || (ScriptStruct->IsChildOf(Type::StaticStruct()) && !ScriptStruct->HasMetaData(TEXT("UniqueStructCustomization")))) \
     { REGISTER_STRUCT_CUSTOMIZATION_DIRECT(ScriptStruct, Customization) }
 
 #define UNREGISTER_STRUCT_CUSTOMIZATION_INHERITED(Type) \
-    if (ScriptStruct == Type::StaticStruct() || (ScriptStruct->IsChildOf(Type::StaticStruct()) && ScriptStruct->HasMetaData(TEXT("ApplyBaseStructCustomization")))) \
+    if (ScriptStruct == Type::StaticStruct() || (ScriptStruct->IsChildOf(Type::StaticStruct()) && !ScriptStruct->HasMetaData(TEXT("UniqueStructCustomization")))) \
     { UNREGISTER_STRUCT_CUSTOMIZATION_DIRECT(ScriptStruct) }
 
 #define REGISTER_VISUALIZER(Component, Visualizer) \

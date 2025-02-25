@@ -41,8 +41,9 @@
 #include "DetailsCustomization/InventoryMetadataDetails.h"
 #include "DetailsCustomization/LockPlayerDetails.h"
 
-#include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
 #include "DetailsCustomization/PropertyMetadataDetails.h"
+#include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
+#include "DetailsCustomization/FloatModifierDetails.h"
 
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 #include "ComponentVisualizer/VisionConeVisualizer.h"
@@ -121,10 +122,11 @@ void FToroEditorModule::StartupModule()
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
-		// for (TObjectIterator<UScriptStruct> It; It; ++It)
-		// {
-		// 	const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
-		// }
+		for (TObjectIterator<UScriptStruct> It; It; ++It)
+		{
+			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+			REGISTER_STRUCT_CUSTOMIZATION_INHERITED(FToroFloatModifier, FFloatModifierCustomization)
+		}
 	}
 
 	// Component Visualizers
@@ -196,10 +198,11 @@ void FToroEditorModule::ShutdownModule()
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		
-		// for (TObjectIterator<UScriptStruct> It; It; ++It)
-		// {
-		// 	const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
-		// }
+		for (TObjectIterator<UScriptStruct> It; It; ++It)
+		{
+			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+			UNREGISTER_STRUCT_CUSTOMIZATION_INHERITED(FToroFloatModifier)
+		}
 	}
 
 	// Component Visualizers

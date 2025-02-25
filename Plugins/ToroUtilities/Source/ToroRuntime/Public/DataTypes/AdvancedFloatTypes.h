@@ -8,10 +8,6 @@ USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FToroFloatModifier
 {
 	GENERATED_BODY()
-#if WITH_EDITORONLY_DATA
-	UPROPERTY(VisibleAnywhere, Category = FloatModifier)
-		FName Type = "None";
-#endif
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FloatModifier)
 		float Base;
@@ -22,29 +18,19 @@ struct TORORUNTIME_API FToroFloatModifier
 	FToroFloatModifier() : Base(0.0f) {}
 	FToroFloatModifier(const float InBase) : Base(InBase) {}
 	virtual ~FToroFloatModifier() = default;
-	
-	virtual float Evaluate() const { return Base; }
+	virtual float Evaluate() const
+	{
+		return Base;
+	}
 };
 
-USTRUCT(BlueprintType, DisplayName = "Float Multiplier")
+USTRUCT(BlueprintType, DisplayName = "Float Multiplier", meta = (ModifierType = "Multipliers"))
 struct TORORUNTIME_API FToroFloatMulti : public FToroFloatModifier
 {
 	GENERATED_BODY()
 
-	FToroFloatMulti()
-	{
-#if WITH_EDITORONLY_DATA
-		Type = "Multiplication";
-#endif
-	}
-	
-	FToroFloatMulti(const float InBase) : Super(InBase)
-	{
-#if WITH_EDITORONLY_DATA
-		Type = "Multiplication";
-#endif
-	}
-	
+	FToroFloatMulti() {}
+	FToroFloatMulti(const float InBase) : Super(InBase) {}
 	virtual float Evaluate() const override
 	{
 		float Value = Base;
@@ -56,25 +42,13 @@ struct TORORUNTIME_API FToroFloatMulti : public FToroFloatModifier
 	}
 };
 
-USTRUCT(BlueprintType, DisplayName = "Float Sum")
+USTRUCT(BlueprintType, DisplayName = "Float Sum", meta = (ModifierType = "Additions"))
 struct TORORUNTIME_API FToroFloatSum : public FToroFloatModifier
 {
 	GENERATED_BODY()
 
-	FToroFloatSum()
-	{
-#if WITH_EDITORONLY_DATA
-		Type = "Addition";
-#endif
-	}
-	
-	FToroFloatSum(const float InBase) : Super(InBase)
-	{
-#if WITH_EDITORONLY_DATA
-		Type = "Addition";
-#endif
-	}
-	
+	FToroFloatSum() {}
+	FToroFloatSum(const float InBase) : Super(InBase) {}
 	virtual float Evaluate() const override
 	{
 		float Value = Base;
