@@ -103,17 +103,19 @@ bool AToroPlayerBase::HasStateFlag(const EPlayerStateFlags InFlag) const
 
 void AToroPlayerBase::AddLockFlag(const FPlayerLockFlag& InFlag)
 {
-	if (InFlag.IsValidFlag()) LockFlags.Add(InFlag);
+	LockFlags.Remove(NAME_None);
+	if (InFlag.IsValidFlag()) LockFlags.Add(*InFlag);
 }
 
 void AToroPlayerBase::ClearLockFlag(const FPlayerLockFlag& InFlag)
 {
-	if (InFlag.IsValidFlag()) LockFlags.Remove(InFlag);
+	LockFlags.Remove(NAME_None);
+	if (InFlag.IsValidFlag()) LockFlags.Remove(*InFlag);
 }
 
 bool AToroPlayerBase::HasLockFlag(const FPlayerLockFlag& InFlag) const
 {
-	return InFlag.IsValidFlag() && LockFlags.Contains(InFlag);
+	return InFlag.IsValidFlag() && LockFlags.Contains(*InFlag);
 }
 
 void AToroPlayerBase::BeginPlay()

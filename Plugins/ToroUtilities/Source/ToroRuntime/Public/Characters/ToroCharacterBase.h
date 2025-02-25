@@ -30,7 +30,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "Characters"))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1, Categories = "Characters"))
 		FGameplayTag CharacterID;
 
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;

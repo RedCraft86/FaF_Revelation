@@ -59,10 +59,6 @@ struct TORORUNTIME_API FPlayerLockFlag
 	FPlayerLockFlag(const FName& InLock) : LockTag(Tag_PlayerLock), LockKey(InLock) {}
 	FORCEINLINE friend bool operator==(const FPlayerLockFlag& A, const FPlayerLockFlag& B) { return *A == *B; }
 	FORCEINLINE friend bool operator!=(const FPlayerLockFlag& A, const FPlayerLockFlag& B) { return *A != *B; }
-	FORCEINLINE friend uint32 GetTypeHash(const FPlayerLockFlag& InLock)
-	{
-		return HashCombine(GetTypeHash(InLock.LockTag), GetTypeHash(InLock.LockKey));
-	}
 	FORCEINLINE friend FName operator*(const FPlayerLockFlag& InLock)
 	{
 		return InLock.HasValidTag() ? InLock.LockTag.GetTagName() : InLock.LockKey;
