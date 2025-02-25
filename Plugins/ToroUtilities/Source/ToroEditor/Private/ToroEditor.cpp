@@ -36,6 +36,7 @@
 #include "DetailsCustomization/ElectricLightDetails.h"
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "DetailsCustomization/InventoryMetadataDetails.h"
+#include "DetailsCustomization/PlayerLockDetails.h"
 
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 #include "ComponentVisualizer/VisionConeVisualizer.h"
@@ -107,6 +108,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim, FElectricLightAnimCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry, FLocalSoundEntryCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata, FInventoryMetadataCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FPlayerLock, FPlayerLockCustomization)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
@@ -178,6 +180,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerLock)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		

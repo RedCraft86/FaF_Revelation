@@ -48,6 +48,10 @@
 	"Installed": false,
 	"Plugins": [
 		{
+			"Name": "GameplayTagsEditor",
+			"Enabled": true
+		},
+		{
 			"Name": "ProceduralMeshComponent",
 			"Enabled": true
 		},
