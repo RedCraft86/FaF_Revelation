@@ -20,6 +20,7 @@ private:
 	
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
+		FToroActorCustomization::CustomizeDetails(DetailBuilder);
 	}
 };
 #undef CLASSNAME

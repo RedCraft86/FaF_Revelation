@@ -3,6 +3,7 @@
 #pragma once
 
 #include "IDetailGroup.h"
+#include "DetailWidgetRow.h"
 #include "DetailsCustomization/ToroActorDetails.h"
 #include "Misc/LevelZoneVolume.h"
 
