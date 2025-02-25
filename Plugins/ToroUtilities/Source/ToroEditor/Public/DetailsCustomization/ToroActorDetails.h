@@ -63,6 +63,11 @@ protected:
 				{
 					Allowed.Append({TEXT("Collision"), TEXT("BrushSettings")});
 				}
+
+				if (Obj->IsA<AToroCharacterBase>())
+				{
+					Priority.Add(TEXT("CharacterSettings"), ECategoryPriority::Important);
+				}
 				
 				if (FString Meta = Obj->GetClass()->GetMetaData(TEXT("AllowedCategories")); !Meta.IsEmpty())
 				{
@@ -92,8 +97,7 @@ protected:
 			if (CategoryNames.Contains(Pair.Key))
 			{
 				CategoryNames.Remove(Pair.Key);
-				DetailBuilder.EditCategory(Pair.Key, Pair.Key == TEXT("TransformCommon")
-					? INVTEXT("Transform") : FText::GetEmpty(), Pair.Value);
+				DetailBuilder.EditCategory(Pair.Key, Renames.FindRef(Pair.Key), Pair.Value);
 			}
 		}
 		
