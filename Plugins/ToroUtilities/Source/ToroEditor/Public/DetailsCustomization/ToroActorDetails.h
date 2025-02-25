@@ -52,6 +52,10 @@ protected:
 			{TEXT("Rendering"), ECategoryPriority::Default},
 			{TEXT("Actor"), ECategoryPriority::Default}
 		};
+		const TMap<FName, FText> Renames = {
+			{TEXT("TransformCommon"), INVTEXT("Transform")},
+			{TEXT("CharacterSettings"), INVTEXT("Character")},
+		};
 		
 		for (const TWeakObjectPtr<UObject>& Obj : Objs)
 		{
