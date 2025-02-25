@@ -108,7 +108,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim, FElectricLightAnimCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry, FLocalSoundEntryCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata, FInventoryMetadataCustomization)
-		REGISTER_STRUCT_CUSTOMIZATION(FPlayerLock, FPlayerLockCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag, FPlayerLockCustomization)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
@@ -180,7 +180,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata)
-		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerLock)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		

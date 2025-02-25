@@ -9,7 +9,7 @@
 #include "DetailsCustomization/DetailsHelpers.h"
 #include "DataTypes/GenericPlayerTypes.h"
 
-#define STRUCTNAME FPlayerLock
+#define STRUCTNAME FPlayerLockFlag
 class FPlayerLockCustomization final : public IPropertyTypeCustomization
 {
 public:
@@ -43,7 +43,7 @@ private:
 			return;
 		}
 
-		if (FPlayerLock* StructPtr = (FPlayerLock*)StructPtrs[0])
+		if (FPlayerLockFlag* StructPtr = (FPlayerLockFlag*)StructPtrs[0])
 		{
 			if (!StructPtr->LockTag.IsValid())
 			{

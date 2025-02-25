@@ -44,7 +44,7 @@ enum EPlayerStateFlags
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
 
 USTRUCT(BlueprintType)
-struct TORORUNTIME_API FPlayerLock
+struct TORORUNTIME_API FPlayerLockFlag
 {
 	GENERATED_BODY()
 
@@ -80,5 +80,5 @@ class TORORUNTIME_API UPlayerDataLibrary final : public UBlueprintFunctionLibrar
 public:
 
 	UFUNCTION(BlueprintPure, Category = PlayerData)
-	static FName GetLockValue(const FPlayerLock& InLock) { return *InLock; }
+	static FName GetLockValue(const FPlayerLockFlag& InFlag) { return *InFlag; }
 };
