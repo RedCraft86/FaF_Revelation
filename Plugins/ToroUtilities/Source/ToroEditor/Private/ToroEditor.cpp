@@ -25,18 +25,24 @@
 #include "Misc/TeleportTargetActor.h"
 
 #include "DetailsCustomization/ToroActorDetails.h"
+#include "DetailsCustomization/LevelZoneVolumeDetails.h"
+#include "DetailsCustomization/ElectricLightDetails.h"
+#include "DetailsCustomization/PlayerFirstPersonDetails.h"
+#include "DetailsCustomization/PlayerSideScrollerDetails.h"
+#include "DetailsCustomization/PlayerThirdPersonDetails.h"
+
 #include "DetailsCustomization/InventoryItemDetails.h"
+
 #include "DetailsCustomization/InlineCurveDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
 #include "DetailsCustomization/InteractionInfoDetails.h"
 #include "DetailsCustomization/ElectricLightAnimDetails.h"
-#include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
-#include "DetailsCustomization/PropertyMetadataDetails.h"
-#include "DetailsCustomization/LevelZoneVolumeDetails.h"
-#include "DetailsCustomization/ElectricLightDetails.h"
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "DetailsCustomization/InventoryMetadataDetails.h"
-#include "DetailsCustomization/PlayerLockDetails.h"
+#include "DetailsCustomization/LockPlayerDetails.h"
+
+#include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
+#include "DetailsCustomization/PropertyMetadataDetails.h"
 
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 #include "ComponentVisualizer/VisionConeVisualizer.h"
@@ -97,6 +103,9 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroFirstPersonPlayer, FFirstPersonPlayerCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroThirdPersonPlayer, FThirdPersonPlayerCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroSideScrollerPlayer, FSideScrollerPlayerCustomization)
 		
 		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
 		
@@ -169,6 +178,9 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroFirstPersonPlayer)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroThirdPersonPlayer)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroSideScrollerPlayer)
 		
 		UNREGISTER_CLASS_CUSTOMIZATION(UInventoryItemData)
 		
