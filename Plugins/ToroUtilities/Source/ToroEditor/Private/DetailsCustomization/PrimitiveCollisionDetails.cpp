@@ -366,7 +366,6 @@ void FPrimitiveCollisionCustomization::OnPresetSelectionChanged(TSharedPtr<FName
 	StructHandle->NotifyPreChange();
 	StructPtr->SetProfileName(*NewSelection);
 	StructHandle->NotifyPostChange(EPropertyChangeType::ValueSet);
-	StructHandle->NotifyFinishedChangingProperties();
 }
 
 FText FPrimitiveCollisionCustomization::GetProfileLabel(const TSharedRef<IPropertyHandle> StructHandle) const
@@ -443,7 +442,6 @@ void FPrimitiveCollisionCustomization::SetResponseToAllChannels(ECheckBoxState I
 	StructHandle->NotifyPreChange();
 	StructPtr->SetAllResponses(NewResponse);
 	StructHandle->NotifyPostChange(EPropertyChangeType::ValueSet);
-	StructHandle->NotifyFinishedChangingProperties();
 }
 
 ECheckBoxState FPrimitiveCollisionCustomization::DoesAllChannelsHaveResponse(const ECollisionResponse ResponseToCheck) const
@@ -467,7 +465,6 @@ void FPrimitiveCollisionCustomization::SetResponseToChannel(ECheckBoxState InChe
 	StructHandle->NotifyPreChange();
 	StructPtr->SetResponse(Channel, NewResponse);
 	StructHandle->NotifyPostChange(EPropertyChangeType::ValueSet);
-	StructHandle->NotifyFinishedChangingProperties();
 }
 
 ECheckBoxState FPrimitiveCollisionCustomization::DoesChannelHaveResponse(const ECollisionChannel Channel, const ECollisionResponse ResponseToCheck) const
