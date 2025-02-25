@@ -65,7 +65,7 @@ private:
 		{
 			FString ModifierType = ScriptStruct->GetMetaData(TEXT("ModifierType"));
 			if (ModifierType.IsEmpty()) ModifierType = TEXT("Modifiers");
-			UE_LOG(LogTemp, Warning, TEXT("TypeName: %s"), *ModifierType);
+
 			StructBuilder.AddProperty(STRUCT_PROPERTY(Modifiers))
 				.DisplayName(FText::FromString(ModifierType));
 		}
