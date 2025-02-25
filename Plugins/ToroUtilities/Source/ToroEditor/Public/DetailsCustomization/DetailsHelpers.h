@@ -7,6 +7,14 @@
 
 #define GET_MEMBER(Class, Member) GET_MEMBER_NAME_CHECKED(Class, Member)
 
+#define ADD_META(Property, Key, Value) Property->SetInstanceMetaData(TEXT(#Key), TEXT(#Value)); \
+
+#define ADD_CLAMP_META(Property, Min, Max) \
+	ADD_META(Property, ClampMin, Min) \
+	ADD_META(Property, UIMin, Min) \
+	ADD_META(Property, ClampMax, Max) \
+	ADD_META(Property, UIMax, Max)
+
 #define GET_CLASS_PROPERTY(Class, Member) DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(Class, Member))
 #define GET_PROPERTY(Member) GET_CLASS_PROPERTY(CLASSNAME, Member)
 
