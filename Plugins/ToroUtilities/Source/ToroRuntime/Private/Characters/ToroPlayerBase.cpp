@@ -44,6 +44,78 @@ AToroPlayerController* AToroPlayerBase::GetPlayerController() const
 	return GetController<AToroPlayerController>();
 }
 
+void AToroPlayerBase::OverrideControlFlags(const int32 InFlags)
+{
+	for (const EPlayerControlFlags Enum : TEnumRange<EPlayerControlFlags>())
+	{
+		if (InFlags & Enum)
+		{
+			SetControlFlag(Enum);
+		}
+		else
+		{
+			UnsetControlFlag(Enum);
+		}
+	}
+}
+
+void AToroPlayerBase::SetControlFlag(const EPlayerControlFlags InFlag)
+{
+	if (InFlag == PCF_None) return;
+	if (!HasControlFlag(InFlag))
+	{
+		ControlFlags |= InFlag;
+	}
+}
+
+void AToroPlayerBase::UnsetControlFlag(const EPlayerControlFlags InFlag)
+{
+	if (InFlag == PCF_None) return;
+	if (HasControlFlag(InFlag))
+	{
+		ControlFlags &= ~InFlag;
+	}
+}
+
+bool AToroPlayerBase::HasControlFlag(const EPlayerControlFlags InFlag) const
+{
+	if (InFlag == PCF_None) return false;
+	return ControlFlags & InFlag;
+}
+
+void AToroPlayerBase::SetStateFlag(const EPlayerStateFlags InFlag)
+{
+	if (InFlag == PSF_None) return;
+	StateFlags |= InFlag;
+}
+
+void AToroPlayerBase::UnsetStateFlag(const EPlayerStateFlags InFlag)
+{
+	if (InFlag == PSF_None) return;
+	StateFlags &= ~InFlag;
+}
+
+bool AToroPlayerBase::HasStateFlag(const EPlayerStateFlags InFlag) const
+{
+	if (InFlag == PSF_None) return false;
+	return StateFlags & InFlag;
+}
+
+void AToroPlayerBase::AddLockFlag(const FPlayerLockFlag& InFlag)
+{
+	if (InFlag.IsValidFlag()) LockFlags.Add(InFlag);
+}
+
+void AToroPlayerBase::ClearLockFlag(const FPlayerLockFlag& InFlag)
+{
+	if (InFlag.IsValidFlag()) LockFlags.Remove(InFlag);
+}
+
+bool AToroPlayerBase::HasLockFlag(const FPlayerLockFlag& InFlag) const
+{
+	return InFlag.IsValidFlag() && LockFlags.Contains(InFlag);
+}
+
 void AToroPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
