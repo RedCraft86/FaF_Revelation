@@ -6,7 +6,7 @@
 
 UE_DEFINE_GAMEPLAY_TAG(Tag_Player, "Characters.Player");
 
-AToroPlayerBase::AToroPlayerBase()
+AToroPlayerBase::AToroPlayerBase() : SlowTickInterval(0.1f), ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
