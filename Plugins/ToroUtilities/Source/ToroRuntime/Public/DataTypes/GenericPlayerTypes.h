@@ -58,10 +58,15 @@ struct TORORUNTIME_API FPlayerLock
 	FPlayerLock(const FGameplayTag& InLock) : LockTag(InLock) {}
 	FPlayerLock(const FName& InLock) : LockTag(Tag_PlayerLock), LockKey(InLock) {}
 	bool HasValidTag() const { return LockTag.IsValid() && LockTag != Tag_PlayerLock; }
+	friend uint32 GetTypeHash(const FPlayerLock& InLock)
+	{
+		return HashCombine(GetTypeHash(InLock.LockTag), GetTypeHash(InLock.LockKey));
+	}
 	friend FName operator*(const FPlayerLock& InLock)
 	{
 		return InLock.HasValidTag() ? InLock.LockTag.GetTagName() : InLock.LockKey;
 	}
+
 #if WITH_EDITOR
 	void ResetTag() { LockTag = Tag_PlayerLock; }
 #endif
