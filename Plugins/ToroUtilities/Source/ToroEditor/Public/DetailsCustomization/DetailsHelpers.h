@@ -3,6 +3,9 @@
 #pragma once
 
 #include "DetailLayoutBuilder.h"
+#include "PropertyCustomizationHelpers.h"
+
+#define GET_MEMBER(Class, Member) GET_MEMBER_NAME_CHECKED(Class, Member)
 
 #define GET_CLASS_PROPERTY(Class, Member) DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(Class, Member))
 #define GET_PROPERTY(Member) GET_CLASS_PROPERTY(CLASSNAME, Member)
