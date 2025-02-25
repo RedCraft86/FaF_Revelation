@@ -19,15 +19,15 @@ struct TORORUNTIME_API FSimpleMessageData
 	virtual ~FSimpleMessageData() = default;
 	FSimpleMessageData() : Message(FText::GetEmpty()), ExtraTime(0.25f) {}
 	FSimpleMessageData(const FText& InMessage, const float InTime) : Message(InMessage), ExtraTime(InTime) {}
-	friend uint32 GetTypeHash(const FSimpleMessageData& Data)
+	FORCEINLINE friend uint32 GetTypeHash(const FSimpleMessageData& Data)
 	{
 		return HashCombine(GetTypeHash(Data.Message.ToString()), GetTypeHash(Data.ExtraTime));
 	}
-	friend bool operator==(const FSimpleMessageData& A, const FSimpleMessageData& B)
+	FORCEINLINE friend bool operator==(const FSimpleMessageData& A, const FSimpleMessageData& B)
 	{
 		return A.Message.ToString() == B.Message.ToString() && A.ExtraTime == B.ExtraTime;
 	}
-	friend bool operator!=(const FSimpleMessageData& A, const FSimpleMessageData& B) { return !(A == B); }
+	FORCEINLINE friend bool operator!=(const FSimpleMessageData& A, const FSimpleMessageData& B) { return !(A == B); }
 	
 	FORCEINLINE virtual bool IsValidData() const { return !Message.IsEmptyOrWhitespace(); }
 	FORCEINLINE virtual float GetDuration() const
@@ -50,18 +50,18 @@ struct TORORUNTIME_API FSimpleSubtitleData : public FSimpleMessageData
 		Message = InLine;
 		ExtraTime = InTime;
 	}
-	friend uint32 GetTypeHash(const FSimpleSubtitleData& Data)
+	FORCEINLINE friend uint32 GetTypeHash(const FSimpleSubtitleData& Data)
 	{
 		return HashCombine(HashCombine(GetTypeHash(Data.Message.ToString()),
 				GetTypeHash(Data.ExtraTime)), GetTypeHash(Data.Speaker.ToString()));
 	}
-	friend bool operator==(const FSimpleSubtitleData& A, const FSimpleSubtitleData& B)
+	FORCEINLINE friend bool operator==(const FSimpleSubtitleData& A, const FSimpleSubtitleData& B)
 	{
 		return A.Speaker.ToString() == B.Speaker.ToString()
 			&& A.Message.ToString() == B.Message.ToString()
 			&& A.ExtraTime == B.ExtraTime;
 	}
-	friend bool operator!=(const FSimpleSubtitleData& A, const FSimpleSubtitleData& B) { return !(A == B); }
+	FORCEINLINE friend bool operator!=(const FSimpleSubtitleData& A, const FSimpleSubtitleData& B) { return !(A == B); }
 	
 	FORCEINLINE virtual bool IsValidData() const override
 	{
