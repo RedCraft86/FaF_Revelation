@@ -3,6 +3,7 @@
 #pragma once
 
 #include "InlineCurves.h"
+#include "PlayerStatics.h"
 #include "Characters/ToroPlayerBase.h"
 #include "DataTypes/AdvancedFloatTypes.h"
 #include "Interaction/InteractionComponent.h"
@@ -103,15 +104,18 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		FToroFloatMulti StaminaDrainRate;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		FToroFloatMulti StaminaGainRate;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPlayerCameraShakes CameraShakes;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPlayerFootsteps Footsteps;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+		TMap<FName, TObjectPtr<class UInputAction>> InputActions;
 
 protected:
 	

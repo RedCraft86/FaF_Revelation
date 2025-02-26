@@ -79,6 +79,11 @@ void AToroFirstPersonPlayer::OnConstruction(const FTransform& Transform)
 
 		StaminaGainRate.ClampBase(0.1f, 5.0f);
 		StaminaGainRate.ClampModifiers(0.1f, 5.0f);
+
+		for (const FName& ActionName : Player::InputActions::All)
+		{
+			if (!InputActions.Contains(ActionName)) InputActions.Add(ActionName);
+		}
 	}
 #endif
 }
