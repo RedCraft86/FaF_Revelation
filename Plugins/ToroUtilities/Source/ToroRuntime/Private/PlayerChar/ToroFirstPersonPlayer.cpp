@@ -164,27 +164,7 @@ void AToroFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerIn
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	if (UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
-		BIND_INPUT_ACTION(EIC, ::Started, Pause)
-		BIND_INPUT_ACTION(EIC, ::Triggered, Turn)
-		BIND_INPUT_ACTION(EIC, ::Triggered, Move)
-		BIND_INPUT_ACTION(EIC, ::Completed, Move)
-		BIND_INPUT_ACTION(EIC, ::Canceled, Move)
-		BIND_INPUT_ACTION(EIC, ::Started, Run)
-		BIND_INPUT_ACTION(EIC, ::Completed, Run)
-		BIND_INPUT_ACTION(EIC, ::Canceled, Run)
-		BIND_INPUT_ACTION(EIC, ::Started, Crouch)
-		BIND_INPUT_ACTION(EIC, ::Started, Lean)
-		BIND_INPUT_ACTION(EIC, ::Completed, Lean)
-		BIND_INPUT_ACTION(EIC, ::Canceled, Lean)
-		BIND_INPUT_ACTION(EIC, ::Started, Inventory)
-		BIND_INPUT_ACTION(EIC, ::Started, HideQuests)
-		BIND_INPUT_ACTION(EIC, ::Triggered, Interact)
-		BIND_INPUT_ACTION(EIC, ::Completed, Interact)
-		BIND_INPUT_ACTION(EIC, ::Canceled, Interact)
-		BIND_INPUT_ACTION(EIC, ::Started, Equipment)
-		BIND_INPUT_ACTION(EIC, ::Started, EquipmentAlt)
-		BIND_INPUT_ACTION(EIC, ::Completed, EquipmentAlt)
-		BIND_INPUT_ACTION(EIC, ::Canceled, EquipmentAlt)
+		INPUT_EVENT_BINDS(EIC)
 	}
 }
 

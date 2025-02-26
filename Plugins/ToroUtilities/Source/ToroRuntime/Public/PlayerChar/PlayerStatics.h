@@ -6,23 +6,6 @@
 #include "EnhancedInputComponent.h"
 #include "DataTypes/GenericPlayerTypes.h"
 
-#define BIND_INPUT_ACTION(Component, Event, Action) \
-	if (const UInputAction* IA = InputActions.FindRef(Player::InputActions::Action)) \
-	{ Component->BindAction(IA, ETriggerEvent##Event, this, &ThisClass::InputBinding_##Action); }
-
-#define INPUT_BINDING_FUNCTIONS() \
-	void InputBinding_Pause(const FInputActionValue& InValue); \
-	void InputBinding_Turn(const FInputActionValue& InValue); \
-	void InputBinding_Move(const FInputActionValue& InValue); \
-	void InputBinding_Run(const FInputActionValue& InValue); \
-	void InputBinding_Crouch(const FInputActionValue& InValue); \
-	void InputBinding_Lean(const FInputActionValue& InValue); \
-	void InputBinding_Inventory(const FInputActionValue& InValue); \
-	void InputBinding_HideQuests(const FInputActionValue& InValue); \
-	void InputBinding_Interact(const FInputActionValue& InValue); \
-	void InputBinding_Equipment(const FInputActionValue& InValue); \
-	void InputBinding_EquipmentAlt(const FInputActionValue& InValue);
-
 namespace Player
 {
 	namespace InputActions
@@ -72,3 +55,43 @@ namespace Player
 		}
 	}
 }
+
+#define BIND_INPUT_ACTION(Component, Event, Action) \
+	if (const UInputAction* IA_##Action = InputActions.FindRef(Player::InputActions::Action)) \
+	{ Component->BindAction(IA_##Action, ETriggerEvent##Event, this, &ThisClass::InputBinding_##Action); }
+
+#define INPUT_BINDING_FUNCTIONS() \
+	void InputBinding_Pause(const FInputActionValue& InValue); \
+	void InputBinding_Turn(const FInputActionValue& InValue); \
+	void InputBinding_Move(const FInputActionValue& InValue); \
+	void InputBinding_Run(const FInputActionValue& InValue); \
+	void InputBinding_Crouch(const FInputActionValue& InValue); \
+	void InputBinding_Lean(const FInputActionValue& InValue); \
+	void InputBinding_Inventory(const FInputActionValue& InValue); \
+	void InputBinding_HideQuests(const FInputActionValue& InValue); \
+	void InputBinding_Interact(const FInputActionValue& InValue); \
+	void InputBinding_Equipment(const FInputActionValue& InValue); \
+	void InputBinding_EquipmentAlt(const FInputActionValue& InValue);
+
+#define INPUT_EVENT_BINDS(Component) \
+	BIND_INPUT_ACTION(Component, ::Started, Pause) \
+	BIND_INPUT_ACTION(Component, ::Triggered, Turn) \
+	BIND_INPUT_ACTION(Component, ::Triggered, Move) \
+	BIND_INPUT_ACTION(Component, ::Completed, Move) \
+	BIND_INPUT_ACTION(Component, ::Canceled, Move) \
+	BIND_INPUT_ACTION(Component, ::Started, Run) \
+	BIND_INPUT_ACTION(Component, ::Completed, Run) \
+	BIND_INPUT_ACTION(Component, ::Canceled, Run) \
+	BIND_INPUT_ACTION(Component, ::Started, Crouch) \
+	BIND_INPUT_ACTION(Component, ::Started, Lean) \
+	BIND_INPUT_ACTION(Component, ::Completed, Lean) \
+	BIND_INPUT_ACTION(Component, ::Canceled, Lean) \
+	BIND_INPUT_ACTION(Component, ::Started, Inventory) \
+	BIND_INPUT_ACTION(Component, ::Started, HideQuests) \
+	BIND_INPUT_ACTION(Component, ::Triggered, Interact) \
+	BIND_INPUT_ACTION(Component, ::Completed, Interact) \
+	BIND_INPUT_ACTION(Component, ::Canceled, Interact) \
+	BIND_INPUT_ACTION(Component, ::Started, Equipment) \
+	BIND_INPUT_ACTION(Component, ::Started, EquipmentAlt) \
+	BIND_INPUT_ACTION(Component, ::Completed, EquipmentAlt) \
+	BIND_INPUT_ACTION(Component, ::Canceled, EquipmentAlt)
