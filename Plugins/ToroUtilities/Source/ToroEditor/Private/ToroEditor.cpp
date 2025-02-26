@@ -40,7 +40,7 @@
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "DetailsCustomization/InventoryMetadataDetails.h"
 #include "DetailsCustomization/LockPlayerDetails.h"
-#include "DetailsCustomization/PlayerFootstepDetails.h"
+#include "DetailsCustomization/FootstepPlayerDetails.h"
 
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
@@ -53,6 +53,7 @@
 #include "AssetFactories/LocalSound/LocalSoundDatabaseAsset.h"
 #include "AssetFactories/Achievement/AchievementDatabaseAsset.h"
 #include "AssetFactories/GuidePage/GuidePageDatabaseAsset.h"
+#include "AssetFactories/Footstep/FootstepDatabaseAsset.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -145,6 +146,7 @@ void FToroEditorModule::StartupModule()
 		AssetTypeActions.Add(MakeShareable(new FLocalSoundDatabaseAsset()));
 		AssetTypeActions.Add(MakeShareable(new FAchievementDatabaseAsset()));
 		AssetTypeActions.Add(MakeShareable(new FGuidePageDatabaseAsset()));
+		AssetTypeActions.Add(MakeShareable(new FFootstepDatabaseAsset()));
 		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
 		{
 			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());

@@ -35,47 +35,12 @@ public:
 	}
 
 #if WITH_EDITOR
+	int32 ValidEntries() const;
+	int32 AllEntries() const { return Walking.Num() + Running.Num() + Crouching.Num() + 1; }
 private:
-	void UpdateEntries()
-	{
-		if (FApp::IsGame()) return;
-		if (const UEnum* Enum = StaticEnum<EPhysicalSurface>())
-		{
-			for(int32 i = 1; i < Enum->NumEnums(); i++)
-			{
-				const EPhysicalSurface Type = static_cast<EPhysicalSurface>(i);
-				if (Enum->HasMetaData(TEXT("Hidden"), i))
-				{
-					Walking.Remove(TEnumAsByte(Type));
-					Running.Remove(TEnumAsByte(Type));
-					Crouching.Remove(TEnumAsByte(Type));
-				}
-				else 
-				{
-					if (!Walking.Contains(TEnumAsByte(Type))) Walking.Add(TEnumAsByte(Type));
-					if (!Running.Contains(TEnumAsByte(Type))) Running.Add(TEnumAsByte(Type));
-					if (!Crouching.Contains(TEnumAsByte(Type))) Crouching.Add(TEnumAsByte(Type));
-				}
-			}
-		}
-	}
-
-	virtual void PostLoad() override
-	{
-		Super::PostLoad();
-		UpdateEntries();
-	}
-
-	virtual void PostInitProperties() override
-	{
-		Super::PostLoad();
-		UpdateEntries();
-	}
-
-	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
-	{
-		Super::PostEditChangeProperty(PropertyChangedEvent);
-		UpdateEntries();
-	}
+	void UpdateEntries();
+	virtual void PostLoad() override;
+	virtual void PostInitProperties() override;
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 };
