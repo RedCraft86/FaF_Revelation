@@ -7,6 +7,16 @@
 #include "GenericPlayerTypes.generated.h"
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_PlayerLock);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockStartup);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockLoading);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockCutscene);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockDialogue);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockJumpscare);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockInventory);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockHiding);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockDevice);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockGuide);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockQTE);
 
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum EPlayerControlFlags
