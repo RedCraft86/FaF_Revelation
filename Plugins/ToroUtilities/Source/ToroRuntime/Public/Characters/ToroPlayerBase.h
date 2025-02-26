@@ -59,35 +59,38 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		AToroPlayerController* GetPlayerController() const;
 
-	UFUNCTION(BlueprintCallable, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void OverrideControlFlags(UPARAM(meta = (Bitmask, BitmaskEnum = "/Script/ToroRuntime.EPlayerControlFlags")) const int32 InFlags);
 
-	UFUNCTION(BlueprintCallable, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetControlFlag(const EPlayerControlFlags InFlag);
 
-	UFUNCTION(BlueprintCallable, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void UnsetControlFlag(const EPlayerControlFlags InFlag);
 
-	UFUNCTION(BlueprintPure, Category = "Player")
+	UFUNCTION(BlueprintPure, Category = Player)
 		virtual bool HasControlFlag(const EPlayerControlFlags InFlag) const;
 
-	UFUNCTION(BlueprintCallable, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetStateFlag(const EPlayerStateFlags InFlag);
 
-	UFUNCTION(BlueprintCallable, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void UnsetStateFlag(const EPlayerStateFlags InFlag);
 
-	UFUNCTION(BlueprintPure, Category = "Player")
+	UFUNCTION(BlueprintPure, Category = Player)
 		virtual bool HasStateFlag(const EPlayerStateFlags InFlag) const;
 
-	UFUNCTION(BlueprintCallable, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void AddLockFlag(const FPlayerLockFlag& InFlag);
 
-	UFUNCTION(BlueprintCallable, Category = "Player")
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void ClearLockFlag(const FPlayerLockFlag& InFlag);
 
-	UFUNCTION(BlueprintPure, Category = "Player")
+	UFUNCTION(BlueprintPure, Category = Player)
 		virtual bool HasLockFlag(const FPlayerLockFlag& InFlag) const;
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void SetLightSettings(const FPointLightProperties& InSettings);
 	
 protected:
 

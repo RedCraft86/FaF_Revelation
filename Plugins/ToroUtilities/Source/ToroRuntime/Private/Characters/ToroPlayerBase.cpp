@@ -118,6 +118,12 @@ bool AToroPlayerBase::HasLockFlag(const FPlayerLockFlag& InFlag) const
 	return InFlag.IsValidFlag() && LockFlags.Contains(*InFlag);
 }
 
+void AToroPlayerBase::SetLightSettings(const FPointLightProperties& InSettings)
+{
+	LightSettings = InSettings;
+	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
+}
+
 void AToroPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
