@@ -27,6 +27,7 @@ public class ToroRuntime : ModuleRules
                 "MetasoundEngine",
                 "EnhancedInput",
                 "GameplayTags",
+                "PhysicsCore",
                 "InputCore",
                 "CommonUI",
                 "ToroCore",

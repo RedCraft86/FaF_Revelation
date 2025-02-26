@@ -106,6 +106,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		FToroFloatMulti StaminaGainRate;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
+		FPlayerFootsteps Footsteps;
 
 protected:
 	

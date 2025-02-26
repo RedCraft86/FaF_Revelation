@@ -40,6 +40,7 @@
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "DetailsCustomization/InventoryMetadataDetails.h"
 #include "DetailsCustomization/LockPlayerDetails.h"
+#include "DetailsCustomization/PlayerFootstepDetails.h"
 
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
@@ -119,6 +120,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry, FLocalSoundEntryCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata, FInventoryMetadataCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag, FPlayerLockCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FPlayerFootsteps, FPlayerFootstepCustomization)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
@@ -195,6 +197,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerFootsteps)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		

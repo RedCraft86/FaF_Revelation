@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "FootstepTypes.h"
 #include "NativeGameplayTags.h"
 #include "GenericPlayerTypes.generated.h"
 
@@ -70,4 +71,36 @@ struct TORORUNTIME_API FPlayerLockFlag
 #if WITH_EDITOR
 	void ResetTag() { LockTag = Tag_PlayerLock; }
 #endif
+};
+
+USTRUCT(BlueprintInternalUseOnly)
+struct TORORUNTIME_API FPlayerFootsteps
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = PlayerFootsteps, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		float Volume;
+
+	UPROPERTY(EditAnywhere, Category = PlayerFootsteps)
+		TEnumAsByte<ECollisionChannel> FloorTrace;
+
+	UPROPERTY(EditAnywhere, Category = PlayerFootsteps)
+		FVector Intervals;
+
+	UPROPERTY(EditAnywhere, Category = PlayerFootsteps, meta = (DisplayThumbnail = false))
+		TObjectPtr<UFootstepDatabase> Sounds;
+
+	FPlayerFootsteps()
+		: Volume(1.0f), FloorTrace(ECC_Visibility), Intervals(0.5f, 0.35f, 0.6f)
+	{}
+
+	float GetInterval(const bool bRun, const bool bCrouch) const
+	{
+		return bRun ? Intervals.Y : bCrouch ? Intervals.Z : Intervals.X;
+	}
+
+	USoundBase* GetAudio(const EPhysicalSurface Surface, const bool bRun, const bool bCrouch) const
+	{
+		return Sounds->GetSound(Surface, bRun, bCrouch);
+	}
 };
