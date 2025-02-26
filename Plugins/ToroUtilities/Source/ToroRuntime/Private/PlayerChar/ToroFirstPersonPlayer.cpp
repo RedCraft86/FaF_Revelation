@@ -5,6 +5,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Camera/CameraComponent.h"
 
+#define CAN_INPUT !IsLocked() && !IsPaused()
+
 AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), InteractTrace(ECC_Visibility)
 	, FieldOfView(90.0f), FieldOfViewSpeed(5.0f), LockOnSpeed(5.0f), Sensitivity(1.0f), SensitivityMulti(1.0f)
 	, LeanOffsets(75.0f, 25.0f), LeanSpeed(7.5f), SideTrace(ECC_Visibility), SideTraceLength(125.0f)
@@ -49,6 +51,104 @@ AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), Intera
 	}
 }
 
+bool AToroFirstPersonPlayer::IsLocked() const
+{
+	return ControlFlags & PCF_Locked || !LockFlags.IsEmpty();
+}
+
+bool AToroFirstPersonPlayer::IsPaused() const
+{
+	return GetWorldSettings()->GetPauserPlayerState() != nullptr;
+}
+
+void AToroFirstPersonPlayer::InputBinding_Pause(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Turn(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Move(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Run(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Crouch(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Lean(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Inventory(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_HideQuests(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Interact(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_Equipment(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
+void AToroFirstPersonPlayer::InputBinding_EquipmentAlt(const FInputActionValue& InValue)
+{
+	if (CAN_INPUT)
+	{
+		
+	}
+}
+
 void AToroFirstPersonPlayer::BeginPlay()
 {
 	Super::BeginPlay();
@@ -62,6 +162,30 @@ void AToroFirstPersonPlayer::Tick(float DeltaTime)
 void AToroFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	if (UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		BIND_INPUT_ACTION(EIC, ::Started, Pause)
+		BIND_INPUT_ACTION(EIC, ::Triggered, Turn)
+		BIND_INPUT_ACTION(EIC, ::Triggered, Move)
+		BIND_INPUT_ACTION(EIC, ::Completed, Move)
+		BIND_INPUT_ACTION(EIC, ::Canceled, Move)
+		BIND_INPUT_ACTION(EIC, ::Started, Run)
+		BIND_INPUT_ACTION(EIC, ::Completed, Run)
+		BIND_INPUT_ACTION(EIC, ::Canceled, Run)
+		BIND_INPUT_ACTION(EIC, ::Started, Crouch)
+		BIND_INPUT_ACTION(EIC, ::Started, Lean)
+		BIND_INPUT_ACTION(EIC, ::Completed, Lean)
+		BIND_INPUT_ACTION(EIC, ::Canceled, Lean)
+		BIND_INPUT_ACTION(EIC, ::Started, Inventory)
+		BIND_INPUT_ACTION(EIC, ::Started, HideQuests)
+		BIND_INPUT_ACTION(EIC, ::Triggered, Interact)
+		BIND_INPUT_ACTION(EIC, ::Completed, Interact)
+		BIND_INPUT_ACTION(EIC, ::Canceled, Interact)
+		BIND_INPUT_ACTION(EIC, ::Started, Equipment)
+		BIND_INPUT_ACTION(EIC, ::Started, EquipmentAlt)
+		BIND_INPUT_ACTION(EIC, ::Completed, EquipmentAlt)
+		BIND_INPUT_ACTION(EIC, ::Canceled, EquipmentAlt)
+	}
 }
 
 void AToroFirstPersonPlayer::OnConstruction(const FTransform& Transform)

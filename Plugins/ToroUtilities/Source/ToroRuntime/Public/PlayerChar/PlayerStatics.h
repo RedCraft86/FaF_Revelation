@@ -2,7 +2,26 @@
 
 #pragma once
 
+#include "InputActionValue.h"
+#include "EnhancedInputComponent.h"
 #include "DataTypes/GenericPlayerTypes.h"
+
+#define BIND_INPUT_ACTION(Component, Event, Action) \
+	if (const UInputAction* IA = InputActions.FindRef(Player::InputActions::Action)) \
+	{ Component->BindAction(IA, ETriggerEvent##Event, this, &ThisClass::InputBinding_##Action); }
+
+#define INPUT_BINDING_FUNCTIONS() \
+	void InputBinding_Pause(const FInputActionValue& InValue); \
+	void InputBinding_Turn(const FInputActionValue& InValue); \
+	void InputBinding_Move(const FInputActionValue& InValue); \
+	void InputBinding_Run(const FInputActionValue& InValue); \
+	void InputBinding_Crouch(const FInputActionValue& InValue); \
+	void InputBinding_Lean(const FInputActionValue& InValue); \
+	void InputBinding_Inventory(const FInputActionValue& InValue); \
+	void InputBinding_HideQuests(const FInputActionValue& InValue); \
+	void InputBinding_Interact(const FInputActionValue& InValue); \
+	void InputBinding_Equipment(const FInputActionValue& InValue); \
+	void InputBinding_EquipmentAlt(const FInputActionValue& InValue);
 
 namespace Player
 {

@@ -115,10 +115,18 @@ public:
 		FPlayerFootsteps Footsteps;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay, meta = (ReadOnlyKeys, DisplayThumbnail = false))
-		TMap<FName, TObjectPtr<class UInputAction>> InputActions;
+		TMap<FName, TObjectPtr<UInputAction>> InputActions;
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsLocked() const;
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsPaused() const;
 
 protected:
-	
+
+	INPUT_BINDING_FUNCTIONS()
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
