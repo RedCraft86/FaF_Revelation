@@ -74,7 +74,7 @@ private:
 				[
 					SNew(SHorizontalBox)
 					+SHorizontalBox::Slot()
-					.Padding(0.0f, 0.0f, 18.0f, 0.0f)
+					.Padding(0.0f, 0.0f, 17.0f, 0.0f)
 					.VAlign(VAlign_Center)
 					.AutoWidth()
 					[
@@ -93,7 +93,7 @@ private:
 				[
 					SNew(SHorizontalBox)
 					+SHorizontalBox::Slot()
-					.Padding(0.0f, 0.0f, 3.0f, 0.0f)
+					.Padding(0.0f, 0.0f, 2.0f, 0.0f)
 					.VAlign(VAlign_Center)
 					.AutoWidth()
 					[

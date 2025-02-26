@@ -16,13 +16,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = Footsteps)
 		TObjectPtr<USoundBase> Default;
 
-	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = true))
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> Walking;
 
-	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> Running;
 
-	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> Crouching;
 
 	USoundBase* GetSound(const EPhysicalSurface Surface, const bool bRun, const bool bCrouch) const
@@ -38,6 +38,7 @@ public:
 private:
 	void UpdateEntries()
 	{
+		if (FApp::IsGame()) return;
 		if (const UEnum* Enum = StaticEnum<EPhysicalSurface>())
 		{
 			for(int32 i = 1; i < Enum->NumEnums(); i++)
@@ -60,6 +61,12 @@ private:
 	}
 
 	virtual void PostLoad() override
+	{
+		Super::PostLoad();
+		UpdateEntries();
+	}
+
+	virtual void PostInitProperties() override
 	{
 		Super::PostLoad();
 		UpdateEntries();
