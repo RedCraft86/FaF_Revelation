@@ -200,8 +200,11 @@ private:
 				];
 			}
 
+			LeanGroup.AddPropertyRow(GET_PROPERTY(LeanSpeed)).DisplayName(INVTEXT("Speed"));
+
 			GET_PROPERTY_VAR(SideTrace, SideTrace)
 			GET_PROPERTY_VAR(SideTraceLength, SideTraceLength)
+			ADD_CLAMP_META_NO_UPPER(SideTraceLength, 10.0, 200.0)
 			LeanGroup.AddWidgetRow().OverrideResetToDefault(SIMPLE_RESET_TO_DEFAULT(SideTraceLength))
 			.NameContent()
 			[
@@ -224,8 +227,6 @@ private:
 					SideTraceLength->CreatePropertyValueWidget()
 				]
 			];
-
-			LeanGroup.AddPropertyRow(GET_PROPERTY(LeanSpeed)).DisplayName(INVTEXT("Speed"));
 		}
 
 		IDetailGroup& MoveGroup = Settings.AddGroup(TEXT("Movement"), INVTEXT("Movement"));

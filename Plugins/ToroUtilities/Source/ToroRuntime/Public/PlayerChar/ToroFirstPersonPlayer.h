@@ -56,14 +56,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FVector2D LeanOffsets;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f))
-		float SideTraceLength;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		float LeanSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		TEnumAsByte<ECollisionChannel> SideTrace;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+		float SideTraceLength;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		FToroFloatMulti MoveSpeedMulti;
