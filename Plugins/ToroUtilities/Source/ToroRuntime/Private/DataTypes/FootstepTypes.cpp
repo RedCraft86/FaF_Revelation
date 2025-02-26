@@ -3,7 +3,12 @@
 #include "DataTypes/FootstepTypes.h"
 
 #if WITH_EDITOR
-int32 UFootstepDatabase::ValidEntries() const
+int32 UFootstepDatabase::GetTotalData() const
+{
+	return 1 + Walking.Num() + Running.Num() + Crouching.Num();
+}
+
+int32 UFootstepDatabase::GetValidData() const
 {
 	int32 Count = 0;
 	if (const UEnum* Enum = StaticEnum<EPhysicalSurface>())
@@ -28,9 +33,9 @@ int32 UFootstepDatabase::ValidEntries() const
 	return Count;
 }
 
-void UFootstepDatabase::UpdateEntries()
+void UFootstepDatabase::UpdateData()
 {
-	if (FApp::IsGame()) return;
+	Super::UpdateData();
 	if (const UEnum* Enum = StaticEnum<EPhysicalSurface>())
 	{
 		for(int32 i = 0; i < Enum->NumEnums(); i++)
@@ -50,23 +55,5 @@ void UFootstepDatabase::UpdateEntries()
 			}
 		}
 	}
-}
-
-void UFootstepDatabase::PostLoad()
-{
-	Super::PostLoad();
-	UpdateEntries();
-}
-
-void UFootstepDatabase::PostInitProperties()
-{
-	Super::PostInitProperties();
-	UpdateEntries();
-}
-
-void UFootstepDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
-{
-	Super::PostEditChangeProperty(PropertyChangedEvent);
-	UpdateEntries();
 }
 #endif

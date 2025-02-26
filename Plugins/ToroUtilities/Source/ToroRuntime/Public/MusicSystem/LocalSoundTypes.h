@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ECFHandle.h"
+#include "ToroDatabase.h"
 #include "NativeGameplayTags.h"
 #include "GameplayTagContainer.h"
 #include "LocalSoundTypes.generated.h"
@@ -47,7 +48,7 @@ struct TORORUNTIME_API FLocalSoundEntry
 };
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API ULocalSoundDatabase final : public UDataAsset
+class TORORUNTIME_API ULocalSoundDatabase final : public UToroDatabase
 {
 	GENERATED_BODY()
 
@@ -59,16 +60,15 @@ public:
 		TMap<FGameplayTag, FLocalSoundEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;
-	uint8 GetValidCount() const;
-	
+
 	static bool IsValidKey(const FGameplayTag& Key);
 	static FLocalSoundEntry Get(const FGameplayTag& Key);
 	
 #if WITH_EDITOR
-private:
-	void UpdateEntries();
-	virtual void PostLoad() override;
-	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+	virtual int32 GetTotalData() const override;
+	virtual int32 GetValidData() const override;
+protected:
+	virtual void UpdateData() override;
 #endif
 };
 

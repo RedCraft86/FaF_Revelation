@@ -11,20 +11,6 @@ bool UAchievementDatabase::IsKeyValid(const FGameplayTag& Key) const
 		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
-uint8 UAchievementDatabase::GetValidCount() const
-{
-	uint8 Count = 0;
-	for (const TPair<FGameplayTag, FAchievementEntry>& Entry : Entries)
-	{
-		if (Entry.Key.IsValid() && Entry.Key != Tag_Achievements && Entry.Value.IsValidData())
-		{
-			Count++;
-		}
-	}
-
-	return Count;
-}
-
 bool UAchievementDatabase::IsValidKey(const FGameplayTag& Key)
 {
 	if (!Key.IsValid()) return false;
@@ -48,8 +34,28 @@ FAchievementEntry UAchievementDatabase::Get(const FGameplayTag& Key)
 }
 
 #if WITH_EDITOR
-void UAchievementDatabase::UpdateEntries()
+int32 UAchievementDatabase::GetTotalData() const
 {
+	return Entries.Num();
+}
+
+int32 UAchievementDatabase::GetValidData() const
+{
+	int32 Count = 0;
+	for (const TPair<FGameplayTag, FAchievementEntry>& Entry : Entries)
+	{
+		if (Entry.Key.IsValid() && Entry.Key != Tag_Achievements && Entry.Value.IsValidData())
+		{
+			Count++;
+		}
+	}
+
+	return Count;
+}
+
+void UAchievementDatabase::UpdateData()
+{
+	Super::UpdateData();
 	for (TPair<FGameplayTag, FAchievementEntry>& Entry : Entries)
 	{
 		if (!Entry.Key.IsValid() || Entry.Key == Tag_Achievements)
@@ -65,17 +71,5 @@ void UAchievementDatabase::UpdateEntries()
 			Entry.Value.Label = Entry.Value.Name.ToString();
 		}
 	}
-}
-
-void UAchievementDatabase::PostLoad()
-{
-	Super::PostLoad();
-	UpdateEntries();
-}
-
-void UAchievementDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
-{
-	Super::PostEditChangeProperty(PropertyChangedEvent);
-	UpdateEntries();
 }
 #endif

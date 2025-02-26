@@ -30,20 +30,6 @@ bool ULocalSoundDatabase::IsKeyValid(const FGameplayTag& Key) const
 		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
-uint8 ULocalSoundDatabase::GetValidCount() const
-{
-	uint8 Count = 0;
-	for (const TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
-	{
-		if (Entry.Key.IsValid() && Entry.Key != Tag_LocalSounds && Entry.Value.IsValidData())
-		{
-			Count++;
-		}
-	}
-
-	return Count;
-}
-
 bool ULocalSoundDatabase::IsValidKey(const FGameplayTag& Key)
 {
 	if (!Key.IsValid()) return false;
@@ -67,8 +53,28 @@ FLocalSoundEntry ULocalSoundDatabase::Get(const FGameplayTag& Key)
 }
 
 #if WITH_EDITOR
-void ULocalSoundDatabase::UpdateEntries()
+int32 ULocalSoundDatabase::GetTotalData() const
 {
+	return Entries.Num();
+}
+
+int32 ULocalSoundDatabase::GetValidData() const
+{
+	int32 Count = 0;
+	for (const TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
+	{
+		if (Entry.Key.IsValid() && Entry.Key != Tag_LocalSounds && Entry.Value.IsValidData())
+		{
+			Count++;
+		}
+	}
+
+	return Count;
+}
+
+void ULocalSoundDatabase::UpdateData()
+{
+	Super::UpdateData();
 	for (TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
 	{
 		Entry.Value.Update();
@@ -85,18 +91,6 @@ void ULocalSoundDatabase::UpdateEntries()
 			Entry.Value.Label = Entry.Value.Sound.GetAssetName();
 		}
 	}
-}
-
-void ULocalSoundDatabase::PostLoad()
-{
-	Super::PostLoad();
-	UpdateEntries();
-}
-
-void ULocalSoundDatabase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
-{
-	Super::PostEditChangeProperty(PropertyChangedEvent);
-	UpdateEntries();
 }
 #endif
 

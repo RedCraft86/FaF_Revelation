@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroDatabase.h"
 #include "Engine/DataAsset.h"
 #include "NativeGameplayTags.h"
 #include "GuidePageTypes.generated.h"
@@ -44,7 +45,7 @@ struct TORORUNTIME_API FGuidePageEntry
 };
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API UGuidePageDatabase final : public UDataAsset
+class TORORUNTIME_API UGuidePageDatabase final : public UToroDatabase
 {
 	GENERATED_BODY()
 	
@@ -56,15 +57,14 @@ public:
 		TMap<FGameplayTag, FGuidePageEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;
-	uint8 GetValidCount() const;
-	
+
 	static bool IsValidKey(const FGameplayTag& Key);
 	static FGuidePageEntry Get(const FGameplayTag& Key);
 	
 #if WITH_EDITOR
-private:
-	void UpdateEntries();
-	virtual void PostLoad() override;
-	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+	virtual int32 GetTotalData() const override;
+	virtual int32 GetValidData() const override;
+protected:
+	virtual void UpdateData() override;
 #endif
 };

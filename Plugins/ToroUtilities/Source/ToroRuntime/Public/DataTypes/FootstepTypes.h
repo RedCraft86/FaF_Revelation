@@ -2,10 +2,11 @@
 
 #pragma once
 
+#include "ToroDatabase.h"
 #include "FootstepTypes.generated.h"
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API UFootstepDatabase final : public UDataAsset
+class TORORUNTIME_API UFootstepDatabase final : public UToroDatabase
 {
 	GENERATED_BODY()
 
@@ -35,12 +36,9 @@ public:
 	}
 
 #if WITH_EDITOR
-	int32 ValidEntries() const;
-	int32 AllEntries() const { return Walking.Num() + Running.Num() + Crouching.Num() + 1; }
-private:
-	void UpdateEntries();
-	virtual void PostLoad() override;
-	virtual void PostInitProperties() override;
-	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+	virtual int32 GetTotalData() const override;
+	virtual int32 GetValidData() const override;
+protected:
+	virtual void UpdateData() override;
 #endif
 };
