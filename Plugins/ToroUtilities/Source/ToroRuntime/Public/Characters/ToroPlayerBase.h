@@ -41,7 +41,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterSettings, meta = (DisplayPriority = -1, Bitmask, BitmaskEnum = "/Script/ToroRuntime.EPlayerStateFlags"))
 		int32 StateFlags;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterSettings, meta = (DisplayPriority = -1))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharacterSettings, meta = (DisplayPriority = -1))
 		TSet<FName> LockFlags;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
