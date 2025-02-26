@@ -90,6 +90,26 @@ struct TORORUNTIME_API FPlayerLockFlag
 };
 
 USTRUCT(BlueprintInternalUseOnly)
+struct TORORUNTIME_API FPlayerCameraShakes
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = CameraShake)
+		TSubclassOf<UCameraShakeBase> WalkShake;
+
+	UPROPERTY(EditAnywhere, Category = CameraShake, meta = (EditCondition = "WalkShake != nullptr"))
+		float WalkScale;
+
+	UPROPERTY(EditAnywhere, Category = CameraShake)
+		TSubclassOf<UCameraShakeBase> RunShake;
+
+	UPROPERTY(EditAnywhere, Category = CameraShake, meta = (EditCondition = "RunShake != nullptr"))
+		float RunScale;
+
+	FPlayerCameraShakes() : WalkScale(1.0f), RunScale(0.75f) {}
+};
+
+USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FPlayerFootsteps
 {
 	GENERATED_BODY()

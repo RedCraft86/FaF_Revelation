@@ -108,6 +108,9 @@ public:
 		FToroFloatMulti StaminaGainRate;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
+		FPlayerCameraShakes CameraShakes;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPlayerFootsteps Footsteps;
 
 protected:
