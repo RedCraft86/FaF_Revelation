@@ -48,11 +48,17 @@ enum EPlayerStateFlags
 	PSF_RunLocked	= 1 << 1	UMETA(DisplayName = "Stamina Punished"),
 	PSF_Crouching	= 1 << 2	UMETA(DisplayName = "Crouching"),
 	PSF_Hiding		= 1 << 3	UMETA(DisplayName = "Hiding"),
-	PSF_Tasking		= 1 << 4	UMETA(DisplayName = "Doing Tasks"),
-	PSF_LeanLeft	= 1 << 5	UMETA(DisplayName = "Leaning Left"),
-	PSF_LeanRight	= 1 << 6	UMETA(DisplayName = "Leaning Right"),
+	PSF_Tasking		= 1 << 4	UMETA(DisplayName = "Doing Tasks")
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
+
+UENUM(BlueprintType)
+enum class EPlayerLeanState : uint8
+{
+	None,
+	Left,
+	Right
+};
 
 USTRUCT(BlueprintType)
 struct TORORUNTIME_API FPlayerLockFlag
