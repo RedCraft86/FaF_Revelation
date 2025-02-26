@@ -32,35 +32,15 @@ namespace Player
 
 	namespace LockFlags
 	{
-		inline static TSet<FGameplayTag> All = {
-			Tag_LockStartup.GetTag(),
-			Tag_LockLoading.GetTag(),
-			Tag_LockCutscene.GetTag(),
-			Tag_LockDialogue.GetTag(),
-			Tag_LockJumpscare.GetTag(),
-			Tag_LockInventory.GetTag(),
-			Tag_LockHiding.GetTag(),
-			Tag_LockDevice.GetTag(),
-			Tag_LockGuide.GetTag(),
-			Tag_LockQTE.GetTag()
-		};
+		inline static TSet<FGameplayTag> All = { Tag_LockStartup, Tag_LockLoading,
+			Tag_LockCutscene, Tag_LockDialogue, Tag_LockJumpscare, Tag_LockInventory,
+			Tag_LockHiding, Tag_LockDevice, Tag_LockGuide, Tag_LockQTE };
 
-		inline static TSet<FGameplayTag> Immunity = {
-			Tag_LockStartup.GetTag(),
-			Tag_LockLoading.GetTag(),
-			Tag_LockCutscene.GetTag(),
-			Tag_LockDialogue.GetTag(),
-			Tag_LockJumpscare.GetTag(),
-			Tag_LockHiding.GetTag(),
-			Tag_LockGuide.GetTag()
-		};
+		inline static TSet<FGameplayTag> Immunity = { Tag_LockStartup, Tag_LockLoading, Tag_LockCutscene,
+			Tag_LockDialogue, Tag_LockJumpscare, Tag_LockHiding, Tag_LockGuide };
 
-		inline static TSet<FGameplayTag> Resettable = {
-			Tag_LockInventory.GetTag(),
-			Tag_LockHiding.GetTag(),
-			Tag_LockDevice.GetTag(),
-			Tag_LockQTE.GetTag()
-		};
+		inline static TSet<FGameplayTag> Resettable = { Tag_LockInventory,
+			Tag_LockHiding, Tag_LockDevice, Tag_LockQTE };
 	}
 
 	static float LeanToFloat(const EPlayerLeanState& State)
