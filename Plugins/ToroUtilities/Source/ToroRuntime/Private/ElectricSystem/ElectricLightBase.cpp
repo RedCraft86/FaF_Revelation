@@ -160,8 +160,7 @@ void FElectricLightAnim::SetFlickerCurve(FElectricLightAnim& InAnim)
 	InAnim.PlayRate = 0.25f;
 	if (FRichCurve* Curve = InAnim.AnimCurve.GetRichCurve(3))
 	{
-		Curve->UpdateOrAddKey(0.0f, 1.0f);
-		Curve->UpdateOrAddKey(0.0f, 1.0f);
+		Curve->UpdateOrAddKey(0.0f, 0.0f);
 		Curve->UpdateOrAddKey(0.06f, 0.28f);
 		Curve->UpdateOrAddKey(0.1f, 0.95f);
 		Curve->UpdateOrAddKey(0.13f, 0.15f);
