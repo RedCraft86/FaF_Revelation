@@ -19,6 +19,11 @@ struct TORORUNTIME_API FToroFloatModifier
 	FToroFloatModifier(const float InBase) : Base(InBase) {}
 	virtual ~FToroFloatModifier() = default;
 	
+	void ClampBase(const float Min, const float Max)
+	{
+		Base = FMath::Clamp(Base, Min, Max);
+	}
+	
 	void ClampModifiers(const float Min, const float Max)
 	{
 		for (auto It = Modifiers.CreateIterator(); It; ++It)
