@@ -34,15 +34,25 @@ namespace Player
 
 	namespace LockFlags
 	{
-		inline static TSet<FGameplayTag> All = { Tag_LockStartup, Tag_LockLoading,
-			Tag_LockCutscene, Tag_LockDialogue, Tag_LockJumpscare, Tag_LockInventory,
-			Tag_LockHiding, Tag_LockDevice, Tag_LockGuide, Tag_LockQTE };
+		static TSet<FGameplayTag> GetAll()
+		{
+			return { Tag_LockStartup, Tag_LockLoading, Tag_LockCutscene,
+				Tag_LockDialogue,Tag_LockJumpscare, Tag_LockInventory,
+				Tag_LockHiding, Tag_LockDevice, Tag_LockGuide, Tag_LockQTE
+			};
+		}
 
-		inline static TSet<FGameplayTag> Immunity = { Tag_LockStartup, Tag_LockLoading, Tag_LockCutscene,
-			Tag_LockDialogue, Tag_LockJumpscare, Tag_LockHiding, Tag_LockGuide };
+		static TSet<FGameplayTag> Immunity()
+		{
+			return { Tag_LockStartup, Tag_LockLoading, Tag_LockCutscene,
+				Tag_LockDialogue, Tag_LockJumpscare, Tag_LockHiding, Tag_LockGuide
+			};
+		}
 
-		inline static TSet<FGameplayTag> Resettable = { Tag_LockInventory,
-			Tag_LockHiding, Tag_LockDevice, Tag_LockQTE };
+		static TSet<FGameplayTag> Resettable()
+		{
+			return { Tag_LockInventory, Tag_LockHiding, Tag_LockDevice, Tag_LockQTE };
+		}
 	}
 
 	static float LeanToFloat(const EPlayerLeanState& State)
@@ -58,7 +68,7 @@ namespace Player
 
 #define BIND_INPUT_ACTION(Component, Event, Action) \
 	if (const UInputAction* IA_##Action = InputActions.FindRef(Player::InputActions::Action)) \
-	{ Component->BindAction(IA_##Action, ETriggerEvent##Event, this, &ThisClass::InputBinding_##Action); }
+	{ Component->BindAction(IA_##Action, ETriggerEvent::Event, this, &ThisClass::InputBinding_##Action); }
 
 #define INPUT_BINDING_FUNCTIONS() \
 	void InputBinding_Pause(const FInputActionValue& InValue); \
@@ -74,24 +84,24 @@ namespace Player
 	void InputBinding_EquipmentAlt(const FInputActionValue& InValue);
 
 #define INPUT_EVENT_BINDS(Component) \
-	BIND_INPUT_ACTION(Component, ::Started, Pause) \
-	BIND_INPUT_ACTION(Component, ::Triggered, Turn) \
-	BIND_INPUT_ACTION(Component, ::Triggered, Move) \
-	BIND_INPUT_ACTION(Component, ::Completed, Move) \
-	BIND_INPUT_ACTION(Component, ::Canceled, Move) \
-	BIND_INPUT_ACTION(Component, ::Started, Run) \
-	BIND_INPUT_ACTION(Component, ::Completed, Run) \
-	BIND_INPUT_ACTION(Component, ::Canceled, Run) \
-	BIND_INPUT_ACTION(Component, ::Started, Crouch) \
-	BIND_INPUT_ACTION(Component, ::Started, Lean) \
-	BIND_INPUT_ACTION(Component, ::Completed, Lean) \
-	BIND_INPUT_ACTION(Component, ::Canceled, Lean) \
-	BIND_INPUT_ACTION(Component, ::Started, Inventory) \
-	BIND_INPUT_ACTION(Component, ::Started, HideQuests) \
-	BIND_INPUT_ACTION(Component, ::Triggered, Interact) \
-	BIND_INPUT_ACTION(Component, ::Completed, Interact) \
-	BIND_INPUT_ACTION(Component, ::Canceled, Interact) \
-	BIND_INPUT_ACTION(Component, ::Started, Equipment) \
-	BIND_INPUT_ACTION(Component, ::Started, EquipmentAlt) \
-	BIND_INPUT_ACTION(Component, ::Completed, EquipmentAlt) \
-	BIND_INPUT_ACTION(Component, ::Canceled, EquipmentAlt)
+	BIND_INPUT_ACTION(Component, Started, Pause) \
+	BIND_INPUT_ACTION(Component, Triggered, Turn) \
+	BIND_INPUT_ACTION(Component, Triggered, Move) \
+	BIND_INPUT_ACTION(Component, Completed, Move) \
+	BIND_INPUT_ACTION(Component, Canceled, Move) \
+	BIND_INPUT_ACTION(Component, Started, Run) \
+	BIND_INPUT_ACTION(Component, Completed, Run) \
+	BIND_INPUT_ACTION(Component, Canceled, Run) \
+	BIND_INPUT_ACTION(Component, Started, Crouch) \
+	BIND_INPUT_ACTION(Component, Started, Lean) \
+	BIND_INPUT_ACTION(Component, Completed, Lean) \
+	BIND_INPUT_ACTION(Component, Canceled, Lean) \
+	BIND_INPUT_ACTION(Component, Started, Inventory) \
+	BIND_INPUT_ACTION(Component, Started, HideQuests) \
+	BIND_INPUT_ACTION(Component, Triggered, Interact) \
+	BIND_INPUT_ACTION(Component, Completed, Interact) \
+	BIND_INPUT_ACTION(Component, Canceled, Interact) \
+	BIND_INPUT_ACTION(Component, Started, Equipment) \
+	BIND_INPUT_ACTION(Component, Started, EquipmentAlt) \
+	BIND_INPUT_ACTION(Component, Completed, EquipmentAlt) \
+	BIND_INPUT_ACTION(Component, Canceled, EquipmentAlt)
