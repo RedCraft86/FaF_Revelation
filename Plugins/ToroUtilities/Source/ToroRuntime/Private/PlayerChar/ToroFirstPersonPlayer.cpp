@@ -165,8 +165,8 @@ void AToroFirstPersonPlayer::SetLockOnTarget(const USceneComponent* InComponent)
 void AToroFirstPersonPlayer::SetHidingSpot(UObject* InObject)
 {
 	HidingSpot = InObject;
-	if (WorldDevice) LockFlags.Add(Tag_LockHiding.GetTag().GetTagName());
-	else LockFlags.Remove(Tag_LockHiding.GetTag().GetTagName());
+	if (WorldDevice) LockFlags.Add(LockFlag(Hiding));
+	else LockFlags.Remove(LockFlag(Hiding));
 }
 
 void AToroFirstPersonPlayer::ForceExitHiding() const
@@ -177,8 +177,8 @@ void AToroFirstPersonPlayer::ForceExitHiding() const
 void AToroFirstPersonPlayer::SetWorldDevice(UObject* InObject)
 {
 	WorldDevice = InObject;
-	if (WorldDevice) LockFlags.Add(Tag_LockDevice.GetTag().GetTagName());
-	else LockFlags.Remove(Tag_LockDevice.GetTag().GetTagName());
+	if (WorldDevice) LockFlags.Add(LockFlag(Device));
+	else LockFlags.Remove(LockFlag(Device));
 }
 
 void AToroFirstPersonPlayer::ForceExitWorldDevice() const
@@ -239,7 +239,7 @@ bool AToroFirstPersonPlayer::TryJumpscare()
 	AddLockFlag(Tag_LockJumpscare.GetTag());
 	
 	ForceExitWorldDevice();
-	if (LockFlags.Contains(Tag_LockInventory.GetTag().GetTagName()))
+	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
 		// TODO: Exit inventory
 		//GameMode->Inventory->CloseUI();
@@ -499,7 +499,7 @@ void AToroFirstPersonPlayer::BeginPlay()
 		if (!HasControlFlag(PCF_UseStamina)) Timer.PauseTimer(StaminaTimer);
 	}
 
-	LockFlags.Remove(Tag_LockStartup.GetTag().GetTagName());
+	LockFlags.Remove(LockFlag(Startup));
 }
 
 void AToroFirstPersonPlayer::Tick(float DeltaTime)
@@ -611,17 +611,40 @@ void AToroFirstPersonPlayer::InputBinding_Pause(const FInputActionValue& InValue
 
 void AToroFirstPersonPlayer::InputBinding_Turn(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT)
+	if (CAN_INPUT && HasControlFlag(PCF_CanTurn) && !IsValid(LockOnTarget))
 	{
-		
+		const FVector2D Axis = InValue.Get<FVector2D>();
+		const float Multiplier = SensitivityMulti.Evaluate();
+		if (!FMath::IsNearlyZero(Axis.X))
+		{
+			AddControllerYawInput(Axis.X * Sensitivity.X * Multiplier);
+		}
+		if (!FMath::IsNearlyZero(Axis.Y))
+		{
+			AddControllerPitchInput(Axis.Y * Sensitivity.Y * Multiplier * -1.0f);
+		}
 	}
 }
 
 void AToroFirstPersonPlayer::InputBinding_Move(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT)
+	if (CAN_INPUT && HasControlFlag(PCF_CanMove))
 	{
-		
+		const FVector2D Axis = InValue.Get<FVector2D>();
+		if (!FMath::IsNearlyZero(Axis.X))
+		{
+			AddMovementInput(GetActorForwardVector(), Axis.X);
+		}
+		if (!FMath::IsNearlyZero(Axis.Y))
+		{
+			AddMovementInput(GetActorRightVector(), Axis.Y);
+		}
+
+		CamSwayOffset = SwayOffsets * Axis.Y;
+	}
+	else
+	{
+		CamSwayOffset = FVector2D::ZeroVector;
 	}
 }
 
@@ -629,7 +652,7 @@ void AToroFirstPersonPlayer::InputBinding_Run(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
-		
+		SetRunState(HasControlFlag(PCF_CanRun) && InValue.Get<bool>());
 	}
 }
 
@@ -637,23 +660,48 @@ void AToroFirstPersonPlayer::InputBinding_Crouch(const FInputActionValue& InValu
 {
 	if (CAN_INPUT)
 	{
-		
+		if (HasControlFlag(PCF_CanCrouch) && !IsCrouching())
+		{
+			SetCrouchState(true);
+		}
+		else if (!IsStandingBlocked())
+		{
+			SetCrouchState(false);
+		}
 	}
 }
 
 void AToroFirstPersonPlayer::InputBinding_Lean(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT)
+	if (CAN_INPUT && !IsValid(LockOnTarget))
 	{
-		
+		const float Direction = InValue.Get<float>();
+		if (!HasControlFlag(PCF_CanLean) || FMath::IsNearlyZero(Direction))
+		{
+			SetLeanState(EPlayerLeanState::None);
+		}
+		else if (Direction > 0.0f)
+		{
+			SetLeanState(EPlayerLeanState::Right);
+		}
+		else // if (Direction < 0.0f)
+		{
+			SetLeanState(EPlayerLeanState::Left);
+		}
 	}
 }
 
 void AToroFirstPersonPlayer::InputBinding_Inventory(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT)
+	if (LockFlags.Contains(LockFlag(Guide))) return;
+	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
-		
+		// TODO: Inventory
+		// GameMode->Inventory->CloseUI();
+	}
+	else if (CAN_INPUT)
+	{
+		// GameMode->Inventory->OpenUI();
 	}
 }
 
@@ -661,23 +709,24 @@ void AToroFirstPersonPlayer::InputBinding_HideQuests(const FInputActionValue& In
 {
 	if (CAN_INPUT)
 	{
-		
+		if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
+		{
+			// TODO: Narrative widget
+			// WidgetManager->ToggleQuestsHidden();
+		}
 	}
 }
 
 void AToroFirstPersonPlayer::InputBinding_Interact(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT)
-	{
-		
-	}
+	Interaction->SetInteracting(CAN_INPUT && HasControlFlag(PCF_CanInteract) && InValue.Get<bool>());
 }
 
 void AToroFirstPersonPlayer::InputBinding_Equipment(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
-		
+		// GameMode->Inventory->EquipmentUse(); TODO: Inventory
 	}
 }
 
@@ -685,6 +734,6 @@ void AToroFirstPersonPlayer::InputBinding_EquipmentAlt(const FInputActionValue& 
 {
 	if (CAN_INPUT)
 	{
-		
+		// GameMode->Inventory->EquipmentUseAlt(InValue.Get<bool>()); TODO: Inventory
 	}
 }
