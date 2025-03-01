@@ -56,8 +56,14 @@ public:
 		return Cast<T>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));
 	}
 
+	UFUNCTION(BlueprintPure, Category = "Player")
+		AToroGameMode* GetGameMode() const { return GameMode; }
+	
 	UFUNCTION(BlueprintPure, Category = Player)
-		AToroPlayerController* GetPlayerController() const;
+		AToroPlayerController* GetPlayerController() const { return PlayerController; }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void TeleportPlayer(const FVector& InLocation, const FRotator& InRotation);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void OverrideControlFlags(UPARAM(meta = (Bitmask, BitmaskEnum = "/Script/ToroRuntime.EPlayerControlFlags")) const int32 InFlags);
@@ -90,11 +96,22 @@ public:
 		virtual bool HasLockFlag(const FPlayerLockFlag& InFlag) const;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void ExitCinematic();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void EnterCinematic(AActor* InActor);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		virtual const AActor* GetCinematicActor() const { return CinematicActor; }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
-	
+
 protected:
 
+	UPROPERTY(Transient) TObjectPtr<AActor> CinematicActor;
 	UPROPERTY(Transient) TObjectPtr<AToroGameMode> GameMode;
+	UPROPERTY(Transient) TObjectPtr<AToroPlayerController> PlayerController;
 	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
 	
 	virtual void BeginPlay() override;

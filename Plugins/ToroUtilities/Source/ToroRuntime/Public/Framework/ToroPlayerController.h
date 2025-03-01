@@ -100,8 +100,6 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
-
-	UPROPERTY() TObjectPtr<AActor> CinematicActor;
 	
 	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Controller"))
 		static EToroValidPins GetToroPlayerController(AToroPlayerController*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerController>& Class, const int32 PlayerIndex = 0);
@@ -114,16 +112,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Input, meta = (AdvancedDisplay = "MouseLock, bHideCursorOnCapture, FocusWidget, PlayerIndex"))
 		void SetGameInputMode(const EGameInputMode InputMode, const bool bMouseCursor = false, const EMouseLockMode MouseLock = EMouseLockMode::LockAlways, const bool bHideCursorOnCapture = true, UUserWidget* FocusWidget = nullptr);
-	
+
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void SetInputModeData(const FGameInputModeData& InputMode);
 
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
 
-	UFUNCTION(BlueprintPure, Category = Input)
-		const AActor* GetCinematicActor() const { return CinematicActor; }
-	
 protected:
 	
 	UPROPERTY() FGameInputModeData InputModeData;
