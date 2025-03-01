@@ -57,11 +57,14 @@ public:
 		return Cast<T>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));
 	}
 
-	UFUNCTION(BlueprintPure, Category = "Player")
+	UFUNCTION(BlueprintPure, Category = Player)
 		AToroGameMode* GetGameMode() const { return GameMode; }
 	
 	UFUNCTION(BlueprintPure, Category = Player)
 		AToroPlayerController* GetPlayerController() const { return PlayerController; }
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		const AActor* GetCinematicActor() const { return CinematicActor; }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void TeleportPlayer(const FVector& InLocation, const FRotator& InRotation);
@@ -101,9 +104,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void EnterCinematic(AActor* InActor);
-
-	UFUNCTION(BlueprintPure, Category = Player)
-		virtual const AActor* GetCinematicActor() const { return CinematicActor; }
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void ClearEnemyStack();
