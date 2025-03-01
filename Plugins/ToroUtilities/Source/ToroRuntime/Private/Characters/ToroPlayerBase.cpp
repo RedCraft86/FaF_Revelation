@@ -39,9 +39,10 @@ EToroValidPins AToroPlayerBase::GetToroPlayerCharacter(AToroPlayerBase*& OutObje
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
-AToroPlayerController* AToroPlayerBase::GetPlayerController() const
+void AToroPlayerBase::TeleportPlayer(const FVector& InLocation, const FRotator& InRotation)
 {
-	return GetController<AToroPlayerController>();
+	SetActorLocation(InLocation);
+	Controller->SetControlRotation(InRotation);
 }
 
 void AToroPlayerBase::OverrideControlFlags(const int32 InFlags)
@@ -118,6 +119,28 @@ bool AToroPlayerBase::HasLockFlag(const FPlayerLockFlag& InFlag) const
 	return InFlag.IsValidFlag() && LockFlags.Contains(*InFlag);
 }
 
+void AToroPlayerBase::ExitCinematic()
+{
+	if (CinematicActor)
+	{
+		CinematicActor = nullptr;
+		ClearLockFlag(Tag_LockCinematic.GetTag());
+		PlayerController->SetCinematicMode(false, false,
+			false, true, true);
+	}
+}
+
+void AToroPlayerBase::EnterCinematic(AActor* InActor)
+{
+	if (!CinematicActor)
+	{
+		CinematicActor = InActor;
+		AddLockFlag(Tag_LockCinematic.GetTag());
+		PlayerController->SetCinematicMode(true, true,
+			false, true, true);
+	}
+}
+
 void AToroPlayerBase::SetLightSettings(const FPointLightProperties& InSettings)
 {
 	LightSettings = InSettings;
@@ -128,6 +151,7 @@ void AToroPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = AToroGameMode::Get(this);
+	PlayerController = AToroPlayerController::Get(this);
 	GameInstance = UToroGameInstance::Get(this);
 }
 

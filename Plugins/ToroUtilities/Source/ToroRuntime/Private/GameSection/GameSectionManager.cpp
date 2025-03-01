@@ -41,10 +41,10 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 	bWaiting = false;
 	bMainLevelLoaded = false;
 	
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
-		PC->CinematicActor = GetWorld()->GetLevelScriptActor();
-		PC->SetCinematicMode(true, true, false, true, true);
+		Player->EnterCinematic(GetWorld()->GetLevelScriptActor());
+		Player->AddLockFlag(Tag_LockLoading.GetTag());
 	}
 
 	ToLoad = NewSection->GetLevels();
@@ -201,11 +201,11 @@ void UGameSectionManager::OnEndSequenceFinished()
 		UnloadLevel(Level);
 	}
 	ToUnload.Empty();
-	
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+
+	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
-		PC->CinematicActor = nullptr;
-		PC->SetCinematicMode(false, false, false, true, true);
+		Player->ExitCinematic();
+		Player->ClearLockFlag(Tag_LockLoading.GetTag());
 	}
 
 	bLoading = false;

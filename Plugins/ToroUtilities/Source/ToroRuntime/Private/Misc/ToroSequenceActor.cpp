@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Misc/ToroSequenceActor.h"
-#include "Framework/ToroPlayerController.h"
+#include "Characters/ToroPlayerBase.h"
 #include "LevelSequencePlayer.h"
 
 AToroSequenceActor::AToroSequenceActor(const FObjectInitializer& Init)
@@ -51,18 +51,18 @@ void AToroSequenceActor::SetPlaybackPosition(const FMovieSceneSequencePlaybackPa
 
 void AToroSequenceActor::LockPlayer()
 {
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+	if (!bLockPlayer) return;
+	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
-		PC->CinematicActor = this;
-		if (bLockPlayer) PC->SetCinematicMode(true, true, false, true, true);
+		Player->EnterCinematic(this);
 	}
 }
 
 void AToroSequenceActor::UnlockPlayer() const
 {
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+	if (!bLockPlayer) return;
+	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
-		PC->CinematicActor = nullptr;
-		if (bLockPlayer) PC->SetCinematicMode(false, false, false, true, true);
+		Player->ExitCinematic();
 	}
 }
