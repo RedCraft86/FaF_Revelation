@@ -28,30 +28,49 @@ namespace Player
 
 	namespace InternalKeys
 	{
-		inline static FString RunFOV		= TEXT("Internal_RunFOV");
-		inline static FString CrouchFOV		= TEXT("Internal_CrouchFOV");
+		inline static FName RunFOV		= TEXT("Internal_RunFOV");
+		inline static FName CrouchFOV	= TEXT("Internal_CrouchFOV");
 	}
 
 	namespace LockFlags
 	{
-		static TSet<FGameplayTag> GetAll()
+		static TSet<FName> GetAll()
 		{
-			return { Tag_LockStartup, Tag_LockLoading, Tag_LockCutscene,
-				Tag_LockDialogue,Tag_LockJumpscare, Tag_LockInventory,
-				Tag_LockHiding, Tag_LockDevice, Tag_LockGuide, Tag_LockQTE
+			return {
+				Tag_LockStartup.GetTag().GetTagName(),
+				Tag_LockLoading.GetTag().GetTagName(),
+				Tag_LockCinematic.GetTag().GetTagName(),
+				Tag_LockDialogue.GetTag().GetTagName(),
+				Tag_LockJumpscare.GetTag().GetTagName(),
+				Tag_LockInventory.GetTag().GetTagName(),
+				Tag_LockHiding.GetTag().GetTagName(),
+				Tag_LockDevice.GetTag().GetTagName(),
+				Tag_LockGuide.GetTag().GetTagName(),
+				Tag_LockQTE.GetTag().GetTagName()
 			};
 		}
 
-		static TSet<FGameplayTag> Immunity()
+		static TSet<FName> Immunity()
 		{
-			return { Tag_LockStartup, Tag_LockLoading, Tag_LockCutscene,
-				Tag_LockDialogue, Tag_LockJumpscare, Tag_LockHiding, Tag_LockGuide
+			return {
+				Tag_LockStartup.GetTag().GetTagName(),
+				Tag_LockLoading.GetTag().GetTagName(),
+				Tag_LockCinematic.GetTag().GetTagName(),
+				Tag_LockDialogue.GetTag().GetTagName(),
+				Tag_LockJumpscare.GetTag().GetTagName(),
+				Tag_LockHiding.GetTag().GetTagName(),
+				Tag_LockGuide.GetTag().GetTagName()
 			};
 		}
 
-		static TSet<FGameplayTag> Resettable()
+		static TSet<FName> Resettable()
 		{
-			return { Tag_LockInventory, Tag_LockHiding, Tag_LockDevice, Tag_LockQTE };
+			return {
+				Tag_LockInventory.GetTag().GetTagName(),
+				Tag_LockHiding.GetTag().GetTagName(),
+				Tag_LockDevice.GetTag().GetTagName(),
+				Tag_LockQTE.GetTag().GetTagName()
+			};
 		}
 	}
 
