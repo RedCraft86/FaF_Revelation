@@ -4,16 +4,16 @@
 
 #include "GuidePages/GuidePageTypes.h"
 #include "AssetFactories/ToroAssetFactory.h"
-#include "GuidePageDatabaseFactory.generated.h"
+#include "GuidePageDBFactory.generated.h"
 
 UCLASS()
-class TOROEDITOR_API UGuidePageDatabaseFactory : public UToroAssetFactory
+class TOROEDITOR_API UGuidePageDBFactory : public UToroAssetFactory
 {
 	GENERATED_BODY()
 	
 public:
 
-	UGuidePageDatabaseFactory()
+	UGuidePageDBFactory()
 	{
 		AssetName = TEXT("GuidePageDatabase");
 		SupportedClass = UGuidePageDatabase::StaticClass();

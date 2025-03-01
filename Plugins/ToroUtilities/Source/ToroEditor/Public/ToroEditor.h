@@ -42,7 +42,6 @@ private:
     void RegisterMenus();
     
     TSharedPtr<FUICommandList> PluginCommands;
-    TSet<TSharedPtr<class IAssetTypeActions>> AssetTypeActions;
 };
 
 class TOROEDITOR_API FToroEditorStyle final

@@ -4,16 +4,16 @@
 
 #include "DataTypes/FootstepTypes.h"
 #include "AssetFactories/ToroAssetFactory.h"
-#include "FootstepDatabaseFactory.generated.h"
+#include "FootstepDBFactory.generated.h"
 
 UCLASS()
-class TOROEDITOR_API UFootstepDatabaseFactory : public UToroAssetFactory
+class TOROEDITOR_API UFootstepDBFactory : public UToroAssetFactory
 {
 	GENERATED_BODY()
 	
 public:
 
-	UFootstepDatabaseFactory()
+	UFootstepDBFactory()
 	{
 		AssetName = TEXT("FootstepDatabase");
 		SupportedClass = UFootstepDatabase::StaticClass();

@@ -24,6 +24,7 @@ public class ToroEditor : ModuleRules
                 "Blutility",
                 "EngineSettings",
                 "EditorSubsystem",
+                "AssetDefinition",
                 "DeveloperSettings",
                 "ComponentVisualizers",
                 "EditorScriptingUtilities", 

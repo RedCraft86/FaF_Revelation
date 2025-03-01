@@ -4,16 +4,16 @@
 
 #include "MusicSystem/LocalSoundTypes.h"
 #include "AssetFactories/ToroAssetFactory.h"
-#include "LocalSoundDatabaseFactory.generated.h"
+#include "LocalSoundDBFactory.generated.h"
 
 UCLASS()
-class TOROEDITOR_API ULocalSoundDatabaseFactory : public UToroAssetFactory
+class TOROEDITOR_API ULocalSoundDBFactory : public UToroAssetFactory
 {
 	GENERATED_BODY()
 	
 public:
 
-	ULocalSoundDatabaseFactory()
+	ULocalSoundDBFactory()
 	{
 		AssetName = TEXT("LocalSoundDatabase");
 		SupportedClass = ULocalSoundDatabase::StaticClass();

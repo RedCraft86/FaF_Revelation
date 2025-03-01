@@ -4,16 +4,16 @@
 
 #include "Achievements/AchievementTypes.h"
 #include "AssetFactories/ToroAssetFactory.h"
-#include "AchievementDatabaseFactory.generated.h"
+#include "AchievementDBFactory.generated.h"
 
 UCLASS()
-class TOROEDITOR_API UAchievementDatabaseFactory : public UToroAssetFactory
+class TOROEDITOR_API UAchievementDBFactory : public UToroAssetFactory
 {
 	GENERATED_BODY()
 	
 public:
 
-	UAchievementDatabaseFactory()
+	UAchievementDBFactory()
 	{
 		AssetName = TEXT("AchievementDatabase");
 		SupportedClass = UAchievementDatabase::StaticClass();

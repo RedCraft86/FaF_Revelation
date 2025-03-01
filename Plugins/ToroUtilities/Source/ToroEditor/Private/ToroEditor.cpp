@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroEditor.h"
-#include "AssetToolsModule.h"
 #include "BlueprintEditorModule.h"
 #include "Interfaces/IPluginManager.h"
 #include "Interfaces/IMainFrameModule.h"
@@ -48,12 +47,6 @@
 
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
 #include "ComponentVisualizer/VisionConeVisualizer.h"
-
-#include "AssetFactories/Inventory/InventoryItemAsset.h"
-#include "AssetFactories/LocalSound/LocalSoundDatabaseAsset.h"
-#include "AssetFactories/Achievement/AchievementDatabaseAsset.h"
-#include "AssetFactories/GuidePage/GuidePageDatabaseAsset.h"
-#include "AssetFactories/Footstep/FootstepDatabaseAsset.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -138,20 +131,6 @@ void FToroEditorModule::StartupModule()
 		REGISTER_VISUALIZER(UDebugShapeComponent, FDebugShapeVisualizer)
 		REGISTER_VISUALIZER(UVisionConeComponent, FVisionConeVisualizer)
 	}
-
-	// Asset Type Actions
-	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::LoadModulePtr<FAssetToolsModule>("AssetTools"))
-	{
-		AssetTypeActions.Add(MakeShareable(new FInventoryItemAsset()));
-		AssetTypeActions.Add(MakeShareable(new FLocalSoundDatabaseAsset()));
-		AssetTypeActions.Add(MakeShareable(new FAchievementDatabaseAsset()));
-		AssetTypeActions.Add(MakeShareable(new FGuidePageDatabaseAsset()));
-		AssetTypeActions.Add(MakeShareable(new FFootstepDatabaseAsset()));
-		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
-		{
-			AssetToolsModule->Get().RegisterAssetTypeActions(Action.ToSharedRef());
-		}
-	}
 }
 
 void FToroEditorModule::ShutdownModule()
@@ -217,15 +196,6 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_VISUALIZER(UVisionConeComponent);
 	}
 
-	// Asset Type Actions
-	if (const FAssetToolsModule* AssetToolsModule = FModuleManager::GetModulePtr<FAssetToolsModule>("AssetTools"))
-	{
-		for (const TSharedPtr<IAssetTypeActions>& Action : AssetTypeActions)
-		{
-			if (Action.IsValid()) AssetToolsModule->Get().UnregisterAssetTypeActions(Action.ToSharedRef());
-		}
-	}
-	
 	FToroEditorStyle::Shutdown();
 }
 
