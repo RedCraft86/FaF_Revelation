@@ -11,6 +11,7 @@
 #include "ToroEditorCommands.h"
 #include "EditorTools/LinkAssetLibrary.h"
 #include "EditorTools/RestartEditor.h"
+#include "EditorTools/ActorLayout.h"
 #include "EditorTools/StaticMeshBaker.h"
 #include "EditorTools/StaticMeshMerger.h"
 #include "EditorTools/StaticMeshInstancer.h"
@@ -66,6 +67,7 @@ void FToroEditorModule::StartupModule()
 		PluginCommands = MakeShareable(new FUICommandList);
 		REGISTER_TOOL(FLinkAssetLibrary)
 		REGISTER_TOOL(FRestartEditor)
+		REGISTER_TOOL(FActorLayout)
 		REGISTER_TOOL(FStaticMeshBaker)
 		REGISTER_TOOL(FStaticMeshMerger)
 		REGISTER_TOOL(FStaticMeshInstancer)
@@ -205,6 +207,7 @@ void FToroEditorModule::RegisterMenus()
 	{
 		REGISTER_TOOL_MENUS(FLinkAssetLibrary)
 		REGISTER_TOOL_MENUS(FRestartEditor)
+		REGISTER_TOOL_MENUS(FActorLayout)
 		REGISTER_TOOL_MENUS(FStaticMeshBaker)
 		REGISTER_TOOL_MENUS(FStaticMeshMerger)
 		REGISTER_TOOL_MENUS(FStaticMeshInstancer)
@@ -224,13 +227,14 @@ void FToroEditorStyle::Init()
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	const FVector2D Icon16x16(16.0f, 16.0f);
 	
+	StyleSet->Set("ToroEditor.InventoryGrid", new IMAGE_BRUSH_SVG(TEXT("InventoryGridSmall"), Icon20x20));
 	StyleSet->Set("ToroEditor.LinkAssetLibrary", new IMAGE_BRUSH_SVG(TEXT("LinkFolder"), Icon20x20));
 	StyleSet->Set("ToroEditor.RestartEditor", new IMAGE_BRUSH_SVG(TEXT("RestartEditor"), Icon20x20));
 	StyleSet->Set("ToroEditor.ChannelPacker", new IMAGE_BRUSH_SVG(TEXT("ChannelPacker"), Icon20x20));
+	StyleSet->Set("ToroEditor.ActorLayout", new IMAGE_BRUSH_SVG(TEXT("ActorLayout"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshBaker", new IMAGE_BRUSH_SVG(TEXT("StaticMeshBaker"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshMerger", new IMAGE_BRUSH_SVG(TEXT("StaticMeshMerger"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshInstancer", new IMAGE_BRUSH_SVG(TEXT("StaticMeshInstancer"), Icon20x20));
-	StyleSet->Set("ToroEditor.InventoryGrid", new IMAGE_BRUSH_SVG(TEXT("InventoryGridSmall"), Icon20x20));
 	
 	StyleSet->Set("ClassThumbnail.InventoryItemData", new IMAGE_BRUSH_SVG(TEXT("InventoryGrid"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.LocalSoundDatabase", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));

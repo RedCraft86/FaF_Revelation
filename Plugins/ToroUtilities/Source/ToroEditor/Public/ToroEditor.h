@@ -38,22 +38,22 @@ public:
     virtual void ShutdownModule() override;
     
 private:
-    
+
     void RegisterMenus();
-    
+
     TSharedPtr<FUICommandList> PluginCommands;
 };
 
 class TOROEDITOR_API FToroEditorStyle final
 {
 public:
-    
+
     static void Init();
     static void Shutdown();
     static const ISlateStyle& Get() { return *StyleSet; }
     static const FName& GetStyleSetName() { return StyleSet->GetStyleSetName(); }
 
 private:
-    
+
     static TSharedPtr<FSlateStyleSet> StyleSet;
 };
