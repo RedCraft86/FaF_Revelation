@@ -409,8 +409,7 @@ private:
 					];
 				}
 
-				CrouchGroup.AddPropertyRow(GET_PROPERTY(CrouchRate)).DisplayName(INVTEXT("Anim Speed"));
-				CrouchGroup.AddPropertyRow(GET_PROPERTY(CrouchAnim)).DisplayName(INVTEXT("Animation"));
+				CrouchGroup.AddPropertyRow(GET_PROPERTY(CrouchSpeed)).DisplayName(INVTEXT("Speed"));
 			}
 
 			IDetailGroup& RunGroup = MoveGroup.AddGroup(TEXT("Running"), INVTEXT("Running"));

@@ -88,10 +88,7 @@ public:
 		FVector2D CrouchHeights;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f, UIMax = 2.0f))
-		float CrouchRate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
-		FInlineFloatCurve CrouchAnim;
+		float CrouchSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f, UIMax = 1000.0f))
 		float RunningSpeed;
@@ -119,13 +116,12 @@ public:
 
 protected:
 
-	UPROPERTY() FTimerHandle SlowTickTimer;
 	UPROPERTY() FTimerHandle StaminaTimer;
 	UPROPERTY() FTimerHandle FootstepTimer;
 	UPROPERTY() FTimerHandle WallDetectTimer;
 
 	UPROPERTY() FToroFloatInterp InterpFieldOfView;
-	UPROPERTY() FToroFloatInterp InterpHeight;
+	UPROPERTY() FToroFloatInterp InterpCrouch;
 
 	UPROPERTY() FVector CamPosition;
 	UPROPERTY() FVector2D CamLeanOffset;

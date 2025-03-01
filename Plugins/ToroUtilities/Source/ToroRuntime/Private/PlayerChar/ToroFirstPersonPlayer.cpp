@@ -43,21 +43,6 @@ AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), Intera
 #endif
 	
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
-
-	if (FRichCurve* Curve = CrouchAnim.Curve.GetRichCurve())
-	{
-		FRichCurveKey& Start = Curve->GetKey(Curve->UpdateOrAddKey(0.0f, 1.0f));
-		Start.InterpMode = RCIM_Cubic;
-		Start.TangentMode = RCTM_Auto;
-		Start.ArriveTangent = 0.2;
-		Start.LeaveTangent = 1.6;
-		
-		FRichCurveKey& End = Curve->GetKey(Curve->UpdateOrAddKey(0.5f, 0.0f));
-		End.InterpMode = RCIM_Cubic;
-		End.TangentMode = RCTM_Auto;
-		End.ArriveTangent = 1.6;
-		End.LeaveTangent = -0.2;
-	}
 }
 
 void AToroFirstPersonPlayer::ResetStates()
@@ -91,7 +76,7 @@ void AToroFirstPersonPlayer::ResetStates()
 	FieldOfView.Modifiers.Empty();
 	InterpFieldOfView.Target = FieldOfView.Evaluate();
 	InterpFieldOfView.SnapToTarget();
-	InterpHeight.SnapToTarget();
+	InterpCrouch.SnapToTarget();
 	CamSwayOffset = FVector2D::ZeroVector;
 	StaminaDrainRate.Modifiers.Empty();
 	StaminaGainRate.Modifiers.Empty();
@@ -137,7 +122,7 @@ void AToroFirstPersonPlayer::SetCrouchState(const bool bInState)
 			FieldOfView.RemoveMod(Player::InternalKeys::CrouchFOV);
 		}
 
-		InterpHeight.Target = bCrouching ? CrouchHeights.Y : CrouchHeights.X;
+		InterpCrouch.Target = bCrouching ? CrouchHeights.Y : CrouchHeights.X;
 		if (!bRunning)
 		{
 			MoveSpeedTarget = bCrouching ? CrouchWalkSpeed : WalkingSpeed;
