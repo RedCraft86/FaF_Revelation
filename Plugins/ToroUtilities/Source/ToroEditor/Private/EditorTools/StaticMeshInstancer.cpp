@@ -2,9 +2,10 @@
 
 #include "EditorTools/StaticMeshInstancer.h"
 #include "Subsystems/EditorActorSubsystem.h"
+#include "InstancedStaticMeshActor.h"
 #include "Engine/StaticMeshActor.h"
 #include "EditorDialogLibrary.h"
-#include "InstancedStaticMeshActor.h"
+#include "LoggingHelpers.h"
 #include "PrimitiveData.h"
 
 void FStaticMeshInstancer::ExecuteAction()
@@ -41,17 +42,23 @@ void FStaticMeshInstancer::ExecuteAction()
 		if (HISMType == EAppReturnType::Cancel) return;
 
 		const bool bUseHISM = HISMType == EAppReturnType::Yes;
-		
+
+		UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT("Starting Instancing!%s"), *FString());
+
 		// Inner scope
 		{
 			const FScopedTransaction Transaction(NSLOCTEXT("ToroEditor", "ConvertMeshesToInstances", "Convert Meshes to Instances"));
-		
 			FStaticMeshProperties MeshProp;
 			TArray<FInstancerMeshes> Meshes;
-			for (AActor* Actor : Actors)
+			for (int i = 0; i < Actors.Num(); i++)
 			{
+				if (!Actors[i]) continue;
+				UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT(">	Instancing %s [%d/%d]"),
+					*Actors[i]->GetName(), Actors.Num(), i);
+				i++;
+				
 				TArray<UStaticMeshComponent*> MeshCompArray;
-				Actor->GetComponents<UStaticMeshComponent>(MeshCompArray);
+				Actors[i]->GetComponents<UStaticMeshComponent>(MeshCompArray);
 				for (UStaticMeshComponent* Comp : MeshCompArray)
 				{
 					if (!Comp || Comp->IsEditorOnly()) continue;
@@ -60,10 +67,10 @@ void FStaticMeshInstancer::ExecuteAction()
 					{
 						if (FInstancerMeshes* Mesh = FindMesh(MeshProp))
 						{
-							for (int i = 0; i < InstComp->GetNumInstances(); i++)
+							for (int j = 0; j < InstComp->GetNumInstances(); j++)
 							{
 								FTransform T;
-								if (InstComp->GetInstanceTransform(i, T, true))
+								if (InstComp->GetInstanceTransform(j, T, true))
 								{
 									Mesh->Transforms.Add(T);
 								}
@@ -73,10 +80,10 @@ void FStaticMeshInstancer::ExecuteAction()
 						{
 							FInstancerMeshes NewMesh;
 							NewMesh.MeshProp = MeshProp;
-							for (int i = 0; i < InstComp->GetNumInstances(); i++)
+							for (int j = 0; j < InstComp->GetNumInstances(); j++)
 							{
 								FTransform T;
-								if (InstComp->GetInstanceTransform(i, T, true))
+								if (InstComp->GetInstanceTransform(j, T, true))
 								{
 									NewMesh.Transforms.Add(T);
 								}
@@ -85,8 +92,8 @@ void FStaticMeshInstancer::ExecuteAction()
 							NewMesh.Label = FString::Printf(TEXT("%s_%d"),
 								*MeshProp.Mesh.GetAssetName(), Meshes.Num() + 1);
 						
-							NewMesh.FolderPath = *(Actor->GetFolderPath().IsNone() ? TEXT("Instanced")
-								: Actor->GetFolderPath().ToString() / Actor->GetActorLabel());
+							NewMesh.FolderPath = *(Actors[i]->GetFolderPath().IsNone() ? TEXT("Instanced")
+								: Actors[i]->GetFolderPath().ToString() / Actors[i]->GetActorLabel());
 						
 							Meshes.Add(NewMesh);
 						}
@@ -106,15 +113,15 @@ void FStaticMeshInstancer::ExecuteAction()
 							NewMesh.Label = FString::Printf(TEXT("%s_%d"),
 								*MeshProp.Mesh.GetAssetName(), Meshes.Num() + 1);
 							
-							NewMesh.FolderPath = *(Actor->GetFolderPath().IsNone() ? TEXT("Instanced")
-								: Actor->GetFolderPath().ToString() / Actor->GetActorLabel());
+							NewMesh.FolderPath = *(Actors[i]->GetFolderPath().IsNone() ? TEXT("Instanced")
+								: Actors[i]->GetFolderPath().ToString() / Actors[i]->GetActorLabel());
 						
 							Meshes.Add(NewMesh);
 						}
 					}
 				}
 
-				Subsystem->SetActorSelectionState(Actor, false);
+				Subsystem->SetActorSelectionState(Actors[i], false);
 			}
 
 			for (const FInstancerMeshes& Mesh : Meshes)
@@ -164,7 +171,8 @@ void FStaticMeshInstancer::ExecuteAction()
 			const FScopedTransaction Transaction(NSLOCTEXT("ToroEditor", "DestroySourceMeshes", "Destroy Source Meshes (Delete and Undo to fix)"));
 			Subsystem->DestroyActors(Actors);
 		}
-	}
 
+		UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT("Finished Instancing!%s"), *FString());
+	}
 #undef FindMesh
 }

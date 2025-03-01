@@ -5,6 +5,7 @@
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Engine/StaticMeshActor.h"
 #include "EditorDialogLibrary.h"
+#include "LoggingHelpers.h"
 
 void FStaticMeshBaker::ExecuteAction()
 {
@@ -27,14 +28,19 @@ void FStaticMeshBaker::ExecuteAction()
 		if (SrcRetType == EAppReturnType::Cancel) return;
 		const bool bDestroySourceActors = SrcRetType == EAppReturnType::Yes;
 
+		UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT("Starting Bake!%s"), *FString());
+
 		// Transaction scope
 		{
 			const FScopedTransaction Transaction(NSLOCTEXT("ToroEditor", "BakeStaticMeshes", "Bake Static Meshes"));
-			for (AActor* Actor : Actors)
+			for (int i = 0; i < Actors.Num(); i++)
 			{
-				if (!Actor) continue;
+				if (!Actors[i]) continue;
+				UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT(">	Baking %s [%d/%d]"),
+					*Actors[i]->GetName(), Actors.Num(), i);
+
 				TArray<UStaticMeshComponent*> MeshCompArray;
-				Actor->GetComponents<UStaticMeshComponent>(MeshCompArray);
+				Actors[i]->GetComponents<UStaticMeshComponent>(MeshCompArray);
 				if (MeshCompArray.IsEmpty()) continue;
 
 				int32 Idx = 0;
@@ -47,12 +53,12 @@ void FStaticMeshBaker::ExecuteAction()
 					AStaticMeshActor* NewActor = nullptr;
 					if (const UInstancedStaticMeshComponent* InstComp = Cast<UInstancedStaticMeshComponent>(Comp))
 					{
-						for (int i = 0; i < InstComp->GetNumInstances(); i++)
+						for (int j = 0; j < InstComp->GetNumInstances(); j++)
 						{
-							if (FTransform T; InstComp->GetInstanceTransform(i, T, true))
+							if (FTransform T; InstComp->GetInstanceTransform(j, T, true))
 							{
-								NewActor = SpawnActor(Subsystem, MeshProp, T, FString::Printf(TEXT("%s_Inst_%d"), *MeshProp.Mesh->GetName(), i + 1),
-								(Actor->GetFolderPath().IsNone() ? TEXT("Baked") : Actor->GetFolderPath()).ToString() / Actor->GetActorLabel());
+								NewActor = SpawnActor(Subsystem, MeshProp, T, FString::Printf(TEXT("%s_Inst_%d"), *MeshProp.Mesh->GetName(), j + 1),
+								(Actors[i]->GetFolderPath().IsNone() ? TEXT("Baked") : Actors[i]->GetFolderPath()).ToString() / Actors[i]->GetActorLabel());
 							}
 						}
 					}
@@ -60,14 +66,14 @@ void FStaticMeshBaker::ExecuteAction()
 					{
 						const FTransform Transform = Comp->GetComponentTransform();
 						NewActor = SpawnActor(Subsystem, MeshProp, Transform, FString::Printf(TEXT("%s_%d"), *MeshProp.Mesh->GetName(), Idx + 1),
-							(Actor->GetFolderPath().IsNone() ? TEXT("Baked") : Actor->GetFolderPath()).ToString() / Actor->GetActorLabel());
+							(Actors[i]->GetFolderPath().IsNone() ? TEXT("Baked") : Actors[i]->GetFolderPath()).ToString() / Actors[i]->GetActorLabel());
 					}
 
 					Idx++;
 					if (NewActor) Subsystem->SetActorSelectionState(NewActor, true);
 				}
 
-				Subsystem->SetActorSelectionState(Actor, false);
+				Subsystem->SetActorSelectionState(Actors[i], false);
 			}
 		}
 
@@ -79,6 +85,8 @@ void FStaticMeshBaker::ExecuteAction()
 				Subsystem->DestroyActors(Actors);
 			}
 		}
+
+		UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT("Bake Finished!%s"), *FString());
 	}
 }
 
