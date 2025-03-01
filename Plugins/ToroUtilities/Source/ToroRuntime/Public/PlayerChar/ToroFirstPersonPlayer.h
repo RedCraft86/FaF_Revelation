@@ -136,7 +136,6 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<UObject> TaskDevice;
 	UPROPERTY(Transient) TObjectPtr<UObject> HidingSpot;
 	UPROPERTY(Transient) TObjectPtr<UObject> WorldDevice;
-	UPROPERTY(Transient) TSet<TObjectPtr<ACharacter>> EnemyStack; // TODO: Replace with proper enemy
 	UPROPERTY(Transient) TObjectPtr<UGameWidgetBase> GameWidget;
 
 public:
@@ -220,16 +219,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
 		void ForceExitTaskDevice() const;
 
-	// TODO: Add enemy type
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void AddEnemy(ACharacter* InEnemy);
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void RemoveEnemy(ACharacter* InEnemy);
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void ClearEnemyStack();
-
 	UFUNCTION(BlueprintCallable, Category = Player)
 		bool TryJumpscare();
 
@@ -258,11 +247,11 @@ protected:
 	void TickStamina();
 	void TickFootstep();
 	void LeanWallDetect();
-
-	void OnEnemyStackChanged();
 	void OnSettingsChange(const class UToroUserSettings* InSettings);
 
 	virtual void SlowTick() override;
+	virtual void OnEnemyStackChanged() override;
+
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;

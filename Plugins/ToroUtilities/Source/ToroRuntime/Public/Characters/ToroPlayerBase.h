@@ -13,6 +13,7 @@
 #include "DataTypes/GenericPlayerTypes.h"
 #include "ToroPlayerBase.generated.h"
 
+class AToroNPCBase;
 class AToroPlayerController;
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Player);
@@ -103,6 +104,18 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Player)
 		virtual const AActor* GetCinematicActor() const { return CinematicActor; }
+	
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void ClearEnemyStack();
+	
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void AddEnemy(AToroNPCBase* InEnemy);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void RemoveEnemy(AToroNPCBase* InEnemy);
+	
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void UpdateEnemy(const AToroNPCBase* InEnemy);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
@@ -114,8 +127,11 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<AToroGameMode> GameMode;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerController> PlayerController;
 	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
+	UPROPERTY(Transient) TSet<TObjectPtr<AToroNPCBase>> EnemyStack;
 
 	virtual void SlowTick() {}
+	virtual void OnEnemyStackChanged() {}
+
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 

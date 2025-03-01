@@ -143,6 +143,44 @@ void AToroPlayerBase::EnterCinematic(AActor* InActor)
 	}
 }
 
+void AToroPlayerBase::ClearEnemyStack()
+{
+	if (!EnemyStack.IsEmpty())
+	{
+		EnemyStack.Empty();
+		OnEnemyStackChanged();
+	}
+}
+
+void AToroPlayerBase::AddEnemy(AToroNPCBase* InEnemy)
+{
+	if (!EnemyStack.Contains(InEnemy))
+	{
+		EnemyStack.Add(InEnemy);
+		EnemyStack.Remove(nullptr);
+		OnEnemyStackChanged();
+	}
+}
+
+void AToroPlayerBase::RemoveEnemy(AToroNPCBase* InEnemy)
+{
+	if (EnemyStack.Contains(InEnemy))
+	{
+		EnemyStack.Remove(InEnemy);
+		EnemyStack.Remove(nullptr);
+		OnEnemyStackChanged();
+	}
+}
+
+void AToroPlayerBase::UpdateEnemy(const AToroNPCBase* InEnemy)
+{
+	if (EnemyStack.Contains(InEnemy))
+	{
+		EnemyStack.Remove(nullptr);
+		OnEnemyStackChanged();
+	}
+}
+
 void AToroPlayerBase::SetLightSettings(const FPointLightProperties& InSettings)
 {
 	LightSettings = InSettings;

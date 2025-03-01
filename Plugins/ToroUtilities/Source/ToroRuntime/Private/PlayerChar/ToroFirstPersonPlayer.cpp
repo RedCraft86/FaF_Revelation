@@ -198,35 +198,6 @@ void AToroFirstPersonPlayer::ForceExitTaskDevice() const
 	IExitInterface::Exit(TaskDevice);
 }
 
-void AToroFirstPersonPlayer::AddEnemy(ACharacter* InEnemy)
-{
-	if (!EnemyStack.Contains(InEnemy))
-	{
-		EnemyStack.Add(InEnemy);
-		EnemyStack.Remove(nullptr);
-		OnEnemyStackChanged();
-	}
-}
-
-void AToroFirstPersonPlayer::RemoveEnemy(ACharacter* InEnemy)
-{
-	if (EnemyStack.Contains(InEnemy))
-	{
-		EnemyStack.Remove(InEnemy);
-		EnemyStack.Remove(nullptr);
-		OnEnemyStackChanged();
-	}
-}
-
-void AToroFirstPersonPlayer::ClearEnemyStack()
-{
-	if (!EnemyStack.IsEmpty())
-	{
-		EnemyStack.Empty();
-		OnEnemyStackChanged();
-	}
-}
-
 bool AToroFirstPersonPlayer::TryJumpscare()
 {
 	if (ControlFlags & PCF_Locked || GameInstance->IsDeveloperMode()) return false;
@@ -429,11 +400,6 @@ void AToroFirstPersonPlayer::LeanWallDetect()
 	}
 }
 
-void AToroFirstPersonPlayer::OnEnemyStackChanged()
-{
-	// TODO: Music states
-}
-
 void AToroFirstPersonPlayer::OnSettingsChange(const UToroUserSettings* InSettings)
 {
 	if (InSettings)
@@ -465,6 +431,11 @@ void AToroFirstPersonPlayer::SlowTick()
 
 	InterpFieldOfView.Target = FieldOfView.Evaluate();
 	GetCharacterMovement()->MaxWalkSpeed = MoveSpeedTarget * MoveSpeedMulti.Evaluate();
+}
+
+void AToroFirstPersonPlayer::OnEnemyStackChanged()
+{
+	Super::OnEnemyStackChanged();
 }
 
 void AToroFirstPersonPlayer::BeginPlay()
