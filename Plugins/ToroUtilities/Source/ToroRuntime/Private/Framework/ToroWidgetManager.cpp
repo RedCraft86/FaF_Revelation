@@ -2,6 +2,7 @@
 
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/MessageWidgetBase.h"
+#include "Narrative/NarrativeWidgetBase.h"
 #include "GuidePages/GuideWidgetBase.h"
 #include "ToroRuntimeSettings.h"
 
@@ -105,6 +106,15 @@ void AToroWidgetManager::QueueGuidePages(const TArray<FGameplayTag>& InPageIDs)
 	if (UGuideWidgetBase* Widget = FindWidget<UGuideWidgetBase>())
 	{
 		Widget->QueuePages(InPageIDs);
+	}
+}
+
+void AToroWidgetManager::ToggleNarrativeQuests()
+{
+	if (UNarrativeWidgetBase* Widget = FindWidget<UNarrativeWidgetBase>())
+	{
+		// TODO: Narrative widget
+		// Widget->SetQuestsHidden(Widget->AreQuestsHidden());
 	}
 }
 

@@ -66,6 +66,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = GuidePage)
 		void QueueGuidePages(UPARAM(meta = (Categories = "GuidePages")) const TArray<FGameplayTag>& InPageIDs);
 
+	UFUNCTION(BlueprintCallable, Category = Narrative)
+		void ToggleNarrativeQuests();
+
 protected:
 
 	UPROPERTY(Transient) TSet<TObjectPtr<UToroWidget>> WidgetObjs;

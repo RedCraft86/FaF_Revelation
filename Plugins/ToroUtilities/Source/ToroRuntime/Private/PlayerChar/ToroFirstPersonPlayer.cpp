@@ -711,8 +711,7 @@ void AToroFirstPersonPlayer::InputBinding_HideQuests(const FInputActionValue& In
 	{
 		if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
 		{
-			// TODO: Narrative widget
-			// WidgetManager->ToggleQuestsHidden();
+			WidgetManager->ToggleNarrativeQuests();
 		}
 	}
 }
