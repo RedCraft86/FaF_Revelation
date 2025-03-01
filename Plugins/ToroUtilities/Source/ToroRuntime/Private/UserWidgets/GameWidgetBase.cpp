@@ -5,11 +5,12 @@
 #include "Characters/ToroPlayerBase.h"
 #include "GameFramework/PlayerState.h"
 #include "UserWidgets/ExprTextBlock.h"
+#include "Components/ProgressBar.h"
 #include "Components/PanelWidget.h"
 #include "Components/Image.h"
 
 UGameWidgetBase::UGameWidgetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), DefaultIconSize(35.0f), bInteractionHidden(false)
+	: Super(ObjectInitializer), StaminaBarSpeed(0.1f, 10.0f), DefaultIconSize(35.0f), bInteractionHidden(false)
 {
 	ZOrder = 55;
 }
@@ -72,11 +73,22 @@ void UGameWidgetBase::UpdateInteraction(const FInteractionData& InData)
 	}
 }
 
+void UGameWidgetBase::UpdateStamina(const float DeltaTime, const float Percent, const float ChangeDelta, const bool bPunished) const
+{
+	StaminaBar->SetPercent(FMath::FInterpConstantTo(StaminaBar->GetPercent(),
+		Percent, DeltaTime, FMath::Abs(ChangeDelta) * StaminaBarSpeed.X));
+
+	StaminaBar->SetRenderOpacity(FMath::GetMappedRangeValueClamped(FVector2D(0.85f, 1.0f),
+		FVector2D(1.0f, Percent >= 0.0f ? 0.05f : 0.0f), StaminaBar->GetPercent()));
+
+	StaminaBar->SetFillColorAndOpacity(FMath::CInterpTo(StaminaBar->GetFillColorAndOpacity(),
+		bPunished ? FLinearColor::Red : FLinearColor::White, DeltaTime, StaminaBarSpeed.Y));
+}
+
 void UGameWidgetBase::InitWidget()
 {
 	Super::InitWidget();
 	WorldSettings = GetWorld()->GetWorldSettings();
-	PlayerChar = AToroPlayerBase::Get(this);
 }
 
 bool UGameWidgetBase::ShouldBeHidden()
@@ -90,10 +102,4 @@ bool UGameWidgetBase::ShouldBeHidden()
 		return Mode->Narrative->IsInDialogue();
 	}
 	return false;
-}
-
-void UGameWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
-{
-	Super::NativeTick(MyGeometry, InDeltaTime);
-	// TODO: Stamina
 }

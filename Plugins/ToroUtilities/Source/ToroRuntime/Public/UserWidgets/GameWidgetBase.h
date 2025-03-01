@@ -37,6 +37,10 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> InteractAnim;
 
+	// X: Value | Y: Color
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.05f, UIMin = 0.05f))
+		FVector2D StaminaBarSpeed;
+
 	UPROPERTY(EditAnywhere, Category = "Settings|Interaction")
 		TObjectPtr<UTexture2D> DefaultIcon;
 
@@ -51,15 +55,14 @@ public:
 
 	void SetInteractionHidden(const bool bInHidden);
 	void UpdateInteraction(const struct FInteractionData& InData);
+	void UpdateStamina(const float DeltaTime, const float Percent, const float ChangeDelta, const bool bPunished) const;
 	
 protected:
 
 	UPROPERTY() bool bInteractionHidden;
 	UPROPERTY() FSlateBrush InteractBrush;
-	UPROPERTY(Transient) TObjectPtr<class AToroPlayerBase> PlayerChar;
 	UPROPERTY(Transient) TObjectPtr<const AWorldSettings> WorldSettings;
 
 	virtual void InitWidget() override;
 	virtual bool ShouldBeHidden() override;
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };
