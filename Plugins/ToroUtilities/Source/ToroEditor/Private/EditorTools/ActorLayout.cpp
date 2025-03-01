@@ -69,7 +69,7 @@ void FActorLayout::LayoutActors()
 				FBox ThisBox = This->GetComponentsBoundingBox();
 				FBox HeadBox = LastHead ? LastHead->GetComponentsBoundingBox() : FBox();
 				Offsets.X -= r == 0 ? 0 : FMath::Max(MinX, ThisBox.GetExtent().X * 2.0f +
-					(HeadBox ? HeadBox.GetExtent().X : 0.0f));
+					(LastHead ? HeadBox.GetExtent().X : 0.0f));
 
 				for (int c = 0; c < PerRow; c++)
 				{
