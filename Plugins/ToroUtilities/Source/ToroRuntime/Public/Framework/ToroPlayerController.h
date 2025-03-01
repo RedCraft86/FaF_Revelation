@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
+#include "UserWidgets/PauseWidgetBase.h"
 #include "ToroPlayerController.generated.h"
 
 UENUM(BlueprintType)
@@ -119,9 +120,16 @@ public:
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
 
-protected:
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		void SetPauseState(const bool bInPaused);
+
+	bool IsPausedFromController() const { return bGamePaused; }
 	
+protected:
+
+	UPROPERTY() bool bGamePaused;
 	UPROPERTY() FGameInputModeData InputModeData;
+	UPROPERTY(Transient) TObjectPtr<UPauseWidgetBase> PauseWidget;
 
 	class UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

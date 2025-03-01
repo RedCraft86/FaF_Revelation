@@ -2,10 +2,11 @@
 
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCameraManager.h"
+#include "Framework/ToroWidgetManager.h"
 #include "EnhancedInputSubsystems.h"
 #include "ToroRuntimeSettings.h"
 
-AToroPlayerController::AToroPlayerController()
+AToroPlayerController::AToroPlayerController() : bGamePaused(false)
 {
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
@@ -33,6 +34,24 @@ void AToroPlayerController::SetInputModeData(const FGameInputModeData& InputMode
 	SetShowMouseCursor(InputModeData.ShouldShowMouse());
 	SetInputMode(InputModeData.GetInputMode());
 	FlushPressedKeys();
+}
+
+void AToroPlayerController::SetPauseState(const bool bInPaused)
+{
+	if (IsPaused() != bInPaused)
+	{
+		SetPause(bInPaused);
+		bGamePaused = bInPaused;
+		
+		if (!PauseWidget)
+		{
+			if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+			{
+				PauseWidget = Manager->FindWidget<UPauseWidgetBase>();
+			}
+		}
+		bInPaused ? PauseWidget->ActivateWidget() : PauseWidget->DeactivateWidget();
+	}
 }
 
 UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const

@@ -1,5 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
+// ReSharper disable CppMemberFunctionMayBeConst
 #include "PlayerChar/ToroFirstPersonPlayer.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -576,7 +577,26 @@ void AToroFirstPersonPlayer::InputBinding_Pause(const FInputActionValue& InValue
 {
 	if (CAN_INPUT)
 	{
-		
+		if (LockFlags.Contains(LockFlag(Guide)) || IsValid(CinematicActor)) return;
+		if (LockFlags.Contains(LockFlag(Inventory)))
+		{
+			GameMode->Inventory->CloseUI();
+			return;
+		}
+
+		if (IsPaused()) return;
+		if (LockFlags.Contains(LockFlag(Device)))
+		{
+			ForceExitWorldDevice();
+			return;
+		}
+
+		if (!IsLocked())
+		{
+			SetRunState(false);
+			SetLeanState(EPlayerLeanState::None);
+			PlayerController->SetPauseState(true);
+		}
 	}
 }
 
