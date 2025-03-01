@@ -53,8 +53,8 @@ void FStaticMeshInstancer::ExecuteAction()
 			for (int i = 0; i < Actors.Num(); i++)
 			{
 				if (!Actors[i]) continue;
-				UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT(">	Instancing %s [%d/%d]"),
-					*Actors[i]->GetName(), Actors.Num(), i);
+				UE_LOG_MESSAGE(LogToroEditor, 2.0f, TEXT(">	Instancing [%d/%d] %s"),
+					i + 1, Actors.Num(), *Actors[i]->GetName());
 				i++;
 				
 				TArray<UStaticMeshComponent*> MeshCompArray;
