@@ -471,6 +471,14 @@ void AToroFirstPersonPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	CamPosition = CameraArm->GetRelativeLocation();
+	GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
+	if (const APlayerCameraManager* CM = UGameplayStatics::GetPlayerCameraManager(this, 0))
+	{
+		EquipmentRoot->AttachToComponent(CM->GetTransformComponent(),
+			FAttachmentTransformRules::KeepRelativeTransform);
+	}
+
 	if (UToroUserSettings* Settings = UToroUserSettings::Get())
 	{
 		Settings->OnDynamicSettingsChanged.AddUObject(this, &ThisClass::OnSettingsChange);
@@ -484,23 +492,79 @@ void AToroFirstPersonPlayer::BeginPlay()
 
 	FTimerManager& Timer = GetWorldTimerManager();
 	{
-		Timer.SetTimer(SlowTickTimer, this, &ThisClass::SlowTick, SlowTickInterval, true);
-	
 		Timer.SetTimer(WallDetectTimer, this, &ThisClass::LeanWallDetect, 0.1f, true);
 		Timer.PauseTimer(WallDetectTimer);
 	
 		Timer.SetTimer(StaminaTimer, this, &ThisClass::TickStamina, 0.1f, true);
 		if (!HasControlFlag(PCF_UseStamina)) Timer.PauseTimer(StaminaTimer);
 	}
+
+	LockFlags.Remove(Tag_LockStartup.GetTag().GetTagName());
 }
 
 void AToroFirstPersonPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 	if (GameWidget)
 	{
 		GameWidget->UpdateStamina(DeltaTime, HasControlFlag(PCF_UseStamina)
 			? GetStaminaPercent() : -1.0f, StaminaDelta, IsStaminaPunished());
+	}
+
+	if (!InterpFieldOfView.IsComplete())
+	{
+		PlayerCamera->SetFieldOfView(InterpFieldOfView.Current);
+		InterpFieldOfView.InterpSpeed = FieldOfViewSpeed;
+		InterpFieldOfView.Tick(DeltaTime);
+	}
+	
+	if (!InterpCrouch.IsComplete())
+	{
+		GetCapsuleComponent()->SetCapsuleHalfHeight(InterpCrouch.Current);
+		InterpCrouch.InterpSpeed = CrouchSpeed;
+		InterpCrouch.Tick(DeltaTime);
+	}
+
+	if (LockOnTarget)
+	{
+		SetLeanState(EPlayerLeanState::None);
+		const FVector TargetVector = LockOnTarget->GetComponentLocation() - PlayerCamera->GetComponentLocation();
+		Controller->SetControlRotation(FMath::RInterpTo(Controller->GetControlRotation(),
+			FRotationMatrix::MakeFromX(TargetVector).Rotator(), DeltaTime, LockOnSpeed));
+	}
+	else
+	{
+		CamTargetOffset = CamSwayOffset + CamLeanOffset;
+		if (!CamCurrentOffset.Equals(CamTargetOffset, 0.01f))
+		{
+			CamCurrentOffset = FMath::Vector2DInterpTo(CamCurrentOffset, CamTargetOffset, DeltaTime, LeanSpeed);
+			CamPosition.Y = CamCurrentOffset.X;
+
+			const FRotator CtrlRot = GetController()->GetControlRotation();
+			Controller->SetControlRotation(FRotator(CtrlRot.Pitch, CtrlRot.Yaw, CamCurrentOffset.Y));
+		}
+
+		if (IsMoving() && IsPlayerControlled())
+		{
+			const TSubclassOf<UCameraShakeBase> Shake = IsRunning() ? CameraShakes.RunShake : CameraShakes.WalkShake;
+			const float Scale = IsRunning() ? CameraShakes.RunScale : CameraShakes.WalkScale;
+			PlayerController->ClientStartCameraShake(Shake, Scale);
+		}
+	}
+
+	const float HalfHeight = GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere();
+	FootstepAudio->SetRelativeLocation({0.0f, 0.0f, -HalfHeight});
+
+	const float CamHeight = HalfHeight + GetCapsuleComponent()->GetUnscaledCapsuleRadius() * 0.5f;
+	CamPosition.Z = FMath::FInterpTo(CamPosition.Z, CamHeight, DeltaTime, 10.0f);
+
+	CameraArm->SetRelativeLocation(CamPosition);
+
+	if (!FootstepTimer.IsValid() && IsMoving())
+	{
+		GetWorldTimerManager().SetTimer(FootstepTimer, this, &ThisClass::TickFootstep,
+			Footsteps.GetInterval(IsRunning(), IsCrouching()), false);
 	}
 }
 
