@@ -31,9 +31,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = GameInstance)
 		void SetUnlitViewmode(const bool bUnlit);
 
+	UFUNCTION(BlueprintPure, Category = GameInstance)
+		bool IsUnlitViewmode() const { return CachedVMI == VMI_Unlit; }
+
+	UFUNCTION(BlueprintCallable, Category = GameInstance)
+		void SetDeveloperMode(const bool bInDeveloperMode);
+
+	UFUNCTION(BlueprintPure, Category = GameInstance)
+		bool IsDeveloperMode() const { return bDeveloperMode; }
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnDevModeChanged, bool);
+	FOnDevModeChanged OnDeveloperMode;
+
 protected:
 
 	UPROPERTY() int32 CachedVMI;
+	UPROPERTY() bool bDeveloperMode;
 	
 	virtual void Init() override;
 };

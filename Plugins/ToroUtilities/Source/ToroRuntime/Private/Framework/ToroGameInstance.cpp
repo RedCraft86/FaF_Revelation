@@ -1,12 +1,13 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameInstance.h"
+#include "ToroConfigManager.h"
 #if !UE_BUILD_SHIPPING
 #include "GeneralProjectSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
 #endif
 
-UToroGameInstance::UToroGameInstance() : CachedVMI(VMI_Lit)
+UToroGameInstance::UToroGameInstance() : CachedVMI(VMI_Lit), bDeveloperMode(false)
 {
 }
 
@@ -24,6 +25,11 @@ void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 	{
 		Viewport->ViewModeIndex = CachedVMI;
 	}
+
+	if (const UToroConfigManager* ConfigManager = UToroConfigManager::Get(this))
+	{
+		SetDeveloperMode(ConfigManager->IsDeveloperMode());
+	}
 }
 
 void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)
@@ -34,6 +40,12 @@ void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)
 		CachedVMI = bUnlit ? VMI_Unlit : VMI_Lit;
 		Viewport->ViewModeIndex = CachedVMI;
 	}
+}
+
+void UToroGameInstance::SetDeveloperMode(const bool bInDeveloperMode)
+{
+	bDeveloperMode = bInDeveloperMode;
+	OnDeveloperMode.Broadcast(bDeveloperMode);
 }
 
 void UToroGameInstance::Init()
