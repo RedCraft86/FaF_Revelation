@@ -7,6 +7,7 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
+class UInventoryWidgetBase;
 class UInventoryItemData;
 
 UENUM(BlueprintType)
@@ -189,7 +190,9 @@ protected:
 	
 	UPROPERTY() FGameCurrency CurrencyData;
 	UPROPERTY() TMap<FGuid, FInventorySlotData> ItemSlots;
-	
+	UPROPERTY() TObjectPtr<UInventoryWidgetBase> Widget;
+
+	UInventoryWidgetBase* GetWidget();
 	void ValidateInventory(const bool bForceUpdate = false);
 	virtual void OnInventoryUpdate() {}
 };

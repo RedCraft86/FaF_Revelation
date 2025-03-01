@@ -131,6 +131,7 @@ protected:
 	UPROPERTY() FGameInputModeData InputModeData;
 	UPROPERTY(Transient) TObjectPtr<UPauseWidgetBase> PauseWidget;
 
+	UPauseWidgetBase* GetPauseWidget();
 	class UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void BeginPlay() override;

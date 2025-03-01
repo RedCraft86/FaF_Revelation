@@ -237,16 +237,17 @@ public:
 
 protected:
 
-	bool IsStandingBlocked() const;
-	bool IsLeaningBlocked(const float Direction) const;
 
 	void TickStamina();
 	void TickFootstep();
 	void LeanWallDetect();
+	bool IsStandingBlocked() const;
+	bool IsLeaningBlocked(const float Direction) const;
+	UGameWidgetBase* GetGameWidget();
+	
 	void OnSettingsChange(const class UToroUserSettings* InSettings);
-
-	virtual void SlowTick() override;
 	virtual void OnEnemyStackChanged() override;
+	virtual void SlowTick() override;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;

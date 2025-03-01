@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Inventory/InventoryComponent.h"
+#include "Inventory/InventoryWidgetBase.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Framework/ToroGameMode.h"
 
 bool FInventoryMetaFilter::Filter(const FInventorySlotData& InSlot) const
@@ -370,6 +372,17 @@ void UInventoryComponent::SetSaveData(const FInventorySaveData& InData)
 	CurrencyData = InData.CurrencyData;
 	ItemSlots = InData.ItemSlots;
 	ValidateInventory(true);
+}
+
+UInventoryWidgetBase* UInventoryComponent::GetWidget()
+{
+	if (Widget) return Widget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		Widget = Manager->FindWidget<UInventoryWidgetBase>();
+	}
+
+	return Widget;
 }
 
 void UInventoryComponent::ValidateInventory(const bool bForceUpdate)

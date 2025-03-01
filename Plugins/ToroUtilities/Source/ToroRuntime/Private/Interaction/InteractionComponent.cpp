@@ -13,11 +13,12 @@ UInteractionComponent::UInteractionComponent() : bEnabled(false), HoldTime(0.0f)
 
 void UInteractionComponent::SetEnabled(const bool bInEnabled)
 {
-	if (!Widget)
+	if (!GetWidget())
 	{
 		bEnabled = false;
 		SetComponentTickEnabled(false);
 		SetInteracting(false);
+		return;
 	}
 	
 	if (bEnabled != bInEnabled)
@@ -88,6 +89,17 @@ void UInteractionComponent::HandleInteractionTick(const float DeltaTime, const F
 	}
 }
 
+UGameWidgetBase* UInteractionComponent::GetWidget()
+{
+	if (Widget) return Widget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		Widget = Manager->FindWidget<UGameWidgetBase>();
+	}
+
+	return Widget;
+}
+
 void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -106,14 +118,6 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 		CleanupInteraction();
 	}
 
-	if (!Widget)
-	{
-		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
-		{
-			Widget = Manager->FindWidget<UGameWidgetBase>();
-		}
-	}
-
 	Widget->UpdateInteraction(InteractCache);
 }
 
@@ -126,7 +130,7 @@ void UInteractionComponent::BeginPlay()
 		Widget = Manager->FindWidget<UGameWidgetBase>();
 		if (!bEnabled)
 		{
-			Widget->SetInteractionHidden(true);
+			if (Widget) Widget->SetInteractionHidden(true);
 			SetComponentTickEnabled(false);
 		}
 	}

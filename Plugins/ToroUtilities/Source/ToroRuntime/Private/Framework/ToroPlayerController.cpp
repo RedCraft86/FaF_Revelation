@@ -42,16 +42,22 @@ void AToroPlayerController::SetPauseState(const bool bInPaused)
 	{
 		SetPause(bInPaused);
 		bGamePaused = bInPaused;
-		
-		if (!PauseWidget)
+		if (UPauseWidgetBase* Widget = GetPauseWidget())
 		{
-			if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
-			{
-				PauseWidget = Manager->FindWidget<UPauseWidgetBase>();
-			}
+			bInPaused ? Widget->ActivateWidget() : Widget->DeactivateWidget();
 		}
-		bInPaused ? PauseWidget->ActivateWidget() : PauseWidget->DeactivateWidget();
 	}
+}
+
+UPauseWidgetBase* AToroPlayerController::GetPauseWidget()
+{
+	if (PauseWidget) return PauseWidget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		PauseWidget = Manager->FindWidget<UPauseWidgetBase>();
+	}
+	
+	return PauseWidget;
 }
 
 UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const

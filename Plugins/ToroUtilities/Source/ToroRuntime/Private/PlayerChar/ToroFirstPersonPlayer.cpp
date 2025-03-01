@@ -322,33 +322,6 @@ void AToroFirstPersonPlayer::GetViewPoint_Implementation(FVector& Location, FVec
 	Angle = PlayerCamera->FieldOfView;
 }
 
-bool AToroFirstPersonPlayer::IsStandingBlocked() const
-{
-	FVector Start, End;
-	UToroMathLibrary::GetActorLineTraceVectors(this, EVectorDirection::Up,
-		GetCapsuleComponent()->GetUnscaledCapsuleRadius() + CrouchHeights.X + 5.0f, Start, End);
-	
-	FHitResult HitResult;
-	return GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity,
-		CeilingTrace, FCollisionShape::MakeSphere(10.0f), TRACE_PARAMS);
-}
-
-bool AToroFirstPersonPlayer::IsLeaningBlocked(const float Direction) const
-{
-	if (FMath::IsNearlyZero(Direction)) return false;
-
-	FVector Start, End;
-	UToroMathLibrary::GetActorLineTraceVectors(this, EVectorDirection::Right,
-		SideTraceLength * Direction, Start, End);
-
-	Start += FVector(0.0f, 0.0f, CameraArm->GetRelativeLocation().Z);
-	End += FVector(0.0f, 0.0f, CameraArm->GetRelativeLocation().Z);
-
-	FHitResult HitResult;
-	return GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity,
-		SideTrace, FCollisionShape::MakeSphere(10.0f), TRACE_PARAMS);
-}
-
 void AToroFirstPersonPlayer::TickStamina()
 {
 	StaminaDelta = IsRunning() ? -StaminaDrainRate.Evaluate() : StaminaGainRate.Evaluate();
@@ -401,6 +374,43 @@ void AToroFirstPersonPlayer::LeanWallDetect()
 	}
 }
 
+bool AToroFirstPersonPlayer::IsStandingBlocked() const
+{
+	FVector Start, End;
+	UToroMathLibrary::GetActorLineTraceVectors(this, EVectorDirection::Up,
+		GetCapsuleComponent()->GetUnscaledCapsuleRadius() + CrouchHeights.X + 5.0f, Start, End);
+	
+	FHitResult HitResult;
+	return GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity,
+		CeilingTrace, FCollisionShape::MakeSphere(10.0f), TRACE_PARAMS);
+}
+
+bool AToroFirstPersonPlayer::IsLeaningBlocked(const float Direction) const
+{
+	if (FMath::IsNearlyZero(Direction)) return false;
+
+	FVector Start, End;
+	UToroMathLibrary::GetActorLineTraceVectors(this, EVectorDirection::Right,
+		SideTraceLength * Direction, Start, End);
+
+	Start += FVector(0.0f, 0.0f, CameraArm->GetRelativeLocation().Z);
+	End += FVector(0.0f, 0.0f, CameraArm->GetRelativeLocation().Z);
+
+	FHitResult HitResult;
+	return GetWorld()->SweepSingleByChannel(HitResult, Start, End, FQuat::Identity,
+		SideTrace, FCollisionShape::MakeSphere(10.0f), TRACE_PARAMS);
+}
+
+UGameWidgetBase* AToroFirstPersonPlayer::GetGameWidget()
+{
+	if (GameWidget) return GameWidget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		GameWidget = Manager->FindWidget<UGameWidgetBase>();
+	}
+	return GameWidget;
+}
+
 void AToroFirstPersonPlayer::OnSettingsChange(const UToroUserSettings* InSettings)
 {
 	if (InSettings)
@@ -414,6 +424,11 @@ void AToroFirstPersonPlayer::OnSettingsChange(const UToroUserSettings* InSetting
 		Sensitivity.X = InSettings->GetSensitivityX();
 		Sensitivity.Y = InSettings->GetSensitivityY();
 	}
+}
+
+void AToroFirstPersonPlayer::OnEnemyStackChanged()
+{
+	Super::OnEnemyStackChanged();
 }
 
 void AToroFirstPersonPlayer::SlowTick()
@@ -432,11 +447,6 @@ void AToroFirstPersonPlayer::SlowTick()
 
 	InterpFieldOfView.Target = FieldOfView.Evaluate();
 	GetCharacterMovement()->MaxWalkSpeed = MoveSpeedTarget * MoveSpeedMulti.Evaluate();
-}
-
-void AToroFirstPersonPlayer::OnEnemyStackChanged()
-{
-	Super::OnEnemyStackChanged();
 }
 
 void AToroFirstPersonPlayer::BeginPlay()
@@ -478,9 +488,9 @@ void AToroFirstPersonPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (GameWidget)
+	if (UGameWidgetBase* Widget = GetGameWidget())
 	{
-		GameWidget->UpdateStamina(DeltaTime, HasControlFlag(PCF_UseStamina)
+		Widget->UpdateStamina(DeltaTime, HasControlFlag(PCF_UseStamina)
 			? GetStaminaPercent() : -1.0f, StaminaDelta, IsStaminaPunished());
 	}
 

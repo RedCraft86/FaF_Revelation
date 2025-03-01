@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "InteractionComponent.generated.h"
 
+class UGameWidgetBase;
+
 USTRUCT(BlueprintType)
 struct TORORUNTIME_API FInteractionData
 {
@@ -66,10 +68,12 @@ private:
 	UPROPERTY() bool bInteracting;
 	UPROPERTY() FInteractionData InteractCache;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerBase> Player;
-	UPROPERTY(Transient) TObjectPtr<class UGameWidgetBase> Widget;
+	UPROPERTY(Transient) TObjectPtr<UGameWidgetBase> Widget;
 
 	void CleanupInteraction();
 	void HandleInteractionTick(float DeltaTime, const FHitResult& HitResult, const FInteractionInfo& InteractResult);
+	UGameWidgetBase* GetWidget();
+
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void BeginPlay() override;
 };
