@@ -85,6 +85,8 @@ namespace Player
 	}
 }
 
+#define LockFlag(Flag) Tag_Lock##Flag.GetTag().GetTagName()
+
 #define BIND_INPUT_ACTION(Component, Event, Action) \
 	if (const UInputAction* IA_##Action = InputActions.FindRef(Player::InputActions::Action)) \
 	{ Component->BindAction(IA_##Action, ETriggerEvent::Event, this, &ThisClass::InputBinding_##Action); }
