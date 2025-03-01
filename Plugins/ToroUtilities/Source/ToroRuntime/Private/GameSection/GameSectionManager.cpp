@@ -170,6 +170,12 @@ void UGameSectionManager::OnMainLevelLoaded()
 	{
 		MusicManager->ChangeMainTheme(Section->Theme.LoadSynchronous());
 	}
+
+	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
+	{
+		Player->OverrideControlFlags(Section->PlayerControl);
+		Player->SetLightSettings(Section->PlayerLight);
+	}
 }
 
 void UGameSectionManager::OnStartSequenceFinished()

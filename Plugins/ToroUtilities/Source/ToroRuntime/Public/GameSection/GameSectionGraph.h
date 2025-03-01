@@ -64,6 +64,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = Game, DisplayName = "Sky & Weather")
 		FUDSSettings SkyWeather;
 	
+	UPROPERTY(EditAnywhere, Category = Player, meta = (Bitmask, BitmaskEnum = "/Script/ToroRuntime.EPlayerControlFlags"))
+		int32 PlayerControl;
+	
+	UPROPERTY(EditAnywhere, Category = Player)
+		FPointLightProperties PlayerLight;
+	
 	UPROPERTY(EditAnywhere, Category = Player)
 		TArray<FInventorySlotData> Inventory;
 

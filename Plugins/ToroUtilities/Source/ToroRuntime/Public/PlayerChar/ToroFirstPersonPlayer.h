@@ -143,10 +143,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void ResetStates();
 
-	// TODO: Player settings
-	// UFUNCTION(BlueprintCallable, Category = Player)
-	// 	void SetPlayerSettings(const FPlayerSettings& InSettings);
-
 	UFUNCTION(BlueprintPure, Category = Player)
 		bool IsMoving() const { return GetVelocity().Size2D() > 50.0f; }
 
