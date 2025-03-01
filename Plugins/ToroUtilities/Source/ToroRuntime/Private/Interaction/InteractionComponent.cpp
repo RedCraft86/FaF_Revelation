@@ -91,22 +91,29 @@ void UInteractionComponent::HandleInteractionTick(const float DeltaTime, const F
 void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (bInteracting && InteractionLogic.IsBound())
+
+	if (!InteractionLogic.IsBound()) return;
+	const FHitResult HitResult = InteractionLogic.Execute();
+	if (!HitResult.IsValidBlockingHit()) return;
+
+	FInteractionInfo InteractInfo; 
+	if (bInteracting && IInteraction::GetInteractionInfo(HitResult.GetActor(), HitResult, InteractInfo))
 	{
-		if (const FHitResult HitResult = InteractionLogic.Execute(); HitResult.IsValidBlockingHit())
+		HandleInteractionTick(DeltaTime, HitResult, InteractInfo);
+	}
+	else
+	{
+		CleanupInteraction();
+	}
+
+	if (!Widget)
+	{
+		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 		{
-			FInteractionInfo InteractInfo;
-			if (IInteraction::GetInteractionInfo(HitResult.GetActor(), HitResult, InteractInfo))
-			{
-				HandleInteractionTick(DeltaTime, HitResult, InteractInfo);
-			}
-			else
-			{
-				CleanupInteraction();
-			}
+			Widget = Manager->FindWidget<UGameWidgetBase>();
 		}
 	}
-	
+
 	Widget->UpdateInteraction(InteractCache);
 }
 
