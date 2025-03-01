@@ -57,8 +57,9 @@ void AToroFirstPersonPlayer::ResetStates()
 
 	ExitCinematic();
 	ForceExitHiding();
+	ForceExitTaskDevice();
 	ForceExitWorldDevice();
-	// GameMode->Inventory->CloseUI(); TODO: Inventory close
+	GameMode->Inventory->CloseUI();
 
 	LockFlags.Remove(NAME_None);
 	const TSet<FName> AllFlags = Player::LockFlags::GetAll();
@@ -212,8 +213,7 @@ bool AToroFirstPersonPlayer::TryJumpscare()
 	ForceExitWorldDevice();
 	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
-		// TODO: Exit inventory
-		//GameMode->Inventory->CloseUI();
+		GameMode->Inventory->CloseUI();
 	}
 
 	return true;
@@ -667,12 +667,11 @@ void AToroFirstPersonPlayer::InputBinding_Inventory(const FInputActionValue& InV
 	if (LockFlags.Contains(LockFlag(Guide))) return;
 	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
-		// TODO: Inventory
-		// GameMode->Inventory->CloseUI();
+		GameMode->Inventory->CloseUI();
 	}
 	else if (CAN_INPUT)
 	{
-		// GameMode->Inventory->OpenUI();
+		GameMode->Inventory->OpenUI();
 	}
 }
 
@@ -696,7 +695,7 @@ void AToroFirstPersonPlayer::InputBinding_Equipment(const FInputActionValue& InV
 {
 	if (CAN_INPUT)
 	{
-		// GameMode->Inventory->EquipmentUse(); TODO: Inventory
+		GameMode->Inventory->EquipmentUse();
 	}
 }
 
@@ -704,6 +703,6 @@ void AToroFirstPersonPlayer::InputBinding_EquipmentAlt(const FInputActionValue& 
 {
 	if (CAN_INPUT)
 	{
-		// GameMode->Inventory->EquipmentUseAlt(InValue.Get<bool>()); TODO: Inventory
+		GameMode->Inventory->EquipmentUseAlt(InValue.Get<bool>());
 	}
 }

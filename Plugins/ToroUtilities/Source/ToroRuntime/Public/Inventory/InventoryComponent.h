@@ -165,6 +165,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
 		void SetSaveData(const FInventorySaveData& InData);
 
+	void CloseUI() {}
+	void OpenUI() {}
+	void EquipmentUse() {}
+	void EquipmentUseAlt(const bool bState) {}
+
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;
 	
