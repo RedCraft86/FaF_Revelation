@@ -109,11 +109,13 @@ public:
 
 protected:
 
+	UPROPERTY() FTimerHandle SlowTickTimer;
 	UPROPERTY(Transient) TObjectPtr<AActor> CinematicActor;
 	UPROPERTY(Transient) TObjectPtr<AToroGameMode> GameMode;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerController> PlayerController;
 	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
-	
+
+	virtual void SlowTick() {}
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 

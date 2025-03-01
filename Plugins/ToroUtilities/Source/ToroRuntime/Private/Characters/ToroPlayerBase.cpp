@@ -6,7 +6,9 @@
 
 UE_DEFINE_GAMEPLAY_TAG(Tag_Player, "Characters.Player");
 
-AToroPlayerBase::AToroPlayerBase() : SlowTickInterval(0.1f), ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS)
+AToroPlayerBase::AToroPlayerBase()
+	: SlowTickInterval(0.1f), ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS)
+	, LockFlags({Tag_LockStartup.GetTag().GetTagName()})
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -150,9 +152,13 @@ void AToroPlayerBase::SetLightSettings(const FPointLightProperties& InSettings)
 void AToroPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
+
 	GameMode = AToroGameMode::Get(this);
 	PlayerController = AToroPlayerController::Get(this);
 	GameInstance = UToroGameInstance::Get(this);
+
+	GetWorldTimerManager().SetTimer(SlowTickTimer, this,
+		&AToroPlayerBase::SlowTick, SlowTickInterval, true);
 }
 
 void AToroPlayerBase::OnConstruction(const FTransform& Transform)

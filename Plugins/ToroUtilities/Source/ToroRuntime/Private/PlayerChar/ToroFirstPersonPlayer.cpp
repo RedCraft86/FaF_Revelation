@@ -14,13 +14,13 @@
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
 
-AToroFirstPersonPlayer::AToroFirstPersonPlayer() : SlowTickInterval(0.1f), ReachDistance(250.0f)
-	, InteractTrace(ECC_Visibility), FieldOfView(90.0f), FieldOfViewSpeed(5.0f), LockOnSpeed(5.0f)
-	, Sensitivity(1.0f), SensitivityMulti(1.0f), LeanOffsets(75.0f, 25.0f), LeanSpeed(7.5f)
-	, SideTrace(ECC_Visibility), SideTraceLength(125.0f), MoveSpeedMulti(1.0f), WalkingSpeed(300.0f)
-	, SwayOffsets(2.5f, 1.5f), CrouchWalkSpeed(200.0f), CrouchFOV(-5.0f), CeilingTrace(ECC_Visibility)
-	, CrouchHeights(88.0f, 45.0f), CrouchRate(1.0f), RunningSpeed(750.0f), RunningFOV(5.0f)
-	, MaxStamina(100.0f), StaminaDrainRate(1.0f), StaminaGainRate(1.0f)
+AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), InteractTrace(ECC_Visibility)
+	, FieldOfView(90.0f), FieldOfViewSpeed(5.0f), LockOnSpeed(5.0f), Sensitivity(1.0f)
+	, SensitivityMulti(1.0f), LeanOffsets(75.0f, 25.0f), LeanSpeed(7.5f), SideTrace(ECC_Visibility)
+	, SideTraceLength(125.0f), MoveSpeedMulti(1.0f), WalkingSpeed(300.0f), SwayOffsets(2.5f, 1.5f)
+	, CrouchWalkSpeed(200.0f), CrouchFOV(-5.0f), CeilingTrace(ECC_Visibility), CrouchHeights(88.0f, 45.0f)
+	, CrouchSpeed(5.0f), RunningSpeed(750.0f), RunningFOV(5.0f), MaxStamina(100.0f), StaminaDrainRate(1.0f)
+	, StaminaGainRate(1.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -442,6 +442,22 @@ void AToroFirstPersonPlayer::LeanWallDetect()
 
 void AToroFirstPersonPlayer::OnEnemyStackChanged()
 {
+	// TODO: Music states
+}
+
+void AToroFirstPersonPlayer::OnSettingsChange(const UToroUserSettings* InSettings)
+{
+	if (InSettings)
+	{
+		FieldOfView.AddMod(TEXT("Settings"), InSettings->GetFieldOfViewOffset());
+		PlayerCamera->SetFieldOfView(FMath::Clamp(FieldOfView.Evaluate(), 5.0f, 170.0f));
+		InterpFieldOfView.Target = PlayerCamera->FieldOfView;
+		InterpFieldOfView.SnapToTarget();
+
+		CameraArm->bEnableCameraRotationLag = InSettings->GetSmoothCamera();
+		Sensitivity.X = InSettings->GetSensitivityX();
+		Sensitivity.Y = InSettings->GetSensitivityY();
+	}
 }
 
 void AToroFirstPersonPlayer::SlowTick()
@@ -460,21 +476,6 @@ void AToroFirstPersonPlayer::SlowTick()
 
 	InterpFieldOfView.Target = FieldOfView.Evaluate();
 	GetCharacterMovement()->MaxWalkSpeed = MoveSpeedTarget * MoveSpeedMulti.Evaluate();
-}
-
-void AToroFirstPersonPlayer::OnSettingsChange(const UToroUserSettings* InSettings)
-{
-	if (InSettings)
-	{
-		FieldOfView.AddMod(TEXT("Settings"), InSettings->GetFieldOfViewOffset());
-		PlayerCamera->SetFieldOfView(FMath::Clamp(FieldOfView.Evaluate(), 5.0f, 170.0f));
-		InterpFieldOfView.Target = PlayerCamera->FieldOfView;
-		InterpFieldOfView.SnapToTarget();
-
-		CameraArm->bEnableCameraRotationLag = InSettings->GetSmoothCamera();
-		Sensitivity.X = InSettings->GetSensitivityX();
-		Sensitivity.Y = InSettings->GetSensitivityY();
-	}
 }
 
 void AToroFirstPersonPlayer::BeginPlay()

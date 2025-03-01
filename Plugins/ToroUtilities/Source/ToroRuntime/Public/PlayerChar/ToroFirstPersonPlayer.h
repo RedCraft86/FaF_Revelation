@@ -30,9 +30,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UInteractionComponent> Interaction;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
-		float SlowTickInterval;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 100.0f, UIMax = 300.0f))
 		float ReachDistance;
 
@@ -263,7 +260,6 @@ protected:
 	bool IsStandingBlocked() const;
 	bool IsLeaningBlocked(const float Direction) const;
 
-	void SlowTick();
 	void TickStamina();
 	void TickFootstep();
 	void LeanWallDetect();
@@ -271,6 +267,7 @@ protected:
 	void OnEnemyStackChanged();
 	void OnSettingsChange(const class UToroUserSettings* InSettings);
 
+	virtual void SlowTick() override;
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
