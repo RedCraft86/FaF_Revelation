@@ -45,7 +45,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = GameConfig, DisplayName = "Get Game Config (String)", meta = (AdvancedDisplay = "InDefault"))
 		FString GetGameConfigString(const FString& InKey, const FString& InDefault = TEXT("")) const;
 
-
 	UFUNCTION(BlueprintPure, Category = "GameConfig|Defaults")
 		bool IsFirstLaunch() const;
 	
@@ -61,7 +60,6 @@ private:
 	bool CheckConfigDefaults() const;
 	void MarkFirstLaunchFalse() const;
 
-	
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 };
