@@ -70,11 +70,11 @@ public:
 	}
 	
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FieldOfView, 0, 50)
-	void SetFieldOfViewUI(const int32 InFieldOfView)
+	void SetFieldOfViewOffset(const int32 InFieldOfView)
 	{
 		SetFieldOfView(FMath::Clamp(InFieldOfView + 25, 0, 50));
 	}
-	int32 GetFieldOfViewUI() const { return GetFieldOfView() - 25; }
+	int32 GetFieldOfViewOffset() const { return GetFieldOfView() - 25; }
 	
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(FString, Username)
