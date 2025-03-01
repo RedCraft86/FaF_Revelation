@@ -31,7 +31,9 @@ struct TORORUNTIME_API FToroFloatModifier
 			It->Value = FMath::Clamp(It->Value, Min, Max);
 		}
 	}
-	
+
+	void AddMod(const FName Key, const float Value) { Modifiers.Add(Key, Value); }
+	void RemoveMod(const FName Key) { Modifiers.Remove(Key); }
 	virtual float Evaluate() const
 	{
 		return Base;
@@ -114,20 +116,62 @@ class TORORUNTIME_API UAdvancedFloatLibrary final : public UBlueprintFunctionLib
 public:
 
 	UFUNCTION(BlueprintPure, Category = AdvancedFloat, DisplayName = "Evaluate (Multi)")
-		static float Evaluate_Multi(const FToroFloatMulti& InFloat) { return InFloat.Evaluate(); }
+	static float Evaluate_Multi(const FToroFloatMulti& InFloat)
+	{
+		return InFloat.Evaluate();
+	}
+
+	UFUNCTION(BlueprintCallable, Category = AdvancedFloat, DisplayName = "Add Modifier (Multi)")
+	static void AddMod_Multi(UPARAM(ref) FToroFloatMulti& InFloat, const FName InKey, const float InValue)
+	{
+		InFloat.AddMod(InKey, InValue);
+	}
+
+	UFUNCTION(BlueprintCallable, Category = AdvancedFloat, DisplayName = "Remove Modifier (Multi)")
+	static void RemoveMod_Multi(UPARAM(ref) FToroFloatMulti& InFloat, const FName InKey)
+	{
+		InFloat.RemoveMod(InKey);
+	}
 
 	UFUNCTION(BlueprintPure, Category = AdvancedFloat, DisplayName = "Evaluate (Sum)")
-		static float Evaluate_Sum(const FToroFloatSum& InFloat) { return InFloat.Evaluate(); }
+	static float Evaluate_Sum(const FToroFloatSum& InFloat)
+	{
+		return InFloat.Evaluate();
+	}
+
+	UFUNCTION(BlueprintCallable, Category = AdvancedFloat, DisplayName = "Add Modifier (Sum)")
+	static void AddMod_Sum(UPARAM(ref) FToroFloatSum& InFloat, const FName InKey, const float InValue)
+	{
+		InFloat.AddMod(InKey, InValue);
+	}
+
+	UFUNCTION(BlueprintCallable, Category = AdvancedFloat, DisplayName = "Remove Modifier (Sum)")
+	static void RemoveMod_Sum(UPARAM(ref) FToroFloatSum& InFloat, const FName InKey)
+	{
+		InFloat.RemoveMod(InKey);
+	}
 	
 	UFUNCTION(BlueprintPure, Category = AdvancedFloat, DisplayName = "Get Interp Value")
-		static float GetValue_Interp(const FToroFloatInterp& InInterp) { return InInterp.Current; }
+	static float GetValue_Interp(const FToroFloatInterp& InInterp)
+	{
+		return InInterp.Current;
+	}
 	
 	UFUNCTION(BlueprintPure, Category = AdvancedFloat, DisplayName = "Is Complete")
-		static bool IsComplete_Interp(const FToroFloatInterp& InInterp) { return InInterp.IsComplete(); }
+	static bool IsComplete_Interp(const FToroFloatInterp& InInterp)
+	{
+		return InInterp.IsComplete();
+	}
 	
 	UFUNCTION(BlueprintCallable, Category = AdvancedFloat, DisplayName = "Snap to Target")
-		static void SnapToTarget_Interp(UPARAM(ref) FToroFloatInterp& InInterp) { InInterp.SnapToTarget(); }
+	static void SnapToTarget_Interp(UPARAM(ref) FToroFloatInterp& InInterp)
+	{
+		InInterp.SnapToTarget();
+	}
 	
 	UFUNCTION(BlueprintCallable, Category = AdvancedFloat, DisplayName = "Tick Interpolation")
-		static void Tick_Interp(UPARAM(ref) FToroFloatInterp& InInterp, const float DeltaTime) { InInterp.Tick(DeltaTime); }
+	static void Tick_Interp(UPARAM(ref) FToroFloatInterp& InInterp, const float DeltaTime)
+	{
+		InInterp.Tick(DeltaTime);
+	}
 };
