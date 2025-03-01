@@ -5,7 +5,7 @@
 UE_DEFINE_GAMEPLAY_TAG(Tag_PlayerLock, "PlayerLock");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockStartup, "PlayerLock.Startup");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockLoading, "PlayerLock.Loading");
-UE_DEFINE_GAMEPLAY_TAG(Tag_LockCutscene, "PlayerLock.Cutscene");
+UE_DEFINE_GAMEPLAY_TAG(Tag_LockCinematic, "PlayerLock.Cinematic");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockDialogue, "PlayerLock.Dialogue");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockJumpscare, "PlayerLock.Jumpscare");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockInventory, "PlayerLock.Inventory");
