@@ -30,6 +30,9 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UInteractionComponent> Interaction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
+		float SlowTickInterval;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 100.0f, UIMax = 300.0f))
 		float ReachDistance;
 
@@ -43,7 +46,7 @@ public:
 		float FieldOfViewSpeed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Settings, meta = (DisplayThumbnail = false))
-		TSoftObjectPtr<USceneComponent> LockOnTarget;
+		TObjectPtr<const USceneComponent> LockOnTarget;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 5.0f, UIMin = 5.0f, UIMax = 25.0f))
 		float LockOnSpeed;
@@ -54,16 +57,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		FToroFloatMulti SensitivityMulti;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		FVector2D LeanOffsets;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		float LeanSpeed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		TEnumAsByte<ECollisionChannel> SideTrace;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
 		float SideTraceLength;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings)
@@ -117,18 +120,161 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<FName, TObjectPtr<UInputAction>> InputActions;
 
-	UFUNCTION(BlueprintPure, Category = Player)
-		bool IsLocked() const;
+protected:
+
+	UPROPERTY() FTimerHandle SlowTickTimer;
+	UPROPERTY() FTimerHandle StaminaTimer;
+	UPROPERTY() FTimerHandle FootstepTimer;
+	UPROPERTY() FTimerHandle WallDetectTimer;
+
+	UPROPERTY() FToroFloatInterp InterpFieldOfView;
+	UPROPERTY() FToroFloatInterp InterpHeight;
+
+	UPROPERTY() FVector CamPosition;
+	UPROPERTY() FVector2D CamLeanOffset;
+	UPROPERTY() FVector2D CamSwayOffset;
+	UPROPERTY() FVector2D CamCurrentOffset;
+	UPROPERTY() FVector2D CamTargetOffset;
+
+	UPROPERTY() float StaminaDelta;
+	UPROPERTY() float CurrentStamina;
+	UPROPERTY() float MoveSpeedTarget;
+	UPROPERTY() EPlayerLeanState LeanState;
+
+	UPROPERTY(Transient) TObjectPtr<UObject> TaskDevice;
+	UPROPERTY(Transient) TObjectPtr<UObject> HidingSpot;
+	UPROPERTY(Transient) TObjectPtr<UObject> WorldDevice;
+	UPROPERTY(Transient) TSet<TObjectPtr<ACharacter>> EnemyStack; // TODO: Replace with proper enemy
+	UPROPERTY(Transient) TObjectPtr<UGameWidgetBase> GameWidget;
+
+public:
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void ResetStates();
+
+	// TODO: Player settings
+	// UFUNCTION(BlueprintCallable, Category = Player)
+	// 	void SetPlayerSettings(const FPlayerSettings& InSettings);
 
 	UFUNCTION(BlueprintPure, Category = Player)
-		bool IsPaused() const;
+		bool IsMoving() const { return GetVelocity().Size2D() > 50.0f; }
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsLocked() const { return ControlFlags & PCF_Locked || !LockFlags.IsEmpty(); }
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsPaused() const { return GetWorldSettings()->GetPauserPlayerState() != nullptr; }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetRunState(const bool bInState);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool HasRunFlag() const { return HasStateFlag(PSF_Running); }
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsRunning() const { return HasStateFlag(PSF_Running) && GetVelocity().Size() > WalkingSpeed; }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetCrouchState(const bool bInState);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsCrouching() const { return HasStateFlag(PSF_Crouching); }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetLeanState(const EPlayerLeanState InState);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		EPlayerLeanState GetLeanState() const { return LeanState; }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetStaminaPercent(const float InStamina = 1.0f);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		float GetStaminaPercent() const { return CurrentStamina / MaxStamina; }
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsStaminaPunished() const { return HasStateFlag(PSF_RunLocked); }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetLockOnTarget(const USceneComponent* InComponent);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		const USceneComponent* GetLockOnTarget() const { return LockOnTarget; }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetHidingSpot(UObject* InObject);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		UObject* GetHidingSpot() const { return HidingSpot; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		void ForceExitHiding() const;
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetWorldDevice(UObject* InObject);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		UObject* GetWorldDevice() const { return WorldDevice; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		void ForceExitWorldDevice() const;
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void SetTaskDevice(UObject* InObject);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		UObject* GetTaskDevice() const { return TaskDevice; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		void ForceExitTaskDevice() const;
+
+	// TODO: Add enemy type
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void AddEnemy(ACharacter* InEnemy);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void RemoveEnemy(ACharacter* InEnemy);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void ClearEnemyStack();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		bool TryJumpscare();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		void FadeToBlack(const float InTime, const bool bAudio = true) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		void FadeFromBlack(const float InTime, const bool bAudio = true) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		void ClearFade() const;
+
+	virtual void SetControlFlag(const EPlayerControlFlags InFlag) override;
+	virtual void UnsetControlFlag(const EPlayerControlFlags InFlag) override;
+	virtual void TeleportPlayer(const FVector& InLocation, const FRotator& InRotation) override;
+
+	virtual void SetActorHiddenInGame(bool bNewHidden) override;
+	virtual bool GetLookTarget_Implementation(FVector& Location) override;
+	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
 
 protected:
 
-	INPUT_BINDING_FUNCTIONS()
+	bool IsStandingBlocked() const;
+	bool IsLeaningBlocked(const float Direction) const;
+
+	void SlowTick();
+	void TickStamina();
+	void TickFootstep();
+	void LeanWallDetect();
+
+	void OnEnemyStackChanged();
+	void OnSettingsChange(const class UToroUserSettings* InSettings);
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
+
+	INPUT_BINDING_FUNCTIONS()
 };
