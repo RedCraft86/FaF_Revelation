@@ -12,6 +12,8 @@
 	"SupportURL": "https://github.com/RedCraft86",
 	"CanContainContent": true,
 	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
 	"Modules": [
 		{
 			"Name": "DataGraph",
@@ -44,8 +46,6 @@
 			"LoadingPhase": "Default"
 		}
 	],
-	"IsExperimentalVersion": false,
-	"Installed": false,
 	"Plugins": [
 		{
 			"Name": "GameplayTagsEditor",
