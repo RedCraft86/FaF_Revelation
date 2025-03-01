@@ -91,20 +91,20 @@ void UInteractionComponent::HandleInteractionTick(const float DeltaTime, const F
 void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
-	if (!InteractionLogic.IsBound()) return;
-	const FHitResult HitResult = InteractionLogic.Execute();
-	if (!HitResult.IsValidBlockingHit()) return;
-	
-	FInteractionInfo InteractInfo; 
-	if (bInteracting && IInteraction::GetInteractionInfo(
-		HitResult.GetActor(), HitResult, InteractInfo))
+	if (bInteracting && InteractionLogic.IsBound())
 	{
-		HandleInteractionTick(DeltaTime, HitResult, InteractInfo);
-	}
-	else
-	{
-		CleanupInteraction();
+		if (const FHitResult HitResult = InteractionLogic.Execute(); HitResult.IsValidBlockingHit())
+		{
+			FInteractionInfo InteractInfo;
+			if (IInteraction::GetInteractionInfo(HitResult.GetActor(), HitResult, InteractInfo))
+			{
+				HandleInteractionTick(DeltaTime, HitResult, InteractInfo);
+			}
+			else
+			{
+				CleanupInteraction();
+			}
+		}
 	}
 	
 	Widget->UpdateInteraction(InteractCache);
