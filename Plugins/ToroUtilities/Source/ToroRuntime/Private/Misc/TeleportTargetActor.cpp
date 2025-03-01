@@ -27,8 +27,7 @@ void ATeleportTargetActor::TeleportPlayer() const
 {
 	if (AToroPlayerBase* Player = PlayerRef.LoadSynchronous())
 	{
-		Player->SetActorLocation(GetActorLocation());
-		Player->Controller->SetControlRotation(GetActorRotation());
+		Player->TeleportPlayer(GetActorLocation(), GetActorRotation());
 	}
 }
 
