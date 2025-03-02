@@ -113,8 +113,7 @@ void AToroWidgetManager::ToggleNarrativeQuests()
 {
 	if (UNarrativeWidgetBase* Widget = FindWidget<UNarrativeWidgetBase>())
 	{
-		// TODO: Narrative widget
-		// Widget->SetQuestsHidden(Widget->AreQuestsHidden());
+		Widget->SetQuestsHidden(Widget->AreQuestsHidden());
 	}
 }
 

@@ -119,6 +119,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
+	
+	virtual void EnterDialogue() {}
 
 protected:
 

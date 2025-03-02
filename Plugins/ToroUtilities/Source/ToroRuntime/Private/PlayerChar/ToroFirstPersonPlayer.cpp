@@ -260,6 +260,13 @@ void AToroFirstPersonPlayer::ClearFade() const
 	}
 }
 
+void AToroFirstPersonPlayer::EnterDialogue()
+{
+	SetRunState(false);
+	SetCrouchState(false);
+	SetLeanState(EPlayerLeanState::None);
+}
+
 void AToroFirstPersonPlayer::SetControlFlag(const EPlayerControlFlags InFlag)
 {
 	if (InFlag == PCF_None) return;

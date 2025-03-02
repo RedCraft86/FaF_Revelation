@@ -227,6 +227,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
 		void ClearFade() const;
 
+	virtual void EnterDialogue() override;
 	virtual void SetControlFlag(const EPlayerControlFlags InFlag) override;
 	virtual void UnsetControlFlag(const EPlayerControlFlags InFlag) override;
 	virtual void TeleportPlayer(const FVector& InLocation, const FRotator& InRotation) override;
@@ -236,7 +237,6 @@ public:
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
 
 protected:
-
 
 	void TickStamina();
 	void TickFootstep();

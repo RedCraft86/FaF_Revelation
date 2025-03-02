@@ -37,7 +37,7 @@ public:
 	
 protected:
 	
-	UPROPERTY(Transient) TObjectPtr<AGameModeBase> GameMode;
+	UPROPERTY(Transient) TObjectPtr<AToroGameMode> GameMode;
 
 	UPROPERTY() bool bHidden;
 	UPROPERTY() bool bWantHidden;
