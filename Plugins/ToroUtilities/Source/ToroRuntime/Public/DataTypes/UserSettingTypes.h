@@ -55,8 +55,5 @@ enum class EImageFidelityMode : uint8
 	FSR,
 
 	// Intel® Xe Super Sampling (Upscaler)
-	XeSS,
-	
-	// Nvidia Image Scaling (Upscaler)
-	NIS
+	XeSS
 };

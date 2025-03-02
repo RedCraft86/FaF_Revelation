@@ -7,7 +7,16 @@ MotionBlurAmount
     
 LumenGI & LumenReflection
     Off - Low - Medium - High
-    
+
+NISQuality
+    Off - UltraQuality - Quality - Balanced - Performance
+
+NvidiaReflex
+    Off - On - Boosted
+
+NISSharpness
+    0.0f -> 1.0f
+
 FXAADithering: r.FXAA.Quality
     Setting value is offset by -1 since "Console" will not be an actual pickable option. Run commands with +1
     Medium 3 Samples - Medium 5 Samples - Medium 8 Samples - Low 12 Samples (Default) - Extreme 12 Samples
@@ -25,17 +34,13 @@ SMAAQuality: r.SMAA.Quality
 SMAAEdgeMode: r.SMAA.EdgeDetector
     Depth - Luminance - Color - World Normal (Default)
 
-DLSS:
+DLSSQuality
+    Off - DLAA - UltraQuality - Quality - Balanced - Performance - UltraPerformance
 
-DLSSQuality:
+DLSSFrameGeneration
+    Auto - On2X - On3X - On4X
 
-DLSSSharpness:
-
-DLSSRayReconstruction:
-
-DLSSFrameGeneration:
-
-NvidiaReflex:
+DLSSRayReconstruction: Function
 
 FSR: r.FidelityFX.FSR3.Enable
 
@@ -50,9 +55,7 @@ FSRSharpness: r.FidelityFX.FSR3.Sharpness 0.0 -> 1.0
 
 FSRFrameGeneration: r.FidelityFX.FI.Enabled
 
-XeSS: r.XeSS.Enabled
-
-XeSSQuality: r.XeSS.Quality
+XeSSQuality: Function
     Ultra Performance (3.0x)
     Performance (2.3x)
     Balanced (2.0x)
@@ -60,11 +63,3 @@ XeSSQuality: r.XeSS.Quality
     Ultra Quality (1.5x)
     Ultra Quality Plus (1.3x)
     Anti-Aliasing (1.0x)
-
-NIS:
-
-NISQuality:
-
-NISSharpness:
-
-NISScreenPercentage:

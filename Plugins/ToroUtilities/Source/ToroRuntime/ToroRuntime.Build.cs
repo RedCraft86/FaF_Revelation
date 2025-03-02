@@ -34,7 +34,13 @@ public class ToroRuntime : ModuleRules
                 "DataGraph",
                 "Narrative",
                 "ExpressiveText",
-                "EnhancedCodeFlow", 
+                "EnhancedCodeFlow",
+                "XeSSBlueprint",
+                "NISBlueprint", 
+                "DLSSBlueprint", 
+                "StreamlineDLSSGBlueprint",
+                "StreamlineReflexBlueprint", 
+                "StreamlineDeepDVCBlueprint", 
             }
         );
         

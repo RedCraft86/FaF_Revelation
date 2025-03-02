@@ -53,6 +53,13 @@ public:
 	static UToroUserSettings* Get() { return Cast<UToroUserSettings>(GEngine->GameUserSettings); }
 	static inline TSet<EImageFidelityMode> SupportedFidelityModes = {};
 	static void CheckSupportedFidelityModes();
+	static bool IsDynamicVibranceSupported();
+	static bool IsNvidiaReflexSupported();
+	static bool IsDLSSFGSupported();
+	static bool IsDLSSRRSupported();
+	static bool IsDLSSSupported();
+	static bool IsNISSupported();
+	static bool IsXeSSSupported();
 	
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const UToroUserSettings*)
 	FUserSettingsDelegate OnDynamicSettingsChanged;
@@ -96,11 +103,14 @@ public:
 	DECLARE_CONVERTABLE_FUNC(EColorBlindMode, ColorBlindMode, uint8, Int)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
 	
-	DECLARE_PROPERTY_FUNC(uint8, NvidiaReflex)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, NvidiaReflex, 0, 2)
 	
 	DECLARE_PROPERTY_FUNC(bool, RTXDynamicVibrance)
-	DECLARE_PROPERTY_FUNC(float, DynamicVibranceIntensity)
-	DECLARE_PROPERTY_FUNC(float, DynamicVibranceSaturation)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, DynamicVibranceIntensity, 0.0f, 1.0f)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, DynamicVibranceSaturation, 0.0f, 1.0f)
+	
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, NISQuality, 0, 4)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, NISSharpness, 0.0f, 1.0f)
 	
 	DECLARE_CONVERTABLE_FUNC(EImageFidelityMode, ImageFidelityMode, uint8, Int)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FXAADithering, 0, 4)
@@ -110,28 +120,23 @@ public:
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, SMAAQuality, 0, 3)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, SMAAEdgeMode, 0, 3)
 
-	DECLARE_PROPERTY_FUNC(uint8, DLSSQuality)
-	DECLARE_PROPERTY_FUNC(float, DLSSSharpness)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSQuality, 0, 6)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSFrameGeneration, 0, 4)
 	DECLARE_PROPERTY_FUNC(bool, DLSSRayReconstruction)
-	DECLARE_PROPERTY_FUNC(bool, DLSSFrameGeneration)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, FSRSharpness, 0.0f, 1.0f)
 	DECLARE_PROPERTY_FUNC(bool, FSRFrameGeneration)
 	
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6)
-	
-	DECLARE_PROPERTY_FUNC(uint8, NISQuality)
-	DECLARE_PROPERTY_FUNC(float, NISSharpness)
-	DECLARE_PROPERTY_FUNC(float, NISScreenPercentage)
-	
+
 private:
 
 	void ApplyNIS() const;
 	void ApplyFSR() const;
 	void ApplyDLSS() const;
 	void ApplyImageFidelityMode();
-	
+
 	void ApplyColorBlindSettings() const;
 	void ApplyDynamicVibrance() const;
 	void ApplyAudioSettings() const;
@@ -140,7 +145,7 @@ private:
 
 	void ReapplySettings();
 	void CacheScalabilityDefaults();
-	
+
 	virtual void SetToDefaults() override;
 	virtual void ApplyNonResolutionSettings() override;
 	virtual void LoadSettings(bool bForceReload) override;
@@ -180,6 +185,8 @@ private:
 	UPROPERTY(Config) bool RTXDynamicVibrance;
 	UPROPERTY(Config) float DynamicVibranceIntensity;
 	UPROPERTY(Config) float DynamicVibranceSaturation;
+	UPROPERTY(Config) uint8 NISQuality;
+	UPROPERTY(Config) float NISSharpness;
 
 	/* Anti-Aliasing / Upscaling */
 	UPROPERTY(Config) EImageFidelityMode ImageFidelityMode;
@@ -195,9 +202,8 @@ private:
 
 	// DLSS
 	UPROPERTY(Config) uint8 DLSSQuality;
-	UPROPERTY(Config) float DLSSSharpness;
 	UPROPERTY(Config) bool DLSSRayReconstruction;
-	UPROPERTY(Config) bool DLSSFrameGeneration;
+	UPROPERTY(Config) uint8 DLSSFrameGeneration;
 
 	// FSR
 	UPROPERTY(Config) uint8 FSRQuality;
@@ -206,11 +212,6 @@ private:
 
 	// XeSS
 	UPROPERTY(Config) uint8 XeSSQuality;
-
-	// NIS
-	UPROPERTY(Config) uint8 NISQuality;
-	UPROPERTY(Config) float NISSharpness;
-	UPROPERTY(Config) float NISScreenPercentage;
 
 	// Default values for scalability. Will get overridden by automatic configuration
 	UPROPERTY(Config) TArray<uint8> ScalabilityDefaults{3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
