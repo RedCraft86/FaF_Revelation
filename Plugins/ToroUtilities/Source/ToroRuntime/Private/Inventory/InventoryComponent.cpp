@@ -365,6 +365,24 @@ void UInventoryComponent::EnsureItems(const TArray<FInvSlotData>& InItems)
 	}
 }
 
+bool UInventoryComponent::CanConsumeItem(const FGuid& InSlot, FIntPoint& Amounts)
+{
+	const FInvSlotData* SlotData = ItemSlots.Find(InSlot);
+	if (const UInventoryItemData* ItemData = SlotData ? SlotData->Item.LoadSynchronous() : nullptr)
+	{
+		const FInvItemConsumable* Attribute = ItemData->GetFirstAttribute<FInvItemConsumable>();
+		if (Attribute && Attribute->Class)
+		{
+			Amounts.X = SlotData->Amount;
+			Amounts.Y = Attribute->Amount;
+			return Amounts.X >= Amounts.Y;
+		}
+	}
+
+	Amounts = {};
+	return false;
+}
+
 bool UInventoryComponent::ConsumeItem(const FGuid& InSlot)
 {
 	const FInvSlotData* SlotData = ItemSlots.Find(InSlot);

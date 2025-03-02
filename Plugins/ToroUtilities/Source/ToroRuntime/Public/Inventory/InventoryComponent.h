@@ -173,7 +173,10 @@ public:
 		void EnsureItems(const TArray<FInvSlotData>& InItems);
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
-	bool ConsumeItem(const FGuid& InSlot);
+		bool CanConsumeItem(const FGuid& InSlot, FIntPoint& Amounts);
+
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		bool ConsumeItem(const FGuid& InSlot);
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
 		void UnequipItem();
