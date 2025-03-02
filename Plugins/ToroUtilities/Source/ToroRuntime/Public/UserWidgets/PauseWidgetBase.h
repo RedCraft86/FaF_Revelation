@@ -3,11 +3,12 @@
 #pragma once
 
 #include "ToroWidgetBase.h"
+#include "GeneralInterface.h"
 #include "ToroAnimatedButtonBase.h"
 #include "PauseWidgetBase.generated.h"
 
 UCLASS(Abstract)
-class TORORUNTIME_API UPauseWidgetBase : public UToroWidget
+class TORORUNTIME_API UPauseWidgetBase : public UToroWidget, public IToroGeneralInterface
 {
 	GENERATED_BODY()
 
@@ -51,10 +52,9 @@ protected:
 	void OnSettingsClicked();
 	void OnCheckpointClicked();
 	void OnMainMenuClicked();
-	void OnExitSettings();
 
 	virtual void InitWidget() override;
 	virtual void NativeConstruct() override;
-	virtual void InternalProcessActivation() override;
+	virtual void Return_Implementation() override;
 	virtual void InternalProcessDeactivation() override;
 };

@@ -27,6 +27,7 @@ public:
 		ZOrder = 57;
 	}
 
+	// TODO
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSubclassOf<UInventorySlotWidgetBase> SlotWidget;
 };

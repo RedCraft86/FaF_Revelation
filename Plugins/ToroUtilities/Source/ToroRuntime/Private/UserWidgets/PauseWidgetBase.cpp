@@ -65,17 +65,9 @@ void UPauseWidgetBase::OnMainMenuClicked()
 	});
 }
 
-void UPauseWidgetBase::OnExitSettings()
-{
-	SetHidden(false);
-	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
-		EMouseLockMode::LockAlways, false, this);
-}
-
 void UPauseWidgetBase::InitWidget()
 {
 	Super::InitWidget();
-	SetVisibility(ESlateVisibility::Visible);
 	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
 		EMouseLockMode::LockAlways, false, this);
 }
@@ -83,7 +75,6 @@ void UPauseWidgetBase::InitWidget()
 void UPauseWidgetBase::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SetVisibility(ESlateVisibility::Collapsed);
 	PlayerChar = AToroPlayerBase::Get(this);
 	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
 	{
@@ -97,13 +88,14 @@ void UPauseWidgetBase::NativeConstruct()
 	MainMenuButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnMainMenuClicked);
 
 	SettingsWidget = CreateNew<USettingsWidgetBase>(PlayerChar->GetPlayerController(), SettingsWidgetClass);
-	SettingsWidget->OnExit.AddUObject(this, &UPauseWidgetBase::OnExitSettings);
+	SettingsWidget->OwnerWidget = this;
 }
 
-void UPauseWidgetBase::InternalProcessActivation()
+void UPauseWidgetBase::Return_Implementation()
 {
-	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-	Super::InternalProcessActivation();
+	SetHidden(false);
+	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
+		EMouseLockMode::LockAlways, false, this);
 }
 
 void UPauseWidgetBase::InternalProcessDeactivation()

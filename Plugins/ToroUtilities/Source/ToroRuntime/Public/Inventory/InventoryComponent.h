@@ -166,6 +166,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
 		void SetSaveData(const FInventorySaveData& InData);
 
+	// TODO
 	void CloseUI() {}
 	void OpenUI() {}
 	void EquipmentUse() {}

@@ -11,7 +11,7 @@
 #include "UserWidgets/GameWidgetBase.h"
 #include "Camera/CameraComponent.h"
 #include "ToroMathLibrary.h"
-#include "ExitInterface.h"
+#include "GeneralInterface.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
@@ -173,7 +173,7 @@ void AToroFirstPersonPlayer::SetHidingSpot(UObject* InObject)
 
 void AToroFirstPersonPlayer::ForceExitHiding() const
 {
-	IExitInterface::Exit(HidingSpot);
+	IToroGeneralInterface::Exit(HidingSpot);
 }
 
 void AToroFirstPersonPlayer::SetWorldDevice(UObject* InObject)
@@ -185,7 +185,7 @@ void AToroFirstPersonPlayer::SetWorldDevice(UObject* InObject)
 
 void AToroFirstPersonPlayer::ForceExitWorldDevice() const
 {
-	IExitInterface::Exit(WorldDevice);
+	IToroGeneralInterface::Exit(WorldDevice);
 }
 
 void AToroFirstPersonPlayer::SetTaskDevice(UObject* InObject)
@@ -197,7 +197,7 @@ void AToroFirstPersonPlayer::SetTaskDevice(UObject* InObject)
 
 void AToroFirstPersonPlayer::ForceExitTaskDevice() const
 {
-	IExitInterface::Exit(TaskDevice);
+	IToroGeneralInterface::Exit(TaskDevice);
 }
 
 bool AToroFirstPersonPlayer::TryJumpscare()

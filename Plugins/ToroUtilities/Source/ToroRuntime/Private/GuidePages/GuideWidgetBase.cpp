@@ -14,6 +14,7 @@ UGuideWidgetBase::UGuideWidgetBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), ImageHeight(0.0f), bPrePauseState(false)
 {
 	ZOrder = 59;
+	bAutoActivate = false;
 }
 
 void UGuideWidgetBase::QueuePage(const FGameplayTag& InPageID)

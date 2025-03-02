@@ -17,6 +17,12 @@ public:
 		ZOrder = 58;
 	}
 
-	DECLARE_MULTICAST_DELEGATE(FOnExit);
-	FOnExit OnExit;
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Settings)
+		TObjectPtr<UUserWidget> OwnerWidget;
+	
+	// TODO
+
+protected:
+
+	virtual void InternalProcessDeactivation() override;
 };
