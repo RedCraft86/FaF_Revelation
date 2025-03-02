@@ -5,9 +5,11 @@
 #include "Framework/ToroPlayerController.h"
 #include "Inventory/InventoryWidgetBase.h"
 #include "Framework/ToroWidgetManager.h"
+#include "Inventory/InventoryPreview.h"
 #include "PlayerChar/PlayerStatics.h"
 #include "Framework/ToroGameMode.h"
 #include "EnhancedCodeFlow.h"
+#include "EngineUtils.h"
 
 bool FInvMetaFilter::Filter(const FInvSlotData& InSlot) const
 {
@@ -68,7 +70,7 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 	{
 		if (Slot.Key.IsValid() && Slot.Value.IsValidData())
 		{
-			Slots.Emplace(Slot.Key, Slot.Value);
+			Slots.Emplace(Slot);
 		}
 	}
 
@@ -462,11 +464,11 @@ void UInventoryComponent::OpenUI()
 
 		ValidateInventory();
 		Widget->ActivateWidget();
-		// if (InventoryPreview) TODO
-		// {
-		// 	InventoryPreview->Initialize();
-		// 	InventoryPreview->SetItem({});
-		// }
+		if (PreviewActor)
+		{
+			PreviewActor->Initialize();
+			PreviewActor->SetItem({});
+		}
 
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 		{
@@ -485,10 +487,10 @@ void UInventoryComponent::CloseUI()
 		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameOnly);
 		PlayerChar->GetPlayerController()->SetPause(false);
 
-		// if (InventoryPreview) TODO
-		// {
-		// 	InventoryPreview->Deinitialize();
-		// }
+		if (PreviewActor)
+		{
+			PreviewActor->Deinitialize();
+		}
 
 		Widget->DeactivateWidget();
 		FFlow::Delay(this, 0.5f, [this]()
@@ -527,4 +529,11 @@ void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerChar = AToroPlayerBase::Get(this);
+	for (AInventoryPreview* Actor : TActorRange<AInventoryPreview>(GetWorld()))
+	{
+		PreviewActor = Actor;
+		if (PreviewActor) break;
+	}
+	if (!PreviewActor) PreviewActor = GetWorld()->SpawnActor<AInventoryPreview>(
+			{0.0f, 0.0f, -500.0f}, FRotator::ZeroRotator);
 }

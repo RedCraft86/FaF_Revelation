@@ -177,6 +177,7 @@ public:
 	FString GetCategoryName() const;
 	FText GetDisplayName(const FInventoryMetadata& InMetadata) const;
 	FText GetDescription(const FInventoryMetadata& InMetadata) const;
+	FTransformMeshData GetMeshData(const FInventoryMetadata& InMetadata) const;
 	static FText InjectMetadataToText(const FText& InTextFmt, const FInventoryMetadata& InMetadata);
 
 #if WITH_EDITOR

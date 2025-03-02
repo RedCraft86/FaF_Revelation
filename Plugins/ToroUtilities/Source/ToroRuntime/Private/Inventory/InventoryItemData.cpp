@@ -142,6 +142,19 @@ FText UInventoryItemData::GetDescription(const FInventoryMetadata& InMetadata) c
 	return InjectMetadataToText(TextFmt, InMetadata);
 }
 
+FTransformMeshData UInventoryItemData::GetMeshData(const FInventoryMetadata& InMetadata) const
+{
+	FTransformMeshData MeshData = BaseMesh;
+	if (const FString* MeshKey = InMetadata.Find(Tag_InvMeshID))
+	{
+		if (const FInvItemAltPreview* AltPreviews = GetFirstAttribute<FInvItemAltPreview>())
+		{
+			AltPreviews->GetMeshData(*MeshKey, MeshData);
+		}
+	}
+	return MeshData;
+}
+
 FText UInventoryItemData::InjectMetadataToText(const FText& InTextFmt, const FInventoryMetadata& InMetadata)
 {
 	FFormatNamedArguments MetaArgs;

@@ -224,6 +224,7 @@ protected:
 	UPROPERTY() FGameCurrency CurrencyData;
 	UPROPERTY() TMap<FGuid, FInvSlotData> ItemSlots;
 	UPROPERTY() TObjectPtr<class AToroPlayerBase> PlayerChar;
+	UPROPERTY() TObjectPtr<class AInventoryPreview> PreviewActor;
 	UPROPERTY() TObjectPtr<UInventoryWidgetBase> InventoryWidget;
 
 	UInventoryWidgetBase* GetWidget();

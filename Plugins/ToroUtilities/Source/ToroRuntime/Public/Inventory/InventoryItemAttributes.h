@@ -59,6 +59,13 @@ struct TORORUNTIME_API FInvItemAltPreview : public FInventoryItemAttribute
 		TMap<FString, FTransformMeshData> AltMeshes;
 	
 	FInvItemAltPreview() {}
+
+	void GetMeshData(const FString& InKey, FTransformMeshData& OutData) const
+	{
+		if (InKey.IsEmpty()) return;
+		const FTransformMeshData* Result = AltMeshes.Find(InKey);
+		if (Result && Result->IsValidData()) OutData = *Result;
+	}
 };
 
 USTRUCT(DisplayName = "Viewable")
