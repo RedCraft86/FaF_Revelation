@@ -15,6 +15,8 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvNameID);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvDescID);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvMeshID);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvKeyID);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvReuseKey);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvJsonData);
 
 UENUM(BlueprintType)
 enum class EInventoryStackType : uint8
@@ -147,10 +149,12 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, Category = Editor, Transient, meta = (MultiLine = true, ForceInlineRow))
 	TMap<FGameplayTag, FString> MetadataKeyGuide{
-			{Tag_InvNameID,	TEXT("Used with the Alt Names Attribute.")},
-			{Tag_InvDescID,	TEXT("Used with the Alt Descriptions Attribute.")},
-			{Tag_InvMeshID,	TEXT("Used with the Alt Meshes Attribute.")},
-			{Tag_InvKeyID,		TEXT("This item will be able to unlock locks with matching IDs.")}
+		{Tag_InvNameID,	TEXT("Used with the Alt Names Attribute.")},
+		{Tag_InvDescID,	TEXT("Used with the Alt Descriptions Attribute.")},
+		{Tag_InvMeshID,	TEXT("Used with the Alt Meshes Attribute.")},
+		{Tag_InvKeyID,		TEXT("This item will be able to unlock locks with matching IDs.")},
+		{Tag_InvReuseKey,	TEXT("Used for key types. Signifies that a key is reusable for other locks.")},
+		{Tag_InvJsonData,		TEXT("Used for equipment types to store extra equipment data.")}
 	};
 #endif
 

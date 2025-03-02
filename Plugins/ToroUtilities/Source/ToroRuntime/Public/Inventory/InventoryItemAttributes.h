@@ -85,12 +85,12 @@ struct TORORUNTIME_API FInvItemConsumable : public FInventoryItemAttribute
 
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		FText Label;
-	
-	UPROPERTY(EditAnywhere, Category = Attribute)
-		TSubclassOf<UObject> Class;
 
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		uint8 Amount;
+	
+	UPROPERTY(EditAnywhere, Category = Attribute)
+		TSubclassOf<class UInventoryConsumable> Class;
 	
 	FInvItemConsumable() : Label(NSLOCTEXT("Toro", "Use", "Use")), Amount(1) {}
 };
@@ -107,7 +107,7 @@ struct TORORUNTIME_API FInvItemEquipment : public FInventoryItemAttribute
 		FText UnequipLabel;
 	
 	UPROPERTY(EditAnywhere, Category = Attribute)
-		TSubclassOf<AActor> Class;
+		TSubclassOf<class AInventoryEquipment> Class;
 	
 	FInvItemEquipment() : EquipLabel(NSLOCTEXT("Toro", "Equip", "Equip"))
 		, UnequipLabel(NSLOCTEXT("Toro", "Unequip", "Unequip"))
