@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "InventoryEquipment.generated.h"
 
-struct FInventorySlotData;
+struct FInvSlotData;
 class UInventoryComponent;
 
 UCLASS(Abstract)
@@ -30,9 +30,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		void EndAltUse();
 
-	void OnEquip(UInventoryComponent* Inventory, const FInventorySlotData& Slot);
-	void OnUnquip(UInventoryComponent* Inventory, FInventorySlotData& Slot);
-	void SaveData(FInventorySlotData& Slot) const;
+	void OnEquip(UInventoryComponent* Inventory, const FInvSlotData& Slot);
+	void OnUnquip(UInventoryComponent* Inventory, FInvSlotData& Slot);
+	void SaveData(FInvSlotData& Slot) const;
 
 protected:
 

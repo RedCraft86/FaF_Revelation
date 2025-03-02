@@ -53,7 +53,7 @@ public:
 		TArray<uint8> Sequence;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TMap<FGuid, FInventorySaveData> Inventory;
+		TMap<FGuid, FInvSaveData> Inventory;
 
 	virtual void DeleteData() override;
 	virtual void OnCreation() override;

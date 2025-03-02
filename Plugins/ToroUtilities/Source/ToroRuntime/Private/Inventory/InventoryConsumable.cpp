@@ -7,10 +7,11 @@ void UInventoryConsumable::MarkFinished()
 	MarkAsGarbage();
 }
 
-void UInventoryConsumable::UseConsumable(UInventoryComponent* Inventory)
+bool UInventoryConsumable::UseConsumable(UInventoryComponent* Inventory)
 {
-	ConsumeItem(Inventory);
+	const bool bSuccess = ConsumeItem(Inventory);
 	if (bAutoMarkGarbage) MarkFinished();
+	return bSuccess;
 }
 
 UWorld* UInventoryConsumable::GetWorld() const

@@ -71,7 +71,7 @@ public:
 		FPointLightProperties PlayerLight;
 	
 	UPROPERTY(EditAnywhere, Category = Player)
-		TArray<FInventorySlotData> Inventory;
+		TArray<FInvSlotData> Inventory;
 
 	bool PlayStart() const
 	{

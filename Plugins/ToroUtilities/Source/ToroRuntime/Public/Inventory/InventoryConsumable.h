@@ -24,7 +24,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Consumable)
 		void MarkFinished();
 
-	void UseConsumable(UInventoryComponent* Inventory);
+	bool UseConsumable(UInventoryComponent* Inventory);
 	virtual UWorld* GetWorld() const override;
 
 protected:

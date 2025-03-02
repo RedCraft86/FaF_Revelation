@@ -1,11 +1,15 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Inventory/InventoryComponent.h"
+#include "Inventory/InventoryConsumable.h"
+#include "Framework/ToroPlayerController.h"
 #include "Inventory/InventoryWidgetBase.h"
 #include "Framework/ToroWidgetManager.h"
+#include "PlayerChar/PlayerStatics.h"
 #include "Framework/ToroGameMode.h"
+#include "EnhancedCodeFlow.h"
 
-bool FInventoryMetaFilter::Filter(const FInventorySlotData& InSlot) const
+bool FInvMetaFilter::Filter(const FInvSlotData& InSlot) const
 {
 	if (InSlot.IsValidData())
 	{
@@ -22,7 +26,7 @@ bool FInventoryMetaFilter::Filter(const FInventorySlotData& InSlot) const
 	return false;
 }
 
-bool FInventoryMetaFilter::Filter(const UInventoryItemData* InItem, const FInventorySlotData& InSlot) const
+bool FInvMetaFilter::Filter(const UInventoryItemData* InItem, const FInvSlotData& InSlot) const
 {
 	if (InSlot.IsValidData() && InItem && InSlot.Item.LoadSynchronous() == InItem)
 	{
@@ -32,14 +36,14 @@ bool FInventoryMetaFilter::Filter(const UInventoryItemData* InItem, const FInven
 	return false;
 }
 
-FInventorySlotData::FInventorySlotData(const TObjectPtr<UInventoryItemData>& InItem, const uint8 InAmount, const FInventoryMetadata& InMetadata)
+FInvSlotData::FInvSlotData(const TObjectPtr<UInventoryItemData>& InItem, const uint8 InAmount, const FInventoryMetadata& InMetadata)
 	: Item(InItem), Amount(InAmount)
 {
 	Metadata = InItem->DefaultMetadata;
 	Metadata.Append(InMetadata);
 }
 
-UInventoryComponent::UInventoryComponent()
+UInventoryComponent::UInventoryComponent() : bInInventory(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
@@ -57,10 +61,10 @@ UInventoryComponent* UInventoryComponent::Get(const UObject* WorldContext)
 
 TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 {
-	TArray<TPair<FGuid, FInventorySlotData>> Slots;
+	TArray<TPair<FGuid, FInvSlotData>> Slots;
 	Slots.Reserve(ItemSlots.Num());
 
-	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
+	for (const TPair<FGuid, FInvSlotData>& Slot : ItemSlots)
 	{
 		if (Slot.Key.IsValid() && Slot.Value.IsValidData())
 		{
@@ -68,7 +72,7 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 		}
 	}
 
-	Slots.Sort([](const TPair<FGuid, FInventorySlotData>& A, const TPair<FGuid, FInventorySlotData>& B)
+	Slots.Sort([](const TPair<FGuid, FInvSlotData>& A, const TPair<FGuid, FInvSlotData>& B)
 	{
 		const UInventoryItemData *ItemA = A.Value.Item.LoadSynchronous(), *ItemB = B.Value.Item.LoadSynchronous();
 		if (ItemA->Priority != ItemB->Priority)
@@ -81,7 +85,7 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 
 	TArray<FGuid> Out;
 	Out.Reserve(Slots.Num());
-	for (const TPair<FGuid, FInventorySlotData>& Slot : Slots)
+	for (const TPair<FGuid, FInvSlotData>& Slot : Slots)
 	{
 		Out.Add(Slot.Key);
 	}
@@ -95,7 +99,7 @@ TArray<FGuid> UInventoryComponent::GetFilteredSlots(const TArray<FGuid>& InSlots
 	for (const FGuid& Slot : InSlots)
 	{
 		if (!ItemSlots.Contains(Slot)) continue;
-		if (const FInventorySlotData& SlotRef = ItemSlots[Slot]; SlotRef.IsValidData())
+		if (const FInvSlotData& SlotRef = ItemSlots[Slot]; SlotRef.IsValidData())
 		{
 			const bool bContains = TypeFilter.Contains(SlotRef.Item.LoadSynchronous()->ItemType);
 			if (bExcludeTypes ? !bContains : bContains) Out.Add(Slot);
@@ -107,7 +111,7 @@ TArray<FGuid> UInventoryComponent::GetFilteredSlots(const TArray<FGuid>& InSlots
 bool UInventoryComponent::HasItem(const UInventoryItemData* Item)
 {
 	if (!Item) return false;
-	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
+	for (const TPair<FGuid, FInvSlotData>& Slot : ItemSlots)
 	{
 		if (Slot.Value.Item.LoadSynchronous() == Item) return true;
 	}
@@ -115,9 +119,9 @@ bool UInventoryComponent::HasItem(const UInventoryItemData* Item)
 	return false;
 }
 
-FGuid UInventoryComponent::FindSlot(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter)
+FGuid UInventoryComponent::FindSlot(const UInventoryItemData* Item, const FInvMetaFilter& Filter)
 {
-	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
+	for (const TPair<FGuid, FInvSlotData>& Slot : ItemSlots)
 	{
 		if (Filter.Filter(Item, Slot.Value)) return Slot.Key;
 	}
@@ -125,10 +129,10 @@ FGuid UInventoryComponent::FindSlot(const UInventoryItemData* Item, const FInven
 	return {};
 }
 
-TSet<FGuid> UInventoryComponent::FindSlots(const UInventoryItemData* Item, const FInventoryMetaFilter& Filter)
+TSet<FGuid> UInventoryComponent::FindSlots(const UInventoryItemData* Item, const FInvMetaFilter& Filter)
 {
 	TSet<FGuid> Matches;
-	for (const TPair<FGuid, FInventorySlotData>& Slot : ItemSlots)
+	for (const TPair<FGuid, FInvSlotData>& Slot : ItemSlots)
 	{
 		if (Filter.Filter(Item, Slot.Value)) Matches.Add(Slot.Key);
 	}
@@ -176,7 +180,7 @@ uint8 UInventoryComponent::AddItemToSlot(const FGuid& InSlot, const uint8 Amount
 	if (InSlot.IsValid() && ItemSlots.Contains(InSlot) && Amount > 0)
 	{
 		uint8 Overflow = 0;
-		FInventorySlotData& SlotRef = ItemSlots[InSlot];
+		FInvSlotData& SlotRef = ItemSlots[InSlot];
 
 		SlotRef.Amount += Amount;
 		const UInventoryItemData* Item = SlotRef.Item.LoadSynchronous();
@@ -211,7 +215,7 @@ void UInventoryComponent::AddInventoryItem(uint8& Overflow, TSet<FGuid>& Slots, 
 			for (int32 i = 0; i < Final - Existing; i++)
 			{
 				const FGuid ItemGuid(FGuid::NewGuid());
-				FInventorySlotData NewSlot(Item, 1, Metadata);
+				FInvSlotData NewSlot(Item, 1, Metadata);
 				ItemSlots.Add(ItemGuid, NewSlot);
 				Slots.Add(ItemGuid);
 			}
@@ -220,7 +224,7 @@ void UInventoryComponent::AddInventoryItem(uint8& Overflow, TSet<FGuid>& Slots, 
 		{
 			if (const FGuid Slot = FindSlot(Item); Slot.IsValid())
 			{
-				FInventorySlotData& SlotRef = ItemSlots[Slot];
+				FInvSlotData& SlotRef = ItemSlots[Slot];
 				Sum = SlotRef.Amount + Amount;
 				Final = FMath::Min((int32)Item->GetStackLimit(), Sum);
 				Overflow = FMath::Max(Sum - Final, 0);
@@ -235,7 +239,7 @@ void UInventoryComponent::AddInventoryItem(uint8& Overflow, TSet<FGuid>& Slots, 
 				Overflow = FMath::Max(Sum - Final, 0);
 				
 				const FGuid ItemGuid(FGuid::NewGuid());
-				FInventorySlotData NewSlot(Item, (uint8)Final, Metadata);
+				FInvSlotData NewSlot(Item, (uint8)Final, Metadata);
 				ItemSlots.Add(ItemGuid, NewSlot);
 				Slots.Add(ItemGuid);
 			}
@@ -263,7 +267,7 @@ uint8 UInventoryComponent::RemoveItemFromSlot(const FGuid& InSlot, const uint8 A
 	{
 		uint8 Missing = 0;
 		bool bChanged = false;
-		FInventorySlotData& SlotRef = ItemSlots[InSlot];
+		FInvSlotData& SlotRef = ItemSlots[InSlot];
 
 		SlotRef.Amount -= Amount;
 		const UInventoryItemData* Item = SlotRef.Item.LoadSynchronous();
@@ -282,7 +286,7 @@ uint8 UInventoryComponent::RemoveItemFromSlot(const FGuid& InSlot, const uint8 A
 	return Amount;
 }
 
-void UInventoryComponent::RemoveInventoryItem(uint8& Missing, UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter, const bool bSilent)
+void UInventoryComponent::RemoveInventoryItem(uint8& Missing, UInventoryItemData* Item, const uint8 Amount, const FInvMetaFilter& Filter, const bool bSilent)
 {
 	Missing = 0;
 	if (IsValid(Item) && Amount > 0)
@@ -307,7 +311,7 @@ void UInventoryComponent::RemoveInventoryItem(uint8& Missing, UInventoryItemData
 		{
 			if (const FGuid Slot = FindSlot(Item); Slot.IsValid())
 			{
-				FInventorySlotData& SlotRef = ItemSlots[Slot];
+				FInvSlotData& SlotRef = ItemSlots[Slot];
 				Sum = SlotRef.Amount - Amount;
 				Missing = Sum < 0 ? FMath::Abs(Sum) : 0;
 				Final = Amount - Missing;
@@ -333,21 +337,21 @@ void UInventoryComponent::RemoveInventoryItem(uint8& Missing, UInventoryItemData
 	}
 }
 
-uint8 UInventoryComponent::RemoveItem(UInventoryItemData* Item, const uint8 Amount, const FInventoryMetaFilter& Filter, const bool bSilent)
+uint8 UInventoryComponent::RemoveItem(UInventoryItemData* Item, const uint8 Amount, const FInvMetaFilter& Filter, const bool bSilent)
 {
 	uint8 Missing;
 	RemoveInventoryItem(Missing, Item, Amount, Filter, bSilent);
 	return Missing;
 }
 
-void UInventoryComponent::EnsureItems(const TArray<FInventorySlotData>& InItems)
+void UInventoryComponent::EnsureItems(const TArray<FInvSlotData>& InItems)
 {
-	for (const FInventorySlotData& InSlot : InItems)
+	for (const FInvSlotData& InSlot : InItems)
 	{
 		UInventoryItemData* ItemData = InSlot.Item.LoadSynchronous(); if (!ItemData) continue;
 		if (const FGuid SlotID = FindSlot(ItemData); SlotID.IsValid() && ItemSlots.Contains(SlotID))
 		{
-			FInventorySlotData& SlotData = ItemSlots[SlotID];
+			FInvSlotData& SlotData = ItemSlots[SlotID];
 			SlotData.Amount = FMath::Min(FMath::Max(SlotData.Amount, InSlot.Amount), ItemData->GetStackLimit());
 			SlotData.Metadata.Append(InSlot.Metadata);
 			SlotData.Metadata.Validate();
@@ -359,30 +363,150 @@ void UInventoryComponent::EnsureItems(const TArray<FInventorySlotData>& InItems)
 	}
 }
 
-FInventorySaveData UInventoryComponent::GetSaveData() const
+bool UInventoryComponent::ConsumeItem(const FGuid& InSlot)
 {
-	FInventorySaveData Data;
+	const FInvSlotData* SlotData = ItemSlots.Find(InSlot);
+	if (const UInventoryItemData* ItemData = SlotData ? SlotData->Item.LoadSynchronous() : nullptr)
+	{
+		const FInvItemConsumable* Attribute = ItemData->GetFirstAttribute<FInvItemConsumable>();
+		if (Attribute && Attribute->Class)
+		{
+			if (SlotData->Amount < Attribute->Amount) return false;
+			if (UInventoryConsumable* Object = NewObject<UInventoryConsumable>(this, Attribute->Class))
+			{
+				if (Object->UseConsumable(this))
+				{
+					RemoveItemFromSlot(InSlot, Attribute->Amount);	
+				}
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+void UInventoryComponent::UnequipItem()
+{
+	if (Equipment.IsValidData())
+	{
+		Equipment.Actor->SetActorHiddenInGame(true);
+		Equipment.Actor->OnUnquip(this, ItemSlots[Equipment.SlotID]);
+		Equipment = {};
+	}
+}
+
+void UInventoryComponent::EquipItem(const FGuid& InSlot)
+{
+	const FInvSlotData* SlotData = ItemSlots.Find(InSlot);
+	if (const UInventoryItemData* ItemData = SlotData ? SlotData->Item.LoadSynchronous() : nullptr)
+	{
+		const FInvItemEquipment* Attribute = ItemData->GetFirstAttribute<FInvItemEquipment>();
+		if (Attribute && Attribute->Class)
+		{
+			UnequipItem();
+			if (AInventoryEquipment* Actor = GetWorld()->SpawnActor<AInventoryEquipment>(Attribute->Class))
+			{
+				Equipment.Actor = Actor;
+				Equipment.SlotID = InSlot;
+				Actor->OnEquip(this, *SlotData);
+			}
+		}
+	}
+}
+
+void UInventoryComponent::EquipmentUse()
+{
+	if (Equipment.IsValidData())
+	{
+		Equipment.Actor->UseItem();
+	}
+}
+
+void UInventoryComponent::EquipmentUseAlt(const bool bState)
+{
+	if (Equipment.IsValidData())
+	{
+		if (Equipment.bAltUsing != bState)
+		{
+			Equipment.bAltUsing = bState;
+			bState ? Equipment.Actor->BeginAltUse() : Equipment.Actor->EndAltUse();
+		}
+	}
+}
+
+FInvSaveData UInventoryComponent::GetSaveData() const
+{
+	FInvSaveData Data;
+	Data.Equipment = Equipment.SlotID;
 	Data.CurrencyData = CurrencyData;
 	Data.ItemSlots = ItemSlots;
 	return Data;
 }
 
-void UInventoryComponent::SetSaveData(const FInventorySaveData& InData)
+void UInventoryComponent::SetSaveData(const FInvSaveData& InData)
 {
 	CurrencyData = InData.CurrencyData;
 	ItemSlots = InData.ItemSlots;
 	ValidateInventory(true);
+	EquipItem(InData.Equipment);
+}
+
+void UInventoryComponent::OpenUI()
+{
+	if (bInInventory) return;
+	if (UInventoryWidgetBase* Widget = GetWidget())
+	{
+		PlayerChar->AddLockFlag(LockFlag(Inventory));
+		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
+			EMouseLockMode::LockAlways, false, Widget);
+
+		ValidateInventory();
+		Widget->ActivateWidget();
+		// if (InventoryPreview) TODO
+		// {
+		// 	InventoryPreview->Initialize();
+		// 	InventoryPreview->SetItem({});
+		// }
+
+		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+		{
+			PlayerChar->GetPlayerController()->SetPause(true);
+		});
+		bInInventory = true;
+	}
+}
+
+void UInventoryComponent::CloseUI()
+{
+	if (!bInInventory) return;
+	if (UInventoryWidgetBase* Widget = GetWidget())
+	{
+		PlayerChar->ClearLockFlag(LockFlag(Inventory));
+		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameOnly);
+		PlayerChar->GetPlayerController()->SetPause(false);
+
+		// if (InventoryPreview) TODO
+		// {
+		// 	InventoryPreview->Deinitialize();
+		// }
+
+		Widget->DeactivateWidget();
+		FFlow::Delay(this, 0.5f, [this]()
+		{
+			bInInventory = false;
+		});
+	}
 }
 
 UInventoryWidgetBase* UInventoryComponent::GetWidget()
 {
-	if (Widget) return Widget;
+	if (InventoryWidget) return InventoryWidget;
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
-		Widget = Manager->FindWidget<UInventoryWidgetBase>();
+		InventoryWidget = Manager->FindWidget<UInventoryWidgetBase>();
 	}
 
-	return Widget;
+	return InventoryWidget;
 }
 
 void UInventoryComponent::ValidateInventory(const bool bForceUpdate)
@@ -397,4 +521,10 @@ void UInventoryComponent::ValidateInventory(const bool bForceUpdate)
 		}
 	}
 	if (bChanged) ON_UPDATE()
+}
+
+void UInventoryComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	PlayerChar = AToroPlayerBase::Get(this);
 }

@@ -11,7 +11,7 @@ AInventoryEquipment::AInventoryEquipment()
 	SetRootComponent(SceneRoot);
 }
 
-void AInventoryEquipment::OnEquip(UInventoryComponent* Inventory, const FInventorySlotData& Slot)
+void AInventoryEquipment::OnEquip(UInventoryComponent* Inventory, const FInvSlotData& Slot)
 {
 	if (const AToroPlayerBase* Player = AToroPlayerBase::Get(Inventory))
 	{
@@ -22,7 +22,7 @@ void AInventoryEquipment::OnEquip(UInventoryComponent* Inventory, const FInvento
 	EquipItem(Inventory, CachedJson);
 }
 
-void AInventoryEquipment::OnUnquip(UInventoryComponent* Inventory, FInventorySlotData& Slot)
+void AInventoryEquipment::OnUnquip(UInventoryComponent* Inventory, FInvSlotData& Slot)
 {
 	UnequipItem(Inventory, CachedJson);
 	SaveData(Slot);
@@ -34,7 +34,7 @@ void AInventoryEquipment::OnUnquip(UInventoryComponent* Inventory, FInventorySlo
 	});
 }
 
-void AInventoryEquipment::SaveData(FInventorySlotData& Slot) const
+void AInventoryEquipment::SaveData(FInvSlotData& Slot) const
 {
 	FString JsonStr;
 	CachedJson.JsonObjectToString(JsonStr);
