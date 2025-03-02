@@ -16,4 +16,7 @@ public:
 	{
 		ZOrder = 58;
 	}
+
+	DECLARE_MULTICAST_DELEGATE(FOnExit);
+	FOnExit OnExit;
 };
