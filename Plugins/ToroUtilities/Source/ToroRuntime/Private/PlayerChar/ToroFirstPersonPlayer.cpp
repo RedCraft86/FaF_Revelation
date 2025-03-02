@@ -37,12 +37,6 @@ AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), Intera
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
 	PlayerCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 	
-	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
-	EquipmentRoot->SetupAttachment(PlayerCamera);
-#if WITH_EDITOR
-	EquipmentRoot->bVisualizeComponent = true;
-#endif
-	
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
 }
 
@@ -422,7 +416,7 @@ void AToroFirstPersonPlayer::BeginPlay()
 
 	CamPosition = CameraArm->GetRelativeLocation();
 	GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
-	if (const APlayerCameraManager* CM = UGameplayStatics::GetPlayerCameraManager(this, 0))
+	if (const APlayerCameraManager* CM = GetPlayerController()->PlayerCameraManager)
 	{
 		EquipmentRoot->AttachToComponent(CM->GetTransformComponent(),
 			FAttachmentTransformRules::KeepRelativeTransform);

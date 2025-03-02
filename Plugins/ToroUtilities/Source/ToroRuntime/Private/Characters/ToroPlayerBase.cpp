@@ -21,6 +21,12 @@ AToroPlayerBase::AToroPlayerBase()
 	PlayerLight = CreateDefaultSubobject<UPointLightComponent>("PlayerLight");
 	PlayerLight->SetupAttachment(GetCapsuleComponent());
 	
+	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
+	EquipmentRoot->SetupAttachment(GetCapsuleComponent());
+#if WITH_EDITOR
+	EquipmentRoot->bVisualizeComponent = true;
+#endif
+	
 	CharacterID = Tag_Player;
 	LightSettings.Intensity = 0.025f;
 	LightSettings.AttenuationRadius = 500.0f;

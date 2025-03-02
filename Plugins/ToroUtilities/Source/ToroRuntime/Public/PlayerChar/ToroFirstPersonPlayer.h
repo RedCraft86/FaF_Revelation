@@ -24,9 +24,6 @@ public:
 		TObjectPtr<UCameraComponent> PlayerCamera;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<USceneComponent> EquipmentRoot;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UInteractionComponent> Interaction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 100.0f, UIMax = 300.0f))
