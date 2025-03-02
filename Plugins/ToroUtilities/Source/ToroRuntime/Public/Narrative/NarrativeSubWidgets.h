@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "NarrativeDataTask.h"
 #include "Blueprint/UserWidget.h"
 #include "NarrativeSubWidgets.generated.h"
 
@@ -9,7 +10,6 @@ class UButton;
 class UTextBlock;
 class UNarrativeWidgetBase;
 class UDialogueNode_Player;
-class UNarrativeDataTask;
 class UNarrativeTask;
 class UQuestBranch;
 class UDialogue;

@@ -57,12 +57,12 @@ protected:
 public:
 	
 	UFUNCTION(BlueprintCallable, Category = "UserWidget")
-		static UToroWidget* CreateNew(AToroPlayerController* Owner, const TSubclassOf<UToroWidget> Class);
+		static UToroWidget* CreateNewWidget(AToroPlayerController* Owner, const TSubclassOf<UToroWidget> Class);
 	
 	template <typename WidgetT = UToroWidget>
 	static WidgetT* CreateNew(AToroPlayerController* Owner, const TSubclassOf<WidgetT> Class)
 	{
 		static_assert(TIsDerivedFrom<WidgetT, UToroWidget>::IsDerived, "UToroWidget::CreateNew can only be used to create UToroWidget instances.");
-		return Cast<WidgetT>(CreateNew(Owner, Class));
+		return Cast<WidgetT>(CreateNewWidget(Owner, Class));
 	}
 };

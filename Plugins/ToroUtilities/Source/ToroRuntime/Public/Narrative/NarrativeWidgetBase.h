@@ -3,18 +3,20 @@
 #pragma once
 
 #include "UserWidgets/ToroWidgetBase.h"
+#include "Framework/ToroPlayerController.h"
 #include "Narrative/NarrativeSubWidgets.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "NarrativeWidgetBase.generated.h"
 
 class UButton;
 class UTextBlock;
-class UDialogueOptionWidgetBase;
 
 UCLASS(Abstract)
 class TORORUNTIME_API UNarrativeWidgetBase : public UToroWidget
 {
 	GENERATED_BODY()
+
+	friend class UDialogueOptionWidgetBase;
 
 public:
 
@@ -97,8 +99,8 @@ public:
 	
 protected:
 
-	bool bHideQuests;
-	FGameInputModeData CachedInputMode;
+	UPROPERTY() bool bHideQuests;
+	UPROPERTY() FGameInputModeData CachedInputMode;
 	UPROPERTY(Transient) TObjectPtr<class AToroPlayerBase> PlayerChar;
 	UPROPERTY(Transient) TMap<FName, TObjectPtr<UDialogueOptionWidgetBase>> DialogueReplies;
 

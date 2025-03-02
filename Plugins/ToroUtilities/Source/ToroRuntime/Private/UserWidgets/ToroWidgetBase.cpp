@@ -12,19 +12,6 @@ UToroWidget::UToroWidget(const FObjectInitializer& ObjectInitializer) : Super(Ob
 	bAutoActivate = true;
 }
 
-UToroWidget* UToroWidget::CreateNew(AToroPlayerController* Owner, const TSubclassOf<UToroWidget> Class)
-{
-	if (!Owner || !Class) return nullptr;
-	if (UToroWidget* NewWidget = CreateWidget<UToroWidget>(Owner, Class))
-	{
-		NewWidget->InitWidget();
-		NewWidget->AddToViewport(NewWidget->ZOrder);
-		return NewWidget;
-	}
-
-	return nullptr;
-}
-
 void UToroWidget::SetHidden(const bool bInHidden)
 {
 	if (bWantHidden != bInHidden)
@@ -102,4 +89,17 @@ void UToroWidget::NativeConstruct()
 	{
 		SetVisibility(ESlateVisibility::Collapsed);
 	}
+}
+
+UToroWidget* UToroWidget::CreateNewWidget(AToroPlayerController* Owner, const TSubclassOf<UToroWidget> Class)
+{
+	if (!Owner || !Class) return nullptr;
+	if (UToroWidget* NewWidget = CreateWidget<UToroWidget>(Owner, Class))
+	{
+		NewWidget->InitWidget();
+		NewWidget->AddToViewport(NewWidget->ZOrder);
+		return NewWidget;
+	}
+
+	return nullptr;
 }

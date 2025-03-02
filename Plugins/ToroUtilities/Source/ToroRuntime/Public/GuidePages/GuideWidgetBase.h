@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GuidePageTypes.h"
+#include "Framework/ToroPlayerController.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "GuideWidgetBase.generated.h"
 

@@ -71,9 +71,8 @@ UDialogueOptionWidgetBase::UDialogueOptionWidgetBase(const FObjectInitializer& O
 	: Super(ObjectInitializer), MaxCharCount(0), SelectedColor(FLinearColor::Gray * FLinearColor::Yellow)
 {
 #if WITH_EDITOR
-	const ConstructorHelpers::FObjectFinder<UNarrativeDataTask> TaskFinder(
+	ReplyTaskType = LoadObject<UNarrativeDataTask>(nullptr ,
 		TEXT("/Narrative/DefaultTasks/PlayDialogueNode.PlayDialogueNode"));
-	if (TaskFinder.Succeeded()) ReplyTaskType = TaskFinder.Object;
 #endif
 }
 
