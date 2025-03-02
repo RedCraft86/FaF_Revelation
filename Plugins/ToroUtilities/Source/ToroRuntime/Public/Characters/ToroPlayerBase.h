@@ -119,6 +119,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		virtual void FadeToBlack(const float InTime, const bool bAudio = true) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		virtual void FadeFromBlack(const float InTime, const bool bAudio = true) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		virtual void ClearFade() const;
 	
 	virtual void EnterDialogue() {}
 

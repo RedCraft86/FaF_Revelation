@@ -220,46 +220,6 @@ bool AToroFirstPersonPlayer::TryJumpscare()
 	return true;
 }
 
-void AToroFirstPersonPlayer::FadeToBlack(const float InTime, const bool bAudio) const
-{
-	if (PlayerController && PlayerController->PlayerCameraManager)
-	{
-		if (FMath::IsNearlyZero(InTime))
-		{
-			PlayerController->PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, bAudio);
-		}
-		else
-		{
-			PlayerController->PlayerCameraManager->StartCameraFade(0.0f, 1.0f,
-			   InTime, FLinearColor::Black, bAudio, true);
-		}
-	}
-}
-
-void AToroFirstPersonPlayer::FadeFromBlack(const float InTime, const bool bAudio) const
-{
-	if (PlayerController && PlayerController->PlayerCameraManager)
-	{
-		if (FMath::IsNearlyZero(InTime))
-		{
-			PlayerController->PlayerCameraManager->SetManualCameraFade(0.0f, FLinearColor::Black, bAudio);
-		}
-		else
-		{
-			PlayerController->PlayerCameraManager->StartCameraFade(1.0f, 0.0f,
-			   InTime, FLinearColor::Black, bAudio, true);
-		}
-	}
-}
-
-void AToroFirstPersonPlayer::ClearFade() const
-{
-	if (PlayerController && PlayerController->PlayerCameraManager)
-	{
-		PlayerController->PlayerCameraManager->StopCameraFade();
-	}
-}
-
 void AToroFirstPersonPlayer::EnterDialogue()
 {
 	SetRunState(false);

@@ -218,15 +218,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		bool TryJumpscare();
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
-		void FadeToBlack(const float InTime, const bool bAudio = true) const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
-		void FadeFromBlack(const float InTime, const bool bAudio = true) const;
-
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
-		void ClearFade() const;
-
 	virtual void EnterDialogue() override;
 	virtual void SetControlFlag(const EPlayerControlFlags InFlag) override;
 	virtual void UnsetControlFlag(const EPlayerControlFlags InFlag) override;

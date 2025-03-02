@@ -187,6 +187,46 @@ void AToroPlayerBase::SetLightSettings(const FPointLightProperties& InSettings)
 	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
 }
 
+void AToroPlayerBase::FadeToBlack(const float InTime, const bool bAudio) const
+{
+	if (PlayerController && PlayerController->PlayerCameraManager)
+	{
+		if (FMath::IsNearlyZero(InTime))
+		{
+			PlayerController->PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, bAudio);
+		}
+		else
+		{
+			PlayerController->PlayerCameraManager->StartCameraFade(0.0f, 1.0f,
+			   InTime, FLinearColor::Black, bAudio, true);
+		}
+	}
+}
+
+void AToroPlayerBase::FadeFromBlack(const float InTime, const bool bAudio) const
+{
+	if (PlayerController && PlayerController->PlayerCameraManager)
+	{
+		if (FMath::IsNearlyZero(InTime))
+		{
+			PlayerController->PlayerCameraManager->SetManualCameraFade(0.0f, FLinearColor::Black, bAudio);
+		}
+		else
+		{
+			PlayerController->PlayerCameraManager->StartCameraFade(1.0f, 0.0f,
+			   InTime, FLinearColor::Black, bAudio, true);
+		}
+	}
+}
+
+void AToroPlayerBase::ClearFade() const
+{
+	if (PlayerController && PlayerController->PlayerCameraManager)
+	{
+		PlayerController->PlayerCameraManager->StopCameraFade();
+	}
+}
+
 void AToroPlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
