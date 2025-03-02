@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/ToroWidgetBase.h"
-
+#include "Framework/ToroPlayerController.h"
 #include "ToroRuntimeSettings.h"
 
 #define HIDE_CHECK_INTERVAL 0.5f

@@ -2,10 +2,11 @@
 
 #pragma once
 
-#include "CommonActivatableWidget.h"
 #include "Framework/ToroGameMode.h"
-#include "Framework/ToroPlayerController.h"
+#include "CommonActivatableWidget.h"
 #include "ToroWidgetBase.generated.h"
+
+class AToroPlayerController;
 
 UCLASS(Abstract)
 class TORORUNTIME_API UToroWidget : public UCommonActivatableWidget
