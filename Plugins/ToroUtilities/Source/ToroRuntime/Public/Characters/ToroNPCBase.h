@@ -24,7 +24,7 @@ public:
 	
 	AToroNPCBase();
 
-	UFUNCTION(BlueprintPure, Category = Game, DisplayName = "Set NPC State")
+	UFUNCTION(BlueprintCallable, Category = Game, DisplayName = "Set NPC State")
 		void SetNPCState(const EToroEnemyState InState);
 
 	UFUNCTION(BlueprintPure, Category = Game, DisplayName = "Get NPC State")
