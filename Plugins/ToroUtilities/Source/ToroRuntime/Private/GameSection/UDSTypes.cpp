@@ -12,8 +12,7 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_Thunderstorm, "Weather.Thunderstorm");
 
 UWorld* UUDSSetterObject::GetWorld() const
 {
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return GEngine->GetCurrentPlayWorld();
-#endif
-	return UObject::GetWorld();
+	UWorld* World = Super::GetWorld();
+	if (!World) World = GEngine ? GEngine->GetCurrentPlayWorld() : GWorld;
+	return World;
 }
