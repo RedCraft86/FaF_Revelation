@@ -18,7 +18,7 @@ public:
 	}
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Settings)
-		TObjectPtr<UUserWidget> OwnerWidget;
+		TObjectPtr<UUserWidget> ParentUI;
 	
 	// TODO
 

@@ -79,7 +79,7 @@ void UPauseWidgetBase::InitWidget()
 	MainMenuButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnMainMenuClicked);
 
 	SettingsWidget = CreateNew<USettingsWidgetBase>(PlayerChar->GetPlayerController(), SettingsWidgetClass);
-	SettingsWidget->OwnerWidget = this;
+	SettingsWidget->ParentUI = this;
 
 	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
 	{
