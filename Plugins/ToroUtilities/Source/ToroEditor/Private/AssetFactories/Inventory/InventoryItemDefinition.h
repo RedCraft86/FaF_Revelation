@@ -27,7 +27,7 @@ public:
 	virtual TSharedPtr<SWidget> GetThumbnailOverlay(const FAssetData& InAssetData) const override
 	{
 		const UInventoryItemData* Asset = Cast<UInventoryItemData>(InAssetData.GetAsset());
-		if (UTexture2D* Icon = IsValid(Asset) ? Asset->Thumbnail : nullptr)
+		if (UTexture2D* Icon = IsValid(Asset) ? Asset->Thumbnail.LoadSynchronous() : nullptr)
 		{
 			FSlateBrush* Brush = new FSlateBrush();
 			Brush->SetResourceObject(Icon);
