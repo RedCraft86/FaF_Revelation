@@ -37,6 +37,7 @@ enum class EInventoryItemType : uint8
 	Viewable,
 	Uncategorized
 };
+ENUM_RANGE_BY_FIRST_AND_LAST(EInventoryItemType, EInventoryItemType::Any, EInventoryItemType::Uncategorized);
 
 inline FString LexToString(const EInventoryItemType& InType)
 {
@@ -54,7 +55,7 @@ inline FString LexToString(const EInventoryItemType& InType)
 			return TEXT("Viewable");
 		case EInventoryItemType::Uncategorized:
 			return TEXT("Uncategorized");
-		default: return TEXT("Any");
+		default: return TEXT("All");
 	}
 }
 
@@ -82,6 +83,7 @@ struct TORORUNTIME_API FInventoryMetadata
 	void Add(const FGameplayTag& InKey, const FString& InValue);
 	void Append(const FInventoryMetadata& InMetadata);
 
+	bool Contains(const FGameplayTag& InKey) const { return Metadata.Contains(InKey); }
 	bool HasMetadata(const TPair<FGameplayTag, FString>& InMetadata, const bool bAnyValue = true) const;
 	bool HasAnyMetadata(const TMap<FGameplayTag, FString>& InMetadata, const bool bAnyValue = true) const;
 	bool HasAllMetadata(const TMap<FGameplayTag, FString>& InMetadata, const bool bAnyValue = true) const;

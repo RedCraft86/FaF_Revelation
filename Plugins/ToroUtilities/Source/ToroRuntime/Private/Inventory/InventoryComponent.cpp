@@ -392,7 +392,7 @@ bool UInventoryComponent::ConsumeItem(const FGuid& InSlot)
 	if (const UInventoryItemData* ItemData = SlotData ? SlotData->Item.LoadSynchronous() : nullptr)
 	{
 		const FInvItemConsumable* Attribute = ItemData->GetFirstAttribute<FInvItemConsumable>();
-		if (Attribute && Attribute->Class)
+		if (Attribute && Attribute->IsValidData())
 		{
 			if (SlotData->Amount < Attribute->Amount) return false;
 			if (UInventoryConsumable* Object = NewObject<UInventoryConsumable>(this,
@@ -425,7 +425,7 @@ void UInventoryComponent::EquipItem(const FGuid& InSlot)
 	if (const UInventoryItemData* ItemData = SlotData ? SlotData->Item.LoadSynchronous() : nullptr)
 	{
 		const FInvItemEquipment* Attribute = ItemData->GetFirstAttribute<FInvItemEquipment>();
-		if (Attribute && Attribute->Class)
+		if (Attribute && Attribute->IsValidData())
 		{
 			UnequipItem();
 			if (AInventoryEquipment* Actor = GetWorld()->SpawnActor<AInventoryEquipment>(

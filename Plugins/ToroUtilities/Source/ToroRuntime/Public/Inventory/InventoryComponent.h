@@ -8,6 +8,7 @@
 #include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
+class AInventoryPreview;
 class UInventoryWidgetBase;
 class UInventoryItemData;
 
@@ -207,6 +208,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		bool IsInInventory() const { return bInInventory; }
+	
+	UFUNCTION(BlueprintPure, Category = InventoryManager)
+		AInventoryPreview* GetPreviewActor() const { return PreviewActor; }
 
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;
@@ -230,7 +234,7 @@ protected:
 	UPROPERTY() FGameCurrency CurrencyData;
 	UPROPERTY() TMap<FGuid, FInvSlotData> ItemSlots;
 	UPROPERTY() TObjectPtr<class AToroPlayerBase> PlayerChar;
-	UPROPERTY() TObjectPtr<class AInventoryPreview> PreviewActor;
+	UPROPERTY() TObjectPtr<AInventoryPreview> PreviewActor;
 	UPROPERTY() TObjectPtr<UInventoryWidgetBase> InventoryWidget;
 
 	UInventoryWidgetBase* GetWidget();

@@ -82,7 +82,8 @@ struct TORORUNTIME_API FInvItemViewable : public FInventoryItemAttribute
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		FText Text;
 	
-	FInvItemViewable() : Label(NSLOCTEXT("Toro", "View", "View")) {}
+	FInvItemViewable() : Label(NSLOCTEXT("Toro", "ReadView", "Read/View")) {}
+	bool IsValidData() const { return !Image.IsNull() || !Text.IsEmptyOrWhitespace(); }
 };
 
 USTRUCT(DisplayName = "Consumable")
@@ -100,6 +101,7 @@ struct TORORUNTIME_API FInvItemConsumable : public FInventoryItemAttribute
 		TSoftClassPtr<class UInventoryConsumable> Class;
 	
 	FInvItemConsumable() : Label(NSLOCTEXT("Toro", "Use", "Use")), Amount(1) {}
+	bool IsValidData() const { return !Class.IsNull(); }
 };
 
 USTRUCT(DisplayName = "Equipment")
@@ -119,4 +121,5 @@ struct TORORUNTIME_API FInvItemEquipment : public FInventoryItemAttribute
 	FInvItemEquipment() : EquipLabel(NSLOCTEXT("Toro", "Equip", "Equip"))
 		, UnequipLabel(NSLOCTEXT("Toro", "Unequip", "Unequip"))
 	{}
+	bool IsValidData() const { return !Class.IsNull(); }
 };
