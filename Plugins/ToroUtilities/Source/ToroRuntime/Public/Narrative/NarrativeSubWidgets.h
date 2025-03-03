@@ -25,7 +25,7 @@ public:
 
 	UQuestTaskWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> DisplayText;
 
 protected:
@@ -47,10 +47,10 @@ public:
 
 	UQuestBranchWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), bUseTitle(false) {}
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> DisplayText;
 	
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UPanelWidget> TaskList;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = QuestBranchWidget)
@@ -78,10 +78,10 @@ public:
 
 	UDialogueOptionWidgetBase(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> DisplayText;
 	
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> SelectButton;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = DialogueOptionWidget, meta = (UIMin = 10, ClampMin = 10))

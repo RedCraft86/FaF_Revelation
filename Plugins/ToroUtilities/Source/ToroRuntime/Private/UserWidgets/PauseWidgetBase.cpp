@@ -2,6 +2,7 @@
 
 #include "UserWidgets/PauseWidgetBase.h"
 #include "UserSettings/SettingsWidgetBase.h"
+#include "Framework/ToroPlayerController.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "SaveSystem/BaseSaveObjects.h"
 #include "Characters/ToroPlayerBase.h"
@@ -68,20 +69,10 @@ void UPauseWidgetBase::OnMainMenuClicked()
 void UPauseWidgetBase::InitWidget()
 {
 	Super::InitWidget();
+	PlayerChar = AToroPlayerBase::Get(this);
 	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
 		EMouseLockMode::LockAlways, false, this);
-}
 
-void UPauseWidgetBase::NativeConstruct()
-{
-	Super::NativeConstruct();
-	PlayerChar = AToroPlayerBase::Get(this);
-	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
-	{
-		GameVersionText->SetText(FText::FromString(FString::Printf(TEXT("Game Version: %s - %s Build"),
-			*ProjectSettings->ProjectVersion, LexToString(FApp::GetBuildConfiguration()))));
-	}
-		
 	ResumeButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnResumeClicked);
 	SettingsButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnSettingsClicked);
 	CheckpointButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnCheckpointClicked);
@@ -89,6 +80,12 @@ void UPauseWidgetBase::NativeConstruct()
 
 	SettingsWidget = CreateNew<USettingsWidgetBase>(PlayerChar->GetPlayerController(), SettingsWidgetClass);
 	SettingsWidget->OwnerWidget = this;
+
+	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
+	{
+		GameVersionText->SetText(FText::FromString(FString::Printf(TEXT("Game Version: %s - %s Build"),
+			*ProjectSettings->ProjectVersion, LexToString(FApp::GetBuildConfiguration()))));
+	}
 }
 
 void UPauseWidgetBase::Return_Implementation()

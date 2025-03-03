@@ -27,34 +27,34 @@ public:
 		ZOrder = 56;
 	}
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UPanelWidget> QuestBranchBox;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> DialogueNameText;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> DialogueTitleText;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<class UExprTextBlock> DialogueLineText;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> SkipLineButton;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UPanelWidget> DialogueReplyBox;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> QuestFadeAnim;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> DialogueFadeAnim;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> RepliesFadeAnim;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> HideFadeAnim;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)

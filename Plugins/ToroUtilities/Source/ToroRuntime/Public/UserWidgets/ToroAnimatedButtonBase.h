@@ -24,10 +24,10 @@ public:
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Clicked")
 		FSimpleSubWidgetDelegateBP OnClickedBP;
 	
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<class UButton> Button;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ButtonAnim;
 
 	DECLARE_MULTICAST_DELEGATE(FOnClicked);

@@ -16,22 +16,22 @@ public:
 
 	UPauseWidgetBase(const FObjectInitializer& ObjectInitializer);
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UToroAnimatedButtonBase> ResumeButton;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UToroAnimatedButtonBase> SettingsButton;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UToroAnimatedButtonBase> CheckpointButton;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UToroAnimatedButtonBase> MainMenuButton;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<class UTextBlock> GameVersionText;
 
-	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ScreenFadeAnim;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
@@ -54,7 +54,6 @@ protected:
 	void OnMainMenuClicked();
 
 	virtual void InitWidget() override;
-	virtual void NativeConstruct() override;
 	virtual void Return_Implementation() override;
 	virtual void InternalProcessDeactivation() override;
 };
