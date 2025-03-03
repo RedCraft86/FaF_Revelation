@@ -51,8 +51,14 @@ public:
 	UToroUserSettings();
 	
 	static UToroUserSettings* Get() { return Cast<UToroUserSettings>(GEngine->GameUserSettings); }
-	static inline TSet<EImageFidelityMode> SupportedFidelityModes = {};
+
+	static inline TArray<FIntPoint> SupportedResolutions = {};
+	static inline FIntPoint FullscreenRes = {1920, 1080};
+	static void CheckSupportedResolutions();
+
+	static inline TArray<EImageFidelityMode> SupportedFidelityModes = {};
 	static void CheckSupportedFidelityModes();
+
 	static bool IsDynamicVibranceSupported();
 	static bool IsNvidiaReflexSupported();
 	static bool IsDLSSFGSupported();

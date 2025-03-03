@@ -10,9 +10,15 @@ UToroUserSettings::UToroUserSettings()
 	SetToDefaults();
 }
 
+void UToroUserSettings::CheckSupportedResolutions()
+{
+	UKismetSystemLibrary::GetSupportedFullscreenResolutions(SupportedResolutions);
+	FullscreenRes = SupportedResolutions.Last();
+}
+
 void UToroUserSettings::CheckSupportedFidelityModes()
 {
-	SupportedFidelityModes = {EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
+	SupportedFidelityModes = {EImageFidelityMode::None, EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
 		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
 
 	if (IsDLSSSupported()) SupportedFidelityModes.Add(EImageFidelityMode::DLSS);

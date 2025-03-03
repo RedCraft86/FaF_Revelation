@@ -2,6 +2,7 @@
 
 // ReSharper disable CppMemberFunctionMayBeConst
 #include "Inventory/InventoryWidgetBase.h"
+#include "Animation/WidgetAnimation.h"
 #include "Components/ComboBoxString.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
@@ -255,5 +256,5 @@ void UInventoryWidgetBase::InternalProcessActivation()
 void UInventoryWidgetBase::InternalProcessDeactivation()
 {
 	Super::InternalProcessDeactivation();
-	SetAnimationCurrentTime(ViewFadeAnim, 0.0f);
+	SetAnimationCurrentTime(ViewFadeAnim, ViewFadeAnim->GetStartTime());
 }
