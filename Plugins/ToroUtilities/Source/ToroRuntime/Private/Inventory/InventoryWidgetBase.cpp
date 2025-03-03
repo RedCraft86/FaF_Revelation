@@ -67,8 +67,8 @@ void UInventoryWidgetBase::OnViewClicked()
 {
 	if (Inventory)
 	{
-		const FInvSlotData& Slot = Inventory->GetConstInventory()[SelectedKey];
-		const UInventoryItemData* ItemData = Slot.Item.LoadSynchronous();
+		const FInvSlotData& SlotData = Inventory->GetConstInventory()[SelectedKey];
+		const UInventoryItemData* ItemData = SlotData.Item.LoadSynchronous();
 		if (const FInvItemViewable* Viewable = ItemData->GetFirstAttribute<FInvItemViewable>())
 		{
 			ViewDescText->SetText(Viewable->Text);
@@ -119,17 +119,17 @@ void UInventoryWidgetBase::RefreshInfo()
 	if (!Inventory || !Inventory->IsInInventory()) return;
 	if (SelectedKey.IsValid() && SlotWidgets.Contains(SelectedKey) && Inventory->IsValidSlot(SelectedKey))
 	{
-		const FInvSlotData& Slot = Inventory->GetConstInventory()[SelectedKey];
-		const UInventoryItemData* ItemData = Slot.Item.LoadSynchronous();
+		const FInvSlotData& SlotData = Inventory->GetConstInventory()[SelectedKey];
+		const UInventoryItemData* ItemData = SlotData.Item.LoadSynchronous();
 		const bool bEquipped = EquipmentKey == SelectedKey;
 
-		NameText->SetText(ItemData->GetDisplayName(Slot.Metadata));
-		DescText->SetText(ItemData->GetDescription(Slot.Metadata));
+		NameText->SetText(ItemData->GetDisplayName(SlotData.Metadata));
+		DescText->SetText(ItemData->GetDescription(SlotData.Metadata));
 		TypeText->SetText(FText::Format(INVTEXT("Type: {0}"),
 			FText::FromString(LexToString(ItemData->ItemType))));
 
 		EquippedBox->SetVisibility(bEquipped ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
-		MultiUseBox->SetVisibility(Slot.Metadata.Contains(Tag_InvReuseKey)
+		MultiUseBox->SetVisibility(SlotData.Metadata.Contains(Tag_InvReuseKey)
 			? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 
 		PreviewImage->SetVisibility(Inventory->GetPreviewActor() && Inventory->GetPreviewActor()->SetItem(SelectedKey)
