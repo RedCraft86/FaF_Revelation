@@ -61,7 +61,7 @@ UInventoryComponent* UInventoryComponent::Get(const UObject* WorldContext)
 	return nullptr;
 }
 
-TArray<FGuid> UInventoryComponent::GetSortedSlots() const
+TArray<FGuid> UInventoryComponent::GetSortedSlots(const EInventoryItemType Type) const
 {
 	TArray<TPair<FGuid, FInvSlotData>> Slots;
 	Slots.Reserve(ItemSlots.Num());
@@ -70,7 +70,10 @@ TArray<FGuid> UInventoryComponent::GetSortedSlots() const
 	{
 		if (Slot.Key.IsValid() && Slot.Value.IsValidData())
 		{
-			Slots.Emplace(Slot);
+			if (Type == EInventoryItemType::Any || Slot.Value.Item.LoadSynchronous()->ItemType == Type)
+			{
+				Slots.Emplace(Slot);
+			}
 		}
 	}
 
@@ -392,7 +395,8 @@ bool UInventoryComponent::ConsumeItem(const FGuid& InSlot)
 		if (Attribute && Attribute->Class)
 		{
 			if (SlotData->Amount < Attribute->Amount) return false;
-			if (UInventoryConsumable* Object = NewObject<UInventoryConsumable>(this, Attribute->Class))
+			if (UInventoryConsumable* Object = NewObject<UInventoryConsumable>(this,
+				Attribute->Class.LoadSynchronous()))
 			{
 				if (Object->UseConsumable(this))
 				{
@@ -424,7 +428,8 @@ void UInventoryComponent::EquipItem(const FGuid& InSlot)
 		if (Attribute && Attribute->Class)
 		{
 			UnequipItem();
-			if (AInventoryEquipment* Actor = GetWorld()->SpawnActor<AInventoryEquipment>(Attribute->Class))
+			if (AInventoryEquipment* Actor = GetWorld()->SpawnActor<AInventoryEquipment>(
+				Attribute->Class.LoadSynchronous()))
 			{
 				Equipment.Actor = Actor;
 				Equipment.SlotID = InSlot;

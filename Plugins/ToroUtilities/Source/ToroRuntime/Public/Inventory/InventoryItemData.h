@@ -29,6 +29,7 @@ enum class EInventoryStackType : uint8
 UENUM(BlueprintType)
 enum class EInventoryItemType : uint8
 {
+	Any,
 	Objective,
 	KeyItem,
 	Consumable,
@@ -51,7 +52,9 @@ inline FString LexToString(const EInventoryItemType& InType)
 			return TEXT("Equipment");
 		case EInventoryItemType::Viewable:
 			return TEXT("Viewable");
-		default: return TEXT("Uncategorized");
+		case EInventoryItemType::Uncategorized:
+			return TEXT("Uncategorized");
+		default: return TEXT("Any");
 	}
 }
 
@@ -106,7 +109,7 @@ public:
 		uint8 Priority;
 
 	UPROPERTY(EditAnywhere, Category = General)
-		TObjectPtr<UTexture2D> Thumbnail;
+		TSoftObjectPtr<UTexture2D> Thumbnail;
 
 	// Use "{mKEY}" where KEY is a metadata key to inject custom variables.
 	UPROPERTY(EditAnywhere, Category = General)
@@ -154,7 +157,7 @@ public:
 		{Tag_InvMeshID,	TEXT("Used with the Alt Meshes Attribute.")},
 		{Tag_InvKeyID,		TEXT("This item will be able to unlock locks with matching IDs.")},
 		{Tag_InvReuseKey,	TEXT("Used for key types. Signifies that a key is reusable for other locks.")},
-		{Tag_InvJsonData,		TEXT("Used for equipment types to store extra equipment data.")}
+		{Tag_InvJsonData,	TEXT("Used for equipment types to store extra equipment data.")}
 	};
 #endif
 

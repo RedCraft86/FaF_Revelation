@@ -77,7 +77,7 @@ struct TORORUNTIME_API FInvItemViewable : public FInventoryItemAttribute
 		FText Label;
 	
 	UPROPERTY(EditAnywhere, Category = Attribute)
-		TObjectPtr<UTexture2D> Image;
+		TSoftObjectPtr<UTexture2D> Image;
 	
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		FText Text;
@@ -97,7 +97,7 @@ struct TORORUNTIME_API FInvItemConsumable : public FInventoryItemAttribute
 		uint8 Amount;
 	
 	UPROPERTY(EditAnywhere, Category = Attribute)
-		TSubclassOf<class UInventoryConsumable> Class;
+		TSoftClassPtr<class UInventoryConsumable> Class;
 	
 	FInvItemConsumable() : Label(NSLOCTEXT("Toro", "Use", "Use")), Amount(1) {}
 };
@@ -114,7 +114,7 @@ struct TORORUNTIME_API FInvItemEquipment : public FInventoryItemAttribute
 		FText UnequipLabel;
 	
 	UPROPERTY(EditAnywhere, Category = Attribute)
-		TSubclassOf<class AInventoryEquipment> Class;
+		TSoftClassPtr<class AInventoryEquipment> Class;
 	
 	FInvItemEquipment() : EquipLabel(NSLOCTEXT("Toro", "Equip", "Equip"))
 		, UnequipLabel(NSLOCTEXT("Toro", "Unequip", "Unequip"))

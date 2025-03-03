@@ -129,7 +129,7 @@ public:
 		virtual bool IsValidSlot(const FGuid& InSlot) const { return InSlot.IsValid() && ItemSlots.Contains(InSlot); }
 	
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
-		virtual TArray<FGuid> GetSortedSlots() const;
+		virtual TArray<FGuid> GetSortedSlots(const EInventoryItemType Type = EInventoryItemType::Any) const;
 	
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		virtual TArray<FGuid> GetFilteredSlots(const TArray<FGuid>& InSlots, const TSet<EInventoryItemType>& TypeFilter, const bool bExcludeTypes = false) const;
@@ -204,6 +204,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
 		void CloseUI();
+
+	UFUNCTION(BlueprintPure, Category = InventoryManager)
+		bool IsInInventory() const { return bInInventory; }
 
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;
