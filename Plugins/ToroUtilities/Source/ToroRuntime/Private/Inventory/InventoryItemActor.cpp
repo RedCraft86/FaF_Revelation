@@ -2,8 +2,6 @@
 
 #include "Inventory/InventoryItemActor.h"
 #include "Components/InstancedStaticMeshComponent.h"
-#include "Components/BoxComponent.h"
-#include "Components/BrushComponent.h"
 #include "Inventory/InventoryComponent.h"
 #include "Inventory/InventoryItemData.h"
 

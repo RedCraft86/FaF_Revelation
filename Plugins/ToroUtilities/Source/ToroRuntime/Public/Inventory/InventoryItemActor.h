@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "PrimitiveData.h"
 #include "InventoryItemData.h"
 #include "Interaction/InteractionInterface.h"
 #include "Interaction/Fields/InteractField.h"

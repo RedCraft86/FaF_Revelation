@@ -47,7 +47,7 @@ void FStaticMeshBaker::ExecuteAction()
 				for (const UStaticMeshComponent* Comp : MeshCompArray)
 				{
 					if (!Comp || Comp->IsEditorOnly() || !Comp->GetStaticMesh()) continue;
-					FStaticMeshProperties MeshProp = UPrimitiveDataLibrary::GetStaticMeshProperties(Comp);
+					FStaticMeshProperties MeshProp; MeshProp.FromStaticMeshComponent(Comp);
 					if (!MeshProp.IsValidData()) return;
 
 					AStaticMeshActor* NewActor = nullptr;
@@ -97,7 +97,7 @@ AStaticMeshActor* FStaticMeshBaker::SpawnActor(UEditorActorSubsystem* Subsystem,
 		Transform.GetTranslation(), Transform.GetRotation().Rotator())))
 	{
 		NewActor->SetActorScale3D(Transform.GetScale3D());
-		UPrimitiveDataLibrary::SetStaticMeshProperties(NewActor->GetStaticMeshComponent(), MeshProperties);
+		MeshProperties.ToStaticMeshComponent(NewActor->GetStaticMeshComponent());
 		Subsystem->SetActorSelectionState(NewActor, true);
 		if (!Folder.IsEmpty()) NewActor->SetFolderPath(*Folder);
 		if (!Label.IsEmpty()) NewActor->SetActorLabel(Label);

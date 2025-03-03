@@ -62,7 +62,7 @@ void FStaticMeshInstancer::ExecuteAction()
 				for (UStaticMeshComponent* Comp : MeshCompArray)
 				{
 					if (!Comp || Comp->IsEditorOnly()) continue;
-					MeshProp = UPrimitiveDataLibrary::GetStaticMeshProperties(Comp);
+					MeshProp.FromStaticMeshComponent(Comp);
 					if (const UInstancedStaticMeshComponent* InstComp = Cast<UInstancedStaticMeshComponent>(Comp))
 					{
 						if (FInstancerMeshes* Mesh = FindMesh(MeshProp))
@@ -136,7 +136,7 @@ void FStaticMeshInstancer::ExecuteAction()
 					ISMActor->SetActorLabel(Mesh.Label);
 					ISMActor->SetFolderPath(Mesh.FolderPath);
 					Subsystem->SetActorSelectionState(ISMActor, true);
-					UPrimitiveDataLibrary::SetStaticMeshProperties(ISMActor->GetStaticMeshComponent(), Mesh.MeshProp);
+					Mesh.MeshProp.ToStaticMeshComponent(ISMActor->GetStaticMeshComponent());
 
 #if WITH_EDITORONLY_DATA
 					ISMActor->Instances.Empty(Mesh.Transforms.Num());
@@ -161,7 +161,7 @@ void FStaticMeshInstancer::ExecuteAction()
 					SMActor->SetActorLabel(Mesh.Label);
 					SMActor->SetFolderPath(Mesh.FolderPath);
 					Subsystem->SetActorSelectionState(SMActor, true);
-					UPrimitiveDataLibrary::SetStaticMeshProperties(SMActor->GetStaticMeshComponent(), Mesh.MeshProp);
+					Mesh.MeshProp.ToStaticMeshComponent(SMActor->GetStaticMeshComponent());
 				}
 			}
 		}
