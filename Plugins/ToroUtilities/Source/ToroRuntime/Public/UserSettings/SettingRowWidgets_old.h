@@ -7,7 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/ComboBoxString.h"
 #include "DataTypes/UserSettingTypes.h"
-#include "SettingRowWidgets.generated.h"
+#include "SettingRowWidgets_old.generated.h"
 
 UENUM(BlueprintType)
 enum class ESettingPerformance : uint8
@@ -19,13 +19,13 @@ enum class ESettingPerformance : uint8
 };
 
 UCLASS(Abstract, NotBlueprintable)
-class TORORUNTIME_API USettingTooltipBase : public UUserWidget
+class TORORUNTIME_API USettingTooltipBase_old : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
 
-	USettingTooltipBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+	USettingTooltipBase_old(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 	
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> DescText;
@@ -33,17 +33,17 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> PerformanceText;
 
-	void UpdateTooltip(const class USettingRowBase* InRow) const;
+	void UpdateTooltip(const class USettingRowBase_old* InRow) const;
 };
 
 UCLASS(Abstract, NotBlueprintable)
-class TORORUNTIME_API USettingRowBase : public UUserWidget
+class TORORUNTIME_API USettingRowBase_old : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
 
-	USettingRowBase(const FObjectInitializer& ObjectInitializer)
+	USettingRowBase_old(const FObjectInitializer& ObjectInitializer)
 		: Super(ObjectInitializer), Performance(ESettingPerformance::None)
 	{}
 
@@ -63,7 +63,7 @@ public:
 		ESettingPerformance Performance;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		TSubclassOf<USettingTooltipBase> TooltipWidgetClass;
+		TSubclassOf<USettingTooltipBase_old> TooltipWidgetClass;
 
 	virtual void UpdateWidget();
 	virtual bool IsDefaultValue() { return false; }
@@ -80,13 +80,13 @@ protected:
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API UToggleSettingBase : public USettingRowBase
+class TORORUNTIME_API UToggleSettingBase_old : public USettingRowBase_old
 {
 	GENERATED_BODY()
 
 public:
 
-	UToggleSettingBase(const FObjectInitializer& ObjectInitializer)
+	UToggleSettingBase_old(const FObjectInitializer& ObjectInitializer)
 		: Super(ObjectInitializer), bDefaultValue(false), bCurrentValue(false)
 	{}
 
@@ -118,13 +118,13 @@ protected:
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API USliderSettingBase : public USettingRowBase
+class TORORUNTIME_API USliderSettingBase_old : public USettingRowBase_old
 {
 	GENERATED_BODY()
 
 public:
 
-	USliderSettingBase(const FObjectInitializer& ObjectInitializer)
+	USliderSettingBase_old(const FObjectInitializer& ObjectInitializer)
 		: Super(ObjectInitializer), DefaultValue(0.0f), Range(0.0f, 100.0f), NumOfDecimals(0)
 	{}
 
@@ -161,13 +161,13 @@ protected:
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API USwitcherSettingBase : public USettingRowBase
+class TORORUNTIME_API USwitcherSettingBase_old : public USettingRowBase_old
 {
 	GENERATED_BODY()
 
 public:
 
-	USwitcherSettingBase(const FObjectInitializer& ObjectInitializer)
+	USwitcherSettingBase_old(const FObjectInitializer& ObjectInitializer)
 		: Super(ObjectInitializer), DefaultOption(0), Value(0)
 	{}
 
@@ -207,7 +207,7 @@ protected:
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API UComboSettingBase : public USettingRowBase
+class TORORUNTIME_API UComboSettingBase_old : public USettingRowBase_old
 {
 	GENERATED_BODY()
 
@@ -222,7 +222,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (GetOptions = Options))
 		FString DefaultOption;
 
-	UComboSettingBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+	UComboSettingBase_old(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 
 	virtual void UpdateWidget() override;
 	virtual bool IsDefaultValue() override;
@@ -241,13 +241,13 @@ protected:
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API UResolutionSettingBase : public UComboSettingBase
+class TORORUNTIME_API UResolutionSettingBase_old : public UComboSettingBase_old
 {
 	GENERATED_BODY()
 
 public:
 
-	UResolutionSettingBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+	UResolutionSettingBase_old(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnResolutionChanged, const FString&);
 	FOnResolutionChanged OnResolutionChanged;
@@ -266,13 +266,13 @@ protected:
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API UImageFidelitySettingBase : public UComboSettingBase
+class TORORUNTIME_API UImageFidelitySettingBase_old : public UComboSettingBase_old
 {
 	GENERATED_BODY()
 
 public:
 
-	UImageFidelitySettingBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+	UImageFidelitySettingBase_old(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
 
 	virtual void UpdateWidget() override;
 	virtual bool IsDefaultValue() override { return true; }

@@ -2,13 +2,13 @@
 
 // ReSharper disable CppMemberFunctionMayBeStatic
 // ReSharper disable CppMemberFunctionMayBeConst
-#include "UserSettings/SettingRowWidgets.h"
+#include "UserSettings/SettingRowWidgets_old.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "Animation/WidgetAnimation.h"
 #include "Components/SpinBox.h"
 #include "EnhancedCodeFlow.h"
 
-void USettingTooltipBase::UpdateTooltip(const USettingRowBase* InRow) const
+void USettingTooltipBase_old::UpdateTooltip(const USettingRowBase_old* InRow) const
 {
 	if (InRow)
 	{
@@ -37,14 +37,14 @@ void USettingTooltipBase::UpdateTooltip(const USettingRowBase* InRow) const
 	}
 }
 
-UWidget* USettingRowBase::CreateTooltip()
+UWidget* USettingRowBase_old::CreateTooltip()
 {
-	USettingTooltipBase* Widget = CreateWidget<USettingTooltipBase>(this, TooltipWidgetClass);
+	USettingTooltipBase_old* Widget = CreateWidget<USettingTooltipBase_old>(this, TooltipWidgetClass);
 	Widget->UpdateTooltip(this);
 	return Widget;
 }
 
-void USettingRowBase::UpdateWidget()
+void USettingRowBase_old::UpdateWidget()
 {
 	bSetByCode = true;
 	ResetButton->SetIsEnabled(!IsDefaultValue());
@@ -52,43 +52,43 @@ void USettingRowBase::UpdateWidget()
 	bSetByCode = false;
 }
 
-void USettingRowBase::NativeConstruct()
+void USettingRowBase_old::NativeConstruct()
 {
 	Super::NativeConstruct();
 	LabelText->SetVisibility(ESlateVisibility::Visible);
-	ResetButton->OnClicked.AddUniqueDynamic(this, &USettingRowBase::ResetToDefault);
+	ResetButton->OnClicked.AddUniqueDynamic(this, &USettingRowBase_old::ResetToDefault);
 	FFlow::DelayTicks(this, 1, [this]()
 	{
 		UpdateWidget();
 	});
 }
 
-void USettingRowBase::NativePreConstruct()
+void USettingRowBase_old::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	if (LabelText) LabelText->SetText(Label);
 }
 
-void USettingRowBase::SynchronizeProperties()
+void USettingRowBase_old::SynchronizeProperties()
 {
-	ToolTipWidgetDelegate.BindDynamic(this, &USettingRowBase::CreateTooltip);
+	ToolTipWidgetDelegate.BindDynamic(this, &USettingRowBase_old::CreateTooltip);
 	Super::SynchronizeProperties();
 }
 
-void UToggleSettingBase::UpdateWidget()
+void UToggleSettingBase_old::UpdateWidget()
 {
 	bSetByCode = true;
 	bCurrentValue = GetterFunction();
 	Super::UpdateWidget();
 }
 
-void UToggleSettingBase::ResetToDefault()
+void UToggleSettingBase_old::ResetToDefault()
 {
 	OnToggleClicked();
 	Super::UpdateWidget();
 }
 
-void UToggleSettingBase::OnToggleClicked()
+void UToggleSettingBase_old::OnToggleClicked()
 {
 	if (bSetByCode) return;
 	bCurrentValue = !bCurrentValue;
@@ -97,13 +97,13 @@ void UToggleSettingBase::OnToggleClicked()
 	SetterFunction(bCurrentValue);
 }
 
-void UToggleSettingBase::NativeConstruct()
+void UToggleSettingBase_old::NativeConstruct()
 {
 	Super::NativeConstruct();
-	ToggleButton->OnClicked.AddUniqueDynamic(this, &UToggleSettingBase::OnToggleClicked);
+	ToggleButton->OnClicked.AddUniqueDynamic(this, &UToggleSettingBase_old::OnToggleClicked);
 }
 
-void UToggleSettingBase::NativePreConstruct()
+void UToggleSettingBase_old::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	bCurrentValue = bDefaultValue;
@@ -111,55 +111,55 @@ void UToggleSettingBase::NativePreConstruct()
 		? ToggleAnim->GetEndTime() : ToggleAnim->GetStartTime());
 }
 
-void USliderSettingBase::UpdateWidget()
+void USliderSettingBase_old::UpdateWidget()
 {
 	bSetByCode = true;
 	SliderSpinBox->SetValue(GetterFunction());
 	Super::UpdateWidget();
 }
 
-bool USliderSettingBase::IsDefaultValue()
+bool USliderSettingBase_old::IsDefaultValue()
 {
 	return FMath::IsNearlyEqual(SliderSpinBox->GetValue(), DefaultValue);
 }
 
-void USliderSettingBase::ResetToDefault()
+void USliderSettingBase_old::ResetToDefault()
 {
 	SliderSpinBox->SetValue(DefaultValue);
 	Super::UpdateWidget();
 	ApplyChange();
 }
 
-void USliderSettingBase::ApplyChange() const
+void USliderSettingBase_old::ApplyChange() const
 {
 	if (bSetByCode) return;
 	SetterFunction(SliderSpinBox->GetValue());
 }
 
-void USliderSettingBase::OnSliderValueChanged(float Value)
+void USliderSettingBase_old::OnSliderValueChanged(float Value)
 {
 	//ApplyChange();
 }
 
-void USliderSettingBase::OnSliderMovementEnd(float Value)
+void USliderSettingBase_old::OnSliderMovementEnd(float Value)
 {
 	ApplyChange();
 }
 
-void USliderSettingBase::OnSliderValueCommitted(float Value, ETextCommit::Type Type)
+void USliderSettingBase_old::OnSliderValueCommitted(float Value, ETextCommit::Type Type)
 {
 	ApplyChange();
 }
 
-void USliderSettingBase::NativeConstruct()
+void USliderSettingBase_old::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SliderSpinBox->OnValueChanged.AddUniqueDynamic(this, &USliderSettingBase::OnSliderValueChanged);
-	SliderSpinBox->OnEndSliderMovement.AddUniqueDynamic(this, &USliderSettingBase::OnSliderMovementEnd);
-	SliderSpinBox->OnValueCommitted.AddUniqueDynamic(this, &USliderSettingBase::OnSliderValueCommitted);
+	SliderSpinBox->OnValueChanged.AddUniqueDynamic(this, &USliderSettingBase_old::OnSliderValueChanged);
+	SliderSpinBox->OnEndSliderMovement.AddUniqueDynamic(this, &USliderSettingBase_old::OnSliderMovementEnd);
+	SliderSpinBox->OnValueCommitted.AddUniqueDynamic(this, &USliderSettingBase_old::OnSliderValueCommitted);
 }
 
-void USliderSettingBase::NativePreConstruct()
+void USliderSettingBase_old::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	SliderSpinBox->SetMinValue(Range.GetMin());
@@ -172,7 +172,7 @@ void USliderSettingBase::NativePreConstruct()
 	SliderSpinBox->SetValue(FMath::Clamp(DefaultValue, Range.GetMin(), Range.GetMax()));
 }
 
-void USwitcherSettingBase::UpdateWidget()
+void USwitcherSettingBase_old::UpdateWidget()
 {
 	bSetByCode = true;
 	Value = GetterFunction();
@@ -180,20 +180,20 @@ void USwitcherSettingBase::UpdateWidget()
 	Super::UpdateWidget();
 }
 
-void USwitcherSettingBase::ResetToDefault()
+void USwitcherSettingBase_old::ResetToDefault()
 {
 	Value = DefaultOption;
 	Super::UpdateWidget();
 	ApplyChange();
 }
 
-void USwitcherSettingBase::ApplyChange() const
+void USwitcherSettingBase_old::ApplyChange() const
 {
 	SetterFunction(Value);
 	ValueText->SetText(Options[Value]);
 }
 
-void USwitcherSettingBase::OnPrevClicked()
+void USwitcherSettingBase_old::OnPrevClicked()
 {
 	if (bSetByCode) return;
 
@@ -202,7 +202,7 @@ void USwitcherSettingBase::OnPrevClicked()
 	ApplyChange();
 }
 
-void USwitcherSettingBase::OnNextClicked()
+void USwitcherSettingBase_old::OnNextClicked()
 {
 	if (bSetByCode) return;
 
@@ -211,53 +211,53 @@ void USwitcherSettingBase::OnNextClicked()
 	ApplyChange();
 }
 
-void USwitcherSettingBase::NativeConstruct()
+void USwitcherSettingBase_old::NativeConstruct()
 {
 	Super::NativeConstruct();
-	PrevButton->OnClicked.AddUniqueDynamic(this, &USwitcherSettingBase::OnPrevClicked);
-	NextButton->OnClicked.AddUniqueDynamic(this, &USwitcherSettingBase::OnNextClicked);
+	PrevButton->OnClicked.AddUniqueDynamic(this, &USwitcherSettingBase_old::OnPrevClicked);
+	NextButton->OnClicked.AddUniqueDynamic(this, &USwitcherSettingBase_old::OnNextClicked);
 }
 
-void USwitcherSettingBase::NativePreConstruct()
+void USwitcherSettingBase_old::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	Value = FMath::Clamp(DefaultOption, 0, Options.Num() - 1);
 	ValueText->SetText(Options[Value]);
 }
 
-void UComboSettingBase::UpdateWidget()
+void UComboSettingBase_old::UpdateWidget()
 {
 	bSetByCode = true;
 	SelectionBox->SetSelectedOption(GetterFunction());
 	Super::UpdateWidget();
 }
 
-bool UComboSettingBase::IsDefaultValue()
+bool UComboSettingBase_old::IsDefaultValue()
 {
 	return SelectionBox->GetSelectedOption() == DefaultOption;
 }
 
-void UComboSettingBase::ResetToDefault()
+void UComboSettingBase_old::ResetToDefault()
 {
 	SelectionBox->SetSelectedOption(DefaultOption);
 	OnSelectionChanged(DefaultOption, ESelectInfo::Type::Direct);
 	Super::UpdateWidget();
 }
 
-void UComboSettingBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
+void UComboSettingBase_old::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
 	if (bSetByCode) return;
 	SetterFunction(SelectedItem);
 	UpdateWidget();
 }
 
-void UComboSettingBase::NativeConstruct()
+void UComboSettingBase_old::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SelectionBox->OnSelectionChanged.AddUniqueDynamic(this, &UComboSettingBase::OnSelectionChanged);
+	SelectionBox->OnSelectionChanged.AddUniqueDynamic(this, &UComboSettingBase_old::OnSelectionChanged);
 }
 
-void UComboSettingBase::NativePreConstruct()
+void UComboSettingBase_old::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	SelectionBox->ClearOptions();
@@ -272,7 +272,7 @@ void UComboSettingBase::NativePreConstruct()
 	}
 }
 
-void UResolutionSettingBase::UpdateWidget()
+void UResolutionSettingBase_old::UpdateWidget()
 {
 	bSetByCode = true;
 	if (const UToroUserSettings* Settings = UToroUserSettings::Get())
@@ -284,7 +284,7 @@ void UResolutionSettingBase::UpdateWidget()
 	bSetByCode = false;
 }
 
-void UResolutionSettingBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
+void UResolutionSettingBase_old::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
 	if (bSetByCode) return;
 	if (UToroUserSettings* Settings = UToroUserSettings::Get())
@@ -306,9 +306,9 @@ void UResolutionSettingBase::OnSelectionChanged(FString SelectedItem, ESelectInf
 	}
 }
 
-void UResolutionSettingBase::NativePreConstruct()
+void UResolutionSettingBase_old::NativePreConstruct()
 {
-	USettingRowBase::NativePreConstruct();
+	USettingRowBase_old::NativePreConstruct();
 	UToroUserSettings::CheckSupportedResolutions();
 
 	SelectionBox->ClearOptions();
@@ -326,7 +326,7 @@ void UResolutionSettingBase::NativePreConstruct()
 	Value = SelectionBox->GetSelectedOption();
 }
 
-void UImageFidelitySettingBase::UpdateWidget()
+void UImageFidelitySettingBase_old::UpdateWidget()
 {
 	bSetByCode = true;
 	if (const UToroUserSettings* Settings = UToroUserSettings::Get())
@@ -336,7 +336,7 @@ void UImageFidelitySettingBase::UpdateWidget()
 	bSetByCode = false;
 }
 
-void UImageFidelitySettingBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
+void UImageFidelitySettingBase_old::OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
 	if (bSetByCode) return;
 	if (UToroUserSettings* Settings = UToroUserSettings::Get())
@@ -345,9 +345,9 @@ void UImageFidelitySettingBase::OnSelectionChanged(FString SelectedItem, ESelect
 	}
 }
 
-void UImageFidelitySettingBase::NativePreConstruct()
+void UImageFidelitySettingBase_old::NativePreConstruct()
 {
-	USettingRowBase::NativePreConstruct();
+	USettingRowBase_old::NativePreConstruct();
 	UToroUserSettings::CheckSupportedFidelityModes();
 
 	SelectionBox->ClearOptions();
