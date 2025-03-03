@@ -48,6 +48,13 @@ struct TORORUNTIME_API FInteractionInfo
 	{}
 
 	bool CanInteract() const { return Interaction != EInteractableType::None; }
+
+	static FInteractionInfo GetEmpty()
+	{
+		FInteractionInfo Info;
+		Info.Interaction = EInteractableType::None;
+		return Info;
+	}
 };
 
 UINTERFACE()
@@ -76,7 +83,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		FInteractionInfo GetInteractionInfo(const FHitResult& HitResult);
-	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult)  { return {}; }
+	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult) { return {}; }
 };
 
 namespace IInteraction
