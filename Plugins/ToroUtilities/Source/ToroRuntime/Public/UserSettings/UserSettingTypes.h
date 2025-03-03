@@ -5,6 +5,15 @@
 #include "UserSettingTypes.generated.h"
 
 UENUM(BlueprintType)
+enum class ESettingPerformance : uint8
+{
+	None,
+	Low,
+	Medium,
+	High
+};
+
+UENUM(BlueprintType)
 enum class EColorBlindMode : uint8
 {
 	None,

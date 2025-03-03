@@ -3,7 +3,7 @@
 #pragma once
 
 #include "ToroConsoleLibrary.h"
-#include "DataTypes/UserSettingTypes.h"
+#include "UserSettings/UserSettingTypes.h"
 #include "GameFramework/GameUserSettings.h"
 #include "ToroUserSettings.generated.h"
 

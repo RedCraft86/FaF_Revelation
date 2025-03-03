@@ -6,17 +6,8 @@
 #include "Components/TextBlock.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ComboBoxString.h"
-#include "DataTypes/UserSettingTypes.h"
+#include "UserSettings/UserSettingTypes.h"
 #include "SettingRowWidgets_old.generated.h"
-
-UENUM(BlueprintType)
-enum class ESettingPerformance : uint8
-{
-	None,
-	Low,
-	Medium,
-	High
-};
 
 UCLASS(Abstract, NotBlueprintable)
 class TORORUNTIME_API USettingTooltipBase_old : public UUserWidget
