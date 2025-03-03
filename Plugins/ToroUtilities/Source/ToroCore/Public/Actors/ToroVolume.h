@@ -23,7 +23,7 @@ public:
 		FActorEnableChangedSignature OnEnableStateChangedBP;
 	
 	UFUNCTION(BlueprintCallable, Category = Actor)
-		void SetEnabled(const bool bInEnabled);
+		virtual void SetEnabled(const bool bInEnabled);
 	
 	UFUNCTION(BlueprintPure, Category = Actor)
 		bool IsEnabled() const { return bEnabled; }

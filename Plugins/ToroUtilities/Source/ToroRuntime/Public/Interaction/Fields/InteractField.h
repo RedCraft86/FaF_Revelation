@@ -13,7 +13,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FToroFieldEvent, AToroPlayerBase*, P
 DECLARE_MULTICAST_DELEGATE_OneParam(FToroFieldEventNative, AToroPlayerBase*);
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API AInteractField final : public AToroVolume, public IInteractionInterface
+class TORORUNTIME_API AInteractField : public AToroVolume, public IInteractionInterface
 {
 	GENERATED_BODY()
 	
@@ -34,7 +34,7 @@ public:
 		FToroFieldEvent OnInteractedEvent;
 	FToroFieldEventNative OnInteracted;
 
-private:
+protected:
 	
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult) override;

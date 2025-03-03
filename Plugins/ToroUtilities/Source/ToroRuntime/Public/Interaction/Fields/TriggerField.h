@@ -6,7 +6,7 @@
 #include "TriggerField.generated.h"
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TORORUNTIME_API ATriggerField final : public AToroVolume
+class TORORUNTIME_API ATriggerField : public AToroVolume
 {
 	GENERATED_BODY()
 	
@@ -24,7 +24,7 @@ public:
 		FToroFieldEvent OnTriggeredEvent;
 	FToroFieldEventNative OnTriggered;
 
-private:
+protected:
 
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 };
