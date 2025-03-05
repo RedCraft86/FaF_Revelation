@@ -115,6 +115,7 @@ void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8
 
 DEFINE_SETTER_DYNAMIC(bool, ShowFPS)
 DEFINE_SETTER_BASIC(FString, Username)
+DEFINE_SETTER_BASIC(bool, Borderless)
 
 DEFINE_SETTER_DYNAMIC(uint8, FieldOfView)
 DEFINE_SETTER_BASIC(bool, SmoothCamera)
@@ -380,9 +381,10 @@ void UToroUserSettings::SetToDefaults()
 	FSRSharpness = 0.0f;
 	FSRFrameGeneration = false;
 	XeSSQuality = 3;
-	
+
+	CheckSupportedResolutions();
 	CheckSupportedFidelityModes();
-	
+
 	ReapplySettings();
 	Super::SetToDefaults();
 }

@@ -49,7 +49,7 @@ class TORORUNTIME_API UToroUserSettings final : public UGameUserSettings
 public:
 
 	UToroUserSettings();
-	
+
 	static UToroUserSettings* Get() { return Cast<UToroUserSettings>(GEngine->GameUserSettings); }
 
 	static inline TArray<FIntPoint> SupportedResolutions = {};
@@ -66,12 +66,12 @@ public:
 	static bool IsDLSSSupported();
 	static bool IsNISSupported();
 	static bool IsXeSSSupported();
-	
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const UToroUserSettings*)
 	FUserSettingsDelegate OnDynamicSettingsChanged;
 	FUserSettingsDelegate OnSettingsApplied;
 	FUserSettingsDelegate RefreshUI;
-	
+
 	void AutoConfigureQuality();
 	void SetOverallQuality(const uint8 InValue);
 	uint8 GetOverallQuality() const;
@@ -81,16 +81,17 @@ public:
 	{
 		return FMath::Clamp(AudioVolume.FindRef(InType), 25, 150);
 	}
-	
+
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FieldOfView, 0, 50)
 	void SetFieldOfViewOffset(const int32 InFieldOfView)
 	{
 		SetFieldOfView(FMath::Clamp(InFieldOfView + 25, 0, 50));
 	}
 	int32 GetFieldOfViewOffset() const { return GetFieldOfView() - 25; }
-	
+
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(FString, Username)
+	DECLARE_PROPERTY_FUNC(bool, Borderless)
 	
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, SensitivityX, -2.0f, 2.0f)
@@ -160,6 +161,7 @@ private:
 	/* Misc */
 	UPROPERTY(Config) bool ShowFPS;
 	UPROPERTY(Config) FString Username;
+	UPROPERTY(Config) bool Borderless;
 	UPROPERTY(Config) TMap<ESoundClassType, uint8> AudioVolume;
 
 	/* Camera */

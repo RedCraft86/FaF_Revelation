@@ -298,12 +298,13 @@ void UResolutionRowBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::T
 		const FIntPoint Res{FCString::Atoi(*StrX), FCString::Atoi(*StrY)};
 
 		ToroSettings->SetScreenResolution(Res);
-		ToroSettings->SetFullscreenMode(Res == UToroUserSettings::FullscreenRes
+		ToroSettings->SetFullscreenMode(Res == UToroUserSettings::FullscreenRes ?
 #if WITH_EDITOR
-			? EWindowMode::Type::WindowedFullscreen : EWindowMode::Type::Windowed);
+			EWindowMode::Type::WindowedFullscreen
 #else
-			? EWindowMode::Type::Fullscreen : EWindowMode::Type::Windowed);
+			(ToroSettings->GetBorderless() ? EWindowMode::Type::WindowedFullscreen : EWindowMode::Type::Fullscreen)
 #endif
+			: EWindowMode::Type::Windowed);
 		ToroSettings->ApplyResolutionSettings(false);
 		OnResolutionChanged.Broadcast(SelectedItem);
 	}
