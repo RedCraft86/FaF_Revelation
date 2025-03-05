@@ -320,8 +320,7 @@ void UResolutionRowBase::GenerateOptions()
 	}
 	if (!Options.Contains(DefaultValue))
 	{
-		const FIntPoint& ScreenRes = UToroUserSettings::FullscreenRes;
-		DefaultValue = FString::Printf(TEXT("%dx%d"), ScreenRes.X, ScreenRes.Y);
+		DefaultValue = SelectionBox->GetOptionAtIndex(0);
 		SelectionBox->SetSelectedOption(DefaultValue);
 	}
 }
