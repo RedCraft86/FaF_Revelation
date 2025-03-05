@@ -14,6 +14,7 @@ void UToroUserSettings::CheckSupportedResolutions()
 {
 	UKismetSystemLibrary::GetSupportedFullscreenResolutions(SupportedResolutions);
 	FullscreenRes = SupportedResolutions.Last();
+	Algo::Reverse(SupportedResolutions);
 }
 
 void UToroUserSettings::CheckSupportedFidelityModes()
