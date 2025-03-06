@@ -110,8 +110,6 @@ public:
 	DECLARE_CONVERTABLE_FUNC(EColorBlindMode, ColorBlindMode, uint8, Int)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
 	
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, NvidiaReflex, 0, 2)
-	
 	DECLARE_PROPERTY_FUNC(bool, RTXDynamicVibrance)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, DynamicVibranceIntensity, 0.0f, 1.0f)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, DynamicVibranceSaturation, 0.0f, 1.0f)
@@ -129,6 +127,7 @@ public:
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSQuality, 0, 6)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSFrameGeneration, 0, 4)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, NvidiaReflex, 0, 2)
 	DECLARE_PROPERTY_FUNC(bool, DLSSRayReconstruction)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)

@@ -135,7 +135,7 @@ DEFINE_SETTER(bool, HitLightingReflections, ApplyLumen();)
 DEFINE_SETTER(EColorBlindMode, ColorBlindMode, ApplyColorBlindSettings();)
 DEFINE_SETTER(uint8, ColorBlindIntensity, ApplyColorBlindSettings();)
 
-DEFINE_SETTER(uint8, NvidiaReflex, Nvidia::Streamline::SetReflexMode(GetNvidiaReflex());)
+DEFINE_SETTER(uint8, NvidiaReflex, ApplyDLSS();)
 
 DEFINE_SETTER(bool, RTXDynamicVibrance, ApplyDynamicVibrance();)
 DEFINE_SETTER(float, DynamicVibranceIntensity, ApplyDynamicVibrance();)
@@ -182,6 +182,7 @@ void UToroUserSettings::ApplyDLSS() const
 	Nvidia::DLSS::SetDLSSMode(bDLSS ? GetDLSSQuality() : 0);
 	Nvidia::DLSS::SetFrameGenMode(bDLSS ? GetDLSSFrameGeneration() : 0);
 	Nvidia::DLSS::SetDLSSRREnabled(bDLSS && GetDLSSRayReconstruction());
+	Nvidia::Streamline::SetReflexMode(bDLSS ? GetNvidiaReflex() : 0);
 }
 
 void UToroUserSettings::ApplyImageFidelityMode()
