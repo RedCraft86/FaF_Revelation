@@ -289,6 +289,16 @@ void USelectorRowBase::NativePreConstruct()
 	GenerateOptions();
 }
 
+void UResolutionRowBase::AcceptResolution()
+{
+	LastIdx = SelectionBox->GetSelectedIndex();
+}
+
+void UResolutionRowBase::RevertResolution() const
+{
+	SelectionBox->SetSelectedIndex(LastIdx);
+}
+
 void UResolutionRowBase::SetValue(const FIntPoint& InValue) const
 {
 	UToroUserSettings::CheckSupportedResolutions();

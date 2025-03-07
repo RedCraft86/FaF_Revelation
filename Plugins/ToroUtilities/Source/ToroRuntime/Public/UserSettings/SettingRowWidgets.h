@@ -277,10 +277,14 @@ class TORORUNTIME_API UResolutionRowBase : public USelectorRowBase
 
 public:
 
-	UResolutionRowBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+	UResolutionRowBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer), LastIdx(0) {}
+
+	void AcceptResolution();
+	void RevertResolution() const;
 
 protected:
 
+	UPROPERTY() uint8 LastIdx;
 	void SetValue(const FIntPoint& InValue) const;
 	virtual void AssignGetter(const TFunction<FString()>& Function) override { }
 	virtual void AssignSetter(const TFunction<void(const FString)>& Function) override { }
