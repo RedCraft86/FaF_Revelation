@@ -78,7 +78,7 @@ void UToggleRowBase::SetValue(const bool InValue)
 		if (!bSkipSetter)
 		{
 			SetterFunc(InValue);
-			OnValueChanged.Broadcast(InValue);
+			OnValueChanged.Broadcast();
 		}
 	}
 }
@@ -109,13 +109,18 @@ void UToggleRowBase::NativePreConstruct()
 		? ToggleAnim->GetEndTime() : ToggleAnim->GetStartTime());
 }
 
+float USliderRowBase::GetValue() const
+{
+	return SliderBox->GetValue();
+}
+
 void USliderRowBase::RunSetter()
 {
 	UpdateWidget();
 	if (!bSkipSetter)
 	{
 		SetterFunc(SliderBox->GetValue());
-		OnValueChanged.Broadcast(SliderBox->GetValue());
+		OnValueChanged.Broadcast();
 	}
 }
 
@@ -175,7 +180,7 @@ void USwapperRowBase::SetValue(const uint8 InValue)
 		if (!bSkipSetter)
 		{
 			SetterFunc(Value);
-			OnValueChanged.Broadcast(InValue);
+			OnValueChanged.Broadcast();
 		}
 	}
 }
@@ -220,6 +225,11 @@ void USwapperRowBase::NativePreConstruct()
 	if (!Options.IsEmpty() && OptionText) OptionText->SetText(Options[Value]);
 }
 
+FString USelectorRowBase::GetValue() const
+{
+	return SelectionBox->GetSelectedOption();
+}
+
 void USelectorRowBase::SetValueIdx(const uint8 InValue) const
 {
 	if (Options.IsEmpty()) return;
@@ -244,7 +254,7 @@ void USelectorRowBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::Typ
 	if (!bSkipSetter)
 	{
 		SetterFunc(SelectionBox->GetSelectedOption());
-		OnValueChanged.Broadcast(SelectedItem);
+		OnValueChanged.Broadcast();
 	}
 }
 
@@ -310,7 +320,7 @@ void UResolutionRowBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::T
 #endif
 			: EWindowMode::Type::Windowed);
 		ToroSettings->ApplyResolutionSettings(false);
-		OnValueChanged.Broadcast(SelectedItem);
+		OnValueChanged.Broadcast();
 	}
 }
 
@@ -353,7 +363,7 @@ void UImageFidelityBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::T
 	{
 		const EImageFidelityMode* Mode = ModeToName.FindKey(SelectedItem);
 		ToroSettings->SetImageFidelityMode(Mode ? *Mode : EImageFidelityMode::TAA);
-		OnValueChanged.Broadcast(SelectedItem);
+		OnValueChanged.Broadcast();
 	}
 }
 

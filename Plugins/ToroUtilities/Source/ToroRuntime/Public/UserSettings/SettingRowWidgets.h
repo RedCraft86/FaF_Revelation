@@ -107,9 +107,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bDefaultValue;
 
-	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const bool);
+	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
+	bool GetValue() const { return bCurrentValue; }
 	virtual void AssignGetter(const TFunction<bool()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const bool)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -154,9 +155,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 NumOfDecimals;
 
-	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const float);
+	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
+	float GetValue() const;
 	virtual void AssignGetter(const TFunction<float()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const float)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -201,9 +203,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 DefaultValue;
 
-	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const uint8);
+	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
+	uint8 GetValue() const { return Value; }
 	virtual void AssignGetter(const TFunction<uint8()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const uint8)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -242,9 +245,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (GetOptions = Options))
 		FString DefaultValue;
 
-	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const FString&);
+	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
+	FString GetValue() const;
 	virtual void AssignGetter(const TFunction<FString()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const FString)>& Function) { if (Function) SetterFunc = Function; }
 
