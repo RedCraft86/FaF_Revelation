@@ -107,6 +107,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bDefaultValue;
 
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const bool);
+	FOnValueChanged OnValueChanged;
+
 	virtual void AssignGetter(const TFunction<bool()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const bool)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -150,6 +153,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 NumOfDecimals;
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const float);
+	FOnValueChanged OnValueChanged;
 
 	virtual void AssignGetter(const TFunction<float()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const float)>& Function) { if (Function) SetterFunc = Function; }
@@ -195,6 +201,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 DefaultValue;
 
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const uint8);
+	FOnValueChanged OnValueChanged;
+
 	virtual void AssignGetter(const TFunction<uint8()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const uint8)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -233,6 +242,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (GetOptions = Options))
 		FString DefaultValue;
 
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnValueChanged, const FString&);
+	FOnValueChanged OnValueChanged;
+
 	virtual void AssignGetter(const TFunction<FString()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const FString)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -262,9 +274,6 @@ class TORORUNTIME_API UResolutionRowBase : public USelectorRowBase
 public:
 
 	UResolutionRowBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
-
-	DECLARE_MULTICAST_DELEGATE_OneParam(FOnResolutionChanged, const FString&);
-	FOnResolutionChanged OnResolutionChanged;
 
 protected:
 

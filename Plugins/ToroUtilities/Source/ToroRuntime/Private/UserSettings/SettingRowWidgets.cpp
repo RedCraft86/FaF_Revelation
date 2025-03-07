@@ -78,6 +78,7 @@ void UToggleRowBase::SetValue(const bool InValue)
 		if (!bSkipSetter)
 		{
 			SetterFunc(InValue);
+			OnValueChanged.Broadcast(InValue);
 		}
 	}
 }
@@ -114,6 +115,7 @@ void USliderRowBase::RunSetter()
 	if (!bSkipSetter)
 	{
 		SetterFunc(SliderBox->GetValue());
+		OnValueChanged.Broadcast(SliderBox->GetValue());
 	}
 }
 
@@ -173,6 +175,7 @@ void USwapperRowBase::SetValue(const uint8 InValue)
 		if (!bSkipSetter)
 		{
 			SetterFunc(Value);
+			OnValueChanged.Broadcast(InValue);
 		}
 	}
 }
@@ -241,6 +244,7 @@ void USelectorRowBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::Typ
 	if (!bSkipSetter)
 	{
 		SetterFunc(SelectionBox->GetSelectedOption());
+		OnValueChanged.Broadcast(SelectedItem);
 	}
 }
 
@@ -306,7 +310,7 @@ void UResolutionRowBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::T
 #endif
 			: EWindowMode::Type::Windowed);
 		ToroSettings->ApplyResolutionSettings(false);
-		OnResolutionChanged.Broadcast(SelectedItem);
+		OnValueChanged.Broadcast(SelectedItem);
 	}
 }
 
@@ -349,6 +353,7 @@ void UImageFidelityBase::OnSelectionChanged(FString SelectedItem, ESelectInfo::T
 	{
 		const EImageFidelityMode* Mode = ModeToName.FindKey(SelectedItem);
 		ToroSettings->SetImageFidelityMode(Mode ? *Mode : EImageFidelityMode::TAA);
+		OnValueChanged.Broadcast(SelectedItem);
 	}
 }
 
