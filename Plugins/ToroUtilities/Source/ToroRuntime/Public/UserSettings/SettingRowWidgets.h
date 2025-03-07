@@ -62,12 +62,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSubclassOf<USettingTooltipBase> TooltipClass;
 
+	virtual void LoadValue() {}
+
 protected:
 
 	UPROPERTY() bool bSkipSetter;
 	UPROPERTY(Transient) TObjectPtr<UToroUserSettings> ToroSettings;
-
-	virtual void LoadValue() {}
 	virtual void UpdateWidget();
 	virtual bool IsDefaultValue() { return false; }
 	UFUNCTION() virtual void ResetToDefault() {}
@@ -110,6 +110,7 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
+	virtual void LoadValue() override;
 	bool GetValue() const { return bCurrentValue; }
 	virtual void AssignGetter(const TFunction<bool()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const bool)>& Function) { if (Function) SetterFunc = Function; }
@@ -122,8 +123,6 @@ protected:
 
 	void SetValue(const bool InValue);
 	UFUNCTION() void OnToggleClicked() { SetValue(!bCurrentValue); }
-
-	virtual void LoadValue() override;
 	virtual void UpdateWidget() override;
 	virtual void ResetToDefault() override { SetValue(bDefaultValue); }
 	virtual bool IsDefaultValue() override { return bCurrentValue != bDefaultValue; }
@@ -159,6 +158,7 @@ public:
 	FOnValueChanged OnValueChanged;
 
 	float GetValue() const;
+	virtual void LoadValue() override;
 	virtual void AssignGetter(const TFunction<float()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const float)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -171,8 +171,6 @@ protected:
 	void SetValue(const float InValue);
 	UFUNCTION() void OnSliderEnd(float Value) { RunSetter(); }
 	UFUNCTION() void OnValueCommited(float Value, ETextCommit::Type Type) { RunSetter(); }
-
-	virtual void LoadValue() override;
 	virtual bool IsDefaultValue() override;
 	virtual void ResetToDefault() override { SetValue(DefaultValue); }
 
@@ -206,6 +204,7 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
+	virtual void LoadValue() override;
 	uint8 GetValue() const { return Value; }
 	virtual void AssignGetter(const TFunction<uint8()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const uint8)>& Function) { if (Function) SetterFunc = Function; }
@@ -220,7 +219,6 @@ protected:
 	UFUNCTION() void OnPrevClicked();
 	UFUNCTION() void OnNextClicked();
 
-	virtual void LoadValue() override;
 	virtual void UpdateWidget() override;
 	virtual void ResetToDefault() override { SetValue(DefaultValue); }
 	virtual bool IsDefaultValue() override { return Value != DefaultValue; }
@@ -249,6 +247,7 @@ public:
 	FOnValueChanged OnValueChanged;
 
 	FString GetValue() const;
+	virtual void LoadValue() override { checkf(0, TEXT("Not Implemented")); }
 	virtual void AssignGetter(const TFunction<FString()>& Function) { if (Function) GetterFunc = Function; }
 	virtual void AssignSetter(const TFunction<void(const FString)>& Function) { if (Function) SetterFunc = Function; }
 
@@ -263,7 +262,6 @@ protected:
 
 	virtual bool IsDefaultValue() override;
 	virtual void ResetToDefault() override { SetValueStr(DefaultValue); }
-	virtual void LoadValue() override { checkf(0, TEXT("Not Implemented")); }
 
 	virtual void GenerateOptions();
 	virtual void NativeConstruct() override;
@@ -281,6 +279,7 @@ public:
 
 	void AcceptResolution();
 	void RevertResolution() const;
+	virtual void LoadValue() override;
 
 protected:
 
@@ -289,7 +288,6 @@ protected:
 	virtual void AssignGetter(const TFunction<FString()>& Function) override { }
 	virtual void AssignSetter(const TFunction<void(const FString)>& Function) override { }
 
-	virtual void LoadValue() override;
 	virtual void OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType) override;
 	virtual void GenerateOptions() override;
 };
@@ -302,6 +300,8 @@ class TORORUNTIME_API UImageFidelityBase : public USelectorRowBase
 public:
 
 	UImageFidelityBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer) {}
+
+	virtual void LoadValue() override;
 
 protected:
 
@@ -320,7 +320,6 @@ protected:
 	virtual void AssignGetter(const TFunction<FString()>& Function) override { }
 	virtual void AssignSetter(const TFunction<void(const FString)>& Function) override { }
 
-	virtual void LoadValue() override;
 	virtual void OnSelectionChanged(FString SelectedItem, ESelectInfo::Type SelectionType) override;
 	virtual void GenerateOptions() override;
 };
