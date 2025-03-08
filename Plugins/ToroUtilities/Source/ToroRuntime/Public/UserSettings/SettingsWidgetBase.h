@@ -268,8 +268,6 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FOnRefreshDisplay);
 	FOnRefreshDisplay OnRefreshDisplay;
 
-	// TODO
-
 protected:
 
 	UPROPERTY() float AutoDetectTime;
