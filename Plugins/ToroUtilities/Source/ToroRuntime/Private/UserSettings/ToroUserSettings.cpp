@@ -3,6 +3,7 @@
 #include "UserSettings/ToroUserSettings.h"
 #include "UserSettings/UpscalerWrappers.h"
 #include "ToroRuntimeSettings.h"
+#include "ToroConfigManager.h"
 #include "AudioDevice.h"
 
 UToroUserSettings::UToroUserSettings()
@@ -186,6 +187,27 @@ DEFINE_SETTER_CONSOLE(bool, FSRFrameGeneration, r.FidelityFX.FI.Enabled)
 DEFINE_SETTER(uint8, XeSSQuality,
 	XeSS::SetXeSSMode(ImageFidelityMode == EImageFidelityMode::XeSS ? GetXeSSQuality() : 0);
 )
+
+void UToroUserSettings::InitSettings()
+{
+	const UToroConfigManager* Manager = UToroConfigManager::Get(this);
+	if (Manager && Manager->IsFirstLaunch())
+	{
+		RunHardwareBenchmark();
+		ApplyHardwareBenchmarkResults();
+		if (GetOverallQuality() > 3)
+		{
+			SetOverallQuality(3);
+		}
+		
+		SetResolutionScaleNormalized(1.0f);
+		CacheScalabilityDefaults();
+	}
+	else
+	{
+		LoadSettings(true);
+	}
+}
 
 void UToroUserSettings::ApplyNIS() const
 {
@@ -426,6 +448,7 @@ void UToroUserSettings::LoadSettings(bool bForceReload)
 UWorld* UToroUserSettings::GetWorld() const
 {
 	UWorld* World = Super::GetWorld();
+	if (!World) World = GameInstance ? GameInstance->GetWorld() : nullptr;
 	if (!World) World = GEngine ? GEngine->GetCurrentPlayWorld() : GWorld;
 	return World;
 }

@@ -1,13 +1,15 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameInstance.h"
+#include "UserSettings/ToroUserSettings.h"
 #include "ToroConfigManager.h"
+#include "ToroGeneralUtils.h"
 #if !UE_BUILD_SHIPPING
 #include "GeneralProjectSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
 #endif
 
-UToroGameInstance::UToroGameInstance() : CachedVMI(VMI_Lit), bDeveloperMode(false)
+UToroGameInstance::UToroGameInstance() : CachedVMI(VMI_Lit), bDeveloperMode(false), bFirstLoads(false)
 {
 }
 
@@ -30,6 +32,13 @@ void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 	{
 		SetDeveloperMode(ConfigManager->IsDeveloperMode());
 	}
+
+	if (!bFirstLoads)
+	{
+		bFirstLoads = true;
+		UToroUserSettings::Get()->InitSettings();
+		GetWorld()->GetTimerManager().SetTimerForNextTick(this, &UToroGameInstance::ReloadLevel);
+	}
 }
 
 void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)
@@ -48,9 +57,15 @@ void UToroGameInstance::SetDeveloperMode(const bool bInDeveloperMode)
 	OnDeveloperMode.Broadcast(bDeveloperMode);
 }
 
+void UToroGameInstance::ReloadLevel() const
+{
+	UToroGeneralUtils::RestartLevel(this);
+}
+
 void UToroGameInstance::Init()
 {
 	Super::Init();
+	UToroUserSettings::Get()->GameInstance = this;
 #if !UE_BUILD_SHIPPING
 	// Only one instance of the game can be initialized!
 	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())

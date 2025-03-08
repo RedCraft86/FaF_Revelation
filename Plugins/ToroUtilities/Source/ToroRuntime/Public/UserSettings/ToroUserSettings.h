@@ -141,6 +141,9 @@ public:
 	
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6)
 
+	void InitSettings();
+	UPROPERTY(Transient) TObjectPtr<class UToroGameInstance> GameInstance;
+
 private:
 
 	void ApplyNIS() const;

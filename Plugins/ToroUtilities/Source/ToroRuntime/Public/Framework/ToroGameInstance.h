@@ -47,6 +47,8 @@ protected:
 
 	UPROPERTY() int32 CachedVMI;
 	UPROPERTY() bool bDeveloperMode;
-	
+	UPROPERTY() bool bFirstLoads;
+
+	void ReloadLevel() const;
 	virtual void Init() override;
 };
