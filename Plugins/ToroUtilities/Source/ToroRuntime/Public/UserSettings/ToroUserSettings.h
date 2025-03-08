@@ -46,6 +46,8 @@ class TORORUNTIME_API UToroUserSettings final : public UGameUserSettings
 {
 	GENERATED_BODY()
 
+	friend class USettingsWidgetBase;
+
 public:
 
 	UToroUserSettings();
@@ -75,6 +77,9 @@ public:
 	void AutoConfigureQuality();
 	void SetOverallQuality(const uint8 InValue);
 	uint8 GetOverallQuality() const;
+
+	void SetMaxFrameRateIdx(const uint8 InIndex);
+	uint8 GetMaxFrameRateIdx() const;
 
 	void SetAudioVolume(const ESoundClassType InType, const uint8 InVolume);
 	uint8 GetAudioVolume(const ESoundClassType InType) const

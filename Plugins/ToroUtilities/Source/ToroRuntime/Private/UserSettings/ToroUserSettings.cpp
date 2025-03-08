@@ -66,8 +66,8 @@ void UToroUserSettings::AutoConfigureQuality()
 	const float Res = ScalabilityQuality.ResolutionQuality;
 	RunHardwareBenchmark();
 	SetResolutionScaleValueEx(Res);
-	CacheScalabilityDefaults();
 	ApplyHardwareBenchmarkResults();
+	CacheScalabilityDefaults();
 }
 
 void UToroUserSettings::SetOverallQuality(const uint8 InValue)
@@ -103,6 +103,29 @@ uint8 UToroUserSettings::GetOverallQuality() const
 		return Target + 1;
 	}
 
+	return 0;
+}
+
+void UToroUserSettings::SetMaxFrameRateIdx(const uint8 InIndex)
+{
+	float Limit;
+	switch (InIndex)
+	{
+		case 0: Limit = 30.0f; break;
+		case 1: Limit = 60.0f; break;
+		case 2: Limit = 120.0f; break;
+		case 3: Limit = 500.0f; break;
+		default: Limit = 60.0f; break;
+	}
+	SetFrameRateLimit(Limit);
+}
+
+uint8 UToroUserSettings::GetMaxFrameRateIdx() const
+{
+	float Limit = GetFrameRateLimit();
+	if (Limit > 121.0f) return 3;
+	if (Limit > 61.0f) return 2;
+	if (Limit > 31.0f) return 1;
 	return 0;
 }
 
@@ -333,16 +356,16 @@ void UToroUserSettings::ReapplySettings()
 
 void UToroUserSettings::CacheScalabilityDefaults()
 {
-	ScalabilityDefaults[0] = GetOverallQuality();
-	ScalabilityDefaults[1] = GetViewDistanceQuality();
-	ScalabilityDefaults[2] = GetAntiAliasingQuality();
-	ScalabilityDefaults[3] = GetShadowQuality();
-	ScalabilityDefaults[4] = GetGlobalIlluminationQuality();
-	ScalabilityDefaults[5] = GetReflectionQuality();
-	ScalabilityDefaults[6] = GetPostProcessingQuality();
-	ScalabilityDefaults[7] = GetTextureQuality();
-	ScalabilityDefaults[8] = GetVisualEffectQuality();
-	ScalabilityDefaults[9] = GetFoliageQuality();
+	ScalabilityDefaults[0]	= GetOverallQuality();
+	ScalabilityDefaults[1]	= GetViewDistanceQuality();
+	ScalabilityDefaults[2]	= GetAntiAliasingQuality();
+	ScalabilityDefaults[3]	= GetShadowQuality();
+	ScalabilityDefaults[4]	= GetGlobalIlluminationQuality();
+	ScalabilityDefaults[5]	= GetReflectionQuality();
+	ScalabilityDefaults[6]	= GetPostProcessingQuality();
+	ScalabilityDefaults[7]	= GetTextureQuality();
+	ScalabilityDefaults[8]	= GetVisualEffectQuality();
+	ScalabilityDefaults[9]	= GetFoliageQuality();
 	ScalabilityDefaults[10] = GetShadingQuality();
 }
 
