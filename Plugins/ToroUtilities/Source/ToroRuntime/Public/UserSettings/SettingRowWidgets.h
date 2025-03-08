@@ -154,6 +154,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		uint8 NumOfDecimals;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bAlwaysUpdate;
+
 	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
@@ -169,10 +172,12 @@ protected:
 
 	void RunSetter();
 	void SetValue(const float InValue);
-	UFUNCTION() void OnSliderEnd(float Value) { RunSetter(); }
-	UFUNCTION() void OnValueCommited(float Value, ETextCommit::Type Type) { RunSetter(); }
 	virtual bool IsDefaultValue() override;
 	virtual void ResetToDefault() override { SetValue(DefaultValue); }
+	UFUNCTION() void OnValueCommited(float Value, ETextCommit::Type Type) { RunSetter(); }
+	UFUNCTION() void OnSliderValueChanged(float Value) { if (bAlwaysUpdate) RunSetter(); }
+	UFUNCTION() void OnSliderEnd(float Value) { RunSetter(); }
+
 
 	void ApplySliderSettings() const;
 	virtual void NativeConstruct() override;

@@ -157,8 +157,9 @@ void USliderRowBase::ApplySliderSettings() const
 void USliderRowBase::NativeConstruct()
 {
 	Super::NativeConstruct();
-	SliderBox->OnEndSliderMovement.AddDynamic(this, &USliderRowBase::OnSliderEnd);
 	SliderBox->OnValueCommitted.AddDynamic(this, &USliderRowBase::OnValueCommited);
+	SliderBox->OnValueChanged.AddDynamic(this, &USliderRowBase::OnSliderValueChanged);
+	SliderBox->OnEndSliderMovement.AddDynamic(this, &USliderRowBase::OnSliderEnd);
 }
 
 void USliderRowBase::NativePreConstruct()
