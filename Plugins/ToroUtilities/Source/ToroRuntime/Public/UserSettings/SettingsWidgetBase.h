@@ -4,6 +4,7 @@
 
 #include "SettingRowWidgets.h"
 #include "UserWidgets/ToroWidgetBase.h"
+#include "UserWidgets/ToroAnimatedButtonBase.h"
 #include "SettingsWidgetBase.generated.h"
 
 UCLASS(Abstract)
@@ -53,6 +54,9 @@ public:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UToggleRowBase> VSync;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<USwapperRowBase> MaxFrameRate;
 	// ~Video
 
 	// Visuals
@@ -82,7 +86,7 @@ public:
 
 	// RTX Dynamic Vibrance
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToggleRowBase> RTXDynamicVibrance;
+		TObjectPtr<UToggleRowBase> DynamicVibrance;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<USliderRowBase> DVIntensity;
@@ -138,6 +142,9 @@ public:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<USwapperRowBase> XeSSQuality;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> FidelityAnim;
 	// ~Anti-Aliasing / Upscaling
 
 	// Lumen
@@ -214,23 +221,89 @@ public:
 	// Resolution Notify
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> ResNotifyTimer;
-	
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UButton> ResConfirmButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> ResRevertButton;
+	
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UButton> ResConfirmButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ResNotifyAnim;
 	// ~Resolution Notify
 
-	// TODO
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UToroAnimatedButtonBase> GeneralButton;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UToroAnimatedButtonBase> GraphicsButton;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UToroAnimatedButtonBase> AudioButton;
+	
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UToroAnimatedButtonBase> KeybindsButton;
+	
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UToroAnimatedButtonBase> DeveloperButton;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UButton> ExitButton;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> RefreshAnim;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> SwapScreenAnim;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Settings)
 		TObjectPtr<UUserWidget> ParentUI;
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnRefreshUI();
+
+	DECLARE_MULTICAST_DELEGATE(FOnRefreshDisplay);
+	FOnRefreshDisplay OnRefreshDisplay;
+
+	// TODO
+
 protected:
 
+	UPROPERTY() float AutoDetectTime;
+	UPROPERTY() float ResolutionWaitTime;
+	UPROPERTY(Transient) TObjectPtr<UToroUserSettings> ToroSettings;
+	UPROPERTY(BlueprintReadOnly, Category = Settings) uint8 ScreenIndex;
+
+	void SetScreenIndex(const uint8 InIndex);
+	void OnGeneralButtonClicked() { SetScreenIndex(0); }
+	void OnGraphicsButtonClicked() { SetScreenIndex(1); }
+	void OnAudioButtonClicked() { SetScreenIndex(2); }
+	void OnKeybindsButtonClicked() { SetScreenIndex(3); }
+	void OnDebuggingButtonClicked() { SetScreenIndex(4); }
+
+	void RefreshUI();
+	void RefreshFidelity();
+	void RefreshScalability();
+	void OnResolutionChanged();
+	void OnOverallQualityChanged();
+	void OnAnyScalabilityChanged() const { OverallQuality->LoadValue(); }
+
+	UFUNCTION() void OnAutoDetectClicked();
+	UFUNCTION() void OnUsernameChanged(const FText& Text);
+	UFUNCTION() void OnExitClicked() { DeactivateWidget(); }
+	UFUNCTION() void OnConfirmResClicked()
+	{
+		ResolutionWaitTime = 0.0f;
+		Resolution->AcceptResolution();
+	}
+	UFUNCTION() void OnRevertResClicked()
+	{
+		ResolutionWaitTime = 0.0f;
+		Resolution->RevertResolution();
+	}
+
+	virtual void InitWidget() override;
+	virtual void InternalProcessActivation() override;
 	virtual void InternalProcessDeactivation() override;
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };
