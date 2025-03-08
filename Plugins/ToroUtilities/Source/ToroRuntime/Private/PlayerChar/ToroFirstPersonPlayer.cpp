@@ -16,6 +16,48 @@
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
 
+UToroFPWalkShake::UToroFPWalkShake()
+{
+	bSingleInstance = true;
+	OscillationDuration = 0.2f;
+
+	RotOscillation.Pitch.Amplitude = 0.3f;
+	RotOscillation.Pitch.Frequency = 12.0f;
+	RotOscillation.Pitch.InitialOffset = EOO_OffsetZero;
+
+	RotOscillation.Yaw.Amplitude = 0.3f;
+	RotOscillation.Yaw.Frequency = 6.0f;
+	RotOscillation.Yaw.InitialOffset = EOO_OffsetZero;
+
+	RotOscillation.Roll.Amplitude = 0.2f;
+	RotOscillation.Roll.Frequency = 3.0f;
+	RotOscillation.Roll.InitialOffset = EOO_OffsetZero;
+
+	LocOscillation.Z.Amplitude = 0.2f;
+	LocOscillation.Z.Frequency = 12.0f;
+}
+
+UToroFPRunShake::UToroFPRunShake()
+{
+	bSingleInstance = true;
+	OscillationDuration = 0.2f;
+
+	RotOscillation.Pitch.Amplitude = 0.5f;
+	RotOscillation.Pitch.Frequency = 17.0f;
+	RotOscillation.Pitch.InitialOffset = EOO_OffsetZero;
+
+	RotOscillation.Yaw.Amplitude = 0.5f;
+	RotOscillation.Yaw.Frequency = 8.5f;
+	RotOscillation.Yaw.InitialOffset = EOO_OffsetZero;
+
+	RotOscillation.Roll.Amplitude = 0.2f;
+	RotOscillation.Roll.Frequency = 4.75f;
+	RotOscillation.Roll.InitialOffset = EOO_OffsetZero;
+
+	LocOscillation.Z.Amplitude = 5.0f;
+	LocOscillation.Z.Frequency = 17.0f;
+}
+
 AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), InteractTrace(ECC_Visibility)
 	, FieldOfView(90.0f), FieldOfViewSpeed(5.0f), LockOnSpeed(5.0f), Sensitivity(1.0f)
 	, SensitivityMulti(1.0f), LeanOffsets(75.0f, 25.0f), LeanSpeed(7.5f), SideTrace(ECC_Visibility)
@@ -38,6 +80,9 @@ AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), Intera
 	PlayerCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 	
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
+
+	CameraShakes.WalkShake = UToroFPWalkShake::StaticClass();
+	CameraShakes.RunShake = UToroFPRunShake::StaticClass();
 }
 
 void AToroFirstPersonPlayer::ResetStates()
@@ -490,9 +535,11 @@ void AToroFirstPersonPlayer::Tick(float DeltaTime)
 
 		if (IsMoving() && IsPlayerControlled())
 		{
-			const TSubclassOf<UCameraShakeBase> Shake = IsRunning() ? CameraShakes.RunShake : CameraShakes.WalkShake;
-			const float Scale = IsRunning() ? CameraShakes.RunScale : CameraShakes.WalkScale;
-			PlayerController->ClientStartCameraShake(Shake, Scale);
+			const bool bRunning = IsRunning();
+			PlayerController->ClientStartCameraShake(
+				bRunning ? CameraShakes.RunShake : CameraShakes.WalkShake,
+				bRunning ? CameraShakes.RunScale : CameraShakes.WalkScale
+			);
 		}
 	}
 

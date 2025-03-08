@@ -406,9 +406,6 @@ void UToroUserSettings::SetToDefaults()
 	FSRFrameGeneration = false;
 	XeSSQuality = 3;
 
-	CheckSupportedResolutions();
-	CheckSupportedFidelityModes();
-
 	ReapplySettings();
 	Super::SetToDefaults();
 }
