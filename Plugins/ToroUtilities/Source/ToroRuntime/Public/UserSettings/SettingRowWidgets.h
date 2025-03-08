@@ -138,8 +138,8 @@ class TORORUNTIME_API USliderRowBase : public USettingRowBase
 
 public:
 
-	USliderRowBase(const FObjectInitializer& ObjectInitializer)
-		: Super(ObjectInitializer), DefaultValue(0.0f), Range(0.0f, 100.0f), NumOfDecimals(0)
+	USliderRowBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+		, DefaultValue(0.0f), Range(0.0f, 100.0f), NumOfDecimals(0), bAlwaysUpdate(false)
 	{}
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))

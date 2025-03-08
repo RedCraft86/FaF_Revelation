@@ -145,10 +145,10 @@ bool USliderRowBase::IsDefaultValue()
 
 void USliderRowBase::ApplySliderSettings() const
 {
-	SliderBox->SetMinValue(Range.GetMin());
-	SliderBox->SetMaxValue(Range.GetMax());
-	SliderBox->SetMinSliderValue(Range.GetMin());
-	SliderBox->SetMaxSliderValue(Range.GetMax());
+	SliderBox->SetMinValue((float)Range.GetMin());
+	SliderBox->SetMaxValue((float)Range.GetMax());
+	SliderBox->SetMinSliderValue((float)Range.GetMin());
+	SliderBox->SetMaxSliderValue((float)Range.GetMax());
 	SliderBox->SetMaxFractionalDigits(NumOfDecimals);
 	SliderBox->SetMinFractionalDigits(NumOfDecimals > 0 ? 1 : 0);
 	SliderBox->SetDelta(NumOfDecimals > 0 ? 0.0f : 1.0f);
