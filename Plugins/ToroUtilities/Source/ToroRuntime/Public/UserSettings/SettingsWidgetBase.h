@@ -201,13 +201,16 @@ public:
 
 	// Audio
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<USliderRowBase> MasterVolRow;
+		TObjectPtr<USliderRowBase> MasterVolume;
 		
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<USliderRowBase> MusicVolRow;
+		TObjectPtr<USliderRowBase> MusicVolume;
 		
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<USliderRowBase> SoundFXVolRow;
+		TObjectPtr<USliderRowBase> SFXVolume;
+		
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<USliderRowBase> VoiceVolume;
 	// ~Audio
 
 	// Developer
