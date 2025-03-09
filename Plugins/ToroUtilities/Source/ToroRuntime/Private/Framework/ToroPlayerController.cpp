@@ -58,7 +58,7 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 {
 	if (bFocused)
 	{
-		if (!bGamePaused) SetPause(false);
+		if (!bGamePaused && UToroRuntimeSettings::Get()->IsOnGameplayMap(this)) SetPause(false);
 		if (const UInfoWidgetBase* Widget = GetInfoWidget())
 		{
 			Widget->MarkUnfocused(false);
@@ -85,7 +85,7 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 			}
 		}
 
-		if (!bGamePaused) SetPause(true);
+		if (!bGamePaused && UToroRuntimeSettings::Get()->IsOnGameplayMap(this)) SetPause(true);
 		if (const UInfoWidgetBase* Widget = GetInfoWidget())
 		{
 			Widget->MarkUnfocused(true);
