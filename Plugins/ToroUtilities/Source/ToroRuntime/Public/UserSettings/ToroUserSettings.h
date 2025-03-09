@@ -68,6 +68,7 @@ public:
 	static bool IsDLSSSupported();
 	static bool IsNISSupported();
 	static bool IsXeSSSupported();
+	static bool IsSMAASupported();
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const UToroUserSettings*)
 	FUserSettingsDelegate OnDynamicSettingsChanged;

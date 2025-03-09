@@ -20,8 +20,9 @@ void UToroUserSettings::CheckSupportedResolutions()
 
 void UToroUserSettings::CheckSupportedFidelityModes()
 {
+	// EImageFidelityMode::SMAA is not supported right now
 	SupportedFidelityModes = {EImageFidelityMode::None, EImageFidelityMode::FXAA, EImageFidelityMode::TAA,
-		EImageFidelityMode::TSR, EImageFidelityMode::SMAA, EImageFidelityMode::FSR};
+		EImageFidelityMode::TSR, EImageFidelityMode::FSR};
 
 	if (IsDLSSSupported()) SupportedFidelityModes.Add(EImageFidelityMode::DLSS);
 	if (IsXeSSSupported()) SupportedFidelityModes.Add(EImageFidelityMode::XeSS);
@@ -60,6 +61,12 @@ bool UToroUserSettings::IsNISSupported()
 bool UToroUserSettings::IsXeSSSupported()
 {
 	return XeSS::IsXeSSSupported();
+}
+
+bool UToroUserSettings::IsSMAASupported()
+{
+	CheckSupportedFidelityModes();
+	return SupportedFidelityModes.Find(EImageFidelityMode::SMAA);
 }
 
 void UToroUserSettings::AutoConfigureQuality()

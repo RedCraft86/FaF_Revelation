@@ -67,9 +67,9 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 		UKismetSystemLibrary::ExecuteConsoleCommand(this, FString::Printf(
 			TEXT("t.MaxFPS %f"), UToroUserSettings::Get()->GetFrameRateLimit()));
 
-		if (const AToroPlayerBase* Player = GetPawn<AToroPlayerBase>())
+		if (const AToroPlayerBase* PlayerPawn = GetPawn<AToroPlayerBase>())
 		{
-			if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(Player->GetCinematicActor()))
+			if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(PlayerPawn->GetCinematicActor()))
 			{
 				Cinematic->GetSequencePlayer()->Play();
 			}
