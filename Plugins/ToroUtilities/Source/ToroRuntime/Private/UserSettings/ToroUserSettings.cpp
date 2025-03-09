@@ -66,7 +66,7 @@ bool UToroUserSettings::IsXeSSSupported()
 bool UToroUserSettings::IsSMAASupported()
 {
 	CheckSupportedFidelityModes();
-	return SupportedFidelityModes.Find(EImageFidelityMode::SMAA);
+	return SupportedFidelityModes.Contains(EImageFidelityMode::SMAA);
 }
 
 void UToroUserSettings::AutoConfigureQuality()

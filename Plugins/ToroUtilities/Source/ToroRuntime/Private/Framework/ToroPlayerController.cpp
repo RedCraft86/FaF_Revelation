@@ -77,9 +77,9 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 	}
 	else
 	{
-		if (const AToroPlayerBase* Player = GetPawn<AToroPlayerBase>())
+		if (const AToroPlayerBase* PlayerPawn = GetPawn<AToroPlayerBase>())
 		{
-			if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(Player->GetCinematicActor()))
+			if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(PlayerPawn->GetCinematicActor()))
 			{
 				Cinematic->GetSequencePlayer()->Pause();
 			}
