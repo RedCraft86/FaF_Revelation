@@ -67,7 +67,7 @@ public:
 		AToroPlayerController* GetPlayerController() const { return PlayerController; }
 
 	UFUNCTION(BlueprintPure, Category = Player)
-		const AActor* GetCinematicActor() const { return CinematicActor; }
+		AActor* GetCinematicActor() const { return CinematicActor; }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void TeleportPlayer(const FVector& InLocation, const FRotator& InRotation);

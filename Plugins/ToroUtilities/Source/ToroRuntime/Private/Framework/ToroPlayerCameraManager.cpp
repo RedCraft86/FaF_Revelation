@@ -6,6 +6,7 @@ AToroPlayerCameraManager::AToroPlayerCameraManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bTickEvenWhenPaused = true;
 }
 
 EToroValidPins AToroPlayerCameraManager::GetToroPlayerCameraManager(AToroPlayerCameraManager*& OutObject,

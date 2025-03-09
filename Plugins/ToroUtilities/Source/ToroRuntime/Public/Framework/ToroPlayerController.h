@@ -5,8 +5,9 @@
 #include "ExecPinEnums.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
-#include "GameFramework/PlayerController.h"
+#include "UserWidgets/InfoWidgetBase.h"
 #include "UserWidgets/PauseWidgetBase.h"
+#include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
 
 UENUM(BlueprintType)
@@ -101,6 +102,10 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
+
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAnyKeyPressedEvent, const FKey&, Key);
+	UPROPERTY(BlueprintAssignable)
+		FAnyKeyPressedEvent OnAnyKeyPressed;
 	
 	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "WorldContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Player Controller"))
 		static EToroValidPins GetToroPlayerController(AToroPlayerController*& OutObject, const UObject* WorldContextObject, const TSubclassOf<AToroPlayerController>& Class, const int32 PlayerIndex = 0);
@@ -129,10 +134,17 @@ protected:
 
 	UPROPERTY() bool bGamePaused;
 	UPROPERTY() FGameInputModeData InputModeData;
+	UPROPERTY(Transient) TObjectPtr<UInfoWidgetBase> InfoWidget;
 	UPROPERTY(Transient) TObjectPtr<UPauseWidgetBase> PauseWidget;
 
+	void OnAnyKeyEvent(FKey PressedKey);
+	void OnWindowFocusChanged(bool bFocused);
+
+	UInfoWidgetBase* GetInfoWidget();
 	UPauseWidgetBase* GetPauseWidget();
 	class UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };

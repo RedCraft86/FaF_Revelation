@@ -14,10 +14,14 @@ class TORORUNTIME_API UInfoWidgetBase : public UToroWidget
 	GENERATED_BODY()
 
 	friend class UToroSaveObject;
+	friend class AToroPlayerController;
 	
 public:
 
 	UInfoWidgetBase(const FObjectInitializer& ObjectInitializer);
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UPanelWidget> UnfocusedView;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> FrameRateText;
@@ -41,9 +45,10 @@ protected:
 	UPROPERTY() float TargetFPS;
 
 	void UpdateFrameRate() const;
+	void MarkUnfocused(const bool bUnfocused) const;
 	void OnSettingsChanged(const UToroUserSettings* Settings);
 	void OnSaveLoad(const UToroUserSettings* Settings);
-	
-	virtual void NativeOnInitialized() override;
+
+	virtual void InitWidget() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };

@@ -49,6 +49,63 @@ void AToroPlayerController::SetPauseState(const bool bInPaused)
 	}
 }
 
+void AToroPlayerController::OnAnyKeyEvent(FKey PressedKey)
+{
+	if (OnAnyKeyPressed.IsBound()) OnAnyKeyPressed.Broadcast(PressedKey);
+}
+
+void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
+{
+	if (bFocused)
+	{
+		if (!bGamePaused) SetPause(false);
+		if (const UInfoWidgetBase* Widget = GetInfoWidget())
+		{
+			Widget->MarkUnfocused(false);
+		}
+
+		UKismetSystemLibrary::ExecuteConsoleCommand(this, FString::Printf(
+			TEXT("t.MaxFPS %f"), UToroUserSettings::Get()->GetFrameRateLimit()));
+
+		if (const AToroPlayerBase* Player = GetPawn<AToroPlayerBase>())
+		{
+			if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(Player->GetCinematicActor()))
+			{
+				Cinematic->GetSequencePlayer()->Play();
+			}
+		}
+	}
+	else
+	{
+		if (const AToroPlayerBase* Player = GetPawn<AToroPlayerBase>())
+		{
+			if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(Player->GetCinematicActor()))
+			{
+				Cinematic->GetSequencePlayer()->Pause();
+			}
+		}
+
+		if (!bGamePaused) SetPause(true);
+		if (const UInfoWidgetBase* Widget = GetInfoWidget())
+		{
+			Widget->MarkUnfocused(true);
+		}
+
+		UKismetSystemLibrary::ExecuteConsoleCommand(this, TEXT("t.MaxFPS 5"));
+	}
+}
+
+UInfoWidgetBase* AToroPlayerController::GetInfoWidget()
+{
+	if (InfoWidget) return InfoWidget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		InfoWidget = Manager->FindWidget<UInfoWidgetBase>();
+	}
+
+	return InfoWidget;
+}
+
 UPauseWidgetBase* AToroPlayerController::GetPauseWidget()
 {
 	if (PauseWidget) return PauseWidget;
@@ -56,7 +113,7 @@ UPauseWidgetBase* AToroPlayerController::GetPauseWidget()
 	{
 		PauseWidget = Manager->FindWidget<UPauseWidgetBase>();
 	}
-	
+
 	return PauseWidget;
 }
 
@@ -70,18 +127,27 @@ UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsy
 	return nullptr;
 }
 
-void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	InputModeData.ClearReferences();
-	Super::EndPlay(EndPlayReason);
-}
-
 void AToroPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	FSlateApplication::Get().OnApplicationActivationStateChanged().AddUObject(this, &ThisClass::OnWindowFocusChanged);
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
 	{
 		Subsystem->ClearAllMappings();
 		Subsystem->AddMappingContext(UToroRuntimeSettings::Get()->DefaultInputMappings.LoadSynchronous(), 0);
 	}
+}
+
+void AToroPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	FInputKeyBinding& AnyKeyBinding = InputComponent->BindKey(EKeys::AnyKey,
+		IE_Pressed, this, &ThisClass::OnAnyKeyEvent);
+	AnyKeyBinding.bConsumeInput = false; AnyKeyBinding.bExecuteWhenPaused = true;
+}
+
+void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	InputModeData.ClearReferences();
+	Super::EndPlay(EndPlayReason);
 }
