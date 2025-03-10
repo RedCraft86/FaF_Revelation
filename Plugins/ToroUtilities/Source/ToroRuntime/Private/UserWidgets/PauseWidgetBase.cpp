@@ -25,6 +25,7 @@ void UPauseWidgetBase::OnResumeClicked()
 
 void UPauseWidgetBase::OnSettingsClicked()
 {
+	SettingsWidget->ActivateWidget();
 	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
 		EMouseLockMode::LockAlways, false, SettingsWidget);
 	SetHidden(true);
@@ -70,8 +71,7 @@ void UPauseWidgetBase::InitWidget()
 {
 	Super::InitWidget();
 	PlayerChar = AToroPlayerBase::Get(this);
-	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
-		EMouseLockMode::LockAlways, false, this);
+	Return_Implementation();
 
 	ResumeButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnResumeClicked);
 	SettingsButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnSettingsClicked);
@@ -83,7 +83,7 @@ void UPauseWidgetBase::InitWidget()
 
 	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
 	{
-		GameVersionText->SetText(FText::FromString(FString::Printf(TEXT("Game Version: %s - %s Build"),
+		GameVersionText->SetText(FText::FromString(FString::Printf(TEXT("Game Version: %s | %s Build"),
 			*ProjectSettings->ProjectVersion, LexToString(FApp::GetBuildConfiguration()))));
 	}
 }

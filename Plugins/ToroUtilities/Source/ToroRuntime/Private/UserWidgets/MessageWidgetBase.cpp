@@ -18,6 +18,7 @@ UMessageWidgetBase::UMessageWidgetBase(const FObjectInitializer& ObjectInitializ
 	: Super(ObjectInitializer), bControlBarState(false)
 {
 	ZOrder = 55;
+	bGameplayOnly = false;
 	ControlDividerBrush.TintColor = FLinearColor::Gray;
 	ControlDividerBrush.DrawAs = ESlateBrushDrawType::RoundedBox;
 	ControlDividerBrush.ImageSize = FVector2D(4.0f, 32.0f);

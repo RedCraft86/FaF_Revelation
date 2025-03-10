@@ -42,6 +42,7 @@ USettingsWidgetBase::USettingsWidgetBase(const FObjectInitializer& ObjectInitial
 	: Super(ObjectInitializer), AutoDetectTime(0.0f), ResolutionWaitTime(0.0f), ScreenIndex(0)
 {
 	ZOrder = 58;
+	bAutoActivate = false;
 }
 
 void USettingsWidgetBase::SetScreenIndex(const uint8 InIndex)

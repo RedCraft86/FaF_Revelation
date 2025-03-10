@@ -29,7 +29,7 @@ public:
 		TObjectPtr<UToroAnimatedButtonBase> MainMenuButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<class UTextBlock> GameVersionText;
+		TObjectPtr<UTextBlock> GameVersionText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ScreenFadeAnim;
@@ -45,7 +45,7 @@ public:
 
 protected:
 
-	UPROPERTY(Transient) TObjectPtr<class AToroPlayerBase> PlayerChar;
+	UPROPERTY(Transient) TObjectPtr<AToroPlayerBase> PlayerChar;
 	UPROPERTY(Transient) TObjectPtr<USettingsWidgetBase> SettingsWidget;
 
 	void OnResumeClicked();
