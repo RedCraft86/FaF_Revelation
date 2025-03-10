@@ -6,7 +6,7 @@
 #include "LoadingWidgetBase.generated.h"
 
 UCLASS(Abstract)
-class ULoadingWidgetBase : public UToroWidget
+class FAF_REVELATION_API ULoadingWidgetBase : public UToroWidget
 {
 	GENERATED_BODY()
 

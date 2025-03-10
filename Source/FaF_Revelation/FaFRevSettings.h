@@ -9,7 +9,7 @@
 #include "FaFRevSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "FaF Revelation")
-class UFaFRevSettings : public UDeveloperSettings
+class FAF_REVELATION_API UFaFRevSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
 

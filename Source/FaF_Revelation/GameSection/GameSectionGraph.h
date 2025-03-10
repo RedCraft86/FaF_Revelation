@@ -13,7 +13,7 @@
 #include "GameSectionGraph.generated.h"
 
 UCLASS()
-class UGameSectionGraph final : public UDataGraphBase
+class FAF_REVELATION_API UGameSectionGraph final : public UDataGraphBase
 {
 	GENERATED_BODY()
 
@@ -23,7 +23,7 @@ public:
 };
 
 UCLASS()
-class UGameSectionNode final : public UDataNodeBase
+class FAF_REVELATION_API UGameSectionNode final : public UDataNodeBase
 {
 	GENERATED_BODY()
 

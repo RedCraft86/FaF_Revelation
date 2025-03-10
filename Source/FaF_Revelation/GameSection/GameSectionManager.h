@@ -10,7 +10,7 @@
 #include "GameSectionManager.generated.h"
 
 UCLASS(BlueprintType, DisplayName = "Game Section")
-class UGameSectionManager final : public UWorldSubsystem
+class FAF_REVELATION_API UGameSectionManager final : public UWorldSubsystem
 {
 	GENERATED_BODY()
 

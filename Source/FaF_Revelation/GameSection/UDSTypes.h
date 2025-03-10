@@ -23,7 +23,7 @@ enum class EUDSCloudType : uint8
 };
 
 USTRUCT(BlueprintType, DisplayName = "UDS Settings")
-struct  FUDSSettings
+struct FAF_REVELATION_API FUDSSettings
 {
 	GENERATED_BODY()
 
@@ -64,7 +64,7 @@ struct  FUDSSettings
 };
 
 UCLASS(Abstract, Blueprintable)
-class UUDSSetterObject final : public UObject
+class FAF_REVELATION_API UUDSSetterObject final : public UObject
 {
 	GENERATED_BODY()
 
