@@ -8,11 +8,6 @@
 #include "Engine/LevelScriptActor.h"
 #include "ToroShortcutLibrary.h"
 
-#define Tag_Saves FGameplayTag::RequestGameplayTag("Saves")
-#define Tag_GlobalSave FGameplayTag::RequestGameplayTag("Saves.Global")
-#define Tag_GameSave FGameplayTag::RequestGameplayTag("Saves.Game")
-#define Tag_LockLoading FGameplayTag::RequestGameplayTag("PlayerLock.Loading")
-
 void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag SaveTag)
 {
 	if (bLoading || !Graph) return;
@@ -49,7 +44,7 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
 		Player->EnterCinematic(GetWorld()->GetLevelScriptActor());
-		Player->AddLockFlag(Tag_LockLoading);
+		Player->AddLockFlag(GTag_LockLoading);
 	}
 
 	ToLoad = NewSection->GetLevels();
@@ -216,7 +211,7 @@ void UGameSectionManager::OnEndSequenceFinished()
 	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
 		Player->ExitCinematic();
-		Player->ClearLockFlag(Tag_LockLoading);
+		Player->ClearLockFlag(GTag_LockLoading);
 	}
 
 	bLoading = false;
@@ -227,7 +222,7 @@ UGlobalSaveObjectBase* UGameSectionManager::GetGlobalSave()
 	if (GlobalSave) return GlobalSave;
 	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
 	{
-		GlobalSave = SaveSystem->GetSaveObject<UGlobalSaveObjectBase>(Tag_GlobalSave);
+		GlobalSave = SaveSystem->GetSaveObject<UGlobalSaveObjectBase>(GTag_GlobalSave);
 	}
 
 	return GlobalSave;
@@ -235,7 +230,7 @@ UGlobalSaveObjectBase* UGameSectionManager::GetGlobalSave()
 
 UFaFRevSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 {
-	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != Tag_Saves ? SaveTag : Tag_GameSave;
+	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != GTag_Saves ? SaveTag : GTag_GameSave;
 	
 	if (LastSaveTag == Tag && GameSave) return GameSave;
 	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
@@ -273,8 +268,3 @@ void UGameSectionManager::OnWorldBeginPlay(UWorld& InWorld)
 		UDSSetter = NewObject<UUDSSetterObject>(this, Class);
 	}
 }
-
-#undef Tag_Saves
-#undef Tag_GlobalSave
-#undef Tag_GameSave
-#undef Tag_LockLoading
