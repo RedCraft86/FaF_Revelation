@@ -23,7 +23,7 @@ enum class EUDSCloudType : uint8
 };
 
 USTRUCT(BlueprintType, DisplayName = "UDS Settings")
-struct TORORUNTIME_API FUDSSettings
+struct  FUDSSettings
 {
 	GENERATED_BODY()
 
@@ -64,7 +64,7 @@ struct TORORUNTIME_API FUDSSettings
 };
 
 UCLASS(Abstract, Blueprintable)
-class TORORUNTIME_API UUDSSetterObject final : public UObject
+class UUDSSetterObject final : public UObject
 {
 	GENERATED_BODY()
 

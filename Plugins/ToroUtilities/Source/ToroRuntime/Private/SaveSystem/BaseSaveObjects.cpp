@@ -3,9 +3,6 @@
 #include "SaveSystem/BaseSaveObjects.h"
 #include "ToroRuntime.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_GlobalSave, "Saves.Global");
-UE_DEFINE_GAMEPLAY_TAG(Tag_GameSave, "Saves.Game");
-
 void UGlobalSaveObjectBase::DeleteData()
 {
 	UE_LOG(LogToroRuntime, Warning, TEXT("Cannot delete global persistent data!"));
@@ -23,8 +20,6 @@ void UGameSaveObjectBase::DeleteData()
 {
 	Super::DeleteData();
 	PlayTime = 0.0f;
-	Sequence.Empty();
-	Inventory.Empty();
 }
 
 void UGameSaveObjectBase::OnCreation()
@@ -44,6 +39,4 @@ void UGameSaveObjectBase::SaveObject(const TFunction<void(const ESaveGameError)>
 void UGameSaveObjectBase::SerializeData(FArchive& Ar)
 {
 	Ar << PlayTime;
-	Ar << Sequence;
-	Ar << Inventory;
 }

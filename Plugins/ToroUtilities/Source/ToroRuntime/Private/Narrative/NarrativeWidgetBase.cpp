@@ -3,6 +3,7 @@
 #include "Narrative/NarrativeWidgetBase.h"
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/ExprTextBlock.h"
+#include "Characters/ToroPlayerBase.h"
 #include "PlayerChar/PlayerStatics.h"
 #include "Components/PanelWidget.h"
 #include "Components/TextBlock.h"

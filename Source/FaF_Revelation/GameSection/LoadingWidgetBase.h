@@ -6,7 +6,7 @@
 #include "LoadingWidgetBase.generated.h"
 
 UCLASS(Abstract)
-class TORORUNTIME_API ULoadingWidgetBase : public UToroWidget
+class ULoadingWidgetBase : public UToroWidget
 {
 	GENERATED_BODY()
 

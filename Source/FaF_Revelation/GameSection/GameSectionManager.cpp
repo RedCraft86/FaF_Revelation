@@ -1,12 +1,17 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "GameSection/GameSectionManager.h"
-#include "MusicSystem/ToroMusicManager.h"
+#include "GameSectionManager.h"
 #include "Framework/ToroWidgetManager.h"
+#include "MusicSystem/ToroMusicManager.h"
+#include "FaF_Revelation/FaFRevSettings.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "Engine/LevelScriptActor.h"
-#include "ToroRuntimeSettings.h"
 #include "ToroShortcutLibrary.h"
+
+#define Tag_Saves FGameplayTag::RequestGameplayTag("Saves")
+#define Tag_GlobalSave FGameplayTag::RequestGameplayTag("Saves.Global")
+#define Tag_GameSave FGameplayTag::RequestGameplayTag("Saves.Game")
+#define Tag_LockLoading FGameplayTag::RequestGameplayTag("PlayerLock.Loading")
 
 void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag SaveTag)
 {
@@ -16,7 +21,7 @@ void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag S
 	Sequence = Graph->ValidateSequence(Sequence);
 	ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
 	
-	if (UGameSaveObjectBase* Save = GetGameSave(SaveTag))
+	if (UGameSaveObject* Save = GetGameSave(SaveTag))
 	{
 		Save->Sequence = Sequence;
 	}
@@ -25,7 +30,7 @@ void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag S
 void UGameSectionManager::LoadSequence(const FGameplayTag SaveTag)
 {
 	if (!Graph) return;
-	if (const UGameSaveObjectBase* Save = GetGameSave(SaveTag))
+	if (const UGameSaveObject* Save = GetGameSave(SaveTag))
 	{
 		Sequence = Graph->ValidateSequence(Save->Sequence);
 		ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
@@ -44,7 +49,7 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
 		Player->EnterCinematic(GetWorld()->GetLevelScriptActor());
-		Player->AddLockFlag(Tag_LockLoading.GetTag());
+		Player->AddLockFlag(Tag_LockLoading);
 	}
 
 	ToLoad = NewSection->GetLevels();
@@ -76,7 +81,7 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 		if (Section) GameMode->Narrative->ForgetQuest(Section->Quest.LoadSynchronous());
 		GameMode->Narrative->BeginQuest(NewSection->Quest.LoadSynchronous());
 
-		if (UGameSaveObjectBase* Save = GetGameSave(SaveTag))
+		if (UGameSaveObject* Save = GetGameSave(SaveTag))
 		{
 			if (Section)
 			{
@@ -211,7 +216,7 @@ void UGameSectionManager::OnEndSequenceFinished()
 	if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 	{
 		Player->ExitCinematic();
-		Player->ClearLockFlag(Tag_LockLoading.GetTag());
+		Player->ClearLockFlag(Tag_LockLoading);
 	}
 
 	bLoading = false;
@@ -228,7 +233,7 @@ UGlobalSaveObjectBase* UGameSectionManager::GetGlobalSave()
 	return GlobalSave;
 }
 
-UGameSaveObjectBase* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
+UGameSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 {
 	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != Tag_Saves ? SaveTag : Tag_GameSave;
 	
@@ -236,7 +241,7 @@ UGameSaveObjectBase* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTa
 	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
 	{
 		LastSaveTag = Tag;
-		GameSave = SaveSystem->GetSaveObject<UGameSaveObjectBase>(Tag);
+		GameSave = SaveSystem->GetSaveObject<UGameSaveObject>(Tag);
 		return GameSave;
 	}
 
@@ -257,14 +262,19 @@ bool UGameSectionManager::DoesSupportWorldType(const EWorldType::Type WorldType)
 void UGameSectionManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	Graph = UToroRuntimeSettings::Get()->SectionGraph.LoadSynchronous();
+	Graph = UFaFRevSettings::Get()->SectionGraph.LoadSynchronous();
 }
 
 void UGameSectionManager::OnWorldBeginPlay(UWorld& InWorld)
 {
 	Super::OnWorldBeginPlay(InWorld);
-	if (const TSubclassOf<UUDSSetterObject> Class = UToroRuntimeSettings::Get()->UDS_Setter.LoadSynchronous())
+	if (const TSubclassOf<UUDSSetterObject> Class = UFaFRevSettings::Get()->UDS_Setter.LoadSynchronous())
 	{
 		UDSSetter = NewObject<UUDSSetterObject>(this, Class);
 	}
 }
+
+#undef Tag_Saves
+#undef Tag_GlobalSave
+#undef Tag_GameSave
+#undef Tag_LockLoading

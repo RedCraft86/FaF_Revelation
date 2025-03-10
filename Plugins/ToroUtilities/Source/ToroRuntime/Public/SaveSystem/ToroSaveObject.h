@@ -2,12 +2,9 @@
 
 #pragma once
 
-#include "UObject/Object.h"
-#include "NativeGameplayTags.h"
+#include "SaveTags.h"
 #include "GameplayTagContainer.h"
 #include "ToroSaveObject.generated.h"
-
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Saves);
 
 class UToroSaveManager;
 class UInfoWidgetBase;

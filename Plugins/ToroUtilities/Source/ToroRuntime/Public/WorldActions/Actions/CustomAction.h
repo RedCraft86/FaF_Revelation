@@ -31,6 +31,9 @@ public:
 	UPROPERTY(Transient) TObjectPtr<UObject> ContextObject;
 	virtual UWorld* GetWorld() const override
 	{
+#if WITH_EDITOR
+		if (!FApp::IsGame()) return GEngine->GetCurrentPlayWorld();
+#endif
 		UWorld* World = Super::GetWorld();
 		if (!World && ContextObject) World = ContextObject->GetWorld();
 		if (!World) World = GEngine ? GEngine->GetCurrentPlayWorld() : GWorld;

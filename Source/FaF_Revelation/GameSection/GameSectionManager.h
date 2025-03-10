@@ -2,15 +2,15 @@
 
 #pragma once
 
+#include "GameSaveObject.h"
 #include "GameSectionGraph.h"
 #include "LoadingWidgetBase.h"
 #include "ClassGetterHelpers.h"
 #include "Subsystems/WorldSubsystem.h"
-#include "SaveSystem/BaseSaveObjects.h"
 #include "GameSectionManager.generated.h"
 
 UCLASS(BlueprintType, DisplayName = "Game Section")
-class TORORUNTIME_API UGameSectionManager final : public UWorldSubsystem
+class UGameSectionManager final : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
@@ -53,7 +53,7 @@ private:
 	UPROPERTY() TObjectPtr<UGameSectionNode> Section;
 	UPROPERTY() TObjectPtr<UUDSSetterObject> UDSSetter;
 	UPROPERTY() TObjectPtr<UGlobalSaveObjectBase> GlobalSave;
-	UPROPERTY() TObjectPtr<UGameSaveObjectBase> GameSave;
+	UPROPERTY() TObjectPtr<UGameSaveObject> GameSave;
 	UPROPERTY() FGameplayTag LastSaveTag;
 
 	void SetWidgetHidden(const bool bInHidden);
@@ -67,7 +67,7 @@ private:
 	void OnEndSequenceFinished();
 
 	UGlobalSaveObjectBase* GetGlobalSave();
-	UGameSaveObjectBase* GetGameSave(const FGameplayTag& SaveTag);
+	UGameSaveObject* GetGameSave(const FGameplayTag& SaveTag);
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

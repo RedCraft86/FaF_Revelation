@@ -3,8 +3,10 @@
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCameraManager.h"
 #include "Framework/ToroWidgetManager.h"
+#include "Characters/ToroPlayerBase.h"
 #include "EnhancedInputSubsystems.h"
 #include "ToroRuntimeSettings.h"
+#include "LevelSequenceActor.h"
 
 AToroPlayerController::AToroPlayerController() : bGamePaused(false)
 {

@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "GameSection/GameSectionGraph.h"
+#include "GameSectionGraph.h"
 
 UGameSectionGraph::UGameSectionGraph()
 {
@@ -8,7 +8,7 @@ UGameSectionGraph::UGameSectionGraph()
 	CompatibleEdge = nullptr;
 }
 
-UGameSectionNode::UGameSectionNode() : WidgetDelay(0.25f)
+UGameSectionNode::UGameSectionNode() : WidgetDelay(0.25f), PlayerControl(DEFAULT_PLAYER_CONTROL_FLAGS)
 {
 	Name = NSLOCTEXT("Toro", "NewSectionName", "New Section");
 	Description = NSLOCTEXT("Toro", "NewSectionDesc", "A node containing data relevant to a section of the game.");

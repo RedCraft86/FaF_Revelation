@@ -3,11 +3,7 @@
 #pragma once
 
 #include "ToroSaveObject.h"
-#include "Inventory/InventoryComponent.h"
 #include "BaseSaveObjects.generated.h"
-
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_GlobalSave);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_GameSave);
 
 UCLASS()
 class TORORUNTIME_API UGlobalSaveObjectBase : public UToroSaveObject
@@ -48,12 +44,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		int64 PlayTime;
-
-	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TArray<uint8> Sequence;
-
-	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TMap<FGuid, FInvSaveData> Inventory;
 
 	virtual void DeleteData() override;
 	virtual void OnCreation() override;

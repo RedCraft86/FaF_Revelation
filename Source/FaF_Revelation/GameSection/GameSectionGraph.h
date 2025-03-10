@@ -3,17 +3,17 @@
 #pragma once
 
 #include "Quest.h"
+#include "UDSTypes.h"
 #include "DataNodeBase.h"
 #include "DataGraphBase.h"
 #include "MetasoundSource.h"
-#include "GameSection/UDSTypes.h"
 #include "Misc/ToroSequenceActor.h"
 #include "Misc/TeleportTargetActor.h"
 #include "Inventory/InventoryComponent.h"
 #include "GameSectionGraph.generated.h"
 
 UCLASS()
-class TORORUNTIME_API UGameSectionGraph final : public UDataGraphBase
+class UGameSectionGraph final : public UDataGraphBase
 {
 	GENERATED_BODY()
 
@@ -23,7 +23,7 @@ public:
 };
 
 UCLASS()
-class TORORUNTIME_API UGameSectionNode final : public UDataNodeBase
+class UGameSectionNode final : public UDataNodeBase
 {
 	GENERATED_BODY()
 

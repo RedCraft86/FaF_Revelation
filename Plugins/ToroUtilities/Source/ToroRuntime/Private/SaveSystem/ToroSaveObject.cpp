@@ -10,8 +10,6 @@
 #include "WindowsHelpers.h"
 #include "ToroRuntime.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_Saves, "Saves");
-
 FName GetDemoName()
 {
 	const FName Ver = UToroRuntimeSettings::Get()->DemoVersion;

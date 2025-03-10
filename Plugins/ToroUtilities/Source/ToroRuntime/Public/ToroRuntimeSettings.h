@@ -5,13 +5,11 @@
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "InputMappingContext.h"
-#include "GameSection/UDSTypes.h"
 #include "Engine/DeveloperSettings.h"
 #include "GuidePages/GuidePageTypes.h"
 #include "SaveSystem/BaseSaveObjects.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "MusicSystem/LocalSoundTypes.h"
-#include "GameSection/GameSectionGraph.h"
 #include "Achievements/AchievementTypes.h"
 #include "Styles/ExpressiveTextStyleBase.h"
 #include "UserSettings/ToroUserSettings.h"
@@ -30,7 +28,6 @@ public:
 		SectionName = TEXT("ToroRuntime");
 
 		DefaultTextStyle = FSoftObjectPath(TEXT("/ToroUtilities/Classes/DefaultExprTextStyle.DefaultExprTextStyle"));
-		UDS_Setter = FSoftClassPath(TEXT("/ToroUtilities/Classes/DefaultUDSSetter.DefaultUDSSetter_C"));
 
 		SaveObjects = {
 			{Tag_GlobalSave, UGlobalSaveObjectBase::StaticClass()},
@@ -57,6 +54,9 @@ public:
 		uint8 WordsPerSecond;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UWorld> GameplayMap;
+	
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
 	
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
@@ -76,15 +76,6 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSet<TSoftClassPtr<UToroWidget>> DefaultWidgets;
-	
-	UPROPERTY(Config, EditAnywhere, Category = GameSection)
-		TSoftClassPtr<UUDSSetterObject> UDS_Setter;
-	
-	UPROPERTY(Config, EditAnywhere, Category = GameSection)
-		TSoftObjectPtr<UWorld> GameplayMap;
-
-	UPROPERTY(Config, EditAnywhere, Category = GameSection)
-		TSoftObjectPtr<UGameSectionGraph> SectionGraph;
 
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem)
 		FName DemoVersion;

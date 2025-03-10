@@ -6,6 +6,7 @@
 #include "Inventory/InventoryWidgetBase.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Inventory/InventoryPreview.h"
+#include "Characters/ToroPlayerBase.h"
 #include "PlayerChar/PlayerStatics.h"
 #include "Framework/ToroGameMode.h"
 #include "EnhancedCodeFlow.h"
