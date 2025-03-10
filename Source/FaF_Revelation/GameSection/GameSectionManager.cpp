@@ -21,7 +21,7 @@ void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag S
 	Sequence = Graph->ValidateSequence(Sequence);
 	ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
 	
-	if (UGameSaveObject* Save = GetGameSave(SaveTag))
+	if (UFaFRevSaveObject* Save = GetGameSave(SaveTag))
 	{
 		Save->Sequence = Sequence;
 	}
@@ -30,7 +30,7 @@ void UGameSectionManager::StepSequence(const uint8 InIndex, const FGameplayTag S
 void UGameSectionManager::LoadSequence(const FGameplayTag SaveTag)
 {
 	if (!Graph) return;
-	if (const UGameSaveObject* Save = GetGameSave(SaveTag))
+	if (const UFaFRevSaveObject* Save = GetGameSave(SaveTag))
 	{
 		Sequence = Graph->ValidateSequence(Save->Sequence);
 		ChangeSection(Graph->GetLeafInSequence<UGameSectionNode>(Sequence, true), SaveTag);
@@ -81,7 +81,7 @@ void UGameSectionManager::ChangeSection(UGameSectionNode* NewSection, const FGam
 		if (Section) GameMode->Narrative->ForgetQuest(Section->Quest.LoadSynchronous());
 		GameMode->Narrative->BeginQuest(NewSection->Quest.LoadSynchronous());
 
-		if (UGameSaveObject* Save = GetGameSave(SaveTag))
+		if (UFaFRevSaveObject* Save = GetGameSave(SaveTag))
 		{
 			if (Section)
 			{
@@ -233,7 +233,7 @@ UGlobalSaveObjectBase* UGameSectionManager::GetGlobalSave()
 	return GlobalSave;
 }
 
-UGameSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
+UFaFRevSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 {
 	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != Tag_Saves ? SaveTag : Tag_GameSave;
 	
@@ -241,7 +241,7 @@ UGameSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
 	{
 		LastSaveTag = Tag;
-		GameSave = SaveSystem->GetSaveObject<UGameSaveObject>(Tag);
+		GameSave = SaveSystem->GetSaveObject<UFaFRevSaveObject>(Tag);
 		return GameSave;
 	}
 

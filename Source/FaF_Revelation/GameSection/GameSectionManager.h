@@ -53,7 +53,7 @@ private:
 	UPROPERTY() TObjectPtr<UGameSectionNode> Section;
 	UPROPERTY() TObjectPtr<UUDSSetterObject> UDSSetter;
 	UPROPERTY() TObjectPtr<UGlobalSaveObjectBase> GlobalSave;
-	UPROPERTY() TObjectPtr<UGameSaveObject> GameSave;
+	UPROPERTY() TObjectPtr<UFaFRevSaveObject> GameSave;
 	UPROPERTY() FGameplayTag LastSaveTag;
 
 	void SetWidgetHidden(const bool bInHidden);
@@ -67,7 +67,7 @@ private:
 	void OnEndSequenceFinished();
 
 	UGlobalSaveObjectBase* GetGlobalSave();
-	UGameSaveObject* GetGameSave(const FGameplayTag& SaveTag);
+	UFaFRevSaveObject* GetGameSave(const FGameplayTag& SaveTag);
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

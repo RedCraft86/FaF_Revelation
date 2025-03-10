@@ -6,14 +6,14 @@
 #include "SaveSystem/BaseSaveObjects.h"
 #include "GameSaveObject.generated.h"
 
-UCLASS(DisplayName = "FaF Rev Save")
-class UGameSaveObject final : public UGameSaveObjectBase
+UCLASS()
+class UFaFRevSaveObject final : public UGameSaveObjectBase
 {
 	GENERATED_BODY()
 
 public:
 
-	UGameSaveObject() {}
+	UFaFRevSaveObject() {}
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		TArray<uint8> Sequence;
