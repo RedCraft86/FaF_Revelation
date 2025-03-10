@@ -4,19 +4,19 @@
 
 #include "GeneralInterface.h"
 #include "UserWidgets/ToroWidgetBase.h"
-#include "MainMenu.generated.h"
+#include "MainMenuWidget.generated.h"
 
 class USettingsWidgetBase;
 class UButton;
 
 UCLASS(Abstract)
-class FAF_REVELATION_API UMainMenuBase final : public UToroWidget, public IToroGeneralInterface
+class FAF_REVELATION_API UMainMenuWidgetBase final : public UToroWidget, public IToroGeneralInterface
 {
 	GENERATED_BODY()
 
 public:
 
-	UMainMenuBase(const FObjectInitializer& ObjectInitializer);
+	UMainMenuWidgetBase(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> PlayButton;

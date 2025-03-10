@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "MainMenu.h"
+#include "MainMenuWidget.h"
 #include "EnhancedCodeFlow.h"
 #include "Components/TextBlock.h"
 #include "GeneralProjectSettings.h"
@@ -8,12 +8,12 @@
 #include "Framework/ToroPlayerController.h"
 #include "UserSettings/SettingsWidgetBase.h"
 
-UMainMenuBase::UMainMenuBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+UMainMenuWidgetBase::UMainMenuWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	bGameplayOnly = false;
 }
 
-void UMainMenuBase::OnPlayClicked()
+void UMainMenuWidgetBase::OnPlayClicked()
 {
 	DeactivateWidget();
 	PlayerChar->FadeToBlack(1.0f, true);
@@ -23,7 +23,7 @@ void UMainMenuBase::OnPlayClicked()
 	});
 }
 
-void UMainMenuBase::OnSettingsClicked()
+void UMainMenuWidgetBase::OnSettingsClicked()
 {
 	SettingsWidget->ActivateWidget();
 	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
@@ -31,7 +31,7 @@ void UMainMenuBase::OnSettingsClicked()
 	SetHidden(true);
 }
 
-void UMainMenuBase::OnExtrasClicked()
+void UMainMenuWidgetBase::OnExtrasClicked()
 {
 	DeactivateWidget();
 	PlayerChar->FadeToBlack(1.0f, true);
@@ -41,7 +41,7 @@ void UMainMenuBase::OnExtrasClicked()
 	});
 }
 
-void UMainMenuBase::OnQuitClicked()
+void UMainMenuWidgetBase::OnQuitClicked()
 {
 	DeactivateWidget();
 	PlayerChar->FadeToBlack(1.0f, true);
@@ -51,7 +51,7 @@ void UMainMenuBase::OnQuitClicked()
 	});
 }
 
-void UMainMenuBase::InitWidget()
+void UMainMenuWidgetBase::InitWidget()
 {
 	Super::InitWidget();
 	PlayerChar = AToroPlayerBase::Get(this);
@@ -67,7 +67,7 @@ void UMainMenuBase::InitWidget()
 	}
 }
 
-void UMainMenuBase::Return_Implementation()
+void UMainMenuWidgetBase::Return_Implementation()
 {
 	SetHidden(false);
 	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
