@@ -29,7 +29,7 @@ public:
 		TObjectPtr<UToroAnimatedButtonBase> MainMenuButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> GameVersionText;
+		TObjectPtr<class UTextBlock> GameVersionText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ScreenFadeAnim;
