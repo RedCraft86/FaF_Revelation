@@ -43,6 +43,7 @@ USettingsWidgetBase::USettingsWidgetBase(const FObjectInitializer& ObjectInitial
 {
 	ZOrder = 58;
 	bAutoActivate = false;
+	bGameplayOnly = false;
 }
 
 void USettingsWidgetBase::SetScreenIndex(const uint8 InIndex)

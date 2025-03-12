@@ -65,7 +65,7 @@ void AMainMenuController::BeginPlay()
 		StartupSequence->OnSequenceFinished().BindUObject(this, &ThisClass::StartLoad);
 	}
 
-	if (UGlobalSaveObjectBase* Save = ToroSave::GetObject<UGlobalSaveObjectBase>(this, GTag_GlobalSave))
+	if (const UGlobalSaveObjectBase* Save = ToroSave::GetObject<UGlobalSaveObjectBase>(this, GTag_GlobalSave))
 	{
 		for (auto It = MenuSets.CreateIterator(); It; ++It)
 		{

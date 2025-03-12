@@ -64,6 +64,7 @@ public:
 		: Super(ObjectInitializer), ImageDescHeight(200.0f)
 	{
 		ZOrder = 57;
+		bAutoActivate = false;
 	}
 
 	// Left Panel
