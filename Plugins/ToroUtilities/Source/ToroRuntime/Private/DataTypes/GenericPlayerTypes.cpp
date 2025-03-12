@@ -3,6 +3,7 @@
 #include "DataTypes/GenericPlayerTypes.h"
 
 UE_DEFINE_GAMEPLAY_TAG(Tag_PlayerLock, "PlayerLock");
+UE_DEFINE_GAMEPLAY_TAG(Tag_LockMainMenu, "PlayerLock.MainMenu");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockStartup, "PlayerLock.Startup");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockLoading, "PlayerLock.Loading");
 UE_DEFINE_GAMEPLAY_TAG(Tag_LockCinematic, "PlayerLock.Cinematic");

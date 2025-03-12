@@ -37,6 +37,7 @@ namespace Player
 		static TSet<FName> GetAll()
 		{
 			return {
+				Tag_LockMainMenu.GetTag().GetTagName(),
 				Tag_LockStartup.GetTag().GetTagName(),
 				Tag_LockLoading.GetTag().GetTagName(),
 				Tag_LockCinematic.GetTag().GetTagName(),
@@ -53,6 +54,7 @@ namespace Player
 		static TSet<FName> Immunity()
 		{
 			return {
+				Tag_LockMainMenu.GetTag().GetTagName(),
 				Tag_LockStartup.GetTag().GetTagName(),
 				Tag_LockLoading.GetTag().GetTagName(),
 				Tag_LockCinematic.GetTag().GetTagName(),

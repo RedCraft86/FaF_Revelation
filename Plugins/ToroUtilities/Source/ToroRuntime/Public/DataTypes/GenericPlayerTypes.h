@@ -7,6 +7,7 @@
 #include "GenericPlayerTypes.generated.h"
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_PlayerLock);
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockMainMenu);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockStartup);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockLoading);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockCinematic);
