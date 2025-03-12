@@ -18,7 +18,7 @@ FName GetDemoName()
 
 UToroSaveObject* UToroSaveObject::Create(UToroSaveManager* Owner, const TSubclassOf<UToroSaveObject>& Class, const FGameplayTag& Tag)
 {
-	if (Owner && Class && Tag.IsValid() && Tag != Tag_Saves)
+	if (Owner && Class && VerifySaveTag(Tag))
 	{
 		FString L, Name;
 		Tag.ToString().Split(TEXT("."), &L, &Name, ESearchCase::IgnoreCase, ESearchDir::FromEnd);

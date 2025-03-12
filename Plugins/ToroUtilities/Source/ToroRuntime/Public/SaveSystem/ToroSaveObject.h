@@ -36,7 +36,7 @@ struct TORORUNTIME_API FSaveObjectInfo
 	FSaveObjectInfo() : Slot(0) {}
 	bool IsValidData() const
 	{
-		return Tag.IsValid() && Tag != Tag_Saves && Slot <= 99 && (Class.IsValid() || !Class.IsNull());
+		return VerifySaveTag(Tag) && Slot <= 99 && (Class.IsValid() || !Class.IsNull());
 	}
 };
 
