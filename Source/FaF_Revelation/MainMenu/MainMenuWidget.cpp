@@ -10,6 +10,7 @@
 
 UMainMenuWidgetBase::UMainMenuWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
+	ZOrder = 50;
 	bGameplayOnly = false;
 }
 
