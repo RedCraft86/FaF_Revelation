@@ -220,27 +220,20 @@ void UGameSectionManager::OnEndSequenceFinished()
 UGlobalSaveObjectBase* UGameSectionManager::GetGlobalSave()
 {
 	if (GlobalSave) return GlobalSave;
-	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
-	{
-		GlobalSave = SaveSystem->GetSaveObject<UGlobalSaveObjectBase>(GTag_GlobalSave);
-	}
-
+	GlobalSave = ToroSave::GetObject<UGlobalSaveObjectBase>(this, GTag_GlobalSave);
 	return GlobalSave;
 }
 
 UFaFRevSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 {
-	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != GTag_Saves ? SaveTag : GTag_GameSave;
+	const FGameplayTag Tag = VerifySaveTag(SaveTag) ? SaveTag : GTag_GameSave;
 	
-	if (LastSaveTag == Tag && GameSave) return GameSave;
-	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
-	{
-		LastSaveTag = Tag;
-		GameSave = SaveSystem->GetSaveObject<UFaFRevSaveObject>(Tag);
+	if (LastSaveTag == Tag && GameSave)
 		return GameSave;
-	}
 
-	return nullptr;
+	LastSaveTag = Tag;
+	GameSave = ToroSave::GetObject<UFaFRevSaveObject>(this, Tag);
+	return GameSave;
 }
 
 bool UGameSectionManager::ShouldCreateSubsystem(UObject* Outer) const

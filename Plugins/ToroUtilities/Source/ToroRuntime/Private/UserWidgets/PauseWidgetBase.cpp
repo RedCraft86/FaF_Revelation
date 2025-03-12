@@ -33,12 +33,9 @@ void UPauseWidgetBase::OnSettingsClicked()
 
 void UPauseWidgetBase::OnCheckpointClicked()
 {
-	if (UToroSaveManager* SaveManager = UToroSaveManager::Get(this))
+	if (UGameSaveObjectBase* SaveObject = ToroSave::GetObject<UGameSaveObjectBase>(this, SaveTag))
 	{
-		if (UGameSaveObjectBase* SaveObject = SaveManager->GetSaveObject<UGameSaveObjectBase>(SaveTag))
-		{
-			SaveObject->SaveObject(nullptr);
-		}
+		SaveObject->SaveObject(nullptr);
 	}
 
 	SetHidden(true);
@@ -51,12 +48,9 @@ void UPauseWidgetBase::OnCheckpointClicked()
 
 void UPauseWidgetBase::OnMainMenuClicked()
 {
-	if (UToroSaveManager* SaveManager = UToroSaveManager::Get(this))
+	if (UGameSaveObjectBase* SaveObject = ToroSave::GetObject<UGameSaveObjectBase>(this, SaveTag))
 	{
-		if (UGameSaveObjectBase* SaveObject = SaveManager->GetSaveObject<UGameSaveObjectBase>(SaveTag))
-		{
-			SaveObject->SaveObject(nullptr);
-		}
+		SaveObject->SaveObject(nullptr);
 	}
 
 	SetHidden(true);

@@ -37,15 +37,15 @@ private:
 
 namespace ToroSave
 {
-	inline UToroSaveManager* GetSaveManager(const UObject* WorldContext)
+	inline UToroSaveManager* GetManager(const UObject* WorldContext)
 	{
 		return UToroSaveManager::Get(WorldContext);
 	}
 
 	template <typename T = UToroSaveObject>
-	T* GetSaveObject(const UObject* WorldContext, const FGameplayTag& InTag)
+	T* GetObject(const UObject* WorldContext, const FGameplayTag& InTag)
 	{
-		if (UToroSaveManager* SaveManager = GetSaveManager(WorldContext))
+		if (UToroSaveManager* SaveManager = GetManager(WorldContext))
 		{
 			return SaveManager->GetSaveObject<T>(InTag);
 		}

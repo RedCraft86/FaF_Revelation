@@ -46,11 +46,7 @@ bool UAchievementManager::HasAchievement(const FGameplayTag InTag)
 UGlobalSaveObjectBase* UAchievementManager::GetSaveObject()
 {
 	if (SaveObject) return SaveObject;
-	if (UToroSaveManager* SaveSystem = UToroSaveManager::Get(this))
-	{
-		SaveObject = SaveSystem->GetSaveObject<UGlobalSaveObjectBase>(Tag_GlobalSave);
-	}
-
+	SaveObject = ToroSave::GetObject<UGlobalSaveObjectBase>(this, Tag_GlobalSave);
 	return SaveObject;
 }
 
