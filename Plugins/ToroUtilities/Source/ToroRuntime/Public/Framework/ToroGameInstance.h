@@ -40,6 +40,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = GameInstance)
 		bool IsDeveloperMode() const { return bDeveloperMode; }
 
+	bool FinishedFirstLoads() const { return bFirstLoads; }
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnDevModeChanged, bool);
 	FOnDevModeChanged OnDeveloperMode;
 
