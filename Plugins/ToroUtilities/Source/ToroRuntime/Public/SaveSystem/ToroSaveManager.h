@@ -2,11 +2,12 @@
 
 #pragma once
 
-#include "ToroSaveObject.h"
 #include "ClassGetterHelpers.h"
 #include "GameplayTagContainer.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ToroSaveManager.generated.h"
+
+class UToroSaveObject;
 
 UCLASS(BlueprintType, DisplayName = "Save Manager")
 class TORORUNTIME_API UToroSaveManager : public UGameInstanceSubsystem
@@ -33,3 +34,21 @@ private:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 };
+
+namespace ToroSave
+{
+	inline UToroSaveManager* GetSaveManager(const UObject* WorldContext)
+	{
+		return UToroSaveManager::Get(WorldContext);
+	}
+
+	template <typename T = UToroSaveObject>
+	T* GetSaveObject(const UObject* WorldContext, const FGameplayTag& InTag)
+	{
+		if (UToroSaveManager* SaveManager = GetSaveManager(WorldContext))
+		{
+			return SaveManager->GetSaveObject<T>(InTag);
+		}
+		return nullptr;
+	}
+}
