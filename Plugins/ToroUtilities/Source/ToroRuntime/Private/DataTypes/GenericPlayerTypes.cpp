@@ -19,7 +19,7 @@ FPlayerLockFlag::FPlayerLockFlag(const FName& InLock) : LockTag(Tag_PlayerLock),
 
 bool FPlayerLockFlag::HasValidTag() const
 {
-	return LockTag.IsValid() && LockTag != Tag_PlayerLock;
+	return VerifyPlayerLockTag(LockTag);
 }
 
 #if WITH_EDITOR

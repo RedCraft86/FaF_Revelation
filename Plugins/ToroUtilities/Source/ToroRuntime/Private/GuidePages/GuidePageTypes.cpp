@@ -7,8 +7,7 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_GuidePages, "GuidePages");
 
 bool UGuidePageDatabase::IsKeyValid(const FGameplayTag& Key) const
 {
-	return Key.IsValid() && Key != Tag_GuidePages
-		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
+	return VerifyGuidePageTag(Key) && Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
 bool UGuidePageDatabase::IsValidKey(const FGameplayTag& Key)
@@ -44,7 +43,7 @@ int32 UGuidePageDatabase::GetValidData() const
 	int32 Count = 0;
 	for (const TPair<FGameplayTag, FGuidePageEntry>& Entry : Entries)
 	{
-		if (Entry.Key.IsValid() && Entry.Key != Tag_GuidePages && Entry.Value.IsValidData())
+		if (VerifyGuidePageTag(Entry.Key) && Entry.Value.IsValidData())
 		{
 			Count++;
 		}

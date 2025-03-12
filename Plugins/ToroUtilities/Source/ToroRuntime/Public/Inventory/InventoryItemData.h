@@ -18,6 +18,11 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvKeyID);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvReuseKey);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvJsonData);
 
+inline bool VerifyInvMetaTag(const FGameplayTag& InTag)
+{
+	return InTag.IsValid() && InTag != Tag_InvMeta;
+}
+
 UENUM(BlueprintType)
 enum class EInventoryStackType : uint8
 {

@@ -12,6 +12,11 @@ class AToroMusicManager;
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LocalSounds);
 
+inline bool VerifyLocalSoundTag(const FGameplayTag& InTag)
+{
+	return InTag.IsValid() && InTag != Tag_LocalSounds;
+}
+
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FLocalSoundEntry
 {

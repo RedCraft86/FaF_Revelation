@@ -7,8 +7,7 @@ UE_DEFINE_GAMEPLAY_TAG(Tag_Achievements, "Achievements");
 
 bool UAchievementDatabase::IsKeyValid(const FGameplayTag& Key) const
 {
-	return Key.IsValid() && Key != Tag_Achievements
-		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
+	return VerifyAchievementTag(Key) && Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
 bool UAchievementDatabase::IsValidKey(const FGameplayTag& Key)
@@ -44,7 +43,7 @@ int32 UAchievementDatabase::GetValidData() const
 	int32 Count = 0;
 	for (const TPair<FGameplayTag, FAchievementEntry>& Entry : Entries)
 	{
-		if (Entry.Key.IsValid() && Entry.Key != Tag_Achievements && Entry.Value.IsValidData())
+		if (VerifyAchievementTag(Entry.Key) && Entry.Value.IsValidData())
 		{
 			Count++;
 		}

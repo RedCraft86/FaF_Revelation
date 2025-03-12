@@ -26,8 +26,7 @@ void FLocalSoundEntry::Update()
 
 bool ULocalSoundDatabase::IsKeyValid(const FGameplayTag& Key) const
 {
-	return Key.IsValid() && Key != Tag_LocalSounds
-		&& Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
+	return VerifyLocalSoundTag(Key) && Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
 bool ULocalSoundDatabase::IsValidKey(const FGameplayTag& Key)
@@ -63,7 +62,7 @@ int32 ULocalSoundDatabase::GetValidData() const
 	int32 Count = 0;
 	for (const TPair<FGameplayTag, FLocalSoundEntry>& Entry : Entries)
 	{
-		if (Entry.Key.IsValid() && Entry.Key != Tag_LocalSounds && Entry.Value.IsValidData())
+		if (VerifyLocalSoundTag(Entry.Key) && Entry.Value.IsValidData())
 		{
 			Count++;
 		}

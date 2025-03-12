@@ -9,6 +9,11 @@
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Zone);
 
+inline bool VerifyZoneTag(const FGameplayTag& InTag)
+{
+	return InTag.IsValid() && InTag != Tag_Zone;
+}
+
 UCLASS()
 class TORORUNTIME_API ALevelZoneVolume final : public AToroVolume
 {

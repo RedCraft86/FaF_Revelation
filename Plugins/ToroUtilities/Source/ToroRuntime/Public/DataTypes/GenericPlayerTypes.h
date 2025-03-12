@@ -18,6 +18,11 @@ UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockDevice);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockGuide);
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockQTE);
 
+inline bool VerifyPlayerLockTag(const FGameplayTag& InTag)
+{
+	return InTag.IsValid() && InTag != Tag_PlayerLock;
+}
+
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum EPlayerControlFlags
 {

@@ -9,6 +9,11 @@
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_Achievements);
 
+inline bool VerifyAchievementTag(const FGameplayTag& InTag)
+{
+	return InTag.IsValid() && InTag != Tag_Achievements;
+}
+
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FAchievementEntry
 {

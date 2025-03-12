@@ -9,6 +9,11 @@
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_GuidePages);
 
+inline bool VerifyGuidePageTag(const FGameplayTag& InTag)
+{
+	return InTag.IsValid() && InTag != Tag_GuidePages;
+}
+
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FGuidePageEntry
 {

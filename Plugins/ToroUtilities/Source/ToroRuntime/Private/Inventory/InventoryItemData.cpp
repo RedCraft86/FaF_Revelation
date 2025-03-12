@@ -14,7 +14,7 @@ void FInventoryMetadata::Validate()
 {
 	for (auto It = Metadata.CreateIterator(); It; ++It)
 	{
-		if (!It->Key.IsValid() && It->Key != Tag_InvMeta)
+		if (!VerifyInvMetaTag(It->Key))
 		{
 			It.RemoveCurrent();
 		}
@@ -23,7 +23,7 @@ void FInventoryMetadata::Validate()
 
 void FInventoryMetadata::Remove(const FGameplayTag& InKey)
 {
-	if (InKey.IsValid() && InKey != Tag_InvMeta)
+	if (VerifyInvMetaTag(InKey))
 	{
 		Metadata.Remove(InKey);
 		//Validate();
@@ -32,7 +32,7 @@ void FInventoryMetadata::Remove(const FGameplayTag& InKey)
 
 void FInventoryMetadata::Add(const FGameplayTag& InKey, const FString& InValue)
 {
-	if (InKey.IsValid() && InKey != Tag_InvMeta)
+	if (VerifyInvMetaTag(InKey))
 	{
 		Metadata.Add(InKey, InValue);
 		//Validate();
