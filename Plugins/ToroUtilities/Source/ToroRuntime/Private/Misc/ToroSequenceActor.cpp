@@ -66,3 +66,9 @@ void AToroSequenceActor::UnlockPlayer() const
 		Player->ExitCinematic();
 	}
 }
+
+void AToroSequenceActor::BeginPlay()
+{
+	Super::BeginPlay();
+	OnSequenceFinished().BindUObject(this, &AToroSequenceActor::UnlockPlayer);
+}

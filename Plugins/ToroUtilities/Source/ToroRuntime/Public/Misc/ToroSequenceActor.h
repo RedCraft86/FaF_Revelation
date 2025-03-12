@@ -3,6 +3,7 @@
 #pragma once
 
 #include "LevelSequenceActor.h"
+#include "LevelSequencePlayer.h"
 #include "MovieSceneSequencePlayer.h"
 #include "ToroSequenceActor.generated.h"
 
@@ -39,8 +40,11 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Sequencer|Player")
 		void SetPlaybackPosition(FMovieSceneSequencePlaybackParams InParams) const;
 
+	FOnMovieSceneSequencePlayerNativeEvent& OnSequenceFinished() const { return GetSequencePlayer()->OnNativeFinished; }
+	
 private:
 
 	void LockPlayer();
 	void UnlockPlayer() const;
+	virtual void BeginPlay() override;
 };
