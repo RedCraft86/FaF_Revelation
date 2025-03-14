@@ -4,7 +4,6 @@
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/ExprTextBlock.h"
 #include "Characters/ToroPlayerBase.h"
-#include "PlayerChar/PlayerStatics.h"
 #include "Components/PanelWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
@@ -121,7 +120,7 @@ void UNarrativeWidgetBase::SelectDialogueReply(UDialogueNode_Player* Reply)
 void UNarrativeWidgetBase::OnDialogueBegan(UDialogue* Dialogue)
 {
 	PlayerChar->EnterDialogue();
-	PlayerChar->AddLockFlag(LockFlag(Dialogue));
+	PlayerChar->AddLockFlag(Tag_LockDialogue.GetTag());
 	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
 	{
 		CachedInputMode = Controller->GetInputModeData();
@@ -132,7 +131,7 @@ void UNarrativeWidgetBase::OnDialogueBegan(UDialogue* Dialogue)
 
 void UNarrativeWidgetBase::OnDialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
 {
-	PlayerChar->ClearLockFlag(LockFlag(Dialogue));
+	PlayerChar->ClearLockFlag(Tag_LockDialogue.GetTag());
 	AToroPlayerController::Get(this)->SetInputModeData(CachedInputMode);
 	
 	DialogueReplyBox->ClearChildren();

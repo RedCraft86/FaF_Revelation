@@ -2,35 +2,35 @@
 
 #pragma once
 
-#include "PlayerStatics.h"
+#include "PlayerTypes.h"
 #include "Shakes/LegacyCameraShake.h"
 #include "Characters/ToroPlayerBase.h"
 #include "DataTypes/AdvancedFloatTypes.h"
 #include "Interaction/InteractionComponent.h"
-#include "ToroFirstPersonPlayer.generated.h"
+#include "GamePlayerBase.generated.h"
 
 UCLASS(DisplayName = "First Person Walk")
-class TORORUNTIME_API UToroFPWalkShake : public ULegacyCameraShake
+class FAF_REVELATION_API UToroFPWalkShake : public ULegacyCameraShake
 {
 	GENERATED_BODY()
 	UToroFPWalkShake();
 };
 
 UCLASS(DisplayName = "First Person Run")
-class TORORUNTIME_API UToroFPRunShake : public ULegacyCameraShake
+class FAF_REVELATION_API UToroFPRunShake : public ULegacyCameraShake
 {
 	GENERATED_BODY()
 	UToroFPRunShake();
 };
 
 UCLASS(Abstract)
-class TORORUNTIME_API AToroFirstPersonPlayer : public AToroPlayerBase
+class FAF_REVELATION_API AGamePlayerBase : public AToroPlayerBase
 {
 	GENERATED_BODY()
 
 public:
 	
-	AToroFirstPersonPlayer();
+	AGamePlayerBase();
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class USpringArmComponent> CameraArm;

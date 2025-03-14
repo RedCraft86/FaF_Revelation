@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "FaF_Revelation.h"
 #include "Modules/ModuleManager.h"

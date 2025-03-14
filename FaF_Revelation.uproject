@@ -8,6 +8,11 @@
 			"Name": "FaF_Revelation",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "FaF_RevelationEditor",
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [

@@ -4,6 +4,8 @@
 
 #include "ToroActor.h"
 #include "ToroVolume.h"
+#include "Characters/ToroCharacterBase.h"
+
 #include "DetailsHelpers.h"
 #include "DetailLayoutBuilder.h"
 #include "DetailCategoryBuilder.h"

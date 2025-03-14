@@ -2,9 +2,7 @@
 
 #pragma once
 
-#include "FootstepTypes.h"
 #include "ToroNativeTags.h"
-#include "NativeGameplayTags.h"
 #include "GenericPlayerTypes.generated.h"
 
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
@@ -27,7 +25,7 @@ enum EPlayerControlFlags
 ENUM_CLASS_FLAGS(EPlayerControlFlags);
 ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerControlFlags, PCF_Locked, PCF_CanHide);
 #define DEFAULT_PLAYER_CONTROL_FLAGS PCF_UseStamina | PCF_CanPause | PCF_CanTurn \
-	| PCF_CanMove | PCF_CanRun | PCF_CanCrouch | PCF_CanLean | PCF_CanInteract | PCF_CanHide
+| PCF_CanMove | PCF_CanRun | PCF_CanCrouch | PCF_CanLean | PCF_CanInteract | PCF_CanHide
 
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum EPlayerStateFlags
@@ -40,14 +38,6 @@ enum EPlayerStateFlags
 	PSF_Tasking		= 1 << 4	UMETA(DisplayName = "Doing Tasks")
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
-
-UENUM(BlueprintType)
-enum class EPlayerLeanState : uint8
-{
-	None,
-	Left,
-	Right
-};
 
 USTRUCT(BlueprintType)
 struct TORORUNTIME_API FPlayerLockFlag
@@ -79,56 +69,4 @@ struct TORORUNTIME_API FPlayerLockFlag
 #if WITH_EDITOR
 	FORCEINLINE void ResetTag() { LockTag = GAMEPLAY_TAG(PlayerLock); }
 #endif
-};
-
-USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FPlayerCameraShakes
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, Category = CameraShake)
-		TSubclassOf<UCameraShakeBase> WalkShake;
-
-	UPROPERTY(EditAnywhere, Category = CameraShake, meta = (EditCondition = "WalkShake != nullptr"))
-		float WalkScale;
-
-	UPROPERTY(EditAnywhere, Category = CameraShake)
-		TSubclassOf<UCameraShakeBase> RunShake;
-
-	UPROPERTY(EditAnywhere, Category = CameraShake, meta = (EditCondition = "RunShake != nullptr"))
-		float RunScale;
-
-	FPlayerCameraShakes() : WalkScale(1.0f), RunScale(0.75f) {}
-};
-
-USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FPlayerFootsteps
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, Category = PlayerFootsteps, meta = (ClampMin = 0.1f, UIMin = 0.1f))
-		float Volume;
-
-	UPROPERTY(EditAnywhere, Category = PlayerFootsteps)
-		TEnumAsByte<ECollisionChannel> FloorTrace;
-
-	UPROPERTY(EditAnywhere, Category = PlayerFootsteps)
-		FVector Intervals;
-
-	UPROPERTY(EditAnywhere, Category = PlayerFootsteps, meta = (DisplayThumbnail = false))
-		TObjectPtr<UFootstepDatabase> Sounds;
-
-	FPlayerFootsteps()
-		: Volume(1.0f), FloorTrace(ECC_Visibility), Intervals(0.5f, 0.35f, 0.6f)
-	{}
-
-	float GetInterval(const bool bRun, const bool bCrouch) const
-	{
-		return bRun ? Intervals.Y : bCrouch ? Intervals.Z : Intervals.X;
-	}
-
-	USoundBase* GetAudio(const EPhysicalSurface Surface, const bool bRun, const bool bCrouch) const
-	{
-		return Sounds->GetSound(Surface, bRun, bCrouch);
-	}
 };

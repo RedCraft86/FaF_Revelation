@@ -6,11 +6,11 @@
 #include "LightingData.h"
 #include "Kismet/GameplayStatics.h"
 #include "Framework/ToroGameMode.h"
+#include "DataTypes/GenericPlayerTypes.h"
 #include "Components/AudioComponent.h"
 #include "Framework/ToroGameInstance.h"
 #include "Characters/ToroCharacterBase.h"
 #include "Components/PointLightComponent.h"
-#include "DataTypes/GenericPlayerTypes.h"
 #include "ToroPlayerBase.generated.h"
 
 class AToroNPCBase;

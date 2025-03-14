@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 // ReSharper disable CppMemberFunctionMayBeConst
-#include "PlayerChar/ToroFirstPersonPlayer.h"
+#include "GamePlayerBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Framework/ToroPlayerController.h"
@@ -10,8 +10,8 @@
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/GameWidgetBase.h"
 #include "Camera/CameraComponent.h"
-#include "ToroMathLibrary.h"
 #include "GeneralInterface.h"
+#include "ToroMathLibrary.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
@@ -58,7 +58,7 @@ UToroFPRunShake::UToroFPRunShake()
 	LocOscillation.Z.Frequency = 17.0f;
 }
 
-AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), InteractTrace(ECC_Visibility)
+AGamePlayerBase::AGamePlayerBase() : ReachDistance(250.0f), InteractTrace(ECC_Visibility)
 	, FieldOfView(90.0f), FieldOfViewSpeed(5.0f), LockOnSpeed(5.0f), Sensitivity(1.0f)
 	, SensitivityMulti(1.0f), LeanOffsets(75.0f, 25.0f), LeanSpeed(7.5f), SideTrace(ECC_Visibility)
 	, SideTraceLength(125.0f), MoveSpeedMulti(1.0f), WalkingSpeed(300.0f), SwayOffsets(2.5f, 1.5f)
@@ -85,7 +85,7 @@ AToroFirstPersonPlayer::AToroFirstPersonPlayer() : ReachDistance(250.0f), Intera
 	CameraShakes.RunShake = UToroFPRunShake::StaticClass();
 }
 
-void AToroFirstPersonPlayer::ResetStates()
+void AGamePlayerBase::ResetStates()
 {
 	ClearEnemyStack();
 	SetWorldDevice(nullptr);
@@ -124,7 +124,7 @@ void AToroFirstPersonPlayer::ResetStates()
 	CurrentStamina = MaxStamina;
 }
 
-void AToroFirstPersonPlayer::SetRunState(const bool bInState)
+void AGamePlayerBase::SetRunState(const bool bInState)
 {
 	if (bool bRunning = HasRunFlag(); bRunning != bInState)
 	{
@@ -146,7 +146,7 @@ void AToroFirstPersonPlayer::SetRunState(const bool bInState)
 	}
 }
 
-void AToroFirstPersonPlayer::SetCrouchState(const bool bInState)
+void AGamePlayerBase::SetCrouchState(const bool bInState)
 {
 	if (bool bCrouching = IsCrouching(); bCrouching != bInState)
 	{
@@ -171,7 +171,7 @@ void AToroFirstPersonPlayer::SetCrouchState(const bool bInState)
 	}
 }
 
-void AToroFirstPersonPlayer::SetLeanState(const EPlayerLeanState InState)
+void AGamePlayerBase::SetLeanState(const EPlayerLeanState InState)
 {
 	if (LeanState == InState) return;
 	if (InState == EPlayerLeanState::None)
@@ -192,54 +192,54 @@ void AToroFirstPersonPlayer::SetLeanState(const EPlayerLeanState InState)
 	}
 }
 
-void AToroFirstPersonPlayer::SetStaminaPercent(const float InStamina)
+void AGamePlayerBase::SetStaminaPercent(const float InStamina)
 {
 	CurrentStamina = FMath::Lerp(0, MaxStamina, FMath::Clamp(InStamina, 0.0f, 1.0f));
 }
 
-void AToroFirstPersonPlayer::SetLockOnTarget(const USceneComponent* InComponent)
+void AGamePlayerBase::SetLockOnTarget(const USceneComponent* InComponent)
 {
 	if (InComponent) LockOnTarget = InComponent;
 	else LockOnTarget = nullptr;
 }
 
-void AToroFirstPersonPlayer::SetHidingSpot(UObject* InObject)
+void AGamePlayerBase::SetHidingSpot(UObject* InObject)
 {
 	HidingSpot = InObject;
 	if (WorldDevice) LockFlags.Add(LockFlag(Hiding));
 	else LockFlags.Remove(LockFlag(Hiding));
 }
 
-void AToroFirstPersonPlayer::ForceExitHiding() const
+void AGamePlayerBase::ForceExitHiding() const
 {
 	IToroGeneralInterface::Exit(HidingSpot);
 }
 
-void AToroFirstPersonPlayer::SetWorldDevice(UObject* InObject)
+void AGamePlayerBase::SetWorldDevice(UObject* InObject)
 {
 	WorldDevice = InObject;
 	if (WorldDevice) LockFlags.Add(LockFlag(Device));
 	else LockFlags.Remove(LockFlag(Device));
 }
 
-void AToroFirstPersonPlayer::ForceExitWorldDevice() const
+void AGamePlayerBase::ForceExitWorldDevice() const
 {
 	IToroGeneralInterface::Exit(WorldDevice);
 }
 
-void AToroFirstPersonPlayer::SetTaskDevice(UObject* InObject)
+void AGamePlayerBase::SetTaskDevice(UObject* InObject)
 {
 	TaskDevice = InObject;
 	if (TaskDevice) SetStateFlag(PSF_Tasking);
 	else UnsetStateFlag(PSF_Tasking);
 }
 
-void AToroFirstPersonPlayer::ForceExitTaskDevice() const
+void AGamePlayerBase::ForceExitTaskDevice() const
 {
 	IToroGeneralInterface::Exit(TaskDevice);
 }
 
-bool AToroFirstPersonPlayer::TryJumpscare()
+bool AGamePlayerBase::TryJumpscare()
 {
 	if (ControlFlags & PCF_Locked || GameInstance->IsDeveloperMode()) return false;
 	const TSet<FName> ImmunityFlags = Player::LockFlags::Immunity();
@@ -248,7 +248,7 @@ bool AToroFirstPersonPlayer::TryJumpscare()
 		if (ImmunityFlags.Contains(Flag)) return false;
 	}
 
-	AddLockFlag(Tag_LockJumpscare.GetTag());
+	AddLockFlag(LockFlag(Jumpscare));
 	
 	ForceExitWorldDevice();
 	if (LockFlags.Contains(LockFlag(Inventory)))
@@ -259,14 +259,14 @@ bool AToroFirstPersonPlayer::TryJumpscare()
 	return true;
 }
 
-void AToroFirstPersonPlayer::EnterDialogue()
+void AGamePlayerBase::EnterDialogue()
 {
 	SetRunState(false);
 	SetCrouchState(false);
 	SetLeanState(EPlayerLeanState::None);
 }
 
-void AToroFirstPersonPlayer::SetControlFlag(const EPlayerControlFlags InFlag)
+void AGamePlayerBase::SetControlFlag(const EPlayerControlFlags InFlag)
 {
 	if (InFlag == PCF_None) return;
 	if (!HasControlFlag(InFlag))
@@ -280,7 +280,7 @@ void AToroFirstPersonPlayer::SetControlFlag(const EPlayerControlFlags InFlag)
 	}
 }
 
-void AToroFirstPersonPlayer::UnsetControlFlag(const EPlayerControlFlags InFlag)
+void AGamePlayerBase::UnsetControlFlag(const EPlayerControlFlags InFlag)
 {
 	if (InFlag == PCF_None) return;
 	if (HasControlFlag(InFlag))
@@ -297,7 +297,7 @@ void AToroFirstPersonPlayer::UnsetControlFlag(const EPlayerControlFlags InFlag)
 	}
 }
 
-void AToroFirstPersonPlayer::TeleportPlayer(const FVector& InLocation, const FRotator& InRotation)
+void AGamePlayerBase::TeleportPlayer(const FVector& InLocation, const FRotator& InRotation)
 {
 	PlayerController->PlayerCameraManager->SetGameCameraCutThisFrame();
 	SetActorLocation(InLocation, false, nullptr, ETeleportType::ResetPhysics);
@@ -309,26 +309,26 @@ void AToroFirstPersonPlayer::TeleportPlayer(const FVector& InLocation, const FRo
 	CameraArm->bEnableCameraRotationLag = bSmooth;
 }
 
-void AToroFirstPersonPlayer::SetActorHiddenInGame(bool bNewHidden)
+void AGamePlayerBase::SetActorHiddenInGame(bool bNewHidden)
 {
 	Super::SetActorHiddenInGame(bNewHidden);
 	EquipmentRoot->SetHiddenInGame(bNewHidden, true);
 }
 
-bool AToroFirstPersonPlayer::GetLookTarget_Implementation(FVector& Location)
+bool AGamePlayerBase::GetLookTarget_Implementation(FVector& Location)
 {
 	Location = LockOnTarget ? LockOnTarget->GetComponentLocation() : FVector::ZeroVector;
 	return IsValid(LockOnTarget);
 }
 
-void AToroFirstPersonPlayer::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle)
+void AGamePlayerBase::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle)
 {
 	Location = PlayerCamera->GetComponentLocation();
 	Forward = PlayerCamera->GetForwardVector();
 	Angle = PlayerCamera->FieldOfView;
 }
 
-void AToroFirstPersonPlayer::TickStamina()
+void AGamePlayerBase::TickStamina()
 {
 	StaminaDelta = IsRunning() ? -StaminaDrainRate.Evaluate() : StaminaGainRate.Evaluate();
 	CurrentStamina = FMath::Clamp(StaminaDelta + CurrentStamina, 0.0f, MaxStamina);
@@ -343,7 +343,7 @@ void AToroFirstPersonPlayer::TickStamina()
 	}
 }
 
-void AToroFirstPersonPlayer::TickFootstep()
+void AGamePlayerBase::TickFootstep()
 {
 	FVector Start, End;
 	UToroMathLibrary::GetComponentLineTraceVectors(FootstepAudio,
@@ -368,7 +368,7 @@ void AToroFirstPersonPlayer::TickFootstep()
 	FootstepTimer.Invalidate();
 }
 
-void AToroFirstPersonPlayer::LeanWallDetect()
+void AGamePlayerBase::LeanWallDetect()
 {
 	if (LeanState == EPlayerLeanState::None)
 	{
@@ -380,7 +380,7 @@ void AToroFirstPersonPlayer::LeanWallDetect()
 	}
 }
 
-bool AToroFirstPersonPlayer::IsStandingBlocked() const
+bool AGamePlayerBase::IsStandingBlocked() const
 {
 	FVector Start, End;
 	UToroMathLibrary::GetActorLineTraceVectors(this, EVectorDirection::Up,
@@ -391,7 +391,7 @@ bool AToroFirstPersonPlayer::IsStandingBlocked() const
 		CeilingTrace, FCollisionShape::MakeSphere(10.0f), TRACE_PARAMS);
 }
 
-bool AToroFirstPersonPlayer::IsLeaningBlocked(const float Direction) const
+bool AGamePlayerBase::IsLeaningBlocked(const float Direction) const
 {
 	if (FMath::IsNearlyZero(Direction)) return false;
 
@@ -407,7 +407,7 @@ bool AToroFirstPersonPlayer::IsLeaningBlocked(const float Direction) const
 		SideTrace, FCollisionShape::MakeSphere(10.0f), TRACE_PARAMS);
 }
 
-UGameWidgetBase* AToroFirstPersonPlayer::GetGameWidget()
+UGameWidgetBase* AGamePlayerBase::GetGameWidget()
 {
 	if (GameWidget) return GameWidget;
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
@@ -417,7 +417,7 @@ UGameWidgetBase* AToroFirstPersonPlayer::GetGameWidget()
 	return GameWidget;
 }
 
-void AToroFirstPersonPlayer::OnSettingsChange(const UToroUserSettings* InSettings)
+void AGamePlayerBase::OnSettingsChange(const UToroUserSettings* InSettings)
 {
 	if (InSettings)
 	{
@@ -432,12 +432,12 @@ void AToroFirstPersonPlayer::OnSettingsChange(const UToroUserSettings* InSetting
 	}
 }
 
-void AToroFirstPersonPlayer::OnEnemyStackChanged()
+void AGamePlayerBase::OnEnemyStackChanged()
 {
 	Super::OnEnemyStackChanged();
 }
 
-void AToroFirstPersonPlayer::SlowTick()
+void AGamePlayerBase::SlowTick()
 {
 	if (IsRunning() && IsMoving())
 	{
@@ -455,7 +455,7 @@ void AToroFirstPersonPlayer::SlowTick()
 	GetCharacterMovement()->MaxWalkSpeed = MoveSpeedTarget * MoveSpeedMulti.Evaluate();
 }
 
-void AToroFirstPersonPlayer::BeginPlay()
+void AGamePlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -490,7 +490,7 @@ void AToroFirstPersonPlayer::BeginPlay()
 	LockFlags.Remove(LockFlag(Startup));
 }
 
-void AToroFirstPersonPlayer::Tick(float DeltaTime)
+void AGamePlayerBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -558,7 +558,7 @@ void AToroFirstPersonPlayer::Tick(float DeltaTime)
 	}
 }
 
-void AToroFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AGamePlayerBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	if (UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent))
@@ -567,7 +567,7 @@ void AToroFirstPersonPlayer::SetupPlayerInputComponent(UInputComponent* PlayerIn
 	}
 }
 
-void AToroFirstPersonPlayer::OnConstruction(const FTransform& Transform)
+void AGamePlayerBase::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 #if WITH_EDITOR
@@ -591,7 +591,7 @@ void AToroFirstPersonPlayer::OnConstruction(const FTransform& Transform)
 #endif
 }
 
-void AToroFirstPersonPlayer::InputBinding_Pause(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Pause(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
@@ -618,7 +618,7 @@ void AToroFirstPersonPlayer::InputBinding_Pause(const FInputActionValue& InValue
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_Turn(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Turn(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT && HasControlFlag(PCF_CanTurn) && !IsValid(LockOnTarget))
 	{
@@ -635,7 +635,7 @@ void AToroFirstPersonPlayer::InputBinding_Turn(const FInputActionValue& InValue)
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_Move(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Move(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT && HasControlFlag(PCF_CanMove))
 	{
@@ -657,7 +657,7 @@ void AToroFirstPersonPlayer::InputBinding_Move(const FInputActionValue& InValue)
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_Run(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Run(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
@@ -665,7 +665,7 @@ void AToroFirstPersonPlayer::InputBinding_Run(const FInputActionValue& InValue)
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_Crouch(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Crouch(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
@@ -680,7 +680,7 @@ void AToroFirstPersonPlayer::InputBinding_Crouch(const FInputActionValue& InValu
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_Lean(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Lean(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT && !IsValid(LockOnTarget))
 	{
@@ -700,7 +700,7 @@ void AToroFirstPersonPlayer::InputBinding_Lean(const FInputActionValue& InValue)
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_Inventory(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Inventory(const FInputActionValue& InValue)
 {
 	if (LockFlags.Contains(LockFlag(Guide))) return;
 	if (LockFlags.Contains(LockFlag(Inventory)))
@@ -713,7 +713,7 @@ void AToroFirstPersonPlayer::InputBinding_Inventory(const FInputActionValue& InV
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_HideQuests(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_HideQuests(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
@@ -724,12 +724,12 @@ void AToroFirstPersonPlayer::InputBinding_HideQuests(const FInputActionValue& In
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_Interact(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Interact(const FInputActionValue& InValue)
 {
 	Interaction->SetInteracting(CAN_INPUT && HasControlFlag(PCF_CanInteract) && InValue.Get<bool>());
 }
 
-void AToroFirstPersonPlayer::InputBinding_Equipment(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_Equipment(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
@@ -737,7 +737,7 @@ void AToroFirstPersonPlayer::InputBinding_Equipment(const FInputActionValue& InV
 	}
 }
 
-void AToroFirstPersonPlayer::InputBinding_EquipmentAlt(const FInputActionValue& InValue)
+void AGamePlayerBase::InputBinding_EquipmentAlt(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{

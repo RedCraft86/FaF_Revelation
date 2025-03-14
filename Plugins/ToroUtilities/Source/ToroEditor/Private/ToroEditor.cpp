@@ -27,9 +27,6 @@
 #include "DetailsCustomization/ToroActorDetails.h"
 #include "DetailsCustomization/LevelZoneVolumeDetails.h"
 #include "DetailsCustomization/ElectricLightDetails.h"
-#include "DetailsCustomization/PlayerFirstPersonDetails.h"
-#include "DetailsCustomization/PlayerSideScrollerDetails.h"
-#include "DetailsCustomization/PlayerThirdPersonDetails.h"
 
 #include "DetailsCustomization/InventoryItemDetails.h"
 
@@ -39,8 +36,7 @@
 #include "DetailsCustomization/ElectricLightAnimDetails.h"
 #include "DetailsCustomization/LocalSoundEntryDetails.h"
 #include "DetailsCustomization/InventoryMetadataDetails.h"
-#include "DetailsCustomization/LockPlayerDetails.h"
-#include "DetailsCustomization/FootstepPlayerDetails.h"
+#include "DetailsCustomization/PlayerLockDetails.h"
 
 #include "DetailsCustomization/PropertyMetadataDetails.h"
 #include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
@@ -101,9 +97,6 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AToroFirstPersonPlayer, FFirstPersonPlayerCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AToroThirdPersonPlayer, FThirdPersonPlayerCustomization)
-		REGISTER_CLASS_CUSTOMIZATION(AToroSideScrollerPlayer, FSideScrollerPlayerCustomization)
 		
 		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
 		
@@ -116,7 +109,6 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry, FLocalSoundEntryCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata, FInventoryMetadataCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag, FPlayerLockCustomization)
-		REGISTER_STRUCT_CUSTOMIZATION(FPlayerFootsteps, FPlayerFootstepCustomization)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
@@ -165,9 +157,6 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricLightBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricActorBase)
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroFirstPersonPlayer)
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroThirdPersonPlayer)
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroSideScrollerPlayer)
 		
 		UNREGISTER_CLASS_CUSTOMIZATION(UInventoryItemData)
 		
@@ -180,7 +169,6 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag)
-		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerFootsteps)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		

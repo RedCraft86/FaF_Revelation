@@ -4,16 +4,16 @@
 
 #include "IDetailGroup.h"
 #include "DetailsCustomization/ToroActorDetails.h"
-#include "PlayerChar/ToroFirstPersonPlayer.h"
+#include "FaF_Revelation/PlayerChar/GamePlayerBase.h"
 
-#define CLASSNAME AToroFirstPersonPlayer
-class TOROEDITOR_API FFirstPersonPlayerCustomization final : public FToroActorCustomization
+#define CLASSNAME AGamePlayerBase
+class FPlayerDetailsCustomization final : public FToroActorCustomization
 {
 public:
 
 	static TSharedRef<IDetailCustomization> MakeInstance()
 	{
-		return MakeShared<FFirstPersonPlayerCustomization>();
+		return MakeShared<FPlayerDetailsCustomization>();
 	}
 
 private:

@@ -7,7 +7,6 @@
 #include "Framework/ToroWidgetManager.h"
 #include "Inventory/InventoryPreview.h"
 #include "Characters/ToroPlayerBase.h"
-#include "PlayerChar/PlayerStatics.h"
 #include "Framework/ToroGameMode.h"
 #include "EnhancedCodeFlow.h"
 #include "EngineUtils.h"
@@ -482,7 +481,7 @@ void UInventoryComponent::OpenUI()
 	if (bInInventory) return;
 	if (UInventoryWidgetBase* Widget = GetWidget())
 	{
-		PlayerChar->AddLockFlag(LockFlag(Inventory));
+		PlayerChar->AddLockFlag(Tag_LockInventory.GetTag());
 		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
 			EMouseLockMode::LockAlways, false, Widget);
 
@@ -507,7 +506,7 @@ void UInventoryComponent::CloseUI()
 	if (!bInInventory) return;
 	if (UInventoryWidgetBase* Widget = GetWidget())
 	{
-		PlayerChar->ClearLockFlag(LockFlag(Inventory));
+		PlayerChar->ClearLockFlag(Tag_LockInventory.GetTag());
 		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameOnly);
 		PlayerChar->GetPlayerController()->SetPause(false);
 

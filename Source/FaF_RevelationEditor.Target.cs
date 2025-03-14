@@ -10,6 +10,6 @@ public class FaF_RevelationEditorTarget : TargetRules
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_5;
-		ExtraModuleNames.Add("FaF_Revelation");
+		ExtraModuleNames.AddRange(new[] { "FaF_Revelation", "FaF_RevelationEditor" });
 	}
 }

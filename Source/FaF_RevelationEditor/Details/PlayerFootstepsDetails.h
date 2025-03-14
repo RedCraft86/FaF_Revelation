@@ -3,9 +3,10 @@
 // ReSharper disable CppPassValueParameterByConstReference
 #pragma once
 
+#include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
 #include "DetailsCustomization/DetailsHelpers.h"
-#include "DataTypes/GenericPlayerTypes.h"
+#include "FaF_Revelation/PlayerChar/PlayerTypes.h"
 
 #define STRUCTNAME FPlayerFootsteps
 class FPlayerFootstepCustomization final : public IPropertyTypeCustomization
