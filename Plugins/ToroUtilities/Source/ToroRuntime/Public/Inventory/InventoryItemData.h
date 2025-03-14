@@ -3,25 +3,12 @@
 #pragma once
 
 #include "PrimitiveData.h"
+#include "ToroNativeTags.h"
 #include "Engine/DataAsset.h"
-#include "NativeGameplayTags.h"
 #include "GameplayTagContainer.h"
 #include "InventoryItemAttributes.h"
 #include "StructUtils/InstancedStruct.h"
 #include "InventoryItemData.generated.h"
-
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvMeta);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvNameID);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvDescID);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvMeshID);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvKeyID);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvReuseKey);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_InvJsonData);
-
-inline bool VerifyInvMetaTag(const FGameplayTag& InTag)
-{
-	return InTag.IsValid() && InTag != Tag_InvMeta;
-}
 
 UENUM(BlueprintType)
 enum class EInventoryStackType : uint8

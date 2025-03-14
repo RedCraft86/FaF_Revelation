@@ -226,7 +226,7 @@ UGlobalSaveObjectBase* UGameSectionManager::GetGlobalSave()
 
 UFaFRevSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 {
-	const FGameplayTag Tag = VerifySaveTag(SaveTag) ? SaveTag : GTag_GameSave;
+	const FGameplayTag Tag = SaveTag.IsValid() && SaveTag != GAMEPLAY_TAG(Saves) ? SaveTag : GTag_GameSave;
 	
 	if (LastSaveTag == Tag && GameSave)
 		return GameSave;

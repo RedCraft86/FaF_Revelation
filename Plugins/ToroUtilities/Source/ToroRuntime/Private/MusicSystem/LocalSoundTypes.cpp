@@ -8,8 +8,6 @@
 
 #define GET_ONE_SHOT(Key) const FLocalSoundEntry SoundData = ULocalSoundDatabase::Get(Key)
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_LocalSounds, "LocalSounds");
-
 #if WITH_EDITOR
 void FLocalSoundEntry::Update()
 {

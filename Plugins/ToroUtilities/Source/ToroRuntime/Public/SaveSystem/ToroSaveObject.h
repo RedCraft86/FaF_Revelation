@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "SaveTags.h"
+#include "ToroNativeTags.h"
 #include "GameplayTagContainer.h"
 #include "ToroSaveObject.generated.h"
 

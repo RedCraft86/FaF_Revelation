@@ -3,26 +3,9 @@
 #pragma once
 
 #include "FootstepTypes.h"
+#include "ToroNativeTags.h"
 #include "NativeGameplayTags.h"
 #include "GenericPlayerTypes.generated.h"
-
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_PlayerLock);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockMainMenu);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockStartup);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockLoading);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockCinematic);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockDialogue);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockJumpscare);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockInventory);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockHiding);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockDevice);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockGuide);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_LockQTE);
-
-inline bool VerifyPlayerLockTag(const FGameplayTag& InTag)
-{
-	return InTag.IsValid() && InTag != Tag_PlayerLock;
-}
 
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum EPlayerControlFlags
@@ -77,8 +60,8 @@ struct TORORUNTIME_API FPlayerLockFlag
 	UPROPERTY(EditAnywhere, Category = PlayerLock)
 		FName LockKey;
 
-	FPlayerLockFlag();
-	FPlayerLockFlag(const FName& InLock);
+	FPlayerLockFlag() : LockTag(Tag_PlayerLock), LockKey(NAME_None) {}
+	FPlayerLockFlag(const FName& InLock) : LockTag(Tag_PlayerLock), LockKey(InLock) {}
 	FPlayerLockFlag(const FGameplayTag& InLock) : LockTag(InLock), LockKey(NAME_None) {}
 	FORCEINLINE friend bool operator==(const FPlayerLockFlag& A, const FPlayerLockFlag& B) { return A.Get() == B.Get(); }
 	FORCEINLINE friend bool operator!=(const FPlayerLockFlag& A, const FPlayerLockFlag& B) { return !(A == B); }
@@ -88,13 +71,13 @@ struct TORORUNTIME_API FPlayerLockFlag
 		return GetTypeHash(InLock.Get());
 	}
 
-	FORCEINLINE bool HasValidTag() const;
+	FORCEINLINE bool HasValidTag() const { return LockTag.IsValid() && LockTag != GAMEPLAY_TAG(PlayerLock); }
 	FORCEINLINE FName Get() const { return HasValidTag() ? LockTag.GetTagName() : LockKey; }
 	FORCEINLINE FString ToString() const { return Get().ToString(); }
 	FORCEINLINE bool IsValidFlag() const { return !Get().IsNone(); }
 
 #if WITH_EDITOR
-	FORCEINLINE void ResetTag();
+	FORCEINLINE void ResetTag() { LockTag = GAMEPLAY_TAG(PlayerLock); }
 #endif
 };
 

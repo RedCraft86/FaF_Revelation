@@ -3,8 +3,6 @@
 #include "Achievements/AchievementTypes.h"
 #include "ToroRuntimeSettings.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_Achievements, "Achievements");
-
 bool UAchievementDatabase::IsKeyValid(const FGameplayTag& Key) const
 {
 	return VerifyAchievementTag(Key) && Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();

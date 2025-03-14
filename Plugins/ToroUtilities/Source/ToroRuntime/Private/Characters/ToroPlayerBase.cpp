@@ -4,8 +4,6 @@
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroPlayerController.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_Player, "Characters.Player");
-
 AToroPlayerBase::AToroPlayerBase()
 	: SlowTickInterval(0.1f), ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS)
 	, LockFlags({Tag_LockStartup.GetTag().GetTagName()})

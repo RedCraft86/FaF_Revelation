@@ -2,14 +2,6 @@
 
 #include "Inventory/InventoryItemData.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_InvMeta,		"InventoryMeta");
-UE_DEFINE_GAMEPLAY_TAG(Tag_InvNameID,	"InventoryMeta.NameID");
-UE_DEFINE_GAMEPLAY_TAG(Tag_InvDescID,	"InventoryMeta.DescID");
-UE_DEFINE_GAMEPLAY_TAG(Tag_InvMeshID,	"InventoryMeta.MeshID");
-UE_DEFINE_GAMEPLAY_TAG(Tag_InvKeyID,	"InventoryMeta.KeyID");
-UE_DEFINE_GAMEPLAY_TAG(Tag_InvReuseKey, "InventoryMeta.ReusableKey");
-UE_DEFINE_GAMEPLAY_TAG(Tag_InvJsonData,	"InventoryMeta.JsonData");
-
 void FInventoryMetadata::Validate()
 {
 	for (auto It = Metadata.CreateIterator(); It; ++It)

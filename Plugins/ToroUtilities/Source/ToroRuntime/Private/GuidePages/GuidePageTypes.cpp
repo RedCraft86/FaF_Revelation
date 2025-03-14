@@ -3,8 +3,6 @@
 #include "GuidePages/GuidePageTypes.h"
 #include "ToroRuntimeSettings.h"
 
-UE_DEFINE_GAMEPLAY_TAG(Tag_GuidePages, "GuidePages");
-
 bool UGuidePageDatabase::IsKeyValid(const FGameplayTag& Key) const
 {
 	return VerifyGuidePageTag(Key) && Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
