@@ -363,13 +363,6 @@ void UToroUserSettings::ApplyLumen() const
 
 void UToroUserSettings::ReapplySettings()
 {
-	ApplyImageFidelityMode();
-	ApplyColorBlindSettings();
-	ApplyDynamicVibrance();
-	ApplyAudioSettings();
-	ApplyMotionBlur();
-	ApplyLumen();
-	ApplyNIS();
 
 #if WITH_EDITOR
 	if (FApp::IsGame())
@@ -378,6 +371,14 @@ void UToroUserSettings::ReapplySettings()
 		if (GEngine) GEngine->DisplayGamma = GetGamma();
 		SET_CONSOLE_VAR(r.SSFS, ScreenSpaceFogScattering);
 		OnDynamicSettingsChanged.Broadcast(this);
+
+		ApplyImageFidelityMode();
+		ApplyColorBlindSettings();
+		ApplyDynamicVibrance();
+		ApplyAudioSettings();
+		ApplyMotionBlur();
+		ApplyLumen();
+		ApplyNIS();
 
 		ApplyNonResolutionSettings();
 	}
