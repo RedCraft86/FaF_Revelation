@@ -280,11 +280,11 @@ void USettingsWidgetBase::InitWidget()
 
 	ResRevertButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnRevertResClicked);
 	ResConfirmButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnConfirmResClicked);
-	GeneralButton->OnClicked.AddUObject(this, &USettingsWidgetBase::OnGeneralButtonClicked);
-	GraphicsButton->OnClicked.AddUObject(this, &USettingsWidgetBase::OnGraphicsButtonClicked);
-	AudioButton->OnClicked.AddUObject(this, &USettingsWidgetBase::OnAudioButtonClicked);
-	KeybindsButton->OnClicked.AddUObject(this, &USettingsWidgetBase::OnKeybindsButtonClicked);
-	DeveloperButton->OnClicked.AddUObject(this, &USettingsWidgetBase::OnDebuggingButtonClicked);
+	GeneralButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnGeneralButtonClicked);
+	GraphicsButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnGraphicsButtonClicked);
+	AudioButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnAudioButtonClicked);
+	KeybindsButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnKeybindsButtonClicked);
+	DeveloperButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnDebuggingButtonClicked);
 	ExitButton->OnClicked.AddUniqueDynamic(this, &USettingsWidgetBase::OnExitClicked);
 }
 

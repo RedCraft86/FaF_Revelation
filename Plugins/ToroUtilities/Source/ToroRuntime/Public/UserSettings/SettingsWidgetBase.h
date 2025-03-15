@@ -4,7 +4,6 @@
 
 #include "SettingRowWidgets.h"
 #include "UserWidgets/ToroWidgetBase.h"
-#include "UserWidgets/ToroAnimatedButtonBase.h"
 #include "SettingsWidgetBase.generated.h"
 
 UCLASS(Abstract)
@@ -236,19 +235,19 @@ public:
 	// ~Resolution Notify
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> GeneralButton;
+		TObjectPtr<UButton> GeneralButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> GraphicsButton;
+		TObjectPtr<UButton> GraphicsButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> AudioButton;
+		TObjectPtr<UButton> AudioButton;
 	
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> KeybindsButton;
+		TObjectPtr<UButton> KeybindsButton;
 	
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> DeveloperButton;
+		TObjectPtr<UButton> DeveloperButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> ExitButton;
@@ -276,11 +275,11 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = Settings) uint8 ScreenIndex;
 
 	void SetScreenIndex(const uint8 InIndex);
-	void OnGeneralButtonClicked() { SetScreenIndex(0); }
-	void OnGraphicsButtonClicked() { SetScreenIndex(1); }
-	void OnAudioButtonClicked() { SetScreenIndex(2); }
-	void OnKeybindsButtonClicked() { SetScreenIndex(3); }
-	void OnDebuggingButtonClicked() { SetScreenIndex(4); }
+	UFUNCTION() void OnGeneralButtonClicked() { SetScreenIndex(0); }
+	UFUNCTION() void OnGraphicsButtonClicked() { SetScreenIndex(1); }
+	UFUNCTION() void OnAudioButtonClicked() { SetScreenIndex(2); }
+	UFUNCTION() void OnKeybindsButtonClicked() { SetScreenIndex(3); }
+	UFUNCTION() void OnDebuggingButtonClicked() { SetScreenIndex(4); }
 
 	void RefreshUI();
 	void RefreshFidelity();

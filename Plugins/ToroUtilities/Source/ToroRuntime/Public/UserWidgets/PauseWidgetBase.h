@@ -4,8 +4,9 @@
 
 #include "ToroWidgetBase.h"
 #include "GeneralInterface.h"
-#include "ToroAnimatedButtonBase.h"
 #include "PauseWidgetBase.generated.h"
+
+class UButton;
 
 UCLASS(Abstract)
 class TORORUNTIME_API UPauseWidgetBase : public UToroWidget, public IToroGeneralInterface
@@ -17,16 +18,16 @@ public:
 	UPauseWidgetBase(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> ResumeButton;
+		TObjectPtr<UButton> ResumeButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> SettingsButton;
+		TObjectPtr<UButton> SettingsButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> CheckpointButton;
+		TObjectPtr<UButton> CheckpointButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UToroAnimatedButtonBase> MainMenuButton;
+		TObjectPtr<UButton> MainMenuButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<class UTextBlock> GameVersionText;
@@ -48,10 +49,10 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerBase> PlayerChar;
 	UPROPERTY(Transient) TObjectPtr<USettingsWidgetBase> SettingsWidget;
 
-	void OnResumeClicked();
-	void OnSettingsClicked();
-	void OnCheckpointClicked();
-	void OnMainMenuClicked();
+	UFUNCTION() void OnResumeClicked();
+	UFUNCTION() void OnSettingsClicked();
+	UFUNCTION() void OnCheckpointClicked();
+	UFUNCTION() void OnMainMenuClicked();
 
 	virtual void InitWidget() override;
 	virtual void Return_Implementation() override;

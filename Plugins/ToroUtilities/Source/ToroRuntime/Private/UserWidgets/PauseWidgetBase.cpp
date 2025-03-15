@@ -8,6 +8,7 @@
 #include "Characters/ToroPlayerBase.h"
 #include "GeneralProjectSettings.h"
 #include "Components/TextBlock.h"
+#include "Components/Button.h"
 #include "EnhancedCodeFlow.h"
 
 UPauseWidgetBase::UPauseWidgetBase(const FObjectInitializer& ObjectInitializer)
@@ -67,10 +68,10 @@ void UPauseWidgetBase::InitWidget()
 	PlayerChar = AToroPlayerBase::Get(this);
 	Return_Implementation();
 
-	ResumeButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnResumeClicked);
-	SettingsButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnSettingsClicked);
-	CheckpointButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnCheckpointClicked);
-	MainMenuButton->OnClicked.AddUObject(this, &UPauseWidgetBase::OnMainMenuClicked);
+	ResumeButton->OnClicked.AddUniqueDynamic(this, &UPauseWidgetBase::OnResumeClicked);
+	SettingsButton->OnClicked.AddUniqueDynamic(this, &UPauseWidgetBase::OnSettingsClicked);
+	CheckpointButton->OnClicked.AddUniqueDynamic(this, &UPauseWidgetBase::OnCheckpointClicked);
+	MainMenuButton->OnClicked.AddUniqueDynamic(this, &UPauseWidgetBase::OnMainMenuClicked);
 
 	SettingsWidget = CreateNew<USettingsWidgetBase>(PlayerChar->GetPlayerController(), SettingsWidgetClass);
 	SettingsWidget->ParentUI = this;
