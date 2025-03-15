@@ -17,7 +17,7 @@ public:
 
 	UToroWidget(const FObjectInitializer& ObjectInitializer);
 	
-	UPROPERTY(BlueprintReadOnly, meta = (BindWidgetAnim))
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ActivateAnim;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
