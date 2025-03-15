@@ -57,7 +57,7 @@ void AMainMenuController::BeginPlay()
 	{
 		if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 		{
-			Player->AddLockFlag(FGameplayTag::RequestGameplayTag("PlayerLock.MainMenu"));
+			Player->AddLockFlag(GAMEPLAY_TAG("PlayerLock.MainMenu"));
 			Player->TeleportPlayer(FVector::ZeroVector, FRotator::ZeroRotator);
 		}
 
