@@ -29,12 +29,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TObjectPtr<AToroSequenceActor> StartupSequence;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "MainMenus"))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ForceInlineRow, Categories = "MainMenus"))
 		TMap<FGameplayTag, TSoftObjectPtr<UWorld>> MenuSets;
 
 protected:
 
-	static inline FGameplayTag GTag_GlobalSave = FGameplayTag::RequestGameplayTag("Saves.Global");
+	static inline FGameplayTag GTag_GlobalSave = GAMEPLAY_TAG("Saves.Global");
 	
 	void StartLoad() const;
 	virtual void BeginPlay() override;
