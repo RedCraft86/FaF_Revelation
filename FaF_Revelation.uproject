@@ -5,14 +5,14 @@
 	"Description": "",
 	"Modules": [
 		{
-			"Name": "FaF_Revelation",
+			"Name": "GameRuntime",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "FaF_RevelationEditor",
+			"Name": "GameEditor",
 			"Type": "EditorNoCommandlet",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "PostEngineInit"
 		}
 	],
 	"Plugins": [
