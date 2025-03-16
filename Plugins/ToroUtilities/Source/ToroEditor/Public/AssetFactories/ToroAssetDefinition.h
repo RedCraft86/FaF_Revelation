@@ -3,7 +3,7 @@
 #pragma once
 
 #include "AssetTagData.h"
-#include "ToroDatabase.h"
+#include "ToroDataAsset.h"
 #include "AssetDefinitionDefault.h"
 #include "ToroAssetDefinition.generated.h"
 
@@ -34,18 +34,16 @@ public:
 			}
 		}
 
-		FText DatabaseText = FText::GetEmpty();
-		if (const UToroDatabase* DB = Cast<UToroDatabase>(AssetData.GetAsset()))
+		FText DataAssetText = FText::GetEmpty();
+		if (const UToroDataAsset* DA = Cast<UToroDataAsset>(AssetData.GetAsset()))
 		{
-			const int32 All = DB->GetTotalData(), Valid = DB->GetValidData();
-			DatabaseText = FText::Format(INVTEXT("All: {0}\nValid: {1}\nInvalid: {2}"), All, Valid, All - Valid);
-			
+			DataAssetText = DA->GetDescription();
 		}
 
 		FText OutText = FText::GetEmpty();
 		if (const FText SuperText = Super::GetAssetDescription(AssetData); !SuperText.IsEmptyOrWhitespace())
 		{
-			OutText = FText::Format(INVTEXT("{0}\n{1}\n{2}"), DatabaseText, SuperText, UserDataText);
+			OutText = FText::Format(INVTEXT("{0}\n{1}\n{2}"), DataAssetText, SuperText, UserDataText);
 		}
 
 		return OutText;
