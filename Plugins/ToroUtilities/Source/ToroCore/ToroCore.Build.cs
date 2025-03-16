@@ -8,7 +8,7 @@ public class ToroCore : ModuleRules
     public ToroCore(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-        bUseUnity = true;
+        bUseUnity = false;
         
         // Include all the immediate folders under .../ToroCore/Public/
         PublicIncludePaths.AddRange(

@@ -18,7 +18,7 @@ public:
 
 	virtual TConstArrayView<FAssetCategoryPath> GetAssetCategories() const override
 	{
-		return {FAssetCategoryPath(NSLOCTEXT("AssetCategory", "CustomAssetCategory", "Custom Assets"))};
+		return {FAssetCategoryPath(NSLOCTEXT("ToroUtilities", "ToroAssetCategory", "ToroUtilities"))};
 	}
 
 	virtual FText GetAssetDescription(const FAssetData& AssetData) const override

@@ -54,7 +54,7 @@ private:
 		]
 		.ValueContent()
 		[
-			GENERIC_PROPERTY_LABEL(Error)
+			GENERIC_LABEL(Error)
 		];
 	}
 	

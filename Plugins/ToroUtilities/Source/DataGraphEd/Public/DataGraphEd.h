@@ -15,7 +15,6 @@ public:
 
 private:
 
-    TSharedPtr<class IAssetTypeActions> DataGraphAction;
     TSharedPtr<struct FGraphPanelNodeFactory> DataGraphNodeFactory;
 };
 

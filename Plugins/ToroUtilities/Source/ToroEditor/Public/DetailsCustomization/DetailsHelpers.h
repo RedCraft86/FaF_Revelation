@@ -9,17 +9,6 @@
 
 #define ADD_META(Property, Key, Value) Property->SetInstanceMetaData(TEXT(#Key), TEXT(#Value)); \
 
-#define ADD_CLAMP_META(Property, Min, Max) \
-	ADD_META(Property, ClampMin, Min) \
-	ADD_META(Property, UIMin, Min) \
-	ADD_META(Property, ClampMax, Max) \
-	ADD_META(Property, UIMax, Max)
-
-#define ADD_CLAMP_META_NO_UPPER(Property, Min, Max) \
-	ADD_META(Property, ClampMin, Min) \
-	ADD_META(Property, UIMin, Min) \
-	ADD_META(Property, UIMax, Max)
-
 #define GET_CLASS_PROPERTY(Class, Member) DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(Class, Member))
 #define GET_PROPERTY(Member) GET_CLASS_PROPERTY(CLASSNAME, Member)
 
@@ -45,7 +34,7 @@
 		Property->ResetToDefault(); \
 	}))
 
-#define GENERIC_PROPERTY_LABEL(InText) \
+#define GENERIC_LABEL(InText) \
 	SNew(STextBlock) \
 	.Text(INVTEXT(#InText)) \
 	.Font(IDetailLayoutBuilder::GetDetailFont())

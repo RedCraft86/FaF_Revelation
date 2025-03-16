@@ -72,7 +72,7 @@ private:
 				.VAlign(VAlign_Center)
 				.AutoWidth()
 				[
-					GENERIC_PROPERTY_LABEL(Custom Size)
+					GENERIC_LABEL(Custom Size)
 				]
 			]
 			.ValueContent()
@@ -116,21 +116,21 @@ private:
 				.MinWidth(Width)
 				.AutoWidth()
 				[
-					GENERIC_PROPERTY_LABEL(Vertical).Justification(ETextJustify::Center)
+					GENERIC_LABEL(Vertical).Justification(ETextJustify::Center)
 				]
 				+SHorizontalBox::Slot()
 				.VAlign(VAlign_Center)
 				.MinWidth(Width)
 				.AutoWidth()
 				[
-					GENERIC_PROPERTY_LABEL(Horizontal).Justification(ETextJustify::Center)
+					GENERIC_LABEL(Horizontal).Justification(ETextJustify::Center)
 				]
 			];
 
 			AlignmentGroup.AddWidgetRow()
 			.NameContent()
 			[
-				GENERIC_PROPERTY_LABEL(Position)
+				GENERIC_LABEL(Position)
 			]
 			.ValueContent()
 			[
@@ -155,7 +155,7 @@ private:
 			AlignmentGroup.AddWidgetRow()
 			.NameContent()
 			[
-				GENERIC_PROPERTY_LABEL(Offset Type)
+				GENERIC_LABEL(Offset Type)
 			]
 			.ValueContent()
 			[
@@ -180,7 +180,7 @@ private:
 			AlignmentGroup.AddWidgetRow()
 			.NameContent()
 			[
-				GENERIC_PROPERTY_LABEL(Offset)
+				GENERIC_LABEL(Offset)
 			]
 			.ValueContent()
 			[
