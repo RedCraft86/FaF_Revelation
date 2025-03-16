@@ -238,7 +238,7 @@ UFaFRevSaveObject* UGameSectionManager::GetGameSave(const FGameplayTag& SaveTag)
 
 bool UGameSectionManager::ShouldCreateSubsystem(UObject* Outer) const
 {
-	return Super::ShouldCreateSubsystem(Outer) && UToroRuntimeSettings::Get()->IsOnGameplayMap(Outer);
+	return false; //Super::ShouldCreateSubsystem(Outer) && UToroRuntimeSettings::Get()->IsOnGameplayMap(Outer);
 }
 
 bool UGameSectionManager::DoesSupportWorldType(const EWorldType::Type WorldType) const

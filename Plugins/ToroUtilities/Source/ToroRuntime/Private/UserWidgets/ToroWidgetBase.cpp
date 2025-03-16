@@ -85,6 +85,7 @@ void UToroWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 void UToroWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+	if (bAutoActivate) PlayAnimationForward(ActivateAnim);
 	if (bGameplayOnly && !UToroRuntimeSettings::Get()->IsOnGameplayMap(this))
 	{
 		SetVisibility(ESlateVisibility::Collapsed);

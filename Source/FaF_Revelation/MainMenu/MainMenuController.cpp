@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "MainMenuController.h"
+
+#include "LoggingHelpers.h"
 #include "Algo/RandomShuffle.h"
 #include "Characters/ToroPlayerBase.h"
 #include "Framework/ToroWidgetManager.h"
@@ -43,9 +45,10 @@ void AMainMenuController::StartLoad() const
 		Player->FadeFromBlack(2.0f, false);
 	}
 
-	if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
+	if (UMainMenuWidgetBase* Widget = CreateWidget<UMainMenuWidgetBase>(GetWorld(), MainMenuWidget))
 	{
-		WidgetManager->FindOrAddWidget(MainMenuWidget);
+		UE_PRINT(1.0f, Green, TEXT("%s"), TEXT("start load"))
+		Widget->AddToViewport(50);
 	}
 }
 
@@ -57,12 +60,18 @@ void AMainMenuController::BeginPlay()
 	{
 		if (AToroPlayerBase* Player = AToroPlayerBase::Get(this))
 		{
-			Player->AddLockFlag(GAMEPLAY_TAG("PlayerLock.MainMenu"));
+			Player->AddLockFlag(GAMEPLAY_TAG(PlayerLock.MainMenu));
 			Player->TeleportPlayer(FVector::ZeroVector, FRotator::ZeroRotator);
 		}
 
-		StartupSequence->Play();
-		StartupSequence->OnSequenceFinished().BindUObject(this, &ThisClass::StartLoad);
+		if (StartupSequence)
+		{
+			StartupSequence->Play();
+			StartupSequence->OnSequenceFinished().BindUObject(this, &ThisClass::StartLoad);
+		}
+		else StartLoad();
+		
+		UE_PRINT(1.0f, Green, TEXT("%s"), TEXT("pass gi check"))
 	}
 
 	if (const UGlobalSaveObjectBase* Save = ToroSave::GetObject<UGlobalSaveObjectBase>(this, GTag_GlobalSave))

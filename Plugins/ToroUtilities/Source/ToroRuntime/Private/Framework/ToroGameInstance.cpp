@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameInstance.h"
+
+#include "EnhancedCodeFlow.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "ToroConfigManager.h"
 #include "ToroGeneralUtils.h"
@@ -9,7 +11,7 @@
 #include "Windows/WindowsPlatformApplicationMisc.h"
 #endif
 
-UToroGameInstance::UToroGameInstance() : CachedVMI(VMI_Lit), bDeveloperMode(false), bFirstLoads(false)
+UToroGameInstance::UToroGameInstance() : CachedVMI(VMI_Lit), bDeveloperMode(false), bFirstLoads(true)
 {
 }
 
@@ -37,7 +39,10 @@ void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 	{
 		bFirstLoads = true;
 		UToroUserSettings::Get()->InitSettings();
-		GetWorld()->GetTimerManager().SetTimerForNextTick(this, &UToroGameInstance::ReloadLevel);
+		FFlow::Delay(this, 0.1f, [this]()
+		{
+			UToroGeneralUtils::RestartLevel(this);
+		});
 	}
 }
 
@@ -55,11 +60,6 @@ void UToroGameInstance::SetDeveloperMode(const bool bInDeveloperMode)
 {
 	bDeveloperMode = bInDeveloperMode;
 	OnDeveloperMode.Broadcast(bDeveloperMode);
-}
-
-void UToroGameInstance::ReloadLevel() const
-{
-	UToroGeneralUtils::RestartLevel(this);
 }
 
 void UToroGameInstance::Init()

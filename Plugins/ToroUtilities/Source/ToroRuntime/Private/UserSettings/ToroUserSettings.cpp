@@ -455,11 +455,11 @@ void UToroUserSettings::LoadSettings(bool bForceReload)
 
 UWorld* UToroUserSettings::GetWorld() const
 {
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return GEngine->GetCurrentPlayWorld();
-#endif
 	UWorld* World = Super::GetWorld();
+#if WITH_EDITOR
+	if (!FApp::IsGame()) return World ? World : GWorld;
+#endif
 	if (!World) World = GameInstance ? GameInstance->GetWorld() : nullptr;
-	if (!World) World = GEngine ? GEngine->GetCurrentPlayWorld() : GWorld;
+	//if (!World) World = GEngine ? GEngine->GetCurrentPlayWorld() : GWorld;
 	return World;
 }

@@ -4,37 +4,48 @@
 #include "EnhancedCodeFlow.h"
 #include "Components/TextBlock.h"
 #include "GeneralProjectSettings.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Characters/ToroPlayerBase.h"
+#include "Components/Button.h"
+#include "Engine/AssetManager.h"
 #include "Framework/ToroPlayerController.h"
+#include "MusicSystem/ToroMusicManager.h"
 #include "UserSettings/SettingsWidgetBase.h"
 
 UMainMenuWidgetBase::UMainMenuWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	ZOrder = 50;
-	bGameplayOnly = false;
 }
 
 void UMainMenuWidgetBase::OnPlayClicked()
 {
-	DeactivateWidget();
-	PlayerChar->FadeToBlack(1.0f, true);
-	FFlow::Delay(this, 1.0f, [this]
+	PlayAnimation(PlayGameAnim);
+	PlayerChar->FadeToBlack(3.0f, false);
+	UAssetManager::GetStreamableManager().RequestAsyncLoad(GameplayLevel.ToSoftObjectPath());
+	FFlow::Delay(this, 3.0f, [this]
 	{	
 		UGameplayStatics::OpenLevelBySoftObjectPtr(this, GameplayLevel);
 	});
+
+	if (AToroMusicManager* MusicManager = AToroMusicManager::Get(this))
+	{
+		MusicManager->MainThemeComponent->FadeOut(2.0f, 0.0f);
+	}
 }
 
 void UMainMenuWidgetBase::OnSettingsClicked()
 {
 	SettingsWidget->ActivateWidget();
-	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
-		EMouseLockMode::LockAlways, false, SettingsWidget);
-	SetHidden(true);
+	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
+	{
+		Controller->SetGameInputMode(EGameInputMode::GameAndUI, true,
+			EMouseLockMode::LockAlways, false, SettingsWidget);
+	}
+	PlayAnimationReverse(ActivateAnim);
 }
 
 void UMainMenuWidgetBase::OnExtrasClicked()
 {
-	DeactivateWidget();
+	PlayAnimation(ActivateAnim);
 	PlayerChar->FadeToBlack(1.0f, true);
 	FFlow::Delay(this, 1.0f, [this]
 	{	
@@ -44,7 +55,7 @@ void UMainMenuWidgetBase::OnExtrasClicked()
 
 void UMainMenuWidgetBase::OnQuitClicked()
 {
-	DeactivateWidget();
+	PlayAnimation(ActivateAnim);
 	PlayerChar->FadeToBlack(1.0f, true);
 	FFlow::Delay(this, 1.0f, [this]
 	{	
@@ -52,25 +63,40 @@ void UMainMenuWidgetBase::OnQuitClicked()
 	});
 }
 
-void UMainMenuWidgetBase::InitWidget()
+void UMainMenuWidgetBase::NativeConstruct()
 {
-	Super::InitWidget();
+	Super::Initialize();
 	PlayerChar = AToroPlayerBase::Get(this);
-	Return_Implementation();
 
-	SettingsWidget = CreateNew<USettingsWidgetBase>(PlayerChar->GetPlayerController(), SettingsWidgetClass);
-	SettingsWidget->ParentUI = this;
+	Return_Implementation();
+	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
+	{
+		FIntPoint Size;
+		Controller->GetViewportSize(Size.X, Size.Y);
+		Controller->SetMouseLocation(Size.X / 2, Size.Y / 2);
+	}
+
+	SettingsWidget = UToroWidget::CreateNew<USettingsWidgetBase>(PlayerChar->GetPlayerController(), SettingsWidgetClass);
+	if (SettingsWidget) SettingsWidget->ParentUI = this;
 
 	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
 	{
 		GameVersionText->SetText(FText::FromString(FString::Printf(TEXT("Game Version: %s | %s Build"),
 			*ProjectSettings->ProjectVersion, LexToString(FApp::GetBuildConfiguration()))));
 	}
+
+	PlayButton->OnClicked.AddUniqueDynamic(this, &UMainMenuWidgetBase::OnPlayClicked);
+	SettingsButton->OnClicked.AddUniqueDynamic(this, &UMainMenuWidgetBase::OnSettingsClicked);
+	QuitButton->OnClicked.AddUniqueDynamic(this, &UMainMenuWidgetBase::OnQuitClicked);
+	ExtrasButton->OnClicked.AddUniqueDynamic(this, &UMainMenuWidgetBase::OnExtrasClicked);
 }
 
 void UMainMenuWidgetBase::Return_Implementation()
 {
-	SetHidden(false);
-	PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
-		EMouseLockMode::LockAlways, false, this);
+	PlayAnimation(ActivateAnim);
+	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
+	{
+		Controller->SetGameInputMode(EGameInputMode::GameAndUI, true,
+			EMouseLockMode::LockAlways, false, this);
+	}
 }

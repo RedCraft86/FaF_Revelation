@@ -33,10 +33,10 @@ public:
 	
 private:
 
-	static inline FGameplayTag GTag_Saves = GAMEPLAY_TAG("Saves");
-	static inline FGameplayTag GTag_GlobalSave = GAMEPLAY_TAG("Saves.Global");
-	static inline FGameplayTag GTag_GameSave = GAMEPLAY_TAG("Saves.Game");
-	static inline FGameplayTag GTag_LockLoading = GAMEPLAY_TAG("PlayerLock.Loading");
+	static inline FGameplayTag GTag_Saves = GAMEPLAY_TAG(Saves);
+	static inline FGameplayTag GTag_GlobalSave = GAMEPLAY_TAG(Saves.Global);
+	static inline FGameplayTag GTag_GameSave = GAMEPLAY_TAG(Saves.Game);
+	static inline FGameplayTag GTag_LockLoading = GAMEPLAY_TAG(PlayerLock.Loading);
 
 	static inline uint8 LatentID = 255;
 	static uint8 GetLatentID()

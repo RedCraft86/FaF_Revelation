@@ -34,7 +34,7 @@ public:
 
 protected:
 
-	static inline FGameplayTag GTag_GlobalSave = GAMEPLAY_TAG("Saves.Global");
+	static inline FGameplayTag GTag_GlobalSave = GAMEPLAY_TAG(Saves.Global);
 	
 	void StartLoad() const;
 	virtual void BeginPlay() override;

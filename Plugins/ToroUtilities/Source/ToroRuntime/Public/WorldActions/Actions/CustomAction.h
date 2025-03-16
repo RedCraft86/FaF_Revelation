@@ -32,7 +32,7 @@ public:
 	virtual UWorld* GetWorld() const override
 	{
 #if WITH_EDITOR
-		if (!FApp::IsGame()) return GEngine->GetCurrentPlayWorld();
+		if (!FApp::IsGame()) return GWorld;
 #endif
 		UWorld* World = Super::GetWorld();
 		if (!World && ContextObject) World = ContextObject->GetWorld();

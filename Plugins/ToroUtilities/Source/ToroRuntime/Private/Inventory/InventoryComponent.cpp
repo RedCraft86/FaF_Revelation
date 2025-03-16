@@ -557,6 +557,4 @@ void UInventoryComponent::BeginPlay()
 		PreviewActor = Actor;
 		if (PreviewActor) break;
 	}
-	if (!PreviewActor) PreviewActor = GetWorld()->SpawnActor<AInventoryPreview>(
-			{0.0f, 0.0f, -500.0f}, FRotator::ZeroRotator);
 }

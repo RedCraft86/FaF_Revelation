@@ -12,6 +12,7 @@
 #include "Camera/CameraComponent.h"
 #include "GeneralInterface.h"
 #include "ToroMathLibrary.h"
+#include "Framework/ToroPlayerCameraManager.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
@@ -299,7 +300,11 @@ void AGamePlayerBase::UnsetControlFlag(const EPlayerControlFlags InFlag)
 
 void AGamePlayerBase::TeleportPlayer(const FVector& InLocation, const FRotator& InRotation)
 {
-	PlayerController->PlayerCameraManager->SetGameCameraCutThisFrame();
+	if (AToroPlayerCameraManager* CamManager = AToroPlayerCameraManager::Get(this))
+	{
+		CamManager->SetGameCameraCutThisFrame();
+	}
+
 	SetActorLocation(InLocation, false, nullptr, ETeleportType::ResetPhysics);
 
 	const bool bSmooth = CameraArm->bEnableCameraRotationLag;

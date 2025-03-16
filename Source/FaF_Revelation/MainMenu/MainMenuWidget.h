@@ -10,7 +10,7 @@ class USettingsWidgetBase;
 class UButton;
 
 UCLASS(Abstract)
-class FAF_REVELATION_API UMainMenuWidgetBase final : public UToroWidget, public IToroGeneralInterface
+class FAF_REVELATION_API UMainMenuWidgetBase final : public UUserWidget, public IToroGeneralInterface
 {
 	GENERATED_BODY()
 
@@ -32,6 +32,12 @@ public:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<class UTextBlock> GameVersionText;
+	
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> ActivateAnim;
+	
+	UPROPERTY(Transient, BlueprintReadOnly, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> PlayGameAnim;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		TSoftObjectPtr<UWorld> GameplayLevel;
@@ -52,6 +58,6 @@ protected:
 	void OnExtrasClicked();
 	void OnQuitClicked();
 
-	virtual void InitWidget() override;
+	virtual void NativeConstruct() override;
 	virtual void Return_Implementation() override;
 };

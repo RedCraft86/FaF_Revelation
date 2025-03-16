@@ -160,7 +160,13 @@ void ULightProbeManager::OnWorldBeginPlay(UWorld& InWorld)
 
 bool ULightProbeManager::ShouldCreateSubsystem(UObject* Outer) const
 {
-	return Super::ShouldCreateSubsystem(Outer) && UToroRuntimeSettings::Get()->IsUsingLightProbes();
+	return false; //Super::ShouldCreateSubsystem(Outer) && UToroRuntimeSettings::Get()->IsUsingLightProbes();
+}
+
+bool ULightProbeManager::DoesSupportWorldType(const EWorldType::Type WorldType) const
+{
+	return WorldType == EWorldType::Game || WorldType == EWorldType::PIE ||
+		WorldType == EWorldType::GamePreview || WorldType == EWorldType::GameRPC;
 }
 
 #if WITH_EDITOR
