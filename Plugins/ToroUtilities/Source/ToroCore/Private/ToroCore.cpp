@@ -3,7 +3,7 @@
 #include "ToroCore.h"
 
 UE_DEFINE_GAMEPLAY_TAG(Tag_Weather, "Weather");
-UE_DEFINE_GAMEPLAY_TAG(Tag_Characters, "Characters");
+UE_DEFINE_GAMEPLAY_TAG(Tag_Character, "Character");
 
 DEFINE_LOG_CATEGORY(LogToroCore);
 
