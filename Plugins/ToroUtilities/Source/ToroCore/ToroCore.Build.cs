@@ -26,9 +26,13 @@ public class ToroCore : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "GameplayTags",
                 "JsonUtilities",
+                "LevelSequence",
                 "NavigationSystem",
                 "ProceduralMeshComponent",
+                "ExpressiveText",
+                "CommonUI",
             }
         );
         

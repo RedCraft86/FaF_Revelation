@@ -7,7 +7,7 @@
 #include "WindowsHelpers.h"
 
 EWindowsDialogueResult UToroGeneralUtils::OpenWindowsDialogue(const FString Title, const FString Message,
-	const EWindowsDialogueType Type, const EWindowsDialogueIcon Icon)
+                                                              const EWindowsDialogueType Type, const EWindowsDialogueIcon Icon)
 {
 	return WindowsHelpers::OpenDialogue(Title, Message, Type, Icon);
 }
