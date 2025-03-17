@@ -25,8 +25,24 @@ public class ToroUtilities : ModuleRules
                 "DeveloperSettings",
                 "EnhancedCodeFlow",
                 "ExpressiveText",
-                "ToroCore", 
+                "ToroCore",
+                "XeSSBlueprint",
+                "NISBlueprint", 
+                "DLSSBlueprint", 
+                "StreamlineDLSSGBlueprint",
+                "StreamlineReflexBlueprint", 
+                "StreamlineDeepDVCBlueprint"
             }
         );
+
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.AddRange(
+                new[]
+                {
+                    "UnrealEd",
+                }
+            );
+        }
     }
 }

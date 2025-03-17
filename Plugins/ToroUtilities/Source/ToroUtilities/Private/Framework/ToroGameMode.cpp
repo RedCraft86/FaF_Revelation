@@ -7,6 +7,8 @@
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroPlayerController.h"
 
+UE_DEFINE_GAMEPLAY_TAG_BASE(Zone)
+
 AToroGameMode::AToroGameMode()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -28,6 +30,11 @@ EToroValidPins AToroGameMode::GetToroGameMode(AToroGameMode*& OutObject,
 	AToroGameMode* Obj = Get<AToroGameMode>(ContextObject);
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
+}
+
+void AToroGameMode::AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone)
+{
+	CharacterToZone.Add(Character, Zone);
 }
 
 void AToroGameMode::BeginPlay()

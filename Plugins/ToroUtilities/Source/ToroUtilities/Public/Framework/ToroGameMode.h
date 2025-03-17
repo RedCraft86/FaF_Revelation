@@ -2,12 +2,15 @@
 
 #pragma once
 
+#include "ToroCore.h"
 #include "ExecPinEnums.h"
 #include "ToroGameInstance.h"
 #include "GameplayTagContainer.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameModeBase.h"
 #include "ToroGameMode.generated.h"
+
+UE_DECLARE_GAMEPLAY_TAG_BASE(Zone);
 
 UCLASS()
 class TOROUTILITIES_API AToroGameMode : public AGameModeBase
@@ -30,6 +33,9 @@ public:
 		return Cast<T>(UGameplayStatics::GetGameMode(ContextObject));
 	}
 
+	UFUNCTION(BlueprintCallable, Category = Game)
+		void AssignCharacterToZone(UPARAM(meta = (Categories = "Character")) const FGameplayTag Character, UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone);
+	
 protected:
 
 	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;

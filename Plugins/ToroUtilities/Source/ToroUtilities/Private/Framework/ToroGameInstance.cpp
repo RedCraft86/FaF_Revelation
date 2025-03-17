@@ -1,6 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameInstance.h"
+#include "UserSettings/ToroUserSettings.h"
+#include "ToroGeneralUtils.h"
+#include "EnhancedCodeFlow.h"
 #if UE_BUILD_SHIPPING
 #include "GeneralProjectSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
@@ -19,6 +22,16 @@ void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 	if (UGameViewportClient* Viewport = InWorld ? InWorld->GetGameViewport() : nullptr)
 	{
 		Viewport->ViewModeIndex = CachedVMI;
+	}
+
+	if (!bFirstLoads)
+	{
+		bFirstLoads = true;
+		UToroUserSettings::Get()->InitSettings();
+		FFlow::Delay(this, 0.1f, [this]()
+		{
+			UToroGeneralUtils::RestartLevel(this);
+		});
 	}
 }
 

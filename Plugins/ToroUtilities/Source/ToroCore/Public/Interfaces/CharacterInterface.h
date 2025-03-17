@@ -35,7 +35,7 @@ public:
 		return IsValid(Target) ? Target->Implements<UCharacterInterface>() : false; 
 	}
 
-	static FGameplayTag GetCharacterID(UObject* Target)
+	static FGameplayTag GetCharacterID(const UObject* Target)
 	{
 		if (ImplementedBy(Target))
 		{

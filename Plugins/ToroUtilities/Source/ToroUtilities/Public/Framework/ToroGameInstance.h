@@ -40,6 +40,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = GameInstance)
 		bool IsPlayerInvisible() const { return bPlayerInvisible; }
 
+	bool FinishedFirstLoads() const { return bFirstLoads; }
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerInvisible, bool);
 	FOnPlayerInvisible OnPlayerInvisible;
 
@@ -47,6 +49,7 @@ protected:
 
 	UPROPERTY() int32 CachedVMI;
 	UPROPERTY() bool bPlayerInvisible;
+	UPROPERTY() bool bFirstLoads;
 
 	virtual void Init() override;
 };
