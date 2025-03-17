@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroSequenceActor.h"
+#include "SequenceActor.h"
 
 void AToroSequenceActor::Play()
 {

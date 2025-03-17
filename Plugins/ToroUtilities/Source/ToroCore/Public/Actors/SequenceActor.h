@@ -4,7 +4,7 @@
 
 #include "LevelSequenceActor.h"
 #include "LevelSequencePlayer.h"
-#include "ToroSequenceActor.generated.h"
+#include "SequenceActor.generated.h"
 
 UCLASS()
 class TOROCORE_API AToroSequenceActor : public ALevelSequenceActor
