@@ -6,8 +6,8 @@
 #include "Modules/ModuleManager.h"
 
 #define UE_DECLARE_GAMEPLAY_TAG_BASE(TagName) \
-    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_##TagName##) \
-    inline bool Verify##TagName##Tag(const FGameplayTag& InTag) { return InTag.IsValid() && InTag != Tag_##TagName##; } 
+    UE_DECLARE_GAMEPLAY_TAG_EXTERN(Tag_##TagName) \
+    inline bool Verify##TagName##Tag(const FGameplayTag& InTag) { return InTag.IsValid() && InTag != Tag_##TagName; } 
 
 UE_DECLARE_GAMEPLAY_TAG_BASE(Weather)
 UE_DECLARE_GAMEPLAY_TAG_BASE(Character)

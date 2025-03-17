@@ -27,8 +27,10 @@ public:
 protected:
 	
 	virtual void SynchronizeProperties() override;
-#if WITH_EDITOR
+#if WITH_EDITORONLY_DATA
 	UPROPERTY(Transient) TObjectPtr<UPanelSlot> CachedSlot = nullptr;
+#endif
+#if WITH_EDITOR
 	virtual const FText GetPaletteCategory() override
 	{
 		return NSLOCTEXT("UMG", "Input", "Input");

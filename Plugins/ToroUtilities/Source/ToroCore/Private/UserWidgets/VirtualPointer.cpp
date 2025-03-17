@@ -12,9 +12,11 @@ UVirtualPointer::UVirtualPointer() : bPreviewOnly(false)
 	Background.OutlineSettings.bUseBrushTransparency = true;
 	Background.OutlineSettings.Width = 2.0f;
 
+	PRAGMA_DISABLE_DEPRECATION_WARNINGS
 	Padding = {1.0f};
 	BrushColor = {1.0f, 1.0f, 1.0f, 0.5f};
 	Visibility = ESlateVisibility::HitTestInvisible;
+	PRAGMA_ENABLE_DEPRECATION_WARNINGS
 }
 
 FVector2D UVirtualPointer::GetPosition() const
