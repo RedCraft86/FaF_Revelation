@@ -30,35 +30,35 @@ float UToroLoadUtils::GetPackageAsyncLoadPercent(const FString Package)
 	return GetAsyncLoadPercentage(*Package);
 }
 
-void UToroLoadUtils::FlushLevelStreaming(const UObject* WorldContextObject)
+void UToroLoadUtils::FlushLevelStreaming(const UObject* ContextObject)
 {
-	if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	if (UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull))
 	{
 		GEngine->BlockTillLevelStreamingCompleted(World);
 	}
 }
 
-void UToroLoadUtils::ApplyDefaultPriorityLoading(const UObject* WorldContextObject)
+void UToroLoadUtils::ApplyDefaultPriorityLoading(const UObject* ContextObject)
 {
 	CaptureDefaultLoadingSettings();
-	ApplyCustomPriorityLoading(WorldContextObject, false,
+	ApplyCustomPriorityLoading(ContextObject, false,
 		DefaultAsyncLoadingTimeLimit, DefaultLevelStreamingActorsUpdateTimeLimit);
 }
 
-void UToroLoadUtils::ApplyStreamingPriorityLoading(const UObject* WorldContextObject)
+void UToroLoadUtils::ApplyStreamingPriorityLoading(const UObject* ContextObject)
 {
-	ApplyCustomPriorityLoading(WorldContextObject, false, 10.0f, 10.0f);
+	ApplyCustomPriorityLoading(ContextObject, false, 10.0f, 10.0f);
 }
 
-void UToroLoadUtils::ApplyHighestPriorityLoading(const UObject* WorldContextObject)
+void UToroLoadUtils::ApplyHighestPriorityLoading(const UObject* ContextObject)
 {
-	ApplyCustomPriorityLoading(WorldContextObject, true, FLT_MAX, FLT_MAX);
+	ApplyCustomPriorityLoading(ContextObject, true, FLT_MAX, FLT_MAX);
 }
 
-void UToroLoadUtils::ApplyCustomPriorityLoading(const UObject* WorldContextObject, const bool UseHighPriorityLoading,
+void UToroLoadUtils::ApplyCustomPriorityLoading(const UObject* ContextObject, const bool UseHighPriorityLoading,
 	const float MaxAsyncLoadingMilliSeconds, const float MaxActorUpdateMilliSeconds)
 {
-	if (const UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	if (const UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull))
 	{
 		if (AWorldSettings* WorldSettings = World->GetWorldSettings())
 		{
