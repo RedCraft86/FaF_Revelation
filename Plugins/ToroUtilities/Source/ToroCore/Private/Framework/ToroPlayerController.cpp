@@ -5,6 +5,8 @@
 
 AToroPlayerController::AToroPlayerController()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
