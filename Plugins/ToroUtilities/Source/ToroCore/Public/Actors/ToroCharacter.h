@@ -19,11 +19,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Game)
 		virtual void Teleport(const FVector& InLocation, const FRotator& InRotation);
 
-	UFUNCTION(BlueprintPure, Category = Game)
-		FGameplayTag GetCharacterID() const { return CharacterID; }
+	virtual FGameplayTag GetCharacterID_Implementation() const override { return CharacterID; }
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "Characters"))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "Character"))
 		FGameplayTag CharacterID;
 };

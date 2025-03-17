@@ -3,6 +3,7 @@
 #pragma once
 
 #include "UObject/Interface.h"
+#include "GameplayTagContainer.h"
 #include "CharacterInterface.generated.h"
 
 UINTERFACE()
@@ -18,6 +19,10 @@ class TOROCORE_API ICharacterInterface
 public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = Character)
+		FGameplayTag GetCharacterID() const;
+	virtual FGameplayTag GetCharacterID_Implementation() const { return {}; }
+
+	UFUNCTION(BlueprintNativeEvent, Category = Character)
 		void GetViewPoint(FVector& Location, FVector& Forward, float& Angle);
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) {}
 
@@ -28,6 +33,16 @@ public:
 	static bool ImplementedBy(const UObject* Target) 
 	{ 
 		return IsValid(Target) ? Target->Implements<UCharacterInterface>() : false; 
+	}
+
+	static FGameplayTag GetCharacterID(UObject* Target)
+	{
+		if (ImplementedBy(Target))
+		{
+			return ICharacterInterface::Execute_GetCharacterID(Target);
+		}
+
+		return {};
 	}
 
 	static void GetViewPoint(UObject* Target, FVector& Location, FVector& Forward, float& FOV)
