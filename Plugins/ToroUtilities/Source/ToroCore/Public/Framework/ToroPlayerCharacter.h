@@ -23,9 +23,9 @@ public:
 	static EToroValidPins GetToroPlayerCharacter(AToroPlayerCharacter*& OutObject, const UObject* ContextObject, const TSubclassOf<AToroPlayerCharacter>& Class, const int32 PlayerIndex = 0);
 
 	template <typename T = AToroPlayerCharacter>
-	static T* Get(const UObject* WorldContextObject, const int32 PlayerIndex = 0)
+	static T* Get(const UObject* ContextObject, const int32 PlayerIndex = 0)
 	{
-		return Cast<T>(UGameplayStatics::GetPlayerCharacter(WorldContextObject, PlayerIndex));
+		return Cast<T>(UGameplayStatics::GetPlayerCharacter(ContextObject, PlayerIndex));
 	}
 
 protected:
