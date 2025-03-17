@@ -2,9 +2,35 @@
 
 #pragma once
 
-#include "ExprTextTypes.h"
 #include "Widgets/ExpressiveTextRendererWidget.h"
 #include "ExprTextBlock.generated.h"
+
+// ExpressiveTextFields -> DefaultFontSize -> Add Metadata: EditCondition = "UseDefaultFontSize"
+// ExpressiveTextFields -> UseDefaultFontSize -> Add Metadata: InlineEditConditionToggle
+
+USTRUCT(BlueprintType)
+struct TOROCORE_API FExpressiveTextData
+{
+	GENERATED_BODY()
+
+	FExpressiveTextData();
+	int64 CalcChecksum() const;
+	FExpressiveText GetExpressiveText();
+	void SetText(const FText& InText, const bool bUseFieldsFromAsset = false);
+	void SetTextFields(const FExpressiveTextFields& InFields);
+	void SetTextAsset(UExpressiveTextAsset* InAsset);
+	
+private:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ExpressiveText, meta = (AllowPrivateAccess = true))
+		bool bUseAsset;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ExpressiveText, meta = (EditCondition = "!bUseAsset", EditConditionHides, AllowPrivateAccess = true, ShowOnlyInnerProperties))
+		FExpressiveTextFields TextFields;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = ExpressiveText, meta = (EditCondition = "bUseAsset", EditConditionHides, AllowPrivateAccess = true))
+		TObjectPtr<UExpressiveTextAsset> TextAsset;
+};
 
 UCLASS(DisplayName = "Expressive Text")
 class TOROCORE_API UExprTextBlock final : public UExpressiveTextRendererWidget
@@ -49,4 +75,29 @@ private:
 		SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
 #endif
+public:
+
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData, DisplayName = "Get Expressive Text")
+	static FExpressiveText GetExpressiveTextData(UPARAM(ref) FExpressiveTextData& InData)
+	{
+		return InData.GetExpressiveText();
+	}
+
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData, DisplayName = "Set Text")
+	static void SetTextData(UPARAM(ref) FExpressiveTextData& InData, const FText InText, const bool bUseFieldsFromAsset = false)
+	{
+		InData.SetText(InText, bUseFieldsFromAsset);
+	}
+
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData, DisplayName = "Set Text Fields")
+	static void SetTextFieldsData(UPARAM(ref) FExpressiveTextData& InData, const FExpressiveTextFields& InFields)
+	{
+		InData.SetTextFields(InFields);
+	}
+	
+	UFUNCTION(BlueprintCallable, Category = ExpressiveTextData, DisplayName = "Set Text Asset")
+	static void SetTextAssetData(UPARAM(ref) FExpressiveTextData& InData, UExpressiveTextAsset* InAsset)
+	{
+		InData.SetTextAsset(InAsset);
+	}
 };

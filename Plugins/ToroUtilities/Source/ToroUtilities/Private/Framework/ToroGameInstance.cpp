@@ -32,6 +32,12 @@ void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)
 	}
 }
 
+void UToroGameInstance::SetPlayerInvisible(const bool bInvisible)
+{
+	bPlayerInvisible = bInvisible;
+	OnPlayerInvisible.Broadcast(bInvisible);
+}
+
 void UToroGameInstance::Init()
 {
 	Super::Init();

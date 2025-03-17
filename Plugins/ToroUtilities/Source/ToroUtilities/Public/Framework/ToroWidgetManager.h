@@ -3,12 +3,13 @@
 #pragma once
 
 #include "ExecPinEnums.h"
+#include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerState.h"
 #include "ToroWidgetManager.generated.h"
 
 UCLASS()
-class TOROCORE_API AToroWidgetManager : public APlayerState
+class TOROUTILITIES_API AToroWidgetManager : public APlayerState
 {
 	GENERATED_BODY()
 
@@ -27,4 +28,18 @@ public:
 	{
 		return Cast<T>(UGameplayStatics::GetPlayerState(ContextObject, PlayerIndex));
 	}
+
+	UFUNCTION(BlueprintCallable, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+		UUserWidget* FindOrAddWidget(const TSubclassOf<UUserWidget> Class);
+
+	UFUNCTION(BlueprintPure, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+		UUserWidget* FindWidget(const TSubclassOf<UUserWidget> Class);
+
+	template<typename T>
+	T* FindWidget() { return Cast<T>(FindWidget(T::StaticClass())); }
+
+protected:
+
+	UPROPERTY(Transient) TSet<TObjectPtr<UUserWidget>> Widgets;
+	virtual void BeginPlay() override;
 };

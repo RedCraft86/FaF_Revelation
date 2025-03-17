@@ -34,6 +34,7 @@ public class ToroCore : ModuleRules
                 "ApplicationCore",
                 "NavigationSystem",
                 "ProceduralMeshComponent",
+                "EnhancedCodeFlow",
                 "ExpressiveText",
                 "CommonUI",
             }

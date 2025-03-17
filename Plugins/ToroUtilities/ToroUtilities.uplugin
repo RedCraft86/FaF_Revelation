@@ -34,6 +34,11 @@
 			"Name": "ToroEditor",
 			"Type": "EditorNoCommandlet",
 			"LoadingPhase": "PostEngineInit"
+		},
+		{
+			"Name": "ToroUtilities",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [
@@ -43,6 +48,10 @@
 		},
 		{
 			"Name": "EditorScriptingUtilities",
+			"Enabled": true
+		},
+		{
+			"Name": "Metasound",
 			"Enabled": true
 		},
 		{

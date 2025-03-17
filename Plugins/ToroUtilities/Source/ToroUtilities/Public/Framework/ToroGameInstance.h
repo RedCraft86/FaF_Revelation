@@ -8,13 +8,13 @@
 #include "ToroGameInstance.generated.h"
 
 UCLASS()
-class TOROCORE_API UToroGameInstance : public UGameInstance
+class TOROUTILITIES_API UToroGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroGameInstance() {}
+	UToroGameInstance() : CachedVMI(VMI_Lit), bPlayerInvisible(false) {}
 
 	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "ContextObject", DynamicOutputParam = "OutObject", DeterminesOutput = "Class", ExpandEnumAsExecs = "ReturnValue", AutoCreateRefTerm = "Class", CompactNodeTitle = "Get Game Instance"))
 	static EToroValidPins GetToroGameInstance(UToroGameInstance*& OutObject, const UObject* ContextObject, const TSubclassOf<UToroGameInstance>& Class);
@@ -34,9 +34,19 @@ public:
 	UFUNCTION(BlueprintPure, Category = GameInstance)
 		bool IsUnlitViewmode() const { return CachedVMI == VMI_Unlit; }
 
+	UFUNCTION(BlueprintCallable, Category = GameInstance)
+		void SetPlayerInvisible(const bool bInvisible);
+
+	UFUNCTION(BlueprintPure, Category = GameInstance)
+		bool IsPlayerInvisible() const { return bPlayerInvisible; }
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerInvisible, bool);
+	FOnPlayerInvisible OnPlayerInvisible;
+
 protected:
 
 	UPROPERTY() int32 CachedVMI;
+	UPROPERTY() bool bPlayerInvisible;
 
 	virtual void Init() override;
 };

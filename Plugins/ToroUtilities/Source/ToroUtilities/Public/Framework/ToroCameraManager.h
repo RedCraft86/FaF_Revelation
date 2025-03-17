@@ -8,7 +8,7 @@
 #include "ToroCameraManager.generated.h"
 
 UCLASS()
-class TOROCORE_API AToroCameraManager : public APlayerCameraManager
+class TOROUTILITIES_API AToroCameraManager : public APlayerCameraManager
 {
 	GENERATED_BODY()
 

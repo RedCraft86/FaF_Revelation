@@ -3,12 +3,14 @@
 #pragma once
 
 #include "ExecPinEnums.h"
+#include "ToroGameInstance.h"
+#include "GameplayTagContainer.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/GameModeBase.h"
 #include "ToroGameMode.generated.h"
 
 UCLASS()
-class TOROCORE_API AToroGameMode : public AGameModeBase
+class TOROUTILITIES_API AToroGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
@@ -27,4 +29,12 @@ public:
 	{
 		return Cast<T>(UGameplayStatics::GetGameMode(ContextObject));
 	}
+
+protected:
+
+	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
+	UPROPERTY(Transient) TMap<FGameplayTag, FGameplayTag> CharacterToZone;
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 };

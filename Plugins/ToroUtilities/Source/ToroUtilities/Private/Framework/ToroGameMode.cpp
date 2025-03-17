@@ -1,10 +1,11 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroGameMode.h"
-#include "ToroMusicManager.h"
-#include "ToroWidgetManager.h"
-#include "ToroPlayerCharacter.h"
-#include "ToroPlayerController.h"
+#include "Framework/ToroGameMode.h"
+#include "Framework/ToroGameInstance.h"
+#include "Framework/ToroMusicManager.h"
+#include "Framework/ToroWidgetManager.h"
+#include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroPlayerController.h"
 
 AToroGameMode::AToroGameMode()
 {
@@ -27,4 +28,17 @@ EToroValidPins AToroGameMode::GetToroGameMode(AToroGameMode*& OutObject,
 	AToroGameMode* Obj = Get<AToroGameMode>(ContextObject);
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
+}
+
+void AToroGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	GameInstance = UToroGameInstance::Get<UToroGameInstance>(this);
+	if (GameInstance) GameInstance->OnWorldBeginPlay(GetWorld());
+}
+
+void AToroGameMode::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (GameInstance) GameInstance->OnWorldTick(DeltaSeconds);
 }
