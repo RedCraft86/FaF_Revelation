@@ -4,10 +4,12 @@
 
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
-#include "Engine/DeveloperSettings.h"
 #include "SaveSystem/ToroSaveTypes.h"
 #include "DataTypes/LocalSoundTypes.h"
+#include "Achievements/AchievementTypes.h"
 #include "UserSettings/UserSettingTypes.h"
+#include "GuidePages/GuidePageTypes.h"
+#include "Engine/DeveloperSettings.h"
 #include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Utilities")
@@ -45,6 +47,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UGuidePageDatabase> GuidePageDatabase;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<ULocalSoundDatabase> LocalSoundDatabase;

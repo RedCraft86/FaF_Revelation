@@ -18,6 +18,7 @@ public class ToroUtilities : ModuleRules
                 "UMG",
                 "Slate",
                 "SlateCore", 
+                "CommonUI",
                 "InputCore",
                 "GameplayTags",
                 "MetasoundEngine",

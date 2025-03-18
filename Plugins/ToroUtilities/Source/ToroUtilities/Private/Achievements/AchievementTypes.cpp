@@ -57,7 +57,7 @@ void UAchievementDatabase::UpdateData()
 	Super::UpdateData();
 	for (TPair<FGameplayTag, FAchievementEntry>& Entry : Entries)
 	{
-		if (!Entry.Key.IsValid() || Entry.Key == Tag_Achievement)
+		if (!VerifyAchievementTag(Entry.Key))
 		{
 			Entry.Value.Label = TEXT("INVALID Tag");
 		}
