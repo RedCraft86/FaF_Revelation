@@ -56,13 +56,14 @@ public:
 		TMap<FGameplayTag, FAchievementEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;
+	const FAchievementEntry* Find(const FGameplayTag& Key) const;
 
 	static bool IsValidKey(const FGameplayTag& Key);
 	static FAchievementEntry Get(const FGameplayTag& Key);
 
 #if WITH_EDITOR
-	virtual int32 GetTotalData() const override;
 	virtual int32 GetValidData() const override;
+	virtual int32 GetTotalData() const override { return Entries.Num(); }
 protected:
 	virtual void UpdateData() override;
 #endif

@@ -58,13 +58,14 @@ public:
 		TMap<FGameplayTag, FGuidePageEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;
+	const FGuidePageEntry* Find(const FGameplayTag& Key) const;
 
 	static bool IsValidKey(const FGameplayTag& Key);
 	static FGuidePageEntry Get(const FGameplayTag& Key);
-	
+
 #if WITH_EDITOR
-	virtual int32 GetTotalData() const override;
 	virtual int32 GetValidData() const override;
+	virtual int32 GetTotalData() const override { return Entries.Num(); }
 protected:
 	virtual void UpdateData() override;
 #endif

@@ -53,7 +53,7 @@ struct TOROUTILITIES_API FLocalSoundEntry
 };
 
 UCLASS()
-class TOROUTILITIES_API ULocalSoundDatabase : public UToroDatabase
+class TOROUTILITIES_API ULocalSoundDatabase final : public UToroDatabase
 {
 	GENERATED_BODY()
 

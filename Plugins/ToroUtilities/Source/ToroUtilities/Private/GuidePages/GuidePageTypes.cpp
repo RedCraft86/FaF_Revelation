@@ -10,34 +10,25 @@ bool UGuidePageDatabase::IsKeyValid(const FGameplayTag& Key) const
 	return VerifyGuidePageTag(Key) && Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
+const FGuidePageEntry* UGuidePageDatabase::Find(const FGameplayTag& Key) const
+{
+	return IsKeyValid(Key) ? Entries.Find(Key) : nullptr;
+}
+
 bool UGuidePageDatabase::IsValidKey(const FGameplayTag& Key)
 {
-	if (!Key.IsValid()) return false;
-	if (const UGuidePageDatabase* Database = UToroSettings::Get()->GuidePageDatabase.LoadSynchronous())
-	{
-		return Database->IsKeyValid(Key);
-	}
-	
-	return false;
+	const UGuidePageDatabase* Database = UToroSettings::Get()->GuidePageDatabase.LoadSynchronous();
+	return Database ? Database->IsKeyValid(Key) : false;
 }
 
 FGuidePageEntry UGuidePageDatabase::Get(const FGameplayTag& Key)
 {
-	if (!Key.IsValid()) return {};
-	if (const UGuidePageDatabase* Database = UToroSettings::Get()->GuidePageDatabase.LoadSynchronous())
-	{
-		return Database->Entries.FindRef(Key);
-	}
-	
-	return {};
+	const UGuidePageDatabase* Database = UToroSettings::Get()->GuidePageDatabase.LoadSynchronous();
+	const FGuidePageEntry* Entry = Database ? Database->Find(Key) : nullptr;
+	return Entry ? *Entry : FGuidePageEntry();
 }
 
 #if WITH_EDITOR
-int32 UGuidePageDatabase::GetTotalData() const
-{
-	return Entries.Num();
-}
-
 int32 UGuidePageDatabase::GetValidData() const
 {
 	int32 Count = 0;

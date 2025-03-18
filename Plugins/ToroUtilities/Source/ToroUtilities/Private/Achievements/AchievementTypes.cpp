@@ -10,34 +10,25 @@ bool UAchievementDatabase::IsKeyValid(const FGameplayTag& Key) const
 	return VerifyAchievementTag(Key) && Entries.Contains(Key) && Entries.FindRef(Key).IsValidData();
 }
 
+const FAchievementEntry* UAchievementDatabase::Find(const FGameplayTag& Key) const
+{
+	return IsKeyValid(Key) ? Entries.Find(Key) : nullptr;
+}
+
 bool UAchievementDatabase::IsValidKey(const FGameplayTag& Key)
 {
-	if (!Key.IsValid()) return false;
-	if (const UAchievementDatabase* Database = UToroSettings::Get()->AchievementDatabase.LoadSynchronous())
-	{
-		return Database->IsKeyValid(Key);
-	}
-	
-	return false;
+	const UAchievementDatabase* Database = UToroSettings::Get()->AchievementDatabase.LoadSynchronous();
+	return Database ? Database->IsKeyValid(Key) : false;
 }
 
 FAchievementEntry UAchievementDatabase::Get(const FGameplayTag& Key)
 {
-	if (!Key.IsValid()) return {};
-	if (const UAchievementDatabase* Database = UToroSettings::Get()->AchievementDatabase.LoadSynchronous())
-	{
-		return Database->Entries.FindRef(Key);
-	}
-	
-	return {};
+	const UAchievementDatabase* Database = UToroSettings::Get()->AchievementDatabase.LoadSynchronous();
+	const FAchievementEntry* Entry = Database ? Database->Find(Key) : nullptr;
+	return Entry ? *Entry : FAchievementEntry();
 }
 
 #if WITH_EDITOR
-int32 UAchievementDatabase::GetTotalData() const
-{
-	return Entries.Num();
-}
-
 int32 UAchievementDatabase::GetValidData() const
 {
 	int32 Count = 0;
