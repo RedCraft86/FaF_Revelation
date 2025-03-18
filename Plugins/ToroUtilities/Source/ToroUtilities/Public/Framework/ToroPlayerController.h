@@ -5,6 +5,7 @@
 #include "ExecPinEnums.h"
 #include "ToroNarrative.h"
 #include "Kismet/GameplayStatics.h"
+#include "Inventory/InventoryComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
 
@@ -76,6 +77,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UInventoryComponent> Inventory;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UToroNarrativeComponent> Narrative;

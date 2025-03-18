@@ -22,6 +22,8 @@ public class ToroUtilities : ModuleRules
                 "InputCore",
                 "PhysicsCore",
                 "GameplayTags",
+                "JsonUtilities",
+                "EnhancedInput",
                 "MetasoundEngine",
                 "AudioExtensions",
                 "DeveloperSettings",

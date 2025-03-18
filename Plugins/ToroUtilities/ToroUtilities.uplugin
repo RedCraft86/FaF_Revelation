@@ -67,6 +67,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "Narrative",
+			"Enabled": true
+		},
+		{
 			"Name": "XeSS",
 			"Enabled": true
 		},

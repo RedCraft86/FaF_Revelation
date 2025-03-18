@@ -36,7 +36,8 @@ AToroPlayerController::AToroPlayerController()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
-	
+
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Narrative = CreateDefaultSubobject<UToroNarrativeComponent>("Narrative");
 
 	PlayerCameraManagerClass = AToroCameraManager::StaticClass();
