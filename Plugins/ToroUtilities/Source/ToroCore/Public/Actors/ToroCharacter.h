@@ -2,10 +2,13 @@
 
 #pragma once
 
+#include "ToroCore.h"
 #include "CharacterInterface.h"
 #include "GameplayTagContainer.h"
 #include "GameFramework/Character.h"
 #include "ToroCharacter.generated.h"
+
+UE_DECLARE_GAMEPLAY_TAG_BASE(Character)
 
 UCLASS(Abstract)
 class TOROCORE_API AToroCharacter : public ACharacter, public ICharacterInterface

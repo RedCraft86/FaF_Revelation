@@ -1,16 +1,42 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroPlayerController.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/AudioComponent.h"
+#include "Framework/ToroGameMode.h"
+
+UE_DEFINE_GAMEPLAY_TAG_CHILD(Player, Character)
 
 AToroPlayerCharacter::AToroPlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
-	SetRootComponent(SceneRoot);
-
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	AutoReceiveInput = EAutoReceiveInput::Player0;
+
+	FootstepAudio = CreateDefaultSubobject<UAudioComponent>("FootstepAudio");
+	FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f, -60.0f));
+	FootstepAudio->SetupAttachment(GetCapsuleComponent());
+
+	PlayerLight = CreateDefaultSubobject<UPointLightComponent>("PlayerLight");
+	PlayerLight->SetupAttachment(GetCapsuleComponent());
+
+	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
+	EquipmentRoot->SetupAttachment(GetCapsuleComponent());
+#if WITH_EDITOR
+	EquipmentRoot->bVisualizeComponent = true;
+#endif
+
+	CharacterID = Tag_Character_Player;
+	LightSettings.Intensity = 0.025f;
+	LightSettings.AttenuationRadius = 500.0f;
+	LightSettings.bUseTemperature = true;
+	LightSettings.Temperature = 12000.0f;
+	LightSettings.bLightCastShadows = false;
+	LightSettings.bUseInverseSquaredFalloff = true;
+	LightSettings.LightFalloffExponent = 1.0f;
+	LightSettings.SpecularScale = 0.0f;
+	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
 }
 
 EToroValidPins AToroPlayerCharacter::GetToroPlayerCharacter(AToroPlayerCharacter*& OutObject,
@@ -21,12 +47,65 @@ EToroValidPins AToroPlayerCharacter::GetToroPlayerCharacter(AToroPlayerCharacter
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
 }
 
+void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSettings)
+{
+	LightSettings = InSettings;
+	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
+}
+
+void AToroPlayerCharacter::FadeToBlack(const float InTime, const bool bAudio) const
+{
+	if (PlayerController && PlayerController->PlayerCameraManager)
+	{
+		if (FMath::IsNearlyZero(InTime))
+		{
+			PlayerController->PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, bAudio);
+		}
+		else
+		{
+			PlayerController->PlayerCameraManager->StartCameraFade(0.0f, 1.0f,
+			   InTime, FLinearColor::Black, bAudio, true);
+		}
+	}
+}
+
+void AToroPlayerCharacter::FadeFromBlack(const float InTime, const bool bAudio) const
+{
+	if (PlayerController && PlayerController->PlayerCameraManager)
+	{
+		if (FMath::IsNearlyZero(InTime))
+		{
+			PlayerController->PlayerCameraManager->SetManualCameraFade(0.0f, FLinearColor::Black, bAudio);
+		}
+		else
+		{
+			PlayerController->PlayerCameraManager->StartCameraFade(1.0f, 0.0f,
+			   InTime, FLinearColor::Black, bAudio, true);
+		}
+	}
+}
+
+void AToroPlayerCharacter::ClearFade() const
+{
+	if (PlayerController && PlayerController->PlayerCameraManager)
+	{
+		PlayerController->PlayerCameraManager->StopCameraFade();
+	}
+}
+
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GameMode = AToroGameMode::Get(this);
+	PlayerController = AToroPlayerController::Get(this);
+	GameInstance = UToroGameInstance::Get(this);
+	GetWorldTimerManager().SetTimer(SlowTickTimer, this,
+		&AToroPlayerCharacter::SlowTick, SlowTickInterval, true);
 }
 
-void AToroPlayerCharacter::Tick(float DeltaTime)
+void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
 {
-	Super::Tick(DeltaTime);
+	Super::OnConstruction(Transform);
+	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
 }

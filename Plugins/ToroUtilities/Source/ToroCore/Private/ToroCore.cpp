@@ -3,7 +3,6 @@
 #include "ToroCore.h"
 
 UE_DEFINE_GAMEPLAY_TAG_BASE(Weather)
-UE_DEFINE_GAMEPLAY_TAG_BASE(Character)
 
 DEFINE_LOG_CATEGORY(LogToroCore);
 

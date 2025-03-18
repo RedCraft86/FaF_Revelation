@@ -2,6 +2,8 @@
 
 #include "ToroCharacter.h"
 
+UE_DEFINE_GAMEPLAY_TAG_BASE(Character)
+
 AToroCharacter::AToroCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
