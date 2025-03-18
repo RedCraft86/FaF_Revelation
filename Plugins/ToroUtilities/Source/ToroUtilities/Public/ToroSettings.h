@@ -44,6 +44,9 @@ public:
 		TSoftObjectPtr<UWorld> GameplayMap;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<ULocalSoundDatabase> LocalSoundDatabase;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
