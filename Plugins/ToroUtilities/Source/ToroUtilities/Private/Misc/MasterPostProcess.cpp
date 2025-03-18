@@ -2,7 +2,6 @@
 
 #include "Misc/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
-#include "LightProbes/LightProbeManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroUtilities.h"
 #include "ToroSettings.h"
@@ -23,7 +22,7 @@ AMasterPostProcess::AMasterPostProcess()
 	PostProcess->bEnabled = true;
 	
 #if WITH_EDITORONLY_DATA
-	DebugBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>(TEXT("DebugBillboard"));
+	DebugBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DebugBillboard");
 	if (DebugBillboard)
 	{
 		DebugBillboard->bIsScreenSizeScaled = true;
