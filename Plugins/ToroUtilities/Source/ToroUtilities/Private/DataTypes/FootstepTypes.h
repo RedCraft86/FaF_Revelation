@@ -23,7 +23,7 @@ public:
 	USoundBase* GetSound(const EPhysicalSurface Surface) const
 	{
 		USoundBase* Sound = Surfaces.FindRef(Surface);
-		return Sound ? Sound : Default;
+		return Sound ? Sound : Default.Get();
 	}
 
 #if WITH_EDITOR

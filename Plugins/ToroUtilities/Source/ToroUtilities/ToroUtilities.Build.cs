@@ -20,6 +20,7 @@ public class ToroUtilities : ModuleRules
                 "SlateCore", 
                 "CommonUI",
                 "InputCore",
+                "PhysicsCore",
                 "GameplayTags",
                 "MetasoundEngine",
                 "AudioExtensions",
