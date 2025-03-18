@@ -5,6 +5,7 @@
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "Engine/DeveloperSettings.h"
+#include "SaveSystem/ToroSaveTypes.h"
 #include "DataTypes/LocalSoundTypes.h"
 #include "UserSettings/UserSettingTypes.h"
 #include "ToroSettings.generated.h"
@@ -20,6 +21,11 @@ public:
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroUtilities");
+
+		SaveObjects = {
+			{Tag_Save_Global, UToroGlobalSave::StaticClass()},
+			{Tag_Save_Game, UToroGameSave::StaticClass()},
+		};
 
 		bUseLightProbes = true;
 		LightProbePPM_8 = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/LightProbe/PPMI_LP_8.PPMI_LP_8"));
@@ -47,7 +53,10 @@ public:
 		TSet<TSoftClassPtr<UUserWidget>> DefaultWidgets;
 
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem)
-		FName DemoVersion;
+		FName DemoName;
+
+	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (ForceInlineRow, Categories = "Save"))
+		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> SaveObjects;
 
 	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
 		bool bUseLightProbes;
@@ -84,6 +93,12 @@ public:
 	{
 		if (GameplayMap.IsNull()) return false;
 		return UGameplayStatics::GetCurrentLevelName(WorldContext) == GameplayMap.GetAssetName();
+	}
+
+	FString GetDemoName() const
+	{
+		const FString Str = DemoName.IsNone() ? TEXT("") : DemoName.ToString().Replace(TEXT(" "), TEXT(""));
+		return Str.IsEmpty() || Str == TEXT(" ") || Str.TrimStartAndEnd().IsEmpty() ? TEXT("") : Str;
 	}
 
 	bool IsUsingLightProbes() const
