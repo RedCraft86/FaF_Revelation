@@ -26,6 +26,7 @@ public class ToroUtilities : ModuleRules
                 "DeveloperSettings",
                 "EnhancedCodeFlow",
                 "ExpressiveText",
+                "Narrative",
                 "ToroCore",
                 "XeSSBlueprint",
                 "NISBlueprint", 

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ExecPinEnums.h"
+#include "ToroNarrative.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
@@ -75,6 +76,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UToroNarrativeComponent> Narrative;
 
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAnyKeyPressedEvent, const FKey&, Key);
 	UPROPERTY(BlueprintAssignable) FAnyKeyPressedEvent OnAnyKeyPressed;
