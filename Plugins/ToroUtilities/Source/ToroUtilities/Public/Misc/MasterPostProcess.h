@@ -13,7 +13,7 @@
 /* Master/Global post-processing volume.
  * Ideally, only one should exist per map.
  */
-UCLASS(NotBlueprintable, meta = (AllowedCategories = "PostProcessing"))
+UCLASS(NotBlueprintable, meta = (AllowedCategories = "PostProcessing", HiddenCategories = "Rendering, Actor"))
 class TOROUTILITIES_API AMasterPostProcess final : public AActor
 {
 	GENERATED_BODY()
