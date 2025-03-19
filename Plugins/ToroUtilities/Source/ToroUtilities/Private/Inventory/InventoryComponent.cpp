@@ -41,7 +41,7 @@ FInvSlotData::FInvSlotData(const TObjectPtr<UInventoryItemData>& InItem, const u
 	Metadata.Append(InMetadata);
 }
 
-UInventoryComponent::UInventoryComponent() : bInInventory(false)
+UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;

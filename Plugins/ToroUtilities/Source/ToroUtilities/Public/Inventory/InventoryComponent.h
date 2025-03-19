@@ -201,9 +201,6 @@ public:
 		void SetSaveData(const FInvSaveData& InData);
 
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
-		bool IsInInventory() const { return bInInventory; }
-
-	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		AInventoryPreview* GetPreviewActor() const { return PreviewActor; }
 
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
@@ -223,7 +220,6 @@ protected:
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Item Removed")
 		FInventoryIOUpdateSignature OnItemRemovedBP;
 
-	UPROPERTY() bool bInInventory;
 	UPROPERTY() FInvEquipData Equipment;
 	UPROPERTY() FGameCurrency CurrencyData;
 	UPROPERTY() TMap<FGuid, FInvSlotData> ItemSlots;

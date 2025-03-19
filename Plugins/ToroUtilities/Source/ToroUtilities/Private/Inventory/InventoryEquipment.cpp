@@ -16,8 +16,7 @@ void AInventoryEquipment::OnEquip(UInventoryComponent* Inventory, const FInvSlot
 {
 	if (const AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(Inventory))
 	{
-		// TODO
-		// AttachToComponent(Player->EquipmentRoot, FAttachmentTransformRules::SnapToTargetIncludingScale);
+		AttachToComponent(Player->EquipmentRoot, FAttachmentTransformRules::SnapToTargetIncludingScale);
 	}
 
 	CachedJson.JsonObjectFromString(Slot.Metadata.FindRef(Tag_InvMeta_JsonData));
