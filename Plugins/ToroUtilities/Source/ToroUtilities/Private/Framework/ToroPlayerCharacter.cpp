@@ -8,7 +8,7 @@
 
 UE_DEFINE_GAMEPLAY_TAG_CHILD(Player, Character)
 
-AToroPlayerCharacter::AToroPlayerCharacter()
+AToroPlayerCharacter::AToroPlayerCharacter() : SlowTickInterval(0.1f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -45,6 +45,21 @@ EToroValidPins AToroPlayerCharacter::GetToroPlayerCharacter(AToroPlayerCharacter
 	AToroPlayerCharacter* Obj = Get<AToroPlayerCharacter>(ContextObject, PlayerIndex);
 	OutObject = IsValid(Obj) && (!Class || Obj->IsA(Class)) ? Obj : nullptr;
 	return IsValid(OutObject) ? EToroValidPins::Valid : EToroValidPins::NotValid;
+}
+
+void AToroPlayerCharacter::AddLockFlag(const FPlayerLockFlag& InFlag)
+{
+	if (InFlag.IsValidFlag()) LockFlags.Add(InFlag);
+}
+
+void AToroPlayerCharacter::ClearLockFlag(const FPlayerLockFlag& InFlag)
+{
+	if (InFlag.IsValidFlag()) LockFlags.Remove(InFlag);
+}
+
+bool AToroPlayerCharacter::HasLockFlag(const FPlayerLockFlag& InFlag) const
+{
+	return InFlag.IsValidFlag() && LockFlags.Contains(InFlag);
 }
 
 void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSettings)

@@ -7,6 +7,7 @@
 #include "LightingData.h"
 #include "ToroCharacter.h"
 #include "Kismet/GameplayStatics.h"
+#include "DataTypes/PlayerLockFlag.h"
 #include "Components/PointLightComponent.h"
 #include "ToroPlayerCharacter.generated.h"
 
@@ -33,6 +34,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
 		float SlowTickInterval;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+		TArray<FPlayerLockFlag> LockFlags;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPointLightProperties LightSettings;
 
@@ -44,6 +48,15 @@ public:
 	{
 		return Cast<T>(UGameplayStatics::GetPlayerCharacter(ContextObject, PlayerIndex));
 	}
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void AddLockFlag(const FPlayerLockFlag& InFlag);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void ClearLockFlag(const FPlayerLockFlag& InFlag);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		virtual bool HasLockFlag(const FPlayerLockFlag& InFlag) const;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
@@ -67,4 +80,14 @@ protected:
 	virtual void SlowTick() {}
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
+	{
+		Super::PostEditChangeProperty(PropertyChangedEvent);
+		if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, LockFlags))
+		{
+			DeduplicateLockFlags(LockFlags);
+		}
+	}
+#endif
 };
