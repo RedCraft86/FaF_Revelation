@@ -174,6 +174,12 @@ public:
 		void EnsureItems(const TArray<FInvSlotData>& InItems);
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		FGuid FindKeyItem(const FString& KeyID);
+
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		bool UseKeyItem(const FString& KeyID);
+
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
 		bool CanConsumeItem(const FGuid& InSlot, FIntPoint& Amounts);
 
 	UFUNCTION(BlueprintCallable, Category = InventoryManager)

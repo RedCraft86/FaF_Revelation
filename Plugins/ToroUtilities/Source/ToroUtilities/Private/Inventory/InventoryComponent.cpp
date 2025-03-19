@@ -364,6 +364,28 @@ void UInventoryComponent::EnsureItems(const TArray<FInvSlotData>& InItems)
 	}
 }
 
+FGuid UInventoryComponent::FindKeyItem(const FString& KeyID)
+{
+	for (const TPair<FGuid, FInvSlotData>& Slot : ItemSlots)
+	{
+		if (Slot.Value.Amount > 0 && Slot.Value.Metadata.FindRef(Tag_InvMeta_KeyID) == KeyID)
+			return Slot.Key;
+	}
+	return {};
+}
+
+bool UInventoryComponent::UseKeyItem(const FString& KeyID)
+{
+	const FGuid SlotKey = FindKeyItem(KeyID);
+	if (const FInvSlotData* SlotData = ItemSlots.Find(SlotKey))
+	{
+		if (!SlotData->Metadata.Contains(Tag_InvMeta_ReuseKey))
+			RemoveItemFromSlot(SlotKey, 1);
+		return true;
+	}
+	return false;
+}
+
 bool UInventoryComponent::CanConsumeItem(const FGuid& InSlot, FIntPoint& Amounts)
 {
 	const FInvSlotData* SlotData = ItemSlots.Find(InSlot);
