@@ -64,7 +64,7 @@ struct TOROUTILITIES_API FInventoryMetadata
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Metadata, meta = (MultiLine = true, ForceInlineRow, Categories = "InventoryMeta"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Metadata, meta = (MultiLine = true, ForceInlineRow, Categories = "InvMeta"))
 		TMap<FGameplayTag, FString> Metadata;
 
 	FInventoryMetadata() : Metadata({}) {}

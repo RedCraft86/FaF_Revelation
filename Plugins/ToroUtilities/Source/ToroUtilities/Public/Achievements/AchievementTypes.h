@@ -52,7 +52,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Achievements)
 		TSoftObjectPtr<USoundBase> Sound;
 
-	UPROPERTY(EditAnywhere, Category = Achievements, meta = (ForceInlineRow, Categories = "Achievements", TitleProperty = "Label"))
+	UPROPERTY(EditAnywhere, Category = Achievements, meta = (ForceInlineRow, Categories = "Achievement", TitleProperty = "Label"))
 		TMap<FGameplayTag, FAchievementEntry> Entries;
 
 	bool IsKeyValid(const FGameplayTag& Key) const;
