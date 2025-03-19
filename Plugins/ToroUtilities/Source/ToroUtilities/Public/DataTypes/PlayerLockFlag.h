@@ -31,15 +31,16 @@ struct TOROUTILITIES_API FPlayerLockFlag
 
 #if WITH_EDITOR
 	FORCEINLINE void ResetTag();
+	FORCEINLINE bool HasValidTag() const;
 #endif
 };
 
 inline void DeduplicateLockFlags(TArray<FPlayerLockFlag>& Flags)
 {
-	TSet<FPlayerLockFlag> Existing;
+	TSet<FName> Existing;
 	for (auto It = Flags.CreateIterator(); It; ++It)
 	{
-		if (FPlayerLockFlag& Flag = *It; Existing.Contains(Flag))
+		if (FName Flag = **It; Existing.Contains(Flag))
 		{
 			if (It.GetIndex() == Flags.Num() - 1)
 			{

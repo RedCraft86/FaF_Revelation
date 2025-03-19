@@ -11,4 +11,5 @@ FPlayerLockFlag::FPlayerLockFlag(const FGameplayTag& InLock) : LockTag(InLock), 
 FName FPlayerLockFlag::Get() const { return VerifyPlayerLockTag(LockTag) ? LockTag.GetTagName() : LockKey; }
 #if WITH_EDITOR
 void FPlayerLockFlag::ResetTag() { LockTag = Tag_PlayerLock; }
+bool FPlayerLockFlag::HasValidTag() const { return VerifyPlayerLockTag(LockTag); }
 #endif

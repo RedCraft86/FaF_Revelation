@@ -33,7 +33,7 @@ private:
 		StructBuilder.AddProperty(STRUCT_PROPERTY(Justification));
 
 		STRUCT_PROPERTY_VAR(UseAutoSize, UseAutoSize);
-		IDetailGroup& AutoSizeGroup = StructBuilder.AddGroup(TEXT("AutoSize"), INVTEXT("Auto Size"));
+		IDetailGroup& AutoSizeGroup = StructBuilder.AddGroup("AutoSize", INVTEXT("Auto Size"));
 		{
 			AutoSizeGroup.HeaderProperty(UseAutoSize.ToSharedRef()).DisplayName(INVTEXT("Auto Size"));
 
@@ -82,7 +82,7 @@ private:
 		}
 
 		STRUCT_PROPERTY_VAR(WrapSettings, WrapSettings);
-		IDetailGroup& WrapGroup = StructBuilder.AddGroup(TEXT("WrapSettings"), INVTEXT("Wrapping"));
+		IDetailGroup& WrapGroup = StructBuilder.AddGroup("WrapSettings", INVTEXT("Wrapping"));
 		{
 			const TSharedPtr<IPropertyHandle> WrapMode = WrapSettings->GetChildHandle(0);
 			WrapGroup.HeaderProperty(WrapMode.ToSharedRef()).DisplayName(INVTEXT("Wrapping"));
@@ -98,7 +98,7 @@ private:
 		}
 
 		STRUCT_PROPERTY_VAR(Alignment, Alignment);
-		IDetailGroup& AlignmentGroup = StructBuilder.AddGroup(TEXT("AlignmentSettings"), INVTEXT("Alignment"));
+		IDetailGroup& AlignmentGroup = StructBuilder.AddGroup("AlignmentSettings", INVTEXT("Alignment"));
 		{
 			constexpr float Width(75.0f);
 			

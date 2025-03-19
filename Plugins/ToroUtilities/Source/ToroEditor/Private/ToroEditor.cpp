@@ -19,14 +19,23 @@
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
 
+#include "DetailsCustomization/PropertyMetadataDetails.h"
+
+#include "DetailsCustomization/LevelZoneVolumeDetails.h"
+#include "DetailsCustomization/InventoryItemDetails.h"
+
 #include "DetailsCustomization/InlineCurveDetails.h"
 #include "DetailsCustomization/PrimitiveCollisionDetails.h"
-
-#include "DetailsCustomization/PropertyMetadataDetails.h"
+#include "DetailsCustomization/ElectricLightAnimDetails.h"
+#include "DetailsCustomization/InteractionInfoDetails.h"
+#include "DetailsCustomization/InventoryMetadataDetails.h"
+#include "DetailsCustomization/LocalSoundEntryDetails.h"
+#include "DetailsCustomization/PlayerLockFlagDetails.h"
 #include "DetailsCustomization/ExpressiveTextFieldsDetails.h"
 #include "DetailsCustomization/FloatModifierDetails.h"
 
 #include "ComponentVisualizer/DebugShapeVisualizer.h"
+#include "ComponentVisualizer/VisionConeVisualizer.h"
 
 #define LOCTEXT_NAMESPACE "FToroEditorModule"
 
@@ -68,11 +77,18 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
+
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionCustomization)
-		
+		REGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim, FElectricLightAnimCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo, FInteractionInfoCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata, FInventoryMetadataCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry, FLocalSoundEntryCustomization)
+		REGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag, FPlayerLockCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExpressiveTextFieldsCustomization)
 
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
@@ -86,6 +102,7 @@ void FToroEditorModule::StartupModule()
 	if (GUnrealEd)
 	{
 		REGISTER_VISUALIZER(UDebugShapeComponent, FDebugShapeVisualizer)
+		REGISTER_VISUALIZER(UVisionConeComponent, FVisionConeVisualizer)
 	}
 }
 
@@ -108,13 +125,20 @@ void FToroEditorModule::ShutdownModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		UNREGISTER_CLASS_CUSTOMIZATION(UInventoryItemData)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
+
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
-		
+		UNREGISTER_STRUCT_CUSTOMIZATION(FElectricLightAnim)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInteractionInfo)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInventoryMetadata)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FLocalSoundEntry)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
-		
+
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
@@ -126,6 +150,7 @@ void FToroEditorModule::ShutdownModule()
 	if (GUnrealEd)
 	{
 		UNREGISTER_VISUALIZER(UDebugShapeComponent);
+		UNREGISTER_VISUALIZER(UVisionConeComponent);
 	}
 
 	FToroEditorStyle::Shutdown();

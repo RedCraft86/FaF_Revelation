@@ -51,6 +51,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "GameplayTagsEditor",
+			"Enabled": true
+		},
+		{
 			"Name": "Metasound",
 			"Enabled": true
 		},

@@ -10,11 +10,6 @@ public class ToroEditor : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = true;
 
-        // Include all the immediate folders under .../ToroEditor/Public/
-        PublicIncludePaths.AddRange(
-            Directory.GetDirectories(Path.Combine(PluginDirectory, "Source/ToroEditor/Public/"))
-        );
-
         PublicDependencyModuleNames.AddRange(
             new[]
             {
@@ -31,10 +26,12 @@ public class ToroEditor : ModuleRules
                 "ContentBrowser",
                 "AssetDefinition",
                 "EditorSubsystem",
+                "GameplayTagsEditor",
                 "ContentBrowserData",
                 "EditorScriptingUtilities",
                 "DeveloperSettings",
                 "ExpressiveText",
+                "ToroUtilities",
                 "ToroCore"
             }
         );

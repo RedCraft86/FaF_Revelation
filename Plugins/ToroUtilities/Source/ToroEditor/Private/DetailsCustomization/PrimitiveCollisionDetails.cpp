@@ -59,7 +59,7 @@ void FPrimitiveCollisionCustomization::CustomizeHeader(TSharedRef<IPropertyHandl
 			return StructPtr && bEnabled ? StructPtr->GetProfileName() != UCollisionProfile::BlockAll_ProfileName : false;
 		}),
 		FSimpleDelegate::CreateLambda([this, StructPropertyHandle]() {
-			OnPresetSelectionChanged(MakeShared<FName>(TEXT("BlockAll")), ESelectInfo::OnMouseClick, StructPropertyHandle);
+			OnPresetSelectionChanged(MakeShared<FName>("BlockAll"), ESelectInfo::OnMouseClick, StructPropertyHandle);
 		})
 	))
 	.ValueContent()
@@ -346,7 +346,7 @@ void FPrimitiveCollisionCustomization::ReloadPresets()
 	if (const UCollisionProfile* Profile = UCollisionProfile::Get())
 	{
 		Presets.Empty(Profile->GetNumOfProfiles() + 1);
-		Presets.Add(MakeShared<FName>(TEXT("Custom...")));
+		Presets.Add(MakeShared<FName>("Custom..."));
 
 		TArray<TSharedPtr<FName>> ValidPresets;
 		Profile->GetProfileNames(ValidPresets);
