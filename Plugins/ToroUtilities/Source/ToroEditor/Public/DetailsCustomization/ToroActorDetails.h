@@ -43,18 +43,15 @@ public:
 protected:
 
 	TArray<FName> HiddenCategories;
-	TArray<FName> AllowedCategories = { TEXT("Actor"), TEXT("Tick") };
-	TMap<FName, FText> CategoryRename = {
-		{TEXT("TransformCommon"),	INVTEXT("Transform")},
-		{TEXT("CharacterSettings"),	INVTEXT("Character")},
-	};
+	TArray<FName> AllowedCategories = { "Transform", "TransformCommon", "Settings", "Tools", "Rendering", "Actor", "Tick" };
+	TMap<FName, FText> CategoryRename = {{"TransformCommon", INVTEXT("Transform")}};
 	TMap<FName, ECategoryPriority::Type> CategoryPriority = {
-		{TEXT("Transform"),			ECategoryPriority::Transform},
-		{TEXT("TransformCommon"),	ECategoryPriority::Transform},
-		{TEXT("Settings"),			ECategoryPriority::Important},
-		{TEXT("Tools"),				ECategoryPriority::Important},
-		{TEXT("Rendering"),			ECategoryPriority::Default},
-		{TEXT("Actor"),				ECategoryPriority::Default}
+		{"Transform",		ECategoryPriority::Transform},
+		{"TransformCommon",	ECategoryPriority::Transform},
+		{"Settings",			ECategoryPriority::Important},
+		{"Tools",			ECategoryPriority::Important},
+		{"Rendering",		ECategoryPriority::Default},
+		{"Actor",			ECategoryPriority::Default}
 	};
 
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
