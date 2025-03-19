@@ -3,7 +3,9 @@
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
+#include "EnhancedInputSubsystems.h"
 #include "Blueprint/UserWidget.h"
+#include "ToroSettings.h"
 
 void FGameInputModeData::ClearReferences()
 {
@@ -104,6 +106,11 @@ void AToroPlayerController::BeginPlay()
 	Super::BeginPlay();
 	FSlateApplication::Get().OnApplicationActivationStateChanged()
 		.AddUObject(this, &AToroPlayerController::OnWindowFocusChanged);
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
+	{
+		Subsystem->ClearAllMappings();
+		Subsystem->AddMappingContext(UToroSettings::Get()->DefaultInputMappings.LoadSynchronous(), 0);
+	}
 }
 
 void AToroPlayerController::SetupInputComponent()
@@ -118,4 +125,13 @@ void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	InputModeData.ClearReferences();
 	Super::EndPlay(EndPlayReason);
+}
+
+UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const
+{
+	if (const ULocalPlayer* LocPlayer = GetLocalPlayer())
+	{
+		return LocPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+	}
+	return nullptr;
 }
