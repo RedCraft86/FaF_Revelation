@@ -16,12 +16,18 @@
 #include "EditorTools/StaticMeshMerger.h"
 #include "EditorTools/StaticMeshInstancer.h"
 
+#include "ToroCharacter.h"
 #include "ToroMeshGenBase.h"
 #include "NavPathVisualizer.h"
+#include "TeleportTargetActor.h"
+#include "LightProbes/LightProbe.h"
+#include "Misc/MasterPostProcess.h"
+#include "WorldActions/WorldActionActor.h"
 
 #include "DetailsCustomization/PropertyMetadataDetails.h"
-
+#include "DetailsCustomization/ElectricActorDetails.h"
 #include "DetailsCustomization/LevelZoneVolumeDetails.h"
+#include "DetailsCustomization/ElectricLightDetails.h"
 #include "DetailsCustomization/InventoryItemDetails.h"
 
 #include "DetailsCustomization/InlineCurveDetails.h"
@@ -77,8 +83,19 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
-		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ALightProbe, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AWorldActionActor, FToroActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(ATeleportTargetActor, FToroActorCustomization)
 		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FLevelZoneVolumeCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AElectricActorBase, FElectricActorCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(AElectricLightBase, FElectricLightCustomization)
+		REGISTER_CLASS_CUSTOMIZATION(UInventoryItemData, FInventoryItemCustomization)
 
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveCustomization)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveCustomization)
