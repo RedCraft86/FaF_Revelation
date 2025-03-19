@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "SequenceActor.h"
+#include "Misc/SequenceActor.h"
+#include "Framework/ToroPlayerController.h"
 
 void AToroSequenceActor::Play()
 {
@@ -45,12 +46,19 @@ void AToroSequenceActor::SetPlaybackPosition(FMovieSceneSequencePlaybackParams I
 void AToroSequenceActor::LockPlayer()
 {
 	if (!bLockPlayer) return;
+	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
+	{
+		Controller->EnterCinematic(this);
+	}
 }
 
 void AToroSequenceActor::UnlockPlayer() const
 {
 	if (!bLockPlayer) return;
-	// TODO
+	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
+	{
+		Controller->ExitCinematic();
+	}
 }
 
 void AToroSequenceActor::BeginPlay()

@@ -2,7 +2,7 @@
 
 #include "WorldActions/Actions/MiscActions.h"
 #include "Kismet/GameplayStatics.h"
-#include "Actors/SequenceActor.h"
+#include "Misc/SequenceActor.h"
 
 void FWTaskLevelStreaming::RunEvent(const UObject* WorldContext)
 {

@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroPlayerController.h"
+#include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
 #include "Blueprint/UserWidget.h"
 
@@ -60,6 +61,32 @@ void AToroPlayerController::SetInputModeData(const FGameInputModeData& InputMode
 	SetShowMouseCursor(InputModeData.ShouldShowMouse());
 	SetInputMode(InputModeData.GetInputMode());
 	FlushPressedKeys();
+}
+
+void AToroPlayerController::EnterCinematic(AActor* InActor)
+{
+	if (!CinematicActor)
+	{
+		CinematicActor = InActor;
+		SetCinematicMode(true, true, false, true, true);
+		if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
+		{
+			PlayerChar->AddLockFlag(Tag_PlayerLock_Cinematic.GetTag());
+		}
+	}
+}
+
+void AToroPlayerController::ExitCinematic()
+{
+	if (CinematicActor)
+	{
+		CinematicActor = nullptr;
+		SetCinematicMode(false, false, false, true, true);
+		if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
+		{
+			PlayerChar->ClearLockFlag(Tag_PlayerLock_Cinematic.GetTag());
+		}
+	}
 }
 
 void AToroPlayerController::OnAnyKeyEvent(FKey PressedKey)

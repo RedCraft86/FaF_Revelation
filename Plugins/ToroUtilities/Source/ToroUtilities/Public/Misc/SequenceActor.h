@@ -7,7 +7,7 @@
 #include "SequenceActor.generated.h"
 
 UCLASS()
-class TOROCORE_API AToroSequenceActor : public ALevelSequenceActor
+class TOROUTILITIES_API AToroSequenceActor : public ALevelSequenceActor
 {
 	GENERATED_BODY()
 

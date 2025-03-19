@@ -91,13 +91,22 @@ public:
 	}
 
 	UFUNCTION(BlueprintCallable, Category = Input, meta = (AdvancedDisplay = "MouseLock, bHideCursorOnCapture, FocusWidget, PlayerIndex"))
-		void SetGameInputMode(const EGameInputMode InputMode, const bool bMouseCursor = false, const EMouseLockMode MouseLock = EMouseLockMode::LockAlways, const bool bHideCursorOnCapture = true, UUserWidget* FocusWidget = nullptr);
+		virtual void SetGameInputMode(const EGameInputMode InputMode, const bool bMouseCursor = false, const EMouseLockMode MouseLock = EMouseLockMode::LockAlways, const bool bHideCursorOnCapture = true, UUserWidget* FocusWidget = nullptr);
 
 	UFUNCTION(BlueprintCallable, Category = Input)
-		void SetInputModeData(const FGameInputModeData& InputMode);
+		virtual void SetInputModeData(const FGameInputModeData& InputMode);
 
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void EnterCinematic(AActor* InActor);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void ExitCinematic();
+	
+	UFUNCTION(BlueprintPure, Category = Player)
+		AActor* GetCinematicActor() const { return CinematicActor; }
 
 	UFUNCTION(BlueprintNativeEvent)
 		UInventoryComponent* GetInventory() const;
@@ -110,6 +119,7 @@ public:
 protected:
 
 	UPROPERTY() FGameInputModeData InputModeData;
+	UPROPERTY(Transient) TObjectPtr<AActor> CinematicActor;
 
 	virtual void OnAnyKeyEvent(FKey PressedKey);
 	virtual void OnWindowFocusChanged(bool bFocused);
