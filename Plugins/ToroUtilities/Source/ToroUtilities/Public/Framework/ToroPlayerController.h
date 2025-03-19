@@ -78,12 +78,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<UInventoryComponent> Inventory;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<UToroNarrativeComponent> Narrative;
-
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAnyKeyPressedEvent, const FKey&, Key);
 	UPROPERTY(BlueprintAssignable) FAnyKeyPressedEvent OnAnyKeyPressed;
 
@@ -104,6 +98,14 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
+
+	UFUNCTION(BlueprintNativeEvent)
+		UInventoryComponent* GetInventory() const;
+	virtual UInventoryComponent* GetInventory_Implementation() const { return nullptr; }
+
+	UFUNCTION(BlueprintNativeEvent)
+		UToroNarrativeComponent* GetNarrative() const;
+	virtual UToroNarrativeComponent* GetNarrative_Implementation() const { return nullptr; }
 
 protected:
 

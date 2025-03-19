@@ -51,7 +51,7 @@ UInventoryComponent* UInventoryComponent::Get(const UObject* WorldContext)
 {
 	if (const AToroPlayerController* Controller = AToroPlayerController::Get(WorldContext))
 	{
-		return Controller->Inventory;
+		return Controller->GetInventory();
 	}
 	
 	return nullptr;

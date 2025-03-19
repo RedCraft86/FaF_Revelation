@@ -7,7 +7,7 @@ UToroNarrativeComponent* UToroNarrativeComponent::Get(const UObject* WorldContex
 {
 	if (const AToroPlayerController* Controller = AToroPlayerController::Get(WorldContext))
 	{
-		return Controller->Narrative;
+		return Controller->GetNarrative();
 	}
 	
 	return nullptr;
