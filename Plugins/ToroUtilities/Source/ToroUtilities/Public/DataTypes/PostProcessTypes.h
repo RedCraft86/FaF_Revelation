@@ -167,33 +167,62 @@ struct TOROUTILITIES_API FPPSettingOverrides
 	GENERATED_BODY()
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = "Settings|Preview", DisplayName = "Fancy Bloom")
 		bool bViewFancyBloom = true;
 
-	// Global Illumination | Reflections | Motion Blur
-	UPROPERTY(EditAnywhere, Category = Settings, DisplayName = "View Qualities: GI | Reflect | Motion Blur", meta = (ClampMin = 0, UIMin = 0, ClampMax = 2, UIMax = 2))
-		FIntVector ViewQualities = {1, 1, 1};
+	UPROPERTY(EditAnywhere, Category = "Settings|Preview", DisplayName = "Lumen GI", meta = (ClampMax = 2, UIMax = 2))
+		uint8 ViewLumenGI = true;
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Preview", DisplayName = "Lumen Reflections", meta = (ClampMax = 2, UIMax = 2))
+		uint8 ViewLumenReflect = true;
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Preview", DisplayName = "Motion Blur", meta = (ClampMax = 2, UIMax = 2))
+		uint8 ViewMotionBlur = true;
 #endif
 
-	UPROPERTY(Interp, EditAnywhere, Category = Settings, EditFixedSize, meta = (TitleProperty = "Title"))
-		TArray<FPPBloom> Bloom;
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|Bloom", DisplayName = "Simple")
+		FPPBloom BloomSimple;
 
-	UPROPERTY(Interp, EditAnywhere, Category = Settings, EditFixedSize, meta = (TitleProperty = "Title"))
-		TArray<FPPLumen> LumenQuality;
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|Bloom", DisplayName = "Fancy")
+		FPPBloom BloomFancy;
 
-	UPROPERTY(Interp, EditAnywhere, Category = Settings, EditFixedSize, meta = (TitleProperty = "Title"))
-		TArray<FPPMotionBlur> MotionBlur;
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|Lumen", DisplayName = "Low")
+		FPPLumen LumenLow;
+
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|Lumen", DisplayName = "Medium")
+		FPPLumen LumenMedium;
+
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|Lumen", DisplayName = "High")
+		FPPLumen LumenHigh;
+
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|MotionBlur", DisplayName = "Low")
+		FPPMotionBlur MBLow;
+
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|MotionBlur", DisplayName = "Medium")
+		FPPMotionBlur MBMedium;
+
+	UPROPERTY(Interp, EditAnywhere, Category = "Settings|MotionBlur", DisplayName = "High")
+		FPPMotionBlur MBHigh;
 	
-	FPPSettingOverrides() : Bloom({{}, {}}), LumenQuality({{}, {}, {}})
-		, MotionBlur({{}, {}, {}})
+	FPPSettingOverrides() {}
+	const FPPBloom& GetBloom(const bool bFancy) const { return bFancy ? BloomFancy : BloomSimple; }
+	const FPPLumen& GetLumen(const uint8 Quality) const
 	{
-#if WITH_EDITORONLY_DATA
-		Bloom[0].Title = TEXT("Simple");
-		Bloom[1].Title = TEXT("Fancy");
-		LumenQuality[0].Title = MotionBlur[0].Title = TEXT("Low");
-		LumenQuality[1].Title = MotionBlur[1].Title = TEXT("Medium");
-		LumenQuality[2].Title = MotionBlur[2].Title = TEXT("High");
-#endif
+		switch (Quality)
+		{
+			case 0:	return LumenLow;
+			case 1:	return LumenMedium;
+			default:return LumenHigh;
+		}
+	}
+	const FPPMotionBlur& GetMB(const uint8 Quality) const
+	{
+		switch (Quality)
+		{
+			case 0:	return MBLow;
+			case 1:	return MBMedium;
+			default:return MBHigh;
+		}
 	}
 
 	void ApplyChoice(FPostProcessSettings& PostProcess, const UToroUserSettings* Settings) const
@@ -201,23 +230,19 @@ struct TOROUTILITIES_API FPPSettingOverrides
 #if WITH_EDITORONLY_DATA
 		if (!FApp::IsGame())
 		{
-			Bloom[bViewFancyBloom ? 1 : 0].ModifyPP(PostProcess);
-			
-			LumenQuality[ViewQualities.X].ModifyGI(PostProcess);
-			LumenQuality[ViewQualities.Y].ModifyReflection(PostProcess);
-
-			MotionBlur[ViewQualities.Z].ModifyPP(PostProcess);
-
+			GetBloom(bViewFancyBloom).ModifyPP(PostProcess);
+			GetLumen(ViewLumenGI).ModifyGI(PostProcess);
+			GetLumen(ViewLumenReflect).ModifyReflection(PostProcess);
+			GetMB(ViewMotionBlur).ModifyPP(PostProcess);
 			return;
 		}
 #endif
 		if (Settings)
 		{
-			Bloom[Settings->GetFancyBloom() ? 1 : 0].ModifyPP(PostProcess);
-			
-			LumenQuality[FMath::Max(0, (int32)Settings->GetLumenGI() - 1)].ModifyGI(PostProcess);
-			LumenQuality[FMath::Max(0, (int32)Settings->GetLumenReflection() - 1)].ModifyReflection(PostProcess);
-			MotionBlur[FMath::Max(0, (int32)Settings->GetMotionBlur() - 1)].ModifyPP(PostProcess);
+			GetBloom(Settings->GetFancyBloom()).ModifyPP(PostProcess);
+			GetLumen(FMath::Max(0, (int32)Settings->GetLumenGI() - 1)).ModifyGI(PostProcess);
+			GetLumen(FMath::Max(0, (int32)Settings->GetLumenReflection() - 1)).ModifyReflection(PostProcess);
+			GetMB(FMath::Max(0, (int32)Settings->GetMotionBlur() - 1)).ModifyPP(PostProcess);
 
 			PostProcess.bOverride_LumenRayLightingMode = true;
 			PostProcess.LumenRayLightingMode = Settings->GetHitLightingReflections()

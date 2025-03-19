@@ -32,7 +32,7 @@ public:
 #endif
 
 	/* Advanced bloom control for game settings */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ShowOnlyInnerProperties))
 		FPPSettingOverrides SettingOverrides;
 
 	/* Post process settings to use for this volume */
