@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "FootstepTypes.h"
+#include "DataTypes/FootstepTypes.h"
 
 #if WITH_EDITOR
 int32 UFootstepDatabase::GetValidData() const
