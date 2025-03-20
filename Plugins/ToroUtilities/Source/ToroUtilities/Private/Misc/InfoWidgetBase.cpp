@@ -4,6 +4,7 @@
 #include "Components/TextBlock.h"
 #include "Components/PanelWidget.h"
 #include "SaveSystem/ToroSaveManager.h"
+#include "Framework/ToroPlayerController.h"
 #include "UserSettings/ToroUserSettings.h"
 
 FLinearColor CalcFrameRateColor(const FLinearColor& Good, const FLinearColor& Bad, const float Target, const float Current)
@@ -15,7 +16,7 @@ FLinearColor CalcFrameRateColor(const FLinearColor& Good, const FLinearColor& Ba
 
 UInfoWidgetBase::UInfoWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	, GoodFrameRateColor(FLinearColor::Green), BadFrameRateColor(FLinearColor::Red)
-	, bShowFPS(false), FPSTick(0.0f), TargetFPS(60.0f)
+	, bPrePaused(false), bShowFPS(false), FPSTick(0.0f), TargetFPS(60.0f)
 {
 }
 
@@ -34,6 +35,10 @@ void UInfoWidgetBase::UpdateFrameRate() const
 void UInfoWidgetBase::OnFocusChanged(const bool bFocused) const
 {
 	UnfocusedView->SetVisibility(bFocused ? ESlateVisibility::Collapsed : ESlateVisibility::Visible);
+	if (AToroPlayerController* PC = GetPlayerController<AToroPlayerController>())
+	{
+		bFocused ? PC->RemovePauseRequest(this) : PC->AddPauseRequest(this);
+	}
 }
 
 void UInfoWidgetBase::OnSettingsChanged(const UToroUserSettings* Settings)

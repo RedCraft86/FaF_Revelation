@@ -39,6 +39,7 @@ public:
 
 protected:
 
+	UPROPERTY() bool bPrePaused;
 	UPROPERTY() bool bShowFPS;
 	UPROPERTY() float FPSTick;
 	UPROPERTY() float TargetFPS;

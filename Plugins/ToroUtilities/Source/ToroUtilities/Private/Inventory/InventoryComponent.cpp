@@ -501,20 +501,21 @@ void UInventoryComponent::OpenInventory()
 	if (!bInInventory)
 	{
 		PlayerChar->AddLockFlag(Tag_PlayerLock_Inventory.GetTag());
-		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, false, GetWidget());
-
 		ValidateInventory();
 		if (PreviewActor)
 		{
 			PreviewActor->Initialize();
 			PreviewActor->SetItem({});
 		}
-
 		if (OnInventoryState.IsBound()) OnInventoryState.Execute(true);
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 		{
-			PlayerChar->GetPlayerController()->SetPause(true);
+			if (AToroPlayerController* PC = PlayerChar->GetPlayerController())
+			{
+				PC->SetGameInputMode(EGameInputMode::GameAndUI, true,
+					EMouseLockMode::LockAlways, false, GetWidget());
+				PC->AddPauseRequest(this);
+			}
 		});
 		bInInventory = true;
 	}
@@ -525,10 +526,12 @@ void UInventoryComponent::CloseInventory()
 	if (bInInventory)
 	{
 		PlayerChar->ClearLockFlag(Tag_PlayerLock_Inventory.GetTag());
-		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameOnly);
-		PlayerChar->GetPlayerController()->SetPause(false);
+		if (AToroPlayerController* PC = PlayerChar->GetPlayerController())
+		{
+			PC->SetGameInputMode(EGameInputMode::GameOnly);
+			PC->RemovePauseRequest(this);
+		}
 		if (PreviewActor) PreviewActor->Deinitialize();
-
 		if (OnInventoryState.IsBound()) OnInventoryState.Execute(false);
 		FFlow::Delay(this, 0.5f, [this]()
 		{

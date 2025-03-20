@@ -99,6 +99,18 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		void AddPauseRequest(const UObject* InObject);
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		void RemovePauseRequest(const UObject* InObject);
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		void SetGamePaused(const bool bInPaused);
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		bool IsGamePaused() const { return bGamePaused; }
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void EnterCinematic(AActor* InActor);
@@ -121,9 +133,12 @@ public:
 
 protected:
 
+	UPROPERTY() bool bGamePaused;
 	UPROPERTY() FGameInputModeData InputModeData;
 	UPROPERTY(Transient) TObjectPtr<AActor> CinematicActor;
+	UPROPERTY(Transient) TSet<TWeakObjectPtr<const UObject>> PauseRequests;
 
+	virtual void OnPauseRequestChanged();
 	virtual void OnAnyKeyEvent(FKey PressedKey);
 
 	virtual void BeginPlay() override;

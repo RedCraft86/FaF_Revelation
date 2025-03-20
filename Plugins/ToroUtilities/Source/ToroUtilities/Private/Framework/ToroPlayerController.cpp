@@ -65,6 +65,31 @@ void AToroPlayerController::SetInputModeData(const FGameInputModeData& InputMode
 	FlushPressedKeys();
 }
 
+void AToroPlayerController::AddPauseRequest(const UObject* InObject)
+{
+	PauseRequests.Remove(nullptr);
+	if (InObject)
+	{
+		PauseRequests.Add(InObject);
+		OnPauseRequestChanged();
+	}
+}
+
+void AToroPlayerController::RemovePauseRequest(const UObject* InObject)
+{
+	PauseRequests.Remove(nullptr);
+	if (InObject)
+	{
+		PauseRequests.Remove(InObject);
+		OnPauseRequestChanged();
+	}
+}
+
+void AToroPlayerController::SetGamePaused(const bool bInPaused)
+{
+	// todo
+}
+
 void AToroPlayerController::EnterCinematic(AActor* InActor)
 {
 	if (!CinematicActor)
@@ -89,6 +114,16 @@ void AToroPlayerController::ExitCinematic()
 			PlayerChar->ClearLockFlag(Tag_PlayerLock_Cinematic.GetTag());
 		}
 	}
+}
+
+void AToroPlayerController::OnPauseRequestChanged()
+{
+	if (bGamePaused) return;
+	for (auto It = PauseRequests.CreateIterator(); It; ++It)
+	{
+		if (!It->IsValid()) It.RemoveCurrent();
+	}
+	SetPause(!PauseRequests.IsEmpty());
 }
 
 void AToroPlayerController::OnAnyKeyEvent(FKey PressedKey)
