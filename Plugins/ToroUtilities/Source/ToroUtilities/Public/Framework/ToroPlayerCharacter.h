@@ -70,6 +70,8 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
 		virtual void ClearFade() const;
 
+	virtual void EnterDialogue() {}
+
 protected:
 
 	UPROPERTY() FTimerHandle SlowTickTimer;

@@ -8,6 +8,7 @@
 
 UE_DECLARE_GAMEPLAY_TAG_BASE(PlayerLock)
 UE_DECLARE_GAMEPLAY_TAG_CHILD(Cinematic, PlayerLock)
+UE_DECLARE_GAMEPLAY_TAG_CHILD(Dialogue, PlayerLock)
 
 USTRUCT(BlueprintType)
 struct TOROUTILITIES_API FPlayerLockFlag

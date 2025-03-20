@@ -3,11 +3,12 @@
 #pragma once
 
 #include "ExecPinEnums.h"
-#include "ToroNarrative.h"
 #include "Kismet/GameplayStatics.h"
 #include "Inventory/InventoryComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
+
+class UToroNarrativeComponent;
 
 UENUM(BlueprintType)
 enum class EGameInputMode : uint8

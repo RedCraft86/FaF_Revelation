@@ -255,7 +255,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		bool TryJumpscare();
 
-	void EnterDialogue();
+	virtual void EnterDialogue() override;
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 	virtual bool GetLookTarget_Implementation(FVector& Location) override;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
