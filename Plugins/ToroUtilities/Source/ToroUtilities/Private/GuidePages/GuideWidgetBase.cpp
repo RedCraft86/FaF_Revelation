@@ -129,6 +129,7 @@ bool UGuideWidgetBase::ShouldBeHidden()
 
 void UGuideWidgetBase::InternalProcessActivation()
 {
+	PreInputMode = GetOwningPlayer<AToroPlayerController>()->GetInputModeData();
 	bPrePauseState = UGameplayStatics::IsGamePaused(this);
 	UGameplayStatics::SetGamePaused(this, true);
 	Super::InternalProcessActivation();
@@ -137,7 +138,7 @@ void UGuideWidgetBase::InternalProcessActivation()
 
 void UGuideWidgetBase::InternalProcessDeactivation()
 {
-	GetOwningPlayer<AToroPlayerController>()->SetInputModeData(PreInputMode);
 	UGameplayStatics::SetGamePaused(this, bPrePauseState);
+	GetOwningPlayer<AToroPlayerController>()->SetInputModeData(PreInputMode);
 	Super::InternalProcessDeactivation();
 }

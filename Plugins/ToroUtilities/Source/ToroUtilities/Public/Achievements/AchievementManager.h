@@ -27,8 +27,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Achievements)
 		bool HasAchievement(UPARAM(meta = (Categories = "Achievement")) const FGameplayTag InTag);
 
-	DECLARE_MULTICAST_DELEGATE_OneParam(FOnAchievement, const FText&)
-	FOnAchievement OnAchievement;
+	DECLARE_DELEGATE_TwoParams(FAchievementEvent, const FAchievementEntry&, const uint8)
+	FAchievementEvent OnAchievement;
 	
 private:
 

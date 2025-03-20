@@ -209,6 +209,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		AInventoryPreview* GetPreviewActor() const { return PreviewActor; }
 
+	// TODO: UI Functions
+	
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;
 

@@ -16,8 +16,8 @@ void UAchievementManager::Grant(const FGameplayTag InTag, const uint8 Value)
 		const FAchievementEntry Entry = Database ? Database->Entries.FindRef(InTag) : FAchievementEntry();
 		if (Entry.IsValidData() && Progress == Entry.Requirement)
 		{
-			OnAchievement.Broadcast(FText::Format(Database->NotifyFormat, Entry.Name));
 			UGameplayStatics::PlaySound2D(this, Database->Sound.LoadSynchronous());
+			if (OnAchievement.IsBound()) OnAchievement.Execute(Entry, Progress);
 		}
 	}
 }

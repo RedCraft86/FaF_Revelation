@@ -98,7 +98,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Input)
 		const FGameInputModeData& GetInputModeData() const { return InputModeData; }
-
+	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void EnterCinematic(AActor* InActor);
 
@@ -107,6 +107,8 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = Player)
 		AActor* GetCinematicActor() const { return CinematicActor; }
+
+	// TODO: Pause function
 
 	UFUNCTION(BlueprintNativeEvent)
 		UInventoryComponent* GetInventory() const;

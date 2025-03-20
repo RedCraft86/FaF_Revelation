@@ -42,12 +42,7 @@ class TOROUTILITIES_API UAchievementDatabase final : public UToroDatabase
 
 public:
 	
-	UAchievementDatabase()
-		: NotifyFormat(NSLOCTEXT("ToroUtilities", "AchievementNotifyFormat", "[25pt](Achievement Unlocked)\n{0}"))
-	{}
-
-	UPROPERTY(EditAnywhere, Category = Achievements, meta = (Multiliine = true))
-		FText NotifyFormat;
+	UAchievementDatabase() {}
 
 	UPROPERTY(EditAnywhere, Category = Achievements)
 		TSoftObjectPtr<USoundBase> Sound;

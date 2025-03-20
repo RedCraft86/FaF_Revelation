@@ -15,8 +15,8 @@ void UInteractionComponent::SetEnabled(const bool bInEnabled)
 	{
 		bEnabled = bInEnabled;
 		SetComponentTickEnabled(bInEnabled);
-		OnUpdateInteraction.Broadcast(bInEnabled, {});
 		if (!bInEnabled ) SetInteracting(false);
+		if (OnUpdateInfo.IsBound()) OnUpdateInfo.Execute(bInEnabled, {});
 	}
 }
 
@@ -97,7 +97,7 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 		CleanupInteraction();
 	}
 
-	OnUpdateInteraction.Broadcast(true, InteractCache);
+	if (OnUpdateInfo.IsBound()) OnUpdateInfo.Execute(true, InteractCache);
 }
 
 void UInteractionComponent::BeginPlay()

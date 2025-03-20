@@ -61,8 +61,8 @@ public:
 	DECLARE_DELEGATE_RetVal(FHitResult, FInteractionLogic)
 	FInteractionLogic InteractionLogic;
 
-	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnUpdateInteraction, const bool, const FInteractionData&)
-	FOnUpdateInteraction OnUpdateInteraction;
+	DECLARE_DELEGATE_TwoParams(FOnUpdateInfo, const bool, const FInteractionData&)
+	FOnUpdateInfo OnUpdateInfo;
 
 private:
 
