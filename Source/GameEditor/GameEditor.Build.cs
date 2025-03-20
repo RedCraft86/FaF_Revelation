@@ -15,7 +15,8 @@ public class GameEditor : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "ToroEditor"
             }
         );
     }

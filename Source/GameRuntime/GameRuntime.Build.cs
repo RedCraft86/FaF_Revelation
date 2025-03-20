@@ -15,7 +15,13 @@ public class GameRuntime : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "PhysicsCore",
+                "GameplayTags",
+                "EngineCameras",
+                "EnhancedInput",
+                "ToroUtilities",
+                "ToroCore",
             }
         );
     }
