@@ -123,6 +123,9 @@ public:
 	UInventoryComponent();
 	static UInventoryComponent* Get(const UObject* WorldContext);
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TSubclassOf<UUserWidget> WidgetClass;
+
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		virtual const TMap<FGuid, FInvSlotData>& GetConstInventory() const { return ItemSlots; }
 	
@@ -217,6 +220,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		bool IsInInventory() const { return bInInventory; }
+
+	DECLARE_DELEGATE_OneParam(FOnInventoryState, const bool)
+	FOnInventoryState OnInventoryState;
 	
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;
@@ -241,9 +247,8 @@ protected:
 	UPROPERTY() TMap<FGuid, FInvSlotData> ItemSlots;
 	UPROPERTY() TObjectPtr<AInventoryPreview> PreviewActor;
 	UPROPERTY() TObjectPtr<class AToroPlayerCharacter> PlayerChar;
-	UPROPERTY() TObjectPtr<class UInventoryWidget> Widget;
 
-	UInventoryWidget* GetWidget();
+	virtual UUserWidget* GetWidget();
 	virtual void OnInventoryUpdate() {}
 	void ValidateInventory(const bool bForceUpdate = false);
 	virtual void BeginPlay() override;

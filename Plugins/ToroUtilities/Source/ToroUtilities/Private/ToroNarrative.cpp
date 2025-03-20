@@ -1,10 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Narrative/ToroNarrative.h"
+#include "ToroNarrative.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
-#include "Narrative/NarrativeWidget.h"
 
 UToroNarrativeComponent* UToroNarrativeComponent::Get(const UObject* WorldContext)
 {
@@ -35,17 +34,8 @@ void UToroNarrativeComponent::DialogueFinished(UDialogue* Dialogue, const bool b
 	AToroPlayerController::Get(this)->SetInputModeData(CachedInputMode);
 }
 
-UNarrativeWidget* UToroNarrativeComponent::GetWidget()
+UUserWidget* UToroNarrativeComponent::GetWidget() const
 {
-	if (Widget) return Widget;
-	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
-	{
-		Widget = Manager->FindWidget<UNarrativeWidget>();
-	}
-	return Widget;
-}
-
-void UToroNarrativeComponent::BeginPlay()
-{
-	Super::BeginPlay();
+	AToroWidgetManager* Manager = AToroWidgetManager::Get(this);
+	return Manager ? Manager->FindWidget(WidgetClass) : nullptr;
 }

@@ -16,6 +16,9 @@ public:
 	UToroNarrativeComponent() {}
 	static UToroNarrativeComponent* Get(const UObject* WorldContext);
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TSubclassOf<UUserWidget> WidgetClass;
+
 	virtual void DialogueBegan(UDialogue* Dialogue) override;
 	virtual void DialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue) override;
 
@@ -23,8 +26,6 @@ protected:
 
 	UPROPERTY() FGameInputModeData CachedInputMode;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> PlayerChar;
-	UPROPERTY(Transient) TObjectPtr<class UNarrativeWidget> Widget;
 
-	UNarrativeWidget* GetWidget();
-	virtual void BeginPlay() override;
+	virtual UUserWidget* GetWidget() const;
 };

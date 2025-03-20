@@ -5,7 +5,6 @@
 #include "ToroInterface.h"
 #include "ToroMathLibrary.h"
 #include "Framework/ToroGameMode.h"
-#include "Narrative/NarrativeWidget.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroCameraManager.h"
@@ -753,10 +752,7 @@ void AGamePlayerBase::InputBinding_HideQuests(const FInputActionValue& InValue)
 	{
 		if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
 		{
-			if (UNarrativeWidget* NarrativeWidget = WidgetManager->FindWidget<UNarrativeWidget>())
-			{
-				NarrativeWidget->SetQuestsHidden(!NarrativeWidget->AreQuestsHidden());
-			}
+			// TODO
 		}
 	}
 }

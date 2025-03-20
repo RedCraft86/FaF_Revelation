@@ -7,7 +7,6 @@
 #include "Framework/ToroWidgetManager.h"
 #include "Inventory/InventoryPreview.h"
 #include "EnhancedCodeFlow.h"
-#include "InventoryWidget.h"
 #include "EngineUtils.h"
 
 bool FInvMetaFilter::Filter(const FInvSlotData& InSlot) const
@@ -499,20 +498,20 @@ void UInventoryComponent::SetSaveData(const FInvSaveData& InData)
 
 void UInventoryComponent::OpenInventory()
 {
-	if (!bInInventory && GetWidget())
+	if (!bInInventory)
 	{
 		PlayerChar->AddLockFlag(Tag_PlayerLock_Inventory.GetTag());
 		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, false, Widget);
+			EMouseLockMode::LockAlways, false, GetWidget());
 
 		ValidateInventory();
-		Widget->ActivateWidget();
 		if (PreviewActor)
 		{
 			PreviewActor->Initialize();
 			PreviewActor->SetItem({});
 		}
 
+		if (OnInventoryState.IsBound()) OnInventoryState.Execute(true);
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 		{
 			PlayerChar->GetPlayerController()->SetPause(true);
@@ -523,14 +522,14 @@ void UInventoryComponent::OpenInventory()
 
 void UInventoryComponent::CloseInventory()
 {
-	if (bInInventory && GetWidget())
+	if (bInInventory)
 	{
 		PlayerChar->ClearLockFlag(Tag_PlayerLock_Inventory.GetTag());
 		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameOnly);
 		PlayerChar->GetPlayerController()->SetPause(false);
 		if (PreviewActor) PreviewActor->Deinitialize();
 
-		Widget->DeactivateWidget();
+		if (OnInventoryState.IsBound()) OnInventoryState.Execute(false);
 		FFlow::Delay(this, 0.5f, [this]()
 		{
 			bInInventory = false;
@@ -538,14 +537,10 @@ void UInventoryComponent::CloseInventory()
 	}
 }
 
-UInventoryWidget* UInventoryComponent::GetWidget()
+UUserWidget* UInventoryComponent::GetWidget()
 {
-	if (Widget) return Widget;
-	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
-	{
-		Widget = Manager->FindWidget<UInventoryWidget>();
-	}
-	return Widget;
+	AToroWidgetManager* Manager = AToroWidgetManager::Get(this);
+	return Manager ? Manager->FindWidget(WidgetClass) : nullptr;
 }
 
 void UInventoryComponent::ValidateInventory(const bool bForceUpdate)
