@@ -248,8 +248,8 @@ protected:
 	UPROPERTY() TObjectPtr<AInventoryPreview> PreviewActor;
 	UPROPERTY() TObjectPtr<class AToroPlayerCharacter> PlayerChar;
 
-	virtual UUserWidget* GetWidget();
 	virtual void OnInventoryUpdate() {}
+	virtual UUserWidget* GetWidget() const;
 	void ValidateInventory(const bool bForceUpdate = false);
 	virtual void BeginPlay() override;
 };

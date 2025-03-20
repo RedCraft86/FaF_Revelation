@@ -96,16 +96,9 @@ void AToroPlayerController::OnAnyKeyEvent(FKey PressedKey)
 	if (OnAnyKeyPressed.IsBound()) OnAnyKeyPressed.Broadcast(PressedKey);
 }
 
-void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
-{
-	SetPause(!bFocused);
-}
-
 void AToroPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	FSlateApplication::Get().OnApplicationActivationStateChanged()
-		.AddUObject(this, &AToroPlayerController::OnWindowFocusChanged);
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
 	{
 		Subsystem->ClearAllMappings();

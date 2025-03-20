@@ -537,7 +537,7 @@ void UInventoryComponent::CloseInventory()
 	}
 }
 
-UUserWidget* UInventoryComponent::GetWidget()
+UUserWidget* UInventoryComponent::GetWidget() const
 {
 	AToroWidgetManager* Manager = AToroWidgetManager::Get(this);
 	return Manager ? Manager->FindWidget(WidgetClass) : nullptr;

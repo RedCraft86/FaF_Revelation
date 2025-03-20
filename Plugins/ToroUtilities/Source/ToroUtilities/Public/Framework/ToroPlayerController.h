@@ -125,7 +125,6 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<AActor> CinematicActor;
 
 	virtual void OnAnyKeyEvent(FKey PressedKey);
-	virtual void OnWindowFocusChanged(bool bFocused);
 
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
