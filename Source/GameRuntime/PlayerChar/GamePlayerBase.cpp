@@ -5,6 +5,7 @@
 #include "ToroInterface.h"
 #include "ToroMathLibrary.h"
 #include "Framework/ToroGameMode.h"
+#include "Narrative/NarrativeWidget.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroCameraManager.h"
@@ -71,7 +72,7 @@ void AGamePlayerBase::ResetStates()
 	ForceExitHiding();
 	ForceExitTaskDevice();
 	ForceExitWorldDevice();
-	// TODO GameMode->Inventory->CloseUI();
+	PlayerController->GetInventory()->CloseInventory();
 
 	const TSet<FName> AllFlags = Player::LockFlags::GetAll();
 	const TSet<FName> Resettable = Player::LockFlags::Resettable();
@@ -332,7 +333,7 @@ bool AGamePlayerBase::TryJumpscare()
 	ForceExitWorldDevice();
 	if (LockFlags.Contains(Tag_PlayerLock_Inventory.GetTag()))
 	{
-		// TODO GameMode->Inventory->CloseUI();
+		PlayerController->GetInventory()->CloseInventory();
 	}
 
 	return true;
@@ -631,7 +632,7 @@ void AGamePlayerBase::InputBinding_Pause(const FInputActionValue& InValue)
 		if (LockFlags.Contains(LockFlag(Guide)) || IsValid(PlayerController->GetCinematicActor())) return;
 		if (LockFlags.Contains(LockFlag(Inventory)))
 		{
-			// TODO GameMode->Inventory->CloseUI();
+			PlayerController->GetInventory()->CloseInventory();
 			return;
 		}
 
@@ -738,11 +739,11 @@ void AGamePlayerBase::InputBinding_Inventory(const FInputActionValue& InValue)
 	if (LockFlags.Contains(LockFlag(Guide))) return;
 	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
-		// TODO GameMode->Inventory->CloseUI();
+		PlayerController->GetInventory()->CloseInventory();
 	}
 	else if (CAN_INPUT)
 	{
-		// TODO GameMode->Inventory->OpenUI();
+		PlayerController->GetInventory()->OpenInventory();
 	}
 }
 
@@ -752,7 +753,10 @@ void AGamePlayerBase::InputBinding_HideQuests(const FInputActionValue& InValue)
 	{
 		if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
 		{
-			// TODO WidgetManager->ToggleNarrativeQuests();
+			if (UNarrativeWidget* NarrativeWidget = WidgetManager->FindWidget<UNarrativeWidget>())
+			{
+				NarrativeWidget->SetQuestsHidden(!NarrativeWidget->AreQuestsHidden());
+			}
 		}
 	}
 }
