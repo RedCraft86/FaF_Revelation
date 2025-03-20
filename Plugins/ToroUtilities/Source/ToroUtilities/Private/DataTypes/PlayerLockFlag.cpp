@@ -5,6 +5,7 @@
 UE_DEFINE_GAMEPLAY_TAG_BASE(PlayerLock)
 UE_DEFINE_GAMEPLAY_TAG_CHILD(Cinematic, PlayerLock)
 UE_DEFINE_GAMEPLAY_TAG_CHILD(Dialogue, PlayerLock)
+UE_DEFINE_GAMEPLAY_TAG_CHILD(Inventory, PlayerLock)
 
 FPlayerLockFlag::FPlayerLockFlag() : LockTag(Tag_PlayerLock), LockKey(NAME_None) {}
 FPlayerLockFlag::FPlayerLockFlag(const FName& InLock) : LockTag(Tag_PlayerLock), LockKey(InLock) {}

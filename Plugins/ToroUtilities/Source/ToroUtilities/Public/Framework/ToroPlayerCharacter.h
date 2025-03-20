@@ -11,6 +11,9 @@
 #include "Components/PointLightComponent.h"
 #include "ToroPlayerCharacter.generated.h"
 
+class AToroGameMode;
+class AToroPlayerController;
+
 UE_DECLARE_GAMEPLAY_TAG_CHILD(Player, Character)
 
 UCLASS()
@@ -48,6 +51,12 @@ public:
 	{
 		return Cast<T>(UGameplayStatics::GetPlayerCharacter(ContextObject, PlayerIndex));
 	}
+	
+	UFUNCTION(BlueprintPure, Category = Player)
+		AToroGameMode* GetGameMode() const { return GameMode; }
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		AToroPlayerController* GetPlayerController() const { return PlayerController; }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void AddLockFlag(const FPlayerLockFlag& InFlag);
@@ -75,8 +84,8 @@ public:
 protected:
 
 	UPROPERTY() FTimerHandle SlowTickTimer;
-	UPROPERTY(Transient) TObjectPtr<class AToroGameMode> GameMode;
-	UPROPERTY(Transient) TObjectPtr<class AToroPlayerController> PlayerController;
+	UPROPERTY(Transient) TObjectPtr<AToroGameMode> GameMode;
+	UPROPERTY(Transient) TObjectPtr<AToroPlayerController> PlayerController;
 	UPROPERTY(Transient) TObjectPtr<class UToroGameInstance> GameInstance;
 
 	virtual void SlowTick() {}

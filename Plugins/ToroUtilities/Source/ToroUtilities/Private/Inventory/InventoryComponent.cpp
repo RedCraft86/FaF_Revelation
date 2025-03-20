@@ -4,7 +4,10 @@
 #include "Inventory/InventoryConsumable.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Inventory/InventoryPreview.h"
+#include "EnhancedCodeFlow.h"
+#include "InventoryWidget.h"
 #include "EngineUtils.h"
 
 bool FInvMetaFilter::Filter(const FInvSlotData& InSlot) const
@@ -492,6 +495,57 @@ void UInventoryComponent::SetSaveData(const FInvSaveData& InData)
 	ItemSlots = InData.ItemSlots;
 	ValidateInventory(true);
 	EquipItem(InData.Equipment);
+}
+
+void UInventoryComponent::OpenInventory()
+{
+	if (!bInInventory && GetWidget())
+	{
+		PlayerChar->AddLockFlag(Tag_PlayerLock_Inventory.GetTag());
+		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
+			EMouseLockMode::LockAlways, false, Widget);
+
+		ValidateInventory();
+		Widget->ActivateWidget();
+		if (PreviewActor)
+		{
+			PreviewActor->Initialize();
+			PreviewActor->SetItem({});
+		}
+
+		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+		{
+			PlayerChar->GetPlayerController()->SetPause(true);
+		});
+		bInInventory = true;
+	}
+}
+
+void UInventoryComponent::CloseInventory()
+{
+	if (bInInventory && GetWidget())
+	{
+		PlayerChar->ClearLockFlag(Tag_PlayerLock_Inventory.GetTag());
+		PlayerChar->GetPlayerController()->SetGameInputMode(EGameInputMode::GameOnly);
+		PlayerChar->GetPlayerController()->SetPause(false);
+		if (PreviewActor) PreviewActor->Deinitialize();
+
+		Widget->DeactivateWidget();
+		FFlow::Delay(this, 0.5f, [this]()
+		{
+			bInInventory = false;
+		});
+	}
+}
+
+UInventoryWidget* UInventoryComponent::GetWidget()
+{
+	if (Widget) return Widget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		Widget = Manager->FindWidget<UInventoryWidget>();
+	}
+	return Widget;
 }
 
 void UInventoryComponent::ValidateInventory(const bool bForceUpdate)

@@ -209,7 +209,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = InventoryManager)
 		AInventoryPreview* GetPreviewActor() const { return PreviewActor; }
 
-	// TODO: UI Functions
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		void OpenInventory();
+
+	UFUNCTION(BlueprintCallable, Category = InventoryManager)
+		void CloseInventory();
+
+	UFUNCTION(BlueprintPure, Category = InventoryManager)
+		bool IsInInventory() const { return bInInventory; }
 	
 	DECLARE_MULTICAST_DELEGATE(FInventoryUpdateEvent);
 	FInventoryUpdateEvent OnUpdate;
@@ -228,12 +235,15 @@ protected:
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Item Removed")
 		FInventoryIOUpdateSignature OnItemRemovedBP;
 
+	UPROPERTY() bool bInInventory;
 	UPROPERTY() FInvEquipData Equipment;
 	UPROPERTY() FGameCurrency CurrencyData;
 	UPROPERTY() TMap<FGuid, FInvSlotData> ItemSlots;
 	UPROPERTY() TObjectPtr<AInventoryPreview> PreviewActor;
 	UPROPERTY() TObjectPtr<class AToroPlayerCharacter> PlayerChar;
+	UPROPERTY() TObjectPtr<class UInventoryWidget> Widget;
 
+	UInventoryWidget* GetWidget();
 	virtual void OnInventoryUpdate() {}
 	void ValidateInventory(const bool bForceUpdate = false);
 	virtual void BeginPlay() override;
