@@ -121,8 +121,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		AActor* GetCinematicActor() const { return CinematicActor; }
 
-	// TODO: Pause function
-
 	UFUNCTION(BlueprintNativeEvent)
 		UInventoryComponent* GetInventory() const;
 	virtual UInventoryComponent* GetInventory_Implementation() const { return nullptr; }
@@ -131,6 +129,9 @@ public:
 		UToroNarrativeComponent* GetNarrative() const;
 	virtual UToroNarrativeComponent* GetNarrative_Implementation() const { return nullptr; }
 
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnGamePaused, const bool)
+	FOnGamePaused OnGamePaused;
+
 protected:
 
 	UPROPERTY() bool bGamePaused;
@@ -138,7 +139,7 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<AActor> CinematicActor;
 	UPROPERTY(Transient) TSet<TWeakObjectPtr<const UObject>> PauseRequests;
 
-	virtual void OnPauseRequestChanged();
+	virtual void UpdatePauseState();
 	virtual void OnAnyKeyEvent(FKey PressedKey);
 
 	virtual void BeginPlay() override;

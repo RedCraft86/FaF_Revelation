@@ -646,7 +646,7 @@ void AGamePlayerBase::InputBinding_Pause(const FInputActionValue& InValue)
 		{
 			SetRunState(false);
 			SetLeanState(EPlayerLeanState::None);
-			// TODO PlayerController->SetPauseState(true);
+			PlayerController->SetGamePaused(true);
 		}
 	}
 }

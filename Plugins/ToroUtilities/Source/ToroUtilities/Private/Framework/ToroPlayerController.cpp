@@ -71,7 +71,7 @@ void AToroPlayerController::AddPauseRequest(const UObject* InObject)
 	if (InObject)
 	{
 		PauseRequests.Add(InObject);
-		OnPauseRequestChanged();
+		UpdatePauseState();
 	}
 }
 
@@ -81,13 +81,18 @@ void AToroPlayerController::RemovePauseRequest(const UObject* InObject)
 	if (InObject)
 	{
 		PauseRequests.Remove(InObject);
-		OnPauseRequestChanged();
+		UpdatePauseState();
 	}
 }
 
 void AToroPlayerController::SetGamePaused(const bool bInPaused)
 {
-	// todo
+	if (IsPaused() != bInPaused)
+	{
+		bGamePaused = bInPaused;
+		UpdatePauseState();
+		OnGamePaused.Broadcast(bGamePaused);
+	}
 }
 
 void AToroPlayerController::EnterCinematic(AActor* InActor)
@@ -116,14 +121,10 @@ void AToroPlayerController::ExitCinematic()
 	}
 }
 
-void AToroPlayerController::OnPauseRequestChanged()
+void AToroPlayerController::UpdatePauseState()
 {
-	if (bGamePaused) return;
-	for (auto It = PauseRequests.CreateIterator(); It; ++It)
-	{
-		if (!It->IsValid()) It.RemoveCurrent();
-	}
-	SetPause(!PauseRequests.IsEmpty());
+	PauseRequests.Remove(nullptr);
+	SetPause(bGamePaused || !PauseRequests.IsEmpty());
 }
 
 void AToroPlayerController::OnAnyKeyEvent(FKey PressedKey)
