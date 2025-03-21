@@ -64,6 +64,16 @@ void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSetti
 	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
 }
 
+void AToroPlayerCharacter::EnterCinematic(AActor* CinematicActor)
+{
+	if (PlayerController) PlayerController->EnterCinematic(CinematicActor);
+}
+
+void AToroPlayerCharacter::ExitCinematic()
+{
+	if (PlayerController) PlayerController->ExitCinematic();
+}
+
 void AToroPlayerCharacter::FadeToBlack(const float InTime, const bool bAudio) const
 {
 	if (PlayerController && PlayerController->PlayerCameraManager)

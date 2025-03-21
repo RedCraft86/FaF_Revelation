@@ -68,6 +68,12 @@ public:
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		virtual void EnterCinematic(AActor* CinematicActor);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		virtual void ExitCinematic();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
 		virtual void FadeToBlack(const float InTime, const bool bAudio = true) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
