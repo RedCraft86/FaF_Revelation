@@ -15,7 +15,7 @@ class DATAGRAPH_API UDataEdgeBase : public UDataAsset
 
 public:
 
-	UDataEdgeBase() : EdgeID(FGuid::NewGuid()), Name(NSLOCTEXT("DataGraph", "GenericEdgeName", "Generic Data Edge"))
+	UDataEdgeBase() : EdgeID(FGuid::NewGuid()), Name(NSLOCTEXT("ToroUtilities", "GenericEdgeName", "Generic Data Edge"))
 		, bShouldDrawTitle(false), EdgeColor(0.9f, 0.9f, 0.9f, 1.0f)
 	{}
 

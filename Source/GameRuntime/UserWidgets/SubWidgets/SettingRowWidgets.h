@@ -38,7 +38,7 @@ class GAMERUNTIME_API USettingRowBase : public UUserWidget
 public:
 
 	USettingRowBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
-		, DisplayName(NSLOCTEXT("Toro", "SettingRowName", "Setting Row"))
+		, DisplayName(NSLOCTEXT("Game", "SettingRowName", "Setting Row"))
 		, Performance(ESettingPerformance::None), bSkipSetter(false)
 	{
 		ToolTipWidgetDelegate.BindDynamic(this, &USettingRowBase::CreateTooltip);

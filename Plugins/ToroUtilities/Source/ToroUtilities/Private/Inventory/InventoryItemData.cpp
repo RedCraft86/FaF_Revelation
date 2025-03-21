@@ -82,8 +82,8 @@ void FInventoryMetadata::ForEach(const TFunctionRef<void(const FGameplayTag& Key
 	}
 }
 
-UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("Toro", "GenericItemName", "Generic Item"))
-	, Description(NSLOCTEXT("Toro", "GenericItemDesc", "This is a generic item!")), StackingMode(EInventoryStackType::UntilMax)
+UInventoryItemData::UInventoryItemData() : Priority(1), DisplayName(NSLOCTEXT("ToroUtilities", "GenericItemName", "Generic Item"))
+	, Description(NSLOCTEXT("ToroUtilities", "GenericItemDesc", "This is a generic item!")), StackingMode(EInventoryStackType::UntilMax)
 	, StackingValue(5), ItemType(EInventoryItemType::Uncategorized), PreviewZoom({0.5f, 2.0f})
 {
 }

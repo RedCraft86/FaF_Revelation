@@ -44,7 +44,7 @@ struct GAMERUNTIME_API FSimpleSubtitleData : public FSimpleMessageData
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Message, meta = (DisplayPriority = -1))
 		FText Speaker;
 
-	FSimpleSubtitleData() : Speaker(NSLOCTEXT("Toro", "Player", "You")) { ExtraTime = 1.0f; }
+	FSimpleSubtitleData() : Speaker(NSLOCTEXT("Game", "Player", "You")) { ExtraTime = 1.0f; }
 	FSimpleSubtitleData(const FText& InSpeaker, const FText& InLine, const float InTime = 1.0f) : Speaker(InSpeaker)
 	{
 		Message = InLine;

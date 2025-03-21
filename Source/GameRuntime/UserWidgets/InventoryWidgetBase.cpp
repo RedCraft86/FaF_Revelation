@@ -167,9 +167,9 @@ void UInventoryWidgetBase::RefreshInfo()
 	else
 	{
 		PreviewImage->SetVisibility(ESlateVisibility::Collapsed);
-		DescText->SetText(NSLOCTEXT("Toro", "NoItemSelected", "No item selected"));
-		TypeText->SetText(NSLOCTEXT("Toro", "NoneType", "Type: None"));
-		NameText->SetText(NSLOCTEXT("Toro", "None", "None"));
+		DescText->SetText(NSLOCTEXT("Game", "NoItemSelected", "No item selected"));
+		TypeText->SetText(NSLOCTEXT("Game", "NoneType", "Type: None"));
+		NameText->SetText(NSLOCTEXT("Game", "None", "None"));
 	}
 
 	PlayAnimation(DescFadeAnim);

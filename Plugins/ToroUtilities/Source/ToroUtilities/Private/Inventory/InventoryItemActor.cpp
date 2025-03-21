@@ -15,7 +15,7 @@ AInventoryItemActor::AInventoryItemActor() : Amount(0)
 	InstancedStaticMesh->SetupAttachment(GetRootComponent());
 
 	bSingleUse = false;
-	Interaction.Label = NSLOCTEXT("Toro", "Take", "Take");
+	Interaction.Label = NSLOCTEXT("ToroUtilities", "Take", "Take");
 }
 
 void AInventoryItemActor::FillAmount(const uint8 InAmount)
@@ -69,7 +69,7 @@ void AInventoryItemActor::OnConstruction(const FTransform& Transform)
 	AToroVolume::OnConstruction(Transform);
 	if (Interaction.Label.IsEmptyOrWhitespace())
 	{
-		Interaction.Label = NSLOCTEXT("Toro", "Take", "Take");
+		Interaction.Label = NSLOCTEXT("ToroUtilities", "Take", "Take");
 	}
 
 	InstancedStaticMesh->ClearInstances();

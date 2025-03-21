@@ -82,7 +82,7 @@ struct TOROUTILITIES_API FInvItemViewable : public FInventoryItemAttribute
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		FText Text;
 	
-	FInvItemViewable() : Label(NSLOCTEXT("Toro", "ReadView", "Read/View")) {}
+	FInvItemViewable() : Label(NSLOCTEXT("ToroUtilities", "ReadView", "Read/View")) {}
 	bool IsValidData() const { return !Image.IsNull() || !Text.IsEmptyOrWhitespace(); }
 };
 
@@ -100,7 +100,7 @@ struct TOROUTILITIES_API FInvItemConsumable : public FInventoryItemAttribute
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		TSoftClassPtr<class UInventoryConsumable> Class;
 	
-	FInvItemConsumable() : Label(NSLOCTEXT("Toro", "Use", "Use")), Amount(1) {}
+	FInvItemConsumable() : Label(NSLOCTEXT("ToroUtilities", "Use", "Use")), Amount(1) {}
 	bool IsValidData() const { return !Class.IsNull(); }
 };
 
@@ -118,8 +118,8 @@ struct TOROUTILITIES_API FInvItemEquipment : public FInventoryItemAttribute
 	UPROPERTY(EditAnywhere, Category = Attribute)
 		TSoftClassPtr<class AInventoryEquipment> Class;
 	
-	FInvItemEquipment() : EquipLabel(NSLOCTEXT("Toro", "Equip", "Equip"))
-		, UnequipLabel(NSLOCTEXT("Toro", "Unequip", "Unequip"))
+	FInvItemEquipment() : EquipLabel(NSLOCTEXT("ToroUtilities", "Equip", "Equip"))
+		, UnequipLabel(NSLOCTEXT("ToroUtilities", "Unequip", "Unequip"))
 	{}
 	bool IsValidData() const { return !Class.IsNull(); }
 };

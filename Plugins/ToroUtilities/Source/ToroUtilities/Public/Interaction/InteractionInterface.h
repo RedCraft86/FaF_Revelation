@@ -44,7 +44,7 @@ struct TOROUTILITIES_API FInteractionInfo
 		FVector2D IconSize;
 	
 	FInteractionInfo() : Interaction(EInteractableType::Instant), HoldingTime(1.0f)
-		, Label(NSLOCTEXT("Toro", "Interact", "Interact")), LabelOffset(0.0f), Icon(nullptr), IconSize(35.0f)
+		, Label(NSLOCTEXT("ToroUtilities", "Interact", "Interact")), LabelOffset(0.0f), Icon(nullptr), IconSize(35.0f)
 	{}
 
 	bool CanInteract() const { return Interaction != EInteractableType::None; }
