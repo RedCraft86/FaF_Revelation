@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroNarrative.h"
+#include "Misc/ToroNarrative.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
