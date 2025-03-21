@@ -6,6 +6,7 @@
 #include "SaveSystem/ToroSaveManager.h"
 #include "Framework/ToroPlayerController.h"
 #include "UserSettings/ToroUserSettings.h"
+#include "ToroSettings.h"
 
 FLinearColor CalcFrameRateColor(const FLinearColor& Good, const FLinearColor& Bad, const float Target, const float Current)
 {
@@ -62,7 +63,10 @@ void UInfoWidgetBase::InitWidget()
 {
 	Super::InitWidget();
 	UnfocusedView->SetVisibility(ESlateVisibility::Collapsed);
-	FSlateApplication::Get().OnApplicationActivationStateChanged().AddUObject(this, &UInfoWidgetBase::OnFocusChanged);
+	if (UToroSettings::Get()->IsOnGameplayMap(this))
+	{
+		FSlateApplication::Get().OnApplicationActivationStateChanged().AddUObject(this, &UInfoWidgetBase::OnFocusChanged);
+	}
 	if (UToroUserSettings* Settings = UToroUserSettings::Get())
 	{
 		Settings->OnSettingsApplied.AddUObject(this, &UInfoWidgetBase::OnSettingsChanged);
