@@ -13,7 +13,6 @@ void UToroGlobalSave::SerializeData(FArchive& Ar)
 	Ar << Endings;
 	Ar << Achievements;
 	Ar << Content;
-	Ar << Sections;
 }
 
 void UToroGameSave::DeleteData()

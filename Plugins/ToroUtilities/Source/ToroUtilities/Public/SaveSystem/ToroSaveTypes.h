@@ -23,9 +23,6 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TSet<FGameplayTag> Content;
 
-	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
-		TSet<FGuid> Sections;
-
 	virtual void DeleteData() override;
 
 protected:

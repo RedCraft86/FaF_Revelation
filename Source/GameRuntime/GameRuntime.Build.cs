@@ -24,6 +24,7 @@ public class GameRuntime : ModuleRules
                 "PhysicsCore",
                 "GameplayTags",
                 "EngineCameras",
+                "MetasoundEngine",
                 "DeveloperSettings",
                 "EnhancedInput",
                 "ToroUtilities",
