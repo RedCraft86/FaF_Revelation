@@ -5,6 +5,7 @@
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "InputMappingContext.h"
+#include "GeneralProjectSettings.h"
 #include "SaveSystem/ToroSaveTypes.h"
 #include "DataTypes/LocalSoundTypes.h"
 #include "Achievements/AchievementTypes.h"
@@ -115,8 +116,22 @@ public:
 
 	FString GetDemoName() const
 	{
-		const FString Str = DemoName.IsNone() ? TEXT("") : DemoName.ToString().Replace(TEXT(" "), TEXT(""));
-		return Str.IsEmpty() || Str == TEXT(" ") || Str.TrimStartAndEnd().IsEmpty() ? TEXT("") : Str;
+		return DemoName.IsNone() ? TEXT("") : DemoName.ToString().Replace(TEXT(" "), TEXT(""));
+	}
+
+	FText GetVersionLabel() const
+	{
+		FText Result;
+		if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
+		{
+			Result = FText::Format(INVTEXT("Version: {0}"), FText::FromString(ProjectSettings->ProjectVersion));
+		}
+		if (!DemoName.IsNone())
+		{
+			Result = FText::Format(INVTEXT("{0} | {1}"), Result, FText::FromName(DemoName));
+		}
+		return FText::Format(INVTEXT("{0} | {1} Build"), Result,
+			FText::FromString(LexToString(FApp::GetBuildConfiguration())));
 	}
 
 	bool IsUsingLightProbes() const

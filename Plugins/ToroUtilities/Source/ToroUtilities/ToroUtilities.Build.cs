@@ -26,6 +26,7 @@ public class ToroUtilities : ModuleRules
                 "JsonUtilities",
                 "LevelSequence",
                 "EnhancedInput",
+                "EngineSettings",
                 "MetasoundEngine",
                 "AudioExtensions",
                 "DeveloperSettings",
