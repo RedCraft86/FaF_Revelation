@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroSaveObject.h"
 #include "ClassGetterHelpers.h"
 #include "GameplayTagContainer.h"
 #include "Subsystems/GameInstanceSubsystem.h"
@@ -16,8 +17,11 @@ class TOROUTILITIES_API UToroSaveManager final : public UGameInstanceSubsystem
 
 public:
 
-	UToroSaveManager() {}
+	UToroSaveManager() : ActiveGameSave(Tag_Save_Game) {}
 	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroSaveManager);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SaveSystem)
+		FGameplayTag ActiveGameSave;
 
 	UFUNCTION(BlueprintPure, Category = SaveSystem)
 		UToroSaveObject* GetSaveObject(UPARAM(meta = (Categories = "Save")) const FGameplayTag InTag);
@@ -29,7 +33,7 @@ public:
 	FOnSaveObjectIO OnSaveObjectIO;
 
 private:
-	
+
 	UPROPERTY(Transient) TMap<FGameplayTag, TObjectPtr<UToroSaveObject>> SaveObjects;
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
