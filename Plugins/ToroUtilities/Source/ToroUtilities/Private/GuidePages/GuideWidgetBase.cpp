@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "GuidePages/GuideWidgetBase.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Animation/UMGSequencePlayer.h"
 #include "UserWidgets/ExprTextBlock.h"
 #include "Components/WidgetSwitcher.h"
@@ -141,4 +142,26 @@ void UGuideWidgetBase::InternalProcessDeactivation()
 	UGameplayStatics::SetGamePaused(this, bPrePauseState);
 	GetOwningPlayer<AToroPlayerController>()->SetInputModeData(PreInputMode);
 	Super::InternalProcessDeactivation();
+}
+
+void UGuideWidgetBase::QueueGuidePage(const UObject* ContextObject, const FGameplayTag InPageID)
+{
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
+	{
+		if (UGuideWidgetBase* Widget = Manager->FindWidget<UGuideWidgetBase>())
+		{
+			Widget->QueuePage(InPageID);
+		}
+	}
+}
+
+void UGuideWidgetBase::QueueGuidePages(const UObject* ContextObject, const TArray<FGameplayTag>& InPageIDs)
+{
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
+	{
+		if (UGuideWidgetBase* Widget = Manager->FindWidget<UGuideWidgetBase>())
+		{
+			Widget->QueuePages(InPageIDs);
+		}
+	}
 }

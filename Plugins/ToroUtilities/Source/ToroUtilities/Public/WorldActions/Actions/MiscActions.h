@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "WorldActions/WorldActionBase.h"
 #include "MiscActions.generated.h"
 
@@ -45,6 +46,39 @@ struct TOROUTILITIES_API FWTaskLevelSequence final : public FWTaskMiscActions
 		TSet<TSoftObjectPtr<class AToroSequenceActor>> Targets;
 
 	FWTaskLevelSequence() : bStopPlaying(false), PlayRate(1.0f) {}
+
+protected:
+
+	virtual void RunEvent(const UObject* WorldContext) override;
+};
+
+USTRUCT(BlueprintType, DisplayName = "Grant Achievement")
+struct TOROUTILITIES_API FWTaskAchievement final : public FWTaskMiscActions
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = Achievement, meta = (Categories = "Achievement"))
+		FGameplayTag AchievementID;
+
+	UPROPERTY(EditAnywhere, Category = Achievement, meta = (ClampMin = 1, UIMin = 1, ClampMax = 200, UIMax = 200))
+		uint8 Progress;
+
+	FWTaskAchievement() : AchievementID(FGameplayTag::RequestGameplayTag("Achievement")), Progress(1) {}
+
+protected:
+
+	virtual void RunEvent(const UObject* WorldContext) override;
+};
+
+USTRUCT(BlueprintType, DisplayName = "Guide Pages")
+struct TOROUTILITIES_API FWTaskGuidePages final : public FWTaskMiscActions
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = Achievement, meta = (Categories = "GuidePage"))
+		TArray<FGameplayTag> Pages;
+
+	FWTaskGuidePages() {}
 
 protected:
 

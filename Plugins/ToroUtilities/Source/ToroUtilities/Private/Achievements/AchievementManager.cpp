@@ -6,7 +6,7 @@
 
 void UAchievementManager::Grant(const FGameplayTag InTag, const uint8 Value)
 {
-	if (!VerifyAchievementTag(InTag)) return;
+	if (!VerifyAchievementTag(InTag) || Value == 0) return;
 	if (UToroGlobalSave* Save = GetSaveObject())
 	{
 		const uint8 Progress = FMath::Min(200, Save->Achievements.FindRef(InTag) + Value);

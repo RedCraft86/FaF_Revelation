@@ -68,4 +68,12 @@ private:
 	virtual bool ShouldBeHidden() override;
 	virtual void InternalProcessActivation() override;
 	virtual void InternalProcessDeactivation() override;
+
+public:
+
+	UFUNCTION(BlueprintCallable, Category = Guide, meta = (WorldContext = "ContextObject"))
+		static void QueueGuidePage(const UObject* ContextObject, UPARAM(meta = (Categories = "GuidePage")) const FGameplayTag InPageID);
+	
+	UFUNCTION(BlueprintCallable, Category = Guide, meta = (WorldContext = "ContextObject"))
+		static void QueueGuidePages(const UObject* ContextObject, UPARAM(meta = (Categories = "GuidePage")) const TArray<FGameplayTag>& InPageIDs);
 };

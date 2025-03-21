@@ -1,6 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "WorldActions/Actions/MiscActions.h"
+
+#include "Achievements/AchievementManager.h"
+#include "GuidePages/GuideWidgetBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/SequenceActor.h"
 
@@ -42,4 +45,18 @@ void FWTaskLevelSequence::RunEvent(const UObject* WorldContext)
 			}
 		}
 	})
+}
+
+void FWTaskAchievement::RunEvent(const UObject* WorldContext)
+{
+	if (Progress == 0) return;
+	if (UAchievementManager* Manager = UAchievementManager::Get(WorldContext))
+	{
+		Manager->Grant(AchievementID, Progress);
+	}
+}
+
+void FWTaskGuidePages::RunEvent(const UObject* WorldContext)
+{
+	UGuideWidgetBase::QueueGuidePages(WorldContext, Pages);
 }
