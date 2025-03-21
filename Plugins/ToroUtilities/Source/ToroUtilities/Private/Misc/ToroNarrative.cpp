@@ -30,8 +30,12 @@ void UToroNarrativeComponent::DialogueBegan(UDialogue* Dialogue)
 void UToroNarrativeComponent::DialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
 {
 	Super::DialogueFinished(Dialogue, bStartingNewDialogue);
-	PlayerChar->ClearLockFlag(Tag_PlayerLock_Dialogue.GetTag());
-	AToroPlayerController::Get(this)->SetInputModeData(CachedInputMode);
+	if (!bStartingNewDialogue)
+	{
+		PlayerChar->ExitDialogue();
+		PlayerChar->ClearLockFlag(Tag_PlayerLock_Dialogue.GetTag());
+		AToroPlayerController::Get(this)->SetInputModeData(CachedInputMode);
+	}
 }
 
 UUserWidget* UToroNarrativeComponent::GetWidget() const

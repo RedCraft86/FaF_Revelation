@@ -64,6 +64,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		virtual bool HasLockFlag(const FPlayerLockFlag& InFlag) const;
 
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsInDialogue() const { return bInDialogue; }
+
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
 
@@ -76,10 +79,12 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
 		virtual void ClearFade() const;
 
-	virtual void EnterDialogue() {}
+	virtual void EnterDialogue() { bInDialogue = true; }
+	virtual void ExitDialogue() { bInDialogue = false; }
 
 protected:
 
+	UPROPERTY() bool bInDialogue;
 	UPROPERTY() FTimerHandle SlowTickTimer;
 	UPROPERTY(Transient) TObjectPtr<AToroGameMode> GameMode;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerController> PlayerController;
