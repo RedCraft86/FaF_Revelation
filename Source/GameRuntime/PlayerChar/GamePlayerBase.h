@@ -143,7 +143,7 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<UObject> TaskDevice;
 	UPROPERTY(Transient) TObjectPtr<UObject> HidingSpot;
 	UPROPERTY(Transient) TObjectPtr<UObject> WorldDevice;
-	UPROPERTY(Transient) TSet<TObjectPtr<AToroCharacter>> EnemyStack;
+	UPROPERTY(Transient) TSet<TObjectPtr<class AGameEnemyBase>> EnemyStack;
 
 public:
 
@@ -223,7 +223,7 @@ public:
 		UObject* GetHidingSpot() const { return HidingSpot; }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
-		void ForceExitHiding() const;
+		void ForceExitHiding();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void SetWorldDevice(UObject* InObject);
@@ -232,7 +232,7 @@ public:
 		UObject* GetWorldDevice() const { return WorldDevice; }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
-		void ForceExitWorldDevice() const;
+		void ForceExitWorldDevice();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void SetTaskDevice(UObject* InObject);
@@ -241,19 +241,19 @@ public:
 		UObject* GetTaskDevice() const { return TaskDevice; }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
-		void ForceExitTaskDevice() const;
+		void ForceExitTaskDevice();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void ClearEnemyStack();
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
-		void AddEnemy(AToroCharacter* InEnemy);
+		void AddEnemy(AGameEnemyBase* InEnemy);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		void RemoveEnemy(AToroCharacter* InEnemy);
+		void RemoveEnemy(AGameEnemyBase* InEnemy);
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
-		void UpdateEnemy(const AToroCharacter* InEnemy);
+		void UpdateEnemy(const AGameEnemyBase* InEnemy);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		bool TryJumpscare();

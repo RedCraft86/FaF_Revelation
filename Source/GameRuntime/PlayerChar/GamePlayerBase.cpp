@@ -5,7 +5,9 @@
 #include "ToroInterface.h"
 #include "ToroMathLibrary.h"
 #include "Framework/ToroGameMode.h"
+#include "Characters/GameEnemyBase.h"
 #include "Components/AudioComponent.h"
+#include "Framework/ToroMusicManager.h"
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroWidgetManager.h"
@@ -240,11 +242,16 @@ void AGamePlayerBase::SetHidingSpot(UObject* InObject)
 	HidingSpot = InObject;
 	if (WorldDevice) LockFlags.Add(Tag_PlayerLock_Hiding.GetTag());
 	else LockFlags.Remove(Tag_PlayerLock_Hiding.GetTag());
+	if (const AToroMusicManager* Manager = AToroMusicManager::Get(this))
+	{
+		Manager->SetHidingState(IsValid(HidingSpot));
+	}
 }
 
-void AGamePlayerBase::ForceExitHiding() const
+void AGamePlayerBase::ForceExitHiding()
 {
 	IToroInterface::Return(HidingSpot);
+	SetHidingSpot(nullptr);
 }
 
 void AGamePlayerBase::SetWorldDevice(UObject* InObject)
@@ -254,9 +261,10 @@ void AGamePlayerBase::SetWorldDevice(UObject* InObject)
 	else LockFlags.Remove(Tag_PlayerLock_Device.GetTag());
 }
 
-void AGamePlayerBase::ForceExitWorldDevice() const
+void AGamePlayerBase::ForceExitWorldDevice()
 {
 	IToroInterface::Return(WorldDevice);
+	SetWorldDevice(nullptr);
 }
 
 void AGamePlayerBase::SetTaskDevice(UObject* InObject)
@@ -266,9 +274,10 @@ void AGamePlayerBase::SetTaskDevice(UObject* InObject)
 	else UnsetStateFlag(PSF_Tasking);
 }
 
-void AGamePlayerBase::ForceExitTaskDevice() const
+void AGamePlayerBase::ForceExitTaskDevice()
 {
 	IToroInterface::Return(TaskDevice);
+	SetTaskDevice(nullptr);
 }
 
 void AGamePlayerBase::ClearEnemyStack()
@@ -280,7 +289,7 @@ void AGamePlayerBase::ClearEnemyStack()
 	}
 }
 
-void AGamePlayerBase::AddEnemy(AToroCharacter* InEnemy)
+void AGamePlayerBase::AddEnemy(AGameEnemyBase* InEnemy)
 {
 	if (!EnemyStack.Contains(InEnemy))
 	{
@@ -290,7 +299,7 @@ void AGamePlayerBase::AddEnemy(AToroCharacter* InEnemy)
 	}
 }
 
-void AGamePlayerBase::RemoveEnemy(AToroCharacter* InEnemy)
+void AGamePlayerBase::RemoveEnemy(AGameEnemyBase* InEnemy)
 {
 	if (EnemyStack.Contains(InEnemy))
 	{
@@ -300,7 +309,7 @@ void AGamePlayerBase::RemoveEnemy(AToroCharacter* InEnemy)
 	}
 }
 
-void AGamePlayerBase::UpdateEnemy(const AToroCharacter* InEnemy)
+void AGamePlayerBase::UpdateEnemy(const AGameEnemyBase* InEnemy)
 {
 	if (EnemyStack.Contains(InEnemy))
 	{
@@ -321,7 +330,7 @@ bool AGamePlayerBase::TryJumpscare()
 	AddLockFlag(Tag_PlayerLock_Jumpscare.GetTag());
 
 	ForceExitWorldDevice();
-	if (LockFlags.Contains(Tag_PlayerLock_Inventory.GetTag()))
+	if (LockFlags.Contains(GAMEPLAY_TAG_CHILD(Inventory, PlayerLock)))
 	{
 		PlayerController->GetInventory()->CloseInventory();
 	}
@@ -450,10 +459,21 @@ bool AGamePlayerBase::IsLeaningBlocked(const float Direction) const
 
 void AGamePlayerBase::OnEnemyStackChanged()
 {
-	// TODO
+	uint8 HighestState = 0;
+	for (const AGameEnemyBase* Enemy : EnemyStack)
+	{
+		if (const uint8 State = (uint8)Enemy->GetEnemyState() - 1; State > HighestState)
+		{
+			HighestState = State;
+		}
+	}
+	if (const AToroMusicManager* Manager = AToroMusicManager::Get(this))
+	{
+		Manager->SetThemeState(HighestState);
+	}
 }
 
-void AGamePlayerBase::OnSettingsChange(const class UToroUserSettings* InSettings)
+void AGamePlayerBase::OnSettingsChange(const UToroUserSettings* InSettings)
 {
 	if (InSettings)
 	{

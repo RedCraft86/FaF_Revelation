@@ -1,13 +1,16 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
+using System.IO;
+using Microsoft.Extensions.Logging;
 using UnrealBuildTool;
 
 public class GameRuntime : ModuleRules
 {
     public GameRuntime(ReadOnlyTargetRules Target) : base(Target)
     {
-        PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
+        PublicIncludePaths.Add(ModuleDirectory);
         PublicDependencyModuleNames.AddRange(
             new[]
             {

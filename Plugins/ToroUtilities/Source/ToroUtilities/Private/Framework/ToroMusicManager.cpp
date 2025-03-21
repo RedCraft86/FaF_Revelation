@@ -53,14 +53,14 @@ bool AToroMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
 		ThemeComponent->FadeIn(1.0f);
 	});
 
-	SetThemeIntensity(0.0f);
+	SetHidingState(0.0f);
 	SetThemeState(0);
 	return true;
 }
 
-void AToroMusicManager::SetThemeIntensity(const float InIntensity) const
+void AToroMusicManager::SetHidingState(const bool bHiding) const
 {
-	GetSoundParamInterface()->SetFloatParameter(TEXT("Intensity"), InIntensity);
+	GetSoundParamInterface()->SetBoolParameter(TEXT("Hiding"), bHiding);
 }
 
 void AToroMusicManager::SetThemeState(const uint8 InState) const

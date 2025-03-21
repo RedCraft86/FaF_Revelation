@@ -39,7 +39,7 @@ public:
 		bool ChangeMainTheme(UMetaSoundSource* NewTheme);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
-		void SetThemeIntensity(const float InIntensity) const;
+		void SetHidingState(bool bHiding) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
 		void SetThemeState(const uint8 InState) const;
