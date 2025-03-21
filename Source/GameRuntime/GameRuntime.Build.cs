@@ -24,9 +24,11 @@ public class GameRuntime : ModuleRules
                 "PhysicsCore",
                 "GameplayTags",
                 "EngineCameras",
+                "DeveloperSettings",
                 "EnhancedInput",
                 "ToroUtilities",
                 "ToroCore",
+                "DataGraph",
                 "CommonUI",
                 "EnhancedCodeFlow",
                 "Narrative"

@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "UDSInterface.h"
 #include "MetasoundSource.h"
 #include "ClassGetterHelpers.h"
 #include "InputMappingContext.h"
@@ -50,9 +49,6 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (ClampMin = 1, UIMin = 1))
 		uint8 WordsPerSecond;
-
-	UPROPERTY(Config, EditAnywhere, Category = Runtime, DisplayName = "UDS Actor")
-		TSoftClassPtr<AActor> UDSActor;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UWorld> GameplayMap;
@@ -110,12 +106,6 @@ public:
 		TArray<FString> Words;
 		InString.ParseIntoArray(Words, TEXT(" "));
 		return Words.Num() / FMath::Max(1.0f, (float)WordsPerSecond);
-	}
-
-	void SetUDSSettings(const UObject* WorldContext, const FUDSSettings& Settings) const
-	{
-		IUDSInterface::SetSettings(UGameplayStatics::GetActorOfClass(
-			WorldContext, UDSActor.LoadSynchronous()), Settings);
 	}
 
 	bool IsOnGameplayMap(const UObject* WorldContext) const
