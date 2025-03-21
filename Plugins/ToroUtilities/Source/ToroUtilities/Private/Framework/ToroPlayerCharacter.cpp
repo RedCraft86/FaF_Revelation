@@ -14,10 +14,6 @@ AToroPlayerCharacter::AToroPlayerCharacter() : SlowTickInterval(0.1f)
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	AutoReceiveInput = EAutoReceiveInput::Player0;
 
-	FootstepAudio = CreateDefaultSubobject<UAudioComponent>("FootstepAudio");
-	FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f, -60.0f));
-	FootstepAudio->SetupAttachment(GetCapsuleComponent());
-
 	PlayerLight = CreateDefaultSubobject<UPointLightComponent>("PlayerLight");
 	PlayerLight->SetupAttachment(GetCapsuleComponent());
 

@@ -18,12 +18,12 @@
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
 
 AGamePlayerBase::AGamePlayerBase() : ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS), ReachDistance(250.0f)
-, InteractTrace(ECC_Visibility), FieldOfView(90.0f), FieldOfViewSpeed(5.0f), LockOnSpeed(5.0f)
-, Sensitivity(1.0f), SensitivityMulti(1.0f), LeanOffsets(75.0f, 25.0f), LeanSpeed(7.5f)
-, SideTrace(ECC_Visibility), SideTraceLength(125.0f), MoveSpeedMulti(1.0f), WalkingSpeed(300.0f)
-, SwayOffsets(2.5f, 1.5f), CrouchWalkSpeed(200.0f), CrouchFOV(-5.0f), CeilingTrace(ECC_Visibility)
-, CrouchHeights(88.0f, 45.0f), CrouchSpeed(5.0f), RunningSpeed(750.0f), RunningFOV(5.0f), MaxStamina(100.0f)
-, StaminaDrainRate(1.0f), StaminaGainRate(1.0f)
+	, InteractTrace(ECC_Visibility), FieldOfView(90.0f), FieldOfViewSpeed(5.0f), LockOnSpeed(5.0f)
+	, Sensitivity(1.0f), SensitivityMulti(1.0f), LeanOffsets(75.0f, 25.0f), LeanSpeed(7.5f)
+	, SideTrace(ECC_Visibility), SideTraceLength(125.0f), MoveSpeedMulti(1.0f), WalkingSpeed(300.0f)
+	, SwayOffsets(2.5f, 1.5f), CrouchWalkSpeed(200.0f), CrouchFOV(-5.0f), CeilingTrace(ECC_Visibility)
+	, CrouchHeights(88.0f, 45.0f), CrouchSpeed(5.0f), RunningSpeed(750.0f), RunningFOV(5.0f), MaxStamina(100.0f)
+	, StaminaDrainRate(1.0f), StaminaGainRate(1.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -32,15 +32,6 @@ AGamePlayerBase::AGamePlayerBase() : ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS),
 	FootstepAudio = CreateDefaultSubobject<UAudioComponent>("FootstepAudio");
 	FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f, -60.0f));
 	FootstepAudio->SetupAttachment(GetCapsuleComponent());
-
-	PlayerLight = CreateDefaultSubobject<UPointLightComponent>("PlayerLight");
-	PlayerLight->SetupAttachment(GetCapsuleComponent());
-	
-	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
-	EquipmentRoot->SetupAttachment(GetCapsuleComponent());
-#if WITH_EDITOR
-	EquipmentRoot->bVisualizeComponent = true;
-#endif
 
 	CameraArm = CreateDefaultSubobject<USpringArmComponent>("CameraArm");
 	CameraArm->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
@@ -55,7 +46,7 @@ AGamePlayerBase::AGamePlayerBase() : ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS),
 
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
 
-	LockFlags = {Tag_PlayerLock_Startup.GetTag().GetTagName()};
+	LockFlags = {Tag_PlayerLock_Startup.GetTag()};
 }
 
 void AGamePlayerBase::ResetStates()
