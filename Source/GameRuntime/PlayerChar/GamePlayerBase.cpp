@@ -47,6 +47,8 @@ AGamePlayerBase::AGamePlayerBase() : ControlFlags(DEFAULT_PLAYER_CONTROL_FLAGS),
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
 	PlayerCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
+	Narrative = CreateDefaultSubobject<UToroNarrativeComponent>("Narrative");
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
 
 	LockFlags = {Tag_PlayerLock_Startup.GetTag()};

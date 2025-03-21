@@ -30,6 +30,12 @@ public:
 		TObjectPtr<UCameraComponent> PlayerCamera;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UInventoryComponent> Inventory;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UToroNarrativeComponent> Narrative;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UInteractionComponent> Interaction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/GameRuntime.EPlayerControlFlags"))
@@ -260,13 +266,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		bool TryJumpscare();
 
+	virtual UInventoryComponent* GetInventory_Implementation() const override { return Inventory; }
+	virtual UToroNarrativeComponent* GetNarrative_Implementation() const override { return Narrative; }
+
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 	virtual bool GetLookTarget_Implementation(FVector& Location) override;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
 	virtual void Teleport(const FVector& InLocation, const FRotator& InRotation) override;
 
 protected:
-
 
 	void TickStamina();
 	void TickFootstep();
