@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "WorldActions/Actions/BaseActions.h"
-
 #include "EnhancedCodeFlow.h"
 
 void FWControlDelay::RunEvent(const UObject* WorldContext)
