@@ -192,7 +192,7 @@ void UNarrativeWidgetBase::InitWidget()
 {
 	Super::InitWidget();
 	PlayerChar = AToroPlayerCharacter::Get(this);
-	NarrativeComponent = PlayerChar->GetPlayerController()->GetNarrative();
+	NarrativeComponent = UToroNarrativeComponent::Get(this);
 
 	NarrativeComponent->OnQuestNewState.AddDynamic(this, &ThisClass::OnQuestNewState);
 	NarrativeComponent->OnQuestTaskCompleted.AddDynamic(this, &ThisClass::OnQuestTaskCompleted);
