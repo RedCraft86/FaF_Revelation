@@ -16,7 +16,8 @@ public class GameEditor : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "ToroEditor"
+                "ToroEditor",
+                "GameRuntime"
             }
         );
     }
