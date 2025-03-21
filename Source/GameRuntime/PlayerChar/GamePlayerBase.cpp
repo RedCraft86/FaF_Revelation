@@ -65,7 +65,7 @@ void AGamePlayerBase::ResetStates()
 	ForceExitHiding();
 	ForceExitTaskDevice();
 	ForceExitWorldDevice();
-	PlayerController->GetInventory()->CloseInventory();
+	GetInventory()->CloseInventory();
 
 	const TSet<FName> AllFlags = Player::LockFlags::GetAll();
 	const TSet<FName> Resettable = Player::LockFlags::Resettable();
@@ -333,17 +333,10 @@ bool AGamePlayerBase::TryJumpscare()
 	ForceExitWorldDevice();
 	if (LockFlags.Contains(GAMEPLAY_TAG_CHILD(Inventory, PlayerLock)))
 	{
-		PlayerController->GetInventory()->CloseInventory();
+		GetInventory()->CloseInventory();
 	}
 
 	return true;
-}
-
-void AGamePlayerBase::EnterDialogue()
-{
-	SetRunState(false);
-	SetCrouchState(false);
-	SetLeanState(EPlayerLeanState::None);
 }
 
 void AGamePlayerBase::SetActorHiddenInGame(bool bNewHidden)
@@ -489,6 +482,13 @@ void AGamePlayerBase::OnSettingsChange(const UToroUserSettings* InSettings)
 	}
 }
 
+void AGamePlayerBase::OnEnterDialogue(UDialogue* Dialogue)
+{
+	SetRunState(false);
+	SetCrouchState(false);
+	SetLeanState(EPlayerLeanState::None);
+}
+
 void AGamePlayerBase::SlowTick()
 {
 	if (IsRunning() && IsMoving())
@@ -510,6 +510,8 @@ void AGamePlayerBase::SlowTick()
 void AGamePlayerBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetNarrative()->OnDialogueBegan.AddUniqueDynamic(this, &ThisClass::OnEnterDialogue);
 
 	CamPosition = CameraArm->GetRelativeLocation();
 	GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
@@ -643,7 +645,7 @@ void AGamePlayerBase::InputBinding_Pause(const FInputActionValue& InValue)
 		if (LockFlags.Contains(LockFlag(Guide)) || IsValid(PlayerController->GetCinematicActor())) return;
 		if (LockFlags.Contains(LockFlag(Inventory)))
 		{
-			PlayerController->GetInventory()->CloseInventory();
+			GetInventory()->CloseInventory();
 			return;
 		}
 
@@ -750,11 +752,11 @@ void AGamePlayerBase::InputBinding_Inventory(const FInputActionValue& InValue)
 	if (LockFlags.Contains(LockFlag(Guide))) return;
 	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
-		PlayerController->GetInventory()->CloseInventory();
+		GetInventory()->CloseInventory();
 	}
 	else if (CAN_INPUT)
 	{
-		PlayerController->GetInventory()->OpenInventory();
+		GetInventory()->OpenInventory();
 	}
 }
 
@@ -781,7 +783,7 @@ void AGamePlayerBase::InputBinding_Equipment(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
-		PlayerController->GetInventory()->EquipmentUse();
+		GetInventory()->EquipmentUse();
 	}
 }
 
@@ -789,6 +791,6 @@ void AGamePlayerBase::InputBinding_EquipmentAlt(const FInputActionValue& InValue
 {
 	if (CAN_INPUT)
 	{
-		PlayerController->GetInventory()->EquipmentUseAlt(InValue.Get<bool>());
+		GetInventory()->EquipmentUseAlt(InValue.Get<bool>());
 	}
 }

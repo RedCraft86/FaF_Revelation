@@ -43,7 +43,7 @@ FInvSlotData::FInvSlotData(const TObjectPtr<UInventoryItemData>& InItem, const u
 	Metadata.Append(InMetadata);
 }
 
-UInventoryComponent::UInventoryComponent()
+UInventoryComponent::UInventoryComponent() : bInInventory(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
@@ -51,9 +51,9 @@ UInventoryComponent::UInventoryComponent()
 
 UInventoryComponent* UInventoryComponent::Get(const UObject* WorldContext)
 {
-	if (const AToroPlayerController* Controller = AToroPlayerController::Get(WorldContext))
+	if (const AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(WorldContext))
 	{
-		return Controller->GetInventory();
+		return Player->GetInventory();
 	}
 	
 	return nullptr;
@@ -500,7 +500,7 @@ void UInventoryComponent::OpenInventory()
 {
 	if (!bInInventory)
 	{
-		PlayerChar->AddLockFlag(Tag_PlayerLock_Inventory.GetTag());
+		Player->AddLockFlag(Tag_PlayerLock_Inventory.GetTag());
 		ValidateInventory();
 		if (PreviewActor)
 		{
@@ -510,7 +510,7 @@ void UInventoryComponent::OpenInventory()
 		if (OnInventoryState.IsBound()) OnInventoryState.Execute(true);
 		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 		{
-			if (AToroPlayerController* PC = PlayerChar->GetPlayerController())
+			if (AToroPlayerController* PC = Player->GetPlayerController())
 			{
 				PC->SetGameInputMode(EGameInputMode::GameAndUI, true,
 					EMouseLockMode::LockAlways, false, GetWidget());
@@ -525,8 +525,8 @@ void UInventoryComponent::CloseInventory()
 {
 	if (bInInventory)
 	{
-		PlayerChar->ClearLockFlag(Tag_PlayerLock_Inventory.GetTag());
-		if (AToroPlayerController* PC = PlayerChar->GetPlayerController())
+		Player->ClearLockFlag(Tag_PlayerLock_Inventory.GetTag());
+		if (AToroPlayerController* PC = Player->GetPlayerController())
 		{
 			PC->SetGameInputMode(EGameInputMode::GameOnly);
 			PC->RemovePauseRequest(this);
@@ -563,7 +563,8 @@ void UInventoryComponent::ValidateInventory(const bool bForceUpdate)
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerChar = AToroPlayerCharacter::Get(this);
+	Player = GetOwner<AToroPlayerCharacter>();
+	if (!Player) Player = AToroPlayerCharacter::Get(this);
 	for (AInventoryPreview* Actor : TActorRange<AInventoryPreview>(GetWorld()))
 	{
 		PreviewActor = Actor;

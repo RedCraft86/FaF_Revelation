@@ -4,11 +4,8 @@
 
 #include "ExecPinEnums.h"
 #include "Kismet/GameplayStatics.h"
-#include "Inventory/InventoryComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
-
-class UToroNarrativeComponent;
 
 UENUM(BlueprintType)
 enum class EGameInputMode : uint8
@@ -120,14 +117,6 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = Player)
 		AActor* GetCinematicActor() const { return CinematicActor; }
-
-	UFUNCTION(BlueprintNativeEvent)
-		UInventoryComponent* GetInventory() const;
-	virtual UInventoryComponent* GetInventory_Implementation() const { return nullptr; }
-
-	UFUNCTION(BlueprintNativeEvent)
-		UToroNarrativeComponent* GetNarrative() const;
-	virtual UToroNarrativeComponent* GetNarrative_Implementation() const { return nullptr; }
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnGamePaused, const bool)
 	FOnGamePaused OnGamePaused;

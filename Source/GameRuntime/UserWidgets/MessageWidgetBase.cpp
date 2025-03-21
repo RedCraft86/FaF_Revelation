@@ -14,8 +14,8 @@
 #include "Components/Image.h"
 #include "InputMappingContext.h"
 
-UMessageWidgetBase::UMessageWidgetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bControlBarState(false), AchievementFormat(INVTEXT("[25pt](Achievement Unlocked)\n{0}"))
+UMessageWidgetBase::UMessageWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+	, AchievementFormat(INVTEXT("[25pt](Achievement Unlocked)\n{0}")), bControlBarState(false)
 {
 	ZOrder = 45;
 	ControlDividerBrush.TintColor = FLinearColor::Gray;
@@ -238,7 +238,8 @@ void UMessageWidgetBase::InitWidget()
 
 bool UMessageWidgetBase::ShouldBeHidden()
 {
-	return Super::ShouldBeHidden() || GetOwningPlayer()->IsPaused() || (Player && Player->IsInDialogue());
+	return Super::ShouldBeHidden() || GetOwningPlayer()->IsPaused()
+		|| (Player && Player->GetNarrative()->IsInDialogue());
 }
 
 bool UMessageWidgetBase::CanCreateWidget() const

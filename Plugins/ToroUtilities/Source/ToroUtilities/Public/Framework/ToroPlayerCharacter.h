@@ -64,9 +64,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		virtual bool HasLockFlag(const FPlayerLockFlag& InFlag) const;
 
-	UFUNCTION(BlueprintPure, Category = Player)
-		bool IsInDialogue() const { return bInDialogue; }
-
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
 
@@ -79,12 +76,16 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
 		virtual void ClearFade() const;
 
-	virtual void EnterDialogue() { bInDialogue = true; }
-	virtual void ExitDialogue() { bInDialogue = false; }
+	UFUNCTION(BlueprintNativeEvent)
+		class UInventoryComponent* GetInventory() const;
+	virtual UInventoryComponent* GetInventory_Implementation() const { return nullptr; }
+
+	UFUNCTION(BlueprintNativeEvent)
+		class UToroNarrativeComponent* GetNarrative() const;
+	virtual UToroNarrativeComponent* GetNarrative_Implementation() const { return nullptr; }
 
 protected:
 
-	UPROPERTY() bool bInDialogue;
 	UPROPERTY() FTimerHandle SlowTickTimer;
 	UPROPERTY(Transient) TObjectPtr<AToroGameMode> GameMode;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerController> PlayerController;

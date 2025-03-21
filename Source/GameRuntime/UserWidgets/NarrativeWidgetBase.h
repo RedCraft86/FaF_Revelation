@@ -78,7 +78,7 @@ public:
 		TSubclassOf<UDialogueOptionWidgetBase> ReplyWidgetClass;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Settings)
-		TObjectPtr<UToroNarrativeComponent> NarrativeComponent;
+		TObjectPtr<class UToroNarrativeComponent> NarrativeComponent;
 
 	UFUNCTION(BlueprintCallable, Category = NarrativeWidget)
 		void SetQuestsHidden(const bool bInHidden);
@@ -103,7 +103,7 @@ protected:
 
 	UPROPERTY() bool bHideQuests;
 	UPROPERTY() FGameInputModeData CachedInputMode;
-	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> PlayerChar;
+	UPROPERTY(Transient) TObjectPtr<class AToroPlayerCharacter> PlayerChar;
 	UPROPERTY(Transient) TMap<FName, TObjectPtr<UDialogueOptionWidgetBase>> DialogueReplies;
 
 	void QuestUpdatedNotify() const;

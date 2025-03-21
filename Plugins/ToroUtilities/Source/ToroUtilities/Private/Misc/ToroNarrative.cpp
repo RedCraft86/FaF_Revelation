@@ -7,9 +7,9 @@
 
 UToroNarrativeComponent* UToroNarrativeComponent::Get(const UObject* WorldContext)
 {
-	if (const AToroPlayerController* Controller = AToroPlayerController::Get(WorldContext))
+	if (const AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(WorldContext))
 	{
-		return Controller->GetNarrative();
+		return Player->GetNarrative();
 	}
 	return nullptr;
 }
@@ -17,8 +17,7 @@ UToroNarrativeComponent* UToroNarrativeComponent::Get(const UObject* WorldContex
 void UToroNarrativeComponent::DialogueBegan(UDialogue* Dialogue)
 {
 	Super::DialogueBegan(Dialogue);
-	PlayerChar->EnterDialogue();
-	PlayerChar->AddLockFlag(Tag_PlayerLock_Dialogue.GetTag());
+	Player->AddLockFlag(Tag_PlayerLock_Dialogue.GetTag());
 	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
 	{
 		CachedInputMode = Controller->GetInputModeData();
@@ -32,8 +31,7 @@ void UToroNarrativeComponent::DialogueFinished(UDialogue* Dialogue, const bool b
 	Super::DialogueFinished(Dialogue, bStartingNewDialogue);
 	if (!bStartingNewDialogue)
 	{
-		PlayerChar->ExitDialogue();
-		PlayerChar->ClearLockFlag(Tag_PlayerLock_Dialogue.GetTag());
+		Player->ClearLockFlag(Tag_PlayerLock_Dialogue.GetTag());
 		AToroPlayerController::Get(this)->SetInputModeData(CachedInputMode);
 	}
 }
@@ -42,4 +40,11 @@ UUserWidget* UToroNarrativeComponent::GetWidget() const
 {
 	AToroWidgetManager* Manager = AToroWidgetManager::Get(this);
 	return Manager ? Manager->FindWidget(WidgetClass) : nullptr;
+}
+
+void UToroNarrativeComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	Player = GetOwner<AToroPlayerCharacter>();
+	if (!Player) Player = AToroPlayerCharacter::Get(this);
 }

@@ -94,7 +94,8 @@ void UGameWidgetBase::InitWidget()
 
 bool UGameWidgetBase::ShouldBeHidden()
 {
-	return Super::ShouldBeHidden() || GetOwningPlayer()->IsPaused() || (Player && Player->IsInDialogue());
+	return Super::ShouldBeHidden() || GetOwningPlayer()->IsPaused()
+		|| (Player && Player->GetNarrative()->IsInDialogue());
 }
 
 bool UGameWidgetBase::CanCreateWidget() const

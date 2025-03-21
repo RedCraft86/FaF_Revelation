@@ -4,7 +4,9 @@
 
 #include "MathTypes.h"
 #include "PlayerTypes.h"
+#include "Misc/ToroNarrative.h"
 #include "Camera/CameraComponent.h"
+#include "Inventory/InventoryComponent.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Interaction/InteractionComponent.h"
 #include "GamePlayerBase.generated.h"
@@ -258,13 +260,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		bool TryJumpscare();
 
-	virtual void EnterDialogue() override;
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 	virtual bool GetLookTarget_Implementation(FVector& Location) override;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) override;
 	virtual void Teleport(const FVector& InLocation, const FRotator& InRotation) override;
 
 protected:
+
 
 	void TickStamina();
 	void TickFootstep();
@@ -274,6 +276,7 @@ protected:
 
 	void OnEnemyStackChanged();
 	void OnSettingsChange(const class UToroUserSettings* InSettings);
+	UFUNCTION() void OnEnterDialogue(UDialogue* Dialogue);
 
 	virtual void SlowTick() override;
 	virtual void BeginPlay() override;

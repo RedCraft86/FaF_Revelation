@@ -25,7 +25,8 @@ public:
 protected:
 
 	UPROPERTY() FGameInputModeData CachedInputMode;
-	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> PlayerChar;
+	UPROPERTY(Transient) TObjectPtr<class AToroPlayerCharacter> Player;
 
 	virtual UUserWidget* GetWidget() const;
+	virtual void BeginPlay() override;
 };

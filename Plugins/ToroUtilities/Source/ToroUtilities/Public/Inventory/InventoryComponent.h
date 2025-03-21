@@ -246,7 +246,7 @@ protected:
 	UPROPERTY() FGameCurrency CurrencyData;
 	UPROPERTY() TMap<FGuid, FInvSlotData> ItemSlots;
 	UPROPERTY() TObjectPtr<AInventoryPreview> PreviewActor;
-	UPROPERTY() TObjectPtr<class AToroPlayerCharacter> PlayerChar;
+	UPROPERTY() TObjectPtr<class AToroPlayerCharacter> Player;
 
 	virtual void OnInventoryUpdate() {}
 	virtual UUserWidget* GetWidget() const;
