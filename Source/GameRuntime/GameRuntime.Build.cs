@@ -17,14 +17,18 @@ public class GameRuntime : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore",
+                "InputCore",
                 "PhysicsCore",
                 "GameplayTags",
                 "EngineCameras",
                 "EnhancedInput",
                 "ToroUtilities",
                 "ToroCore",
+                "CommonUI",
+                "EnhancedCodeFlow",
             }
         );
     }
