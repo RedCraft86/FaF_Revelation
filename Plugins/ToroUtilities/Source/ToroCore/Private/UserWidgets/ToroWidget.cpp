@@ -2,6 +2,8 @@
 
 #include "ToroWidget.h"
 
+#define MAX_Z_ORDER 50
+
 UToroWidget::UToroWidget(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 	, ZOrder(0), HideCheckInterval(0.5f), bHidden(false), bWantHidden(false), bBeforeHidden(false), AutoHideTimer(0.5f)
 {
@@ -17,7 +19,7 @@ UToroWidget* UToroWidget::CreateToroWidget(APlayerController* Controller, const 
 		if (Widget->CanCreateWidget())
 		{
 			Widget->InitWidget();
-			Widget->AddToViewport(Widget->ZOrder);
+			Widget->AddToViewport(FMath::Min(MAX_Z_ORDER, (int32)Widget->ZOrder));
 		}
 	}
 

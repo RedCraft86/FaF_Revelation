@@ -18,6 +18,7 @@ UInfoWidgetBase::UInfoWidgetBase(const FObjectInitializer& ObjectInitializer) : 
 	, GoodFrameRateColor(FLinearColor::Green), BadFrameRateColor(FLinearColor::Red)
 	, bPrePaused(false), bShowFPS(false), FPSTick(0.0f), TargetFPS(60.0f)
 {
+	ZOrder = 50;
 }
 
 void UInfoWidgetBase::UpdateFrameRate() const

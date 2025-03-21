@@ -13,7 +13,7 @@
 UGuideWidgetBase::UGuideWidgetBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), ImageHeight(0.0f), bPrePauseState(false)
 {
-	ZOrder = 59;
+	ZOrder = 49;
 	bAutoActivate = false;
 }
 
