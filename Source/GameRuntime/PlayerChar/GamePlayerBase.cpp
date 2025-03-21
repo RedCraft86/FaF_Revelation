@@ -14,6 +14,7 @@
 #include "Framework/ToroPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "UserWidgets/NarrativeWidgetBase.h"
 #include "UserSettings/ToroUserSettings.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
@@ -763,7 +764,10 @@ void AGamePlayerBase::InputBinding_HideQuests(const FInputActionValue& InValue)
 	{
 		if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
 		{
-			// TODO
+			if (UNarrativeWidgetBase* Widget = WidgetManager->FindWidget<UNarrativeWidgetBase>())
+			{
+				Widget->SetQuestsHidden(!Widget->AreQuestsHidden());
+			}
 		}
 	}
 }

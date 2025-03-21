@@ -29,6 +29,7 @@ public class GameRuntime : ModuleRules
                 "ToroCore",
                 "CommonUI",
                 "EnhancedCodeFlow",
+                "Narrative"
             }
         );
     }
