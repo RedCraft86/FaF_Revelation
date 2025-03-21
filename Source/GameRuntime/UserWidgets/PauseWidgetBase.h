@@ -43,9 +43,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		TSubclassOf<class USettingsWidgetBase> SettingsWidgetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Categories = "Save"))
-		FGameplayTag SaveTag;
-
 protected:
 
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> Player;

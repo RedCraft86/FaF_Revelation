@@ -2,17 +2,13 @@
 
 #include "UserWidgets/PauseWidgetBase.h"
 #include "Framework/ToroPlayerController.h"
-#include "SaveSystem/ToroSaveManager.h"
-#include "SaveSystem/ToroSaveObject.h"
-#include "SaveSystem/ToroSaveTypes.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
 #include "EnhancedCodeFlow.h"
 #include "SettingsWidgetBase.h"
 #include "ToroSettings.h"
 
-UPauseWidgetBase::UPauseWidgetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), SaveTag(Tag_Save_Game)
+UPauseWidgetBase::UPauseWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
 	ZOrder = 58;
 	bAutoActivate = false;
@@ -34,11 +30,6 @@ void UPauseWidgetBase::OnSettingsClicked()
 
 void UPauseWidgetBase::OnCheckpointClicked()
 {
-	if (UToroGameSave* SaveObject = ToroSave::GetObject<UToroGameSave>(this, SaveTag))
-	{
-		SaveObject->SaveObject(nullptr);
-	}
-
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
 	FFlow::Delay(this, 2.0f, [this]()
@@ -49,11 +40,6 @@ void UPauseWidgetBase::OnCheckpointClicked()
 
 void UPauseWidgetBase::OnMainMenuClicked()
 {
-	if (UToroGameSave* SaveObject = ToroSave::GetObject<UToroGameSave>(this, SaveTag))
-	{
-		SaveObject->SaveObject(nullptr);
-	}
-
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
 	FFlow::Delay(this, 2.0f, [this]()
