@@ -29,7 +29,7 @@ AMasterPostProcess::AMasterPostProcess()
 		DebugBillboard->SetupAttachment(PostProcess);
 		DebugBillboard->SetWorldScale3D(FVector{0.5f});
 		DebugBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
-			TEXT("Texture2D'/ToroUtilities/Icons/MasterPostProcess.MasterPostProcess'")));
+			TEXT("/ToroUtilities/Icons/MasterPostProcess.MasterPostProcess")));
 	}
 #endif
 

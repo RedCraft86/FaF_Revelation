@@ -90,7 +90,7 @@ void ALightProbe::OnConstruction(const FTransform& Transform)
 		if (!DebugMaterial)
 		{
 			if (UMaterialInterface* BaseMat = LoadObject<UMaterialInterface>(nullptr,
-				TEXT("MaterialInterface'/ToroUtilities/Icons/LightProbe/M_LightProbe.M_LightProbe'")))
+				TEXT("/ToroUtilities/Icons/LightProbe/M_LightProbe.M_LightProbe")))
 			{
 				DebugMaterial = UMaterialInstanceDynamic::Create(BaseMat, DebugBillboard);
 			}
@@ -107,7 +107,7 @@ void ALightProbe::OnConstruction(const FTransform& Transform)
 				Sprite.Material = DebugMaterial;
 				Sprite.BaseSizeX = Sprite.BaseSizeY = 40.0f;
 				Sprite.DistanceToSizeCurve = LoadObject<UCurveFloat>(nullptr,
-					TEXT("CurveFloat'/ToroUtilities/Icons/LightProbe/C_LightProbe.C_LightProbe'"));
+					TEXT("/ToroUtilities/Icons/LightProbe/C_LightProbe.C_LightProbe"));
 				
 				DebugBillboard->SetElements({Sprite});
 			}
