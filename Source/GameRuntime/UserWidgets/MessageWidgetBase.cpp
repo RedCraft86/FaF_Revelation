@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/MessageWidgetBase.h"
+#include "Achievements/AchievementManager.h"
 #include "Components/RichTextBlockImageDecorator.h"
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/ExprTextBlock.h"
@@ -14,7 +15,7 @@
 #include "InputMappingContext.h"
 
 UMessageWidgetBase::UMessageWidgetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bControlBarState(false)
+	: Super(ObjectInitializer), bControlBarState(false), AchievementFormat(INVTEXT("[25pt](Achievement Unlocked)\n{0}"))
 {
 	ZOrder = 45;
 	ControlDividerBrush.TintColor = FLinearColor::Gray;
@@ -99,6 +100,14 @@ void UMessageWidgetBase::RemoveControl(const UInputAction* InAction)
 	UpdateControlBar();
 }
 
+void UMessageWidgetBase::OnAchievement(const FAchievementEntry& Data, const uint8 Progress)
+{
+	if (!AchievementFormat.IsEmptyOrWhitespace() && Data.Requirement == Progress)
+	{
+		AddLargeNotice({FText::Format(AchievementFormat, Data.Name), 0.0f}, false);
+	}
+}
+
 void UMessageWidgetBase::UpdateSmallNotice()
 {
 	if (FSimpleMessageData Data; SmallNoticeQueue.Dequeue(Data))
@@ -176,7 +185,7 @@ void UMessageWidgetBase::UpdateSubtitle()
 void UMessageWidgetBase::UpdateControlBar()
 {
 	ControlBar->ClearChildren();
-	if (!ControlEntryWidget || !MappingContext) return;
+	if (!ControlEntryClass || !MappingContext) return;
 	const int32 EntryNum = ControlBarEntries.Num();
 	for (int32 i = 0; i < EntryNum; i++)
 	{
@@ -192,7 +201,7 @@ void UMessageWidgetBase::UpdateControlBar()
 				}
 			}
 			
-			UControlEntryBase* Entry = WidgetTree->ConstructWidget<UControlEntryBase>(ControlEntryWidget);
+			UControlEntryBase* Entry = WidgetTree->ConstructWidget<UControlEntryBase>(ControlEntryClass);
 			Entry->SetData(Action->ActionDescription, Keys);
 			ControlBar->AddChild(Entry);
 
@@ -221,6 +230,10 @@ void UMessageWidgetBase::InitWidget()
 	Super::InitWidget();
 	Player = AToroPlayerCharacter::Get<AGamePlayerBase>(this);
 	MappingContext = UToroSettings::Get()->DefaultInputMappings.LoadSynchronous();
+	if (UAchievementManager* Manager = UAchievementManager::Get(this))
+	{
+		Manager->OnAchievement.BindUObject(this, &UMessageWidgetBase::OnAchievement);
+	}
 }
 
 bool UMessageWidgetBase::ShouldBeHidden()

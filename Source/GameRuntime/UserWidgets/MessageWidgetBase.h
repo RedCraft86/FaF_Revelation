@@ -47,10 +47,13 @@ public:
 		TObjectPtr<UWidgetAnimation> ControlBarAnim;
 
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
-		TSubclassOf<class UControlEntryBase> ControlEntryWidget;
+		TSubclassOf<class UControlEntryBase> ControlEntryClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
 		FSlateBrush ControlDividerBrush;
+
+	UPROPERTY(EditDefaultsOnly, Category = Settings)
+		FText AchievementFormat;
 
 	void AddSmallNotice(const FSimpleMessageData& NoticeData, const bool bResetQueue);
 	void AddLargeNotice(const FSimpleMessageData& NoticeData, const bool bResetQueue);
@@ -63,6 +66,8 @@ protected:
 
 	UPROPERTY(Transient) TObjectPtr<AGamePlayerBase> Player;
 	UPROPERTY(Transient) TObjectPtr<const UInputMappingContext> MappingContext;
+
+	void OnAchievement(const FAchievementEntry& Data, const uint8 Progress);
 
 	FTimerHandle SmallNoticeTimer;
 	TQueue<FSimpleMessageData> SmallNoticeQueue;
