@@ -26,7 +26,7 @@ public:
 		: Super(ObjectInitializer), DialoguePlayerColor(FLinearColor::Yellow)
 		, DialogueColor(FLinearColor::White), bNotifyObjectives(false), bHideQuests(false)
 	{
-		ZOrder = 56;
+		ZOrder = 46;
 	}
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
@@ -123,4 +123,5 @@ protected:
 	UFUNCTION() void OnLineSkipClicked();
 
 	virtual void InitWidget() override;
+	virtual bool CanCreateWidget() const override;
 };

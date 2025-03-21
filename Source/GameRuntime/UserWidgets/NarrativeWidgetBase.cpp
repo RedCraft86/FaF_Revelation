@@ -208,3 +208,8 @@ void UNarrativeWidgetBase::InitWidget()
 
 	SkipLineButton->OnClicked.AddDynamic(this, &ThisClass::OnLineSkipClicked);
 }
+
+bool UNarrativeWidgetBase::CanCreateWidget() const
+{
+	return UToroSettings::Get()->IsOnGameplayMap(this);
+}

@@ -64,7 +64,7 @@ public:
 	UInventoryWidgetBase(const FObjectInitializer& ObjectInitializer)
 		: Super(ObjectInitializer), ImageDescHeight(200.0f)
 	{
-		ZOrder = 57;
+		ZOrder = 47;
 		bAutoActivate = false;
 	}
 
@@ -174,4 +174,5 @@ protected:
 	virtual void InitWidget() override;
 	virtual void InternalProcessActivation() override;
 	virtual void InternalProcessDeactivation() override;
+	virtual bool CanCreateWidget() const override;
 };

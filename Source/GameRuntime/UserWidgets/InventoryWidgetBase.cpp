@@ -10,6 +10,7 @@
 #include "Components/SizeBox.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
+#include "ToroSettings.h"
 
 void UInvSlotWidgetBase::OnClicked()
 {
@@ -262,4 +263,9 @@ void UInventoryWidgetBase::InternalProcessDeactivation()
 {
 	Super::InternalProcessDeactivation();
 	SetAnimationCurrentTime(ViewFadeAnim, ViewFadeAnim->GetStartTime());
+}
+
+bool UInventoryWidgetBase::CanCreateWidget() const
+{
+	return UToroSettings::Get()->IsOnGameplayMap(this);
 }

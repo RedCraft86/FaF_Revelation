@@ -10,7 +10,7 @@
 
 UPauseWidgetBase::UPauseWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
-	ZOrder = 58;
+	ZOrder = 48;
 	bAutoActivate = false;
 }
 
