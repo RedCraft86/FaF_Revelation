@@ -128,5 +128,6 @@ void AToroPlayerCharacter::BeginPlay()
 void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+	DeduplicateLockFlags(LockFlags);
 	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
 }

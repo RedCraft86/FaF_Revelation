@@ -100,14 +100,4 @@ protected:
 	virtual void SlowTick() {}
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
-#if WITH_EDITOR
-	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
-	{
-		Super::PostEditChangeProperty(PropertyChangedEvent);
-		if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(ThisClass, LockFlags))
-		{
-			DeduplicateLockFlags(LockFlags);
-		}
-	}
-#endif
 };
