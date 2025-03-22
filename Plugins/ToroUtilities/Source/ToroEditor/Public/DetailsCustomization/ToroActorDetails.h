@@ -43,11 +43,17 @@ public:
 protected:
 
 	TArray<FName> HiddenCategories;
-	TArray<FName> AllowedCategories = { "Transform", "TransformCommon", "Settings", "Tools", "Rendering", "Actor", "Tick" };
-	TMap<FName, FText> CategoryRename = {{"TransformCommon", INVTEXT("Transform")}};
+	TArray<FName> AllowedCategories = {
+		"Transform", "TransformCommon", "CharSettings", "Settings", "Tools", "Rendering", "Actor", "Tick"
+	};
+	TMap<FName, FText> CategoryRename = {
+		{"TransformCommon", INVTEXT("Transform")},
+		{"CharSettings", INVTEXT("Character")}
+	};
 	TMap<FName, ECategoryPriority::Type> CategoryPriority = {
 		{"Transform",		ECategoryPriority::Transform},
 		{"TransformCommon",	ECategoryPriority::Transform},
+		{"CharSettings",		ECategoryPriority::Important},
 		{"Settings",			ECategoryPriority::Important},
 		{"Tools",			ECategoryPriority::Important},
 		{"Rendering",		ECategoryPriority::Default},
@@ -75,6 +81,9 @@ protected:
 			}
 		}
 
+		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory("Settings");
+		Settings.AddProperty(GET_CLASS_PROPERTY(AToroActor, bEnabled));
+		
 		TArray<FName> CategoryNames;
 		DetailBuilder.GetCategoryNames(CategoryNames);
 		CategoryNames.RemoveAll([](const FName& Element)
@@ -82,7 +91,6 @@ protected:
 			return Element.ToString().Contains(TEXT("|")); // Skip SubCategories
 		});
 
-		DetailBuilder.EditCategory("Settings").AddProperty(GET_CLASS_PROPERTY(AToroActor, bEnabled));
 		for (const FName& Name : CategoryNames)
 		{
 			if (!AllowedCategories.Contains(Name))
