@@ -45,7 +45,7 @@ EToroValidPins AToroPlayerCharacter::GetToroPlayerCharacter(AToroPlayerCharacter
 
 void AToroPlayerCharacter::AddLockFlag(const FPlayerLockFlag& InFlag)
 {
-	if (InFlag.IsValidFlag()) LockFlags.Add(InFlag);
+	if (InFlag.IsValidFlag()) LockFlags.AddUnique(InFlag);
 }
 
 void AToroPlayerCharacter::ClearLockFlag(const FPlayerLockFlag& InFlag)
