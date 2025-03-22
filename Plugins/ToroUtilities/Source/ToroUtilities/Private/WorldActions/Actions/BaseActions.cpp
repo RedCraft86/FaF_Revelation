@@ -5,10 +5,10 @@
 
 void FWControlDelay::RunEvent(const UObject* WorldContext)
 {
-	if (FEnhancedCodeFlow::IsActionRunning(WorldContext, DelayHandle) && !bRetriggerable) return;
+	if (FFlow::IsActionRunning(WorldContext, DelayHandle) && !bRetriggerable) return;
 
-	FEnhancedCodeFlow::StopAction(WorldContext, DelayHandle);
-	DelayHandle = FEnhancedCodeFlow::Delay(WorldContext, Delay, [this, WorldContext]()
+	FFlow::StopAction(WorldContext, DelayHandle);
+	DelayHandle = FFlow::Delay(WorldContext, Delay, [this, WorldContext]()
 	{
 		FOR_EACH_ACTION(Actions, {
 			ActionPtr->RunEvent(WorldContext);

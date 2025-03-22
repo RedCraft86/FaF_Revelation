@@ -73,8 +73,8 @@ void ULocalSoundDatabase::UpdateData()
 void FLocalSoundLayer::Stop()
 {
 	if (!IsValid(Component) || !IsValid(Owner)) return;
-	FEnhancedCodeFlow::StopAction(Owner, PauseHandle);
-	FEnhancedCodeFlow::StopAction(Owner, FadeHandle);
+	FFlow::StopAction(Owner, PauseHandle);
+	FFlow::StopAction(Owner, FadeHandle);
 	
 	auto StopFunc = [this]()
 	{
@@ -99,7 +99,7 @@ void FLocalSoundLayer::Stop()
 	{
 		GET_ONE_SHOT(SoundID);
 		Component->FadeOut(SoundData.Fades.Y, 0.0f);
-		FadeHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.Fades.Y, StopFunc);
+		FadeHandle = FFlow::Delay(Owner, SoundData.Fades.Y, StopFunc);
 	}
 }
 
@@ -111,7 +111,7 @@ void FLocalSoundLayer::Restart()
 	bAutoDestroy = false;
 	GET_ONE_SHOT(SoundID);
 	Component->FadeOut(SoundData.Fades.Y, 0.0f);
-	FadeHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.Fades.Y, [this, SoundData]()
+	FadeHandle = FFlow::Delay(Owner, SoundData.Fades.Y, [this, SoundData]()
 	{
 		if (Component)
 		{
@@ -131,7 +131,7 @@ void FLocalSoundLayer::SetPaused(const bool bInPaused)
 		if (bInPaused)
 		{
 			Component->AdjustVolume(SoundData.Fades.Z, 0.05f);
-			PauseHandle = FEnhancedCodeFlow::Delay(Owner, SoundData.Fades.Z, [this]()
+			PauseHandle = FFlow::Delay(Owner, SoundData.Fades.Z, [this]()
 			{
 				if (Component) Component->SetPaused(true);
 			});
@@ -167,7 +167,7 @@ bool FLocalSoundLayer::IsValidLayer() const
 
 bool FLocalSoundLayer::CanRunFunctions() const
 {
-	return IsValid(Component) && IsValid(Owner) && !FEnhancedCodeFlow::IsActionRunning(Owner, FadeHandle);
+	return IsValid(Component) && IsValid(Owner) && !FFlow::IsActionRunning(Owner, FadeHandle);
 }
 
 void FLocalSoundLayer::Initialize(AToroMusicManager* InOwner, const UObject* Instigator)
