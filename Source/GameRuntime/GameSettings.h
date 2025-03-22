@@ -19,6 +19,7 @@ public:
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("GameSettings");
+		UDSActor = FSoftClassPath(TEXT("/Game/AssetPacks/Effects/UltraDynamicSky/Blueprints/Ultra_Dynamic_Sky.Ultra_Dynamic_Sky_C"));
 	}
 
 	SETTING_GETTER_MUTABLE(UGameSettings)
