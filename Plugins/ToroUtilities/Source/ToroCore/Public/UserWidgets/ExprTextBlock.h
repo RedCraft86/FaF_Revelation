@@ -5,9 +5,6 @@
 #include "Widgets/ExpressiveTextRendererWidget.h"
 #include "ExprTextBlock.generated.h"
 
-// ExpressiveTextFields -> DefaultFontSize -> Add Metadata: EditCondition = "UseDefaultFontSize"
-// ExpressiveTextFields -> UseDefaultFontSize -> Add Metadata: InlineEditConditionToggle
-
 USTRUCT(BlueprintType)
 struct TOROCORE_API FExpressiveTextData
 {
