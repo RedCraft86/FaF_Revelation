@@ -34,7 +34,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
 		float SlowTickInterval;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharSettings)
 		TArray<FPlayerLockFlag> LockFlags;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)

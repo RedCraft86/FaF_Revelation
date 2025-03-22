@@ -38,10 +38,10 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UInteractionComponent> Interaction;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/GameRuntime.EPlayerControlFlags"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharSettings, meta = (Bitmask, BitmaskEnum = "/Script/GameRuntime.EPlayerControlFlags"))
 		int32 ControlFlags;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/GameRuntime.EPlayerStateFlags"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = CharSettings, meta = (Bitmask, BitmaskEnum = "/Script/GameRuntime.EPlayerStateFlags"))
 		int32 StateFlags;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 100.0f, UIMax = 300.0f))
