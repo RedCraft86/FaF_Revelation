@@ -5,7 +5,7 @@
 #include "EnhancedCodeFlow.h"
 #include "ToroSettings.h"
 
-AToroMusicManager::AToroMusicManager()
+AToroMusicManager::AToroMusicManager() : bThemeMuted(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -38,24 +38,59 @@ bool AToroMusicManager::ChangeMainTheme(UMetaSoundSource* NewTheme)
 	{
 		MainTheme = NewTheme;
 		ThemeComponent->SetSound(NewTheme);
-		ThemeComponent->FadeIn(1.0f);
+		if (!bThemeMuted) ThemeComponent->FadeIn(1.0f);
 		return true;
 	}
 
-	if (FEnhancedCodeFlow::IsActionRunning(this, ChangeHandle))
+	if (FFlow::IsActionRunning(this, ChangeHandle))
 		return false;
 
-	ThemeComponent->FadeOut(1.0f, 0.0f);
-	ChangeHandle = FEnhancedCodeFlow::Delay(this, 1.0f, [this, NewTheme]()
+	if (!bThemeMuted) ThemeComponent->FadeOut(1.0f, 0.0f);
+	ChangeHandle = FFlow::Delay(this, 1.0f, [this, NewTheme]()
 	{
 		MainTheme = NewTheme;
 		ThemeComponent->SetSound(NewTheme);
-		ThemeComponent->FadeIn(1.0f);
+		if (!bThemeMuted) ThemeComponent->FadeIn(1.0f);
 	});
 
 	SetHidingState(0.0f);
 	SetThemeState(0);
 	return true;
+}
+
+void AToroMusicManager::SetThemeMuted(const bool bMuted, const float Duration)
+{
+	if (bThemeMuted != bMuted)
+	{
+		bThemeMuted = bMuted;
+		const float Time = FMath::Abs(Duration);
+		FFlow::StopAction(this, MuteHandle);
+		if (FMath::IsNearlyZero(Time))
+		{
+			ThemeComponent->SetPaused(bThemeMuted);
+		}
+		else
+		{
+			if (bThemeMuted)
+			{
+				ThemeComponent->AdjustVolume(Time, 0.1f);
+				MuteHandle = FFlow::Delay(this, Time, [this]()
+				{
+					ThemeComponent->SetPaused(true);
+				});
+			}
+			else
+			{
+				ThemeComponent->SetPaused(false);
+				ThemeComponent->AdjustVolume(Time, 1.0f);
+			}
+		}
+	}
+}
+
+void AToroMusicManager::SetDipAudio(const bool bDipAudio) const
+{
+	GetSoundParamInterface()->SetBoolParameter(TEXT("DipAudio"), bDipAudio);
 }
 
 void AToroMusicManager::SetHidingState(const bool bHiding) const
@@ -169,7 +204,7 @@ void AToroMusicManager::BeginPlay()
 	const UToroSettings* Settings = UToroSettings::Get();
 	if (!Settings->IsOnGameplayMap(this))
 	{
-		FEnhancedCodeFlow::Delay(this, 1.0f, [this, Settings]()
+		FFlow::Delay(this, 1.0f, [this, Settings]()
 		{
 			ChangeMainTheme(Settings->DefaultTheme.LoadSynchronous());
 		});

@@ -39,7 +39,13 @@ public:
 		bool ChangeMainTheme(UMetaSoundSource* NewTheme);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
-		void SetHidingState(bool bHiding) const;
+		void SetThemeMuted(const bool bMuted, const float Duration = 1.0f);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
+		void SetDipAudio(const bool bDipAudio) const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
+		void SetHidingState(const bool bHiding) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = MusicManager)
 		void SetThemeState(const uint8 InState) const;
@@ -64,7 +70,9 @@ public:
 
 protected:
 
+	FECFHandle MuteHandle;
 	FECFHandle ChangeHandle;
+	UPROPERTY() bool bThemeMuted;
 	UPROPERTY(Transient) TObjectPtr<UMetaSoundSource> MainTheme;
 	UPROPERTY(Transient) TMap<FGameplayTag, FLocalSoundLayer> LocalSoundLayers;
 

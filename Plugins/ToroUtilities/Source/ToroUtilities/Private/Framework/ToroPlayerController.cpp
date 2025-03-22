@@ -3,6 +3,7 @@
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
+#include "Framework/ToroMusicManager.h"
 #include "EnhancedInputSubsystems.h"
 #include "Blueprint/UserWidget.h"
 #include "ToroSettings.h"
@@ -154,6 +155,18 @@ void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	InputModeData.ClearReferences();
 	Super::EndPlay(EndPlayReason);
+}
+
+bool AToroPlayerController::SetPause(bool bPause, FCanUnpause CanUnpauseDelegate)
+{
+	if (IsPaused() != bPause)
+	{
+		if (const AToroMusicManager* MusicManager = AToroMusicManager::Get(this))
+		{
+			MusicManager->SetDipAudio(bPause);
+		}
+	}
+	return Super::SetPause(bPause, CanUnpauseDelegate);
 }
 
 UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const
