@@ -2,10 +2,11 @@
 
 #include "UserWidgets/PauseWidgetBase.h"
 #include "Framework/ToroPlayerController.h"
+#include "Framework/ToroMusicManager.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
-#include "EnhancedCodeFlow.h"
 #include "SettingsWidgetBase.h"
+#include "EnhancedCodeFlow.h"
 #include "ToroSettings.h"
 
 UPauseWidgetBase::UPauseWidgetBase(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -32,6 +33,10 @@ void UPauseWidgetBase::OnCheckpointClicked()
 {
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
+	if (AToroMusicManager* MusicManager = AToroMusicManager::Get(this))
+	{
+		MusicManager->SetThemeMuted(true, 2.0f);
+	}
 	FFlow::Delay(this, 2.0f, [this]()
 	{
 		UGameplayStatics::OpenLevel(this, *UGameplayStatics::GetCurrentLevelName(this));
@@ -42,6 +47,10 @@ void UPauseWidgetBase::OnMainMenuClicked()
 {
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
+	if (AToroMusicManager* MusicManager = AToroMusicManager::Get(this))
+	{
+		MusicManager->SetThemeMuted(true, 2.0f);
+	}
 	FFlow::Delay(this, 2.0f, [this]()
 	{
 		UGameplayStatics::OpenLevelBySoftObjectPtr(this, MainMenuLevel);
