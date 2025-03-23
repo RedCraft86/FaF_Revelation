@@ -17,11 +17,13 @@ public:
 	UDataGraphAssetDefinition() {}
 	virtual FLinearColor GetAssetColor() const override { return FColor(100, 160, 80); }
 	virtual TSoftClassPtr<UObject> GetAssetClass() const override { return UDataGraphBase::StaticClass(); }
-	virtual FText GetAssetDisplayName() const override { return NSLOCTEXT("DataGraphEditor", "GenericName", "Data Graph"); }
+	virtual FText GetAssetDisplayName() const override { return NSLOCTEXT("DataGraphEditor", "DataGraph", "Data Graph"); }
 	virtual TConstArrayView<FAssetCategoryPath> GetAssetCategories() const override
 	{
-		return {FAssetCategoryPath(NSLOCTEXT("ToroUtilities", "ToroAssetCategory", "ToroUtilities"))};
+		static const TArray Categories{EAssetCategoryPaths::Blueprint / INVTEXT("ToroUtilities")};
+		return Categories;
 	}
+
 	virtual EAssetCommandResult OpenAssets(const FAssetOpenArgs& OpenArgs) const override
 	{
 		const EToolkitMode::Type Mode = OpenArgs.ToolkitHost.IsValid() ?

@@ -29,8 +29,7 @@ class TOROEDITOR_API UInventoryItemDefinition : public UToroAssetDefinition
 	GENERATED_BODY()
 
 public:
-	
-	UInventoryItemDefinition() {}
+
 	virtual FLinearColor GetAssetColor() const override { return FColor(100, 25, 160); }
 	virtual TSoftClassPtr<UObject> GetAssetClass() const override { return UInventoryItemData::StaticClass(); }
 	virtual FText GetAssetDisplayName() const override

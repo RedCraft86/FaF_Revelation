@@ -27,8 +27,7 @@ class TOROEDITOR_API UFootstepDBDefinition : public UToroAssetDefinition
 	GENERATED_BODY()
 
 public:
-	
-	UFootstepDBDefinition() {}
+
 	virtual FLinearColor GetAssetColor() const override { return FColor(150, 120, 100); }
 	virtual TSoftClassPtr<UObject> GetAssetClass() const override { return UFootstepDatabase::StaticClass(); }
 	virtual FText GetAssetDisplayName() const override

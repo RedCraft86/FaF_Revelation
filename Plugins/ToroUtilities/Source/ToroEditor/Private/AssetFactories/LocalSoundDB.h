@@ -27,8 +27,7 @@ class TOROEDITOR_API ULocalSoundDBDefinition : public UToroAssetDefinition
 	GENERATED_BODY()
 
 public:
-	
-	ULocalSoundDBDefinition() {}
+
 	virtual FLinearColor GetAssetColor() const override { return FColor(160, 25, 100); }
 	virtual TSoftClassPtr<UObject> GetAssetClass() const override { return ULocalSoundDatabase::StaticClass(); }
 	virtual FText GetAssetDisplayName() const override

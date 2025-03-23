@@ -13,12 +13,11 @@ class TOROEDITOR_API UToroAssetDefinition : public UAssetDefinitionDefault
 	GENERATED_BODY()
 
 public:
-	
-	UToroAssetDefinition() {}
 
 	virtual TConstArrayView<FAssetCategoryPath> GetAssetCategories() const override
 	{
-		return {FAssetCategoryPath(NSLOCTEXT("ToroUtilities", "ToroAssetCategory", "ToroUtilities"))};
+		static const TArray Categories{EAssetCategoryPaths::Blueprint / INVTEXT("ToroUtilities")};
+		return Categories;
 	}
 
 	virtual FText GetAssetDescription(const FAssetData& AssetData) const override
