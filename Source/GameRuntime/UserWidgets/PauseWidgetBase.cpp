@@ -23,10 +23,13 @@ void UPauseWidgetBase::OnResumeClicked()
 
 void UPauseWidgetBase::OnSettingsClicked()
 {
-	Settings->ActivateWidget();
-	Player->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
-		EMouseLockMode::LockAlways, false, Settings);
-	SetHidden(true);
+	if (Settings)
+	{
+		Settings->ActivateWidget();
+		Player->GetPlayerController()->SetGameInputMode(EGameInputMode::GameAndUI, true,
+			EMouseLockMode::LockAlways, false, Settings);
+		SetHidden(true);
+	}
 }
 
 void UPauseWidgetBase::OnCheckpointClicked()
@@ -78,7 +81,7 @@ void UPauseWidgetBase::InitWidget()
 	MainMenuButton->OnClicked.AddUniqueDynamic(this, &UPauseWidgetBase::OnMainMenuClicked);
 
 	Settings = Cast<USettingsWidgetBase>(CreateToroWidget(GetOwningPlayer(), SettingsWidgetClass));
-	Settings->ParentUI = this;
+	if (Settings) Settings->ParentUI = this;
 
 	GameVersionText->SetText(UToroSettings::Get()->GetVersionLabel());
 }

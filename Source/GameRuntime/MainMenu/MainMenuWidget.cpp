@@ -28,13 +28,16 @@ void UMainMenuWidgetBase::OnPlayClicked()
 
 void UMainMenuWidgetBase::OnSettingsClicked()
 {
-	SettingsWidget->ActivateWidget();
-	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
+	if (Settings)
 	{
-		Controller->SetGameInputMode(EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, false, SettingsWidget);
+		Settings->ActivateWidget();
+		if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
+		{
+			Controller->SetGameInputMode(EGameInputMode::GameAndUI, true,
+				EMouseLockMode::LockAlways, false, Settings);
+		}
+		PlayAnimationReverse(ActivateAnim);
 	}
-	PlayAnimationReverse(ActivateAnim);
 }
 
 void UMainMenuWidgetBase::OnExtrasClicked()
@@ -69,8 +72,8 @@ void UMainMenuWidgetBase::NativeConstruct()
 	}
 	Return_Implementation();
 
-	SettingsWidget = Cast<USettingsWidgetBase>(UToroWidget::CreateToroWidget(GetOwningPlayer(), SettingsWidgetClass));
-	if (SettingsWidget) SettingsWidget->ParentUI = this;
+	Settings = Cast<USettingsWidgetBase>(UToroWidget::CreateToroWidget(GetOwningPlayer(), SettingsWidgetClass));
+	if (Settings) Settings->ParentUI = this;
 
 	GameVersionText->SetText(UToroSettings::Get()->GetVersionLabel());
 	PlayButton->OnClicked.AddUniqueDynamic(this, &UMainMenuWidgetBase::OnPlayClicked);

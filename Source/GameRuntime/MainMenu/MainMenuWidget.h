@@ -52,7 +52,7 @@ public:
 protected:
 
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> Player;
-	UPROPERTY(Transient) TObjectPtr<USettingsWidgetBase> SettingsWidget;
+	UPROPERTY(Transient) TObjectPtr<USettingsWidgetBase> Settings;
 
 	UFUNCTION() void OnPlayClicked();
 	UFUNCTION() void OnSettingsClicked();
