@@ -3,8 +3,8 @@
 #pragma once
 
 #include "Quest.h"
+#include "UDSTypes.h"
 #include "LightingData.h"
-#include "UDSInterface.h"
 #include "DataNodeBase.h"
 #include "DataGraphBase.h"
 #include "MetasoundSource.h"

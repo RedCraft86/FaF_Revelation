@@ -14,8 +14,6 @@
 #define UE_DEFINE_GAMEPLAY_TAG_CHILD(TagName, BaseTag) UE_DEFINE_GAMEPLAY_TAG(Tag_##BaseTag##_##TagName, #BaseTag"."#TagName)
 #define GAMEPLAY_TAG_CHILD(TagName, BaseTag) FGameplayTag::RequestGameplayTag(#BaseTag"."#TagName)
 
-UE_DECLARE_GAMEPLAY_TAG_BASE(Weather)
-
 DECLARE_LOG_CATEGORY_EXTERN(LogToroCore, All, All);
 
 class FToroCoreModule final : public IModuleInterface
