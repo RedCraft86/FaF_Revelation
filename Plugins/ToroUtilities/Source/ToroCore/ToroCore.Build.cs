@@ -24,6 +24,7 @@ public class ToroCore : ModuleRules
                 "UMG",
                 "CommonUI",
                 "GameplayTags",
+                "NavigationSystem",
                 "ExpressiveText"
             }
         );
