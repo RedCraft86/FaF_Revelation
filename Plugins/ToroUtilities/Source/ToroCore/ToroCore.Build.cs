@@ -25,6 +25,7 @@ public class ToroCore : ModuleRules
                 "CommonUI",
                 "GameplayTags",
                 "NavigationSystem",
+                "EnhancedCodeFlow",
                 "ExpressiveText"
             }
         );
