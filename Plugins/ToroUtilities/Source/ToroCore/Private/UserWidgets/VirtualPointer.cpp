@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "VirtualPointer.h"
+#include "UserWidgets/VirtualPointer.h"
 #include "Components/CanvasPanelSlot.h"
 
 UVirtualPointer::UVirtualPointer(): bPreviewOnly(false)

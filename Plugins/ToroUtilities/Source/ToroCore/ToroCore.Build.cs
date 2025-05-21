@@ -10,7 +10,7 @@ public class ToroCore : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = false;
 
-        PublicIncludePaths.Add(Path.Combine(PluginDirectory, "Source/ToroCore/"));
+        PublicIncludePaths.Add(Path.Combine(PluginDirectory, "Source/ToroCore/Public"));
 
         PublicDependencyModuleNames.AddRange(
             new[]

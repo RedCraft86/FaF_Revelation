@@ -1,9 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ExprTextBlock.h"
+#include "UserWidgets/ExprTextBlock.h"
 #include "Styles/ExpressiveTextStyle.h"
 #include "Asset/ExpressiveTextAsset.h"
-#include "ToroCore/ToroCore.h"
+#include "ToroCore.h"
 
 #define GetExprDefault LoadObject<UExpressiveTextStyle>(nullptr, \
 	TEXT("/Game/AssetPacks/ExpressiveText/TextStyles/ETS_Default.ETS_Default"));

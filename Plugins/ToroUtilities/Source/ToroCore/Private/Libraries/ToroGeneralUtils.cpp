@@ -1,10 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroGeneralUtils.h"
+#include "Libraries/ToroGeneralUtils.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/OutputDeviceNull.h"
-#include "ShaderPipelineCache.h"
 
 EWindowsDialogueResult UToroGeneralUtils::OpenWindowsDialogue(const FString Title, const FString Message,
 	const EWindowsDialogueType Type, const EWindowsDialogueIcon Icon)

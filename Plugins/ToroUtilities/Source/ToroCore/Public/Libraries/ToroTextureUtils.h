@@ -4,6 +4,7 @@
 
 #include "DataTypes/MiscTypes.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "ToroTextureUtils.generated.h"
 
 UCLASS(DisplayName = "Texture Utils")
 class TOROCORE_API UToroTextureUtils final : public UBlueprintFunctionLibrary
