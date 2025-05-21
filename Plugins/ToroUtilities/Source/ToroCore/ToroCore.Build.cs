@@ -11,9 +11,9 @@ public class ToroCore : ModuleRules
         bUseUnity = false;
         
         // Include all the immediate folders under .../ToroCore/Public/
-        PublicIncludePaths.AddRange(
-            Directory.GetDirectories(Path.Combine(PluginDirectory, "Source/ToroCore/Public/"))
-        );
+        // PublicIncludePaths.AddRange(
+        //     Directory.GetDirectories(Path.Combine(PluginDirectory, "Source/ToroCore/Public/"))
+        // );
 
         PublicDependencyModuleNames.AddRange(
             new[]
@@ -22,7 +22,9 @@ public class ToroCore : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "UMG",
+                "ExpressiveText"
             }
         );
     }
