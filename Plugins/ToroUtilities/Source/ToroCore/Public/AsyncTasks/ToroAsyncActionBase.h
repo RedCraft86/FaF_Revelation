@@ -22,7 +22,7 @@ public:
 
 	UToroAsyncActionBase(): bTaskRunning(false), WorldContext(nullptr) {}
 	UObject* GetWorldContext() const { return WorldContext.IsValid() ? WorldContext.Get() : nullptr; }
-	void SetWorldContext(UObject* InContext) { WorldContext = InContext; }
+	void SetWorldContext(UObject* InContext) { if (InContext) WorldContext = InContext; }
 	virtual UWorld* GetWorld() const override;
 
 protected:
