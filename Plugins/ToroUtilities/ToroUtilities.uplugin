@@ -15,5 +15,20 @@
 	"IsExperimentalVersion": false,
 	"Installed": false,
 	"Modules": [
+		{
+			"Name": "ToroCore",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroUtilities",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
 	]
 }

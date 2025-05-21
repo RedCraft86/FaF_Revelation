@@ -8,6 +8,16 @@
 			"Name": "FaF_Revelation",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "FaFRevGame",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "FaFRevEditor",
+			"Type": "Runtime",
+			"LoadingPhase": "PostDefault"
 		}
 	],
 	"Plugins": [
