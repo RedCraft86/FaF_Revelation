@@ -3,7 +3,7 @@
 #pragma once
 
 #include "NativeGameplayTags.h"
-#include "GameplayTags.h"
+#include "GameplayTagContainer.h"
 
 #define GAMEPLAY_TAG_BASE(TagName) FGameplayTag::RequestGameplayTag(#TagName)
 #define DEFINE_GAMEPLAY_TAG_BASE(TagName) UE_DEFINE_GAMEPLAY_TAG(Tag_##TagName, #TagName)
