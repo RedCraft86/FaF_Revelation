@@ -9,11 +9,8 @@ public class ToroCore : ModuleRules
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = false;
-        
-        // Include all the immediate folders under .../ToroCore/Public/
-        // PublicIncludePaths.AddRange(
-        //     Directory.GetDirectories(Path.Combine(PluginDirectory, "Source/ToroCore/Public/"))
-        // );
+
+        PublicIncludePaths.Add(Path.Combine(PluginDirectory, "Source/ToroCore/"));
 
         PublicDependencyModuleNames.AddRange(
             new[]
@@ -26,6 +23,7 @@ public class ToroCore : ModuleRules
                 "InputCore",
                 "UMG",
                 "CommonUI",
+                "GameplayTags",
                 "ExpressiveText"
             }
         );
