@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Interfaces/UDSInterface.h"
+#include "DataTypes/UDSInterface.h"
 
 DEFINE_GAMEPLAY_TAG_BASE(Weather)
 DEFINE_GAMEPLAY_TAG_CHILD(Weather, ClearSkies)
