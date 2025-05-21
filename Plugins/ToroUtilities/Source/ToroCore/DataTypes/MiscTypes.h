@@ -18,6 +18,31 @@ enum class EToroValidPins : uint8
 	NotValid
 };
 
+USTRUCT(BlueprintType, DisplayName = "Texture Data")
+struct FToroTextureData
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TextureData, SaveGame)
+		TArray<FColor> Pixels;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TextureData, SaveGame)
+		FIntPoint Size;
+	
+	FToroTextureData() : Pixels({}), Size({0}) {}
+	FToroTextureData(const TArray<FColor>& InPixels, const int32 SizeX, const int32 SizeY)
+		: Pixels(InPixels), Size({SizeX, SizeY}) {}
+	
+	friend FArchive& operator<<(FArchive& Ar, FToroTextureData& TextureData)
+	{
+		Ar << TextureData.Pixels;
+		Ar << TextureData.Size;
+		return Ar;
+	}
+	
+	bool HasValidData() const { return !Pixels.IsEmpty() && Size.Size() > 0 && Pixels.Num() == Size.X * Size.Y; }
+};
+
 USTRUCT(BlueprintType)
 struct TOROCORE_API FGameCurrency
 {
@@ -39,7 +64,7 @@ struct TOROCORE_API FGameCurrency
 
 private:
 	
-	UPROPERTY(EditAnywhere, Category = GameCurrency, meta = (ClampMin = 0, UIMin = 0))
+	UPROPERTY(EditAnywhere, Category = GameCurrency, SaveGame, meta = (ClampMin = 0, UIMin = 0))
 		int64 CurrencyUnits;
 };
 
