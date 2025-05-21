@@ -23,10 +23,10 @@ struct FToroTextureData
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TextureData, SaveGame)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TextureData)
 		TArray<FColor> Pixels;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TextureData, SaveGame)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = TextureData)
 		FIntPoint Size;
 	
 	FToroTextureData() : Pixels({}), Size({0}) {}
@@ -64,7 +64,7 @@ struct TOROCORE_API FGameCurrency
 
 private:
 	
-	UPROPERTY(EditAnywhere, Category = GameCurrency, SaveGame, meta = (ClampMin = 0, UIMin = 0))
+	UPROPERTY(EditAnywhere, Category = GameCurrency, meta = (ClampMin = 0, UIMin = 0))
 		int64 CurrencyUnits;
 };
 
