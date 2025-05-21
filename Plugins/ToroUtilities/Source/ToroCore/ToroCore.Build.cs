@@ -23,7 +23,9 @@ public class ToroCore : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "InputCore",
                 "UMG",
+                "CommonUI",
                 "ExpressiveText"
             }
         );

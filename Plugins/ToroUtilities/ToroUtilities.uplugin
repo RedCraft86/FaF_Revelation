@@ -33,6 +33,10 @@
 	],
 	"Plugins": [
 		{
+			"Name": "CommonUI",
+			"Enabled": true
+		},
+		{
 			"Name": "ExpressiveText",
 			"Enabled": true
 		}
