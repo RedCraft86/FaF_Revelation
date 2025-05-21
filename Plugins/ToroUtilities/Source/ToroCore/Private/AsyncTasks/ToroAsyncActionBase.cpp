@@ -15,7 +15,7 @@ bool UToroAsyncActionBase::IsRunningChecked()
 {
 	if (bTaskRunning)
 	{
-		UE_KLOG_WARNING(2.0f, TEXT("Async Action %s is already running"), *GetClass()->GetName())
+		UE_KLOG_WARNING(2.0f, TEXT("[%s Failed] Task is already running"), *GetClass()->GetName())
 		return true;
 	}
 
