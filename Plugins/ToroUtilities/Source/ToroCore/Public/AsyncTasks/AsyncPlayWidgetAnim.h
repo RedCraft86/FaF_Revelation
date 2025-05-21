@@ -30,7 +30,7 @@ private:
 
 	UPROPERTY(Transient) TObjectPtr<UUserWidget> Widget = nullptr;
 	UPROPERTY(Transient) TObjectPtr<UWidgetAnimation> Animation = nullptr;
-	UPROPERTY() EUMGSequencePlayMode::Type PlayDirection = EUMGSequencePlayMode::Forward;
+	UPROPERTY() TEnumAsByte<EUMGSequencePlayMode::Type> PlayDirection;
 	UPROPERTY() float PlaybackSpeed = 1.0f;
 
 	virtual void Activate() override;

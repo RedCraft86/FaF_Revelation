@@ -35,7 +35,7 @@ public:
 
 protected:
 #if WITH_EDITORONLY_DATA
-	UPROPERTY() DECLARE_ACTOR_ICON;
+	UPROPERTY() TObjectPtr<UActorIconComponent> ActorEdIcon;
 #endif
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -10))
