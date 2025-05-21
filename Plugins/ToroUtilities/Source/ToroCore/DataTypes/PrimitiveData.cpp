@@ -173,6 +173,25 @@ bool UPrimitiveDataLibrary::IsValid_MeshData(const FStaticMeshData& Target)
 	return Target.IsValidData();
 }
 
+TArray<FVector> UPrimitiveDataLibrary::GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
+	const bool bIncludeFromChildActors, FVector& Origin, FVector& BoxExtent)
+{
+	if (!IsValid(Target)) return {};
+	Target->GetActorBounds(bOnlyCollidingComponents, Origin, BoxExtent, bIncludeFromChildActors);
+	
+	TArray<FVector> Result;
+	Result.AddUnique(Origin + BoxExtent);
+	Result.AddUnique(Origin - BoxExtent);
+	Result.AddUnique(FVector(Origin.X - BoxExtent.X, Origin.Y + BoxExtent.Y, Origin.Z + BoxExtent.Z));
+	Result.AddUnique(FVector(Origin.X + BoxExtent.X, Origin.Y - BoxExtent.Y, Origin.Z + BoxExtent.Z));
+	Result.AddUnique(FVector(Origin.X + BoxExtent.X, Origin.Y + BoxExtent.Y, Origin.Z - BoxExtent.Z));
+	Result.AddUnique(FVector(Origin.X - BoxExtent.X, Origin.Y - BoxExtent.Y, Origin.Z + BoxExtent.Z));
+	Result.AddUnique(FVector(Origin.X + BoxExtent.X, Origin.Y - BoxExtent.Y, Origin.Z - BoxExtent.Z));
+	Result.AddUnique(FVector(Origin.X - BoxExtent.X, Origin.Y + BoxExtent.Y, Origin.Z - BoxExtent.Z));
+
+	return Result;
+}
+
 FPrimitiveCollision UPrimitiveDataLibrary::Make_PrimitiveCollision(const FName InProfileName,
 	const TEnumAsByte<ECollisionEnabled::Type> InCollisionEnabled, const TEnumAsByte<ECollisionChannel> InObjectType,
 	const TMap<TEnumAsByte<ECollisionChannel>, TEnumAsByte<ECollisionResponse>>& InResponses)

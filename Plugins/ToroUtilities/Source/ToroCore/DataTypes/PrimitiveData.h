@@ -228,6 +228,18 @@ public:
     UFUNCTION(BlueprintPure, Category = "StaticMesh|MeshData", DisplayName = "Is Valid")
         static bool IsValid_MeshData(const FStaticMeshData& Target);
 
+    /* Gets the vertices/corner locations of the actor's bounding box.
+    * @param Target - Actor to use.
+    * @param bOnlyCollidingComponents - If enabled, only components that can collide will be used in calculation.
+    * @param bIncludeFromChildActors - Whether child actors should be included in the calculation.
+    * @param Origin - Origin of the actor.
+    * @param BoxExtent - Bounding box extent of the actor.
+    * @return Locations of the 8 (or less) vertices of the bounding box.
+    */
+    UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target"))
+        static TArray<FVector> GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
+            const bool bIncludeFromChildActors, FVector& Origin, FVector& BoxExtent);
+
     UFUNCTION(BlueprintPure, Category = "Collision|PrimitiveCollision", meta = (BlueprintThreadSafe, AutoCreateRefTerm = "InResponses", AdvancedDisplay = "InCollisionEnabled, InObjectType, InResponses"))
         static FPrimitiveCollision Make_PrimitiveCollision(const FName InProfileName, const TEnumAsByte<ECollisionEnabled::Type> InCollisionEnabled,
             const TEnumAsByte<ECollisionChannel> InObjectType, const TMap<TEnumAsByte<ECollisionChannel>, TEnumAsByte<ECollisionResponse>>& InResponses);
