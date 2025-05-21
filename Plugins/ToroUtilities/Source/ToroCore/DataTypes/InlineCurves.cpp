@@ -210,77 +210,77 @@ void FInlineColorCurve::GetValueRange(FLinearColor& Min, FLinearColor& Max) cons
 	Max = { MaxR, MaxG, MaxB, HasAlpha ? MaxA : 1.0f };
 }
 
-bool UInlineCurveLibrary::HasAnyFloatCurveData(const FInlineFloatCurve& InCurve)
+bool UInlineCurvesLibrary::HasAnyFloatCurveData(const FInlineFloatCurve& InCurve)
 {
 	return InCurve.HasAnyData();
 }
 
-UCurveFloat* UInlineCurveLibrary::GetFloatCurveAsset(const FInlineFloatCurve& InCurve)
+UCurveFloat* UInlineCurvesLibrary::GetFloatCurveAsset(const FInlineFloatCurve& InCurve)
 {
 	return InCurve.GetCurveAsset();
 }
 
-float UInlineCurveLibrary::GetFloatCurveValue(const FInlineFloatCurve& InCurve, float InTime)
+float UInlineCurvesLibrary::GetFloatCurveValue(const FInlineFloatCurve& InCurve, float InTime)
 {
 	return InCurve.GetValue(InTime);
 }
 
-void UInlineCurveLibrary::GetFloatCurveTimeRange(const FInlineFloatCurve& InCurve, float& TimeMin, float& TimeMax)
+void UInlineCurvesLibrary::GetFloatCurveTimeRange(const FInlineFloatCurve& InCurve, float& TimeMin, float& TimeMax)
 {
 	InCurve.GetTimeRange(TimeMin, TimeMax);
 }
 
-void UInlineCurveLibrary::GetFloatCurveValueRange(const FInlineFloatCurve& InCurve, float& ValueMin, float& ValueMax)
+void UInlineCurvesLibrary::GetFloatCurveValueRange(const FInlineFloatCurve& InCurve, float& ValueMin, float& ValueMax)
 {
 	InCurve.GetValueRange(ValueMin, ValueMax);
 }
 
-bool UInlineCurveLibrary::HasAnyVectorCurveData(const FInlineVectorCurve& InCurve)
+bool UInlineCurvesLibrary::HasAnyVectorCurveData(const FInlineVectorCurve& InCurve)
 {
 	return InCurve.HasAnyData();
 }
 
-UCurveVector* UInlineCurveLibrary::GetVectorCurveAsset(const FInlineVectorCurve& InCurve)
+UCurveVector* UInlineCurvesLibrary::GetVectorCurveAsset(const FInlineVectorCurve& InCurve)
 {
 	return InCurve.GetCurveAsset();
 }
 
-FVector UInlineCurveLibrary::GetVectorCurveValue(const FInlineVectorCurve& InCurve, float InTime)
+FVector UInlineCurvesLibrary::GetVectorCurveValue(const FInlineVectorCurve& InCurve, float InTime)
 {
 	return InCurve.GetValue(InTime);
 }
 
-void UInlineCurveLibrary::GetVectorCurveTimeRange(const FInlineVectorCurve& InCurve, float& TimeMin, float& TimeMax)
+void UInlineCurvesLibrary::GetVectorCurveTimeRange(const FInlineVectorCurve& InCurve, float& TimeMin, float& TimeMax)
 {
 	InCurve.GetTimeRange(TimeMin, TimeMax);
 }
 
-void UInlineCurveLibrary::GetVectorCurveValueRange(const FInlineVectorCurve& InCurve, FVector& ValueMin, FVector& ValueMax)
+void UInlineCurvesLibrary::GetVectorCurveValueRange(const FInlineVectorCurve& InCurve, FVector& ValueMin, FVector& ValueMax)
 {
 	InCurve.GetValueRange(ValueMin, ValueMax);
 }
 
-bool UInlineCurveLibrary::HasAnyColorCurveData(const FInlineColorCurve& InCurve)
+bool UInlineCurvesLibrary::HasAnyColorCurveData(const FInlineColorCurve& InCurve)
 {
 	return InCurve.HasAnyData();
 }
 
-UCurveLinearColor* UInlineCurveLibrary::GetColorCurveAsset(const FInlineColorCurve& InCurve)
+UCurveLinearColor* UInlineCurvesLibrary::GetColorCurveAsset(const FInlineColorCurve& InCurve)
 {
 	return InCurve.GetCurveAsset();
 }
 
-FLinearColor UInlineCurveLibrary::GetColorCurveValue(const FInlineColorCurve& InCurve, float InTime)
+FLinearColor UInlineCurvesLibrary::GetColorCurveValue(const FInlineColorCurve& InCurve, float InTime)
 {
 	return InCurve.GetValue(InTime);
 }
 
-void UInlineCurveLibrary::GetColorCurveTimeRange(const FInlineColorCurve& InCurve, float& TimeMin, float& TimeMax)
+void UInlineCurvesLibrary::GetColorCurveTimeRange(const FInlineColorCurve& InCurve, float& TimeMin, float& TimeMax)
 {
 	InCurve.GetTimeRange(TimeMin, TimeMax);
 }
 
-void UInlineCurveLibrary::GetColorCurveValueRange(const FInlineColorCurve& InCurve, FLinearColor& ValueMin, FLinearColor& ValueMax)
+void UInlineCurvesLibrary::GetColorCurveValueRange(const FInlineColorCurve& InCurve, FLinearColor& ValueMin, FLinearColor& ValueMax)
 {
 	InCurve.GetValueRange(ValueMin, ValueMax);
 }

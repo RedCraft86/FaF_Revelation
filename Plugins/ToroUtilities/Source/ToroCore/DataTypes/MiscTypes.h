@@ -68,7 +68,7 @@ private:
 		int64 CurrencyUnits;
 };
 
-UCLASS(DisplayName = "Currency Function Library")
+UCLASS()
 class TOROCORE_API UGameCurrencyLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()

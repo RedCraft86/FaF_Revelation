@@ -69,8 +69,8 @@ struct TOROCORE_API FInlineColorCurve
 	void GetValueRange(FLinearColor& Min, FLinearColor& Max) const;
 };
 
-UCLASS(DisplayName = "Inline Curves Function Library")
-class TOROCORE_API UInlineCurveLibrary final : public UBlueprintFunctionLibrary
+UCLASS()
+class TOROCORE_API UInlineCurvesLibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
