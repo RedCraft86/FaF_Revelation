@@ -1,0 +1,19 @@
+﻿{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Toro Utilities",
+	"Description": "Utility functions and modules for games by Lantern Interactive.",
+	"Category": "Core",
+	"CreatedBy": "RedCraft86",
+	"CreatedByURL": "https://github.com/RedCraft86",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "https://github.com/RedCraft86",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+	]
+}
