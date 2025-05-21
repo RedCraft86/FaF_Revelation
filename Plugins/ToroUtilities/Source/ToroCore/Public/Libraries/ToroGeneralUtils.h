@@ -41,7 +41,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target"))
 		static bool IsActorInFront(const AActor* Target, const AActor* ActorToTest);
 
-	/* Gets the active Game World. A way to get world context from anywhere but can be unreliable. */
+	/* Tries to get the active Game World. A way to get world context from anywhere but can be unreliable. */
 	UFUNCTION(BlueprintPure, Category = World)
 		static UWorld* GetPlayWorld();
 

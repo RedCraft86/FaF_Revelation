@@ -109,7 +109,8 @@ bool UToroGeneralUtils::IsActorInFront(const AActor* Target, const AActor* Actor
 
 UWorld* UToroGeneralUtils::GetPlayWorld()
 {
-	return GEngine->GetCurrentPlayWorld();
+	UWorld* World = GEngine->GetCurrentPlayWorld();
+	return World ? World : GWorld;
 }
 
 bool UToroGeneralUtils::IsInEditor()
