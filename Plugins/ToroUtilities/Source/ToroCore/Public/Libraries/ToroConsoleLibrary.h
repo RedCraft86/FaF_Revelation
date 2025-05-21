@@ -8,7 +8,7 @@
 #define SetCVarValue(Name, Value) if (IConsoleVariable* CVar = FindCVar(*Name)) { CVar->Set(Value); }
 #define GetCVarValue(Name, Type, Default) \
 	IConsoleVariable* CVar = FindCVar(*Name); \
-	return CVar ? CVar->Get##Type##() : Default;
+	return CVar ? CVar->Get##Type() : Default;
 
 UCLASS(DisplayName = "Console Library")
 class TOROCORE_API UToroConsoleLibrary final : public UBlueprintFunctionLibrary
