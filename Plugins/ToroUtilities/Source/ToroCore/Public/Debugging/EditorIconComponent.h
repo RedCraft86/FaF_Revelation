@@ -7,11 +7,11 @@
 #include "EditorIconComponent.generated.h"
 
 #define DECLARE_ACTOR_ICON TObjectPtr<UActorIconComponent> ActorEdIcon
-#define UPDATE_ACTOR_ICON if (ActorEdIcon) { ActorEdIcon->OnConstruction(); }
 #define DEFINE_ACTOR_ICON_SIZED(Size) \
-	ActorEdIcon = CreateEditorOnlyDefaultSubobject<UEditorIconComponent>("ActorEdIcon"); \
-	if (ActorEdIcon) { Var->SetupComponent(this, Size); }
-#define DEFINE_ACTOR_ICON(Size) DEFINE_ACTOR_ICON_SIZED(0.5f)
+	ActorEdIcon = CreateEditorOnlyDefaultSubobject<UActorIconComponent>("ActorEdIcon"); \
+	if (ActorEdIcon) { ActorEdIcon->SetupComponent(this, Size); }
+#define DEFINE_ACTOR_ICON DEFINE_ACTOR_ICON_SIZED(0.5f)
+#define UPDATE_ACTOR_ICON if (ActorEdIcon) { ActorEdIcon->OnConstruction(); }
 
 UCLASS(MinimalAPI, NotBlueprintable, ClassGroup = (Debugging), meta = (BlueprintSpawnableComponent))
 class UActorIconComponent final : public UBillboardComponent
