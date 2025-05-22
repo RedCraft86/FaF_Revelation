@@ -6,7 +6,7 @@
 #include "NavigationSystem.h"
 #include "DataTypes/WireShapeData.h"
 #include "Components/ActorComponent.h"
-#include "DebugShapeComponent.generated.h"
+#include "WireShapeComponent.generated.h"
 
 UCLASS(MinimalAPI, NotBlueprintable, ClassGroup = (Wireging), meta = (BlueprintSpawnableComponent))
 class UWireShapeComponent final : public UActorComponent

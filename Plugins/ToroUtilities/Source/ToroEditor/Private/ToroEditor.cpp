@@ -3,12 +3,14 @@
 #include "ToroEditor.h"
 #include "UnrealEdGlobals.h"
 #include "BlueprintEditorModule.h"
+#include "Editor/UnrealEdEngine.h"
 #include "Styling/SlateStyleMacros.h"
 #include "Styling/SlateStyleRegistry.h"
 #include "Interfaces/IMainFrameModule.h"
 #include "Interfaces/IPluginManager.h"
 
 #include "ToroCmds.h"
+#include "ComponentVisualizer/WireShapeVisualizer.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -56,6 +58,7 @@ void FToroEditorModule::StartupModule()
 	// Component Visualizers
 	if (GUnrealEd)
 	{
+		REGISTER_VISUALIZER(UWireShapeComponent, FWireShapeVisualizer)
 	}
 }
 
@@ -87,6 +90,7 @@ void FToroEditorModule::ShutdownModule()
 	// Component Visualizers
 	if (GUnrealEd)
 	{
+		UNREGISTER_VISUALIZER(UWireShapeComponent)
 	}
 
 	FToroEditorStyle::Shutdown();
