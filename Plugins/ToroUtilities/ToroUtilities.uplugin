@@ -27,8 +27,8 @@
 		},
 		{
 			"Name": "ToroEditor",
-			"Type": "Editor",
-			"LoadingPhase": "Default"
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "PostEngineInit"
 		}
 	],
 	"Plugins": [
