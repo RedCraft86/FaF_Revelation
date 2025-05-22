@@ -12,6 +12,13 @@
 #include "ToroCmds.h"
 #include "ComponentVisualizers/WireShapeVisualizer.h"
 
+#include "EditorTools/ActorLayout.h"
+#include "EditorTools/LinkAssetLibrary.h"
+#include "EditorTools/RestartEditor.h"
+#include "EditorTools/StaticMeshBaker.h"
+#include "EditorTools/StaticMeshInstancer.h"
+#include "EditorTools/StaticMeshMerger.h"
+
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
 #define REGISTER_TOOL(Tool) Tool::Register(PluginCommands);
@@ -27,12 +34,12 @@ void FToroEditorModule::StartupModule()
 	{
 		FToroCmds::Register();
 		PluginCommands = MakeShareable(new FUICommandList);
-		// REGISTER_TOOL(FLinkAssetLibrary)
-		// REGISTER_TOOL(FRestartEditor)
-		// REGISTER_TOOL(FActorLayout)
-		// REGISTER_TOOL(FStaticMeshBaker)
-		// REGISTER_TOOL(FStaticMeshMerger)
-		// REGISTER_TOOL(FStaticMeshInstancer)
+		REGISTER_TOOL(FLinkAssetLibrary)
+		REGISTER_TOOL(FRestartEditor)
+		REGISTER_TOOL(FActorLayout)
+		REGISTER_TOOL(FStaticMeshBaker)
+		REGISTER_TOOL(FStaticMeshMerger)
+		REGISTER_TOOL(FStaticMeshInstancer)
 
 		IMainFrameModule& MainFrame = FModuleManager::Get().LoadModuleChecked<IMainFrameModule>("MainFrame");
 		MainFrame.GetMainFrameCommandBindings()->Append(PluginCommands.ToSharedRef());
@@ -100,6 +107,12 @@ void FToroEditorModule::RegisterMenus()
 {
 	FToolMenuOwnerScoped OwnerScoped(this);
 	{
+		REGISTER_TOOL_MENUS(FLinkAssetLibrary)
+		REGISTER_TOOL_MENUS(FRestartEditor)
+		REGISTER_TOOL_MENUS(FActorLayout)
+		REGISTER_TOOL_MENUS(FStaticMeshBaker)
+		REGISTER_TOOL_MENUS(FStaticMeshMerger)
+		REGISTER_TOOL_MENUS(FStaticMeshInstancer)
 	}
 }
 

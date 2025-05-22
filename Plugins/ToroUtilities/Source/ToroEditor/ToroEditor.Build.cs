@@ -18,6 +18,7 @@ public class ToroEditor : ModuleRules
                 "InputCore",
                 "ContentBrowser",
                 "ContentBrowserData",
+                "EditorScriptingUtilities",
                 "DeveloperSettings",
                 "EditorSubsystem",
                 "ToolMenus",
