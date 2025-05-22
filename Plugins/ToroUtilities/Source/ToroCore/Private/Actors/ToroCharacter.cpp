@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Framework/ToroCharacter.h"
+#include "Actors/ToroCharacter.h"
 
 DEFINE_GAMEPLAY_TAG_BASE(Character)
 

@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Framework/ToroActor.h"
+#include "Actors/ToroActor.h"
 
 AToroActor::AToroActor(): bEnabled(true), RuntimeGuid(FGuid::NewGuid()), bStartWithCollision(true)
 {

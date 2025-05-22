@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "MiscObjects/ISMActor.h"
+#include "Actors/ISMActor.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #if WITH_EDITOR
 #include "Misc/MapErrors.h"

@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Framework/ToroVolume.h"
+#include "Actors/ToroVolume.h"
 #include "Components/BrushComponent.h"
 
 AToroVolume::AToroVolume(): bEnabled(true), RuntimeGuid(FGuid::NewGuid())

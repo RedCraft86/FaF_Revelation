@@ -1,8 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Framework/TeleportPoint.h"
+#include "Actors/TeleportPoint.h"
+#include "Actors/ToroCharacter.h"
 #include "Components/CapsuleComponent.h"
-#include "Framework/ToroCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 ATeleportPoint::ATeleportPoint()
