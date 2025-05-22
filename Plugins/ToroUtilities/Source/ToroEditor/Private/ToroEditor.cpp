@@ -17,10 +17,15 @@
 #include "EditorTools/StaticMeshInstancer.h"
 #include "EditorTools/StaticMeshMerger.h"
 
-#include "DetailsCustomizations/PropertyMetadataDetails.h"
-#include "DetailsCustomizations/ToroActorDetails.h"
-
 #include "ComponentVisualizers/WireShapeVisualizer.h"
+
+#include "DetailsCustomizations/PropertyMetadataDetails.h"
+
+#include "DetailsCustomizations/ToroActorDetails.h"
+#include "DetailsCustomizations/Struct/FloatModifierDetails.h"
+#include "DetailsCustomizations/Struct/InlineCurveDetails.h"
+#include "DetailsCustomizations/Struct/PrimitiveCollisionDetails.h"
+#include "DetailsCustomizations/Struct/ExprTextFieldsDetails.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -51,6 +56,12 @@ void FToroEditorModule::StartupModule()
 			this, &FToroEditorModule::RegisterMenus));
 	}
 
+	// Component Visualizers
+	if (GUnrealEd)
+	{
+		REGISTER_VISUALIZER(UWireShapeComponent, FWireShapeVisualizer)
+	}
+
 	// Blueprint Variable Metadata Editor
 	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>("Kismet"))
 	{
@@ -64,17 +75,18 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
-
+		
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExprTextFieldsDetails)
+		
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+			REGISTER_STRUCT_CUSTOMIZATION_INHERITED(FToroFloatModifier, FFloatModifierDetails)
 		}
-	}
-
-	// Component Visualizers
-	if (GUnrealEd)
-	{
-		REGISTER_VISUALIZER(UWireShapeComponent, FWireShapeVisualizer)
 	}
 }
 
@@ -85,6 +97,12 @@ void FToroEditorModule::ShutdownModule()
 		UToolMenus::UnRegisterStartupCallback(this);
 		UToolMenus::UnregisterOwner(this);
 		FToroCmds::Unregister();
+	}
+
+	// Component Visualizers
+	if (GUnrealEd)
+	{
+		UNREGISTER_VISUALIZER(UWireShapeComponent)
 	}
 
 	// Blueprint Variable Metadata Editor
@@ -100,16 +118,17 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
 		
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
+		
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+			UNREGISTER_STRUCT_CUSTOMIZATION_INHERITED(FToroFloatModifier)
 		}
-	}
-
-	// Component Visualizers
-	if (GUnrealEd)
-	{
-		UNREGISTER_VISUALIZER(UWireShapeComponent)
 	}
 
 	FToroEditorStyle::Shutdown();
