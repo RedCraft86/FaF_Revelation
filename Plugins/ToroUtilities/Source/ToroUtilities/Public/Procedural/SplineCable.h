@@ -7,7 +7,7 @@
 #include "SplineCable.generated.h"
 
 UCLASS(NotBlueprintable)
-class TOROCORE_API ASplineCable final : public AToroSplineGenBase
+class TOROUTILITIES_API ASplineCable final : public AToroSplineGenBase
 {
 	GENERATED_BODY()
 

@@ -7,7 +7,7 @@
 #include "SplineBarrier.generated.h"
 
 UCLASS(NotBlueprintable)
-class TOROCORE_API ASplineBarrier final : public AToroSplineGenBase
+class TOROUTILITIES_API ASplineBarrier final : public AToroSplineGenBase
 {
 	GENERATED_BODY()
 

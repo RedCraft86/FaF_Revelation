@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Factories/Factory.h"
-#include "Framework/ToroDataAsset.h"
+#include "DataTypes/ToroDataAsset.h"
 #include "ToroAssetFactory.generated.h"
 
 UCLASS(Abstract)

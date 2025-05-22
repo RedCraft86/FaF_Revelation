@@ -6,9 +6,8 @@
 #include "IDetailCustomization.h"
 #include "DetailCategoryBuilder.h"
 #include "CustomizationHelpers.h"
-#include "Framework/ToroVolume.h"
-#include "Framework/ToroCharacter.h"
-#include "Helpers/LoggingMacros.h"
+#include "Actors/ToroCharacter.h"
+#include "Actors/ToroVolume.h"
 
 #define HasClassMetadata(MetaKey) GetClass()->HasMetaData(MetaKey)
 #define GetClassMetadata(MetaKey) GetClass()->GetMetaData(MetaKey)

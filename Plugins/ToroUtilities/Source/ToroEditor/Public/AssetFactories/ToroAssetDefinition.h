@@ -3,7 +3,7 @@
 #pragma once
 
 #include "AssetDefinitionDefault.h"
-#include "Framework/ToroDataAsset.h"
+#include "DataTypes/ToroDataAsset.h"
 #include "ToroAssetDefinition.generated.h"
 
 UCLASS(Abstract)
