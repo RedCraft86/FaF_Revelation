@@ -19,10 +19,12 @@ public class ToroUtilities : ModuleRules
                 "SlateCore",
                 "Json",
                 "JsonUtilities",
+                "EnhancedInput",
                 "ApplicationCore",
                 "ProceduralMeshComponent",
                 "DeveloperSettings",
                 "EngineSettings",
+                "GameplayTags",
                 "AIModule",
                 "ToroCore",
                 "EnhancedCodeFlow"
