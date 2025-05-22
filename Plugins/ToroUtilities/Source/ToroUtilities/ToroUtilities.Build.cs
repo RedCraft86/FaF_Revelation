@@ -17,8 +17,22 @@ public class ToroUtilities : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "Json",
+                "JsonUtilities",
+                "DeveloperSettings",
+                "ProceduralMeshComponent",
                 "ToroCore"
             }
         );
+        
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.AddRange(
+                new[]
+            {
+                "UnrealEd",
+                "EditorScriptingUtilities"
+            });
+        }
     }
 }
