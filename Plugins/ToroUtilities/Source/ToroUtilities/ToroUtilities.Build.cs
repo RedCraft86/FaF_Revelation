@@ -19,9 +19,11 @@ public class ToroUtilities : ModuleRules
                 "SlateCore",
                 "Json",
                 "JsonUtilities",
-                "DeveloperSettings",
                 "ProceduralMeshComponent",
-                "ToroCore"
+                "DeveloperSettings",
+                "AIModule",
+                "ToroCore",
+                "EnhancedCodeFlow"
             }
         );
         
