@@ -6,7 +6,7 @@
 #include "EditorDialogLibrary.h"
 #include "Helpers/LoggingMacros.h"
 #include "DataTypes/PrimitiveData.h"
-#include "MiscObjects/ISMActor.h"
+#include "Actors/ISMActor.h"
 
 void FStaticMeshInstancer::ExecuteAction()
 {
