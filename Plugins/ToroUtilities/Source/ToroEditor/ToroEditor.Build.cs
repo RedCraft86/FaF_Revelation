@@ -28,6 +28,7 @@ public class ToroEditor : ModuleRules
                 "Projects",
                 "ToroCore",
                 "ToroUtilities",
+                "ExpressiveText"
             }
         );
     }

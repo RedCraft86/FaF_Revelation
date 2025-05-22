@@ -4,7 +4,7 @@
 
 #include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
-#include "DetailsCustomizations/CustomizationHelpers.h"
+#include "DetailsPanels/CustomizationHelpers.h"
 #include "DataTypes/InlineCurves.h"
 
 class FInlineCurveDetails final : public IPropertyTypeCustomization

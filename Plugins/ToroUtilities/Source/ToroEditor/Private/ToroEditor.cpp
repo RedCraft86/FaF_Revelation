@@ -17,15 +17,15 @@
 #include "EditorTools/StaticMeshInstancer.h"
 #include "EditorTools/StaticMeshMerger.h"
 
-#include "ComponentVisualizers/WireShapeVisualizer.h"
+#include "ComponentVis/WireShapeVisualizer.h"
 
-#include "DetailsCustomizations/PropertyMetadataDetails.h"
+#include "DetailsPanels/PropertyMetadataDetails.h"
+#include "DetailsPanels/ToroActorDetails.h"
 
-#include "DetailsCustomizations/ToroActorDetails.h"
-#include "DetailsCustomizations/Struct/FloatModifierDetails.h"
-#include "DetailsCustomizations/Struct/InlineCurveDetails.h"
-#include "DetailsCustomizations/Struct/PrimitiveCollisionDetails.h"
-#include "DetailsCustomizations/Struct/ExprTextFieldsDetails.h"
+#include "DetailsPanels/Struct/FloatModifierDetails.h"
+#include "DetailsPanels/Struct/InlineCurveDetails.h"
+#include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
+#include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 

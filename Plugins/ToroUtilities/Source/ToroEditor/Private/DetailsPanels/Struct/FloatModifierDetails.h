@@ -5,7 +5,7 @@
 #include "DetailWidgetRow.h"
 #include "IDetailChildrenBuilder.h"
 #include "IPropertyTypeCustomization.h"
-#include "DetailsCustomizations/CustomizationHelpers.h"
+#include "DetailsPanels/CustomizationHelpers.h"
 #include "DataTypes/MathTypes.h"
 
 #define STRUCTNAME FToroFloatModifier

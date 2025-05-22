@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ContentBrowserFilters/DuplicateAssetFilter.h"
+#include "ContentFilters/DuplicateAssetFilter.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "FrontendFilterBase.h"
 #include "ToroEdSettings.h"
