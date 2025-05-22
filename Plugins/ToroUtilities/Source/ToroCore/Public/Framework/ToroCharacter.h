@@ -13,6 +13,9 @@ class TOROCORE_API AToroCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+#if WITH_EDITOR
+	friend class FToroActorDetails;
+#endif
 public:
 
 	AToroCharacter();
@@ -31,6 +34,6 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = General, meta = (DisplayPriority = -2, Categories = "Character"))
+	UPROPERTY(EditAnywhere, Category = CharGeneral, meta = (DisplayPriority = -2, Categories = "Character"))
 		FGameplayTag CharacterID;
 };

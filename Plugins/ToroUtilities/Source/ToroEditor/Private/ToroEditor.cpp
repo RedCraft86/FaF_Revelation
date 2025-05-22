@@ -18,6 +18,7 @@
 #include "EditorTools/StaticMeshMerger.h"
 
 #include "DetailsCustomizations/PropertyMetadataDetails.h"
+#include "DetailsCustomizations/ToroActorDetails.h"
 
 #include "ComponentVisualizers/WireShapeVisualizer.h"
 
@@ -60,6 +61,10 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
+
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
@@ -92,6 +97,9 @@ void FToroEditorModule::ShutdownModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
+		
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
