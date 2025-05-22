@@ -10,7 +10,7 @@
 #include "Interfaces/IPluginManager.h"
 
 #include "ToroCmds.h"
-#include "ComponentVisualizers"
+#include "ComponentVisualizers/WireShapeVisualizer.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
