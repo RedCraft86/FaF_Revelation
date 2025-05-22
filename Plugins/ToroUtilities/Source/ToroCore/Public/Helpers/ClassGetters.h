@@ -35,14 +35,14 @@
 		return IsValid(World) ? World->GetSubsystem<Class>() : nullptr; \
 	}
 
-#define GAMEPLAY_ACTOR_GETTER(Class, Func) \
+#define GAMEPLAY_CLASS_GETTER(Class, Func) \
 	template <typename T = Class> \
 	static T* Get(const UObject* ContextObject) \
 	{ \
 		return Cast<T>(UGameplayStatics::Func(ContextObject)); \
 	}
 
-#define PLAYER_ACTOR_GETTER(Class, Func) \
+#define PLAYER_CLASS_GETTER(Class, Func) \
 	template <typename T = Class> \
 	static T* Get(const UObject* ContextObject, const int32 PlayerIndex = 0) \
 	{ \
