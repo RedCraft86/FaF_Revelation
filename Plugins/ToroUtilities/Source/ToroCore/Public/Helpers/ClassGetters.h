@@ -39,12 +39,12 @@
 	template <typename T = Class> \
 	static T* Get(const UObject* ContextObject) \
 	{ \
-		return Cast<T>(UGameplayStatics::##Func(ContextObject)); \
+		return Cast<T>(UGameplayStatics::Func(ContextObject)); \
 	}
 
 #define PLAYER_ACTOR_GETTER(Class, Func) \
 	template <typename T = Class> \
 	static T* Get(const UObject* ContextObject, const int32 PlayerIndex = 0) \
 	{ \
-		return Cast<T>(UGameplayStatics::##Func(ContextObject, PlayerIndex)); \
+		return Cast<T>(UGameplayStatics::Func(ContextObject, PlayerIndex)); \
 	}
