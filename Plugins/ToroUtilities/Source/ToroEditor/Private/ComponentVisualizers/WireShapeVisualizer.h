@@ -3,7 +3,7 @@
 #pragma once
 
 #include "ComponentVisualizer.h"
-#include "ComponentVisualizer/VisualizerHelpers.h"
+#include "../ComponentVisualizers"
 #include "Debugging/WireShapeComponent.h"
 
 class FWireShapeVisualizer final : public FComponentVisualizer
