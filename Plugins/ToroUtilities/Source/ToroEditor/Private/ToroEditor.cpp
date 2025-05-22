@@ -10,14 +10,16 @@
 #include "Interfaces/IPluginManager.h"
 
 #include "ToroCmds.h"
-#include "ComponentVisualizers/WireShapeVisualizer.h"
-
 #include "EditorTools/ActorLayout.h"
 #include "EditorTools/LinkAssetLibrary.h"
 #include "EditorTools/RestartEditor.h"
 #include "EditorTools/StaticMeshBaker.h"
 #include "EditorTools/StaticMeshInstancer.h"
 #include "EditorTools/StaticMeshMerger.h"
+
+#include "DetailsCustomizations/PropertyMetadataDetails.h"
+
+#include "ComponentVisualizers/WireShapeVisualizer.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -51,6 +53,8 @@ void FToroEditorModule::StartupModule()
 	// Blueprint Variable Metadata Editor
 	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>("Kismet"))
 	{
+		BlueprintEditorModule->RegisterVariableCustomization(FProperty::StaticClass(),
+			FOnGetVariableCustomizationInstance::CreateStatic(&FPropertyMetadataDetails::MakeInstance));
 	}
 
 	// Struct and Class Details Customization

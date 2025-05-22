@@ -21,6 +21,8 @@ public class ToroEditor : ModuleRules
                 "EditorScriptingUtilities",
                 "DeveloperSettings",
                 "EditorSubsystem",
+                "AssetDefinition",
+                "PropertyEditor",
                 "ToolMenus",
                 "UnrealEd",
                 "Projects",
