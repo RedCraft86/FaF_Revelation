@@ -16,6 +16,10 @@ public:
 
 	UToroConfigManager() {}
 	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroConfigManager)
+
+	static inline FString Key_Info = TEXT("info");
+	static inline FString Key_FirstLaunch = TEXT("first-launch");
+	static inline FString Key_DeveloperMode = TEXT("developer-mode");
 	static inline FString ConfigPath = FPaths::ProjectSavedDir() / TEXT("game-config.json");
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = GameConfig, DisplayName = "Set Game Config (Boolean)")
@@ -55,7 +59,6 @@ private:
 	void LoadGameConfig();
 	void SaveGameConfig() const;
 	bool CheckConfigDefaults() const;
-	void MarkFirstLaunchFalse() const;
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;

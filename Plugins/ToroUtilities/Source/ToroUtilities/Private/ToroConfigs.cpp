@@ -82,15 +82,15 @@ FString UToroConfigManager::GetGameConfigString(const FString& InKey, const FStr
 
 bool UToroConfigManager::IsFirstLaunch() const
 {
-	return GetGameConfigBool(TEXT("first-launch"), true);
+	return GetGameConfigBool(Key_FirstLaunch, true);
 }
 
 bool UToroConfigManager::IsDeveloperMode() const
 {
 #if UE_BUILD_SHIPPING
-	return GetGameConfigBool(TEXT("developer-mode"), false);
+	return GetGameConfigBool(Key_DeveloperMode, false);
 #else
-	return GetGameConfigBool(TEXT("developer-mode"), true);
+	return GetGameConfigBool(Key_DeveloperMode, true);
 #endif
 }
 
@@ -116,31 +116,26 @@ void UToroConfigManager::SaveGameConfig() const
 bool UToroConfigManager::CheckConfigDefaults() const
 {
 	bool bNeedsResave = false;
-	if (!GameConfig.JsonObject->HasField(TEXT("info")))
+	if (!GameConfig.JsonObject->HasField(Key_Info))
 	{
-		GameConfig.JsonObject->SetStringField(TEXT("info"), CFG_WARNING);
+		GameConfig.JsonObject->SetStringField(Key_Info, CFG_WARNING);
 		bNeedsResave = true;
 	}
-	if (!GameConfig.JsonObject->HasField(TEXT("first-launch")))
+	if (!GameConfig.JsonObject->HasField(Key_FirstLaunch))
 	{
-		GameConfig.JsonObject->SetBoolField(TEXT("first-launch"), true);
+		GameConfig.JsonObject->SetBoolField(Key_FirstLaunch, true);
 		bNeedsResave = true;
 	}
-	if (!GameConfig.JsonObject->HasField(TEXT("developer-mode")))
+	if (!GameConfig.JsonObject->HasField(Key_DeveloperMode))
 	{
 #if UE_BUILD_SHIPPING
-		GameConfig.JsonObject->SetBoolField(TEXT("developer-mode"), false);
+		GameConfig.JsonObject->SetBoolField(Key_DeveloperMode, false);
 #else
-		GameConfig.JsonObject->SetBoolField(TEXT("developer-mode"), true);
+		GameConfig.JsonObject->SetBoolField(Key_DeveloperMode, true);
 #endif
 		bNeedsResave = true;
 	}
 	return bNeedsResave;
-}
-
-void UToroConfigManager::MarkFirstLaunchFalse() const
-{
-	SetGameConfigBool(TEXT("first-launch"), false);
 }
 
 void UToroConfigManager::Initialize(FSubsystemCollectionBase& Collection)
@@ -152,5 +147,5 @@ void UToroConfigManager::Initialize(FSubsystemCollectionBase& Collection)
 void UToroConfigManager::Deinitialize()
 {
 	Super::Deinitialize();
-	MarkFirstLaunchFalse();
+	SetGameConfigBool(Key_FirstLaunch, false);
 }
