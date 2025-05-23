@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "InputMappingContext.h"
 #include "Helpers/ClassGetters.h"
 #include "Engine/DeveloperSettings.h"
 #include "Framework/ToroPlayerController.h"
