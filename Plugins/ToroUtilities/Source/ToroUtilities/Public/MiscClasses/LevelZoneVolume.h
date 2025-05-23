@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Actors/ToroVolume.h"
-#include "Helpers/GameplayTagHelpers.h"
+#include "GameplayTagContainer.h"
 #include "LevelZoneVolume.generated.h"
 
 UCLASS()
