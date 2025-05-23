@@ -27,6 +27,11 @@
 #include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
 #include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
 
+#include "Actors/TeleportPoint.h"
+#include "Procedural/ToroMeshGenBase.h"
+#include "Debugging/NavPathVisualizer.h"
+#include "MiscClasses/MasterPostProcess.h"
+
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
 #define REGISTER_TOOL(Tool) Tool::Register(PluginCommands);
@@ -75,6 +80,10 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ATeleportPoint, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorDetails)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
