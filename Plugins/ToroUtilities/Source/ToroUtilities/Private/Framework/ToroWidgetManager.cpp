@@ -58,8 +58,8 @@ void AToroWidgetManager::BeginPlay()
 {
 	Super::BeginPlay();
 	const UToroSettings* Settings = UToroSettings::Get();
-	// for (const TSoftClassPtr<UUserWidget>& Widget : Settings->DefaultWidgets)
-	// {
-	// 	FindOrAddWidget(Widget.LoadSynchronous());
-	// }
+	for (const TSoftClassPtr<UUserWidget>& Widget : Settings->DefaultWidgets)
+	{
+		FindOrAddWidget(Widget.LoadSynchronous());
+	}
 }

@@ -3,6 +3,7 @@
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroCameraManager.h"
 #include "EnhancedInputSubsystems.h"
+#include "ToroSettings.h"
 
 AToroPlayerController::AToroPlayerController()
 {
@@ -95,8 +96,7 @@ void AToroPlayerController::BeginPlay()
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
 	{
 		Subsystem->ClearAllMappings();
-		// TODO
-		//Subsystem->AddMappingContext(UToroSettings::Get()->DefaultInputMappings.LoadSynchronous(), 0);
+		Subsystem->AddMappingContext(UToroSettings::Get()->DefaultInputMappings.LoadSynchronous(), 0);
 	}
 }
 
