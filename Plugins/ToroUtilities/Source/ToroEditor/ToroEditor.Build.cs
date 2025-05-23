@@ -16,6 +16,7 @@ public class ToroEditor : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "GameplayTags",
                 "ContentBrowser",
                 "ContentBrowserData",
                 "EditorScriptingUtilities",

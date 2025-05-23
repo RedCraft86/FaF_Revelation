@@ -5,6 +5,10 @@
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroGameInstance.h"
 #include "Framework/ToroGameMode.h"
+#include "Framework/Notifications/NotificationManager.h"
+#if WITH_EDITOR
+#include "Widgets/Notifications/SNotificationList.h"
+#endif
 
 DEFINE_GAMEPLAY_TAG_CHILD(Character, Player)
 
@@ -31,7 +35,7 @@ AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f)
 
 void AToroPlayerCharacter::AddLockFlag(const FPlayerLockFlag& InFlag)
 {
-	if (InFlag.IsValidFlag()) LockFlags.Add(InFlag);
+	if (InFlag.IsValidFlag()) LockFlags.AddUnique(InFlag);
 }
 
 void AToroPlayerCharacter::ClearLockFlag(const FPlayerLockFlag& InFlag)
@@ -107,10 +111,27 @@ void AToroPlayerCharacter::BeginPlay()
 	GameInstance = GetGameInstance<UToroGameInstance>();
 	GetWorldTimerManager().SetTimer(SlowTickTimer, this,
 		&AToroPlayerCharacter::SlowTick, SlowTickInterval, true);
+
+	LockFlags.RemoveAll([](const FPlayerLockFlag& InFlag) { return !InFlag.IsValidFlag(); });
 }
 
 void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+	if (FPlayerLockFlag::DedupeFlags(LockFlags))
+	{
+#if WITH_EDITOR
+		FNotificationInfo Info(INVTEXT("Cannot contain duplicate Lock Flags"));
+		Info.bFireAndForget = true;
+		Info.FadeOutDuration = 2.0f;
+		Info.ExpireDuration = 2.0f;
+		Info.bUseLargeFont = false;
+		Info.bUseThrobber = false;
+		Info.bUseSuccessFailIcons = true;
+		Info.bAllowThrottleWhenFrameRateIsLow = false;
+		TSharedPtr<SNotificationItem> Notif = FSlateNotificationManager::Get().AddNotification(Info);
+		if (Notif.IsValid()) Notif->SetCompletionState(SNotificationItem::CS_Fail);
+#endif
+	}
 	ULightingDataLibrary::SetPointLightData(PlayerLight, LightSettings);
 }

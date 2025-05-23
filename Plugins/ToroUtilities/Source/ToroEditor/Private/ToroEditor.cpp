@@ -25,6 +25,7 @@
 #include "DetailsPanels/Struct/FloatModifierDetails.h"
 #include "DetailsPanels/Struct/InlineCurveDetails.h"
 #include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
+#include "DetailsPanels/Struct/PlayerLockFlagDetails.h"
 #include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
 
 #include "Actors/TeleportPoint.h"
@@ -89,6 +90,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag, FPlayerLockDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExprTextFieldsDetails)
 		
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
@@ -126,11 +128,17 @@ void FToroEditorModule::ShutdownModule()
 	{
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
+		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportPoint)
+		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
+		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPlayerLockFlag)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 		
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
