@@ -23,6 +23,9 @@ bool FPlayerLockFlag::HasValidTag() const { return VerifyPlayerLockTag(LockTag);
 
 bool FPlayerLockFlag::DedupeFlags(TArray<FPlayerLockFlag>& Flags)
 {
+	if (Flags.Num() < 2)
+		return false;
+	
 	bool bChanged = false;
 	TSet<FName> Existing;
 	for (auto It = Flags.CreateIterator(); It; ++It)
