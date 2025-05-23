@@ -2,6 +2,8 @@
 
 #include "Framework/ToroGameState.h"
 
+DEFINE_GAMEPLAY_TAG_BASE(Zone);
+
 AToroGameState::AToroGameState()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -12,18 +14,21 @@ AToroGameState::AToroGameState()
 	SetRootComponent(SceneRoot);
 }
 
-bool AToroGameState::IsCharacterInZone(const FGameplayTag Character, const FGameplayTag Zone)
+bool AToroGameState::IsCharacterInZone(const FGameplayTag Character, const FGameplayTag Zone) const
 {
 	return CharacterToZone.FindRef(Character) == Zone;
 }
 
-FGameplayTag AToroGameState::GetCharacterZone(const FGameplayTag Character)
+FGameplayTag AToroGameState::GetCharacterZone(const FGameplayTag Character) const
 {
 	return CharacterToZone.FindRef(Character);
 }
 
 FGameplayTagContainer AToroGameState::GetAllCharactersInZone(const FGameplayTag Zone)
 {
+	if (!VerifyZoneTag(Zone))
+		return {};
+
 	FGameplayTagContainer Result;
 	for (const TPair<FGameplayTag, FGameplayTag>& Pair : CharacterToZone)
 	{

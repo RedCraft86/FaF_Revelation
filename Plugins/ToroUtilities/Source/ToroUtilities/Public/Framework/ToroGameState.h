@@ -5,7 +5,10 @@
 #include "GameplayTagContainer.h"
 #include "Helpers/ClassGetters.h"
 #include "GameFramework/GameStateBase.h"
+#include "Helpers/GameplayTagHelpers.h"
 #include "ToroGameState.generated.h"
+
+DECLARE_GAMEPLAY_TAG_BASE(Zone);
 
 UCLASS()
 class TOROUTILITIES_API AToroGameState : public AGameStateBase
@@ -21,19 +24,19 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
 
-	UFUNCTION(BlueprintCallable, Category = Game)
+	UFUNCTION(BlueprintPure, Category = Game)
 		bool IsCharacterInZone(UPARAM(meta = (Categories = "Character")) const FGameplayTag Character,
-			UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone);
+			UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone) const;
 
-	UFUNCTION(BlueprintCallable, Category = Game)
-		FGameplayTag GetCharacterZone(UPARAM(meta = (Categories = "Character")) const FGameplayTag Character);
+	UFUNCTION(BlueprintPure, Category = Game)
+		FGameplayTag GetCharacterZone(UPARAM(meta = (Categories = "Character")) const FGameplayTag Character) const;
 
-	UFUNCTION(BlueprintCallable, Category = Game)
+	UFUNCTION(BlueprintPure, Category = Game)
 		FGameplayTagContainer GetAllCharactersInZone(UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone);
 	
 	void AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone)
 	{
-		if (Character.IsValid()) CharacterToZone.Add(Character, Zone);
+		if (Character.IsValid() && VerifyZoneTag(Zone)) CharacterToZone.Add(Character, Zone);
 	}
 	
 protected:
