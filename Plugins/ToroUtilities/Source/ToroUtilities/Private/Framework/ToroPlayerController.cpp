@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroPlayerController.h"
+#include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
 #include "EnhancedInputSubsystems.h"
 #include "ToroSettings.h"
@@ -59,10 +60,10 @@ void AToroPlayerController::EnterCinematic(AActor* InActor)
 	{
 		CinematicActor = InActor;
 		SetCinematicMode(true, true, false, true, true);
-		// if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
-		// {
-		// 	PlayerChar->AddLockFlag(Tag_PlayerLock_Cinematic.GetTag()); TODO
-		// }
+		if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
+		{
+			PlayerChar->AddLockFlag(Tag_PlayerLock_Cinematic.GetTag());
+		}
 	}
 }
 
@@ -72,10 +73,10 @@ void AToroPlayerController::ExitCinematic()
 	{
 		CinematicActor = nullptr;
 		SetCinematicMode(false, false, false, true, true);
-		// if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
-		// {
-		// 	PlayerChar->ClearLockFlag(Tag_PlayerLock_Cinematic.GetTag()); TODO
-		// }
+		if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
+		{
+			PlayerChar->ClearLockFlag(Tag_PlayerLock_Cinematic.GetTag());
+		}
 	}
 }
 

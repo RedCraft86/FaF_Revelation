@@ -29,12 +29,82 @@ AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f)
 	ULightingDataLibrary::SetPointLightData(PlayerLight, LightSettings);
 }
 
+void AToroPlayerCharacter::AddLockFlag(const FPlayerLockFlag& InFlag)
+{
+	if (InFlag.IsValidFlag()) LockFlags.Add(InFlag);
+}
+
+void AToroPlayerCharacter::ClearLockFlag(const FPlayerLockFlag& InFlag)
+{
+	if (InFlag.IsValidFlag()) LockFlags.Remove(InFlag);
+}
+
+bool AToroPlayerCharacter::HasLockFlag(const FPlayerLockFlag& InFlag) const
+{
+	return InFlag.IsValidFlag() && LockFlags.Contains(InFlag);
+}
+
+void AToroPlayerCharacter::SetLightSettings(const FPointLightData& InSettings)
+{
+	LightSettings = InSettings;
+	ULightingDataLibrary::SetPointLightData(PlayerLight, LightSettings);
+}
+
+void AToroPlayerCharacter::EnterCinematic(AActor* CinematicActor)
+{
+	if (AToroPlayerController* PC = GetPlayerController()) PC->EnterCinematic(CinematicActor);
+}
+
+void AToroPlayerCharacter::ExitCinematic()
+{
+	if (AToroPlayerController* PC = GetPlayerController()) PC->ExitCinematic();
+}
+
+void AToroPlayerCharacter::FadeToBlack(const float InTime, const bool bAudio) const
+{
+	if (const AToroPlayerController* PC = GetPlayerController())
+	{
+		if (FMath::IsNearlyZero(InTime))
+		{
+			PC->PlayerCameraManager->SetManualCameraFade(1.0f, FLinearColor::Black, bAudio);
+		}
+		else
+		{
+			PC->PlayerCameraManager->StartCameraFade(0.0f, 1.0f,
+				InTime, FLinearColor::Black, bAudio, true);
+		}
+	}
+}
+
+void AToroPlayerCharacter::FadeFromBlack(const float InTime, const bool bAudio) const
+{
+	if (const AToroPlayerController* PC = GetPlayerController())
+	{
+		if (FMath::IsNearlyZero(InTime))
+		{
+			PC->PlayerCameraManager->SetManualCameraFade(0.0f, FLinearColor::Black, bAudio);
+		}
+		else
+		{
+			PC->PlayerCameraManager->StartCameraFade(1.0f, 0.0f,
+				InTime, FLinearColor::Black, bAudio, true);
+		}
+	}
+}
+
+void AToroPlayerCharacter::ClearFade() const
+{
+	if (const AToroPlayerController* PC = GetPlayerController())
+	{
+		PC->PlayerCameraManager->StopCameraFade();
+	}
+}
+
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	GameMode = AToroGameMode::Get(this);
-	GameInstance = UToroGameInstance::Get(this);
-	PlayerController = GetController<AToroPlayerController>();
+	GameInstance = GetGameInstance<UToroGameInstance>();
 	GetWorldTimerManager().SetTimer(SlowTickTimer, this,
 		&AToroPlayerCharacter::SlowTick, SlowTickInterval, true);
 }
