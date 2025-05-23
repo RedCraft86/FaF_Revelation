@@ -28,6 +28,7 @@ private:
 	void UpdateSmartCulling();
 	
 	virtual void BeginPlay() override;
+	virtual void OnEnableStateChanged(const bool bIsEnabled) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 };

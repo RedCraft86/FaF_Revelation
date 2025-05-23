@@ -17,6 +17,7 @@ ALevelZoneVolume::ALevelZoneVolume()
 
 void ALevelZoneVolume::UpdateSmartCulling()
 {
+	//TODO
 }
 
 void ALevelZoneVolume::BeginPlay()
@@ -26,8 +27,19 @@ void ALevelZoneVolume::BeginPlay()
 	CamManager = AToroCameraManager::Get(this);
 	MusicManager = AToroMusicManager::Get(this);
 
-	GetWorldTimerManager().SetTimer(CullingTimer, this,
+	FTimerManager& Manager = GetWorldTimerManager();
+	Manager.SetTimer(CullingTimer, this,
 		&ALevelZoneVolume::UpdateSmartCulling, 0.1f, true);
+	if (!IsEnabled()) Manager.PauseTimer(CullingTimer);
+}
+
+void ALevelZoneVolume::OnEnableStateChanged(const bool bIsEnabled)
+{
+	Super::OnEnableStateChanged(bIsEnabled);
+	if (FTimerManager& Manager = GetWorldTimerManager(); Manager.TimerExists(CullingTimer))
+	{
+		bIsEnabled ? Manager.UnPauseTimer(CullingTimer) : Manager.PauseTimer(CullingTimer);
+	}
 }
 
 void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
