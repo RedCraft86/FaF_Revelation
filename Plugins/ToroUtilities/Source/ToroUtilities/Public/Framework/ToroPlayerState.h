@@ -4,18 +4,18 @@
 
 #include "Helpers/ClassGetters.h"
 #include "GameFramework/PlayerState.h"
-#include "ToroMusicManager.generated.h"
+#include "ToroPlayerState.generated.h"
 
 UCLASS()
-class TOROUTILITIES_API AToroMusicManager : public APlayerState
+class TOROUTILITIES_API AToroPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 
 public:
 
-	AToroMusicManager();
+	AToroPlayerState();
 
-	PLAYER_CLASS_GETTER(AToroMusicManager, GetPlayerState)
+	PLAYER_CLASS_GETTER(AToroPlayerState, GetPlayerState)
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;

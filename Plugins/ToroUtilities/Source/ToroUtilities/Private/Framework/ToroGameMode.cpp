@@ -4,8 +4,8 @@
 #include "Framework/ToroGameInstance.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Framework/ToroPlayerController.h"
-#include "Framework/ToroMusicManager.h"
 #include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroPlayerState.h"
 #include "Framework/ToroGameState.h"
 
 AToroGameMode::AToroGameMode()
@@ -19,7 +19,7 @@ AToroGameMode::AToroGameMode()
 
 	HUDClass = AToroWidgetManager::StaticClass();
 	GameStateClass = AToroGameState::StaticClass();
-	PlayerStateClass = AToroMusicManager::StaticClass();
+	PlayerStateClass = AToroPlayerState::StaticClass();
 	DefaultPawnClass = AToroPlayerCharacter::StaticClass();
 	PlayerControllerClass = AToroPlayerController::StaticClass();
 }

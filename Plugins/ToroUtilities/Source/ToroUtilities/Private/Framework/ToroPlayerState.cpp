@@ -1,8 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Framework/ToroMusicManager.h"
+#include "Framework/ToroPlayerState.h"
 
-AToroMusicManager::AToroMusicManager()
+AToroPlayerState::AToroPlayerState()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
