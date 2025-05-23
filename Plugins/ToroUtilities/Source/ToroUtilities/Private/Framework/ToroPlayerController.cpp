@@ -14,9 +14,29 @@ AToroPlayerController::AToroPlayerController()
 	PlayerCameraManagerClass = AToroCameraManager::StaticClass();
 }
 
+void AToroPlayerController::SetInputModeData(const FGameInputModeData& InputMode)
+{
+	InputModeData = InputMode;
+	SetShowMouseCursor(InputModeData.ShouldShowMouse());
+	SetInputMode(InputModeData.GetInputMode());
+	FlushPressedKeys();
+}
+
 void AToroPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
+	{
+		Subsystem->ClearAllMappings();
+		// TODO
+		//Subsystem->AddMappingContext(UToroSettings::Get()->DefaultInputMappings.LoadSynchronous(), 0);
+	}
+}
+
+void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	InputModeData.ClearReferences();
+	Super::EndPlay(EndPlayReason);
 }
 
 UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const

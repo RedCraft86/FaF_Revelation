@@ -17,6 +17,7 @@ public class ToroUtilities : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "UMG",
                 "Json",
                 "JsonUtilities",
                 "EnhancedInput",
