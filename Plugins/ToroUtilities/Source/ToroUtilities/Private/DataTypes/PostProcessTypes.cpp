@@ -67,7 +67,7 @@ void FPPLumenChoice::ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQ
 		ApplyReflection(Settings, ReflectionQuality);
 		Settings.LumenRayLightingMode = bPreviewHitLighting
 			? ELumenRayLightingModeOverride::HitLightingForReflections
-			: ELumenRayLightingModeOverride::Default;
+			: ELumenRayLightingModeOverride::SurfaceCache;
 		return;
 	}
 #endif
@@ -75,7 +75,7 @@ void FPPLumenChoice::ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQ
 	ApplyReflection(Settings, ReflectionQuality);
 	Settings.LumenRayLightingMode = bHitLightingReflection
 		? ELumenRayLightingModeOverride::HitLightingForReflections
-		: ELumenRayLightingModeOverride::Default;
+		: ELumenRayLightingModeOverride::SurfaceCache;
 }
 
 void FPPLumenChoice::ApplyGI(FPostProcessSettings& Settings, const uint8 Quality) const
