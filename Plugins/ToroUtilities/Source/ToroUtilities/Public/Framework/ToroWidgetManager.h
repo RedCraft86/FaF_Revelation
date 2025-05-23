@@ -21,4 +21,18 @@ public:
 		const APlayerController* PC = UGameplayStatics::GetPlayerController(ContextObject, PlayerIndex);
 		return PC ? Cast<T>(PC->GetHUD()) : nullptr;
 	}
+
+	UFUNCTION(BlueprintCallable, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+		UUserWidget* FindOrAddWidget(const TSubclassOf<UUserWidget> Class);
+
+	UFUNCTION(BlueprintPure, Category = WidgetManager, meta = (DynamicOutputParam = "ReturnValue", DeterminesOutputType = "Class"))
+		UUserWidget* FindWidget(const TSubclassOf<UUserWidget> Class);
+
+	template<typename T>
+	T* FindWidget() { return Cast<T>(FindWidget(T::StaticClass())); }
+
+protected:
+
+	UPROPERTY(Transient) TSet<TObjectPtr<UUserWidget>> Widgets;
+	virtual void BeginPlay() override;
 };
