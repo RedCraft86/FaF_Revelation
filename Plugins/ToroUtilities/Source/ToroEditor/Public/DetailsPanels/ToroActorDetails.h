@@ -53,10 +53,12 @@ public:
 
 	static inline FName Meta_CustomizeTemplate = TEXT("CustomizeTemplate");
 	static inline FName Meta_AllowedCategories = TEXT("AllowedCategories");
+	static inline FName Meta_HiddenCategories = TEXT("HiddenCategories");
 
 protected:
 
 	TArray<FName> AllowedCategories;
+	TArray<FName> HiddenCategories;
 
 	virtual TMap<FName, FToroCategoryInfo> GetForcedCategories()
 	{
@@ -102,6 +104,7 @@ protected:
 			else if (ClassType != Obj->GetClass()) return;
 			
 			AllowedCategories.Append(GetMetaValueArray(Obj->GetClassMetadata(Meta_AllowedCategories)));
+			HiddenCategories.Append(GetMetaValueArray(Obj->GetClassMetadata(Meta_HiddenCategories)));
 			if (Obj->IsA<AToroVolume>())
 			{
 				CategoryInfos.Add(TEXT("Collision"));
@@ -124,6 +127,12 @@ protected:
 
 		for (const FName& Name : CategoryNames)
 		{
+			if (HiddenCategories.Contains(Name))
+			{
+				DetailBuilder.HideCategory(Name);
+				continue;
+			}
+			
 			if (CategoryInfos.Contains(Name))
 			{
 				const FToroCategoryInfo& Info = CategoryInfos[Name];
