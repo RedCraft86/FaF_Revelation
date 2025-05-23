@@ -114,10 +114,10 @@ struct TOROUTILITIES_API FPPLumenChoice
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Lumen, meta = (ClampMin = 0, ClampMax = 3, UIMin = 0, UIMax = 3))
-		uint8 bPreviewGI;
+		uint8 PreviewGI;
 	
 	UPROPERTY(EditAnywhere, Category = Lumen, meta = (ClampMin = 0, ClampMax = 3, UIMin = 0, UIMax = 3))
-		uint8 bPreviewReflection;
+		uint8 PreviewReflection;
 	
 	UPROPERTY(EditAnywhere, Category = Lumen)
 		bool bPreviewHitLighting;
@@ -132,7 +132,7 @@ struct TOROUTILITIES_API FPPLumenChoice
 	UPROPERTY(EditAnywhere, Category = Lumen)
 		FPPLumenOption High;
 
-	FPPLumenChoice(): bPreviewGI(3), bPreviewReflection(3), bPreviewHitLighting(true) {}
+	FPPLumenChoice(): PreviewGI(3), PreviewReflection(3), bPreviewHitLighting(true) {}
 
 	/* Quality 0~3 where 0: off and 3: high */
 	void ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQuality,

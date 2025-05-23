@@ -6,7 +6,7 @@
 #include "DataTypes/PostProcessTypes.h"
 #include "MasterPostProcess.generated.h"
 
-UCLASS(NotBlueprintable, meta = (AllowedCategories = "PostProcessing", HiddenCategories = "Rendering, Actor"))
+UCLASS(NotBlueprintable, meta = (AllowedCategories = "Overrides, PostProcessing", HiddenCategories = "Rendering, Actor"))
 class TOROUTILITIES_API AMasterPostProcess final : public AActor
 {
 	GENERATED_BODY()
