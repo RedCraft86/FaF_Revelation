@@ -26,7 +26,9 @@ public class ToroUtilities : ModuleRules
                 "ProceduralMeshComponent",
                 "DeveloperSettings",
                 "EngineSettings",
+                "LevelSequence",
                 "GameplayTags",
+                "MovieScene",
                 "AIModule",
                 "ToroCore",
                 "EnhancedCodeFlow"
