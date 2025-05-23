@@ -8,7 +8,11 @@ namespace DataCompression
 {
 	static bool OodleCompress(const TArray<uint8>& InData, TArray<uint8>& OutData)
 	{
-		if (InData.IsEmpty()) return true;
+		if (InData.IsEmpty())
+		{
+			OutData.Reset();
+			return true;
+		}
 		return FOodleCompressedArray::CompressTArray(
 			OutData, InData,
 			FOodleDataCompression::ECompressor::Kraken,
@@ -18,7 +22,11 @@ namespace DataCompression
 
 	static bool OodleDecompress(const TArray<uint8>& InData, TArray<uint8>& OutData)
 	{
-		if (InData.IsEmpty()) return true;
+		if (InData.IsEmpty())
+		{
+			OutData.Reset();
+			return true;
+		}
 		return FOodleCompressedArray::DecompressToTArray(OutData, InData);
 	}
 }
