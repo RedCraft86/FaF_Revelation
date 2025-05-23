@@ -2,6 +2,8 @@
 
 #include "ToroUtilities.h"
 
+DEFINE_LOG_CATEGORY(LogToroUtilities);
+
 #define LOCTEXT_NAMESPACE "FToroUtilitiesModule"
 
 void FToroUtilitiesModule::StartupModule()
