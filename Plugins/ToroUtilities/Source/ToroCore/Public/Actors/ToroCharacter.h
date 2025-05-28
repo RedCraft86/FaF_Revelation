@@ -4,12 +4,11 @@
 
 #include "GameFramework/Character.h"
 #include "Helpers/GameplayTagHelpers.h"
+#include "Interfaces/CharInterface.h"
 #include "ToroCharacter.generated.h"
 
-DECLARE_GAMEPLAY_TAG_BASE(Character)
-
 UCLASS(Abstract)
-class TOROCORE_API AToroCharacter : public ACharacter
+class TOROCORE_API AToroCharacter : public ACharacter, public ICharInterface
 {
 	GENERATED_BODY()
 
@@ -20,17 +19,14 @@ public:
 
 	AToroCharacter();
 
-	UFUNCTION(BlueprintPure, Category = Game)
-		FGameplayTag GetCharacterID() const { return CharacterID; }
-
-	UFUNCTION(BlueprintPure, Category = Game)
-		virtual FVector GetLookTarget() const;
-
-	UFUNCTION(BlueprintPure, Category = Game)
-		virtual void GetViewPoint(FVector& Location, FVector& Forward, float& Angle) const {}
-
 	UFUNCTION(BlueprintCallable, Category = Game)
 		virtual void Teleport(const FVector& InLocation, const FRotator& InRotation);
+
+	virtual FGameplayTag GetCharacterID_Implementation() const override { return CharacterID; }
+	virtual FVector GetLookTarget_Implementation() const override
+	{
+		return GetActorTransform().TransformPosition({0.0f, 0.0f, 60.0f});
+	}
 
 protected:
 
