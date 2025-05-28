@@ -14,7 +14,6 @@ void UToroGlobalSave::DeleteData()
 void UToroGlobalSave::SerializeData(FArchive& Ar)
 {
 	Ar << Content;
-	Ar << Endings;
 	Ar << Achievements;
 }
 

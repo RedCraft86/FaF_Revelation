@@ -8,6 +8,7 @@
 #include "SaveSystem/SaveGameTypes.h"
 #include "Engine/DeveloperSettings.h"
 #include "Framework/ToroPlayerController.h"
+#include "SaveSystem/ToroSaveObjects.h"
 #include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Utilities")
@@ -21,6 +22,11 @@ public:
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroUtilities");
+
+		SaveObjects = {
+			{Tag_Save_Global, UToroGlobalSave::StaticClass()},
+			{Tag_Save_Game, UToroGameSave::StaticClass()},
+		};
 	}
 
 	SETTING_GETTER_MUTABLE(UToroSettings)
