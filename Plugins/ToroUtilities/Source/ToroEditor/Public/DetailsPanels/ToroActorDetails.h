@@ -57,8 +57,20 @@ public:
 
 protected:
 
+	TMap<FName, FToroCategoryInfo> CategoryInfos;
 	TArray<FName> AllowedCategories;
 	TArray<FName> HiddenCategories;
+
+	void MovePropertiesToCategory(IDetailLayoutBuilder& DetailBuilder, const FName& InCategory,
+		TArray<TSharedRef<IPropertyHandle>>& InProperties) const
+	{
+		const FToroCategoryInfo& Info = CategoryInfos.FindRef(InCategory);
+		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(InCategory, Info.Name, Info.Priority);
+		for (TSharedRef<IPropertyHandle>& Property : InProperties)
+		{
+			if(Property->IsValidHandle()) Settings.AddProperty(Property);
+		}
+	}
 
 	virtual TMap<FName, FToroCategoryInfo> GetForcedCategories()
 	{
@@ -66,7 +78,6 @@ protected:
 			{"Transform",		{ECategoryPriority::Transform}},
 			{"TransformCommon",	{ECategoryPriority::Transform, INVTEXT("Transform")}},
 			{"Tick",				{ECategoryPriority::Important}},
-			//{"CharGeneral",		{ECategoryPriority::Important, INVTEXT("General")}},
 			{"Settings",			{ECategoryPriority::Important}},
 			{"Tools",			{ECategoryPriority::Important}},
 			{"Rendering",		{ECategoryPriority::Default}},
@@ -74,22 +85,18 @@ protected:
 		};
 	}
 
-	virtual void PreHideCategories(IDetailLayoutBuilder& DetailBuilder)
+	virtual void AdjustProperties(IDetailLayoutBuilder& DetailBuilder)
 	{
-		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory("Settings");
-		TArray<TSharedRef<IPropertyHandle>> Properties = {
+		TArray<TSharedRef<IPropertyHandle>> SettingsProperties = {
 			CLASS_PROPERTY(AToroActor, bEnabled),
 			CLASS_PROPERTY(AToroCharacter, CharacterID)
 		};
-		for (TSharedRef<IPropertyHandle>& Property : Properties)
-		{
-			if(Property->IsValidHandle()) Settings.AddProperty(Property);
-		}
+		MovePropertiesToCategory(DetailBuilder, "Settings", SettingsProperties);
 	}
 
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
-		TMap<FName, FToroCategoryInfo> CategoryInfos = GetForcedCategories();
+		CategoryInfos = GetForcedCategories();
 
 		const UClass* ClassType = nullptr;
 		TArray<TWeakObjectPtr<UObject>> Objs;
@@ -107,8 +114,8 @@ protected:
 			HiddenCategories.Append(GetMetaValueArray(Obj->GetClassMetadata(Meta_HiddenCategories)));
 			if (Obj->IsA<AToroVolume>())
 			{
-				CategoryInfos.Add(TEXT("Collision"));
-				CategoryInfos.Add(TEXT("BrushSettings"));
+				CategoryInfos.Add(TEXT("Collision"), {ECategoryPriority::Uncommon});
+				CategoryInfos.Add(TEXT("BrushSettings"), {ECategoryPriority::Uncommon});
 			}
 			if (Obj->IsA<AToroCharacter>() && !AllowedCategories.Contains(TEXT("Rendering")))
 			{
@@ -116,7 +123,7 @@ protected:
 			}
 		}
 
-		PreHideCategories(DetailBuilder);
+		AdjustProperties(DetailBuilder);
 		
 		TArray<FName> CategoryNames;
 		DetailBuilder.GetCategoryNames(CategoryNames);

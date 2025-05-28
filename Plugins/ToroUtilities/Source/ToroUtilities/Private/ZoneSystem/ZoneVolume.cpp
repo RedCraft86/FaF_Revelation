@@ -4,6 +4,7 @@
 #include "Framework/ToroGameState.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroPlayerCharacter.h"
+#include "Components/BrushComponent.h"
 #include "Interfaces/CharInterface.h"
 #include "ZoneSystem/SmartCulling.h"
 #if WITH_EDITOR
@@ -18,6 +19,7 @@ AZoneVolume::AZoneVolume(): CullInvert(false)
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 	PrimaryActorTick.TickInterval = 0.1f;
+	GetBrushComponent()->SetCollisionProfileName("Trigger");
 }
 
 #if WITH_EDITOR
