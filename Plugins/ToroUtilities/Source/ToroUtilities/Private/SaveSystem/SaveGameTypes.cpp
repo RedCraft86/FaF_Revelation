@@ -8,8 +8,6 @@
 #include "ToroSettings.h"
 
 DEFINE_GAMEPLAY_TAG_BASE(Save)
-DEFINE_GAMEPLAY_TAG_CHILD(Save, Global)
-DEFINE_GAMEPLAY_TAG_CHILD(Save, Game)
 
 #define LOG_ERROR(Msg, Data) WindowsHelpers::OpenDialogue(TEXT("Save System Error"), \
 	FString::Printf(TEXT("%s\n%s"), TEXT(Msg), *SavePath), EWindowsDialogueType::Ok, EWindowsDialogueIcon::Error); \

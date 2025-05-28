@@ -7,8 +7,6 @@
 #include "SaveGameTypes.generated.h"
 
 DECLARE_GAMEPLAY_TAG_BASE(Save)
-DECLARE_GAMEPLAY_TAG_CHILD(Save, Global)
-DECLARE_GAMEPLAY_TAG_CHILD(Save, Game)
 
 UENUM(BlueprintInternalUseOnly)
 enum class ESaveGameStatus : uint8
