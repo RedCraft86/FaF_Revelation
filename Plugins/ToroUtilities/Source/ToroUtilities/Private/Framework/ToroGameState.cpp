@@ -1,8 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameState.h"
-
-DEFINE_GAMEPLAY_TAG_BASE(Zone);
+#include "ZoneSystem/ZoneVolume.h"
 
 AToroGameState::AToroGameState()
 {
@@ -35,4 +34,9 @@ FGameplayTagContainer AToroGameState::GetAllCharactersInZone(const FGameplayTag 
 		if (Pair.Value == Zone) Result.AddTag(Pair.Key);
 	}
 	return Result;
+}
+
+void AToroGameState::AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone)
+{
+	if (Character.IsValid() && VerifyZoneTag(Zone)) CharacterToZone.Add(Character, Zone);
 }

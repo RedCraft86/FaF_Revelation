@@ -104,8 +104,5 @@ void USmartCullingComponent::BeginPlay()
 void USmartCullingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
 	CheckRenderRequests();
 }

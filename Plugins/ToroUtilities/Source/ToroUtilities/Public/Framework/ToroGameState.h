@@ -5,10 +5,7 @@
 #include "GameplayTagContainer.h"
 #include "Helpers/ClassGetters.h"
 #include "GameFramework/GameStateBase.h"
-#include "Helpers/GameplayTagHelpers.h"
 #include "ToroGameState.generated.h"
-
-DECLARE_GAMEPLAY_TAG_BASE(Zone);
 
 UCLASS()
 class TOROUTILITIES_API AToroGameState : public AGameStateBase
@@ -34,10 +31,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = Game)
 		FGameplayTagContainer GetAllCharactersInZone(UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone);
 	
-	void AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone)
-	{
-		if (Character.IsValid() && VerifyZoneTag(Zone)) CharacterToZone.Add(Character, Zone);
-	}
+	void AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone);
 	
 protected:
 
