@@ -32,9 +32,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Tools, DisplayName = "Find Tag")
 		FName CullFindTag = NAME_None;
-#endif
-#if WITH_EDITOR
-	void FindCullTargets();
+	
+	UFUNCTION(CallInEditor, Category = Tools)
+		void FindCullTargets();
 #endif
 private:
 

@@ -22,7 +22,7 @@ AZoneVolume::AZoneVolume(): CullInvert(false)
 	GetBrushComponent()->SetCollisionProfileName("Trigger");
 }
 
-#if WITH_EDITOR
+#if WITH_EDITORONLY_DATA
 void AZoneVolume::FindCullTargets()
 {
 	for (const TObjectPtr<AActor> Actor : TActorRange<AActor>(GetWorld()))

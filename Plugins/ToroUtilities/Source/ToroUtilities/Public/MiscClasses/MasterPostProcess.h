@@ -18,7 +18,7 @@ public:
 	static AMasterPostProcess* Get(const UObject* ContextObject, const bool bCreateIfNotFound = true);
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-	TObjectPtr<class UPostProcessComponent> PostProcess;
+		TObjectPtr<class UPostProcessComponent> PostProcess;
 	
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UBillboardComponent> VisualBillboard;
