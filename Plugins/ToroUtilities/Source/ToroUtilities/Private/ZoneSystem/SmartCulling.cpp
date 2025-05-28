@@ -43,7 +43,7 @@ void USmartCullingComponent::CheckRenderRequests()
 	bool bAdjusted = false;
 	for (auto It = RenderRequests.CreateIterator(); It; ++It)
 	{
-		if (It->IsNull() || !IsValid(It->LoadSynchronous()))
+		if (It->IsNull() || !It->LoadSynchronous())
 		{
 			It.RemoveCurrent();
 			bAdjusted = true;
