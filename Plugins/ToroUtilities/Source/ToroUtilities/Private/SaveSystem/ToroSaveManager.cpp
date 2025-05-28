@@ -18,7 +18,7 @@ UToroSaveObject* UToroSaveManager::GetSaveObject(const FGameplayTag InTag)
 void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	UToroSettings* Settings = UToroSettings::Get();
+	const UToroSettings* Settings = UToroSettings::Get();
 	for (const TPair<FGameplayTag, TSoftClassPtr<UToroSaveObject>>& Info : Settings->SaveObjects)
 	{
 		if (UToroSaveObject* Obj = UToroSaveObject::Create(this, Info.Value.LoadSynchronous(), Info.Key))
