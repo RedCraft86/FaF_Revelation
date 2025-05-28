@@ -15,6 +15,11 @@ UToroSaveObject* UToroSaveManager::GetSaveObject(const FGameplayTag InTag)
 	return nullptr;
 }
 
+void UToroSaveManager::OnSaveActivity(const UToroSaveObject* Save, const ESaveGameActivity Type) const
+{
+	OnSaveIO.Broadcast(Save, Type);
+}
+
 void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
@@ -24,6 +29,7 @@ void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 		if (UToroSaveObject* Obj = UToroSaveObject::Create(this, Info.Value.LoadSynchronous(), Info.Key))
 		{
 			SaveObjects.Add(Info.Key, Obj);
+			Obj->OnSaveActivity.AddUObject(this, &UToroSaveManager::OnSaveActivity);
 		}
 	}
 }
