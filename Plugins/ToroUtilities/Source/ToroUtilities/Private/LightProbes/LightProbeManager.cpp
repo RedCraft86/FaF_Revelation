@@ -118,7 +118,7 @@ void ULightProbeManager::Tick(float DeltaTime)
 	if (TickTime > 0.25f)
 	{
 #endif
-		bHasLumen = !MasterPP || (MasterPP && MasterPP->IsUsingLumen());
+		bHasLumen = !MasterPP || (MasterPP && MasterPP->IsUsingLumenGI());
 		TickTime = 0.0f;
 		CollectProbes();
 	}

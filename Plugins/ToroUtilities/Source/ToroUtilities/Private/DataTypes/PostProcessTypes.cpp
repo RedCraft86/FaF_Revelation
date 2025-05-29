@@ -56,8 +56,7 @@ void FPPLumenOption::ModifyReflection(FPostProcessSettings& Settings) const
 	Settings.LumenMaxRefractionBounces = RefractionBounces;
 }
 
-void FPPLumenChoice::ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQuality,
-	const uint8 ReflectionQuality, const bool bHitLightingReflection) const
+void FPPLumenChoice::ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQuality, const uint8 ReflectionQuality) const
 {
 	Settings.bOverride_LumenRayLightingMode = true;
 #if WITH_EDITORONLY_DATA
@@ -65,33 +64,21 @@ void FPPLumenChoice::ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQ
 	{
 		ApplyGI(Settings, GIQuality);
 		ApplyReflection(Settings, ReflectionQuality);
-		Settings.LumenRayLightingMode = bPreviewHitLighting
-			? ELumenRayLightingModeOverride::HitLightingForReflections
-			: ELumenRayLightingModeOverride::SurfaceCache;
 		return;
 	}
 #endif
 	ApplyGI(Settings, GIQuality);
 	ApplyReflection(Settings, ReflectionQuality);
-	Settings.LumenRayLightingMode = bHitLightingReflection
-		? ELumenRayLightingModeOverride::HitLightingForReflections
-		: ELumenRayLightingModeOverride::SurfaceCache;
 }
 
 void FPPLumenChoice::ApplyGI(FPostProcessSettings& Settings, const uint8 Quality) const
 {
 	GetOption(Quality).ModifyGI(Settings);
-	Settings.bOverride_DynamicGlobalIlluminationMethod = true;
-	Settings.DynamicGlobalIlluminationMethod = Quality == 0
-		? EDynamicGlobalIlluminationMethod::Type::None
-		: EDynamicGlobalIlluminationMethod::Type::Lumen;
 }
 
 void FPPLumenChoice::ApplyReflection(FPostProcessSettings& Settings, const uint8 Quality) const
 {
 	GetOption(Quality).ModifyReflection(Settings);
-	Settings.bOverride_ReflectionMethod = true;
-	Settings.ReflectionMethod = Quality == 0 ? EReflectionMethod::Type::ScreenSpace : EReflectionMethod::Type::Lumen;
 }
 
 const FPPLumenOption& FPPLumenChoice::GetOption(const uint8 Quality) const

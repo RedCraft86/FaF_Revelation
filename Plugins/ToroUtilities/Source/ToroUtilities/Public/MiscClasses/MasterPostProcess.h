@@ -51,7 +51,7 @@ public:
 		void CopyFromTarget();
 #endif
 
-	bool IsUsingLumen() const;
+	bool IsUsingLumenGI() const;
 	UMaterialInstanceDynamic* GetLightProbeBlendable();
 	UMaterialInstanceDynamic* GetBrightnessBlendable();
 
@@ -59,6 +59,8 @@ private:
 
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> LightProbePPM;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> BrightnessPPM;
+
+	void OnSettingUpdate(const class UToroUserSettings* UserSettings);
 
 	void ApplySettings();
 	virtual void BeginPlay() override;

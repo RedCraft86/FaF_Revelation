@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "ToroUtilities.h"
 #include "ToroSettings.h"
+#include "UserSettings/ToroUserSettings.h"
 #if WITH_EDITOR
 #include "Components/BillboardComponent.h"
 #include "Camera/CameraComponent.h"
@@ -112,9 +113,14 @@ void AMasterPostProcess::CopyFromTarget()
 }
 #endif
 
-bool AMasterPostProcess::IsUsingLumen() const
+bool AMasterPostProcess::IsUsingLumenGI() const
 {
-	return PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+	if (PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod)
+	{
+		return PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+	}
+	
+	return UToroUserSettings::Get()->GetLumenGI() != 0;
 }
 
 UMaterialInstanceDynamic* AMasterPostProcess::GetLightProbeBlendable()
@@ -138,12 +144,20 @@ UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable()
 	return BrightnessPPM;
 }
 
+void AMasterPostProcess::OnSettingUpdate(const UToroUserSettings* UserSettings)
+{
+	ApplySettings();
+}
+
 void AMasterPostProcess::ApplySettings()
 {
-	// TODO
-	BloomOverride.ApplyChoice(Settings, true);
-	LumenOverride.ApplyChoice(Settings, 3, 3, true);
-	MotionBlurOverride.ApplyChoice(Settings, 3);
+	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
+	{
+		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
+		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(), UserSettings->GetLumenReflection());
+		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
+	}
+
 	PostProcess->Settings = Settings;
 
 	if (UMaterialInterface* PPM = GetLightProbeBlendable())
@@ -170,6 +184,8 @@ void AMasterPostProcess::BeginPlay()
 			TEXT("\t %s in level %s"), *Actor->GetActorLabel(), *GetNameSafe(Actor->GetLevel()));
 	}
 #endif
+
+	UToroUserSettings::Get()->OnDynamicSettingsChanged.AddUObject(this, &AMasterPostProcess::OnSettingUpdate);
 }
 
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)

@@ -135,8 +135,7 @@ struct TOROUTILITIES_API FPPLumenChoice
 	FPPLumenChoice(): PreviewGI(3), PreviewReflection(3), bPreviewHitLighting(true) {}
 
 	/* Quality 0~3 where 0: off and 3: high */
-	void ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQuality,
-		const uint8 ReflectionQuality, const bool bHitLightingReflection) const;
+	void ApplyChoice(FPostProcessSettings& Settings, const uint8 GIQuality, const uint8 ReflectionQuality) const;
 
 protected:
 
@@ -182,6 +181,7 @@ struct TOROUTILITIES_API FPPMotionBlurChoice
 		FPPMotionBlurOption High;
 
 	FPPMotionBlurChoice(): PreviewQuality(1) {}
+	
 	/* Quality 0~3 where 0: off and 3: high */
 	void ApplyChoice(FPostProcessSettings& Settings, const uint8 Quality) const;
 
