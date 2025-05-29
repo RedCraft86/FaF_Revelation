@@ -87,17 +87,12 @@ public:
 		return FMath::Clamp(AudioVolume.FindRef(InType), 25, 150);
 	}
 
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FieldOfView, 0, 50)
-	void SetFieldOfViewOffset(const int32 InFieldOfView)
-	{
-		SetFieldOfView(FMath::Clamp(InFieldOfView + 25, 0, 50));
-	}
-	int32 GetFieldOfViewOffset() const { return GetFieldOfView() - 25; }
 
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(FString, Username)
 	DECLARE_PROPERTY_FUNC(bool, Borderless)
 	
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FieldOfView, 70, 120)
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, SensitivityX, -2.0f, 2.0f)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, SensitivityY, -2.0f, 2.0f)

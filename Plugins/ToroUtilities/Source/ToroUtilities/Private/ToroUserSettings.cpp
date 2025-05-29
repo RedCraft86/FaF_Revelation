@@ -367,7 +367,7 @@ void UToroUserSettings::CacheScalabilityDefaults()
 void UToroUserSettings::SetToDefaults()
 {
 	ShowFPS = false;
-	FieldOfView = 0;
+	FieldOfView = 90;
 	SmoothCamera = true;
 	SensitivityX = 1.0f;
 	SensitivityY = 1.0f;

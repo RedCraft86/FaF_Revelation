@@ -1,8 +1,4 @@
-﻿﻿FieldOfView 
-    The setting value is offset by +25 of the actual value since it uses an unsigned int.
-    Actual range is -25 -> +25 in addition to the current active FOV to the player
-    
-MotionBlurAmount
+﻿MotionBlurAmount
     Off - Low - Medium - High
     
 LumenGI & LumenReflection
