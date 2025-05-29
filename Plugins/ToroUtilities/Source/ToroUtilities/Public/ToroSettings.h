@@ -6,9 +6,10 @@
 #include "GameplayTagContainer.h"
 #include "Helpers/ClassGetters.h"
 #include "SaveSystem/SaveGameTypes.h"
-#include "Engine/DeveloperSettings.h"
-#include "Framework/ToroPlayerController.h"
 #include "SaveSystem/ToroSaveObjects.h"
+#include "Achievement/AchievementTypes.h"
+#include "Framework/ToroPlayerController.h"
+#include "Engine/DeveloperSettings.h"
 #include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Utilities")
@@ -30,6 +31,12 @@ public:
 	}
 
 	SETTING_GETTER_MUTABLE(UToroSettings)
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UWorld> GameplayMap;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UInputMappingContext> DefaultInputMappings;
