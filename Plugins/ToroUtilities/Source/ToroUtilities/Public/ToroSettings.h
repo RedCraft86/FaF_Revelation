@@ -8,7 +8,6 @@
 #include "Helpers/ClassGetters.h"
 #include "SaveSystem/SaveGameTypes.h"
 #include "SaveSystem/ToroSaveObjects.h"
-#include "Achievement/AchievementTypes.h"
 #include "Framework/ToroPlayerController.h"
 #include "Engine/DeveloperSettings.h"
 #include "ToroSettings.generated.h"
@@ -49,9 +48,6 @@ public:
 		TSoftObjectPtr<UWorld> GameplayMap;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
-		TSoftObjectPtr<UAchievementDatabase> AchievementDatabase;
-
-	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UInputMappingContext> DefaultInputMappings;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
@@ -63,13 +59,13 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (ForceInlineRow, Categories = "Save"))
 		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> SaveObjects;
 
-	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
+	UPROPERTY(Config, EditAnywhere, Category = Rendering)
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM;
 
-	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
+	UPROPERTY(Config, EditAnywhere, Category = Rendering)
 		TSoftObjectPtr<UMaterialInterface> BrightnessPPM;
 
-	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
+	UPROPERTY(Config, EditAnywhere, Category = Audio)
 		TSoftObjectPtr<USoundMix> MainSoundMix;
 
 	float GetReadingTime(const FString& InString) const

@@ -115,18 +115,6 @@ void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-bool AToroPlayerController::SetPause(bool bPause, FCanUnpause CanUnpauseDelegate)
-{
-	if (IsPaused() != bPause)
-	{
-		// if (const AToroMusicManager* MusicManager = AToroMusicManager::Get(this))
-		// {
-		// 	MusicManager->SetDipAudio(bPause); TODO
-		// }
-	}
-	return Super::SetPause(bPause, CanUnpauseDelegate);
-}
-
 UEnhancedInputLocalPlayerSubsystem* AToroPlayerController::GetEnhancedInputSubsystem() const
 {
 	if (const ULocalPlayer* LocPlayer = GetLocalPlayer())
