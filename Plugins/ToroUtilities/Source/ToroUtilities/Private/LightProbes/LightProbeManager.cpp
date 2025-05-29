@@ -110,12 +110,12 @@ void ULightProbeManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 #if WITH_EDITOR
-	if (TickTime > (FApp::IsGame() ? 0.1f : 0.025f))
+	if (TickTime > (FApp::IsGame() ? 0.25f : 0.01f))
 	{
 		if (!FApp::IsGame() && !MasterPP)
 			MasterPP = AMasterPostProcess::Get(this, false);
 #else
-	if (TickTime > 0.1f)
+	if (TickTime > 0.25f)
 	{
 #endif
 		bHasLumen = !MasterPP || (MasterPP && MasterPP->IsUsingLumen());

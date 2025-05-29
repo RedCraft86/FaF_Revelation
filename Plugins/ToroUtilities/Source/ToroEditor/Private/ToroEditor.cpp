@@ -31,6 +31,7 @@
 #include "Actors/TeleportPoint.h"
 #include "Procedural/ToroMeshGenBase.h"
 #include "Debugging/NavPathVisualizer.h"
+#include "LightProbes/LightProbeActor.h"
 #include "MiscClasses/MasterPostProcess.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
@@ -85,6 +86,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ALightProbeActor, FToroActorDetails)
 		
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
@@ -133,6 +135,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
 		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALightProbeActor)
 		
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
@@ -188,7 +191,7 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ClassThumbnail.AchievementDatabase", new IMAGE_BRUSH_SVG(TEXT("Achievement"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.LocalSoundDatabase", new IMAGE_BRUSH_SVG(TEXT("MusicChart"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.MasterPostProcess", new IMAGE_BRUSH(TEXT("PostProcess"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.LightProbe", new IMAGE_BRUSH(TEXT("LightProbe"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.LightProbeActor", new IMAGE_BRUSH(TEXT("LightProbe"), Icon64x64));
 
 	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))
 	{

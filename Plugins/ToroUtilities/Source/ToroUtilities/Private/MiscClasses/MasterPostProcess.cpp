@@ -123,6 +123,7 @@ UMaterialInstanceDynamic* AMasterPostProcess::GetLightProbeBlendable()
 	if (UMaterialInterface* BaseMat = UToroSettings::Get()->LightProbePPM.LoadSynchronous())
 	{
 		LightProbePPM = UMaterialInstanceDynamic::Create(BaseMat, this);
+		
 	}
 	return LightProbePPM;
 }
@@ -144,6 +145,16 @@ void AMasterPostProcess::ApplySettings()
 	LumenOverride.ApplyChoice(Settings, 3, 3, true);
 	MotionBlurOverride.ApplyChoice(Settings, 3);
 	PostProcess->Settings = Settings;
+
+	if (UMaterialInterface* PPM = GetLightProbeBlendable())
+	{
+		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
+	}
+
+	if (UMaterialInterface* PPM = GetBrightnessBlendable())
+	{
+		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
+	}
 }
 
 void AMasterPostProcess::BeginPlay()
@@ -159,9 +170,6 @@ void AMasterPostProcess::BeginPlay()
 			TEXT("\t %s in level %s"), *Actor->GetActorLabel(), *GetNameSafe(Actor->GetLevel()));
 	}
 #endif
-
-	GetLightProbeBlendable();
-	GetBrightnessBlendable();
 }
 
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)
