@@ -20,7 +20,7 @@ class TOROUTILITIES_API UToroSettings final : public UDeveloperSettings
 
 public:
 
-	UToroSettings(): WordsPerSecond(2), bUseLightProbes(true)
+	UToroSettings(): WordsPerSecond(2)
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroUtilities");
@@ -30,7 +30,7 @@ public:
 			{Tag_Save_Game, UToroGameSave::StaticClass()},
 		};
 
-		LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbes.PPM_LightProbes"));
+		LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbe.PPM_LightProbe"));
 		BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
 
 		MainSoundMix = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SMC_Master.SMC_Master"));
@@ -63,10 +63,7 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (ForceInlineRow, Categories = "Save"))
 		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> SaveObjects;
 
-	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
-		bool bUseLightProbes;
-
-	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
+	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM;
 
 	UPROPERTY(Config, EditAnywhere, Category = UserSettings)
@@ -106,10 +103,5 @@ public:
 		}
 		return FText::Format(INVTEXT("{0} | {1} Build"), Result,
 			FText::FromString(LexToString(FApp::GetBuildConfiguration())));
-	}
-
-	bool IsUsingLightProbes() const
-	{
-		return bUseLightProbes && !LightProbePPM.IsNull();
 	}
 };
