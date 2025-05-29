@@ -51,10 +51,16 @@ public:
 		void CopyFromTarget();
 #endif
 
-private:
-	
-	void ApplySettings();
+	bool IsUsingLumen() const;
+	UMaterialInstanceDynamic* GetLightProbeBlendable();
+	UMaterialInstanceDynamic* GetBrightnessBlendable();
 
+private:
+
+	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> LightProbePPM;
+	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> BrightnessPPM;
+
+	void ApplySettings();
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 #if WITH_EDITOR

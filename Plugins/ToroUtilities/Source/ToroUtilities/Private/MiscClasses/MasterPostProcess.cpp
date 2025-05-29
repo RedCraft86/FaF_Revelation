@@ -4,6 +4,7 @@
 #include "Components/PostProcessComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroUtilities.h"
+#include "ToroSettings.h"
 #if WITH_EDITOR
 #include "Components/BillboardComponent.h"
 #include "Camera/CameraComponent.h"
@@ -111,6 +112,31 @@ void AMasterPostProcess::CopyFromTarget()
 }
 #endif
 
+bool AMasterPostProcess::IsUsingLumen() const
+{
+	return PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+}
+
+UMaterialInstanceDynamic* AMasterPostProcess::GetLightProbeBlendable()
+{
+	if (LightProbePPM) return LightProbePPM;
+	if (UMaterialInterface* BaseMat = UToroSettings::Get()->LightProbePPM.LoadSynchronous())
+	{
+		LightProbePPM = UMaterialInstanceDynamic::Create(BaseMat, this);
+	}
+	return LightProbePPM;
+}
+
+UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable()
+{
+	if (BrightnessPPM) return BrightnessPPM;
+	if (UMaterialInterface* BaseMat = UToroSettings::Get()->BrightnessPPM.LoadSynchronous())
+	{
+		BrightnessPPM = UMaterialInstanceDynamic::Create(BaseMat, this);
+	}
+	return BrightnessPPM;
+}
+
 void AMasterPostProcess::ApplySettings()
 {
 	// TODO
@@ -128,11 +154,14 @@ void AMasterPostProcess::BeginPlay()
 	UGameplayStatics::GetAllActorsOfClass(this, StaticClass(), PostProcesses);
 	if (PostProcesses.Num() > 1)
 	{
-		UE_LOG(LogToroUtilities, Warning, TEXT("Multiple Master Post Process actors found! There should only be one per level."));
+		UE_LOG(LogToroUtilities, Error, TEXT("Multiple Master Post Process actors found! There should only be one per level."));
 		for (const AActor* Actor : PostProcesses) if (Actor) UE_LOG(LogToroUtilities, Warning,
 			TEXT("\t %s in level %s"), *Actor->GetActorLabel(), *GetNameSafe(Actor->GetLevel()));
 	}
 #endif
+
+	GetLightProbeBlendable();
+	GetBrightnessBlendable();
 }
 
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)
