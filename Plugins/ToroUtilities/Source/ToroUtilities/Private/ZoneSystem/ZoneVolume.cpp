@@ -19,6 +19,10 @@ AZoneVolume::AZoneVolume(): CullInvert(false)
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 	PrimaryActorTick.TickInterval = 0.1f;
+
+	EnterWorldAction = CreateDefaultSubobject<UWorldActionComponent>("EnterWorldAction");
+	ExitWorldAction = CreateDefaultSubobject<UWorldActionComponent>("ExitWorldAction");
+
 	GetBrushComponent()->SetCollisionProfileName("Trigger");
 }
 
@@ -88,7 +92,8 @@ void AZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 		GameState->AssignCharacterToZone(CharTag, ZoneID);
 		if (CharTag == Tag_Character_Player)
 		{
-			// TODO
+			EnterWorldAction->SetActions(EnterActions);
+			EnterWorldAction->RunEvents();
 		}
 	}
 }
@@ -99,6 +104,7 @@ void AZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 	if (!IsEnabled() || !GameState) return;
 	if (const FGameplayTag CharTag = ICharInterface::GetCharacterID(OtherActor); CharTag == Tag_Character_Player)
 	{
-		// TODO
+		ExitWorldAction->SetActions(ExitActions);
+		ExitWorldAction->RunEvents();
 	}
 }

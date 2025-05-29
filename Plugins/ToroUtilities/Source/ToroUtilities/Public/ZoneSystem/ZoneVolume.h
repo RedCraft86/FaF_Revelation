@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Actors/ToroVolume.h"
+#include "WorldActions/WorldActionComponent.h"
 #include "Helpers/GameplayTagHelpers.h"
 #include "ZoneVolume.generated.h"
 
@@ -17,6 +18,12 @@ public:
 
 	AZoneVolume();
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UWorldActionComponent> EnterWorldAction;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UWorldActionComponent> ExitWorldAction;
+
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (Categories = "Zone"))
 		FGameplayTag ZoneID;
 
@@ -25,6 +32,12 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category = "Settings|Culling", DisplayName = "Targets")
 		TSet<TSoftObjectPtr<AActor>> CullTargets;
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Actions", DisplayName = "On Enter")
+		TArray<TInstancedStruct<FWorldActionBase>> EnterActions;
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Actions", DisplayName = "On Exit")
+		TArray<TInstancedStruct<FWorldActionBase>> ExitActions;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Tools, DisplayName = "Bounded")
@@ -47,4 +60,12 @@ private:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
+#if WITH_EDITOR
+	virtual void OnConstruction(const FTransform& Transform) override
+	{
+		Super::OnConstruction(Transform);
+		EnterWorldAction->SetActions(EnterActions);
+		ExitWorldAction->SetActions(ExitActions);
+	}
+#endif
 };
