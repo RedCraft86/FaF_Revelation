@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "WorldActions/Actions/MiscActions.h"
-#include "Achievement/AchievementManager.h"
 #include "MiscClasses/ToroSequenceActor.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -43,15 +42,6 @@ void FWTaskLevelSequence::RunEvent(const UObject* WorldContext)
 			}
 		}
 	})
-}
-
-void FWTaskAchievement::RunEvent(const UObject* WorldContext)
-{
-	if (!VerifyAchievementTag(AchievementID) || Progress == 0) return;
-	if (UAchievementManager* Manager = UAchievementManager::Get(WorldContext))
-	{
-		Manager->Grant(AchievementID, Progress);
-	}
 }
 
 void FWTaskWorldSound::RunEvent(const UObject* WorldContext)

@@ -54,24 +54,6 @@ protected:
 	virtual void RunEvent(const UObject* WorldContext) override;
 };
 
-USTRUCT(BlueprintType, DisplayName = "Grant Achievement")
-struct TOROUTILITIES_API FWTaskAchievement final : public FWTaskMiscActions
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, Category = Achievement, meta = (Categories = "Achievement"))
-		FGameplayTag AchievementID;
-
-	UPROPERTY(EditAnywhere, Category = Achievement, meta = (ClampMin = 1, UIMin = 1, ClampMax = 200, UIMax = 200))
-		uint8 Progress;
-
-	FWTaskAchievement(): AchievementID(GAMEPLAY_TAG_BASE(Achievement)), Progress(1) {}
-
-protected:
-
-	virtual void RunEvent(const UObject* WorldContext) override;
-};
-
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Sound Actions", meta = (Hidden))
 struct TOROUTILITIES_API FWTaskSoundActions : public FWTaskMiscActions
 { GENERATED_BODY() };
