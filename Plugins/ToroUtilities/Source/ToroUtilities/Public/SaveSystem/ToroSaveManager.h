@@ -37,3 +37,21 @@ private:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 };
+
+namespace ToroSave
+{
+	inline UToroSaveManager* GetManager(const UObject* WorldContext)
+	{
+		return UToroSaveManager::Get(WorldContext);
+	}
+
+	template <typename T = UToroSaveObject>
+	T* GetObject(const UObject* WorldContext, const FGameplayTag& InTag)
+	{
+		if (UToroSaveManager* SaveManager = GetManager(WorldContext))
+		{
+			return SaveManager->GetSaveObject<T>(InTag);
+		}
+		return nullptr;
+	}
+}
