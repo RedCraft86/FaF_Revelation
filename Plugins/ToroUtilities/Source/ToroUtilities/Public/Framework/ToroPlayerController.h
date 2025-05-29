@@ -6,7 +6,6 @@
 #include "EnhancedInputSubsystems.h"
 #include "DataTypes/InputModeData.h"
 #include "GameFramework/PlayerController.h"
-#include "MiscClasses/ToroNarrativeComponent.h"
 #include "ToroPlayerController.generated.h"
 
 class UInventoryComponent;
@@ -59,10 +58,6 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintPure, Category = Player)
 		UInventoryComponent* GetInventory() const;
 	UInventoryComponent* GetInventory_Implementation() const { return nullptr; }
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintPure, Category = Player)
-		UToroNarrativeComponent* GetNarrative() const;
-	UToroNarrativeComponent* GetNarrative_Implementation() const { return nullptr; }
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnGamePaused, const bool)
 	FOnGamePaused OnGamePaused;

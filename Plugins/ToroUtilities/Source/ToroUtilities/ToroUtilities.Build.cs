@@ -31,8 +31,7 @@ public class ToroUtilities : ModuleRules
                 "MovieScene",
                 "AIModule",
                 "ToroCore",
-                "EnhancedCodeFlow",
-                "Narrative"
+                "EnhancedCodeFlow"
             }
         );
         
