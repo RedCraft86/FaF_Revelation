@@ -4,12 +4,13 @@
 
 #include "InputMappingContext.h"
 #include "GameplayTagContainer.h"
-#include "GeneralProjectSettings.h"
 #include "Helpers/ClassGetters.h"
+#include "GeneralProjectSettings.h"
+#include "Engine/DeveloperSettings.h"
 #include "SaveSystem/SaveGameTypes.h"
 #include "SaveSystem/ToroSaveObjects.h"
 #include "Framework/ToroPlayerController.h"
-#include "Engine/DeveloperSettings.h"
+#include "UserSettings/UserSettingTypes.h"
 #include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Utilities")
@@ -33,10 +34,10 @@ public:
 		BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
 
 		MainSoundMix = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SMC_Master.SMC_Master"));
-		// SoundClasses[0] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Master.SC_Master"));
-		// SoundClasses[1] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Music.SC_Music"));
-		// SoundClasses[2] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_SoundFX.SC_SoundFX"));
-		// SoundClasses[3] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Voice.SC_Voice"));
+		SoundClasses[0] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Master.SC_Master"));
+		SoundClasses[1] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Music.SC_Music"));
+		SoundClasses[2] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_SoundFX.SC_SoundFX"));
+		SoundClasses[3] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Voice.SC_Voice"));
 	}
 
 	SETTING_GETTER_MUTABLE(UToroSettings)
@@ -67,6 +68,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Audio)
 		TSoftObjectPtr<USoundMix> MainSoundMix;
+
+	UPROPERTY(Config, EditAnywhere, Category = UserSettings, meta = (ArraySizeEnum = "/Script/ToroUtilities.ESoundClassType"))
+		TSoftObjectPtr<USoundClass> SoundClasses[static_cast<uint8>(ESoundClassType::MAX)];
 
 	float GetReadingTime(const FString& InString) const
 	{

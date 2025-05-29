@@ -55,10 +55,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		AActor* GetCinematicActor() const { return CinematicActor; }
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintPure, Category = Player)
-		UInventoryComponent* GetInventory() const;
-	UInventoryComponent* GetInventory_Implementation() const { return nullptr; }
-
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnGamePaused, const bool)
 	FOnGamePaused OnGamePaused;
 

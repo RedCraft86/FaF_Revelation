@@ -31,7 +31,13 @@ public class ToroUtilities : ModuleRules
                 "MovieScene",
                 "AIModule",
                 "ToroCore",
-                "EnhancedCodeFlow"
+                "EnhancedCodeFlow", 
+                "NISBlueprint", 
+                "DLSSBlueprint", 
+                "StreamlineReflexBlueprint", 
+                "StreamlineDeepDVCBlueprint", 
+                "StreamlineDLSSGBlueprint", 
+                "XeSSBlueprint"
             }
         );
         
