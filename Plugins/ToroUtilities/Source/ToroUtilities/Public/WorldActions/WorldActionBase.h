@@ -6,7 +6,14 @@
 #include "WorldActionBase.generated.h"
 
 #define FOR_EACH_ACTION(Property, ...) \
-	for (FWorldActionBase* ActionPtr : ActionPtrs) \
+	for (TInstancedStruct<FWorldActionBase>& Action : Property) \
+	{ \
+		if (FWorldActionBase* ActionPtr = Action.GetMutablePtr()) \
+			__VA_ARGS__ \
+	}
+
+#define FOR_EACH_ACTION_PTR(Property, ...) \
+	for (FWorldActionBase* ActionPtr : Property) \
 	{ \
 		if (ActionPtr) \
 			__VA_ARGS__ \

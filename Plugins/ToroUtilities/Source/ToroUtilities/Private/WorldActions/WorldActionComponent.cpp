@@ -20,7 +20,7 @@ void UWorldActionComponent::SetActions(TArray<TInstancedStruct<FWorldActionBase>
 
 void UWorldActionComponent::RunEvents()
 {
-	FOR_EACH_ACTION(Actions, {
+	FOR_EACH_ACTION_PTR(ActionPtrs, {
 		ActionPtr->RunEvent(this);
 	})
 }
@@ -28,7 +28,7 @@ void UWorldActionComponent::RunEvents()
 void UWorldActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	FOR_EACH_ACTION(Actions, {
+	FOR_EACH_ACTION_PTR(ActionPtrs, {
 		ActionPtr->OnBeginPlay(this);
 	})
 }
@@ -36,7 +36,7 @@ void UWorldActionComponent::BeginPlay()
 void UWorldActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	FOR_EACH_ACTION(Actions, {
+	FOR_EACH_ACTION_PTR(ActionPtrs, {
 		if (ActionPtr->bCanEverTick) ActionPtr->OnTick(this, DeltaTime);
 	})
 }
@@ -45,7 +45,7 @@ void UWorldActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 void UWorldActionComponent::PostLoad()
 {
 	Super::PostLoad();
-	FOR_EACH_ACTION(Actions, {
+	FOR_EACH_ACTION_PTR(ActionPtrs, {
 		ActionPtr->OnPostEditChange(this);
 		if (!PrimaryComponentTick.bStartWithTickEnabled)
 		{
@@ -57,7 +57,7 @@ void UWorldActionComponent::PostLoad()
 void UWorldActionComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
-	FOR_EACH_ACTION(Actions, {
+	FOR_EACH_ACTION_PTR(ActionPtrs, {
 		ActionPtr->OnPostEditChange(this);
 		if (!PrimaryComponentTick.bStartWithTickEnabled)
 		{
