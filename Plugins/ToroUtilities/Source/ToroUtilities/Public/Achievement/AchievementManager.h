@@ -32,8 +32,8 @@ public:
 
 private:
 
-	UPROPERTY() TObjectPtr<UAchievementDatabase> Database;
-	UPROPERTY() TObjectPtr<UToroGlobalSave> SaveObject;
+	UPROPERTY(Transient) TObjectPtr<UToroGlobalSave> SaveObject;
+	UPROPERTY(Transient) TObjectPtr<UAchievementDatabase> Database;
 
 	UToroGlobalSave* GetSaveObject();
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
