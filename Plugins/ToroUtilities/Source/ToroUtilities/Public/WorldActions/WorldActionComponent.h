@@ -15,14 +15,19 @@ public:
 
 	UWorldActionComponent();
 
-	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
-		TArray<TInstancedStruct<FWorldActionBase>> NativeActions;
+	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bManualEdFunction;
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
 		void SetActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions);
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
+		void AppendActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions);
+
+	UFUNCTION(BlueprintCallable, Category = WorldActions)
 		void RunActions();
+
+	void UpdateEdFunctions();
 
 private:
 

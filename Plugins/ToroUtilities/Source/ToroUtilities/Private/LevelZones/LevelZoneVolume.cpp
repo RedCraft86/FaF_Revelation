@@ -19,6 +19,7 @@ ALevelZoneVolume::ALevelZoneVolume(): CullInvert(false)
 	PrimaryActorTick.TickInterval = 0.1f;
 
 	ActionManager = CreateDefaultSubobject<UWorldActionComponent>("ActionManager");
+	ActionManager->bManualEdFunction = true;
 
 	GetBrushComponent()->SetCollisionProfileName("Trigger");
 }

@@ -2,7 +2,7 @@
 
 #include "WorldActions/WorldActionComponent.h"
 
-UWorldActionComponent::UWorldActionComponent()
+UWorldActionComponent::UWorldActionComponent(): bManualEdFunction(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
@@ -17,12 +17,32 @@ void UWorldActionComponent::SetActions(TArray<TInstancedStruct<FWorldActionBase>
 	}
 }
 
+void UWorldActionComponent::AppendActions(TArray<TInstancedStruct<FWorldActionBase>>& InActions)
+{
+	ActionPtrs.Reserve(ActionPtrs.Num() + InActions.Num());
+	for (TInstancedStruct<FWorldActionBase>& Action : InActions)
+	{
+		ActionPtrs.Add(Action.GetMutablePtr());
+	}
+}
+
 void UWorldActionComponent::RunActions()
 {
 	ForEachAction([](FWorldActionBase* Action)
 	{
 		Action->RunAction();
 	});
+}
+
+void UWorldActionComponent::UpdateEdFunctions()
+{
+	bool bWantsTick = false;
+	ForEachAction([&bWantsTick](FWorldActionBase* Action)
+	{
+		Action->OnPostEditChange();
+		if (!bWantsTick) bWantsTick = Action->bShouldTick;
+	});
+	PrimaryComponentTick.bStartWithTickEnabled = bWantsTick;
 }
 
 void UWorldActionComponent::ForEachAction(const TFunction<void(FWorldActionBase*)>& Func)
@@ -59,34 +79,12 @@ void UWorldActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 void UWorldActionComponent::PostLoad()
 {
 	Super::PostLoad();
-	if (!NativeActions.IsEmpty())
-	{
-		SetActions(NativeActions);
-	}
-
-	bool bWantsTick = false;
-	ForEachAction([&bWantsTick](FWorldActionBase* Action)
-	{
-		Action->OnPostEditChange();
-		if (!bWantsTick) bWantsTick = Action->bShouldTick;
-	});
-	PrimaryComponentTick.bStartWithTickEnabled = bWantsTick;
+	if (!bManualEdFunction) UpdateEdFunctions();
 }
 
 void UWorldActionComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
-	if (!NativeActions.IsEmpty())
-	{
-		SetActions(NativeActions);
-	}
-
-	bool bWantsTick = false;
-	ForEachAction([&bWantsTick](FWorldActionBase* Action)
-	{
-		Action->OnPostEditChange();
-		if (!bWantsTick) bWantsTick = Action->bShouldTick;
-	});
-	PrimaryComponentTick.bStartWithTickEnabled = bWantsTick;
+	if (!bManualEdFunction) UpdateEdFunctions();
 }
 #endif

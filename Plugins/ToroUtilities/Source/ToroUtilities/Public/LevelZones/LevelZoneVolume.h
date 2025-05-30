@@ -60,6 +60,7 @@ private:
 		Super::OnConstruction(Transform);
 		ActionManager->SetActions(ActionsEnter);
 		ActionManager->AppendActions(ActionsExit);
+		ActionManager->UpdateEdFunctions();
 	}
 #endif
 };
