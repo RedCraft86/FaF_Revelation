@@ -1,8 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameState.h"
-#include "Interfaces/CharInterface.h"
-#include "ZoneSystem/ZoneVolume.h"
 
 AToroGameState::AToroGameState()
 {
@@ -12,32 +10,4 @@ AToroGameState::AToroGameState()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
-}
-
-bool AToroGameState::IsCharacterInZone(const FGameplayTag Character, const FGameplayTag Zone) const
-{
-	return CharacterToZone.FindRef(Character) == Zone;
-}
-
-FGameplayTag AToroGameState::GetCharacterZone(const FGameplayTag Character) const
-{
-	return CharacterToZone.FindRef(Character);
-}
-
-FGameplayTagContainer AToroGameState::GetAllCharactersInZone(const FGameplayTag Zone)
-{
-	if (!VerifyZoneTag(Zone))
-		return {};
-
-	FGameplayTagContainer Result;
-	for (const TPair<FGameplayTag, FGameplayTag>& Pair : CharacterToZone)
-	{
-		if (Pair.Value == Zone) Result.AddTag(Pair.Key);
-	}
-	return Result;
-}
-
-void AToroGameState::AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone)
-{
-	if (VerifyCharacterTag(Character) && VerifyZoneTag(Zone)) CharacterToZone.Add(Character, Zone);
 }

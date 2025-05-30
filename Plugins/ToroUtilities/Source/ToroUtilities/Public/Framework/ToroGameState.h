@@ -20,18 +20,6 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
-
-	UFUNCTION(BlueprintPure, Category = Game)
-		bool IsCharacterInZone(UPARAM(meta = (Categories = "Character")) const FGameplayTag Character,
-			UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone) const;
-
-	UFUNCTION(BlueprintPure, Category = Game)
-		FGameplayTag GetCharacterZone(UPARAM(meta = (Categories = "Character")) const FGameplayTag Character) const;
-
-	UFUNCTION(BlueprintPure, Category = Game)
-		FGameplayTagContainer GetAllCharactersInZone(UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone);
-	
-	void AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone);
 	
 protected:
 

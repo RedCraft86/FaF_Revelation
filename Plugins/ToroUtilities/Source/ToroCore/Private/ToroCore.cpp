@@ -1,4 +1,4 @@
-﻿// Copyright (C) RedCraft86, Inc. All Rights Reserved.
+﻿// Copyright (C) RedCraft86 All Rights Reserved.
 
 #include "ToroCore.h"
 
