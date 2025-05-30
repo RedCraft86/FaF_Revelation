@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "GameplayTagContainer.h"
 #include "Helpers/ClassGetters.h"
 #include "GameFramework/GameStateBase.h"
 #include "ToroGameState.generated.h"
@@ -20,8 +19,4 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
-	
-protected:
-
-	UPROPERTY() TMap<FGameplayTag, FGameplayTag> CharacterToZone;
 };

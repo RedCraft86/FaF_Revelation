@@ -5,9 +5,9 @@
 #include "IDetailGroup.h"
 #include "DetailWidgetRow.h"
 #include "DetailsPanels/ToroActorDetails.h"
-#include "ZoneSystem/ZoneVolume.h"
+#include "LevelZones/LevelZoneVolume.h"
 
-#define CLASSNAME AZoneVolume
+#define CLASSNAME ALevelZoneVolume
 class TOROEDITOR_API FZoneVolumeDetails final : public FToroActorDetails
 {
 public:
@@ -23,9 +23,9 @@ private:
 	{
 		FToroActorDetails::CustomizeDetails(DetailBuilder);
 		IDetailCategoryBuilder& Settings = DetailBuilder.EditCategory(TEXT("Settings"));
-		Settings.AddProperty(CLASS_PROPERTY_NS(ZoneID));
-		Settings.AddProperty(CLASS_PROPERTY_NS(EnterActions));
-		Settings.AddProperty(CLASS_PROPERTY_NS(ExitActions));
+		Settings.AddProperty(CLASS_PROPERTY_NS(ZoneTag));
+		Settings.AddProperty(CLASS_PROPERTY_NS(ActionsEnter));
+		Settings.AddProperty(CLASS_PROPERTY_NS(ActionsExit));
 
 		IDetailGroup& SmartCulling = Settings.AddGroup(TEXT("SmartCulling"), INVTEXT("Smart Culling"));
 		{
@@ -34,7 +34,7 @@ private:
 
 			TArray<TWeakObjectPtr<UObject>> Objs;
 			DetailBuilder.GetObjectsBeingCustomized(Objs);
-			AZoneVolume* Zone = Objs.Num() == 1 ? Cast<AZoneVolume>(Objs[0]) : nullptr;
+			ALevelZoneVolume* Zone = Objs.Num() == 1 ? Cast<ALevelZoneVolume>(Objs[0]) : nullptr;
 
 			CLASS_PROPERTY_VAR_NS(CullFindBounded, WithinBounds)
 			CLASS_PROPERTY_VAR_NS(CullFindTag, FindTag)
