@@ -27,17 +27,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (Categories = "Zone"))
 		FGameplayTag ZoneID;
 
+	UPROPERTY(EditAnywhere, Category = "Settings", DisplayName = "On Enter", NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
+		TArray<TInstancedStruct<FWorldActionBase>> EnterActions;
+
+	UPROPERTY(EditAnywhere, Category = "Settings", DisplayName = "On Exit", NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
+		TArray<TInstancedStruct<FWorldActionBase>> ExitActions;
+
 	UPROPERTY(EditAnywhere, Category = "Settings|Culling", DisplayName = "Invert")
 		bool CullInvert;
 	
 	UPROPERTY(EditAnywhere, Category = "Settings|Culling", DisplayName = "Targets")
 		TSet<TSoftObjectPtr<AActor>> CullTargets;
-
-	UPROPERTY(EditAnywhere, Category = "Settings|Actions", DisplayName = "On Enter")
-		TArray<TInstancedStruct<FWorldActionBase>> EnterActions;
-
-	UPROPERTY(EditAnywhere, Category = "Settings|Actions", DisplayName = "On Exit")
-		TArray<TInstancedStruct<FWorldActionBase>> ExitActions;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category = Tools, DisplayName = "Bounded")
@@ -45,9 +45,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Tools, DisplayName = "Find Tag")
 		FName CullFindTag = NAME_None;
-	
-	UFUNCTION(CallInEditor, Category = Tools)
-		void FindCullTargets();
+
+	UFUNCTION() void FindCullTargets();
 #endif
 private:
 
