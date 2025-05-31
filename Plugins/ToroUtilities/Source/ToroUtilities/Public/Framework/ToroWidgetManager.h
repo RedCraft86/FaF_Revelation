@@ -29,6 +29,9 @@ public:
 		UUserWidget* FindWidget(const TSubclassOf<UUserWidget> Class);
 
 	template<typename T>
+	T* FindOrAddWidget(const TSubclassOf<UUserWidget> Class) { return Cast<T>(FindOrAddWidget(Class)); }
+	
+	template<typename T>
 	T* FindWidget() { return Cast<T>(FindWidget(T::StaticClass())); }
 
 protected:
