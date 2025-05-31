@@ -6,6 +6,7 @@
 #include "PlayerLockFlag.generated.h"
 
 DECLARE_GAMEPLAY_TAG_BASE(PlayerLock)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Loading)
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Cinematic)
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue)
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Inventory)
