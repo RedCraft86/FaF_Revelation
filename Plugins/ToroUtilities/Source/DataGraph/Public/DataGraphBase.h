@@ -33,10 +33,10 @@ public:
 	UPROPERTY() TObjectPtr<UEdGraph> EdGraph;
 #endif
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Graph, AdvancedDisplay)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Graph, AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TArray<TObjectPtr<UDataNodeBase>> RootNodes;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Graph, AdvancedDisplay)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Graph, AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TArray<TObjectPtr<UDataNodeBase>> AllNodes;
 
 	UFUNCTION(BlueprintPure, Category = DataGraphs)

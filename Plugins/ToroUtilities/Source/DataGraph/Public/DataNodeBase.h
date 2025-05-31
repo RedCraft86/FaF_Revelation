@@ -46,13 +46,13 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Node, AdvancedDisplay)
 		TObjectPtr<UDataGraphBase> OwningGraph;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Node, AdvancedDisplay)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Node, AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TArray<TObjectPtr<UDataNodeBase>> ParentNodes;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Node, AdvancedDisplay)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Node, AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TArray<TObjectPtr<UDataNodeBase>> ChildNodes;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Node, AdvancedDisplay)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Node, AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TMap<TObjectPtr<UDataNodeBase>, TObjectPtr<UDataEdgeBase>> Edges;
 
 	UFUNCTION(BlueprintPure, Category = "DataGraphs|Node")

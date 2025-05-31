@@ -26,20 +26,21 @@ public:
 		FText Name;
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditDefaultsOnly, Category = Edge, AdvancedDisplay)
+	UPROPERTY(EditDefaultsOnly, Category = Edge, AdvancedDisplay, DisplayName = "Show Title")
 		bool bShouldDrawTitle;
 
 	UPROPERTY(EditDefaultsOnly, Category = Edge, AdvancedDisplay)
 		FLinearColor EdgeColor;
 #endif
 	
-	UPROPERTY(BlueprintReadOnly, Category = Edge, AdvancedDisplay)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Edge, AdvancedDisplay)
+		TObjectPtr<UDataGraphBase> OwningGraph;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Edge, AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TObjectPtr<UDataNodeBase> StartNode;
 
-	UPROPERTY(BlueprintReadOnly, Category = Edge, AdvancedDisplay)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Edge, AdvancedDisplay, meta = (DisplayThumbnail = false))
 		TObjectPtr<UDataNodeBase> EndNode;
-	
-	UPROPERTY() TObjectPtr<UDataGraphBase> OwningGraph;
 
 #if WITH_EDITOR
 	virtual FText GetNodeTitle() const { return Name; }
