@@ -65,26 +65,37 @@ struct TOROCORE_API FUDSSettings
 	{}
 };
 
-UINTERFACE()
-class UUDSInterface : public UInterface
-{
-	GENERATED_BODY()
-};
-
-class TOROCORE_API IUDSInterface
+UCLASS(Abstract, Blueprintable)
+class TOROCORE_API UUDSSetterObject final : public UObject
 {
 	GENERATED_BODY()
 
 public:
 
-	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = UDSInterface)
-	void SetSettings(const FUDSSettings& InSettings);
-
-	static void SetSettings(UObject* Target, const FUDSSettings& InSettings)
-	{
-		if (IsValid(Target) && Target->Implements<UUDSInterface>())
-		{
-			IUDSInterface::Execute_SetSettings(Target, InSettings);
-		}
-	}
+	UFUNCTION(BlueprintImplementableEvent)
+		void SetSettings(const FUDSSettings& InSettings);
 };
+
+// UINTERFACE()
+// class UUDSInterface : public UInterface
+// {
+// 	GENERATED_BODY()
+// };
+//
+// class TOROCORE_API IUDSInterface
+// {
+// 	GENERATED_BODY()
+//
+// public:
+//
+// 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = UDSInterface)
+// 	void SetSettings(const FUDSSettings& InSettings);
+//
+// 	static void SetSettings(UObject* Target, const FUDSSettings& InSettings)
+// 	{
+// 		if (IsValid(Target) && Target->Implements<UUDSInterface>())
+// 		{
+// 			IUDSInterface::Execute_SetSettings(Target, InSettings);
+// 		}
+// 	}
+// };

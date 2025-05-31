@@ -3,10 +3,11 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Interfaces/UDSInterface.h"
 #include "DataTypes/PostProcessTypes.h"
 #include "MasterPostProcess.generated.h"
 
-UCLASS(NotBlueprintable, meta = (AllowedCategories = "Overrides, PostProcessing", HiddenCategories = "Rendering, Actor"))
+UCLASS(NotBlueprintable, meta = (AllowedCategories = "PostProcessing", HiddenCategories = "Rendering, Actor"))
 class TOROUTILITIES_API AMasterPostProcess final : public AActor
 {
 	GENERATED_BODY()
@@ -25,7 +26,7 @@ public:
 #endif
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
-		TSoftObjectPtr<AActor> UltraDynamicSky;
+		TSubclassOf<UUDSSetterObject> UDS_Setter;
 
 	/* Advanced bloom control for game settings */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
@@ -54,12 +55,16 @@ public:
 		void CopyFromTarget();
 #endif
 
+	UFUNCTION(BlueprintCallable, Category = UDS, DisplayName = "Set UDS Settings")
+		void SetUDSSettings(const FUDSSettings& InSettings);
+
 	bool IsUsingLumenGI() const;
 	UMaterialInstanceDynamic* GetLightProbeBlendable();
 	UMaterialInstanceDynamic* GetBrightnessBlendable();
 
 private:
 
+	UPROPERTY(Transient) TObjectPtr<UUDSSetterObject> UDSSetterObj;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> LightProbePPM;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> BrightnessPPM;
 

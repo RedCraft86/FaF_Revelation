@@ -8,7 +8,6 @@
 #include "ToroUtilities.h"
 #include "ToroSettings.h"
 #if WITH_EDITOR
-#include "EngineUtils.h"
 #include "Components/BillboardComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Camera/CameraActor.h"
@@ -115,6 +114,11 @@ void AMasterPostProcess::CopyFromTarget()
 }
 #endif
 
+void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings)
+{
+	if (UDSSetterObj) UDSSetterObj->SetSettings(InSettings);
+}
+
 bool AMasterPostProcess::IsUsingLumenGI() const
 {
 	if (PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod)
@@ -184,25 +188,19 @@ void AMasterPostProcess::BeginPlay()
 		UE_LOG(LogToroUtilities, Error, TEXT("Multiple Master Post Process actors found! There should only be one per level."));
 		for (const AActor* Actor : PostProcesses) if (Actor) UE_LOG(LogToroUtilities, Warning,
 			TEXT("\t %s in level %s"), *Actor->GetActorLabel(), *GetNameSafe(Actor->GetLevel()));
+
+		if (PostProcesses[0] != this)
+			return;
 	}
 #endif
 
+	UDSSetterObj = NewObject<UUDSSetterObject>(this, UDS_Setter);
 	UToroUserSettings::Get()->OnDynamicSettingsChanged.AddUObject(this, &AMasterPostProcess::OnSettingUpdate);
 }
 
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-#if WITH_EDITOR
-	for (const TObjectPtr<AActor> Actor : TActorRange<AActor>(GetWorld()))
-	{
-		if (Actor->Implements<UUDSInterface>())
-		{
-			UltraDynamicSky = Actor;
-			break;
-		}
-	}
-#endif
 	ApplySettings();
 }
 
