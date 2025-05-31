@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "SmartCulling.generated.h"
+#include "SmartCullingComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Optimization), meta = (BlueprintSpawnableComponent))
 class TOROUTILITIES_API USmartCullingComponent final : public UActorComponent

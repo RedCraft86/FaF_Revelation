@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "SmartCulling.h"
+#include "MiscClasses/SmartCullingComponent.h"
 
 USmartCullingComponent::USmartCullingComponent()
 	: bAffectTicking(false), bDisabled(false), bCachedHiddenState(false), bInitialTickState(false)

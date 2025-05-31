@@ -2,11 +2,11 @@
 
 #include "LevelZones/LevelZoneVolume.h"
 #include "LevelZones/LevelZoneSubsystem.h"
+#include "MiscClasses/SmartCullingComponent.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
 #include "Components/BrushComponent.h"
 #include "Interfaces/CharInterface.h"
-#include "SmartCulling.h"
 #if WITH_EDITOR
 #include "EngineUtils.h"
 #endif
