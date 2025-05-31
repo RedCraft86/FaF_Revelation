@@ -23,6 +23,7 @@ public class FaFRevGame : ModuleRules
                 "DeveloperSettings",
                 "ToroCore",
                 "ToroUtilities",
+                "DataGraph",
                 "Narrative"
             }
         );
