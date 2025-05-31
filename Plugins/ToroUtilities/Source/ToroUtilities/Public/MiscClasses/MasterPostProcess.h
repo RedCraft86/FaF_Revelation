@@ -24,16 +24,19 @@ public:
 	UPROPERTY() TObjectPtr<UBillboardComponent> VisualBillboard;
 #endif
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+		TSoftObjectPtr<AActor> UltraDynamicSky;
+
 	/* Advanced bloom control for game settings */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Overrides)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FPPBloomChoice BloomOverride;
 
 	/* Advanced lumen control for game settings */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Overrides)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FPPLumenChoice LumenOverride;
 
 	/* Advanced bloom control for game settings */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Overrides)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FPPMotionBlurChoice MotionBlurOverride;
 
 	/* Post process settings to use for this volume */

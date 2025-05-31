@@ -1,11 +1,13 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "MiscClasses/MasterPostProcess.h"
+
+#include "EngineUtils.h"
 #include "Components/PostProcessComponent.h"
+#include "UserSettings/ToroUserSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroUtilities.h"
 #include "ToroSettings.h"
-#include "UserSettings/ToroUserSettings.h"
 #if WITH_EDITOR
 #include "Components/BillboardComponent.h"
 #include "Camera/CameraComponent.h"
@@ -191,6 +193,16 @@ void AMasterPostProcess::BeginPlay()
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+#if WITH_EDITOR
+	for (const TObjectPtr<AActor> Actor : TActorRange<AActor>(GetWorld()))
+	{
+		if (Actor->GetClass()->GetName().Contains("Ultra_Dynamic_Sky"))
+		{
+			UltraDynamicSky = Actor;
+			break;
+		}
+	}
+#endif
 	ApplySettings();
 }
 
