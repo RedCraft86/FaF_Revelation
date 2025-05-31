@@ -40,35 +40,34 @@ private:
 	UPROPERTY() bool bLoading;
 	UPROPERTY() bool bWaiting;
 	UPROPERTY() bool bMainLoaded;
+	UPROPERTY() uint8 UnloadTasks;
 	UPROPERTY() TArray<uint8> Sequence;
 	UPROPERTY() FTimerHandle WidgetTimer;
 	UPROPERTY(Transient) TObjectPtr<UGamePhaseGraph> Graph;
 	UPROPERTY(Transient) TObjectPtr<ULoadingWidgetBase> LoadingUI;
 	UPROPERTY(Transient) TObjectPtr<UToroSaveManager> SaveManager;
 	UPROPERTY(Transient) TObjectPtr<AGamePlayer> PlayerChar;
-
+	UPROPERTY(Transient) TSet<TSoftObjectPtr<UWorld>> ToLoad;
+	UPROPERTY(Transient) TSet<TSoftObjectPtr<UWorld>> ToUnload;
 	UPROPERTY(Transient) TObjectPtr<UGamePhaseNode> ThisPhase;
-	UPROPERTY(Transient) TSet<TSoftObjectPtr<UWorld>> LevelsToLoad;
-	UPROPERTY(Transient) TSet<TSoftObjectPtr<UWorld>> LevelsToUnload;
 
-	void SetLoadingUIHidden(const bool bInHidden) const;
-	void ShowLoadUIFunc() const { SetLoadingUIHidden(false); }
-	
-	void UnloadLevel(const TSoftObjectPtr<UWorld>& InLevel) const;
+	void ShowLoadUI() const { if (LoadingUI) LoadingUI->SetHidden(false); }
+	void HideLoadUI() const { if (LoadingUI) LoadingUI->SetHidden(true); }
+
+	void UnloadLevels();
+	void OnUnloadLevel();
 	void LoadLevel(const TSoftObjectPtr<UWorld>& InLevel);
 	void OnMainLevelLoaded();
 
 	void OnStartSequenceEnd();
 	void OnFinishSequenceEnd();
 
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
-
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override
 	{
 		return Super::ShouldCreateSubsystem(Outer) && UToroSettings::Get()->IsOnGameplayMap(Outer);
 	}
-
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override
 	{
 		return WorldType == EWorldType::Game || WorldType == EWorldType::PIE ||
