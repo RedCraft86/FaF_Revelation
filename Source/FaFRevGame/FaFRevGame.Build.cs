@@ -9,6 +9,7 @@ public class FaFRevGame : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = true;
 
+        PublicIncludePaths.Add(ModuleDirectory);
         PublicDependencyModuleNames.AddRange(
             new[]
             {
@@ -17,7 +18,9 @@ public class FaFRevGame : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "ToroEditor"
+                "ToroEditor",
+                "ToroUtilities",
+                "Narrative"
             }
         );
     }
