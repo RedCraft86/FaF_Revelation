@@ -4,7 +4,7 @@
 
 #include "InventoryItemData.h"
 #include "Components/ActorComponent.h"
-#include "InventoryComponent.generated.h"
+#include "GameInventory.generated.h"
 
 USTRUCT(BlueprintType)
 struct FInventoryData
@@ -32,13 +32,17 @@ struct FInventoryData
 };
 
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
-class FAFREVGAME_API UInventoryComponent final : public UActorComponent
+class FAFREVGAME_API UGameInventory final : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	UInventoryComponent();
+	UGameInventory();
+
+	static UGameInventory* Get(const UObject* ContextObject);
+	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
+		static UGameInventory* GetInventory(const UObject* ContextObject) { return Get(ContextObject); }
 
 	uint8 AddItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount = 1);
 	uint8 RemoveItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount = 1);

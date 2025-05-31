@@ -5,8 +5,6 @@
 #include "GameFramework/Actor.h"
 #include "InventoryEquipment.generated.h"
 
-class UInventoryComponent;
-
 UCLASS(Abstract)
 class FAFREVGAME_API AInventoryEquipment final : public AActor
 {

@@ -1,18 +1,25 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "InventoryComponent.h"
+#include "GameInventory.h"
+#include "Player/GamePlayer.h"
 
 #define InvItems InvData.Items
 #define InvArchives InvData.Archives
 #define InvEquipment InvData.Equipment
 
-UInventoryComponent::UInventoryComponent()
+UGameInventory::UGameInventory()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 }
 
-uint8 UInventoryComponent::AddItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount)
+UGameInventory* UGameInventory::Get(const UObject* ContextObject)
+{
+	AGamePlayer* Player = AGamePlayer::Get<AGamePlayer>(ContextObject);
+	return Player ? Player->Inventory : nullptr;
+}
+
+uint8 UGameInventory::AddItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount)
 {
 	if (Amount == 0) return 0;
 	const UInventoryItemData* Item = InItem.LoadSynchronous();
@@ -41,7 +48,7 @@ uint8 UInventoryComponent::AddItem(const TSoftObjectPtr<UInventoryItemData>& InI
 	return Overflow;
 }
 
-uint8 UInventoryComponent::RemoveItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount)
+uint8 UGameInventory::RemoveItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount)
 {
 	if (Amount == 0) return 0;
 	const UInventoryItemData* Item = InItem.LoadSynchronous();
@@ -77,7 +84,7 @@ uint8 UInventoryComponent::RemoveItem(const TSoftObjectPtr<UInventoryItemData>& 
 	return Missing;
 }
 
-void UInventoryComponent::AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArchive, const bool bShowHidden)
+void UGameInventory::AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArchive, const bool bShowHidden)
 {
 	if (const UInventoryItemData* Archive = InArchive.LoadSynchronous();
 		!Archive || Archive->ItemType != EInventoryItemType::Archive)
@@ -89,17 +96,17 @@ void UInventoryComponent::AddArchive(const TSoftObjectPtr<UInventoryItemData>& I
 	}
 }
 
-uint8 UInventoryComponent::GetItemAmount(const TSoftObjectPtr<UInventoryItemData>& InItem) const
+uint8 UGameInventory::GetItemAmount(const TSoftObjectPtr<UInventoryItemData>& InItem) const
 {
 	return InvArchives.Contains(InItem) ? 1 : InvItems.FindRef(InItem);
 }
 
-bool UInventoryComponent::HasItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 MinAmount) const
+bool UGameInventory::HasItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 MinAmount) const
 {
 	return GetItemAmount(InItem) >= MinAmount;
 }
 
-void UInventoryComponent::UnEquipItem()
+void UGameInventory::UnEquipItem()
 {
 	InvEquipment.Reset();
 	if (EquipActor)
@@ -110,7 +117,7 @@ void UInventoryComponent::UnEquipItem()
 	}
 }
 
-void UInventoryComponent::EquipItem(const TSoftObjectPtr<UInventoryItemData>& InItem)
+void UGameInventory::EquipItem(const TSoftObjectPtr<UInventoryItemData>& InItem)
 {
 	if (!InItem.LoadSynchronous()) return;
 	if (InvEquipment.LoadSynchronous() || EquipActor)
@@ -131,7 +138,7 @@ void UInventoryComponent::EquipItem(const TSoftObjectPtr<UInventoryItemData>& In
 	}
 }
 
-TArray<TSoftObjectPtr<UInventoryItemData>> UInventoryComponent::GetSortedItems()
+TArray<TSoftObjectPtr<UInventoryItemData>> UGameInventory::GetSortedItems()
 {
 	TArray<TSoftObjectPtr<UInventoryItemData>> Items;
 	for (auto It = InvItems.CreateIterator(); It; ++It)
@@ -151,7 +158,7 @@ TArray<TSoftObjectPtr<UInventoryItemData>> UInventoryComponent::GetSortedItems()
 	return Items;
 }
 
-TArray<TSoftObjectPtr<UInventoryItemData>> UInventoryComponent::GetSortedArchives()
+TArray<TSoftObjectPtr<UInventoryItemData>> UGameInventory::GetSortedArchives()
 {
 	TArray<TSoftObjectPtr<UInventoryItemData>> Archives;
 	for (auto It = InvArchives.CreateIterator(); It; ++It)
@@ -168,7 +175,7 @@ TArray<TSoftObjectPtr<UInventoryItemData>> UInventoryComponent::GetSortedArchive
 	return Archives;
 }
 
-void UInventoryComponent::LoadData(const FInventoryData& InData)
+void UGameInventory::LoadData(const FInventoryData& InData)
 {
 	InvData.Items = InData.Items;
 	InvData.Archives = InData.Archives;

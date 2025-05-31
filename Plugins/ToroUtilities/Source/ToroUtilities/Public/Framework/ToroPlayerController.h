@@ -8,9 +8,6 @@
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
 
-class UInventoryComponent;
-class UToroNarrativeComponent;
-
 UCLASS()
 class TOROUTILITIES_API AToroPlayerController : public APlayerController
 {
