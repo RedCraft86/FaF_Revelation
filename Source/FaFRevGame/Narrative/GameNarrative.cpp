@@ -1,7 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "GameNarrative.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Player/GamePlayer.h"
+#include "GameSettings.h"
 
 UGameNarrative* UGameNarrative::Get(const UObject* ContextObject)
 {
@@ -36,8 +38,8 @@ void UGameNarrative::DialogueFinished(UDialogue* Dialogue, const bool bStartingN
 
 UUserWidget* UGameNarrative::GetWidget() const
 {
-	// TODO
-	return nullptr;
+	AToroWidgetManager* Manager = AToroWidgetManager::Get(this);
+	return Manager ? Manager->FindWidget(UGameSettings::Get()->NarrativeWidget.LoadSynchronous()) : nullptr;
 }
 
 void UGameNarrative::BeginPlay()

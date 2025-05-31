@@ -19,6 +19,7 @@ public class FaFRevGame : ModuleRules
                 "Slate",
                 "SlateCore",
                 "GameplayTags",
+                "DeveloperSettings",
                 "ToroCore",
                 "ToroUtilities",
                 "Narrative"
