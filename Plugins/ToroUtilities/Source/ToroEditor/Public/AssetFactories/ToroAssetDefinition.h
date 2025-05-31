@@ -15,7 +15,7 @@ public:
 
 	virtual TConstArrayView<FAssetCategoryPath> GetAssetCategories() const override
 	{
-		static const TArray Categories{EAssetCategoryPaths::Blueprint / INVTEXT("ToroUtilities")};
+		static const TArray Categories{FAssetCategoryPath(INVTEXT("Data Assets"))};
 		return Categories;
 	}
 
