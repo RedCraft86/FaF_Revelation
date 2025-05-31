@@ -157,8 +157,10 @@ void AMasterPostProcess::OnSettingUpdate(const UToroUserSettings* UserSettings)
 
 void AMasterPostProcess::ApplySettings()
 {
+	float Brightness = 1.0f;
 	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
+		Brightness = UserSettings->GetBrightness() / 100.0f;
 		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
 		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(), UserSettings->GetLumenReflection());
 		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
@@ -166,13 +168,14 @@ void AMasterPostProcess::ApplySettings()
 
 	PostProcess->Settings = Settings;
 
-	if (UMaterialInterface* PPM = GetLightProbeBlendable())
+	if (UMaterialInstanceDynamic* PPM = GetLightProbeBlendable())
 	{
 		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
 	}
 
-	if (UMaterialInterface* PPM = GetBrightnessBlendable())
+	if (UMaterialInstanceDynamic* PPM = GetBrightnessBlendable())
 	{
+		PPM->SetScalarParameterValue(TEXT("Brightness"), Brightness);
 		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
 	}
 }
