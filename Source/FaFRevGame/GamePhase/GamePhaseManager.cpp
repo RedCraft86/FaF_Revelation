@@ -2,9 +2,10 @@
 
 #include "GamePhaseManager.h"
 #include "Engine/LevelScriptActor.h"
+#include "Framework/ToroWidgetManager.h"
 #include "MiscClasses/MasterPostProcess.h"
 #include "Libraries/ToroShortcutLibrary.h"
-#include "Framework/ToroWidgetManager.h"
+#include "Libraries/ToroGeneralUtils.h"
 #include "Helpers/LatentInfo.h"
 #include "FaFRevSettings.h"
 #include "SaveObjects.h"
@@ -199,6 +200,8 @@ void UGamePhaseManager::OnFinishSequenceEnd()
 		UnloadLevel(Level);
 	}
 	LevelsToUnload.Empty();
+
+	UToroGeneralUtils::ForceGarbageCollection();
 
 	PlayerChar->ExitCinematic();
 	PlayerChar->ClearLockFlag(GAMEPLAY_TAG_CHILD(PlayerLock, Loading));
