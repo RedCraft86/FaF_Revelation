@@ -3,7 +3,7 @@
 #include "GameNarrative.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Player/GamePlayer.h"
-#include "GameSettings.h"
+#include "FaFRevSettings.h"
 
 UGameNarrative* UGameNarrative::Get(const UObject* ContextObject)
 {
@@ -39,7 +39,7 @@ void UGameNarrative::DialogueFinished(UDialogue* Dialogue, const bool bStartingN
 UUserWidget* UGameNarrative::GetWidget() const
 {
 	AToroWidgetManager* Manager = AToroWidgetManager::Get(this);
-	return Manager ? Manager->FindWidget(UGameSettings::Get()->NarrativeWidget.LoadSynchronous()) : nullptr;
+	return Manager ? Manager->FindWidget(UFaFRevSettings::Get()->NarrativeWidget.LoadSynchronous()) : nullptr;
 }
 
 void UGameNarrative::BeginPlay()

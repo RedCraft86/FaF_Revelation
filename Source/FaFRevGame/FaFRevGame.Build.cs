@@ -16,6 +16,7 @@ public class FaFRevGame : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore",
                 "GameplayTags",

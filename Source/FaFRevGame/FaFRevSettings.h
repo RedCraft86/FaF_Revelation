@@ -4,22 +4,22 @@
 
 #include "Helpers/ClassGetters.h"
 #include "Engine/DeveloperSettings.h"
-#include "GameSettings.generated.h"
+#include "FaFRevSettings.generated.h"
 
-UCLASS(Config = Game, DefaultConfig, DisplayName = "Game Settings")
-class GAMERUNTIME_API UGameSettings : public UDeveloperSettings
+UCLASS(Config = Game, DefaultConfig, DisplayName = "FaF:Rev Settings")
+class FAFREVGAME_API UFaFRevSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
 public:
 
-	UGameSettings()
+	UFaFRevSettings()
 	{
 		CategoryName = TEXT("Project");
-		SectionName = TEXT("GameSettings");
+		SectionName = TEXT("FaFRevSettings");
 	}
 
-	SETTING_GETTER_MUTABLE(UGameSettings)
+	SETTING_GETTER_MUTABLE(UFaFRevSettings)
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TSoftClassPtr<UUserWidget> NarrativeWidget;
