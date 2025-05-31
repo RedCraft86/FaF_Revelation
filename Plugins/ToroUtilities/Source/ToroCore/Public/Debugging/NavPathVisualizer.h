@@ -25,7 +25,7 @@ public:
 		SetRootComponent(SceneRoot);
 	
 #if WITH_EDITORONLY_DATA
-		ShapeComponent = CreateEditorOnlyDefaultSubobject<UWireShapeComponent>(TEXT("ShapeComponent"));
+		ShapeComponent = CreateEditorOnlyDefaultSubobject<UWireShapeComponent>("ShapeComponent");
 		if (ShapeComponent)
 		{
 			FWireStringData Data; Data.String = TEXT("NavPath Visualizer");
