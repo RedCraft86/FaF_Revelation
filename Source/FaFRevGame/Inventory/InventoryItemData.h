@@ -62,9 +62,9 @@ private:
 		{
 			switch (ItemType)
 			{
-			case EInventoryItemType::Generic: Priority = 2; break;
+			case EInventoryItemType::Generic: Priority = 5; break;
 			case EInventoryItemType::Equipment: Priority = 1; break;
-			case EInventoryItemType::Archive: Priority = 0; break;
+			case EInventoryItemType::Archive: Priority = 10; break;
 			}
 		}
 	}

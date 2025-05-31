@@ -12,12 +12,12 @@ struct FInventoryData
 	GENERATED_BODY()
 
 	UPROPERTY(Transient) TSoftObjectPtr<UInventoryItemData> Equipment;
-	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryItemData>, int32> Items;
+	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryItemData>, uint8> Items;
 	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryItemData>, FInventoryArchive> Archives;
 
 	FInventoryData() {}
 	FInventoryData(const TSoftObjectPtr<UInventoryItemData>& InEquipment,
-		const TMap<TSoftObjectPtr<UInventoryItemData>, int32>& InItems,
+		const TMap<TSoftObjectPtr<UInventoryItemData>, uint8>& InItems,
 		const TMap<TSoftObjectPtr<UInventoryItemData>, FInventoryArchive>& InArchives)
 			: Equipment(InEquipment), Items(InItems), Archives(InArchives)
 	{}
@@ -59,6 +59,11 @@ public:
 
 	void LoadData(const FInventoryData& InData);
 	FInventoryData SaveData() const { return InvData; }
+
+	// Only used internally when the player SHOULD have a certain item/archive entry when changing game phases
+	void EnsureInventory(const TSoftObjectPtr<UInventoryItemData>& InEquipment,
+		const TMap<TSoftObjectPtr<UInventoryItemData>, uint8>& InItems,
+		const TMap<TSoftObjectPtr<UInventoryItemData>, bool>& InArchives);
 
 private:
 

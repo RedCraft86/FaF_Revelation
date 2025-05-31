@@ -30,7 +30,7 @@ uint8 UGameInventory::AddItem(const TSoftObjectPtr<UInventoryItemData>& InItem, 
 	{
 		if (InvItems.Contains(InItem))
 		{
-			const int32 Target = InvItems.FindRef(InItem) + Amount;
+			const int32 Target = InvItems.FindRef(InItem) + (int32)Amount;
 			Overflow = FMath::Min(0, Target - Item->StackSize);
 			InvItems.Add(InItem, Target - Overflow);
 		}
@@ -112,7 +112,17 @@ void UGameInventory::UnEquipItem()
 	if (EquipActor)
 	{
 		EquipActor->OnUnquip();
-		EquipActor->K2_DestroyActor();
+		EquipActor->SetActorHiddenInGame(true);
+		EquipActor->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
+		TWeakObjectPtr<AActor> WeakActor = EquipActor;
+		GetWorld()->GetTimerManager().SetTimerForNextTick([WeakActor]()
+		{
+			if (WeakActor.IsValid())
+			{
+				WeakActor->K2_DestroyActor();
+			}
+		});
 		EquipActor = nullptr;
 	}
 }
@@ -133,7 +143,11 @@ void UGameInventory::EquipItem(const TSoftObjectPtr<UInventoryItemData>& InItem)
 			InvEquipment = InItem;
 			EquipActor = NewActor;
 			EquipActor->OnEquip();
-			// TODO Attachment
+			if (const AGamePlayer* Player = GetOwner<AGamePlayer>())
+			{
+				EquipActor->AttachToComponent(Player->EquipmentRoot,
+					FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+			}
 		}
 	}
 }
@@ -180,4 +194,34 @@ void UGameInventory::LoadData(const FInventoryData& InData)
 	InvData.Items = InData.Items;
 	InvData.Archives = InData.Archives;
 	EquipItem(InData.Equipment.LoadSynchronous());
+}
+
+void UGameInventory::EnsureInventory(const TSoftObjectPtr<UInventoryItemData>& InEquipment,
+	const TMap<TSoftObjectPtr<UInventoryItemData>, uint8>& InItems,
+	const TMap<TSoftObjectPtr<UInventoryItemData>, bool>& InArchives)
+{
+	for (const TPair<TSoftObjectPtr<UInventoryItemData>, uint8>& Item : InItems)
+	{
+		if (const UInventoryItemData* ItemData = Item.Key.LoadSynchronous())
+		{
+			InvItems.FindOrAdd(Item.Key) = FMath::Max(ItemData->StackSize, Item.Value);
+		}
+	}
+
+	for (const TPair<TSoftObjectPtr<UInventoryItemData>, bool>& Archive : InArchives)
+	{
+		if (Archive.Key.IsNull()) continue;
+		if (InvArchives.Contains(Archive.Key))
+		{
+			FInventoryArchive ArchiveData = InvArchives.FindRef(Archive.Key);
+			ArchiveData.bShowHidden = Archive.Value;
+			InvArchives.Add(Archive.Key, ArchiveData);
+		}
+		else
+		{
+			InvArchives.Add(Archive.Key, {InvArchives.Num(), Archive.Value});
+		}
+	}
+
+	EquipItem(InEquipment);
 }
