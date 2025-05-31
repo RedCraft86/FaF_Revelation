@@ -1,9 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "GameNarrative.h"
-#include "Framework/ToroWidgetManager.h"
 #include "Player/GamePlayer.h"
-#include "FaFRevSettings.h"
+#include "Framework/ToroWidgetManager.h"
 
 UGameNarrative* UGameNarrative::Get(const UObject* ContextObject)
 {
@@ -38,12 +37,14 @@ void UGameNarrative::DialogueFinished(UDialogue* Dialogue, const bool bStartingN
 
 UUserWidget* UGameNarrative::GetWidget() const
 {
+	if (!NarrativeWidget) return nullptr;
 	AToroWidgetManager* Manager = AToroWidgetManager::Get(this);
-	return Manager ? Manager->FindWidget(UFaFRevSettings::Get()->NarrativeWidget.LoadSynchronous()) : nullptr;
+	return Manager ? Manager->FindOrAddWidget(NarrativeWidget) : nullptr;
 }
 
 void UGameNarrative::BeginPlay()
 {
 	Super::BeginPlay();
 	Player = AGamePlayer::Get<AGamePlayer>(this);
+	GetWidget(); // Just to create the widget
 }

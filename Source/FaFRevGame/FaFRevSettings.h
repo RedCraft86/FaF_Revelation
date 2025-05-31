@@ -7,7 +7,7 @@
 #include "FaFRevSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "FaF:Rev Settings")
-class FAFREVGAME_API UFaFRevSettings : public UDeveloperSettings
+class FAFREVGAME_API UFaFRevSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
@@ -20,7 +20,4 @@ public:
 	}
 
 	SETTING_GETTER_MUTABLE(UFaFRevSettings)
-
-	UPROPERTY(Config, EditAnywhere, Category = Settings)
-		TSoftClassPtr<UUserWidget> NarrativeWidget;
 };
