@@ -41,6 +41,7 @@ void AGameMusicManager::ChangeMainTheme(UMetaSoundSource* InTheme)
 
 		SetThemeState(0);
 		SetThemeIntensity(0.0f);
+		OnThemeChanged.Broadcast();
 	}
 }
 

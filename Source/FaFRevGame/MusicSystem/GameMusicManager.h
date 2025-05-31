@@ -15,9 +15,6 @@ public:
 
 	AGameMusicManager();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<UAudioComponent> ThemeComponent;
-
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
 	static AGameMusicManager* GetMusicManager(const UObject* ContextObject)
 	{
@@ -42,10 +39,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void SetGamePaused(const bool bInPaused);
 
+	DECLARE_MULTICAST_DELEGATE(FOnThemeChanged);
+	FOnThemeChanged OnThemeChanged;
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnStateChanged, const uint8);
 	FOnStateChanged OnStateChanged;
 
 private:
+
+	UPROPERTY(VisibleAnywhere, Category = Subobjects)
+		TObjectPtr<UAudioComponent> ThemeComponent;
 
 	UPROPERTY() bool bDipped;
 	UPROPERTY() bool bPlayerHide;
