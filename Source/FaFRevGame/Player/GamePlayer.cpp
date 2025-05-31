@@ -6,7 +6,7 @@ AGamePlayer::AGamePlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	EquipmentRoot = CreateDefaultSubobject<UGameNarrative>("EquipmentRoot");
+	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
 #if WITH_EDITORONLY_DATA
 	EquipmentRoot->bVisualizeComponent = true;
 #endif
