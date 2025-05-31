@@ -17,8 +17,7 @@ public class FaFRevEditor : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "ToroCore",
-                "ToroUtilities",
+                "ToroEditor"
             }
         );
     }

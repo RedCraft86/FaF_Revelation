@@ -12,7 +12,7 @@ UGameNarrative* UGameNarrative::Get(const UObject* ContextObject)
 void UGameNarrative::DialogueBegan(UDialogue* Dialogue)
 {
 	Super::DialogueBegan(Dialogue);
-	Player->AddLockFlag(Tag_PlayerLock_Dialogue.GetTag());
+	Player->AddLockFlag(GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue));
 	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
 	{
 		CachedInputMode = Controller->GetInputModeData();
@@ -26,7 +26,7 @@ void UGameNarrative::DialogueFinished(UDialogue* Dialogue, const bool bStartingN
 	Super::DialogueFinished(Dialogue, bStartingNewDialogue);
 	if (!bStartingNewDialogue)
 	{
-		Player->ClearLockFlag(Tag_PlayerLock_Dialogue.GetTag());
+		Player->ClearLockFlag(GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue));
 		if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
 		{
 			Controller->SetInputModeData(CachedInputMode);

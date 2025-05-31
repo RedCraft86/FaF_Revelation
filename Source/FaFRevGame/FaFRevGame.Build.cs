@@ -18,7 +18,8 @@ public class FaFRevGame : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "ToroEditor",
+                "GameplayTags",
+                "ToroCore",
                 "ToroUtilities",
                 "Narrative"
             }
