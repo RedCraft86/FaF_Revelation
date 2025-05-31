@@ -12,6 +12,7 @@
 
 #define NarrativeRef PlayerChar->Narrative
 #define InventoryRef PlayerChar->Inventory
+#define GetWorldTimerManager GetWorld()->GetTimerManager
 
 #define GET_SAVE(Type, ...) \
 	if (U##Type##SaveObject* Save = SaveManager ? SaveManager->GetSaveObject<U##Type##SaveObject>(Tag_Save_##Type##) : nullptr) \
@@ -45,62 +46,6 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 {
 	if (!bLoading && PlayerChar && NewPhase && NewPhase != ThisPhase && Graph && Graph->AllNodes.Contains(NewPhase))
 	{
-		bLoading = true;
-		bWaiting = false;
-		bLevelLoaded = false;
-
-		PlayerChar->EnterCinematic(GetWorld()->GetLevelScriptActor());
-		PlayerChar->AddLockFlag(GAMEPLAY_TAG_CHILD(PlayerLock, Loading));
-
-		LevelsToLoad = NewPhase->GetLevels();
-		LevelsToUnload = ThisPhase ? ThisPhase->GetLevels().Difference(LevelsToLoad) : TSet<TSoftObjectPtr<UWorld>>{};
-
-		if (ThisPhase)
-		{
-			ThisPhase->UnbindSequenceEvents();
-			NarrativeRef->ForgetQuest(ThisPhase->Quest.LoadSynchronous());
-		}
-
-		NewPhase->BindSequenceEvents(this);
-		NarrativeRef->BeginQuest(NewPhase->Quest.LoadSynchronous());
-
-		if (LevelsToUnload.IsEmpty() || !NewPhase->StartSequence.LoadSynchronous())
-		{
-			SetLoadingUIHidden(false); // Show Loading UI if we don't have a start sequence or jumping in
-			UToroShortcutLibrary::SetCameraFade(this, 1.0f, FLinearColor::Black, true);
-		}
-		else NewPhase->PlayStartSequence();
-
-		for (const TSoftObjectPtr<UWorld>& Level : LevelsToLoad)
-		{
-			LoadLevel(Level);
-		}
-
-		GET_SAVE(Game, {
-			if (ThisPhase)
-			{
-				// If we have a previous phase, we will assume that the player JUST unlocked this new phase
-				// So we will save the inventory data into the new phase
-				Save->Inventory.Add(NewPhase->NodeID, InventoryRef->GetSaveData());
-			}
-			else
-			{
-				// If we don't have one, it implies we might be loading the game or the player used the phase selector
-				// In that case, we should already have a previously saved inventory to load from
-				InventoryRef->LoadSaveData(Save->Inventory.FindRef(NewPhase->NodeID));
-			}
-		})
-
-		// Ensure certain absolutely necessary items/archive entries for this phase are in the inventory
-		InventoryRef->EnsureInventory(NewPhase->Equipment, NewPhase->Items, NewPhase->Archives);
-
-		GET_SAVE(Global, {
-			Save->SectionNodes.Add(NewPhase->NodeID); // Used for Phase Selector to know which phases are unlocked
-			Save->Content.Append(NewPhase->UnlockContent);
-		})
-
-		// We don't care about the last phase anymore
-		ThisPhase = NewPhase;
 	}
 }
 
@@ -129,7 +74,11 @@ void UGamePhaseManager::LoadLevel(const TSoftObjectPtr<UWorld>& InLevel)
 		{
 			Level->SetShouldBeVisible(bVisible);
 			if (InLevel == ThisPhase->MainLevel)
-				OnMainLevelLoaded();
+			{
+				FTimerHandle Handle;
+				GetWorldTimerManager().SetTimer(Handle, this,
+					&UGamePhaseManager::OnMainLevelLoaded, 1.0f, false);
+			}
 			return;
 		}
 
@@ -141,71 +90,14 @@ void UGamePhaseManager::LoadLevel(const TSoftObjectPtr<UWorld>& InLevel)
 
 void UGamePhaseManager::OnMainLevelLoaded()
 {
-	if (ThisPhase)
-	{
-		bLevelLoaded = true;
-		if (LevelsToUnload.IsEmpty() || !ThisPhase->StartSequence.LoadSynchronous())
-		{
-			UToroShortcutLibrary::StartCameraFade(this, 1.0f, 0.0f, 2.0f);
-			ThisPhase->TeleportPlayer();
-			OnFinishSequenceEnd();
-		}
-		else if (bWaiting)
-		{
-			if (!ThisPhase->PlayFinishSequence())
-				OnFinishSequenceEnd();
-		}
-
-		// if ()
-		// {
-		// 	TODO Music system
-		// }
-
-		if (AMasterPostProcess* PP = AMasterPostProcess::Get(this))
-		{
-			PP->SetUDSSettings(ThisPhase->SkyWeather);
-		}
-
-		//PlayerChar->OverrideControlFlags(ThisPhase->PlayerControl); // TODO
-		PlayerChar->SetLightSettings(ThisPhase->PlayerLight);
-	}
 }
 
 void UGamePhaseManager::OnStartSequenceEnd()
 {
-	if (ThisPhase)
-	{
-		ThisPhase->TeleportPlayer();
-		if (!bLevelLoaded)
-		{
-			bWaiting = true;
-			GetWorld()->GetTimerManager().SetTimer(WidgetTimer, this, &ThisClass::ShowLoadUIFunc,
-				FMath::Max(0.05f, Graph->WidgetDelay), false);
-		}
-		else if (!ThisPhase->PlayFinishSequence())
-		{
-			OnFinishSequenceEnd();
-		}
-	}
 }
 
 void UGamePhaseManager::OnFinishSequenceEnd()
 {
-	GetWorld()->GetTimerManager().ClearTimer(WidgetTimer);
-	SetLoadingUIHidden(true);
-	bWaiting = false;
-
-	for (const TSoftObjectPtr<UWorld>& Level : LevelsToUnload)
-	{
-		UnloadLevel(Level);
-	}
-	LevelsToUnload.Empty();
-
-	UToroGeneralUtils::ForceGarbageCollection();
-
-	PlayerChar->ExitCinematic();
-	PlayerChar->ClearLockFlag(GAMEPLAY_TAG_CHILD(PlayerLock, Loading));
-	bLoading = false;
 }
 
 void UGamePhaseManager::Initialize(FSubsystemCollectionBase& Collection)

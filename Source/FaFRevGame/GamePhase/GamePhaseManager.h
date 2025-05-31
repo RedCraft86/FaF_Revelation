@@ -19,7 +19,7 @@ class FAFREVGAME_API UGamePhaseManager final : public UWorldSubsystem
 
 public:
 
-	UGamePhaseManager(): bLoading(false), bWaiting(false), bLevelLoaded(false) {}
+	UGamePhaseManager(): bLoading(false), bWaiting(false), bMainLoaded(false) {}
 
 	WORLD_SUBSYSTEM_GETTER(UGamePhaseManager);
 
@@ -39,7 +39,7 @@ private:
 
 	UPROPERTY() bool bLoading;
 	UPROPERTY() bool bWaiting;
-	UPROPERTY() bool bLevelLoaded;
+	UPROPERTY() bool bMainLoaded;
 	UPROPERTY() TArray<uint8> Sequence;
 	UPROPERTY() FTimerHandle WidgetTimer;
 	UPROPERTY(Transient) TObjectPtr<UGamePhaseGraph> Graph;
