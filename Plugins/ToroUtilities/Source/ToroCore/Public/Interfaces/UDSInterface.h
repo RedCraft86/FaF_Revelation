@@ -73,7 +73,7 @@ class TOROCORE_API UUDSSetterObject final : public UObject
 public:
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void SetSettings(const FUDSSettings& InSettings);
+		void SetSettings(const UObject* ContextObject, const FUDSSettings& InSettings);
 };
 
 // UINTERFACE()

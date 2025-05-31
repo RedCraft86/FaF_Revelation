@@ -116,7 +116,7 @@ void AMasterPostProcess::CopyFromTarget()
 
 void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings)
 {
-	if (UDSSetterObj) UDSSetterObj->SetSettings(InSettings);
+	if (UDSSetterObj) UDSSetterObj->SetSettings(this, InSettings);
 }
 
 bool AMasterPostProcess::IsUsingLumenGI() const
