@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Helpers/ClassGetters.h"
+#include "GamePhase/GamePhaseData.h"
 #include "Engine/DeveloperSettings.h"
 #include "FaFRevSettings.generated.h"
 
@@ -20,4 +21,7 @@ public:
 	}
 
 	SETTING_GETTER_MUTABLE(UFaFRevSettings)
+
+	UPROPERTY(Config, EditAnywhere, Category = Settings)
+		TSoftObjectPtr<UGamePhaseGraph> PhaseGraph;
 };

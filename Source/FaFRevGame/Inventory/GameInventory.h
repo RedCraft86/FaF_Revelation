@@ -57,8 +57,8 @@ public:
 	TArray<TSoftObjectPtr<UInventoryItemData>> GetSortedItems();
 	TArray<TSoftObjectPtr<UInventoryItemData>> GetSortedArchives();
 
-	void LoadData(const FInventoryData& InData);
-	FInventoryData SaveData() const { return InvData; }
+	void LoadSaveData(const FInventoryData& InData);
+	FInventoryData GetSaveData() const { return InvData; }
 
 	// Only used internally when the player SHOULD have a certain item/archive entry when changing game phases
 	void EnsureInventory(const TSoftObjectPtr<UInventoryItemData>& InEquipment,

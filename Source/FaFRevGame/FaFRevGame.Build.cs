@@ -21,6 +21,7 @@ public class FaFRevGame : ModuleRules
                 "SlateCore",
                 "GameplayTags",
                 "DeveloperSettings",
+                "MetasoundEngine",
                 "ToroCore",
                 "ToroUtilities",
                 "DataGraph",

@@ -189,7 +189,7 @@ TArray<TSoftObjectPtr<UInventoryItemData>> UGameInventory::GetSortedArchives()
 	return Archives;
 }
 
-void UGameInventory::LoadData(const FInventoryData& InData)
+void UGameInventory::LoadSaveData(const FInventoryData& InData)
 {
 	InvData.Items = InData.Items;
 	InvData.Archives = InData.Archives;
