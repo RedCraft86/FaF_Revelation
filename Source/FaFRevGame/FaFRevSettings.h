@@ -23,5 +23,8 @@ public:
 	SETTING_GETTER_MUTABLE(UFaFRevSettings)
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
+		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
+
+	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UGamePhaseGraph> PhaseGraph;
 };
