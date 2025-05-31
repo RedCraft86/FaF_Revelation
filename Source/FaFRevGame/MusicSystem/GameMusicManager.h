@@ -37,17 +37,22 @@ public:
 		void SetThemeIntensity(const float InIntensity) const;
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetThemeHiding(const bool bInHiding) const;
+		void SetPlayerHiding(const bool bInHiding);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetDipped(const bool bInDipped) const;
+		void SetGamePaused(const bool bInPaused);
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnStateChanged, const uint8);
 	FOnStateChanged OnStateChanged;
 
 private:
 
+	UPROPERTY() bool bDipped;
+	UPROPERTY() bool bPlayerHide;
+	UPROPERTY() bool bGamePaused;
 	UPROPERTY() FTimerHandle ChangeTimer;
+
+	void UpdateDippedState();
 	IAudioParameterControllerInterface* GetSoundParamInterface() const;
 
 	virtual void BeginPlay() override;

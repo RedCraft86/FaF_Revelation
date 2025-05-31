@@ -41,7 +41,6 @@ void AGameMusicManager::ChangeMainTheme(UMetaSoundSource* InTheme)
 
 		SetThemeState(0);
 		SetThemeIntensity(0.0f);
-		SetThemeHiding(false);
 	}
 }
 
@@ -60,14 +59,31 @@ void AGameMusicManager::SetThemeIntensity(const float InIntensity) const
 	GetSoundParamInterface()->SetFloatParameter(TEXT("Intensity"), InIntensity);
 }
 
-void AGameMusicManager::SetThemeHiding(const bool bInHiding) const
+void AGameMusicManager::SetPlayerHiding(const bool bInHiding)
 {
-	GetSoundParamInterface()->SetBoolParameter(TEXT("Hiding"), bInHiding);
+	if (bPlayerHide != bInHiding)
+	{
+		bPlayerHide = bInHiding;
+		UpdateDippedState();
+	}
 }
 
-void AGameMusicManager::SetDipped(const bool bInDipped) const
+void AGameMusicManager::SetGamePaused(const bool bInPaused)
 {
-	GetSoundParamInterface()->SetBoolParameter(TEXT("Dipped"), bInDipped);
+	if (bGamePaused != bInPaused)
+	{
+		bGamePaused = bInPaused;
+		UpdateDippedState();
+	}
+}
+
+void AGameMusicManager::UpdateDippedState()
+{
+	if (const bool bTemp = bPlayerHide || bGamePaused; bDipped != bTemp)
+	{
+		bDipped = bTemp;
+		GetSoundParamInterface()->SetBoolParameter(TEXT("Dipped"), bDipped);
+	}
 }
 
 IAudioParameterControllerInterface* AGameMusicManager::GetSoundParamInterface() const
