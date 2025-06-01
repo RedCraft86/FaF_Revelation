@@ -28,51 +28,29 @@ void UWorldActionComponent::AppendActions(TArray<TInstancedStruct<FWorldActionBa
 
 void UWorldActionComponent::RunActions()
 {
-	ForEachAction([](FWorldActionBase* Action)
-	{
-		Action->RunAction();
-	});
+	FOR_EACH_ACTION_PTR(ActionPtrs, this, ActionPtr->RunAction();)
 }
 
 void UWorldActionComponent::UpdateEdFunctions()
 {
 	bool bWantsTick = false;
-	ForEachAction([&bWantsTick](FWorldActionBase* Action)
-	{
-		Action->OnPostEditChange();
-		if (!bWantsTick) bWantsTick = Action->bShouldTick;
-	});
+	FOR_EACH_ACTION_PTR(ActionPtrs, this,
+		ActionPtr->OnPostEditChange();
+		if (!bWantsTick) bWantsTick = ActionPtr->bShouldTick;
+	)
 	PrimaryComponentTick.bStartWithTickEnabled = bWantsTick;
-}
-
-void UWorldActionComponent::ForEachAction(const TFunction<void(FWorldActionBase*)>& Func)
-{
-	for (FWorldActionBase* ActionPtr : ActionPtrs)
-	{
-		if (ActionPtr)
-		{
-			ActionPtr->SetWorldContext(this);
-			if (Func) Func(ActionPtr);
-		}
-	}
 }
 
 void UWorldActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	ForEachAction([](FWorldActionBase* Action)
-	{
-		Action->OnBeginPlay();
-	});
+	FOR_EACH_ACTION_PTR(ActionPtrs, this, ActionPtr->OnBeginPlay();)
 }
 
 void UWorldActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
-	ForEachAction([DeltaTime](FWorldActionBase* Action)
-	{
-		if (Action->bShouldTick) Action->OnTick(DeltaTime);
-	});
+	FOR_EACH_ACTION_PTR(ActionPtrs, this, if (ActionPtr->bShouldTick) ActionPtr->OnTick(DeltaTime);)
 }
 
 #if WITH_EDITOR

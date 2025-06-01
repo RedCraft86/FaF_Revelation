@@ -32,7 +32,6 @@ public:
 private:
 
 	TArray<FWorldActionBase*> ActionPtrs;
-	void ForEachAction(const TFunction<void(FWorldActionBase*)>& Func);
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;

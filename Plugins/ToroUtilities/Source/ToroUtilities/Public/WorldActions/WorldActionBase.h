@@ -5,6 +5,26 @@
 #include "StructUtils/InstancedStruct.h"
 #include "WorldActionBase.generated.h"
 
+#define FOR_EACH_ACTION(ActionsArr, Context, ...) \
+	for (TInstancedStruct<FWorldActionBase>& Action : ActionsArr) \
+	{ \
+		if (FWorldActionBase* ActionPtr = Action.GetMutablePtr()) \
+		{ \
+			ActionPtr->SetWorldContext(Context); \
+			__VA_ARGS__ \
+		} \
+	}
+
+#define FOR_EACH_ACTION_PTR(ActionPtrsArr, Context, ...) \
+	for (FWorldActionBase* ActionPtr : ActionPtrsArr) \
+	{ \
+		if (ActionPtr) \
+		{ \
+			ActionPtr->SetWorldContext(Context); \
+			__VA_ARGS__ \
+		} \
+	}
+
 USTRUCT(BlueprintInternalUseOnly)
 struct TOROUTILITIES_API FWorldActionBase
 {
