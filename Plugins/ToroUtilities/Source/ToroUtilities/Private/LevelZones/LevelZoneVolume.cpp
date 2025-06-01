@@ -20,9 +20,9 @@ ALevelZoneVolume::ALevelZoneVolume(): CullInvert(false)
 	ActionManager = CreateDefaultSubobject<UWorldActionComponent>("ActionManager");
 	ActionManager->bManualEdFunction = true;
 
-#if WITH_EDITOR
+#if WITH_EDITORONLY_DATA
 	bDisplayShadedVolume = true;
-	BrushColor = FColor(255, 140, 0);
+	bRunConstructionScriptOnDrag = true;
 #endif
 }
 
@@ -123,5 +123,8 @@ void ALevelZoneVolume::OnConstruction(const FTransform& Transform)
 	{
 		ActorEdIcon->IconPath = TEXT("/ToroUtilities/Icons/LevelZoneVolume.LevelZoneVolume");
 	}
+
+	bDisplayShadedVolume = true;
+	BrushColor = (FLinearColor::MakeRandomColor().Desaturate(0.4f) * 0.5).ToFColor(true);
 }
 #endif
