@@ -177,6 +177,8 @@ void UToroUserSettings::InitSettings(UToroGameInstance* InGameInstance)
 		
 		SetResolutionScaleNormalized(1.0f);
 		CacheScalabilityDefaults();
+
+		ReapplySettings();
 	}
 	else
 	{
