@@ -8,19 +8,28 @@
 #define FOR_EACH_ACTION(ActionsArr, Context, ...) \
 	for (TInstancedStruct<FWorldActionBase>& Action : ActionsArr) \
 	{ \
-		if (FWorldActionBase* ActionPtr = Action.GetMutablePtr()) \
+		if (FWorldActionBase* Ptr = Action.GetMutablePtr()) \
 		{ \
-			ActionPtr->SetWorldContext(Context); \
+			Ptr->SetWorldContext(Context); \
 			__VA_ARGS__ \
 		} \
 	}
 
 #define FOR_EACH_ACTION_PTR(ActionPtrsArr, Context, ...) \
-	for (FWorldActionBase* ActionPtr : ActionPtrsArr) \
+	for (FWorldActionBase* Ptr : ActionPtrsArr) \
 	{ \
-		if (ActionPtr) \
+		if (Ptr) \
 		{ \
-			ActionPtr->SetWorldContext(Context); \
+			Ptr->SetWorldContext(Context); \
+			__VA_ARGS__ \
+		} \
+	}
+
+#define FOR_EACH_SOFT_PTR(Property, Type, ...) \
+	for (const TSoftObjectPtr<Type>& SoftPtr : Property) \
+	{ \
+		if (Type* Ptr = SoftPtr.LoadSynchronous()) \
+		{ \
 			__VA_ARGS__ \
 		} \
 	}

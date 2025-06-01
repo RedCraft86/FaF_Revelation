@@ -28,15 +28,15 @@ void UWorldActionComponent::AppendActions(TArray<TInstancedStruct<FWorldActionBa
 
 void UWorldActionComponent::RunActions()
 {
-	FOR_EACH_ACTION_PTR(ActionPtrs, this, ActionPtr->RunAction();)
+	FOR_EACH_ACTION_PTR(ActionPtrs, this, Ptr->RunAction();)
 }
 
 void UWorldActionComponent::UpdateEdFunctions()
 {
 	bool bWantsTick = false;
 	FOR_EACH_ACTION_PTR(ActionPtrs, this,
-		ActionPtr->OnPostEditChange();
-		if (!bWantsTick) bWantsTick = ActionPtr->bShouldTick;
+		Ptr->OnPostEditChange();
+		if (!bWantsTick) bWantsTick = Ptr->bShouldTick;
 	)
 	PrimaryComponentTick.bStartWithTickEnabled = bWantsTick;
 }
@@ -44,13 +44,13 @@ void UWorldActionComponent::UpdateEdFunctions()
 void UWorldActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	FOR_EACH_ACTION_PTR(ActionPtrs, this, ActionPtr->OnBeginPlay();)
+	FOR_EACH_ACTION_PTR(ActionPtrs, this, Ptr->OnBeginPlay();)
 }
 
 void UWorldActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
-	FOR_EACH_ACTION_PTR(ActionPtrs, this, if (ActionPtr->bShouldTick) ActionPtr->OnTick(DeltaTime);)
+	FOR_EACH_ACTION_PTR(ActionPtrs, this, if (Ptr->bShouldTick) Ptr->OnTick(DeltaTime);)
 }
 
 #if WITH_EDITOR
