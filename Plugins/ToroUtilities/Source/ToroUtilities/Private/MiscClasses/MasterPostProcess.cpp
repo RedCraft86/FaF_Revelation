@@ -197,7 +197,7 @@ void AMasterPostProcess::BeginPlay()
 	}
 #endif
 
-	UDSSetterObj = NewObject<UUDSSetterObject>(this, UDS_Setter);
+	if (UDS_Setter) UDSSetterObj = NewObject<UUDSSetterObject>(this, UDS_Setter);
 	UToroUserSettings::Get()->OnDynamicSettingsChanged.AddUObject(this, &AMasterPostProcess::OnSettingUpdate);
 }
 
