@@ -4,7 +4,6 @@
 #include "GameMusicManager.h"
 #include "Components/AudioComponent.h"
 #include "Framework/ToroPlayerCharacter.h"
-#include "Interfaces/CharInterface.h"
 
 ALocalSoundVolume::ALocalSoundVolume(): Cooldown(5.0f), Volume(1.0f), StartRange(0.0f)
 	, FadeInOut(1.0f), AllowedMusicStates({0}), bInVolume(false), bOnCooldown(false), MusicState(0)
@@ -57,7 +56,7 @@ void ALocalSoundVolume::BeginPlay()
 void ALocalSoundVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
-	if (const FGameplayTag Char = ICharInterface::GetCharacterID(OtherActor); Char == Tag_Character_Player)
+	if (const AToroPlayerCharacter* Char = Cast<AToroPlayerCharacter>(OtherActor))
 	{
 		bInVolume = true;
 		UpdateAudio();
@@ -67,7 +66,7 @@ void ALocalSoundVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 void ALocalSoundVolume::NotifyActorEndOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorEndOverlap(OtherActor);
-	if (const FGameplayTag Char = ICharInterface::GetCharacterID(OtherActor); Char == Tag_Character_Player)
+	if (const AToroPlayerCharacter* Char = Cast<AToroPlayerCharacter>(OtherActor))
 	{
 		bInVolume = false;
 		UpdateAudio();
