@@ -47,6 +47,9 @@ public:
 		uint8 WordsPerSecond;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UWorld> LaunchMap;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UWorld> GameplayMap;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
@@ -81,6 +84,12 @@ public:
 		TArray<FString> Words;
 		InString.ParseIntoArray(Words, TEXT(" "));
 		return Words.Num() / FMath::Max(1.0f, (float)WordsPerSecond);
+	}
+
+	bool IsOnLaunchMap(const UObject* WorldContext) const
+	{
+		if (LaunchMap.IsNull()) return false;
+		return UGameplayStatics::GetCurrentLevelName(WorldContext) == LaunchMap.GetAssetName();
 	}
 
 	bool IsOnGameplayMap(const UObject* WorldContext) const

@@ -4,6 +4,7 @@
 #include "UserSettings/ToroUserSettings.h"
 #include "Libraries/ToroGeneralUtils.h"
 #include "EnhancedCodeFlow.h"
+#include "ToroSettings.h"
 #if UE_BUILD_SHIPPING
 #include "GeneralProjectSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
@@ -20,10 +21,13 @@ void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 	{
 		bRanFirstLoads = true;
 		UToroUserSettings::Get()->InitSettings(this);
-		FFlow::Delay(this, 0.1f, [this]()
+		if (UToroSettings::Get()->IsOnLaunchMap(this))
 		{
-			UToroGeneralUtils::RestartLevel(this);
-		});
+			FFlow::Delay(this, 0.1f, [this]()
+		   {
+			   UToroGeneralUtils::RestartLevel(this);
+		   });
+		}
 	}
 }
 
