@@ -15,7 +15,7 @@ class DATAGRAPHED_API UDataGraphAssetDefinition : public UAssetDefinitionDefault
 public:
 	
 	UDataGraphAssetDefinition() {}
-	virtual FLinearColor GetAssetColor() const override { return FColor(100, 160, 80); }
+	virtual FLinearColor GetAssetColor() const override { return FColor(0, 120, 255); }
 	virtual TSoftClassPtr<UObject> GetAssetClass() const override { return UDataGraphBase::StaticClass(); }
 	virtual FText GetAssetDisplayName() const override { return NSLOCTEXT("DataGraphEditor", "DataGraph", "Data Graph"); }
 	virtual TConstArrayView<FAssetCategoryPath> GetAssetCategories() const override
