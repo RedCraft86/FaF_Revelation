@@ -21,16 +21,15 @@ public:
 
 	virtual FText GetAssetDescription(const FAssetData& AssetData) const override
 	{
-		FText DataAssetText = FText::GetEmpty();
+		FText OutText = FText::GetEmpty();
 		if (const UToroDataAsset* DA = Cast<UToroDataAsset>(AssetData.GetAsset()))
 		{
-			DataAssetText = DA->GetDescription();
+			OutText = DA->GetDescription();
 		}
 
-		FText OutText = FText::GetEmpty();
 		if (const FText SuperText = Super::GetAssetDescription(AssetData); !SuperText.IsEmptyOrWhitespace())
 		{
-			OutText = FText::Format(INVTEXT("{0}\n{1}\n{2}"), DataAssetText, SuperText);
+			OutText = FText::Format(INVTEXT("{0}\n{1}"), OutText, SuperText);
 		}
 
 		return OutText;

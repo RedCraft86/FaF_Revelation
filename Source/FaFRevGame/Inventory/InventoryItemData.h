@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "Engine/DataAsset.h"
 #include "InventoryEquipment.h"
+#include "DataTypes/ToroDataAsset.h"
 #include "InventoryItemData.generated.h"
 
 UENUM(BlueprintType)
@@ -15,7 +15,7 @@ enum class EInventoryItemType : uint8
 };
 
 UCLASS(NotBlueprintable, BlueprintType)
-class FAFREVGAME_API UInventoryItemData final : public UDataAsset
+class FAFREVGAME_API UInventoryItemData final : public UToroDataAsset
 {
 	GENERATED_BODY()
 
@@ -54,9 +54,9 @@ public:
 	
 #if WITH_EDITOR
 private:
-	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
+	virtual FText GetDescription() const override { return DisplayName; }
+	virtual void UpdateData() override
 	{
-		Super::PostEditChangeProperty(PropertyChangedEvent);
 		if (ItemType != EInventoryItemType::Generic) StackSize = 1;
 		if (!bCustomPriority)
 		{
