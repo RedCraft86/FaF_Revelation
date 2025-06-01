@@ -162,8 +162,9 @@ DEFINE_SETTER(uint8, XeSSQuality,
 	XeSS::SetXeSSMode(ImageFidelityMode == EImageFidelityMode::XeSS ? GetXeSSQuality() : 0);
 )
 
-void UToroUserSettings::InitSettings()
+void UToroUserSettings::InitSettings(UToroGameInstance* InGameInstance)
 {
+	GameInstance = InGameInstance;
 	const UToroConfigManager* Manager = UToroConfigManager::Get(this);
 	if (Manager && Manager->IsFirstLaunch())
 	{

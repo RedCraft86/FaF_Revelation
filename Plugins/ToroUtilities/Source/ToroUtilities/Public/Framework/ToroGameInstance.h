@@ -13,7 +13,7 @@ class TOROUTILITIES_API UToroGameInstance : public UGameInstance
 
 public:
 
-	UToroGameInstance(): CachedVMI(VMI_Lit) {}
+	UToroGameInstance(): CachedVMI(VMI_Lit), bRanFirstLoads(false) {}
 
 	GAMEPLAY_CLASS_GETTER(UToroGameInstance, GetGameInstance)
 
@@ -28,8 +28,8 @@ public:
 
 protected:
 
-	UPROPERTY(Transient) TObjectPtr<UObject> WorldContext;
 	UPROPERTY() int32 CachedVMI;
+	UPROPERTY() bool bRanFirstLoads;
 
 	virtual void Init() override;
 };

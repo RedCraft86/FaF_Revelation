@@ -1,6 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameInstance.h"
+#include "UserSettings/ToroUserSettings.h"
+#include "Libraries/ToroGeneralUtils.h"
+#include "EnhancedCodeFlow.h"
 #if UE_BUILD_SHIPPING
 #include "GeneralProjectSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
@@ -8,7 +11,20 @@
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
-	WorldContext = InWorld;
+	if (UGameViewportClient* Viewport = InWorld ? InWorld->GetGameViewport() : nullptr)
+	{
+		Viewport->ViewModeIndex = CachedVMI;
+	}
+
+	if (!bRanFirstLoads)
+	{
+		bRanFirstLoads = true;
+		UToroUserSettings::Get()->InitSettings(this);
+		FFlow::Delay(this, 0.1f, [this]()
+		{
+			UToroGeneralUtils::RestartLevel(this);
+		});
+	}
 }
 
 void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)

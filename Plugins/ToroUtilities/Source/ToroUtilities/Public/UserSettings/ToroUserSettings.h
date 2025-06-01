@@ -42,6 +42,8 @@
 	DEFINE_SETTER(Type, Name, \
 	SET_CONSOLE_VAR(Command, Get##Name()))
 
+class UToroGameInstance;
+
 UCLASS(NotBlueprintable, BlueprintType)
 class TOROUTILITIES_API UToroUserSettings : public UGameUserSettings
 {
@@ -136,10 +138,9 @@ public:
 	
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6)
 
-	void InitSettings();
-	UPROPERTY(Transient) TObjectPtr<class UToroGameInstance> GameInstance;
+	void InitSettings(UToroGameInstance* InGameInstance);
 
-private:
+protected:
 
 	void ApplyNIS() const;
 	void ApplyFSR() const;
@@ -159,6 +160,8 @@ private:
 	virtual void ApplyNonResolutionSettings() override;
 	virtual void LoadSettings(bool bForceReload) override;
 	virtual UWorld* GetWorld() const override;
+
+	UPROPERTY(Transient) TObjectPtr<UToroGameInstance> GameInstance;
 
 	/* Misc */
 	UPROPERTY(Config) bool ShowFPS;
