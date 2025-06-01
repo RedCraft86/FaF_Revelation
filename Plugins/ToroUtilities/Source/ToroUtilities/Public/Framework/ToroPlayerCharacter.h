@@ -15,6 +15,10 @@ class UToroGameInstance;
 
 DECLARE_GAMEPLAY_TAG_CHILD(Character, Player)
 
+#define LockFlag(Flag) GAMEPLAY_TAG_CHILD(PlayerLock, Flag)
+#define AddPlayerLock(Flag) AddLockFlag(LockFlag(Flag))
+#define ClearPlayerLock(Flag) ClearLockFlag(LockFlag(Flag))
+
 UCLASS()
 class TOROUTILITIES_API AToroPlayerCharacter : public AToroCharacter
 {

@@ -51,7 +51,7 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 		bMainLoaded = false;
 
 		PlayerChar->EnterCinematic(GetWorld()->GetLevelScriptActor());
-		PlayerChar->AddLockFlag(GAMEPLAY_TAG_CHILD(PlayerLock, Loading));
+		PlayerChar->AddPlayerLock(Loading);
 		
 		ToLoad = NewPhase->GetLevels();
 		ToUnload = ThisPhase ? ThisPhase->GetLevels().Difference(ToLoad) : TSet<TSoftObjectPtr<UWorld>>{};
@@ -194,7 +194,7 @@ void UGamePhaseManager::OnFinishSequenceEnd()
 	HideLoadUI();
 
 	PlayerChar->ExitCinematic();
-	PlayerChar->ClearLockFlag(GAMEPLAY_TAG_CHILD(PlayerLock, Loading));
+	PlayerChar->ClearPlayerLock(Loading);
 
 	bWaiting = false;
 	bLoading = false;

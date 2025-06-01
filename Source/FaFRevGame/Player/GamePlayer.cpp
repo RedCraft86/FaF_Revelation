@@ -2,6 +2,9 @@
 
 #include "GamePlayer.h"
 
+DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue)
+DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Inventory)
+
 AGamePlayer::AGamePlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;

@@ -5,14 +5,15 @@
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroGameInstance.h"
 #include "Framework/ToroGameMode.h"
-#include "Framework/Notifications/NotificationManager.h"
+#include "ToroSettings.h"
 #if WITH_EDITOR
 #include "Widgets/Notifications/SNotificationList.h"
+#include "Framework/Notifications/NotificationManager.h"
 #endif
 
 DEFINE_GAMEPLAY_TAG_CHILD(Character, Player)
 
-AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f)
+AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f), LockFlags({LockFlag(Startup)})
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -107,12 +108,16 @@ void AToroPlayerCharacter::ClearFade() const
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	LockFlags.RemoveAll([](const FPlayerLockFlag& InFlag) { return !InFlag.IsValidFlag(); });
+	if (UToroSettings::Get()->IsOnLaunchMap(this))
+	{
+		AddPlayerLock(MainMenu);
+	}
+
 	GameMode = AToroGameMode::Get(this);
 	GameInstance = GetGameInstance<UToroGameInstance>();
 	GetWorldTimerManager().SetTimer(SlowTickTimer, this,
 		&AToroPlayerCharacter::SlowTick, SlowTickInterval, true);
-
-	LockFlags.RemoveAll([](const FPlayerLockFlag& InFlag) { return !InFlag.IsValidFlag(); });
 }
 
 void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)

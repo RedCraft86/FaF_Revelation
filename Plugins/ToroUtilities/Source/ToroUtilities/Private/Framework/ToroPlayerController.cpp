@@ -62,7 +62,7 @@ void AToroPlayerController::EnterCinematic(AActor* InActor)
 		SetCinematicMode(true, true, false, true, true);
 		if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
 		{
-			PlayerChar->AddLockFlag(Tag_PlayerLock_Cinematic.GetTag());
+			PlayerChar->AddPlayerLock(Cinematic);
 		}
 	}
 }
@@ -75,7 +75,7 @@ void AToroPlayerController::ExitCinematic()
 		SetCinematicMode(false, false, false, true, true);
 		if (AToroPlayerCharacter* PlayerChar = Cast<AToroPlayerCharacter>(GetPawn()))
 		{
-			PlayerChar->ClearLockFlag(Tag_PlayerLock_Cinematic.GetTag());
+			PlayerChar->ClearPlayerLock(Cinematic);
 		}
 	}
 }
