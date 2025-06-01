@@ -34,10 +34,10 @@ public:
 		void SetThemeIntensity(const float InIntensity) const;
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetPlayerHiding(const bool bInHiding);
+		void AddDipRequest(const UObject* InObject);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetGamePaused(const bool bInPaused);
+		void RemoveDipRequest(const UObject* InObject);
 
 	DECLARE_MULTICAST_DELEGATE(FOnThemeChanged);
 	FOnThemeChanged OnThemeChanged;
@@ -50,12 +50,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Subobjects)
 		TObjectPtr<UAudioComponent> ThemeComponent;
 
-	UPROPERTY() bool bDipped;
-	UPROPERTY() bool bPlayerHide;
-	UPROPERTY() bool bGamePaused;
 	UPROPERTY() FTimerHandle ChangeTimer;
+	UPROPERTY(Transient) TSet<TWeakObjectPtr<const UObject>> DipRequests;
 
-	void UpdateDippedState();
+	void UpdateDipState();
 	IAudioParameterControllerInterface* GetSoundParamInterface() const;
 
 	virtual void BeginPlay() override;

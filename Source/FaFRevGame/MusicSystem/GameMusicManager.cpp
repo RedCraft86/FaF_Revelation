@@ -60,31 +60,31 @@ void AGameMusicManager::SetThemeIntensity(const float InIntensity) const
 	GetSoundParamInterface()->SetFloatParameter(TEXT("Intensity"), InIntensity);
 }
 
-void AGameMusicManager::SetPlayerHiding(const bool bInHiding)
+void AGameMusicManager::AddDipRequest(const UObject* InObject)
 {
-	if (bPlayerHide != bInHiding)
+	if (InObject)
 	{
-		bPlayerHide = bInHiding;
-		UpdateDippedState();
+		DipRequests.Add(InObject);
+		UpdateDipState();
 	}
 }
 
-void AGameMusicManager::SetGamePaused(const bool bInPaused)
+void AGameMusicManager::RemoveDipRequest(const UObject* InObject)
 {
-	if (bGamePaused != bInPaused)
+	if (InObject)
 	{
-		bGamePaused = bInPaused;
-		UpdateDippedState();
+		DipRequests.Remove(InObject);
+		UpdateDipState();
 	}
 }
 
-void AGameMusicManager::UpdateDippedState()
+void AGameMusicManager::UpdateDipState()
 {
-	if (const bool bTemp = bPlayerHide || bGamePaused; bDipped != bTemp)
+	for (auto It = DipRequests.CreateIterator(); It; ++It)
 	{
-		bDipped = bTemp;
-		GetSoundParamInterface()->SetBoolParameter(TEXT("Dipped"), bDipped);
+		if (!It->IsValid()) It.RemoveCurrent();
 	}
+	GetSoundParamInterface()->SetBoolParameter(TEXT("Dipped"), !DipRequests.IsEmpty());
 }
 
 IAudioParameterControllerInterface* AGameMusicManager::GetSoundParamInterface() const
