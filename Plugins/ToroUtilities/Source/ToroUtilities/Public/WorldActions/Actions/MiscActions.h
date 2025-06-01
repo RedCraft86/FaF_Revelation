@@ -8,11 +8,11 @@
 #include "MiscActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Misc", meta = (Hidden))
-struct TOROUTILITIES_API FWAMiscActions : public FWorldActionBase
+struct TOROUTILITIES_API FWATaskMisc : public FWorldActionBase
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Level Streaming")
-struct TOROUTILITIES_API FWALevelStreaming final : public FWAMiscActions
+struct TOROUTILITIES_API FWALevelStreaming final : public FWATaskMisc
 {
 	GENERATED_BODY()
 
@@ -33,7 +33,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Level Sequence")
-struct TOROUTILITIES_API FWALevelSequence final : public FWAMiscActions
+struct TOROUTILITIES_API FWALevelSequence final : public FWATaskMisc
 {
 	GENERATED_BODY()
 
@@ -54,11 +54,11 @@ protected:
 };
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Sound", meta = (Hidden))
-struct TOROUTILITIES_API FWASoundActions : public FWAMiscActions
+struct TOROUTILITIES_API FWATaskSounds : public FWATaskMisc
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "World Sound")
-struct TOROUTILITIES_API FWAWorldSound final : public FWASoundActions
+struct TOROUTILITIES_API FWAWorldSound final : public FWATaskSounds
 {
 	GENERATED_BODY()
 
@@ -91,7 +91,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "2D Sound")
-struct TOROUTILITIES_API FWASound2D final : public FWASoundActions
+struct TOROUTILITIES_API FWASound2D final : public FWATaskSounds
 {
 	GENERATED_BODY()
 

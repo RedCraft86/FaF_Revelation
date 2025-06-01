@@ -9,11 +9,11 @@
 #include "NarrativeActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Narrative", meta = (Hidden))
-struct FAFREVGAME_API FWANarrativeActions : public FWorldActionBase
+struct FAFREVGAME_API FWATaskNarrative : public FWorldActionBase
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Start Dialogue")
-struct FAFREVGAME_API FWANarrativeDialogue final : public FWANarrativeActions
+struct FAFREVGAME_API FWANarrativeDialogue final : public FWATaskNarrative
 {
 	GENERATED_BODY()
 
@@ -28,7 +28,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Start Quest")
-struct FAFREVGAME_API FWANarrativeQuest final : public FWANarrativeActions
+struct FAFREVGAME_API FWANarrativeQuest final : public FWATaskNarrative
 {
 	GENERATED_BODY()
 
@@ -43,7 +43,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Complete Task")
-struct FAFREVGAME_API FWANarrativeTask final : public FWANarrativeActions
+struct FAFREVGAME_API FWANarrativeTask final : public FWATaskNarrative
 {
 	GENERATED_BODY()
 

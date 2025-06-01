@@ -6,11 +6,11 @@
 #include "ActorActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Actor", meta = (Hidden))
-struct TOROUTILITIES_API FWAActorActions : public FWorldActionBase
+struct TOROUTILITIES_API FWATaskActors : public FWorldActionBase
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Visibility")
-struct TOROUTILITIES_API FWAActorVisibility final : public FWAActorActions
+struct TOROUTILITIES_API FWAActorVisibility final : public FWATaskActors
 {
 	GENERATED_BODY()
 	
@@ -31,7 +31,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Collision")
-struct TOROUTILITIES_API FWAActorCollision final : public FWAActorActions
+struct TOROUTILITIES_API FWAActorCollision final : public FWATaskActors
 {
 	GENERATED_BODY()
 	
@@ -52,7 +52,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Tags")
-struct TOROUTILITIES_API FWAActorTags final : public FWAActorActions
+struct TOROUTILITIES_API FWAActorTags final : public FWATaskActors
 {
 	GENERATED_BODY()
 	
@@ -74,11 +74,11 @@ protected:
 };
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Static Mesh", meta = (Hidden))
-struct TOROUTILITIES_API FWASMActorActions : public FWAActorActions
+struct TOROUTILITIES_API FWATaskStaticMeshes : public FWATaskActors
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Materials")
-struct TOROUTILITIES_API FWASMActorMaterials final : public FWASMActorActions
+struct TOROUTILITIES_API FWASMActorMaterials final : public FWATaskStaticMeshes
 {
 	GENERATED_BODY()
 
@@ -96,7 +96,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "PrimitiveData")
-struct TOROUTILITIES_API FWASMActorPrimitiveData final : public FWASMActorActions
+struct TOROUTILITIES_API FWASMActorPrimitiveData final : public FWATaskStaticMeshes
 {
 	GENERATED_BODY()
 

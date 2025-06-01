@@ -7,11 +7,11 @@
 #include "EventActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Event", meta = (Hidden))
-struct TOROUTILITIES_API FWAEventActions : public FWorldActionBase
+struct TOROUTILITIES_API FWATaskEvents : public FWorldActionBase
 { GENERATED_BODY() };
 
 USTRUCT(BlueprintType, DisplayName = "Remove Event")
-struct TOROUTILITIES_API FWAEventRemote final : public FWAEventActions
+struct TOROUTILITIES_API FWAEventRemote final : public FWATaskEvents
 {
 	GENERATED_BODY()
 
@@ -26,7 +26,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Actor Event")
-struct TOROUTILITIES_API FWAEventActor final : public FWAEventActions
+struct TOROUTILITIES_API FWAEventActor final : public FWATaskEvents
 {
 	GENERATED_BODY()
 
@@ -44,7 +44,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Global Event")
-struct TOROUTILITIES_API FWAEventGlobal final : public FWAEventActions
+struct TOROUTILITIES_API FWAEventGlobal final : public FWATaskEvents
 {
 	GENERATED_BODY()
 
