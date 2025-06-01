@@ -46,7 +46,7 @@ void AToroPlayerController::RemovePauseRequest(const UObject* InObject)
 
 void AToroPlayerController::SetGamePaused(const bool bInPaused)
 {
-	if (IsPaused() != bInPaused)
+	if (bGamePaused != bInPaused)
 	{
 		bGamePaused = bInPaused;
 		UpdatePauseState();
