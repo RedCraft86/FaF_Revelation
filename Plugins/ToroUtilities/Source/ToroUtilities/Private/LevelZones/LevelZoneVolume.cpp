@@ -20,8 +20,6 @@ ALevelZoneVolume::ALevelZoneVolume(): CullInvert(false)
 
 	ActionManager = CreateDefaultSubobject<UWorldActionComponent>("ActionManager");
 	ActionManager->bManualEdFunction = true;
-
-	GetBrushComponent()->SetCollisionProfileName("Trigger");
 }
 
 #if WITH_EDITORONLY_DATA
