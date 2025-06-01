@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "WorldActions/WorldActionBase.h"
 #include "EventActions.generated.h"
 
@@ -47,13 +48,22 @@ struct TOROUTILITIES_API FWAEventGlobal final : public FWAEventActions
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = GlobalEvent)
+	UPROPERTY(EditAnywhere, Category = GlobalEvent, meta = (Categories = "GlobalEvent"))
 		FGameplayTag EventID;
 
 	UPROPERTY(EditAnywhere, Category = GlobalEvent)
-		TSet<TSoftObjectPtr<AActor>> Targets;
+		bool bIncludePayload;
 
-	FWAEventActor(): EventName(NAME_None) {}
+	UPROPERTY(EditAnywhere, Category = GlobalEvent, meta = (EditCondition = "bIncludePayload", EditConditionHides))
+		TSoftObjectPtr<AActor> OptionalInstigator;
+
+	UPROPERTY(EditAnywhere, Category = GlobalEvent, meta = (EditCondition = "bIncludePayload", EditConditionHides))
+		TMap<FName, FString> PayloadStrings;
+
+	UPROPERTY(EditAnywhere, Category = GlobalEvent, meta = (EditCondition = "bIncludePayload", EditConditionHides))
+		TMap<FName, float> PayloadFloats;
+
+	FWAEventGlobal(): bIncludePayload(false) {}
 
 protected:
 
