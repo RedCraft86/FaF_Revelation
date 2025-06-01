@@ -17,6 +17,7 @@ AToroVolume::AToroVolume(): bEnabled(true), RuntimeGuid(FGuid::NewGuid())
 	
 #if WITH_EDITOR
 	bColored = true;
+	BrushColor = FColor(124, 75, 155);
 #endif
 }
 
