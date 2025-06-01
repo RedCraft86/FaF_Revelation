@@ -6,6 +6,7 @@
 #include "GameplayTagContainer.h"
 #include "Helpers/ClassGetters.h"
 #include "GeneralProjectSettings.h"
+#include "Interfaces/UDSInterface.h"
 #include "Engine/DeveloperSettings.h"
 #include "SaveSystem/SaveGameTypes.h"
 #include "SaveSystem/ToroSaveObjects.h"
@@ -60,6 +61,9 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = SaveSystem, meta = (ForceInlineRow, Categories = "Save"))
 		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> SaveObjects;
 
+	UPROPERTY(Config, EditAnywhere, Category = Rendering)
+		TSoftClassPtr<UUDSSetterObject> UDS_Setter;
+	
 	UPROPERTY(Config, EditAnywhere, Category = Rendering)
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM;
 

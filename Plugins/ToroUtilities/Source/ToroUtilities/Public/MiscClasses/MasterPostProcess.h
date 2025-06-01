@@ -25,9 +25,6 @@ public:
 	UPROPERTY() TObjectPtr<UBillboardComponent> VisualBillboard;
 #endif
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
-		TSubclassOf<UUDSSetterObject> UDS_Setter;
-
 	/* Advanced bloom control for game settings */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FPPBloomChoice BloomOverride;
@@ -55,8 +52,11 @@ public:
 		void CopyFromTarget();
 #endif
 
-	UFUNCTION(BlueprintCallable, Category = UDS, DisplayName = "Set UDS Settings")
+	UFUNCTION(BlueprintCallable, Category = PostProcess, DisplayName = "Set UDS Settings")
 		void SetUDSSettings(const FUDSSettings& InSettings);
+
+	UFUNCTION(BlueprintCallable, Category = PostProcess)
+		void ApplySettings();
 
 	bool IsUsingLumenGI() const;
 	UMaterialInstanceDynamic* GetLightProbeBlendable();
@@ -69,8 +69,6 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> BrightnessPPM;
 
 	void OnSettingUpdate(const class UToroUserSettings* UserSettings);
-
-	void ApplySettings();
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 #if WITH_EDITOR

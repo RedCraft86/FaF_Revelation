@@ -119,6 +119,31 @@ void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings)
 	if (UDSSetterObj) UDSSetterObj->SetSettings(this, InSettings);
 }
 
+void AMasterPostProcess::ApplySettings()
+{
+	float Brightness = 1.0f;
+	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
+	{
+		Brightness = UserSettings->GetBrightness() / 100.0f;
+		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
+		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(), UserSettings->GetLumenReflection());
+		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
+	}
+
+	PostProcess->Settings = Settings;
+
+	if (UMaterialInstanceDynamic* PPM = GetLightProbeBlendable())
+	{
+		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
+	}
+
+	if (UMaterialInstanceDynamic* PPM = GetBrightnessBlendable())
+	{
+		PPM->SetScalarParameterValue(TEXT("Brightness"), Brightness);
+		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
+	}
+}
+
 bool AMasterPostProcess::IsUsingLumenGI() const
 {
 	if (PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod)
@@ -155,31 +180,6 @@ void AMasterPostProcess::OnSettingUpdate(const UToroUserSettings* UserSettings)
 	ApplySettings();
 }
 
-void AMasterPostProcess::ApplySettings()
-{
-	float Brightness = 1.0f;
-	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
-	{
-		Brightness = UserSettings->GetBrightness() / 100.0f;
-		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
-		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(), UserSettings->GetLumenReflection());
-		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
-	}
-
-	PostProcess->Settings = Settings;
-
-	if (UMaterialInstanceDynamic* PPM = GetLightProbeBlendable())
-	{
-		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
-	}
-
-	if (UMaterialInstanceDynamic* PPM = GetBrightnessBlendable())
-	{
-		PPM->SetScalarParameterValue(TEXT("Brightness"), Brightness);
-		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
-	}
-}
-
 void AMasterPostProcess::BeginPlay()
 {
 	Super::BeginPlay();
@@ -193,12 +193,17 @@ void AMasterPostProcess::BeginPlay()
 			TEXT("\t %s in level %s"), *Actor->GetActorLabel(), *GetNameSafe(Actor->GetLevel()));
 
 		if (PostProcesses[0] != this)
+		{
 			return;
+		}
 	}
 #endif
 
-	if (UDS_Setter) UDSSetterObj = NewObject<UUDSSetterObject>(this, UDS_Setter);
 	UToroUserSettings::Get()->OnDynamicSettingsChanged.AddUObject(this, &AMasterPostProcess::OnSettingUpdate);
+	if (const TSubclassOf<UUDSSetterObject> Class = UToroSettings::Get()->UDS_Setter.LoadSynchronous())
+	{
+		UDSSetterObj = NewObject<UUDSSetterObject>(this, Class);
+	}
 }
 
 void AMasterPostProcess::OnConstruction(const FTransform& Transform)
