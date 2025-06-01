@@ -50,7 +50,7 @@ private:
 
 	void CooldownFinish()
 	{
-		bOnCooldown = true;
+		bOnCooldown = false;
 		UpdateAudio();
 	}
 	void OnMusicThemeChanged()
