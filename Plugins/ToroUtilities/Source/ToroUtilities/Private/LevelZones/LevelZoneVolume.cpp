@@ -5,7 +5,6 @@
 #include "MiscClasses/SmartCullingComponent.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
-#include "Components/BrushComponent.h"
 #include "Interfaces/CharInterface.h"
 #if WITH_EDITOR
 #include "EngineUtils.h"
@@ -20,6 +19,11 @@ ALevelZoneVolume::ALevelZoneVolume(): CullInvert(false)
 
 	ActionManager = CreateDefaultSubobject<UWorldActionComponent>("ActionManager");
 	ActionManager->bManualEdFunction = true;
+
+#if WITH_EDITOR
+	bDisplayShadedVolume = true;
+	BrushColor = FColor(255, 140, 0);
+#endif
 }
 
 #if WITH_EDITORONLY_DATA
@@ -108,3 +112,17 @@ void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 		ActionManager->RunActions();
 	}
 }
+
+#if WITH_EDITOR
+void ALevelZoneVolume::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	ActionManager->SetActions(ActionsEnter);
+	ActionManager->AppendActions(ActionsExit);
+	ActionManager->UpdateEdFunctions();
+	if (ActorEdIcon)
+	{
+		ActorEdIcon->IconPath = TEXT("/ToroUtilities/Icons/LevelZoneVolume.LevelZoneVolume");
+	}
+}
+#endif

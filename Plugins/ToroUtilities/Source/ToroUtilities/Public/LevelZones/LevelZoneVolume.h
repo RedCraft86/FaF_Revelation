@@ -55,12 +55,6 @@ private:
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 #if WITH_EDITOR
-	virtual void OnConstruction(const FTransform& Transform) override
-	{
-		Super::OnConstruction(Transform);
-		ActionManager->SetActions(ActionsEnter);
-		ActionManager->AppendActions(ActionsExit);
-		ActionManager->UpdateEdFunctions();
-	}
+	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
 };

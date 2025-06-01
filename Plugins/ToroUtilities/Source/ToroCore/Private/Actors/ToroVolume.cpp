@@ -14,6 +14,10 @@ AToroVolume::AToroVolume(): bEnabled(true), RuntimeGuid(FGuid::NewGuid())
 
 	SetCanBeDamaged(false);
 	GetBrushComponent()->SetCollisionProfileName("Trigger");
+	
+#if WITH_EDITOR
+	bColored = true;
+#endif
 }
 
 void AToroVolume::SetEnabled(const bool bInEnabled)
