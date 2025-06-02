@@ -20,42 +20,47 @@ public:
 
 private:
 
-	UScriptStruct* ScriptStruct = nullptr;
+	TObjectPtr<UScriptStruct> ScriptStruct = nullptr;
+	static inline TSet<FName> ClampMetadata = { TEXT("ClampMin"), TEXT("ClampMax"), TEXT("UIMin"), TEXT("UIMax") };
 
 	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> StructPropertyHandle, FDetailWidgetRow& HeaderRow,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
-		if (FProperty* Property = StructPropertyHandle->GetProperty())
+		FProperty* Property = StructPropertyHandle->GetProperty();
+		const FStructProperty* StructProperty = Property ? CastField<FStructProperty>(Property) : nullptr;
+		ScriptStruct = StructProperty ? StructProperty->Struct : nullptr;
+		if (ScriptStruct)
 		{
-			if (FStructProperty* StructProperty = CastField<FStructProperty>(Property))
+			STRUCT_PROPERTY_VAR_NS(Base, Base)
+			for (const FName& Meta : ClampMetadata)
 			{
-				ScriptStruct = StructProperty->Struct;
-				if (ScriptStruct)
+				if (FString Value = Property->GetMetaData(Meta); !Value.IsEmpty())
 				{
-					STRUCT_PROPERTY_VAR_NS(Base, Base)
-					HeaderRow.OverrideResetToDefault(SIMPLE_RESET_TO_DEFAULT(Base))
-					.NameContent()
-					[
-						StructPropertyHandle->CreatePropertyNameWidget()
-					]
-					.ValueContent()
-					[
-						Base->CreatePropertyValueWidget()
-					];
-
-					return;
+					Base->SetInstanceMetaData(Meta, Value);
 				}
 			}
-		}
 
-		HeaderRow.NameContent()
-		[
-			StructPropertyHandle->CreatePropertyNameWidget()
-		]
-		.ValueContent()
-		[
-			GENERIC_LABEL(Error)
-		];
+			HeaderRow.OverrideResetToDefault(SIMPLE_RESET_TO_DEFAULT(Base))
+			.NameContent()
+			[
+				StructPropertyHandle->CreatePropertyNameWidget()
+			]
+			.ValueContent()
+			[
+				Base->CreatePropertyValueWidget()
+			];
+		}
+		else
+		{
+			HeaderRow.NameContent()
+			[
+				StructPropertyHandle->CreatePropertyNameWidget()
+			]
+			.ValueContent()
+			[
+				GENERIC_LABEL(Error)
+			];
+		}
 	}
 	
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructPropertyHandle, IDetailChildrenBuilder& StructBuilder,
@@ -66,8 +71,7 @@ private:
 			FString ModifierType = ScriptStruct->GetMetaData(TEXT("ModifierType"));
 			if (ModifierType.IsEmpty()) ModifierType = TEXT("Modifiers");
 
-			StructBuilder.AddProperty(STRUCT_PROPERTY_NS(Modifiers))
-				.DisplayName(FText::FromString(ModifierType));
+			StructBuilder.AddProperty(STRUCT_PROPERTY_NS(Modifiers)).DisplayName(FText::FromString(ModifierType));
 		}
 	}
 };

@@ -5,10 +5,6 @@
 #include "DetailLayoutBuilder.h"
 #include "PropertyCustomizationHelpers.h"
 
-#define GET_MEMBER(Class, Member) GET_MEMBER_NAME_CHECKED(Class, Member)
-
-#define ADD_META(Property, Key, Value) Property->SetInstanceMetaData(TEXT(#Key), TEXT(#Value)); \
-
 #define CLASS_PROPERTY(Class, Member) DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(Class, Member))
 #define CLASS_PROPERTY_NS(Member) CLASS_PROPERTY(CLASSNAME, Member)
 

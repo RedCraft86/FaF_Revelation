@@ -46,10 +46,7 @@ struct TOROCORE_API FToroFloatMulti : public FToroFloatModifier
 	virtual float Evaluate() const override
 	{
 		float Value = Base;
-		for (const TPair<FName, float>& Pair : Modifiers)
-		{
-			if (!Pair.Key.IsNone()) Value *= Pair.Value;
-		}
+		for (const TPair<FName, float>& Pair : Modifiers) Value *= Pair.Value;
 		return Value;
 	}
 };
@@ -64,10 +61,7 @@ struct TOROCORE_API FToroFloatSum : public FToroFloatModifier
 	virtual float Evaluate() const override
 	{
 		float Value = Base;
-		for (const TPair<FName, float>& Pair : Modifiers)
-		{
-			if (!Pair.Key.IsNone()) Value += Pair.Value;
-		}
+		for (const TPair<FName, float>& Pair : Modifiers) Value += Pair.Value;
 		return Value;
 	}
 };
