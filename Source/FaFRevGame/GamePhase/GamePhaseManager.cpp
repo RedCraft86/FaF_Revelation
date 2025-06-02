@@ -155,7 +155,7 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		bMainLoaded = true;
 		ThisPhase->TeleportPlayer();
 
-		//PlayerChar->OverrideControlFlags(ThisPhase->PlayerControl); // TODO
+		PlayerChar->OverrideControlFlags(ThisPhase->PlayerControl);
 		PlayerChar->SetLightSettings(ThisPhase->PlayerLight);
 
 		if (AGameMusicManager* MusicManager = AGameMusicManager::Get<AGameMusicManager>(this))

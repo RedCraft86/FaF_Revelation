@@ -2,6 +2,7 @@
 
 #include "GamePhaseData.h"
 #include "GamePhaseManager.h"
+#include "Player/PlayerTypes.h"
 
 DEFINE_GAMEPLAY_TAG_BASE(Content)
 
@@ -11,7 +12,7 @@ UGamePhaseGraph::UGamePhaseGraph(): WidgetDelay(0.25f)
 	CompatibleEdge = nullptr;
 }
 
-UGamePhaseNode::UGamePhaseNode(): PlayerControl(0) // TODO set default
+UGamePhaseNode::UGamePhaseNode(): PlayerControl(DEFAULT_PLAYER_CONTROL_FLAGS)
 {
 	Name = NSLOCTEXT("Game", "NewSectionName", "New Section");
 	Description = NSLOCTEXT("Game", "NewSectionDesc", "A node containing data relevant to a section of the game.");
