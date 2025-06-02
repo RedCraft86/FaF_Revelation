@@ -24,22 +24,9 @@ struct TOROCORE_API FToroFloatModifier
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FloatModifier)
 		TMap<FName, float> Modifiers;
 
-	FToroFloatModifier() : Base(0.0f) {}
-	FToroFloatModifier(const float InBase) : Base(InBase) {}
+	FToroFloatModifier(): Base(0.0f) {}
+	FToroFloatModifier(const float InBase): Base(InBase) {}
 	virtual ~FToroFloatModifier() = default;
-	
-	void ClampBase(const float Min, const float Max)
-	{
-		Base = FMath::Clamp(Base, Min, Max);
-	}
-	
-	void ClampModifiers(const float Min, const float Max)
-	{
-		for (auto It = Modifiers.CreateIterator(); It; ++It)
-		{
-			It->Value = FMath::Clamp(It->Value, Min, Max);
-		}
-	}
 
 	void AddMod(const FName Key, const float Value) { Modifiers.Add(Key, Value); }
 	void RemoveMod(const FName Key) { Modifiers.Remove(Key); }
@@ -102,9 +89,9 @@ struct TOROCORE_API FToroFloatInterp
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FloatInterp)
 		bool bConstant;
 
-	FToroFloatInterp() : Current(0.0f), Target(0.0f), InterpSpeed(5.0f), bConstant(false) {}
-	FToroFloatInterp(const float InCurrent, const float InSpeed = 5.0f, const bool bInConstant = false)
-		: Current(InCurrent), Target(InCurrent), InterpSpeed(InSpeed), bConstant(bInConstant)
+	FToroFloatInterp(): Current(0.0f), Target(0.0f), InterpSpeed(5.0f), bConstant(false) {}
+	FToroFloatInterp(const float InTarget, const float InSpeed = 5.0f, const bool bInConstant = false)
+		: Current(InTarget), Target(InTarget), InterpSpeed(InSpeed), bConstant(bInConstant)
 	{}
 
 	void SnapToTarget() { Current = Target; }
@@ -114,5 +101,37 @@ struct TOROCORE_API FToroFloatInterp
 		if (IsComplete()) return;
 		Current = bConstant ? FMath::FInterpConstantTo(Current, Target, InDeltaTime, InterpSpeed)
 			: FMath::FInterpTo(Current, Target, InDeltaTime, InterpSpeed);
+	}
+};
+
+USTRUCT(BlueprintType, DisplayName = "Vector Interpolation")
+struct TOROCORE_API FToroVectorInterp
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = FloatInterp)
+		FVector Current;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FloatInterp)
+		FVector Target;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FloatInterp)
+		float InterpSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = FloatInterp)
+		bool bConstant;
+
+	FToroVectorInterp() : Current(0.0f), Target(0.0f), InterpSpeed(5.0f), bConstant(false) {}
+	FToroVectorInterp(const FVector& InTarget, const float InSpeed = 5.0f, const bool bInConstant = false)
+		: Current(InTarget), Target(InTarget), InterpSpeed(InSpeed), bConstant(bInConstant)
+	{}
+
+	void SnapToTarget() { Current = Target; }
+	bool IsComplete() const { return Current.Equals(Target); }
+	void Tick(const float InDeltaTime)
+	{
+		if (IsComplete()) return;
+		Current = bConstant ? FMath::VInterpTo(Current, Target, InDeltaTime, InterpSpeed)
+			: FMath::VInterpConstantTo(Current, Target, InDeltaTime, InterpSpeed);
 	}
 };
