@@ -24,7 +24,6 @@ void AInspectableActor::Tick(float DeltaTime)
 	if (CachedPlayer)
 	{
 		TargetTransform = CachedPlayer->InspectRoot->GetComponentTransform();
-		
 	}
 }
 
@@ -53,6 +52,7 @@ FInteractionInfo AInspectableActor::GetInteractionInfo_Implementation(const FHit
 
 void AInspectableActor::OnBeginInteract_Implementation(AGamePlayer* Player, const FHitResult& HitResult)
 {
+	Player->Inventory->AddArchive(ArchiveEntry);
 	Player->SetInspectable(this, TurnSpeed);
 	Player->GetPlayerController()->AddPauseRequest(this);
 	TargetTransform = Player->InspectRoot->GetComponentTransform();

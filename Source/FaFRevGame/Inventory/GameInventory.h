@@ -47,7 +47,7 @@ public:
 
 	uint8 AddItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount = 1);
 	uint8 RemoveItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 Amount = 1);
-	void AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArchive, const bool bShowHidden);
+	void AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArchive);
 
 	uint8 GetItemAmount(const TSoftObjectPtr<UInventoryItemData>& InItem) const;
 	bool HasItem(const TSoftObjectPtr<UInventoryItemData>& InItem, const uint8 MinAmount = 1) const;

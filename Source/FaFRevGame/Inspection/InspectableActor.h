@@ -25,6 +25,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (AllowPreserveRatio = true))
 		FVector InspectScale;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TObjectPtr<UInventoryItemData> ArchiveEntry;
+
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		FInteractionInfo Interaction;
 

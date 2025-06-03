@@ -84,7 +84,7 @@ uint8 UGameInventory::RemoveItem(const TSoftObjectPtr<UInventoryItemData>& InIte
 	return Missing;
 }
 
-void UGameInventory::AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArchive, const bool bShowHidden)
+void UGameInventory::AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArchive)
 {
 	if (const UInventoryItemData* Archive = InArchive.LoadSynchronous();
 		!Archive || Archive->ItemType != EInventoryItemType::Archive)
