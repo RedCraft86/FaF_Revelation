@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "InputActionValue.h"
 #include "InventoryItemData.h"
 #include "Components/ActorComponent.h"
 #include "GameInventory.generated.h"
@@ -65,8 +66,14 @@ public:
 		const TMap<TSoftObjectPtr<UInventoryItemData>, uint8>& InItems,
 		const TMap<TSoftObjectPtr<UInventoryItemData>, bool>& InArchives);
 
+	void OpenInventory() { bInInventory = true; } // TODO
+	void CloseInventory() { bInInventory = false; }
+	void EquipmentUse() const;
+	void EquipmentUseAlt(const bool bActive) const;
+
 private:
 
+	UPROPERTY() bool bInInventory;
 	UPROPERTY(Transient) FInventoryData InvData;
 	UPROPERTY(Transient) TObjectPtr<AInventoryEquipment> EquipActor;
 };
