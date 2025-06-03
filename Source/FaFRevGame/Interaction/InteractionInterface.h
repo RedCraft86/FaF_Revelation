@@ -5,6 +5,7 @@
 #include "UObject/Interface.h"
 #include "InteractionInterface.generated.h"
 
+class AGamePlayer;
 class AToroPlayerCharacter;
 
 UENUM(BlueprintType)
@@ -70,12 +71,12 @@ class FAFREVGAME_API IInteractionInterface
 public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Begin Interact")
-		void OnBeginInteract(AToroPlayerCharacter* Player, const FHitResult& HitResult);
-	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult) {}
+		void OnBeginInteract(AGamePlayer* Player, const FHitResult& HitResult);
+	virtual void OnBeginInteract_Implementation(AGamePlayer* Player, const FHitResult& HitResult) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "End Interact")
-		void OnEndInteract(AToroPlayerCharacter* Player);
-	virtual void OnEndInteract_Implementation(AToroPlayerCharacter* Player) {}
+		void OnEndInteract(AGamePlayer* Player);
+	virtual void OnEndInteract_Implementation(AGamePlayer* Player) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction, DisplayName = "Begin Pawn Interact")
 		void OnBeginPawnInteract(APawn* Pawn, const FHitResult& HitResult);
@@ -90,7 +91,7 @@ public:
 		return IsValid(Target) ? Target->Implements<UInteractionInterface>() : false; 
 	}
 
-	static void BeginInteract(UObject* Target, AToroPlayerCharacter* Player, const FHitResult& HitResult)
+	static void BeginInteract(UObject* Target, AGamePlayer* Player, const FHitResult& HitResult)
 	{
 		if (ImplementedBy(Target))
 		{
@@ -98,7 +99,7 @@ public:
 		}
 	}
 
-	static void EndInteract(UObject* Target, AToroPlayerCharacter* Player)
+	static void EndInteract(UObject* Target, AGamePlayer* Player)
 	{
 		if (ImplementedBy(Target))
 		{
