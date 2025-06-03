@@ -1,5 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
+// ReSharper disable CppMemberFunctionMayBeConst
 #include "GamePlayer.h"
 #include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
@@ -584,6 +585,7 @@ void AGamePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		BIND_INPUT_ACTION(EnhancedInputComponent, Started, Pause)
+		BIND_INPUT_ACTION(EnhancedInputComponent, Started, Back)
 		BIND_INPUT_ACTION(EnhancedInputComponent, Triggered, Turn)
 		BIND_INPUT_ACTION(EnhancedInputComponent, Triggered, Move)
 		BIND_INPUT_ACTION(EnhancedInputComponent, Completed, Move)
@@ -601,9 +603,6 @@ void AGamePlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		BIND_INPUT_ACTION(EnhancedInputComponent, Completed, Interact)
 		BIND_INPUT_ACTION(EnhancedInputComponent, Canceled, Interact)
 		BIND_INPUT_ACTION(EnhancedInputComponent, Started, Equipment)
-		BIND_INPUT_ACTION(EnhancedInputComponent, Started, EquipmentAlt)
-		BIND_INPUT_ACTION(EnhancedInputComponent, Completed, EquipmentAlt)
-		BIND_INPUT_ACTION(EnhancedInputComponent, Canceled, EquipmentAlt)
 	}
 }
 
@@ -642,18 +641,35 @@ void AGamePlayer::OnConstruction(const FTransform& Transform)
 
 void AGamePlayer::InputBinding_Pause(const FInputActionValue& InValue)
 {
-	if (IsPaused()) return;
+	if (WorldDevice)
+	{
+		ExitWorldDevice();
+		return;
+	}
+
 	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
 		Inventory->CloseInventory();
 		return;
 	}
 
-	if (!IsLocked())
+	if (CAN_INPUT)
 	{
 		SetRunState(false);
 		SetLeanState(EPlayerLeanState::None);
 		GetPlayerController()->SetGamePaused(true);
+	}
+}
+
+void AGamePlayer::InputBinding_Back(const FInputActionValue& InValue)
+{
+	if (Inspectable)
+	{
+		ExitInspectable();
+	}
+	if (HidingSpot)
+	{
+		ExitHidingSpot();
 	}
 }
 
@@ -782,13 +798,5 @@ void AGamePlayer::InputBinding_Equipment(const FInputActionValue& InValue)
 	if (CAN_INPUT)
 	{
 		Inventory->EquipmentUse();
-	}
-}
-
-void AGamePlayer::InputBinding_EquipmentAlt(const FInputActionValue& InValue)
-{
-	if (CAN_INPUT)
-	{
-		Inventory->EquipmentUseAlt(InValue.Get<bool>());
 	}
 }

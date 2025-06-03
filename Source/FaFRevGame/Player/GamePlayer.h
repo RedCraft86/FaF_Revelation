@@ -266,6 +266,7 @@ private:
 	virtual void OnConstruction(const FTransform& Transform) override;
 
 	void InputBinding_Pause(const FInputActionValue& InValue);
+	void InputBinding_Back(const FInputActionValue& InValue);
 	void InputBinding_Turn(const FInputActionValue& InValue);
 	void InputBinding_Move(const FInputActionValue& InValue);
 	void InputBinding_Run(const FInputActionValue& InValue);
@@ -275,5 +276,4 @@ private:
 	void InputBinding_HideQuests(const FInputActionValue& InValue);
 	void InputBinding_Interact(const FInputActionValue& InValue);
 	void InputBinding_Equipment(const FInputActionValue& InValue);
-	void InputBinding_EquipmentAlt(const FInputActionValue& InValue);
 };

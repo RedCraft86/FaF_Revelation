@@ -75,6 +75,7 @@ namespace Player
 	namespace Inputs
 	{
 		inline static FName Pause			= TEXT("Pause");
+		inline static FName Back			= TEXT("Back");
 		inline static FName Turn			= TEXT("Turn");
 		inline static FName Move			= TEXT("Move");
 		inline static FName Run				= TEXT("Run");
@@ -84,10 +85,9 @@ namespace Player
 		inline static FName HideQuests		= TEXT("HideQuests");
 		inline static FName Interact		= TEXT("Interact");
 		inline static FName Equipment		= TEXT("Equipment");
-		inline static FName EquipmentAlt	= TEXT("EquipmentAlt");
 
-		inline static TSet All = { Pause, Turn, Move, Run, Crouch, Lean,
-			Inventory, HideQuests, Interact, Equipment, EquipmentAlt };
+		inline static TSet All = { Pause, Back, Turn, Move, Run, Crouch, Lean,
+			Inventory, HideQuests, Interact, Equipment };
 	}
 
 	namespace Keys

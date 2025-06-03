@@ -230,12 +230,3 @@ void UGameInventory::EquipmentUse() const
 {
 	if (EquipActor) EquipActor->UseItem();
 }
-
-void UGameInventory::EquipmentUseAlt(const bool bActive) const
-{
-	if (EquipActor)
-	{
-		if (bActive) EquipActor->BeginAltUse();
-		else EquipActor->EndAltUse();
-	}
-}

@@ -69,7 +69,6 @@ public:
 	void OpenInventory() { bInInventory = true; } // TODO
 	void CloseInventory() { bInInventory = false; }
 	void EquipmentUse() const;
-	void EquipmentUseAlt(const bool bActive) const;
 
 private:
 

@@ -27,12 +27,6 @@ public:
 		void UseItem();
 
 	UFUNCTION(BlueprintImplementableEvent)
-		void BeginAltUse();
-
-	UFUNCTION(BlueprintImplementableEvent)
-		void EndAltUse();
-
-	UFUNCTION(BlueprintImplementableEvent)
 		void OnEquip();
 	
 	UFUNCTION(BlueprintImplementableEvent)
