@@ -50,6 +50,6 @@ UUserWidget* UGameNarrative::GetWidget() const
 void UGameNarrative::BeginPlay()
 {
 	Super::BeginPlay();
-	Player = AGamePlayer::Get<AGamePlayer>(this);
+	Player = GetOwner<AGamePlayer>();
 	GetWidget(); // Just to create the widget
 }
