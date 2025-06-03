@@ -1,0 +1,170 @@
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
+
+#pragma once
+
+#include "LegacyCameraShake.h"
+#include "Framework/ToroPlayerCharacter.h"
+#include "PlayerTypes.generated.h"
+
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Inventory)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Jumpscare)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Hiding)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Device)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Task)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Guide)
+DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, QTE)
+
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
+enum EPlayerControlFlags
+{
+	PCF_None		= 0			UMETA(Hidden),
+	PCF_Locked		= 1 << 0	UMETA(DisplayName = "Locked"),
+
+	// Ability flags
+	PCF_UseStamina	= 1 << 1	UMETA(DisplayName = "Use Stamina"),
+	PCF_CanPause	= 1 << 2	UMETA(DisplayName = "Can Pause"),
+	PCF_CanTurn		= 1 << 3	UMETA(DisplayName = "Can Turn"),
+	PCF_CanMove		= 1 << 4	UMETA(DisplayName = "Can Walk"),
+	PCF_CanRun		= 1 << 5	UMETA(DisplayName = "Can Run"),
+	PCF_CanCrouch	= 1 << 6	UMETA(DisplayName = "Can Crouch"),
+	PCF_CanLean		= 1 << 7	UMETA(DisplayName = "Can Lean"),
+	PCF_CanInteract	= 1 << 8	UMETA(DisplayName = "Can Interact"),
+	PCF_CanHide		= 1 << 9	UMETA(DisplayName = "Can Hide")
+};
+ENUM_CLASS_FLAGS(EPlayerControlFlags);
+ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerControlFlags, PCF_Locked, PCF_CanHide);
+#define DEFAULT_PLAYER_CONTROL_FLAGS PCF_UseStamina | PCF_CanPause | PCF_CanTurn \
+	| PCF_CanMove | PCF_CanRun | PCF_CanCrouch | PCF_CanLean | PCF_CanInteract | PCF_CanHide
+
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
+enum EPlayerStateFlags
+{
+	PSF_None		= 0			UMETA(Hidden),
+	PSF_Running		= 1 << 0	UMETA(DisplayName = "Running"),
+	PSF_RunLocked	= 1 << 1	UMETA(DisplayName = "Stamina Punished"),
+	PSF_Crouching	= 1 << 2	UMETA(DisplayName = "Crouching"),
+	PSF_Hiding		= 1 << 3	UMETA(DisplayName = "Hiding"),
+	PSF_Device		= 1 << 4	UMETA(DisplayName = "Using Devices"),
+	PSF_Tasking		= 1 << 5	UMETA(DisplayName = "Doing Tasks")
+};
+ENUM_CLASS_FLAGS(EPlayerStateFlags);
+
+UENUM(BlueprintType)
+enum class EPlayerLeanState : uint8
+{
+	None,
+	Left,
+	Right
+};
+
+UCLASS()
+class FAFREVGAME_API UCamShake_Walk : public ULegacyCameraShake
+{
+	GENERATED_BODY()
+	UCamShake_Walk();
+};
+
+UCLASS()
+class FAFREVGAME_API UCamShake_Run : public ULegacyCameraShake
+{
+	GENERATED_BODY()
+	UCamShake_Run();
+};
+
+namespace Player
+{
+	namespace Inputs
+	{
+		inline static FName Pause			= TEXT("Pause");
+		inline static FName Turn			= TEXT("Turn");
+		inline static FName Move			= TEXT("Move");
+		inline static FName Run				= TEXT("Run");
+		inline static FName Crouch			= TEXT("Crouch");
+		inline static FName Lean			= TEXT("Lean");
+		inline static FName Inventory		= TEXT("Inventory");
+		inline static FName HideQuests		= TEXT("HideQuests");
+		inline static FName Interact		= TEXT("Interact");
+		inline static FName Equipment		= TEXT("Equipment");
+		inline static FName EquipmentAlt	= TEXT("EquipmentAlt");
+
+		inline static TSet All = { Pause, Turn, Move, Run, Crouch, Lean,
+			Inventory, HideQuests, Interact, Equipment, EquipmentAlt };
+	}
+
+	namespace Keys
+	{
+		inline static FName Running		= TEXT("Internal_Run");
+		inline static FName Crouching	= TEXT("Internal_Crouch");
+	}
+
+	namespace LockFlags
+	{
+		// Lazily load because apparently the native tags don't register fast enough
+		static inline TSet<FGameplayTag> AllFlags = {};
+		static bool IsNative(const FPlayerLockFlag& InFlag)
+		{
+			if (AllFlags.IsEmpty())
+			{
+				AllFlags = {
+					LockFlag(MainMenu),
+					LockFlag(Startup),
+					LockFlag(Loading),
+					LockFlag(Cinematic),
+					LockFlag(Dialogue),
+					LockFlag(Jumpscare),
+					LockFlag(Inventory),
+					LockFlag(Hiding),
+					LockFlag(Device),
+					LockFlag(Guide),
+					LockFlag(QTE)
+				};
+			}
+			return AllFlags.Contains(InFlag.LockTag);
+		}
+
+		static inline TSet<FGameplayTag> ImmunityFlags = {};
+		inline bool IsImmune(const FPlayerLockFlag& InFlag)
+		{
+			if (ImmunityFlags.IsEmpty())
+			{
+				ImmunityFlags = {
+					LockFlag(MainMenu),
+					LockFlag(Startup),
+					LockFlag(Loading),
+					LockFlag(Cinematic),
+					LockFlag(Dialogue),
+					LockFlag(Jumpscare),
+					LockFlag(Hiding),
+					LockFlag(Guide)
+				};
+			}
+			return ImmunityFlags.Contains(InFlag.LockTag);
+		}
+
+		static inline TSet<FGameplayTag> ResettableFlags = {};
+		static bool IsResettable(const FPlayerLockFlag& InFlag)
+		{
+			if (ResettableFlags.IsEmpty())
+			{
+				ResettableFlags = {
+					LockFlag(Inventory),
+					LockFlag(Hiding),
+					LockFlag(Device),
+					LockFlag(QTE)
+				};
+			}
+			return ResettableFlags.Contains(InFlag.LockTag);
+		}
+	}
+
+	static float LeanToFloat(const EPlayerLeanState& State)
+	{
+		switch (State)
+		{
+		case EPlayerLeanState::Left: return -1.0f;
+		case EPlayerLeanState::Right: return 1.0f;
+		default: return 0.0f;
+		}
+	}
+}
