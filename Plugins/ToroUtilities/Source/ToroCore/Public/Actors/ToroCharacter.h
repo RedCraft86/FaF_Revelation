@@ -22,12 +22,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Game)
 		virtual void Teleport(const FVector& InLocation, const FRotator& InRotation);
 
-	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const override {}
 	virtual FGameplayTag GetCharacterID_Implementation() const override { return CharacterID; }
-	virtual FVector GetLookTarget_Implementation() const override
-	{
-		return GetActorTransform().TransformPosition({0.0f, 0.0f, 60.0f});
-	}
 
 protected:
 

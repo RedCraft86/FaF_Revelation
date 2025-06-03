@@ -24,8 +24,8 @@ public:
 	virtual FGameplayTag GetCharacterID_Implementation() const { return {}; }
 
 	UFUNCTION(BlueprintNativeEvent, Category = Character)
-		FVector GetLookTarget() const;
-	virtual FVector GetLookTarget_Implementation() const { return FVector::ZeroVector; }
+		bool GetLookTarget(FVector& Location) const;
+	virtual bool GetLookTarget_Implementation(FVector& Location) const { return false; }
 
 	UFUNCTION(BlueprintNativeEvent, Category = Character)
 		void GetViewPoint(FVector& Location, FVector& Forward, float& Angle) const;
@@ -46,14 +46,14 @@ public:
 		return {};
 	}
 
-	static FVector GetLookTarget(const UObject* Target)
+	static bool GetLookTarget(const UObject* Target, FVector& Location)
 	{
 		if (ImplementedBy(Target))
 		{
-			return ICharInterface::Execute_GetLookTarget(Target);
+			return ICharInterface::Execute_GetLookTarget(Target, Location);
 		}
 
-		return FVector::ZeroVector;
+		return false;
 	}
 
 	static void GetViewPoint(const UObject* Target, FVector& Location, FVector& Forward, float& FOV)
