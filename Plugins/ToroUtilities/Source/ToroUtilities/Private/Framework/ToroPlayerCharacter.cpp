@@ -117,7 +117,7 @@ void AToroPlayerCharacter::BeginPlay()
 	GameMode = AToroGameMode::Get(this);
 	GameInstance = GetGameInstance<UToroGameInstance>();
 	GetWorldTimerManager().SetTimer(SlowTickTimer, this,
-		&AToroPlayerCharacter::SlowTick, SlowTickInterval, true);
+		&AToroPlayerCharacter::SlowTick, SlowTickInterval, true, 0.0f);
 }
 
 void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
