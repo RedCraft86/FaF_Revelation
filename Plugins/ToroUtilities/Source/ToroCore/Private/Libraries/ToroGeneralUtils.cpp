@@ -20,7 +20,7 @@ bool UToroGeneralUtils::IsActorInScreen(const AActor* Target, const float MaxDis
 	const bool bLineTraceCheck, const FActorBoundsCheckParams& TraceCheckParams)
 {
 	if (!IsValid(Target) || MaxDistance <= 0
-		|| (bLineTraceCheck && TraceCheckParams.BoundingBoxLerp.Size() <= 0))
+		|| (bLineTraceCheck && TraceCheckParams.BoundingBoxLerp.SizeSquared() <= 0))
 	{
 		return false;
 	}

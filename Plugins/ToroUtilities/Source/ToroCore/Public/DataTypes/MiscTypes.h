@@ -40,7 +40,10 @@ struct FToroTextureData
 		return Ar;
 	}
 	
-	bool HasValidData() const { return !Pixels.IsEmpty() && Size.Size() > 0 && Pixels.Num() == Size.X * Size.Y; }
+	bool HasValidData() const
+	{
+		return !Pixels.IsEmpty() && Size.SizeSquared() > 0.0f && Pixels.Num() == Size.X * Size.Y;
+	}
 };
 
 USTRUCT(BlueprintType)
