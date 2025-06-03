@@ -5,6 +5,7 @@
 #include "Libraries/ToroGeneralUtils.h"
 #include "EnhancedCodeFlow.h"
 #include "ToroSettings.h"
+#include "ToroConfigs.h"
 #if UE_BUILD_SHIPPING
 #include "GeneralProjectSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
@@ -36,9 +37,22 @@ void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)
 	const UWorld* World = GetWorld();
 	if (UGameViewportClient* Viewport = World ? World->GetGameViewport() : nullptr)
 	{
-		CachedVMI = bUnlit ? VMI_Unlit : VMI_Lit;
+		CachedVMI = bUnlit && GetConfigManager()->IsDeveloperMode() ? VMI_Unlit : VMI_Lit;
 		Viewport->ViewModeIndex = CachedVMI;
 	}
+}
+
+void UToroGameInstance::SetPlayerInvincible(const bool bInvincible)
+{
+	bPlayerInvincible = bInvincible && GetConfigManager()->IsDeveloperMode();
+	OnPlayerInvincible.Broadcast(bPlayerInvincible);
+}
+
+UToroConfigManager* UToroGameInstance::GetConfigManager()
+{
+	if (ConfigManager) return ConfigManager;
+	ConfigManager = GetSubsystem<UToroConfigManager>();
+	return ConfigManager;
 }
 
 void UToroGameInstance::Init()

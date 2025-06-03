@@ -6,6 +6,8 @@
 #include "Helpers/ClassGetters.h"
 #include "ToroGameInstance.generated.h"
 
+class UToroConfigManager;
+
 UCLASS()
 class TOROUTILITIES_API UToroGameInstance : public UGameInstance
 {
@@ -13,7 +15,7 @@ class TOROUTILITIES_API UToroGameInstance : public UGameInstance
 
 public:
 
-	UToroGameInstance(): CachedVMI(VMI_Lit), bRanFirstLoads(false) {}
+	UToroGameInstance(): CachedVMI(VMI_Lit), bPlayerInvincible(false), bRanFirstLoads(false) {}
 
 	GAMEPLAY_CLASS_GETTER(UToroGameInstance, GetGameInstance)
 
@@ -26,10 +28,22 @@ public:
 	UFUNCTION(BlueprintPure, Category = GameInstance)
 		bool IsUnlitViewmode() const { return CachedVMI == VMI_Unlit; }
 
+	UFUNCTION(BlueprintCallable, Category = GameInstance)
+		void SetPlayerInvincible(const bool bInvincible);
+
+	UFUNCTION(BlueprintPure, Category = GameInstance)
+		bool IsPlayerInvincible() const { return bPlayerInvincible; }
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnPlayerInvincible, bool);
+	FOnPlayerInvincible OnPlayerInvincible;
+
 protected:
 
 	UPROPERTY() int32 CachedVMI;
+	UPROPERTY() bool bPlayerInvincible;
 	UPROPERTY() bool bRanFirstLoads;
+	UPROPERTY(Transient) TObjectPtr<UToroConfigManager> ConfigManager;
 
+	UToroConfigManager* GetConfigManager();
 	virtual void Init() override;
 };
