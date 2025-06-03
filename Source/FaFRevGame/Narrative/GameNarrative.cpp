@@ -13,7 +13,12 @@ UGameNarrative* UGameNarrative::Get(const UObject* ContextObject)
 void UGameNarrative::DialogueBegan(UDialogue* Dialogue)
 {
 	Super::DialogueBegan(Dialogue);
+
 	Player->AddPlayerLock(Dialogue);
+	Player->SetRunState(false);
+	Player->SetCrouchState(false);
+	Player->SetLeanState(EPlayerLeanState::None);
+
 	if (AToroPlayerController* Controller = AToroPlayerController::Get(this))
 	{
 		CachedInputMode = Controller->GetInputModeData();
