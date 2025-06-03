@@ -8,11 +8,13 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "MusicSystem/GameMusicManager.h"
+#include "Inspection/InspectableActor.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroMathLibrary.h"
 #include "Narrative/NarrativeWidget.h"
+#include "ExitInterface.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
@@ -43,8 +45,17 @@ AGamePlayer::AGamePlayer()
 	PlayerCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 
 	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
+	EquipmentRoot->SetRelativeLocation(FVector(0.0f, 10.0f, 70.0f));
+	EquipmentRoot->SetupAttachment(PlayerCamera);
 #if WITH_EDITORONLY_DATA
 	EquipmentRoot->bVisualizeComponent = true;
+#endif
+
+	InspectRoot = CreateDefaultSubobject<USceneComponent>("InspectRoot");
+	InspectRoot->SetRelativeLocation(FVector(0.0f, -10.0f, 70.0f));
+	InspectRoot->SetupAttachment(PlayerCamera);
+#if WITH_EDITORONLY_DATA
+	InspectRoot->bVisualizeComponent = true;
 #endif
 
 	Narrative = CreateDefaultSubobject<UGameNarrative>("Narrative");
@@ -75,6 +86,12 @@ AGamePlayer::AGamePlayer()
 	StaminaRates = FVector2D(1.0f, 1.0f);
 	FSIntervals = FVector(0.5f, 0.35f, 0.6f);
 	FSTrace = ECC_Visibility;
+}
+
+bool AGamePlayer::IsLocked() const
+{
+	return ControlFlags & PCF_Locked || !LockFlags.IsEmpty()
+		|| StateFlags & (PSF_Inspect | PSF_Hiding | PSF_Device | PSF_Task);
 }
 
 void AGamePlayer::ResetStates()
@@ -161,16 +178,16 @@ bool AGamePlayer::HasStateFlag(const EPlayerStateFlags InFlag) const
 void AGamePlayer::SetRunState(const bool bInState)
 {
 	bool bShouldRun = bInState && !IsCrouching() && !IsStaminaPunished();
-	if (HasStateFlag(PSF_Running) != bShouldRun)
+	if (HasStateFlag(PSF_Run) != bShouldRun)
 	{
 		if (bShouldRun)
 		{
-			SetStateFlag(PSF_Running);
+			SetStateFlag(PSF_Run);
 			WalkSpeed.AddMod(Player::Keys::Running, RunSpeedMulti);
 		}
 		else
 		{
-			UnsetStateFlag(PSF_Running);
+			UnsetStateFlag(PSF_Run);
 			WalkSpeed.RemoveMod(Player::Keys::Running);
 		}
 	}
@@ -178,19 +195,19 @@ void AGamePlayer::SetRunState(const bool bInState)
 
 void AGamePlayer::SetCrouchState(const bool bInState)
 {
-	bool bShouldCrouch = bInState && !HasStateFlag(PSF_Running) && !IsStaminaPunished();
+	bool bShouldCrouch = bInState && !HasStateFlag(PSF_Run) && !IsStaminaPunished();
 	if (IsCrouching() != bShouldCrouch)
 	{
 		InterpCrouch.Target = bShouldCrouch ? CrouchHeights.Y : CrouchHeights.X;
 		if (bShouldCrouch)
 		{
-			SetStateFlag(PSF_Crouching);
+			SetStateFlag(PSF_Crouch);
 			FOVValue.AddMod(Player::Keys::Crouching, FOVCrouchOffset);
 			WalkSpeed.AddMod(Player::Keys::Crouching, SneakSpeedMulti);
 		}
 		else
 		{
-			UnsetStateFlag(PSF_Crouching);
+			UnsetStateFlag(PSF_Crouch);
 			FOVValue.RemoveMod(Player::Keys::Crouching);
 			WalkSpeed.RemoveMod(Player::Keys::Crouching);
 		}
@@ -229,58 +246,62 @@ void AGamePlayer::SetLockOnTarget(const USceneComponent* InComponent)
 	else LockOnTarget = nullptr;
 }
 
-void AGamePlayer::SetHidingSpot(UObject* InObject)
+void AGamePlayer::ExitInspectable() const
 {
-	HidingSpot = InObject;
-	if (WorldDevice)
+	IExitInterface::Exit(Inspectable);
+}
+
+void AGamePlayer::SetInspectable(AInspectableActor* InActor, const float TurnSpeed)
+{
+	Inspectable = InActor;
+	if (Inspectable)
 	{
-		AddPlayerLock(Hiding);
-		SetStateFlag(PSF_Hiding);
+		SetStateFlag(PSF_Inspect);
+		SensitivityMulti.AddMod(Player::Keys::Inspecting, TurnSpeed);
 	}
 	else
 	{
-		ClearPlayerLock(Hiding);
-		UnsetStateFlag(PSF_Hiding);
-	}
-	if (AGameMusicManager* Manager = AGameMusicManager::Get<AGameMusicManager>(this))
-	{
-		IsValid(HidingSpot) ? Manager->AddDipRequest(this) : Manager->RemoveDipRequest(this);
+		UnsetStateFlag(PSF_Inspect);
+		SensitivityMulti.RemoveMod(Player::Keys::Inspecting);
 	}
 }
 
-void AGamePlayer::SetWorldDevice(UObject* InObject)
+void AGamePlayer::ExitHidingSpot() const
 {
-	WorldDevice = InObject;
-	if (WorldDevice)
-	{
-		AddPlayerLock(Device);
-		SetStateFlag(PSF_Device);
-	}
-	else
-	{
-		ClearPlayerLock(Device);
-		UnsetStateFlag(PSF_Device);
-	}
+	IExitInterface::Exit(HidingSpot);
 }
 
-void AGamePlayer::SetTaskDevice(UObject* InObject)
+void AGamePlayer::SetHidingSpot(AActor* InActor)
 {
-	TaskDevice = InObject;
-	if (TaskDevice)
-	{
-		AddPlayerLock(Task);
-		SetStateFlag(PSF_Tasking);
-	}
-	else
-	{
-		ClearPlayerLock(Task);
-		UnsetStateFlag(PSF_Tasking);
-	}
+	HidingSpot = InActor;
+	HidingSpot ? SetStateFlag(PSF_Hiding) : UnsetStateFlag(PSF_Hiding);
+}
+
+void AGamePlayer::ExitWorldDevice() const
+{
+	IExitInterface::Exit(WorldDevice);
+}
+
+void AGamePlayer::SetWorldDevice(AActor* InActor)
+{
+	WorldDevice = InActor;
+	WorldDevice ? SetStateFlag(PSF_Device) : UnsetStateFlag(PSF_Device);
+}
+
+void AGamePlayer::ExitTaskActor() const
+{
+	IExitInterface::Exit(TaskActor);
+}
+
+void AGamePlayer::SetTaskActor(AActor* InActor)
+{
+	TaskActor = InActor;
+	TaskActor ? SetStateFlag(PSF_Task) : UnsetStateFlag(PSF_Task);
 }
 
 bool AGamePlayer::TryJumpscare()
 {
-	if (HasControlFlag(PCF_Locked) || GameInstance->IsPlayerInvincible()) return false;
+	if (IsPaused() || HasControlFlag(PCF_Locked) || GameInstance->IsPlayerInvincible()) return false;
 	for (const FPlayerLockFlag& Flag : LockFlags)
 	{
 		if (Player::LockFlags::IsImmune(Flag)) return false;
@@ -288,9 +309,9 @@ bool AGamePlayer::TryJumpscare()
 
 	AddPlayerLock(Jumpscare);
 
-	ExitHiding();
+	ExitHidingSpot();
 	ExitWorldDevice();
-	ExitTaskDevice();
+	ExitTaskActor();
 	Inventory->CloseInventory();
 	if (AGameMusicManager* Manager = AGameMusicManager::Get<AGameMusicManager>(this))
 	{
@@ -304,6 +325,16 @@ void AGamePlayer::SetActorHiddenInGame(bool bNewHidden)
 {
 	Super::SetActorHiddenInGame(bNewHidden);
 	EquipmentRoot->SetHiddenInGame(bNewHidden, true);
+}
+
+void AGamePlayer::EnterCinematic(AActor* CinematicActor)
+{
+	ExitInspectable();
+	ExitHidingSpot();
+	ExitWorldDevice();
+	ExitTaskActor();
+	Inventory->CloseInventory();
+	Super::EnterCinematic(CinematicActor);
 }
 
 bool AGamePlayer::GetLookTarget_Implementation(FVector& Location) const
@@ -611,49 +642,38 @@ void AGamePlayer::OnConstruction(const FTransform& Transform)
 
 void AGamePlayer::InputBinding_Pause(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT)
+	if (IsPaused()) return;
+	if (LockFlags.Contains(LockFlag(Inventory)))
 	{
-		if (LockFlags.Contains(LockFlag(Guide)) || IsValid(GetPlayerController()->GetCinematicActor())) return;
-		if (LockFlags.Contains(LockFlag(Inventory)))
-		{
-			Inventory->CloseInventory();
-			return;
-		}
+		Inventory->CloseInventory();
+		return;
+	}
 
-		if (IsPaused()) return;
-		if (LockFlags.Contains(LockFlag(Device)))
-		{
-			ExitWorldDevice();
-			return;
-		}
-
-		if (!IsLocked())
-		{
-			SetRunState(false);
-			SetLeanState(EPlayerLeanState::None);
-			GetPlayerController()->SetGamePaused(true);
-			if (AGameMusicManager* Manager = AGameMusicManager::Get<AGameMusicManager>(this))
-			{
-				Manager->AddDipRequest(GetPlayerController());
-			}
-		}
+	if (!IsLocked())
+	{
+		SetRunState(false);
+		SetLeanState(EPlayerLeanState::None);
+		GetPlayerController()->SetGamePaused(true);
 	}
 }
 
 void AGamePlayer::InputBinding_Turn(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT && HasControlFlag(PCF_CanTurn) && !IsValid(LockOnTarget))
+	const FVector2D Axis = InValue.Get<FVector2D>();
+	if (FMath::IsNearlyZero(Axis.SizeSquared())) return;
+
+	if (Inspectable)
 	{
-		const FVector2D Axis = InValue.Get<FVector2D>();
-		const float Multiplier = SensitivityMulti.Evaluate();
-		if (!FMath::IsNearlyZero(Axis.X))
-		{
-			AddControllerYawInput(Axis.X * Sensitivity.X * Multiplier);
-		}
-		if (!FMath::IsNearlyZero(Axis.Y))
-		{
-			AddControllerPitchInput(Axis.Y * Sensitivity.Y * Multiplier * -1.0f);
-		}
+		const FVector2D Value = Axis * SensitivityMulti.Modifiers.FindRef(Player::Keys::Inspecting);
+		InspectRoot->SetRelativeRotation(InspectRoot->GetRelativeRotation() +
+			FRotator(Value.Y, Value.X, 0.0f));
+	}
+	else if (CAN_INPUT && HasControlFlag(PCF_CanTurn) && !IsValid(LockOnTarget))
+	{
+		InspectRoot->SetRelativeRotation(FRotator::ZeroRotator);
+		const FVector2D Value = Axis * Sensitivity * SensitivityMulti.Evaluate();
+		AddControllerYawInput(Value.X);
+		AddControllerPitchInput(Value.Y);
 	}
 }
 

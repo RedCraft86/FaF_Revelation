@@ -9,9 +9,6 @@
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue)
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Inventory)
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Jumpscare)
-DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Hiding)
-DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Device)
-DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Task)
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, Guide)
 DECLARE_GAMEPLAY_TAG_CHILD(PlayerLock, QTE)
 
@@ -41,12 +38,13 @@ UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true
 enum EPlayerStateFlags
 {
 	PSF_None		= 0			UMETA(Hidden),
-	PSF_Running		= 1 << 0	UMETA(DisplayName = "Running"),
-	PSF_RunLocked	= 1 << 1	UMETA(DisplayName = "Stamina Punished"),
-	PSF_Crouching	= 1 << 2	UMETA(DisplayName = "Crouching"),
-	PSF_Hiding		= 1 << 3	UMETA(DisplayName = "Hiding"),
-	PSF_Device		= 1 << 4	UMETA(DisplayName = "Using Devices"),
-	PSF_Tasking		= 1 << 5	UMETA(DisplayName = "Doing Tasks")
+	PSF_Run			= 1 << 0	UMETA(DisplayName = "Running"),
+	PSF_Crouch		= 1 << 1	UMETA(DisplayName = "Crouching"),
+	PSF_RunLocked	= 1 << 2	UMETA(DisplayName = "Stamina Punished"),
+	PSF_Inspect		= 1 << 3	UMETA(DisplayName = "Inspecting"),
+	PSF_Hiding		= 1 << 4	UMETA(DisplayName = "Hiding"),
+	PSF_Device		= 1 << 5	UMETA(DisplayName = "Device"),
+	PSF_Task		= 1 << 6	UMETA(DisplayName = "Task"),
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
 
@@ -96,6 +94,7 @@ namespace Player
 	{
 		inline static FName Running		= TEXT("Internal_Run");
 		inline static FName Crouching	= TEXT("Internal_Crouch");
+		inline static FName Inspecting	= TEXT("Internal_Inspect");
 	}
 
 	namespace LockFlags
@@ -114,8 +113,6 @@ namespace Player
 					LockFlag(Dialogue),
 					LockFlag(Jumpscare),
 					LockFlag(Inventory),
-					LockFlag(Hiding),
-					LockFlag(Device),
 					LockFlag(Guide),
 					LockFlag(QTE)
 				};
@@ -135,7 +132,6 @@ namespace Player
 					LockFlag(Cinematic),
 					LockFlag(Dialogue),
 					LockFlag(Jumpscare),
-					LockFlag(Hiding),
 					LockFlag(Guide)
 				};
 			}
@@ -149,8 +145,6 @@ namespace Player
 			{
 				ResettableFlags = {
 					LockFlag(Inventory),
-					LockFlag(Hiding),
-					LockFlag(Device),
 					LockFlag(QTE)
 				};
 			}

@@ -3,7 +3,6 @@
 #pragma once
 
 #include "PlayerTypes.h"
-#include "ExitInterface.h"
 #include "DataTypes/MathTypes.h"
 #include "Narrative/GameNarrative.h"
 #include "Inventory/GameInventory.h"
@@ -11,6 +10,10 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Interaction/GameInteraction.h"
 #include "GamePlayer.generated.h"
+
+#define DECLARE_EXTERNAL_OBJECT(Type, FuncName) \
+	void Exit##FuncName(); \
+	void Set##FuncName(Type* InActor);
 
 UCLASS()
 class FAFREVGAME_API AGamePlayer final : public AToroPlayerCharacter
@@ -29,6 +32,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UCameraComponent> PlayerCamera;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USceneComponent> InspectRoot;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> EquipmentRoot;
@@ -141,9 +147,10 @@ private:
 	UPROPERTY() FVector2D CamStrafeOffset;
 	UPROPERTY() EPlayerLeanState LeanState;
 
-	UPROPERTY(Transient) TObjectPtr<UObject> HidingSpot;
-	UPROPERTY(Transient) TObjectPtr<UObject> WorldDevice;
-	UPROPERTY(Transient) TObjectPtr<UObject> TaskDevice;
+	UPROPERTY(Transient) TObjectPtr<class AInspectableActor> Inspectable;
+	UPROPERTY(Transient) TObjectPtr<AActor> HidingSpot;
+	UPROPERTY(Transient) TObjectPtr<AActor> WorldDevice;
+	UPROPERTY(Transient) TObjectPtr<AActor> TaskActor;
 
 public:
 
@@ -154,10 +161,10 @@ public:
 		bool IsMoving() const { return GetSpeed() > 50.0f; }
 	
 	UFUNCTION(BlueprintPure, Category = Player)
-		bool IsLocked() const { return ControlFlags & PCF_Locked || !LockFlags.IsEmpty(); }
+		bool IsPaused() const { return GetWorldSettings()->GetPauserPlayerState() != nullptr; }
 	
 	UFUNCTION(BlueprintPure, Category = Player)
-		bool IsPaused() const { return GetWorldSettings()->GetPauserPlayerState() != nullptr; }
+		bool IsLocked() const;
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void ResetStates();
@@ -187,13 +194,13 @@ public:
 		void SetRunState(const bool bInState);
 	
 	UFUNCTION(BlueprintPure, Category = Player)
-		bool IsRunning() const { return HasStateFlag(PSF_Running) && GetSpeed() > WalkSpeed.Base + 25.0f; }
+		bool IsRunning() const { return HasStateFlag(PSF_Run) && GetSpeed() > WalkSpeed.Base + 25.0f; }
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void SetCrouchState(const bool bInState);
 	
 	UFUNCTION(BlueprintPure, Category = Player)
-		bool IsCrouching() const { return HasStateFlag(PSF_Crouching); }
+		bool IsCrouching() const { return HasStateFlag(PSF_Crouch); }
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void SetLeanState(const EPlayerLeanState InState);
@@ -216,37 +223,26 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		const USceneComponent* GetLockOnTarget() const { return LockOnTarget; }
 
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void SetHidingSpot(UObject* InObject);
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void ExitHiding() const { IExitInterface::Exit(HidingSpot); }
-
-	UFUNCTION(BlueprintPure, Category = Player)
-		UObject* GetHidingSpot() const { return HidingSpot; }
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void SetWorldDevice(UObject* InObject);
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void ExitWorldDevice() const { IExitInterface::Exit(WorldDevice); }
-
-	UFUNCTION(BlueprintPure, Category = Player)
-		UObject* GetWorldDevice() const { return WorldDevice; }
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void SetTaskDevice(UObject* InObject);
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		void ExitTaskDevice() const { IExitInterface::Exit(TaskDevice); }
-
-	UFUNCTION(BlueprintPure, Category = Player)
-		UObject* GetTaskDevice() const { return TaskDevice; }
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		bool TryJumpscare();
+	void ExitInspectable() const;
+	void SetInspectable(AInspectableActor* InActor, const float TurnSpeed);
+	AInspectableActor* GetInspectable() { return Inspectable; }
+	
+	void ExitHidingSpot() const;
+	void SetHidingSpot(AActor* InActor);
+	AActor* GetHidingSpot() { return HidingSpot; }
+	
+	void ExitWorldDevice() const;
+	void SetWorldDevice(AActor* InActor);
+	AActor* GetWorldDevice() { return WorldDevice; }
+	
+	void ExitTaskActor() const;
+	void SetTaskActor(AActor* InActor);
+	AActor* GetTaskActor() { return TaskActor; }
+	
+	bool TryJumpscare();
 
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
+	virtual void EnterCinematic(AActor* CinematicActor) override;
 	virtual bool GetLookTarget_Implementation(FVector& Location) const override;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const override;
 	virtual void Teleport(const FVector& InLocation, const FRotator& InRotation) override;
