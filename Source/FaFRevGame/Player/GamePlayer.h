@@ -143,6 +143,7 @@ private:
 	UPROPERTY() FToroVectorInterp InterpCamOffset;
 
 	UPROPERTY() float Stamina;
+	UPROPERTY() float StaminaDelta;
 	UPROPERTY() FVector2D CamLeanOffset;
 	UPROPERTY() FVector2D CamStrafeOffset;
 	UPROPERTY() EPlayerLeanState LeanState;
@@ -212,6 +213,9 @@ public:
 	
 	UFUNCTION(BlueprintPure, Category = Player)
 		float GetStaminaPercent() const { return Stamina / MaxStamina; }
+	
+	UFUNCTION(BlueprintPure, Category = Player)
+		float GetStaminaDelta() const { return StaminaDelta; }
 	
 	UFUNCTION(BlueprintPure, Category = Player)
 		bool IsStaminaPunished() const { return HasControlFlag(PCF_UseStamina) && HasStateFlag(PSF_RunLocked); }

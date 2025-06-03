@@ -347,7 +347,7 @@ void AGamePlayer::Teleport(const FVector& InLocation, const FRotator& InRotation
 
 void AGamePlayer::TickStamina()
 {
-	const float StaminaDelta = IsRunning() ? -StaminaRates.X : StaminaRates.Y;
+	StaminaDelta = IsRunning() ? -StaminaRates.X : StaminaRates.Y;
 	Stamina = FMath::Clamp(Stamina + StaminaDelta, 0.0f, MaxStamina);
 	if (FMath::IsNearlyZero(Stamina) && !IsStaminaPunished())
 	{
