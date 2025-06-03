@@ -8,9 +8,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "MusicSystem/GameMusicManager.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroMathLibrary.h"
+#include "Narrative/NarrativeWidget.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
@@ -735,7 +737,16 @@ void AGamePlayer::InputBinding_Inventory(const FInputActionValue& InValue)
 
 void AGamePlayer::InputBinding_HideQuests(const FInputActionValue& InValue)
 {
-	// TODO
+	if (CAN_INPUT)
+	{
+		if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
+		{
+			if (UNarrativeWidget* Widget = WidgetManager->FindWidget<UNarrativeWidget>())
+			{
+				Widget->SetQuestsHidden(!Widget->AreQuestsHidden());
+			}
+		}
+	}
 }
 
 void AGamePlayer::InputBinding_Interact(const FInputActionValue& InValue)
