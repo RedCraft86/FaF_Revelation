@@ -35,7 +35,7 @@ void UWorldActionComponent::UpdateEdFunctions()
 {
 	bool bWantsTick = false;
 	FOR_EACH_ACTION_PTR(ActionPtrs, this,
-		Ptr->OnPostEditChange();
+		if (!FApp::IsGame()) Ptr->OnPostEditChange();
 		if (!bWantsTick) bWantsTick = Ptr->bShouldTick;
 	)
 	PrimaryComponentTick.bStartWithTickEnabled = bWantsTick;
