@@ -129,7 +129,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> FSSneak;
 
-	UPROPERTY(EditAnywhere, Category = Input, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<FName, TObjectPtr<UInputAction>> InputActions;
 
 private:
@@ -147,7 +147,6 @@ private:
 	UPROPERTY() FVector2D CamStrafeOffset;
 	UPROPERTY() EPlayerLeanState LeanState;
 
-	UPROPERTY(Transient) TObjectPtr<class AInspectableActor> Inspectable;
 	UPROPERTY(Transient) TObjectPtr<AActor> HidingSpot;
 	UPROPERTY(Transient) TObjectPtr<AActor> WorldDevice;
 	UPROPERTY(Transient) TObjectPtr<AActor> TaskActor;
@@ -223,10 +222,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		const USceneComponent* GetLockOnTarget() const { return LockOnTarget; }
 
-	void ExitInspectable() const;
-	void SetInspectable(AInspectableActor* InActor, const float TurnSpeed);
-	AInspectableActor* GetInspectable() { return Inspectable; }
-	
 	void ExitHidingSpot() const;
 	void SetHidingSpot(AActor* InActor);
 	AActor* GetHidingSpot() { return HidingSpot; }

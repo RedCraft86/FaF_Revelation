@@ -9,7 +9,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "MusicSystem/GameMusicManager.h"
-#include "Inspection/InspectableActor.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
@@ -247,26 +246,6 @@ void AGamePlayer::SetLockOnTarget(const USceneComponent* InComponent)
 	else LockOnTarget = nullptr;
 }
 
-void AGamePlayer::ExitInspectable() const
-{
-	IExitInterface::Exit(Inspectable);
-}
-
-void AGamePlayer::SetInspectable(AInspectableActor* InActor, const float TurnSpeed)
-{
-	Inspectable = InActor;
-	if (Inspectable)
-	{
-		SetStateFlag(PSF_Inspect);
-		SensitivityMulti.AddMod(Player::Keys::Inspecting, TurnSpeed);
-	}
-	else
-	{
-		UnsetStateFlag(PSF_Inspect);
-		SensitivityMulti.RemoveMod(Player::Keys::Inspecting);
-	}
-}
-
 void AGamePlayer::ExitHidingSpot() const
 {
 	IExitInterface::Exit(HidingSpot);
@@ -330,7 +309,6 @@ void AGamePlayer::SetActorHiddenInGame(bool bNewHidden)
 
 void AGamePlayer::EnterCinematic(AActor* CinematicActor)
 {
-	ExitInspectable();
 	ExitHidingSpot();
 	ExitWorldDevice();
 	ExitTaskActor();
@@ -663,10 +641,6 @@ void AGamePlayer::InputBinding_Pause(const FInputActionValue& InValue)
 
 void AGamePlayer::InputBinding_Back(const FInputActionValue& InValue)
 {
-	if (Inspectable)
-	{
-		ExitInspectable();
-	}
 	if (HidingSpot)
 	{
 		ExitHidingSpot();
@@ -675,21 +649,18 @@ void AGamePlayer::InputBinding_Back(const FInputActionValue& InValue)
 
 void AGamePlayer::InputBinding_Turn(const FInputActionValue& InValue)
 {
-	const FVector2D Axis = InValue.Get<FVector2D>();
-	if (FMath::IsNearlyZero(Axis.SizeSquared())) return;
-
-	if (Inspectable)
+	if (CAN_INPUT && HasControlFlag(PCF_CanTurn) && !IsValid(LockOnTarget))
 	{
-		const FVector2D Value = Axis * SensitivityMulti.Modifiers.FindRef(Player::Keys::Inspecting);
-		InspectRoot->SetRelativeRotation(InspectRoot->GetRelativeRotation() +
-			FRotator(Value.Y, Value.X, 0.0f));
-	}
-	else if (CAN_INPUT && HasControlFlag(PCF_CanTurn) && !IsValid(LockOnTarget))
-	{
-		InspectRoot->SetRelativeRotation(FRotator::ZeroRotator);
-		const FVector2D Value = Axis * Sensitivity * SensitivityMulti.Evaluate();
-		AddControllerYawInput(Value.X);
-		AddControllerPitchInput(Value.Y);
+		const FVector2D Axis = InValue.Get<FVector2D>();
+		const float Multiplier = SensitivityMulti.Evaluate();
+		if (!FMath::IsNearlyZero(Axis.X))
+		{
+			AddControllerYawInput(Axis.X * Sensitivity.X * Multiplier);
+		}
+		if (!FMath::IsNearlyZero(Axis.Y))
+		{
+			AddControllerPitchInput(Axis.Y * Sensitivity.Y * Multiplier * -1.0f);
+		}
 	}
 }
 
