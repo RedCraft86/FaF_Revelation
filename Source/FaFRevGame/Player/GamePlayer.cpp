@@ -47,6 +47,7 @@ AGamePlayer::AGamePlayer()
 
 	Narrative = CreateDefaultSubobject<UGameNarrative>("Narrative");
 	Inventory = CreateDefaultSubobject<UGameInventory>("Inventory");
+	Interaction = CreateDefaultSubobject<UGameInteraction>("Interaction");
 
 	ControlFlags = DEFAULT_PLAYER_CONTROL_FLAGS;
 	StateFlags = 0;
@@ -350,7 +351,7 @@ void AGamePlayer::TickStamina()
 void AGamePlayer::TickFootstep()
 {
 	FVector Start, End;
-	UToroMathLibrary::GetComponentLineTraceVectors(FootstepAudio, EVectorDirection::Up, -150.0f , Start, End);
+	UToroMathLibrary::GetComponentLineTraceVectors(FootstepAudio, EVectorDirection::Up, -150.0f, Start, End);
 	FCollisionQueryParams Params{NAME_None, true, this};
 	Params.bReturnPhysicalMaterial = true;
 
@@ -739,6 +740,10 @@ void AGamePlayer::InputBinding_HideQuests(const FInputActionValue& InValue)
 
 void AGamePlayer::InputBinding_Interact(const FInputActionValue& InValue)
 {
+	if (HasControlFlag(PCF_CanInteract))
+	{
+		Interaction->SetInteracting(CAN_INPUT && InValue.Get<bool>());
+	}
 }
 
 void AGamePlayer::InputBinding_Equipment(const FInputActionValue& InValue)

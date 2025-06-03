@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include "ExitInterface.h"
 #include "PlayerTypes.h"
+#include "ExitInterface.h"
 #include "DataTypes/MathTypes.h"
 #include "Narrative/GameNarrative.h"
 #include "Inventory/GameInventory.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Interaction/GameInteraction.h"
 #include "GamePlayer.generated.h"
 
 UCLASS()
@@ -37,6 +38,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UGameInventory> Inventory;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UGameInteraction> Interaction;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
 		int32 ControlFlags;
