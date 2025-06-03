@@ -48,9 +48,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "ItemType == EInventoryItemType::Equipment", EditConditionHides))
 		TSoftClassPtr<AInventoryEquipment> Equipment;
-
-	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "ItemType == EInventoryItemType::Archive", EditConditionHides))
-		FText HiddenText;
 	
 #if WITH_EDITOR
 private:
@@ -69,25 +66,4 @@ private:
 		}
 	}
 #endif
-};
-
-USTRUCT(BlueprintInternalUseOnly)
-struct FInventoryArchive
-{
-	GENERATED_BODY()
-
-	UPROPERTY() int32 ArchiveIdx;
-	UPROPERTY() bool bShowHidden;
-
-	FInventoryArchive(): ArchiveIdx(0), bShowHidden(false) {}
-	FInventoryArchive(const int32 InArchiveIdx, const bool bInShowHidden)
-		: ArchiveIdx(FMath::Max(0, InArchiveIdx)), bShowHidden(bInShowHidden)
-	{}
-
-	friend FArchive& operator<<(FArchive& Ar, FInventoryArchive& Data)
-	{
-		Ar << Data.ArchiveIdx;
-		Ar << Data.bShowHidden;
-		return Ar;
-	}
 };

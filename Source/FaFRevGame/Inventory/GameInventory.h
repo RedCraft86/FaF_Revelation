@@ -14,12 +14,12 @@ struct FInventoryData
 
 	UPROPERTY(Transient) TSoftObjectPtr<UInventoryItemData> Equipment;
 	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryItemData>, uint8> Items;
-	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryItemData>, FInventoryArchive> Archives;
+	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryItemData>, uint8> Archives;
 
 	FInventoryData() {}
 	FInventoryData(const TSoftObjectPtr<UInventoryItemData>& InEquipment,
 		const TMap<TSoftObjectPtr<UInventoryItemData>, uint8>& InItems,
-		const TMap<TSoftObjectPtr<UInventoryItemData>, FInventoryArchive>& InArchives)
+		const TMap<TSoftObjectPtr<UInventoryItemData>, uint8>& InArchives)
 			: Equipment(InEquipment), Items(InItems), Archives(InArchives)
 	{}
 

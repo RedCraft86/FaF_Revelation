@@ -90,9 +90,9 @@ void UGameInventory::AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArch
 		!Archive || Archive->ItemType != EInventoryItemType::Archive)
 		return;
 
-	if (!InvArchives.Contains(InArchive) || (!InvArchives.FindRef(InArchive).bShowHidden && bShowHidden))
+	if (!InvArchives.Contains(InArchive))
 	{
-		InvArchives.Add(InArchive, {InvArchives.Num(), bShowHidden});
+		InvArchives.Add(InArchive, InvArchives.Num());
 	}
 }
 
@@ -183,7 +183,7 @@ TArray<TSoftObjectPtr<UInventoryItemData>> UGameInventory::GetSortedArchives()
 
 	Archives.Sort([this](const TSoftObjectPtr<UInventoryItemData>& A, const TSoftObjectPtr<UInventoryItemData>& B)
 	{
-		return InvArchives[A].ArchiveIdx > InvArchives[B].ArchiveIdx;
+		return InvArchives[A] > InvArchives[B];
 	});
 
 	return Archives;
@@ -211,16 +211,7 @@ void UGameInventory::EnsureInventory(const TSoftObjectPtr<UInventoryItemData>& I
 	for (const TPair<TSoftObjectPtr<UInventoryItemData>, bool>& Archive : InArchives)
 	{
 		if (Archive.Key.IsNull()) continue;
-		if (InvArchives.Contains(Archive.Key))
-		{
-			FInventoryArchive ArchiveData = InvArchives.FindRef(Archive.Key);
-			ArchiveData.bShowHidden = Archive.Value;
-			InvArchives.Add(Archive.Key, ArchiveData);
-		}
-		else
-		{
-			InvArchives.Add(Archive.Key, {InvArchives.Num(), Archive.Value});
-		}
+		InvArchives.Add(Archive.Key, InvArchives.Num());
 	}
 
 	EquipItem(InEquipment);
