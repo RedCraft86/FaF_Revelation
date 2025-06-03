@@ -66,8 +66,9 @@ public:
 		const TMap<TSoftObjectPtr<UInventoryItemData>, uint8>& InItems,
 		const TMap<TSoftObjectPtr<UInventoryItemData>, bool>& InArchives);
 
-	void OpenInventory() { bInInventory = true; } // TODO
-	void CloseInventory() { bInInventory = false; }
+	void OpenInventory();
+	void CloseInventory();
+	void OpenToArchive(const UInventoryItemData* Archive);
 	void EquipmentUse() const;
 
 private:

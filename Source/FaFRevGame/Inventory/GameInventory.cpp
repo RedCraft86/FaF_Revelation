@@ -23,7 +23,13 @@ uint8 UGameInventory::AddItem(const TSoftObjectPtr<UInventoryItemData>& InItem, 
 {
 	if (Amount == 0) return 0;
 	const UInventoryItemData* Item = InItem.LoadSynchronous();
-	if (!Item || Item->ItemType == EInventoryItemType::Archive) return Amount;
+	if (!Item) return Amount;
+	
+	if (Item->ItemType == EInventoryItemType::Archive)
+	{
+		AddArchive(InItem);
+		return 0;
+	}
 
 	uint8 Overflow = Amount;
 	if (Item->ItemType == EInventoryItemType::Generic)
@@ -86,13 +92,12 @@ uint8 UGameInventory::RemoveItem(const TSoftObjectPtr<UInventoryItemData>& InIte
 
 void UGameInventory::AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArchive)
 {
-	if (const UInventoryItemData* Archive = InArchive.LoadSynchronous();
-		!Archive || Archive->ItemType != EInventoryItemType::Archive)
-		return;
-
+	const UInventoryItemData* Archive = InArchive.LoadSynchronous();
+	if (!Archive || Archive->ItemType != EInventoryItemType::Archive) return;
 	if (!InvArchives.Contains(InArchive))
 	{
 		InvArchives.Add(InArchive, InvArchives.Num());
+		OpenToArchive(Archive);
 	}
 }
 
@@ -215,6 +220,19 @@ void UGameInventory::EnsureInventory(const TSoftObjectPtr<UInventoryItemData>& I
 	}
 
 	EquipItem(InEquipment);
+}
+
+void UGameInventory::OpenInventory()
+{
+	//TODO
+}
+
+void UGameInventory::CloseInventory()
+{
+}
+
+void UGameInventory::OpenToArchive(const UInventoryItemData* Archive)
+{
 }
 
 void UGameInventory::EquipmentUse() const
