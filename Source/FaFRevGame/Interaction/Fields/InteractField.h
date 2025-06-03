@@ -33,10 +33,10 @@ public:
 		}
 	}
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bSingleUse;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, Category = Settings)
 		FInteractionInfo Interaction;
 
 	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions, ShowTreeView))
