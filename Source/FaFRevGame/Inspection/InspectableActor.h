@@ -26,7 +26,7 @@ public:
 		FVector InspectScale;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		TObjectPtr<UInventoryItemData> ArchiveEntry;
+		TObjectPtr<class UInventoryItemData> ArchiveEntry;
 
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		FInteractionInfo Interaction;
