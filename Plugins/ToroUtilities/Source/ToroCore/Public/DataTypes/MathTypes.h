@@ -28,6 +28,7 @@ struct TOROCORE_API FToroFloatModifier
 	FToroFloatModifier(const float InBase): Base(InBase) {}
 	virtual ~FToroFloatModifier() = default;
 
+	bool HasMod(const FName Key) const { return Modifiers.Contains(Key); }
 	void AddMod(const FName Key, const float Value) { Modifiers.Add(Key, Value); }
 	void RemoveMod(const FName Key) { Modifiers.Remove(Key); }
 	virtual float Evaluate() const
