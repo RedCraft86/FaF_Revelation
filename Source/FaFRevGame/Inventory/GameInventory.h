@@ -2,10 +2,12 @@
 
 #pragma once
 
-#include "InputActionValue.h"
 #include "InventoryItemData.h"
 #include "Components/ActorComponent.h"
+#include "DataTypes/InputModeData.h"
 #include "GameInventory.generated.h"
+
+class UInventoryWidget;
 
 USTRUCT(BlueprintType)
 struct FInventoryData
@@ -54,6 +56,7 @@ public:
 	
 	void UnEquipItem();
 	void EquipItem(const TSoftObjectPtr<UInventoryItemData>& InItem);
+	const TSoftObjectPtr<UInventoryItemData>& GetEquipment() { return InvData.Equipment; }
 
 	TArray<TSoftObjectPtr<UInventoryItemData>> GetSortedItems();
 	TArray<TSoftObjectPtr<UInventoryItemData>> GetSortedArchives();
@@ -68,12 +71,18 @@ public:
 
 	void OpenInventory();
 	void CloseInventory();
-	void OpenToArchive(const UInventoryItemData* Archive);
+	void OpenToArchive(const TSoftObjectPtr<UInventoryItemData>& Archive);
 	void EquipmentUse() const;
 
 private:
 
 	UPROPERTY() bool bInInventory;
 	UPROPERTY(Transient) FInventoryData InvData;
+	UPROPERTY(Transient) FGameInputModeData InputModeCache;
+	UPROPERTY(Transient) TObjectPtr<class AGamePlayer> Player;
 	UPROPERTY(Transient) TObjectPtr<AInventoryEquipment> EquipActor;
+	UPROPERTY(Transient) TObjectPtr<UInventoryWidget> Widget;
+
+	UInventoryWidget* GetWidget();
+	virtual void BeginPlay() override;
 };

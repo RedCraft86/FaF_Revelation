@@ -1,13 +1,15 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "GameInventory.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Player/GamePlayer.h"
+#include "InventoryWidget.h"
 
 #define InvItems InvData.Items
 #define InvArchives InvData.Archives
 #define InvEquipment InvData.Equipment
 
-UGameInventory::UGameInventory()
+UGameInventory::UGameInventory(): bInInventory(false)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
@@ -97,7 +99,7 @@ void UGameInventory::AddArchive(const TSoftObjectPtr<UInventoryItemData>& InArch
 	if (!InvArchives.Contains(InArchive))
 	{
 		InvArchives.Add(InArchive, InvArchives.Num());
-		OpenToArchive(Archive);
+		OpenToArchive(InArchive);
 	}
 }
 
@@ -148,11 +150,8 @@ void UGameInventory::EquipItem(const TSoftObjectPtr<UInventoryItemData>& InItem)
 			InvEquipment = InItem;
 			EquipActor = NewActor;
 			EquipActor->OnEquip();
-			if (const AGamePlayer* Player = GetOwner<AGamePlayer>())
-			{
-				EquipActor->AttachToComponent(Player->EquipmentRoot,
+			EquipActor->AttachToComponent(Player->EquipmentRoot,
 					FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-			}
 		}
 	}
 }
@@ -224,18 +223,69 @@ void UGameInventory::EnsureInventory(const TSoftObjectPtr<UInventoryItemData>& I
 
 void UGameInventory::OpenInventory()
 {
-	//TODO
+	if (!bInInventory)
+	{
+		bInInventory = true;
+		if (UInventoryWidget* InvWidget = GetWidget())
+		{
+			InvWidget->ActivateWidget();
+		}
+		if (AToroPlayerController* PC = Player->GetPlayerController())
+		{
+			PC->AddPauseRequest(this);
+			InputModeCache = PC->GetInputModeData();
+			PC->SetInputModeData({EGameInputMode::UI_Only, true,
+				EMouseLockMode::LockAlways, true, Widget});
+		}
+	}
 }
 
 void UGameInventory::CloseInventory()
 {
+	if (bInInventory)
+	{
+		bInInventory = false;
+		if (UInventoryWidget* InvWidget = GetWidget())
+		{
+			InvWidget->DeactivateWidget();
+		}
+		if (AToroPlayerController* PC = Player->GetPlayerController())
+		{
+			PC->RemovePauseRequest(this);
+			PC->SetInputModeData(InputModeCache);
+		}
+	}
 }
 
-void UGameInventory::OpenToArchive(const UInventoryItemData* Archive)
+void UGameInventory::OpenToArchive(const TSoftObjectPtr<UInventoryItemData>& Archive)
 {
+	if (Archive->ItemType == EInventoryItemType::Archive && InvArchives.Contains(Archive))
+	{
+		OpenInventory();
+		if (UInventoryWidget* InvWidget = GetWidget())
+		{
+			InvWidget->GoToArchive(Archive);
+		}
+	}
 }
 
 void UGameInventory::EquipmentUse() const
 {
 	if (EquipActor) EquipActor->UseItem();
+}
+
+UInventoryWidget* UGameInventory::GetWidget()
+{
+	if (Widget) return Widget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		Widget = Manager->FindWidget<UInventoryWidget>();
+	}
+	return Widget;
+}
+
+void UGameInventory::BeginPlay()
+{
+	Super::BeginPlay();
+	Player = GetOwner<AGamePlayer>();
 }

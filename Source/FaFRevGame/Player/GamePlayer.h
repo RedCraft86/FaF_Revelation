@@ -129,7 +129,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> FSSneak;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<FName, TObjectPtr<UInputAction>> InputActions;
 
 private:
