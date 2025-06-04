@@ -127,7 +127,7 @@ private:
 	UFUNCTION() void OnEquipClicked();
 
 	void RefreshSlots();
-	void RefreshInfo() const;
+	void RefreshInfo();
 	virtual void InitWidget() override;
 	virtual void InternalProcessActivation() override;
 	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }

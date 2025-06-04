@@ -121,10 +121,11 @@ void UInventoryWidget::RefreshSlots()
 	}
 	if (!Archives.IsEmpty()) SelectedArchive = Archives[0];
 
+	PlayAnimation(SlotFadeAnim);
 	RefreshInfo();
 }
 
-void UInventoryWidget::RefreshInfo() const
+void UInventoryWidget::RefreshInfo()
 {
 	NameText->SetVisibility(ESlateVisibility::Collapsed);
 	DescText->SetVisibility(ESlateVisibility::Collapsed);
@@ -140,8 +141,11 @@ void UInventoryWidget::RefreshInfo() const
 			DescText->SetText(Archive->Description);
 			DescText->SetVisibility(ESlateVisibility::HitTestInvisible);
 
-			ViewImage->SetBrushFromTexture(Archive->Icon.LoadSynchronous(), true);
-			ViewImage->SetVisibility(ESlateVisibility::HitTestInvisible);
+			if (Archive->Icon.LoadSynchronous())
+			{
+				ViewImage->SetBrushFromTexture(Archive->Icon.Get(), true);
+				ViewImage->SetVisibility(ESlateVisibility::HitTestInvisible);
+			}
 		}
 	}
 	else if (const UInventoryItemData* Item = SelectedItem.LoadSynchronous())
@@ -162,6 +166,7 @@ void UInventoryWidget::RefreshInfo() const
 				? INVTEXT("Unequip") : INVTEXT("Equip"));
 		}
 	}
+	PlayAnimation(DescFadeAnim);
 }
 
 void UInventoryWidget::InitWidget()
