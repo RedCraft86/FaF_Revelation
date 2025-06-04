@@ -10,6 +10,11 @@
 			"LoadingPhase": "Default"
 		},
 		{
+			"Name": "FaFRevTags",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault"
+		},
+		{
 			"Name": "FaFRevGame",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
