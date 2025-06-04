@@ -14,8 +14,7 @@ public class ToroTags : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
-                "Slate",
-                "SlateCore"
+                "GameplayTags"
             }
         );
     }
