@@ -20,8 +20,10 @@ public class ToroEditor : ModuleRules
                 "InputCore",
                 "Projects",
                 "ToolMenus",
-                "DeveloperSettings",
+                "ContentBrowser",
+                "ContentBrowserData",
                 "EditorScriptingUtilities",
+                "DeveloperSettings",
                 "EditorSubsystem",
                 "ToroCore"
             }
