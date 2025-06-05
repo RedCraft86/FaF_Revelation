@@ -13,9 +13,15 @@ public class ToroEditor : ModuleRules
             {
                 "Core",
                 "CoreUObject",
+                "UnrealEd",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "Projects",
+                "DeveloperSettings",
+                "EditorScriptingUtilities",
+                "EditorSubsystem",
+                "ToroCore"
             }
         );
     }
