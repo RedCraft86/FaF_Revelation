@@ -73,7 +73,7 @@ private:
 				if (Comp && Comp != this && Comp->IsA(USceneComponent::StaticClass()))
 				{
 					SceneComps++;
-					if (SceneComps >= MaxComps)
+					if (SceneComps > MaxComps)
 					{
 						bShouldShow = false;
 					}

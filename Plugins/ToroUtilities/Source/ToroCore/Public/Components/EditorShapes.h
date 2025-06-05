@@ -7,7 +7,6 @@
 #include "DataTypes/WireShapeData.h"
 #include "EditorShapes.generated.h"
 
-
 UCLASS(MinimalAPI, NotBlueprintable, ClassGroup = (Debugging), meta = (BlueprintSpawnableComponent))
 class UEditorShapesComponent final : public UActorComponent
 {
