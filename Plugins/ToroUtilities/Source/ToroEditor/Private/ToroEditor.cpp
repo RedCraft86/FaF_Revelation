@@ -1,10 +1,20 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroEditor.h"
-
+#include "UnrealEdGlobals.h"
+#include "BlueprintEditorModule.h"
 #include "Interfaces/IPluginManager.h"
-#include "Styling/SlateStyleMacros.h"
+#include "Interfaces/IMainFrameModule.h"
 #include "Styling/SlateStyleRegistry.h"
+#include "Styling/SlateStyleMacros.h"
+
+#include "ToroCmds.h"
+#include "Toolbar/ActorLayout.h"
+#include "Toolbar/LinkAssetLibrary.h"
+#include "Toolbar/RestartEditor.h"
+#include "Toolbar/StaticMeshBaker.h"
+#include "Toolbar/StaticMeshInstancer.h"
+#include "Toolbar/StaticMeshMerger.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -15,16 +25,89 @@ DEFINE_LOG_CATEGORY(LogToroEditor);
 
 void FToroEditorModule::StartupModule()
 {
-    
+	FToroEditorStyle::Init();
+
+	// Toolbar Buttons
+	{
+		FToroCmds::Register();
+		PluginCommands = MakeShareable(new FUICommandList);
+		REGISTER_TOOL(FLinkAssetLibrary)
+		REGISTER_TOOL(FRestartEditor)
+		REGISTER_TOOL(FActorLayout)
+		REGISTER_TOOL(FStaticMeshBaker)
+		REGISTER_TOOL(FStaticMeshMerger)
+		REGISTER_TOOL(FStaticMeshInstancer)
+
+		IMainFrameModule& MainFrame = FModuleManager::Get().LoadModuleChecked<IMainFrameModule>("MainFrame");
+		MainFrame.GetMainFrameCommandBindings()->Append(PluginCommands.ToSharedRef());
+	
+		UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(
+			this, &FToroEditorModule::RegisterMenus));
+	}
+
+	// Component Visualizers
+	if (GUnrealEd)
+	{
+	}
+
+	// Blueprint Variable Metadata Editor
+	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>("Kismet"))
+	{
+	}
+
+	// Struct and Class Details Customization
+	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
+	{
+		
+		for (TObjectIterator<UScriptStruct> It; It; ++It)
+		{
+			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+		}
+	}
 }
 
 void FToroEditorModule::ShutdownModule()
 {
-    
+	// Toolbar Buttons
+	{
+		UToolMenus::UnRegisterStartupCallback(this);
+		UToolMenus::UnregisterOwner(this);
+		FToroCmds::Unregister();
+	}
+
+	// Component Visualizers
+	if (GUnrealEd)
+	{
+	}
+
+	// Blueprint Variable Metadata Editor
+	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::GetModulePtr<FBlueprintEditorModule>("Kismet"))
+	{
+	}
+
+	// Struct and Class Details Customization
+	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
+	{
+		for (TObjectIterator<UScriptStruct> It; It; ++It)
+		{
+			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+		}
+	}
+
+	FToroEditorStyle::Shutdown();
 }
 
 void FToroEditorModule::RegisterMenus()
 {
+	FToolMenuOwnerScoped OwnerScoped(this);
+	{
+		REGISTER_TOOL_MENUS(FLinkAssetLibrary)
+		REGISTER_TOOL_MENUS(FRestartEditor)
+		REGISTER_TOOL_MENUS(FActorLayout)
+		REGISTER_TOOL_MENUS(FStaticMeshBaker)
+		REGISTER_TOOL_MENUS(FStaticMeshMerger)
+		REGISTER_TOOL_MENUS(FStaticMeshInstancer)
+	}
 }
 
 #define RootToContentDir StyleSet->RootToContentDir
