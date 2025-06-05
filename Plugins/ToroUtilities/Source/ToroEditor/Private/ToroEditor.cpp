@@ -3,6 +3,7 @@
 #include "ToroEditor.h"
 #include "UnrealEdGlobals.h"
 #include "BlueprintEditorModule.h"
+#include "Editor/UnrealEdEngine.h"
 #include "Interfaces/IPluginManager.h"
 #include "Interfaces/IMainFrameModule.h"
 #include "Styling/SlateStyleRegistry.h"
@@ -15,6 +16,13 @@
 #include "Toolbar/StaticMeshBaker.h"
 #include "Toolbar/StaticMeshInstancer.h"
 #include "Toolbar/StaticMeshMerger.h"
+
+#include "ComponentVis/EditorShapesVisualizer.h"
+
+#include "DetailsPanels/PropertyMetadataDetails.h"
+#include "DetailsPanels/ToroActorDetails.h"
+
+#include "Actors/TeleportPoint.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -48,17 +56,24 @@ void FToroEditorModule::StartupModule()
 	// Component Visualizers
 	if (GUnrealEd)
 	{
+		REGISTER_VISUALIZER(UEditorShapesComponent, FEditorShapesVisualizer)
 	}
 
 	// Blueprint Variable Metadata Editor
 	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::LoadModulePtr<FBlueprintEditorModule>("Kismet"))
 	{
+		BlueprintEditorModule->RegisterVariableCustomization(FProperty::StaticClass(),
+			FOnGetVariableCustomizationInstance::CreateStatic(&FPropertyMetadataDetails::MakeInstance));
 	}
 
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
-		
+		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ATeleportPoint, FToroActorDetails)
+
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
@@ -78,16 +93,24 @@ void FToroEditorModule::ShutdownModule()
 	// Component Visualizers
 	if (GUnrealEd)
 	{
+		UNREGISTER_VISUALIZER(UEditorShapesComponent)
 	}
 
 	// Blueprint Variable Metadata Editor
 	if (FBlueprintEditorModule* BlueprintEditorModule = FModuleManager::GetModulePtr<FBlueprintEditorModule>("Kismet"))
 	{
+		const FDelegateHandle Handle;
+		BlueprintEditorModule->UnregisterVariableCustomization(FProperty::StaticClass(), Handle);
 	}
 
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
+		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportPoint)
+
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
