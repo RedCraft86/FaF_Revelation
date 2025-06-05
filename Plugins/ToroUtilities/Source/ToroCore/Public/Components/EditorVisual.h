@@ -5,8 +5,7 @@
 #include "Components/BillboardComponent.h"
 #include "EditorVisual.generated.h"
 
-#define DECLARE_VISUAL() TObjectPtr<UEditorVisualComponent> EdVisualComp;
-#define DEFINE_VISUAL(Size) \
+#define DEFINE_VISUAL \
 	if (!FApp::IsGame()) EdVisualComp = CreateEditorOnlyDefaultSubobject<UEditorVisualComponent>("EdVisual"); \
 	if (EdVisualComp) EdVisualComp->SetupAttachment(GetRootComponent());
 
