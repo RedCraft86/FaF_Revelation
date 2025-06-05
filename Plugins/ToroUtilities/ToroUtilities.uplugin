@@ -36,11 +36,6 @@
 			"LoadingPhase": "PostEngineInit"
 		},
 		{
-			"Name": "ToroTags",
-			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
-		},
-		{
 			"Name": "ToroUtilities",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"

@@ -9,12 +9,6 @@ public class FaF_RevelationTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
-		ExtraModuleNames.AddRange(new[] { "FaFRevTags", "FaF_Revelation", "FaFRevGame" });
-		RegisterModulesCreatedByRider();
-	}
-
-	private void RegisterModulesCreatedByRider()
-	{
-		ExtraModuleNames.AddRange(new string[] { "FaFRevTags" });
+		ExtraModuleNames.AddRange(new[] { "FaF_Revelation", "FaFRevGame" });
 	}
 }
