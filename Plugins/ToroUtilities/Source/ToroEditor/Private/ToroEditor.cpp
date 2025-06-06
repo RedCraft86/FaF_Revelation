@@ -21,6 +21,8 @@
 
 #include "DetailsPanels/PropertyMetadataDetails.h"
 #include "DetailsPanels/ToroActorDetails.h"
+#include "DetailsPanels/Struct/InlineCurveDetails.h"
+#include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
 
 #include "Actors/TeleportPoint.h"
 #include "Actors/NavPathVisualizer.h"
@@ -76,6 +78,11 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(ATeleportPoint, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
 
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionDetails)
+
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
@@ -113,6 +120,11 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
 		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportPoint)
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
+
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
 
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
