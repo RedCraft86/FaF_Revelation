@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Helpers/CollisionHelpers.h"
 #include "PrimitiveCollisionDetails.h"
+#include "Helpers/CollisionHelpers.h"
 #include "IDetailChildrenBuilder.h"
 #include "DetailLayoutBuilder.h"
 #include "DetailWidgetRow.h"
