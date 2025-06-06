@@ -16,7 +16,8 @@ public class ToroUtilities : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "ToroCore"
             }
         );
     }
