@@ -23,6 +23,7 @@
 #include "DetailsPanels/ToroActorDetails.h"
 
 #include "Actors/TeleportPoint.h"
+#include "Actors/NavPathVisualizer.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -73,6 +74,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ATeleportPoint, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
 
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
@@ -110,6 +112,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
 		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportPoint)
+		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
 
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
