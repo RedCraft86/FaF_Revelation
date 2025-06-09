@@ -35,6 +35,9 @@ public:
 protected:
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UEditorVisualComponent> EdVisualComp;
+
+	UPROPERTY(EditAnywhere, Category = Tick)
+		bool bTickInEditor;
 #endif
 
 	UPROPERTY(EditAnywhere, Category = Settings)
@@ -46,4 +49,7 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void EnableStateChanged(const bool bIsEnabled);
+#if WITH_EDITORONLY_DATA
+	virtual bool ShouldTickIfViewportsOnly() const override { return bTickInEditor; }
+#endif
 };
