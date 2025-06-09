@@ -166,6 +166,8 @@ void FToroEditorStyle::Init()
 	StyleSet->Set("ToroEditor.StaticMeshMerger", new IMAGE_BRUSH_SVG(TEXT("StaticMeshMerger"), Icon20x20));
 	StyleSet->Set("ToroEditor.StaticMeshInstancer", new IMAGE_BRUSH_SVG(TEXT("StaticMeshInstancer"), Icon20x20));
 
+	StyleSet->Set("ClassThumbnail.SplineCable", new IMAGE_BRUSH_SVG(TEXT("SplineCable"), Icon64x64));
+	StyleSet->Set("ClassThumbnail.SplineBarrier", new IMAGE_BRUSH_SVG(TEXT("SplineBarrier"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.MasterPostProcess", new IMAGE_BRUSH(TEXT("PostProcess"), Icon64x64));
 	StyleSet->Set("ClassThumbnail.LightProbeActor", new IMAGE_BRUSH(TEXT("LightProbe"), Icon64x64));
 
