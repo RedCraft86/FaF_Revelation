@@ -2,6 +2,7 @@
 
 #include "MiscActors/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
+#include "UserSettings/ToroUserSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroUtilities.h"
 #include "ToroSettings.h"
@@ -105,7 +106,13 @@ void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings)
 void AMasterPostProcess::ApplySettings()
 {
 	float Brightness = 1.0f;
-	// TODO
+	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
+	{
+		Brightness = UserSettings->GetBrightness() / 100.0f;
+		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
+		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(), UserSettings->GetLumenReflection());
+		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
+	}
 
 	PostProcess->Settings = Settings;
 
@@ -172,8 +179,8 @@ void AMasterPostProcess::BeginPlay()
 		}
 	}
 
-	// TODO
 
+	UToroUserSettings::Get()->OnDynamicSettingsChanged.AddUObject(this, &AMasterPostProcess::OnSettingUpdate);
 	if (const TSubclassOf<UUDSSetterObject> Class = UToroSettings::Get()->UDS_Setter.LoadSynchronous())
 	{
 		UDSSetterObj = NewObject<UUDSSetterObject>(this, Class);
