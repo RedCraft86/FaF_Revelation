@@ -38,7 +38,7 @@ AMasterPostProcess::AMasterPostProcess()
 	Settings.AutoExposureMethod = AEM_Manual;
 	
 	Settings.bOverride_AutoExposureBias = true;
-	Settings.AutoExposureBias = 10.5f;
+	Settings.AutoExposureBias = 11.0f;
 }
 
 AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject, const bool bCreateIfNotFound)
