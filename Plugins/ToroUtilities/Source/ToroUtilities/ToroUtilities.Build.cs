@@ -15,17 +15,20 @@ public class ToroUtilities : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "Json",
                 "UMG",
                 "Slate",
                 "SlateCore",
                 "MovieScene",
                 "LevelSequence",
                 "EngineSettings",
+                "JsonBlueprintUtilities",
                 "ProceduralMeshComponent",
                 "DeveloperSettings",
                 "EnhancedInput", 
                 "GameplayTags",
-                "ToroCore"
+                "ToroCore",
+                "EnhancedCodeFlow"
             }
         );
         
