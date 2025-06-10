@@ -149,28 +149,35 @@ void FToroEditorModule::RegisterMenus()
 }
 
 #define RootToContentDir StyleSet->RootToContentDir
+#define AddSVG(Name, ImageFile, Size) StyleSet->Set(#Name, new IMAGE_BRUSH_SVG(TEXT(#ImageFile), Icon##Size));
+#define AddPNG(Name, ImageFile, Size) StyleSet->Set(#Name, new IMAGE_BRUSH(TEXT(#ImageFile), Icon##Size));
 void FToroEditorStyle::Init()
 {
 	if (StyleSet.IsValid()) return;
 	StyleSet = MakeShareable(new FSlateStyleSet("ToroEditorStyle"));
-	StyleSet->SetContentRoot(IPluginManager::Get().FindPlugin(TEXT("ToroUtilities"))->GetBaseDir() / TEXT("Resources"));
+	StyleSet->SetContentRoot(IPluginManager::Get().FindPlugin(
+		TEXT("ToroUtilities"))->GetBaseDir() / TEXT("Resources"));
 
 	const FVector2D Icon64x64(64.0f, 64.0f);
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	const FVector2D Icon16x16(16.0f, 16.0f);
 
-	StyleSet->Set("ToroEditor.LinkAssetLibrary", new IMAGE_BRUSH_SVG(TEXT("LinkFolder"), Icon20x20));
-	StyleSet->Set("ToroEditor.RestartEditor", new IMAGE_BRUSH_SVG(TEXT("RestartEditor"), Icon20x20));
-	StyleSet->Set("ToroEditor.ActorLayout", new IMAGE_BRUSH_SVG(TEXT("ActorLayout"), Icon20x20));
-	StyleSet->Set("ToroEditor.StaticMeshBaker", new IMAGE_BRUSH_SVG(TEXT("StaticMeshBaker"), Icon20x20));
-	StyleSet->Set("ToroEditor.StaticMeshMerger", new IMAGE_BRUSH_SVG(TEXT("StaticMeshMerger"), Icon20x20));
-	StyleSet->Set("ToroEditor.StaticMeshInstancer", new IMAGE_BRUSH_SVG(TEXT("StaticMeshInstancer"), Icon20x20));
+	AddSVG(ToroEditor.LinkAssetLibrary, LinkFolder, 20x20);
+	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
+	AddSVG(ToroEditor.ActorLayout, ActorLayout, 20x20);
+	AddSVG(ToroEditor.StaticMeshBaker, StaticMeshBaker, 20x20);
+	AddSVG(ToroEditor.StaticMeshMerger, StaticMeshMerger, 20x20);
+	AddSVG(ToroEditor.StaticMeshInstancer, StaticMeshInstancer, 20x20);
 
-	StyleSet->Set("ClassThumbnail.SplineCable", new IMAGE_BRUSH_SVG(TEXT("SplineCable"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.SplineBarrier", new IMAGE_BRUSH_SVG(TEXT("SplineBarrier"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.MasterPostProcess", new IMAGE_BRUSH(TEXT("PostProcess"), Icon64x64));
-	StyleSet->Set("ClassThumbnail.LightProbeActor", new IMAGE_BRUSH(TEXT("LightProbe"), Icon64x64));
+	AddSVG(ClassThumbnail.SplineCable, SplineCable, 64x64);
+	AddSVG(ClassThumbnail.SplineBarrier, SplineBarrier, 64x64);
+	AddPNG(ClassThumbnail.MasterPostProcess, PostProcess, 64x64);
+	AddPNG(ClassThumbnail.LightProbeActor, LightProbe, 64x64);
 
+	AddSVG(ClassThumbnail.GuideDatabase, GuideBook, 64x64);
+	AddSVG(ClassThumbnail.AchievementDatabase, Achievement, 64x64);
+	AddSVG(ClassThumbnail.InventoryItemData, InventoryGrid, 64x64);
+	AddSVG(ToroEditor.InventoryGridSmall, InventoryGridSmall, 20x20);
 	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))
 	{
 		StyleSet->Set("ClassIcon.ExprTextBlock", new FSlateImageBrush(

@@ -24,10 +24,12 @@ public class ToroEditor : ModuleRules
                 "ContentBrowser",
                 "ContentBrowserData",
                 "EditorScriptingUtilities",
+                "GameplayTagsEditor",
                 "DeveloperSettings",
                 "AssetDefinition",
                 "EditorSubsystem",
-                "ToroCore"
+                "ToroUtilities",
+                "ToroCore",
             }
         );
     }
