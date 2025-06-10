@@ -5,6 +5,7 @@
 #include "Actors/ToroVolume.h"
 #include "GameplayTagContainer.h"
 #include "WorldActions/WorldActionBase.h"
+#include "WorldActions/WorldActionComponent.h"
 #include "LevelZoneVolume.generated.h"
 
 UCLASS()
