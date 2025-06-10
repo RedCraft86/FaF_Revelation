@@ -2,7 +2,7 @@
 
 #include "DataTypes/PlayerLockFlag.h"
 
-namespace PlayerLocks
+namespace PlayerLockTags
 {
 	DEFINE_GAMEPLAY_TAG(PlayerLock)
 	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, MainMenu)

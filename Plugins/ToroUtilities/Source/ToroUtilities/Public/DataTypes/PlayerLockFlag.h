@@ -5,7 +5,7 @@
 #include "Helpers/GameplayTagMacros.h"
 #include "PlayerLockFlag.generated.h"
 
-namespace PlayerLocks
+namespace PlayerLockTags
 {
 	TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(PlayerLock)
     TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(MainMenu)
@@ -27,9 +27,9 @@ struct TOROUTILITIES_API FPlayerLockFlag
 	UPROPERTY(EditAnywhere, Category = PlayerLock)
 		FName LockKey;
 
-	FPlayerLockFlag(): LockTag(PlayerLocks::TAG_PlayerLock), LockKey(NAME_None) {}
-	FPlayerLockFlag(const FName& InLock): LockTag(PlayerLocks::TAG_PlayerLock), LockKey(InLock) {}
-	FPlayerLockFlag(const FString& InLock): LockTag(PlayerLocks::TAG_PlayerLock), LockKey(*InLock) {}
+	FPlayerLockFlag(): LockTag(PlayerLockTags::TAG_PlayerLock), LockKey(NAME_None) {}
+	FPlayerLockFlag(const FName& InLock): LockTag(PlayerLockTags::TAG_PlayerLock), LockKey(InLock) {}
+	FPlayerLockFlag(const FString& InLock): LockTag(PlayerLockTags::TAG_PlayerLock), LockKey(*InLock) {}
 	FPlayerLockFlag(const FGameplayTag& InLock): LockTag(InLock), LockKey(NAME_None) {}
 
 	FORCEINLINE friend uint32 GetTypeHash(const FPlayerLockFlag& InFlag) { return GetTypeHash(InFlag.ToString()); }
@@ -37,13 +37,13 @@ struct TOROUTILITIES_API FPlayerLockFlag
 	FORCEINLINE friend bool operator!=(const FPlayerLockFlag& A, const FPlayerLockFlag& B) { return !(A == B); }
 	FORCEINLINE friend FName operator*(const FPlayerLockFlag& InFlag) { return InFlag.Get(); }
 	
-	FORCEINLINE FName Get() const { return PlayerLocks::IsValidTag(LockTag) ? LockTag.GetTagName() : LockKey; }
+	FORCEINLINE FName Get() const { return PlayerLockTags::IsValidTag(LockTag) ? LockTag.GetTagName() : LockKey; }
 	FORCEINLINE bool IsValidFlag() const { return !Get().IsNone(); }
 	FORCEINLINE FString ToString() const { return Get().ToString(); }
 
 #if WITH_EDITOR
-	FORCEINLINE void ResetTag() { LockTag = PlayerLocks::TAG_PlayerLock; }
-	FORCEINLINE bool HasValidTag() const { return PlayerLocks::IsValidTag(LockTag); }
+	FORCEINLINE void ResetTag() { LockTag = PlayerLockTags::TAG_PlayerLock; }
+	FORCEINLINE bool HasValidTag() const { return PlayerLockTags::IsValidTag(LockTag); }
 #endif
 
 	static bool DedupeFlags(TArray<FPlayerLockFlag>& Flags);
