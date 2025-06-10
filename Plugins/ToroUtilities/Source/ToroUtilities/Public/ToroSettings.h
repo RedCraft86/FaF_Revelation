@@ -7,6 +7,7 @@
 #include "MiscObjects/UDSSetter.h"
 #include "GeneralProjectSettings.h"
 #include "SaveSystem/ToroNativeSaves.h"
+#include "UserSettings/UserSettingTypes.h"
 #include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Utilities")
@@ -65,7 +66,10 @@ public:
 		TSoftObjectPtr<UMaterialInterface> BrightnessPPM;
 
 	UPROPERTY(Config, EditAnywhere, Category = Audio)
-		TSoftObjectPtr<USoundMix> MainSoundMix;
+	TSoftObjectPtr<USoundMix> MainSoundMix;
+
+	UPROPERTY(Config, EditAnywhere, Category = UserSettings, meta = (ArraySizeEnum = "/Script/ToroUtilities.ESoundClassType"))
+		TSoftObjectPtr<USoundClass> SoundClasses[static_cast<uint8>(ESoundClassType::MAX)];
 
 	float GetReadingTime(const FString& InString) const
 	{
