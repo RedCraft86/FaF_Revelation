@@ -15,10 +15,28 @@ public class ToroUtilities : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore",
+                "MovieScene",
+                "LevelSequence",
+                "EngineSettings",
+                "ProceduralMeshComponent",
+                "DeveloperSettings",
+                "EnhancedInput", 
+                "GameplayTags",
                 "ToroCore"
             }
         );
+        
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.AddRange(
+                new[]
+                {
+                    "UnrealEd",
+                    "EditorScriptingUtilities"
+                });
+        }
     }
 }
