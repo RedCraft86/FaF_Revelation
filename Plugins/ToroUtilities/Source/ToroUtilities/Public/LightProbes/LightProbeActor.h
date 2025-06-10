@@ -50,7 +50,7 @@ public:
 
 	bool IsRelevantProbe(const FTransform& Camera, const bool bHasLumen) const;
 	void ApplyData(UMaterialInstanceDynamic* Material, const uint8 Idx, const FVector& Camera) const;
-	virtual void SetActorHiddenInGame(bool bNewHidden) override;
+	// virtual void SetActorHiddenInGame(bool bNewHidden) override;
 
 #if WITH_EDITOR
 private:

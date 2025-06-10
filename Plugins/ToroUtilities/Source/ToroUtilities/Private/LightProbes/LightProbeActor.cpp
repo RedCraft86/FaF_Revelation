@@ -62,14 +62,14 @@ void ALightProbeActor::ApplyData(UMaterialInstanceDynamic* Material, const uint8
 	}
 }
 
-void ALightProbeActor::SetActorHiddenInGame(bool bNewHidden)
-{
-	Super::SetActorHiddenInGame(bNewHidden);
-	if (ULightProbeManager* Manager = ULightProbeManager::Get(this))
-	{
-		Manager->ForceProbeRecollection();
-	}
-}
+// void ALightProbeActor::SetActorHiddenInGame(bool bNewHidden)
+// {
+// 	Super::SetActorHiddenInGame(bNewHidden);
+// 	if (ULightProbeManager* Manager = ULightProbeManager::Get(this))
+// 	{
+// 		Manager->ForceProbeRecollection();
+// 	}
+// }
 
 #if WITH_EDITOR
 void ALightProbeActor::OnConstruction(const FTransform& Transform)
