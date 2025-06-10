@@ -1,9 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "SaveSystem/ToroNativeSaves.h"
-
-#include "ToroSettings.h"
 #include "ToroUtilities.h"
+#include "ToroSettings.h"
 
 namespace SaveTags
 {
@@ -19,5 +18,4 @@ void UToroGlobalSave::DeleteData()
 void UToroGlobalSave::SerializeData(FArchive& Ar)
 {
 	Ar << Content;
-	Ar << Achievements;
 }
