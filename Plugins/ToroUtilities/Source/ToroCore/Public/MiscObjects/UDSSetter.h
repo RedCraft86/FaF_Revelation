@@ -71,7 +71,7 @@ struct FUDSSettings
 };
 
 UCLASS(Abstract, Blueprintable, BlueprintType)
-class UUDSSetterObject final : public UObject
+class TOROCORE_API UUDSSetterObject final : public UObject
 {
 	GENERATED_BODY()
 
