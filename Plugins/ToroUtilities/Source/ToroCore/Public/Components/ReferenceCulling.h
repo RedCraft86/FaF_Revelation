@@ -33,5 +33,6 @@ private:
 	UPROPERTY(Transient) TSet<TWeakObjectPtr<const UObject>> Requests;
 
 	void UpdateRenderingState();
+	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 };

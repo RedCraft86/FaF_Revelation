@@ -159,11 +159,10 @@ void AMasterPostProcess::OnSettingUpdate(const UToroUserSettings* UserSettings)
 void AMasterPostProcess::BeginPlay()
 {
 	Super::BeginPlay();
-#if WITH_EDITOR
 	{
 		TArray<AActor*> Actors;
 		UGameplayStatics::GetAllActorsOfClass(this, StaticClass(), Actors);
-		if (Actors.Num() > 0 && Actors[0] != this)
+		if (Actors.Num() > 1 && Actors[0] != this)
 		{
 			UE_LOG(LogToroUtilities, Warning, TEXT(
 				"Only one instance of Master Post Process can exist per world! Removing %s"), *GetActorLabel())
@@ -172,8 +171,9 @@ void AMasterPostProcess::BeginPlay()
 			return;
 		}
 	}
-#endif
+
 	// TODO
+
 	if (const TSubclassOf<UUDSSetterObject> Class = UToroSettings::Get()->UDS_Setter.LoadSynchronous())
 	{
 		UDSSetterObj = NewObject<UUDSSetterObject>(this, Class);
@@ -188,7 +188,7 @@ void AMasterPostProcess::OnConstruction(const FTransform& Transform)
 	{
 		TArray<AActor*> Actors;
 		UGameplayStatics::GetAllActorsOfClass(this, StaticClass(), Actors);
-		if (Actors.Num() > 0 && Actors[0] != this)
+		if (Actors.Num() > 1 && Actors[0] != this)
 		{
 			UE_LOG(LogToroUtilities, Warning, TEXT(
 				"Only one instance of Master Post Process can exist per world! Remove %s"), *GetActorLabel())

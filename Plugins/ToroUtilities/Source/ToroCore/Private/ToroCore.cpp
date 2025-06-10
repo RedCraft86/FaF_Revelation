@@ -2,6 +2,8 @@
 
 #include "ToroCore.h"
 
+DEFINE_LOG_CATEGORY(LogToroCore);
+
 #define LOCTEXT_NAMESPACE "FToroCoreModule"
 
 void FToroCoreModule::StartupModule()

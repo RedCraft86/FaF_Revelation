@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Components/ReferenceCulling.h"
+#include "ToroCore.h"
 
 URefCullComponent::URefCullComponent(): bAffectTicking(false), bCachedTickState(false)
 {
@@ -48,6 +49,26 @@ void URefCullComponent::UpdateRenderingState()
 			{
 				OwnerActor->SetActorTickEnabled(bCachedTickState);
 			}
+		}
+	}
+}
+
+void URefCullComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	{
+		TArray<URefCullComponent*> Components;
+		GetOwner()->GetComponents<URefCullComponent>(Components);
+		if (Components.Num() > 1 && Components[0] != this)
+		{
+			UE_LOG(LogToroCore, Warning, TEXT(
+				"Only one instance of Reference Culling can exist per actor! Removing %s"), *GetName())
+
+			SetComponentTickEnabled(false);
+			GetWorld()->GetTimerManager().SetTimerForNextTick([WeakThis = TWeakObjectPtr(this)]()
+			{
+				if (WeakThis.IsValid()) WeakThis->DestroyComponent();
+			});
 		}
 	}
 }

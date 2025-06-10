@@ -2,6 +2,8 @@
 
 #pragma once
 
+DECLARE_LOG_CATEGORY_EXTERN(LogToroCore, All, All);
+
 class FToroCoreModule final : public IModuleInterface
 {
 public:
