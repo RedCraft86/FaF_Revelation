@@ -95,11 +95,11 @@ void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 	{
 		ZoneSubsystem->AssignCharToZone(CharTag, ZoneTag);
 	}
-	// if (const AToroPlayerCharacter* Char = Cast<AToroPlayerCharacter>(OtherActor))
-	// {
-	// 	ActionManager->SetActions(ActionsEnter);
-	// 	ActionManager->RunActions();
-	// } TODO
+	if (CharTag == CharacterTags::TAG_Player)
+	{
+		ActionManager->SetActions(ActionsEnter, false);
+		ActionManager->RunActions();
+	}
 }
 
 void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
@@ -107,11 +107,12 @@ void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 	Super::NotifyActorEndOverlap(OtherActor);
 
 	if (!IsEnabled()) return;
-	// if (const AToroPlayerCharacter* Char = Cast<AToroPlayerCharacter>(OtherActor))
-	// {
-	// 	ActionManager->SetActions(ActionsExit);
-	// 	ActionManager->RunActions();
-	// } TODO
+	const FGameplayTag CharTag = ICharInterface::GetCharacterID(OtherActor);
+	if (CharTag == CharacterTags::TAG_Player)
+	{
+		ActionManager->SetActions(ActionsExit, false);
+		ActionManager->RunActions();
+	}
 }
 
 #if WITH_EDITOR
