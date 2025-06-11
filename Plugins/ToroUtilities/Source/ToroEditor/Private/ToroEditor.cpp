@@ -20,12 +20,17 @@
 #include "ComponentVis/EditorShapesVisualizer.h"
 
 #include "DetailsPanels/PropertyMetadataDetails.h"
+
 #include "DetailsPanels/ToroActorDetails.h"
+#include "DetailsPanels/Class/ZoneVolumeDetails.h"
 #include "DetailsPanels/Struct/InlineCurveDetails.h"
 #include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
 
 #include "Actors/TeleportPoint.h"
 #include "Actors/NavPathVisualizer.h"
+#include "Procedural/ToroProcGenBase.h"
+#include "LightProbes/LightProbeActor.h"
+#include "MiscActors/MasterPostProcess.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -77,6 +82,10 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ATeleportPoint, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroProcGenBase, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ALightProbeActor, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FZoneVolumeDetails)
 
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
@@ -120,6 +129,10 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
 		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportPoint)
 		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroMeshGenBase)
+		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALightProbeActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
 
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
