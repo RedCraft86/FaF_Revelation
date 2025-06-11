@@ -2,15 +2,6 @@
 
 #include "PlayerTypes.h"
 
-namespace PlayerLockTags
-{
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue)
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Inventory)
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Jumpscare)
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Guide)
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, QTE)
-}
-
 UCamShake_Walk::UCamShake_Walk()
 {
 	bSingleInstance = true;

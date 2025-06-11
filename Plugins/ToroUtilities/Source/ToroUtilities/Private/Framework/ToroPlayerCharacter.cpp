@@ -6,12 +6,8 @@
 #include "Framework/ToroGameInstance.h"
 #include "Framework/ToroGameMode.h"
 #include "ToroSettings.h"
-#if WITH_EDITOR
-#include "Widgets/Notifications/SNotificationList.h"
-#include "Framework/Notifications/NotificationManager.h"
-#endif
 
-AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f), LockFlags({LockFlag(Startup)})
+AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f), LockTags({PlayerLockTag::TAG_Startup.GetTag()})
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -32,19 +28,19 @@ AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f), LockFlags(
 	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
 }
 
-void AToroPlayerCharacter::AddLockFlag(const FPlayerLockFlag& InFlag)
+void AToroPlayerCharacter::AddLockTag(const FGameplayTag InTag)
 {
-	if (InFlag.IsValidFlag()) LockFlags.AddUnique(InFlag);
+	if (PlayerLockTag::IsValidTag(InTag)) LockTags.AddTag(InTag);
 }
 
-void AToroPlayerCharacter::ClearLockFlag(const FPlayerLockFlag& InFlag)
+void AToroPlayerCharacter::ClearLockTag(const FGameplayTag InTag)
 {
-	if (InFlag.IsValidFlag()) LockFlags.Remove(InFlag);
+	if (PlayerLockTag::IsValidTag(InTag)) LockTags.RemoveTag(InTag);
 }
 
-bool AToroPlayerCharacter::HasLockFlag(const FPlayerLockFlag& InFlag) const
+bool AToroPlayerCharacter::HasLockTag(const FGameplayTag InTag) const
 {
-	return InFlag.IsValidFlag() && LockFlags.Contains(InFlag);
+	return LockTags.HasTagExact(InTag);
 }
 
 void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSettings)
@@ -106,10 +102,9 @@ void AToroPlayerCharacter::ClearFade() const
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	LockFlags.RemoveAll([](const FPlayerLockFlag& InFlag) { return !InFlag.IsValidFlag(); });
 	if (UToroSettings::Get()->IsOnLaunchMap(this))
 	{
-		AddPlayerLock(MainMenu);
+		LockTags.AddTag(PlayerLockTag::TAG_MainMenu);
 	}
 
 	GameMode = AToroGameMode::Get(this);
@@ -121,20 +116,6 @@ void AToroPlayerCharacter::BeginPlay()
 void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	if (FPlayerLockFlag::DedupeFlags(LockFlags))
-	{
-#if WITH_EDITOR
-		FNotificationInfo Info(INVTEXT("Cannot contain duplicate Lock Flags"));
-		Info.bFireAndForget = true;
-		Info.FadeOutDuration = 2.0f;
-		Info.ExpireDuration = 2.0f;
-		Info.bUseLargeFont = false;
-		Info.bUseThrobber = false;
-		Info.bUseSuccessFailIcons = true;
-		Info.bAllowThrottleWhenFrameRateIsLow = false;
-		TSharedPtr<SNotificationItem> Notif = FSlateNotificationManager::Get().AddNotification(Info);
-		if (Notif.IsValid()) Notif->SetCompletionState(SNotificationItem::CS_Fail);
-#endif
-	}
+	LockTags.RemoveTag(PlayerLockTag::TAG_PlayerLock);
 	ULightingDataLibrary::SetPointLightProperties(PlayerLight, LightSettings);
 }

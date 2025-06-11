@@ -3,18 +3,7 @@
 #pragma once
 
 #include "LegacyCameraShake.h"
-#include "Helpers/GameplayTagMacros.h"
-#include "Framework/ToroPlayerCharacter.h"
 #include "PlayerTypes.generated.h"
-
-namespace PlayerLockTags
-{
-	FAFREVGAME_API DECLARE_GAMEPLAY_TAG(Dialogue)
-	FAFREVGAME_API DECLARE_GAMEPLAY_TAG(Inventory)
-	FAFREVGAME_API DECLARE_GAMEPLAY_TAG(Jumpscare)
-	FAFREVGAME_API DECLARE_GAMEPLAY_TAG(Guide)
-	FAFREVGAME_API DECLARE_GAMEPLAY_TAG(QTE)
-}
 
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum EPlayerControlFlags
@@ -45,10 +34,13 @@ enum EPlayerStateFlags
 	PSF_Run			= 1 << 0	UMETA(DisplayName = "Running"),
 	PSF_Crouch		= 1 << 1	UMETA(DisplayName = "Crouching"),
 	PSF_RunLocked	= 1 << 2	UMETA(DisplayName = "Stamina Punished"),
-	PSF_Inspect		= 1 << 3	UMETA(DisplayName = "Inspecting"),
-	PSF_Hiding		= 1 << 4	UMETA(DisplayName = "Hiding"),
-	PSF_Device		= 1 << 5	UMETA(DisplayName = "Device"),
-	PSF_Task		= 1 << 6	UMETA(DisplayName = "Task"),
+	PSF_Inventory	= 1 << 3	UMETA(DisplayName = "Using Inventory"),
+	PSF_GuideBook	= 1 << 4	UMETA(DisplayName = "Reading Guide"),
+	PSF_QuickTime	= 1 << 5	UMETA(DisplayName = "Playing QTE"),
+	PSF_Inspect		= 1 << 6	UMETA(DisplayName = "Inspecting"),
+	PSF_Hiding		= 1 << 7	UMETA(DisplayName = "Hiding"),
+	PSF_Device		= 1 << 8	UMETA(DisplayName = "Using Device"),
+	PSF_Tasking		= 1 << 9	UMETA(DisplayName = "Doing Tasks"),
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
 
@@ -99,36 +91,6 @@ namespace Player
 		inline static FName Running		= TEXT("Internal_Run");
 		inline static FName Crouching	= TEXT("Internal_Crouch");
 		inline static FName Inspecting	= TEXT("Internal_Inspect");
-	}
-
-	namespace LockFlags
-	{
-		static inline TSet<FGameplayTag> AllFlags = {
-			LockFlag(MainMenu),
-			LockFlag(Startup),
-			LockFlag(Loading),
-			LockFlag(Cinematic),
-			LockFlag(Dialogue),
-			LockFlag(Jumpscare),
-			LockFlag(Inventory),
-			LockFlag(Guide),
-			LockFlag(QTE)
-		};
-
-		static inline TSet<FGameplayTag> ImmunityFlags = {
-			LockFlag(MainMenu),
-			LockFlag(Startup),
-			LockFlag(Loading),
-			LockFlag(Cinematic),
-			LockFlag(Dialogue),
-			LockFlag(Jumpscare),
-			LockFlag(Guide)
-		};
-
-		static inline TSet<FGameplayTag> ResettableFlags = {
-			LockFlag(Inventory),
-			LockFlag(QTE)
-		};
 	}
 
 	static float LeanToFloat(const EPlayerLeanState& State)

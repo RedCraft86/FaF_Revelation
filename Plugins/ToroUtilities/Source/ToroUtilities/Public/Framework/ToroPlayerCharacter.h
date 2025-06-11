@@ -6,15 +6,11 @@
 #include "Actors/ToroCharacter.h"
 #include "Helpers/ClassGetters.h"
 #include "DataTypes/LightingData.h"
-#include "DataTypes/PlayerLockFlag.h"
+#include "DataTypes/PlayerLockTag.h"
 #include "ToroPlayerCharacter.generated.h"
 
 class AToroGameMode;
 class UToroGameInstance;
-
-#define LockFlag(Flag) PlayerLockTags::TAG_##Flag.GetTag()
-#define AddPlayerLock(Flag) AddLockFlag(LockFlag(Flag))
-#define ClearPlayerLock(Flag) ClearLockFlag(LockFlag(Flag))
 
 UCLASS()
 class TOROUTILITIES_API AToroPlayerCharacter : public AToroCharacter
@@ -34,7 +30,7 @@ public:
 		float SlowTickInterval;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
-		TArray<FPlayerLockFlag> LockFlags;
+		FGameplayTagContainer LockTags;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPointLightProperties LightSettings;
@@ -46,13 +42,13 @@ public:
 		AToroPlayerController* GetPlayerController() const { return GetController<AToroPlayerController>(); }
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void AddLockFlag(const FPlayerLockFlag& InFlag);
+		virtual void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void ClearLockFlag(const FPlayerLockFlag& InFlag);
+		virtual void ClearLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
 	UFUNCTION(BlueprintPure, Category = Player)
-		virtual bool HasLockFlag(const FPlayerLockFlag& InFlag) const;
+		virtual bool HasLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag) const;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
