@@ -20,7 +20,8 @@ public class ToroCore : ModuleRules
                 "SlateCore",
                 "InputCore",
                 "NavigationSystem",
-                "GameplayTags"
+                "GameplayTags",
+                "CommonUI"
             }
         );
     }

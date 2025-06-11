@@ -3,6 +3,7 @@
 #include "Framework/ToroPlayerCharacter.h"
 #include "Components/PointLightComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Framework/ToroGameInstance.h"
 #include "Framework/ToroGameMode.h"
 #include "ToroSettings.h"
 #if WITH_EDITOR
