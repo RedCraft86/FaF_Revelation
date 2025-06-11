@@ -14,6 +14,8 @@
 namespace SaveTags
 {
 	DEFINE_GAMEPLAY_TAG(Save)
+	DEFINE_GAMEPLAY_TAG_CHILD(Save, GlobalSave)
+	DEFINE_GAMEPLAY_TAG_CHILD(Save, GameSave)
 }
 
 UToroSaveObject* UToroSaveObject::Create(UObject* Owner, const TSubclassOf<UToroSaveObject>& Class, const FGameplayTag& Tag)

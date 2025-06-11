@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroNativeSaves.h"
+#include "ToroSaveTypes.h"
 #include "Helpers/ClassGetters.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ToroSaveManager.generated.h"
@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = SaveSystem)
 		UToroSaveObject* GetSaveObject(UPARAM(meta = (Categories = "Save")) const FGameplayTag InTag);
 
+	UFUNCTION(BlueprintCallable, Category = SaveSystem)
+		bool CreateSaveObject(const TSubclassOf<UToroSaveObject> Class, const FGameplayTag InTag);
+
 	template <typename T = UToroSaveObject>
 	T* GetSaveObject(const FGameplayTag& InTag) { return Cast<T>(GetSaveObject(InTag)); }
 
@@ -35,6 +38,5 @@ private:
 	UPROPERTY(Transient) TMap<FGameplayTag, TObjectPtr<UToroSaveObject>> SaveObjects;
 
 	void OnSaveActivity(const UToroSaveObject* Save, const ESaveGameActivity Type) const;
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 };
