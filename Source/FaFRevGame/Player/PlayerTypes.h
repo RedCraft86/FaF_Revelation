@@ -24,8 +24,6 @@ enum EPlayerControlFlags
 };
 ENUM_CLASS_FLAGS(EPlayerControlFlags);
 ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerControlFlags, PCF_Locked, PCF_CanHide);
-#define DEFAULT_PLAYER_CONTROL_FLAGS PCF_UseStamina | PCF_CanPause | PCF_CanTurn \
-	| PCF_CanMove | PCF_CanRun | PCF_CanCrouch | PCF_CanLean | PCF_CanInteract | PCF_CanHide
 
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
 enum EPlayerStateFlags
@@ -102,4 +100,10 @@ namespace Player
 		default: return 0.0f;
 		}
 	}
+
+	inline static int32 DefaultControls = PCF_UseStamina | PCF_CanPause | PCF_CanTurn | PCF_CanMove
+		| PCF_CanRun | PCF_CanCrouch | PCF_CanLean | PCF_CanInteract | PCF_CanHide;
+
+	inline static int32 LockingStates = PSF_Inventory | PSF_GuideBook
+		| PSF_QuickTime | PSF_Inspect | PSF_Hiding | PSF_Device | PSF_Tasking;
 }
