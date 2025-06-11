@@ -31,8 +31,7 @@ UToroSaveObject* UToroSaveObject::Create(UObject* Owner, const TSubclassOf<UToro
 	if (UToroSaveObject* Obj = NewObject<UToroSaveObject>(Owner, Class, *SaveName))
 	{
 		Obj->SaveTag = Tag;
-		Obj->SavePath = FPaths::Combine(*FPaths::ProjectSavedDir(), TEXT("SaveGames"),
-			*UToroSettings::Get()->GetDemoName(), SaveName + TEXT(".tsave"));
+		Obj->SavePath = FPaths::Combine(*FPaths::ProjectSavedDir(), TEXT("SaveGames"), SaveName + TEXT(".tsave"));
 
 		Obj->OnCreation();
 		Obj->LoadObject(nullptr);

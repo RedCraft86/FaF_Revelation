@@ -16,7 +16,11 @@ public class FaFRevGame : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "EngineCameras",
+                "GameplayTags",
+                "ToroCore",
+                "ToroUtilities"
             }
         );
     }
