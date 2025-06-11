@@ -17,6 +17,7 @@ public class FaFRevGame : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "EnhancedInput",
                 "EngineCameras",
                 "GameplayTags",
                 "ToroCore",
