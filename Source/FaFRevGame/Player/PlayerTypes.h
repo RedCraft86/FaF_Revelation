@@ -50,6 +50,78 @@ enum class EPlayerLeanState : uint8
 	Right
 };
 
+USTRUCT(BlueprintType)
+struct FAFREVGAME_API FPlayerStamina
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = Stamina, meta = (ClampMin = 10.0f, UIMin = 10.0f))
+		float MaxStamina;
+
+	UPROPERTY(EditAnywhere, Category = Stamina, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		FVector2D StaminaRates;
+
+	FPlayerStamina(): MaxStamina(100.0f), StaminaRates(FVector2D::UnitVector), Delta(0.0f), Stamina(100.0f) {}
+
+	float GetDelta() const { return Delta; }
+	float GetPercent() const { return Stamina / MaxStamina; }
+	bool IsEmpty() const { return FMath::IsNearlyZero(Stamina) || Stamina <= 0.0f; }
+	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, MaxStamina, 1.0f); }
+	void TickStamina(const bool bRunning)
+	{
+		Delta = bRunning ? -StaminaRates.X : StaminaRates.Y;
+		Stamina = FMath::Clamp(Stamina + Delta, 0.0f, MaxStamina);
+	}
+
+private:
+
+	float Delta;
+	float Stamina;
+};
+
+USTRUCT(BlueprintType)
+struct FAFREVGAME_API FPlayerFootsteps
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		FVector Intervals;
+
+	UPROPERTY(EditAnywhere, Category = Footsteps)
+		TEnumAsByte<ECollisionChannel> TraceChannel;
+
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> WalkSounds;
+
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> RunSounds;
+
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> SneakSounds;
+
+	FPlayerFootsteps(): Intervals(0.5f, 0.35f, 0.6f), TraceChannel(ECC_Visibility) {}
+
+	USoundBase* GetFootstepSound(const int32 StateFlags, const EPhysicalSurface Surface) const
+	{
+		if (StateFlags & PSF_Run) return RunSounds.Find(Surface)
+			? RunSounds.FindRef(Surface) : RunSounds.FindRef(SurfaceType_Default);
+		
+		if (StateFlags & PSF_Crouch) return SneakSounds.Find(Surface)
+			? SneakSounds.FindRef(Surface) : SneakSounds.FindRef(SurfaceType_Default);
+		
+		return WalkSounds.Find(Surface)
+			? WalkSounds.FindRef(Surface)
+			: WalkSounds.FindRef(SurfaceType_Default);
+	}
+
+	float GetFootstepInterval(const int32 StateFlags) const
+	{
+		if (StateFlags & PSF_Run) return Intervals.Y;
+		if (StateFlags & PSF_Crouch) return Intervals.Z;
+		return Intervals.X;
+	}
+};
+
 UCLASS()
 class FAFREVGAME_API UCamShake_Walk : public ULegacyCameraShake
 {
@@ -86,6 +158,7 @@ namespace Player
 
 	namespace Keys
 	{
+		inline static FName Movement	= TEXT("Internal_Move");
 		inline static FName Running		= TEXT("Internal_Run");
 		inline static FName Crouching	= TEXT("Internal_Crouch");
 		inline static FName Inspecting	= TEXT("Internal_Inspect");
