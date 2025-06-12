@@ -12,9 +12,11 @@ struct TOROCORE_API TToroInterpolator
 	float Speed;
 	bool bConstant;
 	
-	TToroInterpolator(): Speed(0.0f), bConstant(false) {}
-	TToroInterpolator(const T InTarget): Current(InTarget), Speed(5.0f), bConstant(false) {}
 	virtual ~TToroInterpolator() = default;
+	TToroInterpolator(): Speed(0.0f), bConstant(false) {}
+	TToroInterpolator(const T InTarget, const float InSpeed = 5.0f)
+		: Current(InTarget), Speed(InSpeed), bConstant(false)
+	{}
 
 	void SnapToTarget() { Current = Target; }
 	virtual void Tick(const float InDeltaTime) {}
@@ -23,7 +25,7 @@ struct TOROCORE_API TToroInterpolator
 struct TOROCORE_API FToroInterpFloat final : TToroInterpolator<float>
 {
 	FToroInterpFloat() {}
-	FToroInterpFloat(const float InTarget): TToroInterpolator(InTarget) {}
+	FToroInterpFloat(const float InTarget, const float InSpeed = 5.0f): TToroInterpolator(InTarget, InSpeed) {}
 	bool IsComplete() const { return FMath::IsNearlyEqual(Current, Target); }
 	virtual void Tick(const float InDeltaTime) override
 	{
@@ -36,7 +38,7 @@ struct TOROCORE_API FToroInterpFloat final : TToroInterpolator<float>
 struct TOROCORE_API FToroInterpVector2D final : TToroInterpolator<FVector2D>
 {
 	FToroInterpVector2D() {}
-	FToroInterpVector2D(const FVector2D& InTarget): TToroInterpolator(InTarget) {}
+	FToroInterpVector2D(const FVector2D& InTarget, const float InSpeed = 5.0f): TToroInterpolator(InTarget, InSpeed) {}
 	bool IsComplete() const { return Current.Equals(Target); }
 	virtual void Tick(const float InDeltaTime) override
 	{
@@ -49,7 +51,7 @@ struct TOROCORE_API FToroInterpVector2D final : TToroInterpolator<FVector2D>
 struct TOROCORE_API FToroInterpVector final : TToroInterpolator<FVector>
 {
 	FToroInterpVector() {}
-	FToroInterpVector(const FVector& InTarget): TToroInterpolator(InTarget) {}
+	FToroInterpVector(const FVector& InTarget, const float InSpeed = 5.0f): TToroInterpolator(InTarget, InSpeed) {}
 	bool IsComplete() const { return Current.Equals(Target); }
 	virtual void Tick(const float InDeltaTime) override
 	{
