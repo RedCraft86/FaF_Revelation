@@ -179,7 +179,6 @@ void AMasterPostProcess::BeginPlay()
 		}
 	}
 
-
 	UToroUserSettings::Get()->OnDynamicSettingsChanged.AddUObject(this, &AMasterPostProcess::OnSettingUpdate);
 	if (const TSubclassOf<UUDSSetterObject> Class = UToroSettings::Get()->UDS_Setter.LoadSynchronous())
 	{

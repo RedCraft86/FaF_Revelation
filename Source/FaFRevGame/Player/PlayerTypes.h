@@ -67,6 +67,7 @@ struct FAFREVGAME_API FPlayerStamina
 	float GetPercent() const { return Stamina / MaxStamina; }
 	bool IsEmpty() const { return FMath::IsNearlyZero(Stamina) || Stamina <= 0.0f; }
 	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, MaxStamina, 1.0f); }
+	void SetPercent(const float InPercent) { Stamina = FMath::Lerp(0.0f, MaxStamina, InPercent); }
 	void TickStamina(const bool bRunning)
 	{
 		Delta = bRunning ? -StaminaRates.X : StaminaRates.Y;
@@ -120,6 +121,29 @@ struct FAFREVGAME_API FPlayerFootsteps
 		if (StateFlags & PSF_Crouch) return Intervals.Z;
 		return Intervals.X;
 	}
+#if WITH_EDITOR
+	void Validate()
+	{
+		if (const UEnum* Enum = StaticEnum<EPhysicalSurface>())
+		{
+			for(int32 i = 0; i < Enum->NumEnums(); i++)
+			{
+				const EPhysicalSurface Type = static_cast<EPhysicalSurface>(i);
+				if (Type != SurfaceType_Default && Enum->HasMetaData(TEXT("Hidden"), i))
+				{
+					WalkSounds.Remove(TEnumAsByte(Type));
+					RunSounds.Remove(TEnumAsByte(Type));
+					SneakSounds.Remove(TEnumAsByte(Type));
+					continue;
+				}
+				
+				if (!WalkSounds.Contains(TEnumAsByte(Type))) WalkSounds.Add(TEnumAsByte(Type));
+				if (!RunSounds.Contains(TEnumAsByte(Type))) RunSounds.Add(TEnumAsByte(Type));
+				if (!SneakSounds.Contains(TEnumAsByte(Type))) SneakSounds.Add(TEnumAsByte(Type));
+			}
+		}
+	}
+#endif
 };
 
 UCLASS()
@@ -158,10 +182,11 @@ namespace Player
 
 	namespace Keys
 	{
-		inline static FName Movement	= TEXT("Internal_Move");
-		inline static FName Running		= TEXT("Internal_Run");
-		inline static FName Crouching	= TEXT("Internal_Crouch");
-		inline static FName Inspecting	= TEXT("Internal_Inspect");
+		inline static FName Movement	= TEXT("Internal_Movement");
+		inline static FName Leaning		= TEXT("Internal_Leaning");
+		inline static FName Running		= TEXT("Internal_Running");
+		inline static FName Crouching	= TEXT("Internal_Crouching");
+		inline static FName Inspecting	= TEXT("Internal_Inspecting");
 	}
 
 	static float LeanToFloat(const EPlayerLeanState& State)
@@ -178,5 +203,5 @@ namespace Player
 		| PCF_CanRun | PCF_CanCrouch | PCF_CanLean | PCF_CanInteract | PCF_CanHide;
 
 	inline static int32 LockingStates = PSF_Inventory | PSF_GuideBook
-		| PSF_QuickTime | PSF_Inspect | PSF_Hiding | PSF_Device | PSF_Tasking;
+		| PSF_QuickTime | PSF_Inspect | PSF_Hiding | PSF_Device;
 }
