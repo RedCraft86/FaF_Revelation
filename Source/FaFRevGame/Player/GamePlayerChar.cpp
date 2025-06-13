@@ -551,7 +551,7 @@ void AGamePlayerChar::InputBinding_Turn(const FInputActionValue& InValue)
 	if (Inspectable)
 	{
 		const FVector2D Multi = Sensitivity.Modifiers.FindRef(Player::Keys::Inspecting, FVector2D::UnitVector);
-		InspectRoot->AddLocalRotation(FRotator(Axis.Y * Multi.Y, Axis.X * Multi.X, 0.0f));
+		InspectRoot->AddLocalRotation(FRotator(Axis.Y * Multi.Y, -Axis.X * Multi.X, 0.0f));
 		return;
 	}
 	
