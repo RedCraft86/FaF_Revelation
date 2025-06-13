@@ -190,15 +190,11 @@ void AGamePlayerChar::SetLeanState(const EPlayerLeanState InState)
 		RemoveCamOffset(Player::Keys::Leaning);
 		GetWorldTimerManager().PauseTimer(WallDetectTimer);
 	}
-	else
+	else if (const float Dir = Player::LeanToFloat(InState); !IsLeaningBlocked(Dir))
 	{
-		const float Dir = Player::LeanToFloat(InState);
-		if (!IsLeaningBlocked(Dir))
-		{
-			LeanState = InState;
-			AddCamOffset(Player::Keys::Leaning, LeanOffsets * Dir);
-			GetWorldTimerManager().UnPauseTimer(WallDetectTimer);
-		}
+		LeanState = InState;
+		AddCamOffset(Player::Keys::Leaning, LeanOffsets * Dir);
+		GetWorldTimerManager().UnPauseTimer(WallDetectTimer);
 	}
 }
 
