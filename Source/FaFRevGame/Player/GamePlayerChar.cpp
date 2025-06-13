@@ -14,7 +14,9 @@
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
 #define BIND_INPUT_ACTION(Component, Event, Action) \
 	if (const UInputAction* IA_##Action = InputActions.FindRef(Player::Inputs::Action)) \
-	{ Component->BindAction(IA_##Action, ETriggerEvent::Event, this, &ThisClass::InputBinding_##Action); }
+	{\
+		Component->BindAction(IA_##Action, ETriggerEvent::Event, this, &ThisClass::InputBinding_##Action); \
+	}
 
 AGamePlayerChar::AGamePlayerChar()
 {
@@ -96,10 +98,10 @@ void AGamePlayerChar::SetControlFlag(const EPlayerControlFlags InFlag)
 	if (InFlag != PCF_None && !HasControlFlag(InFlag))
 	{
 		ControlFlags |= InFlag;
-		// switch (InFlag)
+		switch (InFlag)
 		{
-		// case PCF_UseStamina: GetWorldTimerManager().UnPauseTimer(StaminaTimer); break; TODO
-		// default: break;
+		case PCF_UseStamina: GetWorldTimerManager().UnPauseTimer(StaminaTimer); break;
+		default: break;
 		}
 	}
 }
@@ -109,13 +111,13 @@ void AGamePlayerChar::UnsetControlFlag(const EPlayerControlFlags InFlag)
 	if (InFlag != PCF_None && HasControlFlag(InFlag))
 	{
 		ControlFlags &= ~InFlag;
-		// switch (InFlag)
+		switch (InFlag)
 		{
-		// case PCF_UseStamina:	GetWorldTimerManager().PauseTimer(StaminaTimer); break;
-		// case PCF_CanRun:		SetRunState(false); break;
-		// case PCF_CanCrouch:		SetCrouchState(false); break;
-		// case PCF_CanLean:		SetLeanState(EPlayerLeanState::None); break; TODO
-		// default: break;
+		case PCF_UseStamina:	GetWorldTimerManager().PauseTimer(StaminaTimer); break;
+		case PCF_CanRun:		SetRunState(false); break;
+		case PCF_CanCrouch:		SetCrouchState(false); break;
+		case PCF_CanLean:		SetLeanState(EPlayerLeanState::None); break;
+		default: break;
 		}
 	}
 }
@@ -208,6 +210,19 @@ void AGamePlayerChar::SetLockOnTarget(const USceneComponent* InComponent)
 
 void AGamePlayerChar::SetInspectable(AActor* InActor)
 {
+	if (InActor && Inspectable) return;
+	if (AToroPlayerController* PC = GetPlayerController())
+	{
+		if (Inspectable && !InActor)
+		{
+			PC->RemovePauseRequest(Inspectable);
+		}
+		else if (InActor)
+		{
+			PC->AddPauseRequest(InActor);
+		}
+	}
+
 	Inspectable = InActor;
 	Inspectable ? SetStateFlag(PSF_Inspect) : UnsetStateFlag(PSF_Inspect);
 }
@@ -536,24 +551,24 @@ void AGamePlayerChar::InputBinding_Back(const FInputActionValue& InValue)
 
 void AGamePlayerChar::InputBinding_Turn(const FInputActionValue& InValue)
 {
+	const FVector2D Axis = InValue.Get<FVector2D>();
+	if (Inspectable)
+	{
+		const FVector2D Multi = Sensitivity.Modifiers.FindRef(Player::Keys::Inspecting, FVector2D::UnitVector);
+		InspectRoot->AddLocalRotation(FRotator(Axis.Y * Multi.Y, Axis.X * Multi.X, 0.0f));
+		return;
+	}
+	
 	if (CAN_INPUT && HasControlFlag(PCF_CanTurn) && !IsValid(LockOnTarget))
 	{
-		const FVector2D Axis = InValue.Get<FVector2D>();
-		const FVector2D Multiplier = Sensitivity.Evaluate();
-		if (Inspectable)
-		{
-			const FVector2D InspectMulti = Sensitivity.Modifiers.FindRef(Player::Keys::Inspecting);
-			InspectRoot->AddRelativeRotation(FRotator(Multiplier.Y, InspectMulti.X, 0.0f));
-			return;
-		}
-
+		const FVector2D Multi = Sensitivity.Evaluate();
 		if (!FMath::IsNearlyZero(Axis.X))
 		{
-			AddControllerYawInput(Axis.X * Multiplier.X);
+			AddControllerYawInput(Axis.X * Multi.X);
 		}
 		if (!FMath::IsNearlyZero(Axis.Y))
 		{
-			AddControllerPitchInput(Axis.Y * Multiplier.Y);
+			AddControllerPitchInput(Axis.Y * Multi.Y);
 		}
 	}
 }

@@ -243,13 +243,14 @@ public:
 	EXTERNAL_OBJECT_FUNC(ActiveTask)
 
 	bool TryJumpscare();
+	FVector GetInspectPosition() const { return InspectRoot->GetComponentLocation(); }
 
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 	virtual void EnterCinematic(AActor* CinematicActor) override;
 	virtual bool GetLookTarget_Implementation(FVector& Location) const override;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const override;
 	virtual void Teleport(const FVector& InLocation, const FRotator& InRotation) override;
-	
+
 private:
 
 	void TickStamina();
