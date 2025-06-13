@@ -54,8 +54,8 @@ protected:
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UEditorVisualComponent> EdVisualComp;
 
-	UPROPERTY(EditAnywhere, Category = Tick)
-		bool bTickInEditor;
+	UPROPERTY(EditDefaultsOnly, Category = Tick)
+		bool bTickInEditor = false;
 #endif
 
 	UPROPERTY(EditAnywhere, Category = Settings)
