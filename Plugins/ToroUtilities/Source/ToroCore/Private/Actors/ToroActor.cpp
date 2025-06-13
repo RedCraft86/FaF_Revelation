@@ -2,7 +2,7 @@
 
 #include "Actors/ToroActor.h"
 
-AToroActor::AToroActor()
+AToroActor::AToroActor(): bEnabled(true), bStartWithCollision(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;

@@ -3,7 +3,7 @@
 #include "Actors/ToroVolume.h"
 #include "Components/BrushComponent.h"
 
-AToroVolume::AToroVolume()
+AToroVolume::AToroVolume(): bEnabled(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
