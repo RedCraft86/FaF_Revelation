@@ -3,7 +3,7 @@
 #include "InspectableActor.h"
 
 AInspectableActor::AInspectableActor()
-	: TurningSpeed(0.75f, 0.35f), InspectScale(FVector::OneVector), ScaleSpeed(6.5f)
+	: TurningSpeed(1.0, 0.5f), InspectScale(FVector::OneVector), ScaleSpeed(6.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -14,9 +14,9 @@ AInspectableActor::AInspectableActor()
 	InspectRoot->SetupAttachment(GetRootComponent());
 	InspectRoot->bUsePawnControlRotation = false;
 	InspectRoot->bEnableCameraRotationLag = false;
-	InspectRoot->CameraRotationLagSpeed = 7.5f;
+	InspectRoot->CameraRotationLagSpeed = 6.5f;
 	InspectRoot->bEnableCameraLag = false;
-	InspectRoot->CameraLagSpeed = 5.5f;
+	InspectRoot->CameraLagSpeed = 5.0f;
 	InspectRoot->TargetArmLength = 0.0f;
 	InspectRoot->bDoCollisionTest = false;
 
@@ -24,7 +24,7 @@ AInspectableActor::AInspectableActor()
 	UPDATE_VISUAL_MAX_COMP(2)
 #endif
 
-	ScaleLerp = {0.0f, 6.5f};
+	ScaleLerp = {0.0f, 6.0f};
 }
 
 void AInspectableActor::BeginInspection(AGamePlayerChar* Player)
