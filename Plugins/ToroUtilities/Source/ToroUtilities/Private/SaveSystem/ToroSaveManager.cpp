@@ -32,6 +32,16 @@ void UToroSaveManager::OnSaveActivity(const UToroSaveObject* Save, const ESaveGa
 	OnSaveIO.Broadcast(Save, Type);
 }
 
+void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+	const UToroSettings* Settings = UToroSettings::Get();
+	for (const TPair<FGameplayTag, TSoftClassPtr<UToroSaveObject>>& Save : Settings->DefaultSaves)
+	{
+		if (Save.Value.LoadSynchronous()) CreateSaveObject(Save.Value.LoadSynchronous(), Save.Key);
+	}
+}
+
 void UToroSaveManager::Deinitialize()
 {
 	for (const TPair<FGameplayTag, TObjectPtr<UToroSaveObject>>& Obj : SaveObjects)

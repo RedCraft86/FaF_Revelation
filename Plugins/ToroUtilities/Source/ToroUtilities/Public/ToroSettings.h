@@ -48,6 +48,9 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UInputMappingContext> InputMappings;
 
+	UPROPERTY(Config, EditAnywhere, Category = Runtime, meta = (ForceInlineRow, Categories = "Save"))
+		TMap<FGameplayTag, TSoftClassPtr<UToroSaveObject>> DefaultSaves;
+
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSet<TSoftClassPtr<UUserWidget>> DefaultWidgets;
 

@@ -38,5 +38,6 @@ private:
 	UPROPERTY(Transient) TMap<FGameplayTag, TObjectPtr<UToroSaveObject>> SaveObjects;
 
 	void OnSaveActivity(const UToroSaveObject* Save, const ESaveGameActivity Type) const;
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 };
