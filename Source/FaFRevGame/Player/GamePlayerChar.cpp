@@ -499,7 +499,9 @@ void AGamePlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 		BIND_INPUT_ACTION(EnhancedInputComponent, Triggered, Interact)
 		BIND_INPUT_ACTION(EnhancedInputComponent, Completed, Interact)
 		BIND_INPUT_ACTION(EnhancedInputComponent, Canceled, Interact)
-		BIND_INPUT_ACTION(EnhancedInputComponent, Started, Equipment)
+		BIND_INPUT_ACTION(EnhancedInputComponent, Triggered, Equipment)
+		BIND_INPUT_ACTION(EnhancedInputComponent, Completed, Equipment)
+		BIND_INPUT_ACTION(EnhancedInputComponent, Canceled, Equipment)
 	}
 }
 
