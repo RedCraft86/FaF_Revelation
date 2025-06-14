@@ -3,11 +3,12 @@
 #pragma once
 
 #include "Actors/ToroActor.h"
+#include "InteractionInterface.h"
 #include "Player/GamePlayerChar.h"
 #include "InspectableActor.generated.h"
 
 UCLASS()
-class FAFREVGAME_API AInspectableActor final : public AToroActor, public IExitInterface
+class FAFREVGAME_API AInspectableActor final : public AToroActor, public IExitInterface, public IInteractionInterface
 {
 	GENERATED_BODY()
 
@@ -27,8 +28,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		float ScaleSpeed;
 
-	UFUNCTION(BlueprintCallable, Category = Inspectable)
-		void BeginInspection(AGamePlayerChar* Player);
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
+		FInteractionInfo InteractionInfo;
+
+	virtual void Exit_Implementation() override;
+	virtual void OnBeginInteract_Implementation(AGamePlayerChar* Player, const FHitResult& HitResult) override;
+	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult) override
+	{
+		InteractionInfo.bEnabled = InteractionInfo.bEnabled && IsEnabled();
+		return InteractionInfo;
+	}
 
 private:
 
@@ -37,7 +46,6 @@ private:
 	TObjectPtr<AGamePlayerChar> PlayerChar;
 
 	void HandleRemoveLag();
-	virtual void Exit_Implementation() override;
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 };

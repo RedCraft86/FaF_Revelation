@@ -27,7 +27,25 @@ AInspectableActor::AInspectableActor()
 	ScaleLerp = {0.0f, 6.0f};
 }
 
-void AInspectableActor::BeginInspection(AGamePlayerChar* Player)
+void AInspectableActor::Exit_Implementation()
+{
+	if (PlayerChar)
+	{
+		GetWorldTimerManager().SetTimer(LagTimer, this,
+			&AInspectableActor::HandleRemoveLag, 2.0f, false);
+
+		ScaleLerp.Target = 0.0f;
+		InspectRoot->SetRelativeLocation(FVector::ZeroVector);
+
+		PlayerChar->SetInspectable(nullptr);
+		PlayerChar->RemoveSensitivityMulti(Player::Keys::Inspecting);
+		PlayerChar->ResetInspectRotation();
+		
+		PlayerChar = nullptr;
+	}
+}
+
+void AInspectableActor::OnBeginInteract_Implementation(AGamePlayerChar* Player, const FHitResult& HitResult)
 {
 	if (!PlayerChar)
 	{
@@ -52,24 +70,6 @@ void AInspectableActor::HandleRemoveLag()
 	InspectRoot->bEnableCameraLag = false;
 	InspectRoot->bEnableCameraRotationLag = false;
 	SetActorTickEnabled(false);
-}
-
-void AInspectableActor::Exit_Implementation()
-{
-	if (PlayerChar)
-	{
-		GetWorldTimerManager().SetTimer(LagTimer, this,
-			&AInspectableActor::HandleRemoveLag, 2.0f, false);
-
-		ScaleLerp.Target = 0.0f;
-		InspectRoot->SetRelativeLocation(FVector::ZeroVector);
-
-		PlayerChar->SetInspectable(nullptr);
-		PlayerChar->RemoveSensitivityMulti(Player::Keys::Inspecting);
-		PlayerChar->ResetInspectRotation();
-		
-		PlayerChar = nullptr;
-	}
 }
 
 void AInspectableActor::Tick(float DeltaSeconds)
