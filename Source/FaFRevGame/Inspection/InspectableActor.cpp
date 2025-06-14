@@ -35,9 +35,9 @@ void AInspectableActor::BeginInspection(AGamePlayerChar* Player)
 		SetActorTickEnabled(true);
 
 		PlayerChar = Player;
+		PlayerChar->ResetInspectRotation();
 		PlayerChar->SetInspectable(this);
 		PlayerChar->AddSensitivityMulti(Player::Keys::Inspecting, TurningSpeed);
-		PlayerChar->ResetInspectRotation();
 
 		ScaleLerp.Target = 1.0f;
 		ScaleLerp.Speed = ScaleSpeed;
@@ -47,7 +47,14 @@ void AInspectableActor::BeginInspection(AGamePlayerChar* Player)
 	}
 }
 
-void AInspectableActor::EndInspection()
+void AInspectableActor::HandleRemoveLag()
+{
+	InspectRoot->bEnableCameraLag = false;
+	InspectRoot->bEnableCameraRotationLag = false;
+	SetActorTickEnabled(false);
+}
+
+void AInspectableActor::Exit_Implementation()
 {
 	if (PlayerChar)
 	{
@@ -65,13 +72,6 @@ void AInspectableActor::EndInspection()
 	}
 }
 
-void AInspectableActor::HandleRemoveLag()
-{
-	InspectRoot->bEnableCameraLag = false;
-	InspectRoot->bEnableCameraRotationLag = false;
-	SetActorTickEnabled(false);
-}
-
 void AInspectableActor::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -81,7 +81,15 @@ void AInspectableActor::Tick(float DeltaSeconds)
 		InspectRoot->SetRelativeScale3D(FMath::Lerp(FVector::OneVector, InspectScale, ScaleLerp.Current));
 	}
 
-	InspectRoot->SetRelativeRotation(PlayerChar ? PlayerChar->GetInspectRotation() : FRotator::ZeroRotator);
+	if (PlayerChar)
+	{
+		InspectRoot->SetWorldRotation(PlayerChar->GetInspectRotation());
+	}
+	else
+	{
+		InspectRoot->SetRelativeRotation(FRotator::ZeroRotator);
+	}
+	
 }
 
 void AInspectableActor::OnConstruction(const FTransform& Transform)

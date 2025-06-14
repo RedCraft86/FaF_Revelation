@@ -7,7 +7,7 @@
 #include "InspectableActor.generated.h"
 
 UCLASS()
-class FAFREVGAME_API AInspectableActor final : public AToroActor
+class FAFREVGAME_API AInspectableActor final : public AToroActor, public IExitInterface
 {
 	GENERATED_BODY()
 
@@ -30,9 +30,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Inspectable)
 		void BeginInspection(AGamePlayerChar* Player);
 
-	UFUNCTION(BlueprintCallable, Category = Inspectable)
-		void EndInspection();
-
 private:
 
 	FTimerHandle LagTimer;
@@ -40,6 +37,7 @@ private:
 	TObjectPtr<AGamePlayerChar> PlayerChar;
 
 	void HandleRemoveLag();
+	virtual void Exit_Implementation() override;
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 };

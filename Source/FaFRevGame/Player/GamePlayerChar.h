@@ -244,7 +244,7 @@ public:
 
 	bool TryJumpscare();
 	FVector GetInspectLocation() const { return InspectRoot->GetComponentLocation(); }
-	FRotator GetInspectRotation() const { return InspectRoot->GetRelativeRotation(); }
+	FRotator GetInspectRotation() const { return InspectRoot->GetComponentRotation(); }
 	void ResetInspectRotation() const { InspectRoot->SetRelativeRotation(FRotator(0.0f, -10.0f, 0.0f)); }
 
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
