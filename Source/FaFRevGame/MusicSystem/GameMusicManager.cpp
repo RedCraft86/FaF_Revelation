@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "GameMusicManager.h"
-#include "Components/AudioComponent.h"
 #include "FaFRevSettings.h"
 
 AGameMusicManager::AGameMusicManager()

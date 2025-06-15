@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Framework/ToroGameState.h"
+#include "Components/AudioComponent.h"
 #include "GameMusicManager.generated.h"
 
 UCLASS()
