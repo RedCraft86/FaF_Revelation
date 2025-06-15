@@ -1,9 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "InspectableActor.h"
-
 #include "Components/ArrowComponent.h"
-#include "Helpers/LoggingMacros.h"
+#include "Inventory/InventoryComponent.h"
 
 AInspectableActor::AInspectableActor()
 	: TurningSpeed(1.0, 0.5f), InspectScale(FVector::OneVector), ScaleSpeed(6.0f)
@@ -30,7 +29,7 @@ AInspectableActor::AInspectableActor()
 	UPDATE_VISUAL_MAX_COMP(2)
 #endif
 
-	SecretMinDot = 0.4f;
+	MinSecretDotAngle = 0.4f;
 	ScaleLerp = {0.0f, 6.0f};
 }
 
@@ -79,7 +78,7 @@ void AInspectableActor::HandleRemoveLag()
 	SetActorTickEnabled(false);
 }
 
-float AInspectableActor::GetSecretDotProduct() const
+float AInspectableActor::GetSecretDotAngle() const
 {
 	if (PlayerChar)
 	{
@@ -103,15 +102,18 @@ void AInspectableActor::Tick(float DeltaSeconds)
 	if (PlayerChar)
 	{
 		InspectRoot->SetWorldRotation(PlayerChar->GetInspectRotation());
-		if (!bArchived)
+		if (Archive)
 		{
-			//TODO inventory
-			bArchived = true;
-		}
-		else if (!bSecretKnown && GetSecretDotProduct() >= SecretMinDot)
-		{
-			//TODO inventory
-			bSecretKnown = true;
+			if (!bArchived)
+			{
+				bArchived = true;
+				PlayerChar->Inventory->AddArchive(Archive, false);
+			}
+			else if (!bSecretKnown && GetSecretDotAngle() >= MinSecretDotAngle)
+			{
+				bSecretKnown = true;
+				PlayerChar->Inventory->AddArchive(Archive, true);
+			}
 		}
 	}
 	else
@@ -125,4 +127,7 @@ void AInspectableActor::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 	SetActorScale3D(FVector::OneVector);
 	InspectRoot->SetRelativeTransform(FTransform::Identity);
+#if WITH_EDITOR
+	SecretAngle->SetVisibility(IsValid(Archive));
+#endif
 }

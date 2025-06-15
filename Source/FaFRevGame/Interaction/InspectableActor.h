@@ -5,6 +5,7 @@
 #include "Actors/ToroActor.h"
 #include "InteractionInterface.h"
 #include "Player/GamePlayerChar.h"
+#include "Inventory/InventoryItemData.h"
 #include "InspectableActor.generated.h"
 
 UCLASS()
@@ -23,7 +24,10 @@ public:
 		TObjectPtr<UArrowComponent> SecretAngle;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		float SecretMinDot;
+		TObjectPtr<UInventoryItemData> Archive;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+		float MinSecretDotAngle;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		FVector2D TurningSpeed;
@@ -54,7 +58,18 @@ private:
 	TObjectPtr<AGamePlayerChar> PlayerChar;
 
 	void HandleRemoveLag();
-	float GetSecretDotProduct() const;
+	float GetSecretDotAngle() const;
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
+#if WITH_EDITOR
+	virtual bool CanEditChange(const FProperty* InProperty) const override
+	{
+		const bool bSuper = Super::CanEditChange(InProperty);
+		if (InProperty && InProperty->GetFName() == GET_MEMBER_NAME_CHECKED(AInspectableActor, MinSecretDotAngle))
+		{
+			return bSuper && Archive ? Archive->ItemType == EInventoryItemType::Archive : false;
+		}
+		return bSuper;
+	}
+#endif
 };
