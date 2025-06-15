@@ -48,9 +48,9 @@ public:
 
 	// UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 	// 	TObjectPtr<class UGameNarrative> Narrative;
-	//
-	// UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-	// 	TObjectPtr<class UGameInventory> Inventory;
+	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UInventoryComponent> Inventory;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UInteractionComponent> Interaction;

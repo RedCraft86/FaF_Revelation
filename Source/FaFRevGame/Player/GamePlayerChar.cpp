@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Interaction/InteractionComponent.h"
 #include "UserSettings/ToroUserSettings.h"
+#include "Inventory/InventoryComponent.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroMathLibrary.h"
@@ -48,6 +49,7 @@ AGamePlayerChar::AGamePlayerChar()
 	InspectRoot->bVisualizeComponent = true;
 #endif
 	
+	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
 	
 	ControlFlags = Player::DefaultControls;
@@ -85,7 +87,7 @@ void AGamePlayerChar::ResetStates()
 	ExitHidingSpot();
 	ExitWorldDevice();
 	ExitActiveTask();
-	// Inventory->CloseInventory(); TODO
+	Inventory->CloseInventory();
 }
 
 void AGamePlayerChar::OverrideControlFlags(const int32 InFlags)
@@ -531,7 +533,7 @@ void AGamePlayerChar::InputBinding_Pause(const FInputActionValue& InValue)
 {
 	if (HasStateFlag(PSF_Inventory))
 	{
-		// Inventory->CloseInventory(); TODO
+		Inventory->CloseInventory();
 		return;
 	}
 
@@ -643,7 +645,7 @@ void AGamePlayerChar::InputBinding_Inventory(const FInputActionValue& InValue)
 {
 	if (StateFlags & (PSF_GuideBook | PSF_QuickTime | PSF_Inspect | PSF_Hiding | PSF_Device)
 		|| !LockTags.IsEmpty() || ControlFlags & PCF_Locked) return;
-	// HasStateFlag(PSF_Inventory) ? Inventory->CloseInventory() : Inventory->OpenInventory(); TODO
+	HasStateFlag(PSF_Inventory) ? Inventory->CloseInventory() : Inventory->OpenInventory();
 }
 
 void AGamePlayerChar::InputBinding_HideQuests(const FInputActionValue& InValue)
@@ -653,13 +655,10 @@ void AGamePlayerChar::InputBinding_HideQuests(const FInputActionValue& InValue)
 
 void AGamePlayerChar::InputBinding_Interact(const FInputActionValue& InValue)
 {
-	if (HasControlFlag(PCF_CanInteract))
-	{
-		Interaction->SetInteracting(CAN_INPUT && InValue.Get<bool>());
-	}
+	Interaction->SetInteracting(CAN_INPUT && HasControlFlag(PCF_CanInteract) && InValue.Get<bool>());
 }
 
 void AGamePlayerChar::InputBinding_Equipment(const FInputActionValue& InValue)
 {
-	// TODO
+	Inventory->SetEquipmentUse(CAN_INPUT && InValue.Get<bool>());
 }
