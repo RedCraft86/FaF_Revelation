@@ -37,7 +37,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnUnquip();
 
-	UFUNCTION(BlueprintPure, Category = Equipment);
+	UFUNCTION(BlueprintPure, Category = Equipment)
 		bool IsBeingUsed() const { return bUsing; }
 
 private:

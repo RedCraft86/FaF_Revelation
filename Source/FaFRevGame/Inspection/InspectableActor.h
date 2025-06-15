@@ -3,9 +3,9 @@
 #pragma once
 
 #include "Actors/ToroActor.h"
-#include "InteractionInterface.h"
 #include "Player/GamePlayerChar.h"
 #include "Inventory/InventoryItemData.h"
+#include "Interaction/InteractionInterface.h"
 #include "InspectableActor.generated.h"
 
 UCLASS()
