@@ -19,10 +19,10 @@ public:
 		bool bAutoConstruction;
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
-		void SetActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions, const bool bConstruct);
+		void SetActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions, const bool bConstruct = false);
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
-		void AppendActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions, const bool bConstruct);
+		void AppendActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions, const bool bConstruct = false);
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
 		void RunActions();

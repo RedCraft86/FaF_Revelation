@@ -32,6 +32,11 @@ struct FAFREVGAME_API FInteractionInfo
 		: bEnabled(true), Label(INVTEXT("Interact")), LabelOffset(0.0f), Icon(nullptr), IconSize(35.0f)
 	{}
 
+	void Validate()
+	{
+		if (Label.IsEmptyOrWhitespace()) Label = INVTEXT("Interact");
+	}
+
 	static FInteractionInfo GetEmpty()
 	{
 		FInteractionInfo Info;
