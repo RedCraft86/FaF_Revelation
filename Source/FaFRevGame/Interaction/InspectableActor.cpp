@@ -2,6 +2,9 @@
 
 #include "InspectableActor.h"
 
+#include "Components/ArrowComponent.h"
+#include "Helpers/LoggingMacros.h"
+
 AInspectableActor::AInspectableActor()
 	: TurningSpeed(1.0, 0.5f), InspectScale(FVector::OneVector), ScaleSpeed(6.0f)
 {
@@ -20,10 +23,14 @@ AInspectableActor::AInspectableActor()
 	InspectRoot->TargetArmLength = 0.0f;
 	InspectRoot->bDoCollisionTest = false;
 
+	SecretAngle = CreateDefaultSubobject<UArrowComponent>("SecretAngle");
+	SecretAngle->SetupAttachment(InspectRoot);
+
 #if WITH_EDITOR
 	UPDATE_VISUAL_MAX_COMP(2)
 #endif
 
+	SecretMinDot = 0.4f;
 	ScaleLerp = {0.0f, 6.0f};
 }
 
@@ -72,6 +79,18 @@ void AInspectableActor::HandleRemoveLag()
 	SetActorTickEnabled(false);
 }
 
+float AInspectableActor::GetSecretDotProduct() const
+{
+	if (PlayerChar)
+	{
+		// Negate the result because we want the arrow to be +1.0 when facing the arrow
+		return -FVector::DotProduct(SecretAngle->GetForwardVector(),
+			PlayerChar->PlayerCamera->GetForwardVector());
+	}
+
+	return -1.0; // -1.0 will be opposite of the arrow, never a secret there
+}
+
 void AInspectableActor::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -84,12 +103,21 @@ void AInspectableActor::Tick(float DeltaSeconds)
 	if (PlayerChar)
 	{
 		InspectRoot->SetWorldRotation(PlayerChar->GetInspectRotation());
+		if (!bArchived)
+		{
+			//TODO inventory
+			bArchived = true;
+		}
+		else if (!bSecretKnown && GetSecretDotProduct() >= SecretMinDot)
+		{
+			//TODO inventory
+			bSecretKnown = true;
+		}
 	}
 	else
 	{
 		InspectRoot->SetRelativeRotation(FRotator::ZeroRotator);
 	}
-	
 }
 
 void AInspectableActor::OnConstruction(const FTransform& Transform)

@@ -19,6 +19,12 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USpringArmComponent> InspectRoot;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UArrowComponent> SecretAngle;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+		float SecretMinDot;
+
 	UPROPERTY(EditAnywhere, Category = Settings)
 		FVector2D TurningSpeed;
 
@@ -41,11 +47,14 @@ public:
 
 private:
 
+	bool bArchived;
+	bool bSecretKnown;
 	FTimerHandle LagTimer;
 	FToroInterpFloat ScaleLerp;
 	TObjectPtr<AGamePlayerChar> PlayerChar;
 
 	void HandleRemoveLag();
+	float GetSecretDotProduct() const;
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 };
