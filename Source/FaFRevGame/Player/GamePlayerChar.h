@@ -4,8 +4,8 @@
 
 #include "PlayerTypes.h"
 #include "Camera/CameraComponent.h"
-#include "Interfaces/ExitInterface.h"
 #include "DataTypes/ToroModifiers.h"
+#include "Interfaces/ExitInterface.h"
 #include "DataTypes/ToroInterpolator.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -47,13 +47,13 @@ public:
 		TObjectPtr<USceneComponent> EquipmentRoot;
 
 	// UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-	// 	TObjectPtr<UGameNarrative> Narrative;
+	// 	TObjectPtr<class UGameNarrative> Narrative;
 	//
 	// UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-	// 	TObjectPtr<UGameInventory> Inventory;
-	//
-	// UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-	// 	TObjectPtr<UGameInteraction> Interaction;
+	// 	TObjectPtr<class UGameInventory> Inventory;
+	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UInteractionComponent> Interaction;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
 		int32 ControlFlags;

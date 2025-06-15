@@ -5,6 +5,7 @@
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Interaction/InteractionComponent.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
@@ -46,6 +47,8 @@ AGamePlayerChar::AGamePlayerChar()
 #if WITH_EDITORONLY_DATA
 	InspectRoot->bVisualizeComponent = true;
 #endif
+	
+	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
 	
 	ControlFlags = Player::DefaultControls;
 	StateFlags = 0;
@@ -650,7 +653,10 @@ void AGamePlayerChar::InputBinding_HideQuests(const FInputActionValue& InValue)
 
 void AGamePlayerChar::InputBinding_Interact(const FInputActionValue& InValue)
 {
-	// TODO
+	if (HasControlFlag(PCF_CanInteract))
+	{
+		Interaction->SetInteracting(CAN_INPUT && InValue.Get<bool>());
+	}
 }
 
 void AGamePlayerChar::InputBinding_Equipment(const FInputActionValue& InValue)
