@@ -1,13 +1,12 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "LevelZones/LevelZoneVolume.h"
-
-#include "Actors/ToroCharacter.h"
+#include "LevelZones/LevelZoneManager.h"
 #include "WorldActions/WorldActionComponent.h"
+#include "Framework/ToroPlayerCharacter.h"
 #include "Components/ReferenceCulling.h"
 #include "Interfaces/CharInterface.h"
 #include "Kismet/GameplayStatics.h"
-#include "LevelZones/LevelZoneManager.h"
 #if WITH_EDITOR
 #include "EngineUtils.h"
 #endif
@@ -107,8 +106,7 @@ void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 	Super::NotifyActorEndOverlap(OtherActor);
 
 	if (!IsEnabled()) return;
-	const FGameplayTag CharTag = ICharInterface::GetCharacterID(OtherActor);
-	if (CharTag == CharacterTags::TAG_Player)
+	if (OtherActor->IsA<AToroPlayerCharacter>())
 	{
 		ActionManager->SetActions(ActionsExit, false);
 		ActionManager->RunActions();
