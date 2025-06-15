@@ -11,6 +11,7 @@
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroMathLibrary.h"
+#include "Narrative/GameNarrative.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
@@ -48,7 +49,8 @@ AGamePlayerChar::AGamePlayerChar()
 #if WITH_EDITORONLY_DATA
 	InspectRoot->bVisualizeComponent = true;
 #endif
-	
+
+	Narrative = CreateDefaultSubobject<UGameNarrativeComponent>("Narrative");
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
 	
@@ -650,7 +652,10 @@ void AGamePlayerChar::InputBinding_Inventory(const FInputActionValue& InValue)
 
 void AGamePlayerChar::InputBinding_HideQuests(const FInputActionValue& InValue)
 {
-	// TODO
+	if (CAN_INPUT)
+	{
+		Narrative->ToggleQuests();
+	}
 }
 
 void AGamePlayerChar::InputBinding_Interact(const FInputActionValue& InValue)
