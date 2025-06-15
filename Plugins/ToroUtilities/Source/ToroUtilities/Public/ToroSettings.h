@@ -6,6 +6,7 @@
 #include "Helpers/ClassGetters.h"
 #include "MiscObjects/UDSSetter.h"
 #include "GeneralProjectSettings.h"
+#include "SaveSystem/ToroSaveTypes.h"
 #include "UserSettings/UserSettingTypes.h"
 #include "ToroSettings.generated.h"
 
