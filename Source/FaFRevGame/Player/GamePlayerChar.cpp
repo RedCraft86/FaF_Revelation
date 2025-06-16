@@ -8,6 +8,7 @@
 #include "Interaction/InteractionComponent.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "Inventory/InventoryComponent.h"
+#include "MusicSystem/GameMusicManager.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroMathLibrary.h"
@@ -213,7 +214,7 @@ void AGamePlayerChar::SetLockOnTarget(const USceneComponent* InComponent)
 
 void AGamePlayerChar::SetInspectable(AActor* InActor)
 {
-	if (InActor && Inspectable) return;
+	if (InActor && Inspectable) return; // No hot-swapping
 	if (AToroPlayerController* PC = GetPlayerController())
 	{
 		if (Inspectable && !InActor)
@@ -232,6 +233,19 @@ void AGamePlayerChar::SetInspectable(AActor* InActor)
 
 void AGamePlayerChar::SetHidingSpot(AActor* InActor)
 {
+	if (InActor && HidingSpot) return; // No hot-swapping
+	if (AGameMusicManager* Manager = AGameMusicManager::Get<AGameMusicManager>(this))
+	{
+		if (HidingSpot && !InActor)
+		{
+			Manager->RemoveDipRequest(HidingSpot);
+		}
+		else if (InActor)
+		{
+			Manager->AddDipRequest(InActor);
+		}
+	}
+
 	HidingSpot = InActor;
 	HidingSpot ? SetStateFlag(PSF_Hiding) : UnsetStateFlag(PSF_Hiding);
 }
@@ -255,7 +269,13 @@ bool AGamePlayerChar::TryJumpscare()
 
 	AddLockTag(PlayerLockTag::TAG_GameOver);
 	ResetStates();
-	// TODO music
+
+	if (AGameMusicManager* Manager = AGameMusicManager::Get<AGameMusicManager>(this))
+	{
+		Manager->RemoveDipRequest(GetPlayerController());
+		Manager->RemoveDipRequest(this);
+		Manager->SetThemeMuted(true);
+	}
 	return true;
 }
 
