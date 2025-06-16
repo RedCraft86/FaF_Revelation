@@ -13,15 +13,13 @@
 			Ptr->SetWorldContext(Context); \
 			__VA_ARGS__ \
 		} \
-}
+	}
 
 #define FOR_EACH_ACTION_CONST(ActionsArr, ...) \
 	for (const TInstancedStruct<FWorldActionBase>& Action : ActionsArr) \
 	{ \
 		if (const FWorldActionBase* Ptr = Action.GetPtr()) \
-		{ \
 			__VA_ARGS__ \
-		} \
 	}
 
 #define FOR_EACH_ACTION_PTR(ActionPtrsArr, Context, ...) \
@@ -38,9 +36,7 @@
 	for (const TSoftObjectPtr<Type>& SoftPtr : Property) \
 	{ \
 		if (Type* Ptr = SoftPtr.LoadSynchronous()) \
-		{ \
 			__VA_ARGS__ \
-		} \
 	}
 
 USTRUCT(BlueprintInternalUseOnly)
