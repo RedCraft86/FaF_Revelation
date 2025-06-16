@@ -31,6 +31,9 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> SecretAnim;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TObjectPtr<USoundBase> SecretSound;
+
 private:
 
 	UPROPERTY() bool bSecretFound;

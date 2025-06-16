@@ -17,6 +17,7 @@ void UInspectionWidget::MarkSecretFound()
 	{
 		bSecretFound = true;
 		PlayAnimation(SecretAnim);
+		UGameplayStatics::PlaySound2D(this, SecretSound);
 	}
 }
 
