@@ -8,7 +8,6 @@
 #define InitAnim(Anim){ \
 		PlayAnimation(Anim); \
 		StopAnimation(Anim); \
-		SetAnimationCurrentTime(Anim, 0.0f); \
 	}
 
 UCLASS(Abstract)

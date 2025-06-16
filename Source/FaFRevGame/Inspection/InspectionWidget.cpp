@@ -2,7 +2,6 @@
 
 #include "InspectionWidget.h"
 #include "Components/PanelWidget.h"
-#include "Animation/WidgetAnimation.h"
 #include "Framework/ToroPlayerController.h"
 #include "Inventory/InventoryItemData.h"
 
@@ -33,8 +32,7 @@ void UInspectionWidget::LoadData(const UInventoryItemData* InData, const bool bK
 		bSecretFound = bKnowsSecret;
 		if (bSecretFound)
 		{
-			PlayAnimation(SecretAnim, SecretAnim->GetEndTime() - 0.1f,
-				0, EUMGSequencePlayMode::Forward, 10.0f);
+			PlayAnimation(SecretAnim);
 		}
 	}
 }
@@ -44,16 +42,18 @@ void UInspectionWidget::InternalProcessActivation()
 	Super::InternalProcessActivation();
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
-		// CachedInput = PC->GetInputModeData();
-		// PC->SetInputModeData({EGameInputMode::GameAndUI, true});
+		CachedInput = PC->GetInputModeData();
+		PC->SetInputModeData({EGameInputMode::GameAndUI, true,
+			EMouseLockMode::LockAlways, true, this});
 	}
 }
 
 void UInspectionWidget::InternalProcessDeactivation()
 {
 	Super::InternalProcessDeactivation();
+	PlayAnimationReverse(SecretAnim, 10.0f);
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
-		// PC->SetInputModeData(CachedInput);
+		PC->SetInputModeData(CachedInput);
 	}
 }
