@@ -29,10 +29,10 @@ void UInteractionWidget::UpdateUI(const bool bEnabled, const FInteractionData& D
 			? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 		if (!Data.Info.Label.IsEmptyOrWhitespace())
 		{
-			if (UCanvasPanelSlot* Slot = UWidgetLayoutLibrary::SlotAsCanvasSlot(InteractLabel))
+			if (UCanvasPanelSlot* AsSlot = UWidgetLayoutLibrary::SlotAsCanvasSlot(InteractLabel))
 			{
 				const float Ratio = InteractBrush.GetImageSize().SizeSquared() / DefaultIconSize.SizeSquared();
-				Slot->SetPosition(Data.Info.LabelOffset + FVector2D(Ratio * 16.0f));
+				AsSlot->SetPosition(Data.Info.LabelOffset + FVector2D(Ratio * 16.0f));
 			}
 		}
 
