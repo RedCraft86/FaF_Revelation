@@ -28,6 +28,7 @@ public class ToroUtilities : ModuleRules
                 "DeveloperSettings",
                 "EnhancedInput", 
                 "GameplayTags",
+                "CommonUI",
                 "ToroCore",
                 "EnhancedCodeFlow"
             }

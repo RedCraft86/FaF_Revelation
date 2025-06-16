@@ -98,9 +98,9 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 	OnGameFocusChanged.Broadcast(bFocused);
 	if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(CinematicActor))
 	{
-		if (ULevelSequencePlayer* Player = Cinematic->GetSequencePlayer())
+		if (ULevelSequencePlayer* SequencePlayer = Cinematic->GetSequencePlayer())
 		{
-			bFocused ? Player->Play() : Player->Pause();
+			bFocused ? SequencePlayer->Play() : SequencePlayer->Pause();
 		}
 	}
 

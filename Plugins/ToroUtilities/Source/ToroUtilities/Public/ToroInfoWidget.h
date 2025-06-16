@@ -15,7 +15,7 @@ class TOROUTILITIES_API UToroInfoWidget final : public UToroWidgetBase
 
 public:
 
-	UToroInfoWidget(FObjectInitializer& ObjectInitializer);
+	UToroInfoWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UPanelWidget> UnfocusedView;

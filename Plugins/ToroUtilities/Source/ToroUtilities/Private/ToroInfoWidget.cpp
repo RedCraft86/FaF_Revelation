@@ -12,7 +12,7 @@ FLinearColor CalcFrameRateColor(const float Target, const float Current)
 		FVector2D(0.0f, 1.0f), Current));
 }
 
-UToroInfoWidget::UToroInfoWidget(FObjectInitializer& ObjectInitializer)
+UToroInfoWidget::UToroInfoWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), TargetFPS(60.0f), UpdateTick(0.0f)
 {
 	ZOrder = 100;
