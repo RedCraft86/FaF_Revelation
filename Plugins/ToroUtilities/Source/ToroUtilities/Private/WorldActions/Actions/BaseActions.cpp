@@ -5,6 +5,7 @@
 
 bool FWAFlowDelay::ShouldTick() const
 {
+	if (!Super::ShouldTick()) return false;
 	FOR_EACH_ACTION_CONST(Actions, if (Ptr->ShouldTick()) return true;)
 	return false;
 }
@@ -38,6 +39,7 @@ void FWAFlowDelay::OnConstruction()
 
 bool FWAFlowDoOnce::ShouldTick() const
 {
+	if (!Super::ShouldTick()) return false;
 	FOR_EACH_ACTION_CONST(Actions, if (Ptr->ShouldTick()) return true;)
 	return false;
 }
@@ -68,6 +70,7 @@ void FWAFlowDoOnce::OnConstruction()
 
 bool FWAFlowFlipFlop::ShouldTick() const
 {
+	if (!Super::ShouldTick()) return false;
 	FOR_EACH_ACTION_CONST(Flip, if (Ptr->ShouldTick()) return true;)
 	FOR_EACH_ACTION_CONST(Flop, if (Ptr->ShouldTick()) return true;)
 	return false;
