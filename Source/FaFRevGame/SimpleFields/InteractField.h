@@ -67,6 +67,5 @@ private:
 	virtual void OnConstruction(const FTransform& Transform) override
 	{
 		ActionComponent->SetActions(Actions, true);
-		Interaction.Validate();
 	}
 };
