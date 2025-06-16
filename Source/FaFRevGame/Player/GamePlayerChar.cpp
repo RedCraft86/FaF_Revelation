@@ -4,6 +4,7 @@
 #include "EnhancedInputComponent.h"
 #include "Components/AudioComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/PointLightComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Interaction/InteractionComponent.h"
 #include "UserSettings/ToroUserSettings.h"
@@ -56,6 +57,8 @@ AGamePlayerChar::AGamePlayerChar()
 	Narrative = CreateDefaultSubobject<UGameNarrativeComponent>("Narrative");
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
+
+	PlayerLight->SetRelativeLocation(FVector(0.0f, 0.0f, 70.0f));
 	
 	ControlFlags = Player::DefaultControls;
 	StateFlags = 0;
@@ -228,8 +231,6 @@ void AGamePlayerChar::SetInspectable(AActor* InActor)
 			PC->AddPauseRequest(InActor);
 		}
 	}
-
-	UE_LOG(LogTemp, Warning, TEXT("Inspectable: %s"), *GetNameSafe(InActor))
 
 	Inspectable = InActor;
 	Inspectable ? SetStateFlag(PSF_Inspect) : UnsetStateFlag(PSF_Inspect);
@@ -499,7 +500,15 @@ void AGamePlayerChar::Tick(float DeltaTime)
 	}
 
 	CameraArm->SetRelativeLocation(FVector(0.0f, InterpCamOffset.Current.X,
-		GetCapsuleComponent()->GetScaledCapsuleHalfHeight_WithoutHemisphere()));
+		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
+
+	FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f,
+		-GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
+	if (!FootstepTimer.IsValid() && IsMoving())
+	{
+		GetWorldTimerManager().SetTimer(FootstepTimer, this, &AGamePlayerChar::TickFootstep,
+			Footsteps.GetFootstepInterval(StateFlags), false);
+	}
 }
 
 void AGamePlayerChar::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -535,8 +544,12 @@ void AGamePlayerChar::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(CrouchHeights.X);
+
+	FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f,
+		-GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
+
 	CameraArm->SetRelativeLocation(FVector(0.0f, 0.0f,
-		GetCapsuleComponent()->GetScaledCapsuleHalfHeight_WithoutHemisphere()));
+		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
 #if WITH_EDITOR
 	if (!FApp::IsGame())
 	{
