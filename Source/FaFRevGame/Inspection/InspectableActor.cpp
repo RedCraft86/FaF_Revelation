@@ -1,11 +1,13 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "InspectableActor.h"
+#include "InspectionWidget.h"
 #include "Components/ArrowComponent.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Inventory/InventoryComponent.h"
 
 AInspectableActor::AInspectableActor()
-	: TurningSpeed(1.0, 0.5f), InspectScale(FVector::OneVector), ScaleSpeed(6.0f)
+	: TurningSpeed(1.0, 0.5f), InspectScale(0.1f), ScaleSpeed(6.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -42,6 +44,10 @@ void AInspectableActor::Exit_Implementation()
 
 		ScaleLerp.Target = 0.0f;
 		InspectRoot->SetRelativeLocation(FVector::ZeroVector);
+		if (UInspectionWidget* WidgetObj = GetWidget())
+		{
+			WidgetObj->DeactivateWidget();
+		}
 
 		PlayerChar->SetInspectable(nullptr);
 		PlayerChar->RemoveSensitivityMulti(Player::Keys::Inspecting);
@@ -53,21 +59,27 @@ void AInspectableActor::Exit_Implementation()
 
 void AInspectableActor::OnBeginInteract_Implementation(AGamePlayerChar* Player, const FHitResult& HitResult)
 {
-	if (!PlayerChar)
+	if (!PlayerChar && HasValidArchive())
 	{
-		GetWorldTimerManager().ClearTimer(LagTimer);
-		SetActorTickEnabled(true);
-
 		PlayerChar = Player;
 		PlayerChar->ResetInspectRotation();
 		PlayerChar->SetInspectable(this);
 		PlayerChar->AddSensitivityMulti(Player::Keys::Inspecting, TurningSpeed);
+		PlayerChar->Inventory->GetArchiveState(Archive, bArchived, bSecretKnown);
 
 		ScaleLerp.Target = 1.0f;
 		ScaleLerp.Speed = ScaleSpeed;
 		InspectRoot->bEnableCameraLag = true;
 		InspectRoot->bEnableCameraRotationLag = true;
 		InspectRoot->SetWorldLocation(PlayerChar->GetInspectLocation());
+		if (UInspectionWidget* WidgetObj = GetWidget())
+		{
+			WidgetObj->ActivateWidget();
+			WidgetObj->LoadData(Archive, bSecretKnown);
+		}
+
+		GetWorldTimerManager().ClearTimer(LagTimer);
+		SetActorTickEnabled(true);
 	}
 }
 
@@ -78,9 +90,19 @@ void AInspectableActor::HandleRemoveLag()
 	SetActorTickEnabled(false);
 }
 
+UInspectionWidget* AInspectableActor::GetWidget()
+{
+	if (Widget) return Widget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		Widget = Manager->FindWidget<UInspectionWidget>();
+	}
+	return Widget;
+}
+
 float AInspectableActor::GetSecretDotAngle() const
 {
-	if (PlayerChar)
+	if (PlayerChar && HasValidArchive() && !Archive->SecretText.IsEmptyOrWhitespace())
 	{
 		// Negate the result because we want the arrow to be +1.0 when facing the arrow
 		return -FVector::DotProduct(SecretAngle->GetForwardVector(),
@@ -93,6 +115,7 @@ float AInspectableActor::GetSecretDotAngle() const
 void AInspectableActor::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	if (!HasValidArchive()) return;
 	if (!ScaleLerp.IsComplete())
 	{
 		ScaleLerp.Tick(DeltaSeconds);
@@ -102,17 +125,18 @@ void AInspectableActor::Tick(float DeltaSeconds)
 	if (PlayerChar)
 	{
 		InspectRoot->SetWorldRotation(PlayerChar->GetInspectRotation());
-		if (Archive)
+		if (!bArchived)
 		{
-			if (!bArchived)
+			bArchived = true;
+			PlayerChar->Inventory->AddArchive(Archive, false);
+		}
+		else if (!bSecretKnown && GetSecretDotAngle() >= MinSecretDotAngle)
+		{
+			bSecretKnown = true;
+			PlayerChar->Inventory->AddArchive(Archive, true);
+			if (UInspectionWidget* WidgetObj = GetWidget())
 			{
-				bArchived = true;
-				PlayerChar->Inventory->AddArchive(Archive, false);
-			}
-			else if (!bSecretKnown && GetSecretDotAngle() >= MinSecretDotAngle)
-			{
-				bSecretKnown = true;
-				PlayerChar->Inventory->AddArchive(Archive, true);
+				WidgetObj->MarkSecretFound();
 			}
 		}
 	}
@@ -128,6 +152,6 @@ void AInspectableActor::OnConstruction(const FTransform& Transform)
 	SetActorScale3D(FVector::OneVector);
 	InspectRoot->SetRelativeTransform(FTransform::Identity);
 #if WITH_EDITOR
-	SecretAngle->SetVisibility(IsValid(Archive));
+	SecretAngle->SetVisibility(HasValidArchive() && !Archive->SecretText.IsEmptyOrWhitespace());
 #endif
 }

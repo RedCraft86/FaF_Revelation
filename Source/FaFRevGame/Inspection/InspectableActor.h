@@ -45,7 +45,7 @@ public:
 	virtual void OnBeginInteract_Implementation(AGamePlayerChar* Player, const FHitResult& HitResult) override;
 	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult) override
 	{
-		InteractionInfo.bEnabled = InteractionInfo.bEnabled && IsEnabled();
+		InteractionInfo.bEnabled = Archive && InteractionInfo.bEnabled && IsEnabled();
 		return InteractionInfo;
 	}
 
@@ -56,9 +56,13 @@ private:
 	FTimerHandle LagTimer;
 	FToroInterpFloat ScaleLerp;
 	TObjectPtr<AGamePlayerChar> PlayerChar;
+	TObjectPtr<class UInspectionWidget> Widget;
 
 	void HandleRemoveLag();
+	UInspectionWidget* GetWidget();
 	float GetSecretDotAngle() const;
+	bool HasValidArchive() const { return Archive && Archive->ItemType == EInventoryItemType::Archive; }
+
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 #if WITH_EDITOR

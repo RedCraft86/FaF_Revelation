@@ -3,6 +3,8 @@
 #pragma once
 
 #include "ToroSettings.h"
+#include "Components/TextBlock.h"
+#include "DataTypes/InputModeData.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "InspectionWidget.generated.h"
 
@@ -11,11 +13,33 @@ class FAFREVGAME_API UInspectionWidget final : public UToroWidgetBase
 {
 	GENERATED_BODY()
 
+	friend class AInspectableActor;
+
 public:
 
 	UInspectionWidget(const FObjectInitializer& ObjectInitializer);
 
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> TitleText;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> ContentText;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> SecretText;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> SecretAnim;
+
 private:
 
+	UPROPERTY() bool bSecretFound;
+	UPROPERTY() FGameInputModeData CachedInput;
+
+	void MarkSecretFound();
+	void LoadData(const class UInventoryItemData* InData, const bool bKnowsSecret);
+
+	virtual void InternalProcessActivation() override;
+	virtual void InternalProcessDeactivation() override;
 	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
 };

@@ -40,12 +40,14 @@ AGamePlayerChar::AGamePlayerChar()
 	PlayerCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 
 	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
+	EquipmentRoot->SetRelativeLocation(FVector(22.0f, 20.0f, -15.0f));
 	EquipmentRoot->SetupAttachment(PlayerCamera);
 #if WITH_EDITORONLY_DATA
 	EquipmentRoot->bVisualizeComponent = true;
 #endif
 
 	InspectRoot = CreateDefaultSubobject<USceneComponent>("InspectRoot");
+	InspectRoot->SetRelativeLocation(FVector(20.0f, -9.0f, 0.0f));
 	InspectRoot->SetupAttachment(PlayerCamera);
 #if WITH_EDITORONLY_DATA
 	InspectRoot->bVisualizeComponent = true;
@@ -226,6 +228,8 @@ void AGamePlayerChar::SetInspectable(AActor* InActor)
 			PC->AddPauseRequest(InActor);
 		}
 	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Inspectable: %s"), *GetNameSafe(InActor))
 
 	Inspectable = InActor;
 	Inspectable ? SetStateFlag(PSF_Inspect) : UnsetStateFlag(PSF_Inspect);
