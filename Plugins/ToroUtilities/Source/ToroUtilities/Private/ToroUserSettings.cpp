@@ -21,16 +21,14 @@ void UToroUserSettings::CheckSupportedResolutions()
 
 void UToroUserSettings::CheckSupportedFidelityModes()
 {
-	// EImageFidelityMode::SMAA is not supported right now
-	// EImageFidelityMode::FSR is not updated
 	SupportedFidelityModes = {
 		EImageFidelityMode::None,
 		EImageFidelityMode::FXAA,
 		EImageFidelityMode::TAA,
-		EImageFidelityMode::TSR
+		EImageFidelityMode::TSR,
+		// EImageFidelityMode::FSR // TODO - Not updated
 	};
 
-	if (Nvidia::DLSS::IsDLSSSupported()) SupportedFidelityModes.Add(EImageFidelityMode::DLSS);
 	if (XeSS::IsXeSSSupported()) SupportedFidelityModes.Add(EImageFidelityMode::XeSS);
 }
 
@@ -113,7 +111,6 @@ DEFINE_SETTER_DYNAMIC(bool, ShowFPS)
 DEFINE_SETTER_BASIC(FString, Username)
 DEFINE_SETTER_BASIC(bool, Borderless)
 
-DEFINE_SETTER_DYNAMIC(uint8, FieldOfView)
 DEFINE_SETTER_BASIC(bool, SmoothCamera)
 DEFINE_SETTER_BASIC(float, SensitivityX)
 DEFINE_SETTER_BASIC(float, SensitivityY)
@@ -131,26 +128,11 @@ DEFINE_SETTER(bool, HitLightingReflections, ApplyLumen();)
 DEFINE_SETTER(EColorBlindMode, ColorBlindMode, ApplyColorBlindSettings();)
 DEFINE_SETTER(uint8, ColorBlindIntensity, ApplyColorBlindSettings();)
 
-DEFINE_SETTER(uint8, NvidiaReflex, ApplyDLSS();)
-
-DEFINE_SETTER(bool, RTXDynamicVibrance, ApplyDynamicVibrance();)
-DEFINE_SETTER(float, DynamicVibranceIntensity, ApplyDynamicVibrance();)
-DEFINE_SETTER(float, DynamicVibranceSaturation, ApplyDynamicVibrance();)
-DEFINE_SETTER(uint8, NISQuality, ApplyNIS();)
-DEFINE_SETTER(float, NISSharpness, ApplyNIS();)
-
 DEFINE_SETTER(EImageFidelityMode, ImageFidelityMode, ApplyImageFidelityMode();)
 
 DEFINE_SETTER(uint8, FXAADithering, SET_CONSOLE_VAR(r.FXAA.Quality, GetFXAADithering() + 1))
 DEFINE_SETTER_CONSOLE(uint8, TAAUpsampling, r.TemporalAA.Quality)
 DEFINE_SETTER_CONSOLE(uint8, TSRResolution, r.ScreenPercentage)
-
-DEFINE_SETTER_CONSOLE(uint8, SMAAQuality, r.SMAA.Quality)
-DEFINE_SETTER_CONSOLE(uint8, SMAAEdgeMode, r.SMAA.EdgeDetector)
-
-DEFINE_SETTER(uint8, DLSSQuality, ApplyDLSS();)
-DEFINE_SETTER(uint8, DLSSFrameGeneration, ApplyDLSS();)
-DEFINE_SETTER(bool, DLSSRayReconstruction, ApplyDLSS();)
 
 DEFINE_SETTER(uint8, FSRQuality, ApplyFSR();)
 DEFINE_SETTER(float, FSRSharpness, ApplyFSR();)
@@ -184,25 +166,10 @@ void UToroUserSettings::InitSettings(UGameInstance* InGameInstance)
 	}
 }
 
-void UToroUserSettings::ApplyNIS() const
-{
-	Nvidia::NIS::SetNISMode(GetNISQuality());
-	Nvidia::NIS::SetNISSharpness(GetNISSharpness());
-}
-
 void UToroUserSettings::ApplyFSR() const
 {
 	SET_CONSOLE_VAR(r.FidelityFX.FSR3.QualityMode, GetFSRQuality())
 	SET_CONSOLE_VAR(r.FidelityFX.FSR3.Sharpness, GetFSRSharpness())
-}
-
-void UToroUserSettings::ApplyDLSS() const
-{
-	const bool bDLSS = ImageFidelityMode == EImageFidelityMode::DLSS;
-	Nvidia::DLSS::SetDLSSMode(bDLSS ? GetDLSSQuality() : 0);
-	Nvidia::DLSS::SetFrameGenMode(bDLSS ? GetDLSSFrameGeneration() : 0);
-	Nvidia::DLSS::SetDLSSRREnabled(bDLSS && GetDLSSRayReconstruction());
-	Nvidia::Streamline::SetReflexMode(bDLSS ? GetNvidiaReflex() : 0);
 }
 
 void UToroUserSettings::ApplyImageFidelityMode()
@@ -213,7 +180,7 @@ void UToroUserSettings::ApplyImageFidelityMode()
 	if (SupportedFidelityModes.Contains(ImageFidelityMode))
 	{
 		uint8 AAMode = 0;
-		bool bSMAA = false, bFSR = false, bXeSS = false;
+		bool bFSR = false, bXeSS = false;
 		switch (ImageFidelityMode)
 		{
 		case EImageFidelityMode::None: break;
@@ -225,16 +192,8 @@ void UToroUserSettings::ApplyImageFidelityMode()
 			AAMode = 2;
 			SET_CONSOLE_VAR(r.TemporalAA.Quality, GetTAAUpsampling())
 			break;
-		case EImageFidelityMode::SMAA:
-			bSMAA = true;
-			SET_CONSOLE_VAR(r.SMAA.Quality, GetSMAAQuality())
-			SET_CONSOLE_VAR(r.SMAA.EdgeDetector, GetSMAAEdgeMode())
-			break;
 		case EImageFidelityMode::TSR:
 			AAMode = 4;
-			break;
-		case EImageFidelityMode::DLSS:
-			ApplyDLSS();
 			break;
 		case EImageFidelityMode::FSR:
 			bFSR = true;
@@ -244,8 +203,6 @@ void UToroUserSettings::ApplyImageFidelityMode()
 			bXeSS = true;
 			break;
 		}
-
-		SET_CONSOLE_VAR(r.SMAA, bSMAA)
 
 		SET_CONSOLE_VAR(r.AntiAliasingMethod, AAMode)
 		SET_CONSOLE_VAR(r.ScreenPercentage, AAMode == 4 ? GetTSRResolution() : 100.0f);
@@ -271,15 +228,6 @@ void UToroUserSettings::ApplyColorBlindSettings() const
 #endif
 	FSlateApplication::Get().GetRenderer()->SetColorVisionDeficiencyType(static_cast<EColorVisionDeficiency>(ColorBlindMode),
 		GetColorBlindIntensity(), true, false);
-}
-
-void UToroUserSettings::ApplyDynamicVibrance() const
-{
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-	Nvidia::Streamline::SetDynamicVibrance(GetRTXDynamicVibrance(),
-		GetDynamicVibranceIntensity(), GetDynamicVibranceSaturation());
 }
 
 void UToroUserSettings::ApplyAudioSettings() const
@@ -340,11 +288,9 @@ void UToroUserSettings::ReapplySettings()
 
 		ApplyImageFidelityMode();
 		ApplyColorBlindSettings();
-		ApplyDynamicVibrance();
 		ApplyAudioSettings();
 		ApplyMotionBlur();
 		ApplyLumen();
-		ApplyNIS();
 
 		ApplyNonResolutionSettings();
 	}
@@ -368,7 +314,6 @@ void UToroUserSettings::CacheScalabilityDefaults()
 void UToroUserSettings::SetToDefaults()
 {
 	ShowFPS = false;
-	FieldOfView = 90;
 	SmoothCamera = true;
 	SensitivityX = 1.0f;
 	SensitivityY = 1.0f;
@@ -382,21 +327,10 @@ void UToroUserSettings::SetToDefaults()
 	HitLightingReflections = false;
 	ColorBlindMode = EColorBlindMode::None;
 	ColorBlindIntensity = 0;
-	NvidiaReflex = 0;
-	RTXDynamicVibrance = false;
-	DynamicVibranceIntensity = 0.5f;
-	DynamicVibranceSaturation = 0.5f;
-	NISQuality = 3;
-	NISSharpness = 0.0f;
 	ImageFidelityMode = EImageFidelityMode::TAA;
 	FXAADithering = 3;
 	TAAUpsampling = 2;
 	TSRResolution = 70;
-	SMAAQuality = 3;
-	SMAAEdgeMode = 3;
-	DLSSQuality = 4;
-	DLSSFrameGeneration = 0;
-	DLSSRayReconstruction = false;
 	FSRQuality = 2;
 	FSRSharpness = 0.0f;
 	FSRFrameGeneration = false;

@@ -378,11 +378,6 @@ void AGamePlayerChar::OnSettingsChange(const UToroUserSettings* InSettings)
 {
 	if (InSettings)
 	{
-		FOV.Base = InSettings->GetFieldOfView();
-		PlayerCamera->SetFieldOfView(FMath::Clamp(FOV.Evaluate(), 5.0f, 170.0f));
-		InterpFOV.Target = PlayerCamera->FieldOfView;
-		InterpFOV.SnapToTarget();
-
 		CameraArm->bEnableCameraRotationLag = InSettings->GetSmoothCamera();
 		Sensitivity.Base.X = InSettings->GetSensitivityX();
 		Sensitivity.Base.Y = InSettings->GetSensitivityY();

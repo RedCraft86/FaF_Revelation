@@ -61,11 +61,6 @@ public:
 
 	static inline TArray<EImageFidelityMode> SupportedFidelityModes = {};
 	static void CheckSupportedFidelityModes();
-	static bool IsSMAASupported()
-	{
-		CheckSupportedFidelityModes();
-		return SupportedFidelityModes.Contains(EImageFidelityMode::SMAA);
-	}
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const UToroUserSettings*)
 	FUserSettingsDelegate OnDynamicSettingsChanged;
@@ -85,12 +80,10 @@ public:
 		return FMath::Clamp(AudioVolume.FindRef(InType), 25, 150);
 	}
 
-
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(FString, Username)
 	DECLARE_PROPERTY_FUNC(bool, Borderless)
-	
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FieldOfView, 70, 120)
+
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, SensitivityX, -2.0f, 2.0f)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, SensitivityY, -2.0f, 2.0f)
@@ -108,25 +101,10 @@ public:
 	DECLARE_CONVERTABLE_FUNC(EColorBlindMode, ColorBlindMode, uint8, Int)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
 	
-	DECLARE_PROPERTY_FUNC(bool, RTXDynamicVibrance)
-	DECLARE_PROPERTY_FUNC_CLAMPED(float, DynamicVibranceIntensity, 0.0f, 1.0f)
-	DECLARE_PROPERTY_FUNC_CLAMPED(float, DynamicVibranceSaturation, 0.0f, 1.0f)
-	
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, NISQuality, 0, 4)
-	DECLARE_PROPERTY_FUNC_CLAMPED(float, NISSharpness, 0.0f, 1.0f)
-	
 	DECLARE_CONVERTABLE_FUNC(EImageFidelityMode, ImageFidelityMode, uint8, Int)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FXAADithering, 0, 4)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, TAAUpsampling, 0, 2)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, TSRResolution, 25, 200)
-	
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, SMAAQuality, 0, 3)
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, SMAAEdgeMode, 0, 3)
-
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSQuality, 0, 6)
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSFrameGeneration, 0, 4)
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, NvidiaReflex, 0, 2)
-	DECLARE_PROPERTY_FUNC(bool, DLSSRayReconstruction)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, FSRSharpness, 0.0f, 1.0f)
@@ -138,13 +116,10 @@ public:
 
 protected:
 
-	void ApplyNIS() const;
 	void ApplyFSR() const;
-	void ApplyDLSS() const;
 	void ApplyImageFidelityMode();
 
 	void ApplyColorBlindSettings() const;
-	void ApplyDynamicVibrance() const;
 	void ApplyAudioSettings() const;
 	void ApplyMotionBlur() const;
 	void ApplyLumen() const;
@@ -166,7 +141,6 @@ protected:
 	UPROPERTY(Config) TMap<ESoundClassType, uint8> AudioVolume;
 
 	/* Camera */
-	UPROPERTY(Config) uint8 FieldOfView;
 	UPROPERTY(Config) bool SmoothCamera;
 	UPROPERTY(Config) float SensitivityX;
 	UPROPERTY(Config) float SensitivityY;
@@ -189,14 +163,6 @@ protected:
 	UPROPERTY(Config) EColorBlindMode ColorBlindMode;
 	UPROPERTY(Config) uint8 ColorBlindIntensity;
 
-	// Nvidia Technologies
-	UPROPERTY(Config) uint8 NvidiaReflex;
-	UPROPERTY(Config) bool RTXDynamicVibrance;
-	UPROPERTY(Config) float DynamicVibranceIntensity;
-	UPROPERTY(Config) float DynamicVibranceSaturation;
-	UPROPERTY(Config) uint8 NISQuality;
-	UPROPERTY(Config) float NISSharpness;
-
 	/* Anti-Aliasing / Upscaling */
 	UPROPERTY(Config) EImageFidelityMode ImageFidelityMode;
 
@@ -204,15 +170,6 @@ protected:
 	UPROPERTY(Config) uint8 FXAADithering;
 	UPROPERTY(Config) uint8 TAAUpsampling;
 	UPROPERTY(Config) uint8 TSRResolution;
-
-	// SMAA
-	UPROPERTY(Config) uint8 SMAAQuality;
-	UPROPERTY(Config) uint8 SMAAEdgeMode;
-
-	// DLSS
-	UPROPERTY(Config) uint8 DLSSQuality;
-	UPROPERTY(Config) bool DLSSRayReconstruction;
-	UPROPERTY(Config) uint8 DLSSFrameGeneration;
 
 	// FSR
 	UPROPERTY(Config) uint8 FSRQuality;

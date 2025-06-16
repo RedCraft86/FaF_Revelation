@@ -51,14 +51,8 @@ enum class EImageFidelityMode : uint8
 	// Temporal Anti-Aliasing
 	TAA,
 
-	// Enhanced Subpixel Morphological Anti-Aliasing
-	SMAA,
-
 	// Temporal Super-Resolution (Upscaler)
 	TSR,
-
-	// Nvidia Deep Learning Super Sampling (Upscaler)
-	DLSS,
 
 	// FidelityFX™ Super Resolution 3.1 (Upscaler)
 	FSR,
