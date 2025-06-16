@@ -70,7 +70,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "ItemType == EInventoryItemType::Equipment", EditConditionHides))
 		TSoftClassPtr<AInventoryEquipment> Equipment;
 
-	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "ItemType == EInventoryItemType::Archive", EditConditionHides))
+	UPROPERTY(EditAnywhere, Category = Item, meta = (MultiLine = true, EditCondition = "ItemType == EInventoryItemType::Archive", EditConditionHides))
 		FText SecretLabel;
 
 	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "ItemType == EInventoryItemType::Archive", EditConditionHides))
