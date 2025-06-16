@@ -124,6 +124,7 @@ void AToroPlayerController::BeginPlay()
 	{
 		Subsystem->ClearAllMappings();
 		Subsystem->AddMappingContext(UToroSettings::Get()->InputMappings.LoadSynchronous(), 0);
+		SetInputModeData({EGameInputMode::GameOnly, false});
 	}
 }
 
