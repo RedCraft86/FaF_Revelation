@@ -25,6 +25,8 @@
 
 AGamePlayerChar::AGamePlayerChar()
 {
+	PrimaryActorTick.bTickEvenWhenPaused = true;
+
 	FootstepAudio = CreateDefaultSubobject<UAudioComponent>("FootstepAudio");
 	FootstepAudio->SetupAttachment(GetCapsuleComponent());
 	FootstepAudio->bAutoActivate = false;
@@ -217,6 +219,12 @@ void AGamePlayerChar::SetLockOnTarget(const USceneComponent* InComponent)
 	else LockOnTarget = nullptr;
 }
 
+void AGamePlayerChar::SetFocalDistance(const float InFocalDistance, const float InSpeed)
+{
+	InterpFocal.Target = FMath::Max(InFocalDistance, 0.0f);
+	InterpFocal.Speed = FMath::Max(InSpeed, 0.1f);
+}
+
 void AGamePlayerChar::SetInspectable(AActor* InActor)
 {
 	if (InActor && Inspectable) return; // No hot-swapping
@@ -234,6 +242,7 @@ void AGamePlayerChar::SetInspectable(AActor* InActor)
 
 	Inspectable = InActor;
 	Inspectable ? SetStateFlag(PSF_Inspect) : UnsetStateFlag(PSF_Inspect);
+	SetFocalDistance(Inspectable ? InspectRoot->GetRelativeLocation().X : 100.0f);
 }
 
 void AGamePlayerChar::SetHidingSpot(AActor* InActor)
@@ -469,45 +478,56 @@ void AGamePlayerChar::Tick(float DeltaTime)
 		PlayerCamera->SetFieldOfView(InterpFOV.Current);
 	}
 
-	if (!InterpCrouch.IsComplete())
+	if (!InterpFocal.IsComplete())
 	{
-		InterpCrouch.Tick(DeltaTime);
-		GetCapsuleComponent()->SetCapsuleHalfHeight(InterpCrouch.Current);
+		InterpFocal.Tick(DeltaTime);
+		PlayerCamera->PostProcessSettings.bOverride_DepthOfFieldFocalDistance = InterpFocal.Current < 99.0f;
+		PlayerCamera->PostProcessSettings.DepthOfFieldFocalDistance = InterpFocal.Current;
 	}
 
-	InterpCamOffset.Target = CamOffset.Evaluate();
-	InterpCamOffset.Tick(DeltaTime);
-
-	const FRotator ControlRotation = GetControlRotation();
-	if (LockOnTarget)
+	if (!IsPaused())
 	{
-		SetLeanState(EPlayerLeanState::None);
-		const FVector TargetVector = LockOnTarget->GetComponentLocation() - PlayerCamera->GetComponentLocation();
-		Controller->SetControlRotation(FMath::RInterpTo(ControlRotation,
-			FRotationMatrix::MakeFromX(TargetVector).Rotator(), DeltaTime, LockOnSpeed));
-	}
-	else
-	{
-		Controller->SetControlRotation(FRotator(ControlRotation.Pitch,
-			ControlRotation.Yaw, InterpCamOffset.Current.Y));
-
-		if (IsMoving() && IsPlayerControlled())
+		if (!InterpCrouch.IsComplete())
 		{
-			const bool bRunning = IsRunning();
-			GetPlayerController()->ClientStartCameraShake(bRunning ? UCamShake_Run::StaticClass()
-				: UCamShake_Walk::StaticClass(),1.0f);
+			InterpCrouch.Tick(DeltaTime);
+			GetCapsuleComponent()->SetCapsuleHalfHeight(InterpCrouch.Current);
 		}
-	}
 
-	CameraArm->SetRelativeLocation(FVector(0.0f, InterpCamOffset.Current.X,
-		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
+		InterpCamOffset.Target = CamOffset.Evaluate();
+		InterpCamOffset.Tick(DeltaTime);
 
-	FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f,
-		-GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
-	if (!FootstepTimer.IsValid() && IsMoving())
-	{
-		GetWorldTimerManager().SetTimer(FootstepTimer, this, &AGamePlayerChar::TickFootstep,
-			Footsteps.GetFootstepInterval(StateFlags), false);
+		const FRotator ControlRotation = GetControlRotation();
+		if (LockOnTarget)
+		{
+			SetLeanState(EPlayerLeanState::None);
+			const FVector TargetVector = LockOnTarget->GetComponentLocation() - PlayerCamera->GetComponentLocation();
+			Controller->SetControlRotation(FMath::RInterpTo(ControlRotation,
+				FRotationMatrix::MakeFromX(TargetVector).Rotator(), DeltaTime, LockOnSpeed));
+		}
+		else
+		{
+			Controller->SetControlRotation(FRotator(ControlRotation.Pitch,
+				ControlRotation.Yaw, InterpCamOffset.Current.Y));
+
+			if (IsMoving() && IsPlayerControlled())
+			{
+				const bool bRunning = IsRunning();
+				GetPlayerController()->ClientStartCameraShake(bRunning ? UCamShake_Run::StaticClass()
+					: UCamShake_Walk::StaticClass(),1.0f);
+			}
+		}
+
+		CameraArm->SetRelativeLocation(FVector(0.0f, InterpCamOffset.Current.X,
+			GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
+
+		FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f,
+			-GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
+
+		if (!FootstepTimer.IsValid() && IsMoving())
+		{
+			GetWorldTimerManager().SetTimer(FootstepTimer, this, &AGamePlayerChar::TickFootstep,
+				Footsteps.GetFootstepInterval(StateFlags), false);
+		}
 	}
 }
 
@@ -545,11 +565,12 @@ void AGamePlayerChar::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 	GetCapsuleComponent()->SetCapsuleHalfHeight(CrouchHeights.X);
 
+	CameraArm->SetRelativeLocation(FVector(0.0f, 0.0f,
+		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
+
 	FootstepAudio->SetRelativeLocation(FVector(0.0f, 0.0f,
 		-GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
 
-	CameraArm->SetRelativeLocation(FVector(0.0f, 0.0f,
-		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere()));
 #if WITH_EDITOR
 	if (!FApp::IsGame())
 	{

@@ -113,8 +113,9 @@ private:
 	FToroMultiFloat MoveSpeed;
 	FToroMultiVector2D Sensitivity;
 	EPlayerLeanState LeanState;
-	
+
 	FToroInterpFloat InterpFOV;
+	FToroInterpFloat InterpFocal;
 	FToroInterpFloat InterpCrouch;
 	FToroInterpVector2D InterpCamOffset;
 
@@ -200,6 +201,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Player)
 		const USceneComponent* GetLockOnTarget() const { return LockOnTarget; }
+	
+	UFUNCTION(BlueprintCallable, Category = Player, DisplayName = "Set DOF Focal Distance")
+		void SetFocalDistance(const float InFocalDistance = 100.0f, const float InSpeed = 10.0f);
 
 	UFUNCTION(BlueprintCallable, Category = Player, DisplayName = "Add FOV Offset")
 		void AddFOVOffset(const FName InKey, const float InValue) { FOV.AddMod(InKey, InValue); }
