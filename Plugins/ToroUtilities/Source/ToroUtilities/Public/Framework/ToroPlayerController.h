@@ -55,6 +55,9 @@ public:
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnGamePaused, const bool)
 	FOnGamePaused OnGamePaused;
 
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameFocusChanged, const bool);
+	FOnGameFocusChanged OnGameFocusChanged;
+
 protected:
 	
 	UPROPERTY() bool bGamePaused;
@@ -64,6 +67,7 @@ protected:
 
 	virtual void UpdatePauseState();
 	virtual void OnAnyKeyEvent(FKey PressedKey);
+	virtual void OnWindowFocusChanged(bool bFocused);
 
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;

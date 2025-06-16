@@ -4,6 +4,8 @@
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
 #include "EnhancedInputSubsystems.h"
+#include "LevelSequencePlayer.h"
+#include "LevelSequenceActor.h"
 #include "ToroSettings.h"
 
 AToroPlayerController::AToroPlayerController()
@@ -91,9 +93,33 @@ void AToroPlayerController::OnAnyKeyEvent(FKey PressedKey)
 	if (OnAnyKeyPressed.IsBound()) OnAnyKeyPressed.Broadcast(PressedKey);
 }
 
+void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
+{
+	OnGameFocusChanged.Broadcast(bFocused);
+	if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(CinematicActor))
+	{
+		if (ULevelSequencePlayer* Player = Cinematic->GetSequencePlayer())
+		{
+			bFocused ? Player->Play() : Player->Pause();
+		}
+	}
+
+	if (bFocused)
+	{
+		RemovePauseRequest(this);
+	}
+	else if (UToroSettings::Get()->IsOnGameplayMap(this))
+	{
+		AddPauseRequest(this);
+	}
+}
+
 void AToroPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	FSlateApplication::Get().OnApplicationActivationStateChanged()
+		.AddUObject(this, &AToroPlayerController::OnWindowFocusChanged);
+
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
 	{
 		Subsystem->ClearAllMappings();
