@@ -27,26 +27,29 @@ public:
 	UGlobalEventManager() {}
 	GAME_INSTANCE_SUBSYSTEM_GETTER(UGlobalEventManager);
 
-	// Binds a delegate to a global event. The delegate will be called whenever this event is invoked.
+	/* Binds a delegate to a global event. The delegate will be called whenever this event is invoked. */
 	UFUNCTION(BlueprintCallable, Category = GlobalEvents)
 		void BindGlobalEvent(UPARAM(meta = (Categories = "GlobalEvent")) const FGameplayTag EventID, const FGlobalEventSingle& Event);
 
-	// Unbinds a delegate from the specified global event.
-	// If no delegates are bound, the event will be removed, and its cached payload will no longer be retained.
+	/* Unbinds a delegate from the specified global event.
+	 * If no delegates are bound, the event will be removed, and its cached payload will no longer be retained.
+	 */
 	UFUNCTION(BlueprintCallable, Category = GlobalEvents)
 		void UnbindGlobalEvent(UPARAM(meta = (Categories = "GlobalEvent")) const FGameplayTag EventID, const FGlobalEventSingle& Event);
 
-	// Invokes a global event by tag. Passing in a payload is required to pass the Instigator.
-	// The payload will be cached by the manager to avoid garbage collection and remain accessible to listeners.
+	/* Invokes a global event by tag. Passing in a payload is required to pass the Instigator.
+	 * The payload will be cached by the manager to avoid garbage collection and remain accessible to listeners.
+	 */
 	UFUNCTION(BlueprintCallable, Category = GlobalEvents, meta = (AdvancedDisplay = "Instigator", DefaultToSelf = "Instigator"))
 		void InvokeGlobalEvent(UPARAM(meta = (Categories = "GlobalEvent")) const FGameplayTag EventID, UGlobalEventPayload* Payload, UObject* Instigator);
 
-	// Completely removes the specified global event from the system.
-	// This also clears any bound delegates and releases the cached payload associated with the event.
+	/* Completely removes the specified global event from the system.
+	 * This also clears any bound delegates and releases the cached payload associated with the event.
+	 */
 	UFUNCTION(BlueprintCallable, Category = GlobalEvents)
 		void RemoveGlobalEvent(UPARAM(meta = (Categories = "GlobalEvent")) const FGameplayTag EventID);
 
-	// Gets the payload associated to an event.
+	/* Gets the payload associated to an event. */
 	UFUNCTION(BlueprintCallable, Category = GlobalEvents)
 	UGlobalEventPayload* GetEventPayload(const FGameplayTag& EventID)
 	{
