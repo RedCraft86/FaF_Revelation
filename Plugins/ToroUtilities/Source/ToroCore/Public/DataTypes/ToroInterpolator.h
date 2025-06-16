@@ -13,7 +13,7 @@ struct TToroInterpolator
 	FORCEINLINE virtual ~TToroInterpolator() = default;
 	FORCEINLINE TToroInterpolator(): Speed(5.0f), bConstant(false) {}
 	FORCEINLINE TToroInterpolator(const T InTarget, const float InSpeed = 5.0f)
-		: Current(InTarget), Speed(InSpeed), bConstant(false)
+		: Current(InTarget), Target(InTarget), Speed(InSpeed), bConstant(false)
 	{}
 
 	FORCEINLINE void SnapToTarget() { Current = Target; }
