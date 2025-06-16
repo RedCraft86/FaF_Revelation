@@ -101,6 +101,15 @@ void UInventoryComponent::AddArchive(const TSoftObjectPtr<UInventoryItemData>& I
 	}
 }
 
+void UInventoryComponent::GetArchiveState(const TSoftObjectPtr<UInventoryItemData>& InArchive, bool& bDiscovered, bool& bSecretFound) const
+{
+	const UInventoryItemData* Archive = InArchive.LoadSynchronous();
+	if (!Archive || Archive->ItemType != EInventoryItemType::Archive) return;
+
+	bDiscovered = InvArchives.Contains(InArchive);
+	if (bDiscovered) bSecretFound = InvArchives.FindRef(InArchive).bSecretFound;
+}
+
 uint8 UInventoryComponent::GetItemAmount(const TSoftObjectPtr<UInventoryItemData>& InItem) const
 {
 	return InvArchives.Contains(InItem) ? 1 : InvItems.FindRef(InItem);
