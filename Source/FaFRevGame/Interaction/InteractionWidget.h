@@ -39,5 +39,6 @@ private:
 	void UpdateUI(const bool bEnabled, const FInteractionData& Data);
 
 	virtual void InitWidget() override;
+	virtual void NativeConstruct() override;
 	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
 };

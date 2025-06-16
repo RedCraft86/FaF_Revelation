@@ -54,3 +54,9 @@ void UInteractionWidget::InitWidget()
 		Interaction->OnUpdate.BindUObject(this, &ThisClass::UpdateUI);
 	}
 }
+
+void UInteractionWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	InteractBrush = InteractIcon->GetBrush();
+}
