@@ -24,6 +24,7 @@ void UInspectionWidget::LoadData(const UInventoryItemData* InData, const bool bK
 {
 	if (InData && InData->ItemType == EInventoryItemType::Archive)
 	{
+		InitAnim(SecretAnim);
 		TitleText->SetText(InData->DisplayName);
 		ContentText->SetText(InData->Description);
 		SecretText->SetText(FText::Format(INVTEXT("{0}: {1}"),
@@ -32,7 +33,8 @@ void UInspectionWidget::LoadData(const UInventoryItemData* InData, const bool bK
 		bSecretFound = bKnowsSecret;
 		if (bSecretFound)
 		{
-			PlayAnimation(SecretAnim);
+			PlayAnimation(SecretAnim, 0.0f, 1,
+				EUMGSequencePlayMode::Forward, 10.0f, false);
 		}
 	}
 }
@@ -51,7 +53,6 @@ void UInspectionWidget::InternalProcessActivation()
 void UInspectionWidget::InternalProcessDeactivation()
 {
 	Super::InternalProcessDeactivation();
-	PlayAnimationReverse(SecretAnim, 10.0f);
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputModeData(CachedInput);
