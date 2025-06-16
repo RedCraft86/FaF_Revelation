@@ -45,7 +45,7 @@ public:
 	UInventoryItemData(): Priority(1), ItemType(EInventoryItemType::Generic), StackSize(1) {}
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "ItemType != EInventoryItemType::Archive", InlineEditConditionToggle))
+	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "ItemType != EInventoryItemType::Archive"))
 		bool bCustomPriority = false;
 #endif
 
@@ -53,10 +53,10 @@ public:
 		uint8 Priority;
 
 	UPROPERTY(EditAnywhere, Category = Item)
-		FText DisplayName;
+		TSoftObjectPtr<UTexture2D> Icon;
 
 	UPROPERTY(EditAnywhere, Category = Item)
-		TSoftObjectPtr<UTexture2D> Icon;
+		FText DisplayName;
 
 	UPROPERTY(EditAnywhere, Category = Item, meta = (MultiLine = true))
 		FText Description;
