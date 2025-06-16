@@ -17,6 +17,7 @@ public class FaFRevGame : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore",
                 "PhysicsCore",
@@ -26,6 +27,7 @@ public class FaFRevGame : ModuleRules
                 "DeveloperSettings",
                 "EngineCameras",
                 "GameplayTags",
+                "CommonUI",
                 "ToroCore",
                 "ToroUtilities"
             }

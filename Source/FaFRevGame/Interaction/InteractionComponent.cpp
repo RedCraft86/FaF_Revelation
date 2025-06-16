@@ -13,6 +13,12 @@ UInteractionComponent::UInteractionComponent()
 	PrimaryComponentTick.TickInterval = 0.05f;
 }
 
+UInteractionComponent* UInteractionComponent::Get(const UObject* ContextObject)
+{
+	AGamePlayerChar* Player = AGamePlayerChar::Get<AGamePlayerChar>(ContextObject);
+	return Player ? Player->Interaction : nullptr;
+}
+
 bool UInteractionComponent::IsEnabled() const
 {
 	return Player && !Player->IsLocked() && Player->HasControlFlag(PCF_CanInteract);

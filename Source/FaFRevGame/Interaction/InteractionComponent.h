@@ -38,6 +38,10 @@ public:
 
 	UInteractionComponent();
 
+	static UInteractionComponent* Get(const UObject* ContextObject);
+	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
+		static UInteractionComponent* GetInventory(const UObject* ContextObject) { return Get(ContextObject); }
+
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 100.0f, UIMin = 100.0f))
 		float ReachDistance;
 
