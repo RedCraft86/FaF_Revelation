@@ -52,7 +52,7 @@ void UToroInfoWidget::OnSaveLoad(const UToroSaveObject* SaveObject, const ESaveG
 {
 	if (SaveObject && Activity == ESaveGameActivity::Saving)
 	{
-		PlayAnimation(SaveAnim);
+		PlayAnimation(SaveAnim, 0.0f, 5);
 	}
 }
 
