@@ -23,7 +23,7 @@ public:
 		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> ContentText;
+		TObjectPtr<UTextBlock> ContentText; // TODO UExprTextBlock
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> SecretText;
