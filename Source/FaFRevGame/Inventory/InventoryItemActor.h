@@ -22,7 +22,7 @@ public:
 	}
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		TObjectPtr<UInventoryItemData> Item;
+		TObjectPtr<UItemData> Item;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 1, UIMin = 1))
 		uint8 Amount;
@@ -32,7 +32,7 @@ public:
 
 private:
 
-	bool IsArchive() const { return Item ? Item->ItemType == EInventoryItemType::Archive : false; }
+	bool IsArchive() const { return Item ? Item->ItemType == EItemType::Archive : false; }
 
 	virtual FInteractionInfo GetInteractionInfo_Implementation(const FHitResult& HitResult) override
 	{
@@ -64,7 +64,7 @@ private:
 		bool bSuper = Super::CanEditChange(InProperty);
 		if (InProperty && InProperty->GetFName() == GET_MEMBER_NAME_CHECKED(AInventoryItemActor, Amount))
 		{
-			return bSuper && Item ? Item->ItemType == EInventoryItemType::Generic : false;
+			return bSuper && Item ? Item->ItemType == EItemType::Generic : false;
 		}
 		return bSuper;
 	}

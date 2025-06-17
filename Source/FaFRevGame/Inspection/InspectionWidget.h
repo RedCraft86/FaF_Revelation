@@ -40,7 +40,7 @@ private:
 	UPROPERTY() FGameInputModeData CachedInput;
 
 	void MarkSecretFound();
-	void LoadData(const class UInventoryItemData* InData, const bool bKnowsSecret);
+	void LoadData(const class UItemData* InData, const bool bKnowsSecret);
 
 	virtual void InternalProcessActivation() override;
 	virtual void InternalProcessDeactivation() override;
