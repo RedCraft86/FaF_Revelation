@@ -1,9 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroInfoWidget.h"
-#include "Components/PanelWidget.h"
+#include "UserWidgets/ToroInfoWidget.h"
 #include "Framework/ToroPlayerController.h"
 #include "SaveSystem/ToroSaveManager.h"
+#include "Components/PanelWidget.h"
 
 FLinearColor CalcFrameRateColor(const float Target, const float Current)
 {
