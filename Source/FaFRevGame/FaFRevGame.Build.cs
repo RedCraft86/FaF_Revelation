@@ -20,6 +20,7 @@ public class FaFRevGame : ModuleRules
                 "UMG",
                 "Slate",
                 "SlateCore",
+                "InputCore",
                 "PhysicsCore",
                 "EnhancedInput",
                 "AudioExtensions",
