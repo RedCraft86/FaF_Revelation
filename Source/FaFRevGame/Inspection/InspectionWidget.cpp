@@ -21,9 +21,9 @@ void UInspectionWidget::MarkSecretFound()
 	}
 }
 
-void UInspectionWidget::LoadData(const UItemData* InData, const bool bKnowsSecret)
+void UInspectionWidget::LoadData(const UInvItemData* InData, const bool bKnowsSecret)
 {
-	if (InData && InData->ItemType == EItemType::Archive)
+	if (InData && InData->ItemType == EInvItemType::Archive)
 	{
 		InitAnim(SecretAnim);
 		TitleText->SetText(InData->DisplayName);

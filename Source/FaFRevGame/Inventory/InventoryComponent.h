@@ -12,14 +12,14 @@ struct FInventoryData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Transient) TSoftObjectPtr<UItemData> Equipment;
-	UPROPERTY(Transient) TMap<TSoftObjectPtr<UItemData>, uint8> Items;
-	UPROPERTY(Transient) TMap<TSoftObjectPtr<UItemData>, FInvArchiveData> Archives;
+	UPROPERTY(Transient) TSoftObjectPtr<UInvItemData> Equipment;
+	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInvItemData>, uint8> Items;
+	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInvItemData>, FInvArchiveData> Archives;
 
 	FInventoryData() {}
-	FInventoryData(const TSoftObjectPtr<UItemData>& InEquipment,
-		const TMap<TSoftObjectPtr<UItemData>, uint8>& InItems,
-		const TMap<TSoftObjectPtr<UItemData>, FInvArchiveData>& InArchives)
+	FInventoryData(const TSoftObjectPtr<UInvItemData>& InEquipment,
+		const TMap<TSoftObjectPtr<UInvItemData>, uint8>& InItems,
+		const TMap<TSoftObjectPtr<UInvItemData>, FInvArchiveData>& InArchives)
 			: Equipment(InEquipment), Items(InItems), Archives(InArchives)
 	{}
 
@@ -45,29 +45,29 @@ public:
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
 		static UInventoryComponent* GetInventory(const UObject* ContextObject) { return Get(ContextObject); }
 
-	uint8 AddItem(const TSoftObjectPtr<UItemData>& InItem, const uint8 Amount = 1);
-	uint8 RemoveItem(const TSoftObjectPtr<UItemData>& InItem, const uint8 Amount = 1);
+	uint8 AddItem(const TSoftObjectPtr<UInvItemData>& InItem, const uint8 Amount = 1);
+	uint8 RemoveItem(const TSoftObjectPtr<UInvItemData>& InItem, const uint8 Amount = 1);
 
-	void AddArchive(const TSoftObjectPtr<UItemData>& InArchive, const bool bSecretFound);
-	void GetArchiveState(const TSoftObjectPtr<UItemData>& InArchive, bool& bDiscovered, bool& bSecretFound) const;
+	void AddArchive(const TSoftObjectPtr<UInvItemData>& InArchive, const bool bSecretFound);
+	void GetArchiveState(const TSoftObjectPtr<UInvItemData>& InArchive, bool& bDiscovered, bool& bSecretFound) const;
 
-	uint8 GetItemAmount(const TSoftObjectPtr<UItemData>& InItem) const;
-	bool HasItem(const TSoftObjectPtr<UItemData>& InItem, const uint8 MinAmount = 1) const;
+	uint8 GetItemAmount(const TSoftObjectPtr<UInvItemData>& InItem) const;
+	bool HasItem(const TSoftObjectPtr<UInvItemData>& InItem, const uint8 MinAmount = 1) const;
 	
 	void UnEquipItem();
-	void EquipItem(const TSoftObjectPtr<UItemData>& InItem);
-	const TSoftObjectPtr<UItemData>& GetEquipment() { return InvData.Equipment; }
+	void EquipItem(const TSoftObjectPtr<UInvItemData>& InItem);
+	const TSoftObjectPtr<UInvItemData>& GetEquipment() { return InvData.Equipment; }
 
-	TArray<TSoftObjectPtr<UItemData>> GetSortedItems();
-	TArray<TSoftObjectPtr<UItemData>> GetSortedArchives();
+	TArray<TSoftObjectPtr<UInvItemData>> GetSortedItems();
+	TArray<TSoftObjectPtr<UInvItemData>> GetSortedArchives();
 
 	void LoadSaveData(const FInventoryData& InData);
 	FInventoryData GetSaveData() const { return InvData; }
 
 	// Only used internally when the player SHOULD have a certain item/archive entry when changing game phases
-	void EnsureInventory(const TSoftObjectPtr<UItemData>& InEquipment,
-		const TMap<TSoftObjectPtr<UItemData>, uint8>& InItems,
-		const TMap<TSoftObjectPtr<UItemData>, bool>& InArchives);
+	void EnsureInventory(const TSoftObjectPtr<UInvItemData>& InEquipment,
+		const TMap<TSoftObjectPtr<UInvItemData>, uint8>& InItems,
+		const TMap<TSoftObjectPtr<UInvItemData>, bool>& InArchives);
 
 	void OpenInventory();
 	void CloseInventory();

@@ -19,13 +19,13 @@ UInventoryComponent* UInventoryComponent::Get(const UObject* ContextObject)
 	return Player ? Player->Inventory : nullptr;
 }
 
-uint8 UInventoryComponent::AddItem(const TSoftObjectPtr<UItemData>& InItem, const uint8 Amount)
+uint8 UInventoryComponent::AddItem(const TSoftObjectPtr<UInvItemData>& InItem, const uint8 Amount)
 {
 	if (Amount == 0) return 0;
-	const UItemData* Item = InItem.LoadSynchronous();
+	const UInvItemData* Item = InItem.LoadSynchronous();
 	if (!Item) return Amount;
 	
-	if (Item->ItemType == EItemType::Archive)
+	if (Item->ItemType == EInvItemType::Archive)
 	{
 		// Assume we want the secret to be found
 		AddArchive(InItem, true);
@@ -33,7 +33,7 @@ uint8 UInventoryComponent::AddItem(const TSoftObjectPtr<UItemData>& InItem, cons
 	}
 
 	uint8 Overflow = Amount;
-	if (Item->ItemType == EItemType::Generic)
+	if (Item->ItemType == EInvItemType::Generic)
 	{
 		if (InvItems.Contains(InItem))
 		{
@@ -55,11 +55,11 @@ uint8 UInventoryComponent::AddItem(const TSoftObjectPtr<UItemData>& InItem, cons
 	return Overflow;
 }
 
-uint8 UInventoryComponent::RemoveItem(const TSoftObjectPtr<UItemData>& InItem, const uint8 Amount)
+uint8 UInventoryComponent::RemoveItem(const TSoftObjectPtr<UInvItemData>& InItem, const uint8 Amount)
 {
 	if (Amount == 0) return 0;
-	const UItemData* Item = InItem.LoadSynchronous();
-	if (!Item || Item->ItemType == EItemType::Archive) return Amount;
+	const UInvItemData* Item = InItem.LoadSynchronous();
+	if (!Item || Item->ItemType == EInvItemType::Archive) return Amount;
 
 	if (InvEquipment == InItem)
 	{
@@ -67,7 +67,7 @@ uint8 UInventoryComponent::RemoveItem(const TSoftObjectPtr<UItemData>& InItem, c
 	}
 
 	uint8 Missing = Amount;
-	if (Item->ItemType == EItemType::Generic)
+	if (Item->ItemType == EInvItemType::Generic)
 	{
 		if (InvItems.Contains(InItem))
 		{
@@ -91,31 +91,31 @@ uint8 UInventoryComponent::RemoveItem(const TSoftObjectPtr<UItemData>& InItem, c
 	return Missing;
 }
 
-void UInventoryComponent::AddArchive(const TSoftObjectPtr<UItemData>& InArchive, const bool bSecretFound)
+void UInventoryComponent::AddArchive(const TSoftObjectPtr<UInvItemData>& InArchive, const bool bSecretFound)
 {
-	const UItemData* Archive = InArchive.LoadSynchronous();
-	if (!Archive || Archive->ItemType != EItemType::Archive) return;
+	const UInvItemData* Archive = InArchive.LoadSynchronous();
+	if (!Archive || Archive->ItemType != EInvItemType::Archive) return;
 	if (!InvArchives.Contains(InArchive) || !InvArchives.FindRef(InArchive).bSecretFound)
 	{
 		InvArchives.Add(InArchive, {(uint8)InvArchives.Num(), bSecretFound});
 	}
 }
 
-void UInventoryComponent::GetArchiveState(const TSoftObjectPtr<UItemData>& InArchive, bool& bDiscovered, bool& bSecretFound) const
+void UInventoryComponent::GetArchiveState(const TSoftObjectPtr<UInvItemData>& InArchive, bool& bDiscovered, bool& bSecretFound) const
 {
-	const UItemData* Archive = InArchive.LoadSynchronous();
-	if (!Archive || Archive->ItemType != EItemType::Archive) return;
+	const UInvItemData* Archive = InArchive.LoadSynchronous();
+	if (!Archive || Archive->ItemType != EInvItemType::Archive) return;
 
 	bDiscovered = InvArchives.Contains(InArchive);
 	if (bDiscovered) bSecretFound = InvArchives.FindRef(InArchive).bSecretFound;
 }
 
-uint8 UInventoryComponent::GetItemAmount(const TSoftObjectPtr<UItemData>& InItem) const
+uint8 UInventoryComponent::GetItemAmount(const TSoftObjectPtr<UInvItemData>& InItem) const
 {
 	return InvArchives.Contains(InItem) ? 1 : InvItems.FindRef(InItem);
 }
 
-bool UInventoryComponent::HasItem(const TSoftObjectPtr<UItemData>& InItem, const uint8 MinAmount) const
+bool UInventoryComponent::HasItem(const TSoftObjectPtr<UInvItemData>& InItem, const uint8 MinAmount) const
 {
 	return GetItemAmount(InItem) >= MinAmount;
 }
@@ -141,7 +141,7 @@ void UInventoryComponent::UnEquipItem()
 	}
 }
 
-void UInventoryComponent::EquipItem(const TSoftObjectPtr<UItemData>& InItem)
+void UInventoryComponent::EquipItem(const TSoftObjectPtr<UInvItemData>& InItem)
 {
 	if (!InItem.LoadSynchronous()) return;
 	if (InvEquipment.LoadSynchronous() || EquipActor)
@@ -149,8 +149,8 @@ void UInventoryComponent::EquipItem(const TSoftObjectPtr<UItemData>& InItem)
 		UnEquipItem();
 	}
 
-	if (const UItemData* Item = InItem.LoadSynchronous();
-		Item && Item->ItemType == EItemType::Equipment && !Item->Equipment.IsNull())
+	if (const UInvItemData* Item = InItem.LoadSynchronous();
+		Item && Item->ItemType == EInvItemType::Equipment && !Item->Equipment.IsNull())
 	{
 		if (AInventoryEquipment* NewActor = GetWorld()->SpawnActor<AInventoryEquipment>(Item->Equipment.LoadSynchronous()))
 		{
@@ -163,18 +163,18 @@ void UInventoryComponent::EquipItem(const TSoftObjectPtr<UItemData>& InItem)
 	}
 }
 
-TArray<TSoftObjectPtr<UItemData>> UInventoryComponent::GetSortedItems()
+TArray<TSoftObjectPtr<UInvItemData>> UInventoryComponent::GetSortedItems()
 {
-	TArray<TSoftObjectPtr<UItemData>> Items;
+	TArray<TSoftObjectPtr<UInvItemData>> Items;
 	for (auto It = InvItems.CreateIterator(); It; ++It)
 	{
 		if (It.Key().IsNull() || It.Value() == 0) It.RemoveCurrent();
 		else Items.Add(It.Key());
 	}
 
-	Items.Sort([](const TSoftObjectPtr<UItemData>& A, const TSoftObjectPtr<UItemData>& B)
+	Items.Sort([](const TSoftObjectPtr<UInvItemData>& A, const TSoftObjectPtr<UInvItemData>& B)
 	{
-		const UItemData *ItemA = A.LoadSynchronous(), *ItemB = B.LoadSynchronous();
+		const UInvItemData *ItemA = A.LoadSynchronous(), *ItemB = B.LoadSynchronous();
 		return ItemA->Priority != ItemB->Priority
 			? ItemA->Priority < ItemB->Priority
 			: ItemA->DisplayName.CompareTo(ItemB->DisplayName) < 0;
@@ -183,16 +183,16 @@ TArray<TSoftObjectPtr<UItemData>> UInventoryComponent::GetSortedItems()
 	return Items;
 }
 
-TArray<TSoftObjectPtr<UItemData>> UInventoryComponent::GetSortedArchives()
+TArray<TSoftObjectPtr<UInvItemData>> UInventoryComponent::GetSortedArchives()
 {
-	TArray<TSoftObjectPtr<UItemData>> Archives;
+	TArray<TSoftObjectPtr<UInvItemData>> Archives;
 	for (auto It = InvArchives.CreateIterator(); It; ++It)
 	{
 		if (It.Key().IsNull()) It.RemoveCurrent();
 		else Archives.Add(It.Key());
 	}
 
-	Archives.Sort([this](const TSoftObjectPtr<UItemData>& A, const TSoftObjectPtr<UItemData>& B)
+	Archives.Sort([this](const TSoftObjectPtr<UInvItemData>& A, const TSoftObjectPtr<UInvItemData>& B)
 	{
 		return InvArchives[A].EntryNum > InvArchives[B].EntryNum;
 	});
@@ -207,19 +207,19 @@ void UInventoryComponent::LoadSaveData(const FInventoryData& InData)
 	EquipItem(InData.Equipment.LoadSynchronous());
 }
 
-void UInventoryComponent::EnsureInventory(const TSoftObjectPtr<UItemData>& InEquipment,
-	const TMap<TSoftObjectPtr<UItemData>, uint8>& InItems,
-	const TMap<TSoftObjectPtr<UItemData>, bool>& InArchives)
+void UInventoryComponent::EnsureInventory(const TSoftObjectPtr<UInvItemData>& InEquipment,
+	const TMap<TSoftObjectPtr<UInvItemData>, uint8>& InItems,
+	const TMap<TSoftObjectPtr<UInvItemData>, bool>& InArchives)
 {
-	for (const TPair<TSoftObjectPtr<UItemData>, uint8>& Item : InItems)
+	for (const TPair<TSoftObjectPtr<UInvItemData>, uint8>& Item : InItems)
 	{
-		if (const UItemData* ItemData = Item.Key.LoadSynchronous())
+		if (const UInvItemData* ItemData = Item.Key.LoadSynchronous())
 		{
 			InvItems.FindOrAdd(Item.Key) = FMath::Max(ItemData->StackSize, Item.Value);
 		}
 	}
 
-	for (const TPair<TSoftObjectPtr<UItemData>, bool>& Archive : InArchives)
+	for (const TPair<TSoftObjectPtr<UInvItemData>, bool>& Archive : InArchives)
 	{
 		if (Archive.Key.IsNull()) continue;
 		InvArchives.Add(Archive.Key, {(uint8)InvArchives.Num(), Archive.Value});

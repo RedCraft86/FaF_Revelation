@@ -24,7 +24,7 @@ public:
 		TObjectPtr<UArrowComponent> SecretAngle;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		TObjectPtr<UItemData> Archive;
+		TObjectPtr<UInvItemData> Archive;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		float MinSecretDotAngle;
@@ -61,7 +61,7 @@ private:
 	void HandleRemoveLag();
 	UInspectionWidget* GetWidget();
 	float GetSecretDotAngle() const;
-	bool HasValidArchive() const { return Archive && Archive->ItemType == EItemType::Archive; }
+	bool HasValidArchive() const { return Archive && Archive->ItemType == EInvItemType::Archive; }
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
@@ -71,7 +71,7 @@ private:
 		const bool bSuper = Super::CanEditChange(InProperty);
 		if (InProperty && InProperty->GetFName() == GET_MEMBER_NAME_CHECKED(AInspectableActor, MinSecretDotAngle))
 		{
-			return bSuper && Archive ? Archive->ItemType == EItemType::Archive : false;
+			return bSuper && Archive ? Archive->ItemType == EInvItemType::Archive : false;
 		}
 		return bSuper;
 	}
