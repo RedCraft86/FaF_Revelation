@@ -69,7 +69,7 @@ void UInventoryWidget::UpdateInfo()
 	EquipBtn->SetVisibility(ESlateVisibility::Collapsed);
 	if (bArchiveTab && !SelectedArchive.IsNull())
 	{
-		const UInvItemData* ArchiveData = SelectedArchive.LoadSynchronous();
+		UInvItemData* ArchiveData = SelectedArchive.LoadSynchronous();
 		ThumbnailImage->SetBrushFromTexture(ArchiveData->Icon.LoadSynchronous(), true);
 		LabelText->SetText(ArchiveData->DisplayName);
 		DescText->SetText(ArchiveData->Description);
