@@ -50,10 +50,10 @@ public:
 		bool bCaptureNativeSubtitles;
 
 	UFUNCTION(BlueprintCallable, Category = Subtitles, meta = (WorldContext = "ContextObject"))
-		static void QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle, const bool bSmartQueue = true);
+		static void QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle);
 
 	UFUNCTION(BlueprintCallable, Category = Subtitles, meta = (WorldContext = "ContextObject"))
-		static void QueueSubtitles(const UObject* ContextObject, const TArray<FToroSubtitle> InSubtitles, const bool bSmartQueue = true);
+		static void QueueSubtitles(const UObject* ContextObject, const TArray<FToroSubtitle> InSubtitles);
 
 private:
 
@@ -62,11 +62,9 @@ private:
 
 	void NextSubtitle();
 	void ShowSubtitle(const FToroSubtitle& InData);
-	void AddSubtitle(const FToroSubtitle& InSubtitle, const bool bSmartQueue);
-	void AddSubtitles(const TArray<FToroSubtitle> InSubtitles, const bool bSmartQueue);
-
+	void AddSubtitle(const FToroSubtitle& InSubtitle);
+	void AddSubtitles(const TArray<FToroSubtitle>& InSubtitles);
 	void OnNativeSubtitle(const FText& InText);
-	void SetSubtitleText(const FText& InName, const FText& InLine);
 
 	virtual void InitWidget() override;
 	virtual bool ShouldBeHidden() override { return Super::ShouldBeHidden(); } // TODO Hide on narrative dialogue

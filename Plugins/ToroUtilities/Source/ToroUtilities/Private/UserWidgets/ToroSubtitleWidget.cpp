@@ -11,32 +11,32 @@ UToroSubtitleWidget::UToroSubtitleWidget(const FObjectInitializer& ObjectInitial
 	ZOrder = 95;
 }
 
-void UToroSubtitleWidget::QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle, const bool bSmartQueue)
+void UToroSubtitleWidget::QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
 		if (UToroSubtitleWidget* Widget = Manager->FindWidget<UToroSubtitleWidget>())
 		{
-			Widget->AddSubtitle(InSubtitle, bSmartQueue);
+			Widget->AddSubtitle(InSubtitle);
 		}
 	}
 }
 
-void UToroSubtitleWidget::QueueSubtitles(const UObject* ContextObject, const TArray<FToroSubtitle> InSubtitles, const bool bSmartQueue)
+void UToroSubtitleWidget::QueueSubtitles(const UObject* ContextObject, const TArray<FToroSubtitle> InSubtitles)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
 		if (UToroSubtitleWidget* Widget = Manager->FindWidget<UToroSubtitleWidget>())
 		{
-			Widget->AddSubtitles(InSubtitles, bSmartQueue);
+			Widget->AddSubtitles(InSubtitles);
 		}
 	}
 }
 
-void UToroSubtitleWidget::AddSubtitle(const FToroSubtitle& InSubtitle, const bool bSmartQueue)
+void UToroSubtitleWidget::AddSubtitle(const FToroSubtitle& InSubtitle)
 {
 	if (!InSubtitle.IsValidSubtitle()) return;
-	if (bSmartQueue && !Subtitles.IsEmpty() && Subtitles[Subtitles.Num() - 1].Line.EqualTo(InSubtitle.Line)) return;
+	if (!Subtitles.IsEmpty() && Subtitles[Subtitles.Num() - 1].Line.EqualTo(InSubtitle.Line)) return;
 
 	Subtitles.Add(InSubtitle);
 	if (!GetWorld()->GetTimerManager().IsTimerActive(SubtitleTimer))
@@ -45,11 +45,11 @@ void UToroSubtitleWidget::AddSubtitle(const FToroSubtitle& InSubtitle, const boo
 	}
 }
 
-void UToroSubtitleWidget::AddSubtitles(const TArray<FToroSubtitle> InSubtitles, const bool bSmartQueue)
+void UToroSubtitleWidget::AddSubtitles(const TArray<FToroSubtitle>& InSubtitles)
 {
 	for (const FToroSubtitle& Subtitle : InSubtitles)
 	{
-		AddSubtitle(Subtitle, bSmartQueue);
+		AddSubtitle(Subtitle);
 	}
 }
 
@@ -68,7 +68,11 @@ void UToroSubtitleWidget::NextSubtitle()
 
 void UToroSubtitleWidget::ShowSubtitle(const FToroSubtitle& InData)
 {
-	SetSubtitleText(InData.Name, InData.Line);
+	LineText->SetText(InData.Line);
+	NameText->SetText(InData.Name.IsEmptyOrWhitespace() ? FText::GetEmpty()
+		: FText::Format(INVTEXT("{0}:"), InData.Name));
+
+	PlayAnimation(ActivateAnim);
 	GetWorld()->GetTimerManager().SetTimer(SubtitleTimer, this,
 		&UToroSubtitleWidget::NextSubtitle, InData.CalcTime(), false);
 }
@@ -77,15 +81,6 @@ void UToroSubtitleWidget::OnNativeSubtitle(const FText& InText)
 {
 	GetWorld()->GetTimerManager().ClearTimer(SubtitleTimer);
 	ShowSubtitle({FText::GetEmpty(), InText, 0.5f});
-}
-
-void UToroSubtitleWidget::SetSubtitleText(const FText& InName, const FText& InLine)
-{
-	PlayAnimation(ActivateAnim);
-	LineText->SetText(InLine);
-	NameText->SetText(FText::Format(INVTEXT("{0}:"), InName));
-	NameText->SetVisibility(InName.IsEmptyOrWhitespace() ?
-		ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 }
 
 void UToroSubtitleWidget::InitWidget()
