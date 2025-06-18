@@ -10,7 +10,7 @@
 UToroPauseWidget::UToroPauseWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	// TODO ZOrder
+	ZOrder = 96;
 	bAutoActivate = false;
 }
 
