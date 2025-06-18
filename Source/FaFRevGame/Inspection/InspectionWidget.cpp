@@ -8,6 +8,7 @@
 UInspectionWidget::UInspectionWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bSecretFound(false)
 {
+	// TODO ZOrder
 	bAutoActivate = false;
 }
 
