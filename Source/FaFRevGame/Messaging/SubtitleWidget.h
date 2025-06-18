@@ -4,16 +4,16 @@
 
 #include "ToroSettings.h"
 #include "UserWidgets/ToroWidgetBase.h"
-#include "SimpleSubtitleWidget.generated.h"
+#include "SubtitleWidget.generated.h"
 
 UCLASS(Abstract)
-class FAFREVGAME_API USimpleSubtitleWidget final : public UToroWidgetBase
+class FAFREVGAME_API USubtitleWidget final : public UToroWidgetBase
 {
 	GENERATED_BODY()
 
 public:
 
-	USimpleSubtitleWidget(const FObjectInitializer& ObjectInitializer);
+	USubtitleWidget(const FObjectInitializer& ObjectInitializer);
 
 private:
 
