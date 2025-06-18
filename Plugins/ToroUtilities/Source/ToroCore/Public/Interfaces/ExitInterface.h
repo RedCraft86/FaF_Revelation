@@ -19,11 +19,23 @@ public:
 		void Exit();
 	virtual void Exit_Implementation() {}
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = ToroInterfaces)
+		void ReturnToWidget(UUserWidget* FromWidget);
+	virtual void ReturnToWidget_Implementation(UUserWidget* FromWidget) {}
+
 	static void Exit(UObject* Target)
 	{
 		if (IsValid(Target) && Target->Implements<UExitInterface>())
 		{
 			IExitInterface::Execute_Exit(Target);
+		}
+	}
+
+	static void ReturnToWidget(UObject* Target, UUserWidget* FromWidget)
+	{
+		if (IsValid(Target) && Target->Implements<UExitInterface>())
+		{
+			IExitInterface::Execute_ReturnToWidget(Target, FromWidget);
 		}
 	}
 };
