@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/ToroInfoWidget.h"
+#include "UserWidgets/GameInfoWidget.h"
 #include "Framework/ToroPlayerController.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "Components/PanelWidget.h"
@@ -12,14 +12,14 @@ FLinearColor CalcFrameRateColor(const float Target, const float Current)
 		FVector2D(0.0f, 1.0f), Current));
 }
 
-UToroInfoWidget::UToroInfoWidget(const FObjectInitializer& ObjectInitializer)
+UGameInfoWidget::UGameInfoWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), TargetFPS(60.0f), UpdateTick(0.0f)
 {
 	ZOrder = 100;
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
-void UToroInfoWidget::UpdateFrameRate() const
+void UGameInfoWidget::UpdateFrameRate() const
 {
 	const int32 FPS = FMath::RoundToInt32(1.0 / FApp::GetDeltaTime());
 	const FLinearColor Color = CalcFrameRateColor(TargetFPS, FPS);
@@ -31,12 +31,12 @@ void UToroInfoWidget::UpdateFrameRate() const
 	DeltaTimeText->SetColorAndOpacity(Color);
 }
 
-void UToroInfoWidget::OnGameFocusChanged(const bool bFocused) const
+void UGameInfoWidget::OnGameFocusChanged(const bool bFocused) const
 {
 	UnfocusedView->SetVisibility(bFocused ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 }
 
-void UToroInfoWidget::OnSettingsChanged(const UToroUserSettings* Settings)
+void UGameInfoWidget::OnSettingsChanged(const UToroUserSettings* Settings)
 {
 	TargetFPS = Settings->GetFrameRateLimit();
 	if (TargetFPS > 150.0f) TargetFPS = 60.0f;
@@ -48,7 +48,7 @@ void UToroInfoWidget::OnSettingsChanged(const UToroUserSettings* Settings)
 	UpdateFrameRate();
 }
 
-void UToroInfoWidget::OnSaveLoad(const UToroSaveObject* SaveObject, const ESaveGameActivity Activity)
+void UGameInfoWidget::OnSaveLoad(const UToroSaveObject* SaveObject, const ESaveGameActivity Activity)
 {
 	if (SaveObject && Activity == ESaveGameActivity::Saving)
 	{
@@ -56,29 +56,29 @@ void UToroInfoWidget::OnSaveLoad(const UToroSaveObject* SaveObject, const ESaveG
 	}
 }
 
-void UToroInfoWidget::InitWidget()
+void UGameInfoWidget::InitWidget()
 {
 	Super::InitWidget();
 	UnfocusedView->SetVisibility(ESlateVisibility::Collapsed);
 	if (UToroUserSettings* Settings = UToroUserSettings::Get())
 	{
-		Settings->OnSettingsApplied.AddUObject(this, &UToroInfoWidget::OnSettingsChanged);
-		Settings->OnDynamicSettingsChanged.AddUObject(this, &UToroInfoWidget::OnSettingsChanged);
+		Settings->OnSettingsApplied.AddUObject(this, &UGameInfoWidget::OnSettingsChanged);
+		Settings->OnDynamicSettingsChanged.AddUObject(this, &UGameInfoWidget::OnSettingsChanged);
 		OnSettingsChanged(Settings);
 	}
 
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
-		PC->OnGameFocusChanged.AddUObject(this, &UToroInfoWidget::OnGameFocusChanged);
+		PC->OnGameFocusChanged.AddUObject(this, &UGameInfoWidget::OnGameFocusChanged);
 	}
 
 	if (UToroSaveManager* SaveManager = UToroSaveManager::Get(this))
 	{
-		SaveManager->OnSaveIO.AddUObject(this, &UToroInfoWidget::OnSaveLoad);
+		SaveManager->OnSaveIO.AddUObject(this, &UGameInfoWidget::OnSaveLoad);
 	}
 }
 
-void UToroInfoWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+void UGameInfoWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
 	if (UpdateTick >= 0.1f)

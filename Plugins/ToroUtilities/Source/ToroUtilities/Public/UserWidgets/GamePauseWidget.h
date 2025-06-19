@@ -6,18 +6,18 @@
 #include "DataTypes/InputModeData.h"
 #include "Interfaces/ExitInterface.h"
 #include "UserWidgets/ToroWidgetBase.h"
-#include "ToroPauseWidget.generated.h"
+#include "GamePauseWidget.generated.h"
 
 class UButton;
 
 UCLASS(Abstract)
-class TOROUTILITIES_API UToroPauseWidget : public UToroWidgetBase, public IExitInterface
+class TOROUTILITIES_API UGamePauseWidget : public UToroWidgetBase, public IExitInterface
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroPauseWidget(const FObjectInitializer& ObjectInitializer);
+	UGamePauseWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> ResumeBtn;
@@ -37,7 +37,7 @@ public:
 protected:
 
 	UPROPERTY() FGameInputModeData CachedInput;
-	UPROPERTY(Transient) TObjectPtr<class UToroSettingsWidget> Settings;
+	UPROPERTY(Transient) TObjectPtr<class UGameSettingsWidget> Settings;
 	UPROPERTY(Transient) TObjectPtr<class AToroPlayerController> Controller;
 
 	UFUNCTION() void ResumeGame();

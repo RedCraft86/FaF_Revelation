@@ -1,25 +1,25 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/ToroPauseWidget.h"
-#include "UserWidgets/ToroSettingsWidget.h"
+#include "UserWidgets/GamePauseWidget.h"
+#include "UserWidgets/GameSettingsWidget.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Libraries/ToroGeneralUtils.h"
 #include "EnhancedCodeFlow.h"
 
-UToroPauseWidget::UToroPauseWidget(const FObjectInitializer& ObjectInitializer)
+UGamePauseWidget::UGamePauseWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	ZOrder = 96;
 	bAutoActivate = false;
 }
 
-void UToroPauseWidget::ResumeGame()
+void UGamePauseWidget::ResumeGame()
 {
 	OnGamePause(false);
 }
 
-void UToroPauseWidget::SettingsMenu()
+void UGamePauseWidget::SettingsMenu()
 {
 	if (Settings)
 	{
@@ -28,7 +28,7 @@ void UToroPauseWidget::SettingsMenu()
 	}
 }
 
-void UToroPauseWidget::Checkpoint()
+void UGamePauseWidget::Checkpoint()
 {
 	FadeOut([this]()
 	{
@@ -36,7 +36,7 @@ void UToroPauseWidget::Checkpoint()
 	});
 }
 
-void UToroPauseWidget::MainMenu()
+void UGamePauseWidget::MainMenu()
 {
 	FadeOut([this]()
 	{
@@ -44,7 +44,7 @@ void UToroPauseWidget::MainMenu()
 	});
 }
 
-void UToroPauseWidget::QuitGame()
+void UGamePauseWidget::QuitGame()
 {
 	FadeOut([this]()
 	{
@@ -53,7 +53,7 @@ void UToroPauseWidget::QuitGame()
 	});
 }
 
-void UToroPauseWidget::OnGamePause(const bool bPaused)
+void UGamePauseWidget::OnGamePause(const bool bPaused)
 {
 	if (bPaused)
 	{
@@ -70,7 +70,7 @@ void UToroPauseWidget::OnGamePause(const bool bPaused)
 	}
 }
 
-void UToroPauseWidget::FadeOut(const TFunction<void()>& Callback)
+void UGamePauseWidget::FadeOut(const TFunction<void()>& Callback)
 {
 	PlayAnimationReverse(ActivateAnim);
 	if (Controller->PlayerCameraManager)
@@ -82,23 +82,23 @@ void UToroPauseWidget::FadeOut(const TFunction<void()>& Callback)
 	FFlow::Delay(this, 1.0f, Callback);
 }
 
-void UToroPauseWidget::InitWidget()
+void UGamePauseWidget::InitWidget()
 {
 	Super::InitWidget();
 	Controller = AToroPlayerController::Get(this);
-	Controller->OnGamePaused.AddUObject(this, &UToroPauseWidget::OnGamePause);
+	Controller->OnGamePaused.AddUObject(this, &UGamePauseWidget::OnGamePause);
 }
 
-void UToroPauseWidget::InternalProcessActivation()
+void UGamePauseWidget::InternalProcessActivation()
 {
 	Super::InternalProcessActivation();
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
-		Settings = Manager->FindWidget<UToroSettingsWidget>();
+		Settings = Manager->FindWidget<UGameSettingsWidget>();
 	}
 }
 
-void UToroPauseWidget::ReturnToWidget_Implementation(UUserWidget* FromWidget)
+void UGamePauseWidget::ReturnToWidget_Implementation(UUserWidget* FromWidget)
 {
 	if (FromWidget == Settings) ActivateWidget();
 }

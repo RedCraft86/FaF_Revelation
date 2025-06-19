@@ -1,38 +1,38 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/ToroMsgWidget.h"
+#include "UserWidgets/GameMsgWidget.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Components/TextBlock.h"
 
-UToroMsgWidget::UToroMsgWidget(const FObjectInitializer& ObjectInitializer)
+UGameMsgWidget::UGameMsgWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	ZOrder = 99;
 }
 
-void UToroMsgWidget::QueueNotice(const UObject* ContextObject, const FToroSimpleMsg& InNotice)
+void UGameMsgWidget::QueueNotice(const UObject* ContextObject, const FToroSimpleMsg& InNotice)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
-		if (UToroMsgWidget* Widget = Manager->FindWidget<UToroMsgWidget>())
+		if (UGameMsgWidget* Widget = Manager->FindWidget<UGameMsgWidget>())
 		{
 			Widget->AddNotice(InNotice);
 		}
 	}
 }
 
-void UToroMsgWidget::QueueTitle(const UObject* ContextObject, const FToroSimpleMsg& InTitle)
+void UGameMsgWidget::QueueTitle(const UObject* ContextObject, const FToroSimpleMsg& InTitle)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
-		if (UToroMsgWidget* Widget = Manager->FindWidget<UToroMsgWidget>())
+		if (UGameMsgWidget* Widget = Manager->FindWidget<UGameMsgWidget>())
 		{
 			Widget->AddTitle(InTitle);
 		}
 	}
 }
 
-void UToroMsgWidget::NextNotice()
+void UGameMsgWidget::NextNotice()
 {
 	if (!Notices.IsEmpty())
 	{
@@ -45,16 +45,16 @@ void UToroMsgWidget::NextNotice()
 	}
 }
 
-void UToroMsgWidget::ShowNotice(const FToroSimpleMsg& InData)
+void UGameMsgWidget::ShowNotice(const FToroSimpleMsg& InData)
 {
 	NoticeText->SetText(InData.Message);
 	PlayAnimation(NoticeAnim);
 
 	GetWorld()->GetTimerManager().SetTimer(NoticeTimer, this,
-		&UToroMsgWidget::NextNotice, InData.CalcTime(), false);
+		&UGameMsgWidget::NextNotice, InData.CalcTime(), false);
 }
 
-void UToroMsgWidget::AddNotice(const FToroSimpleMsg& InNotice, const bool bImmediate)
+void UGameMsgWidget::AddNotice(const FToroSimpleMsg& InNotice, const bool bImmediate)
 {
 	if (!InNotice.IsValidMessage()) return;
 	if (!Notices.IsEmpty() && Notices[Notices.Num() - 1].Message.EqualTo(InNotice.Message)) return;
@@ -74,7 +74,7 @@ void UToroMsgWidget::AddNotice(const FToroSimpleMsg& InNotice, const bool bImmed
 	}
 }
 
-void UToroMsgWidget::NextTitle()
+void UGameMsgWidget::NextTitle()
 {
 	if (!Titles.IsEmpty())
 	{
@@ -87,16 +87,16 @@ void UToroMsgWidget::NextTitle()
 	}
 }
 
-void UToroMsgWidget::ShowTitle(const FToroSimpleMsg& InData)
+void UGameMsgWidget::ShowTitle(const FToroSimpleMsg& InData)
 {
 	TitleText->SetText(InData.Message);
 	PlayAnimation(ActivateAnim);
 
 	GetWorld()->GetTimerManager().SetTimer(TitleTimer, this,
-		&UToroMsgWidget::NextTitle, InData.CalcTime(), false);
+		&UGameMsgWidget::NextTitle, InData.CalcTime(), false);
 }
 
-void UToroMsgWidget::AddTitle(const FToroSimpleMsg& InTitle, const bool bImmediate)
+void UGameMsgWidget::AddTitle(const FToroSimpleMsg& InTitle, const bool bImmediate)
 {
 	if (!InTitle.IsValidMessage()) return;
 	if (!Titles.IsEmpty() && Titles[Titles.Num() - 1].Message.EqualTo(InTitle.Message)) return;
@@ -116,7 +116,7 @@ void UToroMsgWidget::AddTitle(const FToroSimpleMsg& InTitle, const bool bImmedia
 	}
 }
 
-void UToroMsgWidget::InitWidget()
+void UGameMsgWidget::InitWidget()
 {
 	Super::InitWidget();
 	NoticeText->SetText(FText::GetEmpty());

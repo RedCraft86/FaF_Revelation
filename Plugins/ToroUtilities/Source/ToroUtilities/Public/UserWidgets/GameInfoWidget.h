@@ -6,16 +6,16 @@
 #include "SaveSystem/ToroSaveTypes.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "UserWidgets/ToroWidgetBase.h"
-#include "ToroInfoWidget.generated.h"
+#include "GameInfoWidget.generated.h"
 
 UCLASS(Abstract)
-class TOROUTILITIES_API UToroInfoWidget final : public UToroWidgetBase
+class TOROUTILITIES_API UGameInfoWidget final : public UToroWidgetBase
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroInfoWidget(const FObjectInitializer& ObjectInitializer);
+	UGameInfoWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UPanelWidget> UnfocusedView;

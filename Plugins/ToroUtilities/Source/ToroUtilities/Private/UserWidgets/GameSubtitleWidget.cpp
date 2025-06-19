@@ -1,39 +1,39 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/ToroSubtitleWidget.h"
+#include "UserWidgets/GameSubtitleWidget.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Components/TextBlock.h"
 #include "SubtitleManager.h"
 
-UToroSubtitleWidget::UToroSubtitleWidget(const FObjectInitializer& ObjectInitializer)
+UGameSubtitleWidget::UGameSubtitleWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bCaptureNativeSubtitles(false)
 {
 	ZOrder = 95;
 }
 
-void UToroSubtitleWidget::QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle)
+void UGameSubtitleWidget::QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
-		if (UToroSubtitleWidget* Widget = Manager->FindWidget<UToroSubtitleWidget>())
+		if (UGameSubtitleWidget* Widget = Manager->FindWidget<UGameSubtitleWidget>())
 		{
 			Widget->AddSubtitle(InSubtitle);
 		}
 	}
 }
 
-void UToroSubtitleWidget::QueueSubtitles(const UObject* ContextObject, const TArray<FToroSubtitle> InSubtitles)
+void UGameSubtitleWidget::QueueSubtitles(const UObject* ContextObject, const TArray<FToroSubtitle> InSubtitles)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
-		if (UToroSubtitleWidget* Widget = Manager->FindWidget<UToroSubtitleWidget>())
+		if (UGameSubtitleWidget* Widget = Manager->FindWidget<UGameSubtitleWidget>())
 		{
 			Widget->AddSubtitles(InSubtitles);
 		}
 	}
 }
 
-void UToroSubtitleWidget::AddSubtitle(const FToroSubtitle& InSubtitle)
+void UGameSubtitleWidget::AddSubtitle(const FToroSubtitle& InSubtitle)
 {
 	if (!InSubtitle.IsValidSubtitle()) return;
 	if (!Subtitles.IsEmpty() && Subtitles[Subtitles.Num() - 1].Line.EqualTo(InSubtitle.Line)) return;
@@ -45,7 +45,7 @@ void UToroSubtitleWidget::AddSubtitle(const FToroSubtitle& InSubtitle)
 	}
 }
 
-void UToroSubtitleWidget::AddSubtitles(const TArray<FToroSubtitle>& InSubtitles)
+void UGameSubtitleWidget::AddSubtitles(const TArray<FToroSubtitle>& InSubtitles)
 {
 	for (const FToroSubtitle& Subtitle : InSubtitles)
 	{
@@ -53,7 +53,7 @@ void UToroSubtitleWidget::AddSubtitles(const TArray<FToroSubtitle>& InSubtitles)
 	}
 }
 
-void UToroSubtitleWidget::NextSubtitle()
+void UGameSubtitleWidget::NextSubtitle()
 {
 	if (!Subtitles.IsEmpty())
 	{
@@ -66,7 +66,7 @@ void UToroSubtitleWidget::NextSubtitle()
 	}
 }
 
-void UToroSubtitleWidget::ShowSubtitle(const FToroSubtitle& InData)
+void UGameSubtitleWidget::ShowSubtitle(const FToroSubtitle& InData)
 {
 	LineText->SetText(InData.Line);
 	NameText->SetText(InData.Name.IsEmptyOrWhitespace() ? FText::GetEmpty()
@@ -74,16 +74,16 @@ void UToroSubtitleWidget::ShowSubtitle(const FToroSubtitle& InData)
 
 	PlayAnimation(ActivateAnim);
 	GetWorld()->GetTimerManager().SetTimer(SubtitleTimer, this,
-		&UToroSubtitleWidget::NextSubtitle, InData.CalcTime(), false);
+		&UGameSubtitleWidget::NextSubtitle, InData.CalcTime(), false);
 }
 
-void UToroSubtitleWidget::OnNativeSubtitle(const FText& InText)
+void UGameSubtitleWidget::OnNativeSubtitle(const FText& InText)
 {
 	GetWorld()->GetTimerManager().ClearTimer(SubtitleTimer);
 	ShowSubtitle({FText::GetEmpty(), InText, 0.5f});
 }
 
-void UToroSubtitleWidget::InitWidget()
+void UGameSubtitleWidget::InitWidget()
 {
 	Super::InitWidget();
 	LineText->SetText(FText::GetEmpty());
@@ -91,6 +91,6 @@ void UToroSubtitleWidget::InitWidget()
 	if (bCaptureNativeSubtitles)
 	{
 		FSubtitleManager::GetSubtitleManager()->OnSetSubtitleText()
-			.AddUObject(this, &UToroSubtitleWidget::OnNativeSubtitle);
+			.AddUObject(this, &UGameSubtitleWidget::OnNativeSubtitle);
 	}
 }

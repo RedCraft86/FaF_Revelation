@@ -4,7 +4,7 @@
 
 #include "ToroSettings.h"
 #include "UserWidgets/ToroWidgetBase.h"
-#include "ToroSubtitleWidget.generated.h"
+#include "GameSubtitleWidget.generated.h"
 
 class UTextBlock;
 
@@ -32,13 +32,13 @@ struct FToroSubtitle
 };
 
 UCLASS(Abstract)
-class TOROUTILITIES_API UToroSubtitleWidget : public UToroWidgetBase
+class TOROUTILITIES_API UGameSubtitleWidget : public UToroWidgetBase
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroSubtitleWidget(const FObjectInitializer& ObjectInitializer);
+	UGameSubtitleWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> NameText;
