@@ -7,6 +7,7 @@
 #include "MiscObjects/UDSSetter.h"
 #include "GeneralProjectSettings.h"
 #include "SaveSystem/ToroSaveTypes.h"
+#include "SaveSystem/ToroGlobalSave.h"
 #include "UserSettings/UserSettingTypes.h"
 #include "ToroSettings.generated.h"
 
@@ -21,6 +22,8 @@ public:
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroUtilities");
+
+		DefaultSaves = {{SaveTags::TAG_Global, UToroGlobalSave::StaticClass()}};
 
 		LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbe.PPM_LightProbe"));
 		BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
