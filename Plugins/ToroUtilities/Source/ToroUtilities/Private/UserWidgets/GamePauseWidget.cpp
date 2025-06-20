@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/GamePauseWidget.h"
-#include "UserWidgets/GameSettingsWidget.h"
+#include "UserWidgets/SettingsWidget.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Libraries/ToroGeneralUtils.h"
@@ -94,7 +94,7 @@ void UGamePauseWidget::InternalProcessActivation()
 	Super::InternalProcessActivation();
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
-		Settings = Manager->FindWidget<UGameSettingsWidget>();
+		Settings = Manager->FindWidget<USettingsWidget>();
 	}
 }
 

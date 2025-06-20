@@ -4,7 +4,7 @@
 
 #include "ToroSettings.h"
 #include "UserWidgets/ToroWidgetBase.h"
-#include "GameMsgWidget.generated.h"
+#include "MessagingWidget.generated.h"
 
 class UTextBlock;
 
@@ -29,13 +29,13 @@ struct FToroSimpleMsg
 };
 
 UCLASS(Abstract)
-class TOROUTILITIES_API UGameMsgWidget : public UToroWidgetBase
+class TOROUTILITIES_API UMessagingWidget : public UToroWidgetBase
 {
 	GENERATED_BODY()
 
 public:
 
-	UGameMsgWidget(const FObjectInitializer& ObjectInitializer);
+	UMessagingWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> NoticeText; // TODO UExprTextBlock

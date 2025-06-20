@@ -37,7 +37,7 @@ public:
 protected:
 
 	UPROPERTY() FGameInputModeData CachedInput;
-	UPROPERTY(Transient) TObjectPtr<class UGameSettingsWidget> Settings;
+	UPROPERTY(Transient) TObjectPtr<class USettingsWidget> Settings;
 	UPROPERTY(Transient) TObjectPtr<class AToroPlayerController> Controller;
 
 	UFUNCTION() void ResumeGame();
