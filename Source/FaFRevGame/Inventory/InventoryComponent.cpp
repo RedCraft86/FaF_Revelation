@@ -240,9 +240,8 @@ void UInventoryComponent::OpenInventory()
 		if (AToroPlayerController* PC = Player->GetPlayerController())
 		{
 			PC->AddPauseRequest(this);
-			InputModeCache = PC->GetInputModeData();
-			PC->SetInputModeData({EGameInputMode::UI_Only, true,
-				EMouseLockMode::LockAlways, true, nullptr/*TODO*/});
+			CachedInputMode = PC->GetInputModeData();
+			PC->SetInputModeData({EGameInputMode::UI_Only, true});
 		}
 	}
 }
@@ -259,7 +258,7 @@ void UInventoryComponent::CloseInventory()
 		if (AToroPlayerController* PC = Player->GetPlayerController())
 		{
 			PC->RemovePauseRequest(this);
-			PC->SetInputModeData(InputModeCache);
+			PC->SetInputModeData(CachedInputMode);
 		}
 	}
 }

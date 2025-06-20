@@ -46,9 +46,8 @@ void UInspectionWidget::InternalProcessActivation()
 	Super::InternalProcessActivation();
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
-		CachedInput = PC->GetInputModeData();
-		PC->SetInputModeData({EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, true, this});
+		CachedInputMode = PC->GetInputModeData();
+		PC->SetInputModeData({EGameInputMode::GameAndUI, true});
 	}
 }
 
@@ -57,6 +56,6 @@ void UInspectionWidget::InternalProcessDeactivation()
 	Super::InternalProcessDeactivation();
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
-		PC->SetInputModeData(CachedInput);
+		PC->SetInputModeData(CachedInputMode);
 	}
 }

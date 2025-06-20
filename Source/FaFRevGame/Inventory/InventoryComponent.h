@@ -77,7 +77,7 @@ private:
 
 	UPROPERTY() bool bInInventory;
 	UPROPERTY(Transient) FInventoryData InvData;
-	UPROPERTY(Transient) FGameInputModeData InputModeCache;
+	UPROPERTY(Transient) FGameInputModeData CachedInputMode;
 	UPROPERTY(Transient) TObjectPtr<class AGamePlayerChar> Player;
 	UPROPERTY(Transient) TObjectPtr<AInventoryEquipment> EquipActor;
 	// UPROPERTY(Transient) TObjectPtr<UInventoryWidget> Widget;

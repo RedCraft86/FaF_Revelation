@@ -37,7 +37,7 @@ public:
 private:
 
 	UPROPERTY() bool bSecretFound;
-	UPROPERTY() FGameInputModeData CachedInput;
+	UPROPERTY() FGameInputModeData CachedInputMode;
 
 	void MarkSecretFound();
 	void LoadData(const class UInvItemData* InData, const bool bKnowsSecret);

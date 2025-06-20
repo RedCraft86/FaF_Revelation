@@ -57,15 +57,13 @@ void UGamePauseWidget::OnGamePause(const bool bPaused)
 {
 	if (bPaused)
 	{
-		CachedInput = Controller->GetInputModeData();
-		Controller->SetInputModeData({EGameInputMode::UI_Only, true,
-			EMouseLockMode::LockAlways, true, this});
-
+		CachedInputMode = Controller->GetInputModeData();
+		Controller->SetInputModeData({EGameInputMode::UI_Only, true});
 		ActivateWidget();
 	}
 	else
 	{
-		Controller->SetInputModeData(CachedInput);
+		Controller->SetInputModeData(CachedInputMode);
 		DeactivateWidget();
 	}
 }
