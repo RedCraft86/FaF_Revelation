@@ -12,32 +12,37 @@ UUserDialogWidget::UUserDialogWidget(const FObjectInitializer& ObjectInitializer
 	bAutoActivate = false;
 }
 
-void UUserDialogWidget::ShowDialog(const UObject* ContextObject, const FText& InTitle, const FText& InMessage,
-	const FText& InButtonA, const FText& InButtonB, const TFunction<void(uint8)>& Callback)
+void UUserDialogWidget::ShowDialog(const UObject* ContextObject, const FUserDialogSettings& InSettings,
+	const FUserDialogTimer& InTimer, const TFunction<void(uint8)>& Callback)
 {
-	if (InTitle.IsEmptyOrWhitespace() || InMessage.IsEmptyOrWhitespace()
-		|| InButtonA.IsEmptyOrWhitespace() || !Callback) return;
-
+	if (!InSettings.IsValidData()) return;
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
 		if (UUserDialogWidget* Widget = Manager->FindWidget<UUserDialogWidget>())
 		{
 			Widget->ActivateWidget();
-			Widget->InitData(InTitle, InMessage, InButtonA, InButtonB, Callback);
+			Widget->InitData(InSettings, InTimer, Callback);
 		}
 	}
 }
 
-void UUserDialogWidget::InitData(const FText& InTitle, const FText& InMessage,
-	const FText& InButtonA, const FText& InButtonB, const TFunction<void(uint8)>& Callback)
+void UUserDialogWidget::InitData(const FUserDialogSettings& InSettings, const FUserDialogTimer& InTimer, const TFunction<void(uint8)>& Callback)
 {
-	TitleText->SetText(InTitle);
-	MsgText->SetText(InMessage);
-	OptionAText->SetText(InButtonA);
-	OptionBText->SetText(InButtonB);
-	OptionBBtn->SetVisibility(InButtonB.IsEmptyOrWhitespace()
+	TitleText->SetText(InSettings.Title);
+	MsgText->SetText(InSettings.Message);
+	OptionAText->SetText(InSettings.OptionA);
+	OptionBText->SetText(InSettings.OptionB);
+	OptionBBtn->SetVisibility(InSettings.OptionB.IsEmptyOrWhitespace()
 		? ESlateVisibility::Collapsed : ESlateVisibility::Visible);
-
+	
+	switch (InTimer.ButtonIdx)
+	{
+	case 0: AutoOption = InSettings.OptionA; break;
+	case 1: AutoOption = InSettings.OptionB; break;
+	default: break;
+	}
+	
+	Timer = InTimer;
 	CallbackFunc = Callback;
 }
 
@@ -61,6 +66,29 @@ void UUserDialogWidget::InitWidget()
 
 void UUserDialogWidget::InternalProcessDeactivation()
 {
+	Timer = {};
 	CallbackFunc = nullptr;
+	AutoOption = FText::GetEmpty();
 	Super::InternalProcessDeactivation();
+}
+
+void UUserDialogWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+	if (CallbackFunc && Timer.IsValidData() && !AutoOption.IsEmptyOrWhitespace())
+	{
+		Timer.WaitTime -= InDeltaTime;
+		AutoMsgText->SetText(FText::Format(INVTEXT("Auto picking '{0}' in {1}s"),
+			AutoOption, FMath::Max(FMath::RoundToInt32(Timer.WaitTime), 0)));
+
+		if (!Timer.IsValidData())
+		{
+			switch (Timer.ButtonIdx)
+			{
+				case 0: ButtonAEvent(); break;
+				case 1: ButtonBEvent(); break;
+				default: break;
+			}
+		}
+	}
 }
