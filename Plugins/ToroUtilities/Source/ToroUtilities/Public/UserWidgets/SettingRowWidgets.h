@@ -13,18 +13,18 @@ class UCheckBox;
 class UTextBlock;
 
 #define ADD_DEFAULT_FUNCTIONS(Type) \
-	virtual void AssignGetter(const TFunction<Type()>& Func) { if (Func) GetterFunc = Func; } \
-	virtual void AssignSetter(const TFunction<void(const Type)>& Func) { if (Func) SetterFunc = Func; } \
+	virtual void AssignGetter(const TFunction<Type(UToroUserSettings*)>& Func) { if (Func) GetterFunc = Func; } \
+	virtual void AssignSetter(const TFunction<void(UToroUserSettings*, const Type)>& Func) { if (Func) SetterFunc = Func; } \
 	virtual void LoadValue() override { \
 		bSkipSetter = true; \
-		SetValue(GetterFunc()); \
+		SetValue(GetterFunc(UserSettings)); \
 		bSkipSetter = false; \
 		Super::LoadValue(); \
 	}
 
 #define ADD_DEFAULT_PROPERTIES(Type) \
-	TFunction<Type()> GetterFunc; \
-	TFunction<void(const Type)> SetterFunc;
+	TFunction<Type(UToroUserSettings*)> GetterFunc; \
+	TFunction<void(UToroUserSettings*, const Type)> SetterFunc;
 
 UCLASS(Abstract)
 class TOROUTILITIES_API USettingRowTooltip : public UUserWidget
@@ -307,8 +307,8 @@ protected:
 	UPROPERTY() uint8 LastIdx;
 	UPROPERTY() bool bReverting;
 
-	virtual void AssignGetter(const TFunction<uint8()>& Function) override { }
-	virtual void AssignSetter(const TFunction<void(const uint8)>& Function) override { }
+	virtual void AssignGetter(const TFunction<uint8(UToroUserSettings*)>& Function) override {}
+	virtual void AssignSetter(const TFunction<void(UToroUserSettings*, const uint8)>& Function) override {}
 	virtual void OnSelection(FString SelectedItem, ESelectInfo::Type SelectionType) override;
 	virtual void FillOptions() override;
 #if WITH_EDITOR
@@ -347,8 +347,8 @@ protected:
 		{EImageFidelityMode::XeSS, TEXT("Xe Super Sampling")}
 	};
 
-	virtual void AssignGetter(const TFunction<uint8()>& Function) override { }
-	virtual void AssignSetter(const TFunction<void(const uint8)>& Function) override { }
+	virtual void AssignGetter(const TFunction<uint8(UToroUserSettings*)>& Function) override {}
+	virtual void AssignSetter(const TFunction<void(UToroUserSettings*, const uint8)>& Function) override {}
 	virtual void OnSelection(FString SelectedItem, ESelectInfo::Type SelectionType) override;
 	virtual void FillOptions() override;
 #if WITH_EDITOR
