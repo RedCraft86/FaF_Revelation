@@ -29,7 +29,7 @@ struct FToroSimpleMsg
 };
 
 UCLASS(Abstract)
-class TOROUTILITIES_API UMessagingWidget : public UToroWidgetBase
+class TOROUTILITIES_API UMessagingWidget final : public UToroWidgetBase
 {
 	GENERATED_BODY()
 
