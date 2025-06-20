@@ -26,6 +26,10 @@ struct TOROUTILITIES_API FUserDialogSettings
 		FText OptionB;
 
 	FUserDialogSettings() {}
+	FUserDialogSettings(const FText& InTitle, const FText& InMessage, const FText& InOptionA, const FText& InOptionB)
+		: Title(InTitle), Message(InMessage), OptionA(InOptionA), OptionB(InOptionB)
+	{}
+
 	bool IsValidData() const
 	{
 		return !(Title.IsEmptyOrWhitespace() || Message.IsEmptyOrWhitespace() || OptionA.IsEmptyOrWhitespace());
@@ -44,6 +48,7 @@ struct TOROUTILITIES_API FUserDialogTimer
 		uint8 ButtonIdx;
 
 	FUserDialogTimer(): WaitTime(0), ButtonIdx(0) {}
+	FUserDialogTimer(const float InTime, const uint8 InButton): WaitTime(InTime), ButtonIdx(InButton) {}
 	bool IsValidData() const { return WaitTime > 0.0f; }
 };
 
