@@ -3,6 +3,7 @@
 #pragma once
 
 #include "LevelSequenceActor.h"
+#include "DataTypes/InputModeData.h"
 #include "MovieSceneSequencePlayer.h"
 #include "ToroSequenceActor.generated.h"
 
@@ -13,10 +14,16 @@ class TOROUTILITIES_API AToroSequenceActor : public ALevelSequenceActor
 
 public:
 
-	AToroSequenceActor(const FObjectInitializer& Init): Super(Init), bLockPlayer(false) {}
+	AToroSequenceActor(const FObjectInitializer& Init): Super(Init), bLockPlayer(false), Skippable(false) {}
 
 	UPROPERTY(EditAnywhere, Category = General)
 		bool bLockPlayer;
+
+	UPROPERTY(EditAnywhere, Category = General)
+		bool Skippable;
+
+	UFUNCTION(BlueprintPure, Category = Actor)
+		FGuid GetCutsceneGuid() const { return CutsceneGuid; }
 
 	UFUNCTION(BlueprintCallable, Category = "Sequencer|Player")
 		void Play();
@@ -25,13 +32,13 @@ public:
 		void Reverse();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Sequencer|Player")
-		void Stop() const;
+		void Stop();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Sequencer|Player")
-		void SkipToEnd() const;
+		void SkipToEnd();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Sequencer|Player")
-		void StopAtCurrentTime() const;
+		void StopAtCurrentTime();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = "Sequencer|Player")
 		void SetPlayRate(const float InRate) const;
@@ -44,8 +51,17 @@ public:
 	
 private:
 
+	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
+		FGuid CutsceneGuid;
+
+	UPROPERTY() FGameInputModeData CachedInputMode;
+	UPROPERTY(Transient) TObjectPtr<class UCutsceneSkipWidget> Widget;
+
 	void OnFinished();
 	void LockPlayer();
-	void UnlockPlayer() const;
+	void UnlockPlayer();
+
+	UCutsceneSkipWidget* GetWidget();
 	virtual void BeginPlay() override;
+	virtual void OnConstruction(const FTransform& Transform) override;
 };
