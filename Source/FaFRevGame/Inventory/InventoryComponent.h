@@ -80,8 +80,8 @@ private:
 	UPROPERTY(Transient) FGameInputModeData CachedInputMode;
 	UPROPERTY(Transient) TObjectPtr<class AGamePlayerChar> Player;
 	UPROPERTY(Transient) TObjectPtr<AInventoryEquipment> EquipActor;
-	// UPROPERTY(Transient) TObjectPtr<UInventoryWidget> Widget;
+	UPROPERTY(Transient) TObjectPtr<class UInventoryWidget> Widget;
 
-	// UInventoryWidget* GetWidget(); TODO
+	UInventoryWidget* GetWidget();
 	virtual void BeginPlay() override;
 };

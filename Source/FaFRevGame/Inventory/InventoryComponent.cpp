@@ -1,7 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "InventoryComponent.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Player/GamePlayerChar.h"
+#include "InventoryWidget.h"
 
 #define InvItems InvData.Items
 #define InvArchives InvData.Archives
@@ -233,10 +235,10 @@ void UInventoryComponent::OpenInventory()
 	if (!bInInventory)
 	{
 		bInInventory = true;
-		// if (UInventoryWidget* InvWidget = GetWidget())
-		// {
-		// 	InvWidget->ActivateWidget(); TODO
-		// }
+		if (UInventoryWidget* InvWidget = GetWidget())
+		{
+			InvWidget->ActivateWidget();
+		}
 		if (AToroPlayerController* PC = Player->GetPlayerController())
 		{
 			PC->AddPauseRequest(this);
@@ -251,10 +253,10 @@ void UInventoryComponent::CloseInventory()
 	if (bInInventory)
 	{
 		bInInventory = false;
-		// if (UInventoryWidget* InvWidget = GetWidget())
-		// {
-		// 	InvWidget->DeactivateWidget(); TODO
-		// }
+		if (UInventoryWidget* InvWidget = GetWidget())
+		{
+			InvWidget->DeactivateWidget();
+		}
 		if (AToroPlayerController* PC = Player->GetPlayerController())
 		{
 			PC->RemovePauseRequest(this);
@@ -266,6 +268,16 @@ void UInventoryComponent::CloseInventory()
 void UInventoryComponent::SetEquipmentUse(const bool bUsing) const
 {
 	if (EquipActor) EquipActor->SetUseState(bUsing);
+}
+
+UInventoryWidget* UInventoryComponent::GetWidget()
+{
+	if (Widget) return Widget;
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		Widget = Manager->FindWidget<UInventoryWidget>();
+	}
+	return Widget;
 }
 
 void UInventoryComponent::BeginPlay()
