@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/SettingRowWidgets.h"
-#include "UserWidgets/ToroWidgetBase.h"
+#include "UserWidgets/UserDialogWidget.h"
 #include "Components/ComboBoxString.h"
 #include "Components/TextBlock.h"
 #include "Components/CheckBox.h"
@@ -284,8 +284,9 @@ void UResolutionSettingRow::AcceptResolution()
 	LastIdx = DropdownBox->GetSelectedIndex();
 }
 
-void UResolutionSettingRow::RevertResolution() const
+void UResolutionSettingRow::RevertResolution()
 {
+	bReverting = true;
 	DropdownBox->SetSelectedIndex(LastIdx);
 }
 
@@ -325,6 +326,29 @@ void UResolutionSettingRow::OnSelection(FString SelectedItem, ESelectInfo::Type 
 			: EWindowMode::Type::Windowed);
 		UserSettings->ApplyResolutionSettings(false);
 		OnValueChanged.Broadcast();
+
+		if (bReverting) bReverting = false;
+		else
+		{
+			UUserDialogWidget::ShowDialog(this, {
+				INVTEXT("Resolution Change"),
+				INVTEXT("Do you want to keep this resolution?"),
+				INVTEXT("Revert"), INVTEXT("Keep")},
+				{5.0f,0},
+				[WeakThis = TWeakObjectPtr(this)](uint8 Button)
+				{
+					if (!WeakThis.IsValid()) return;
+					if (Button == 0)
+					{
+						WeakThis->RevertResolution();
+					}
+					else
+					{
+						WeakThis->AcceptResolution();
+					}
+				}
+			);
+		}
 	}
 }
 

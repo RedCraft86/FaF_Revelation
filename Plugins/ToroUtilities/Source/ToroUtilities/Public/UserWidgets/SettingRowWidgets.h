@@ -291,10 +291,12 @@ class TOROUTILITIES_API UResolutionSettingRow : public UDropdownSettingRow
 
 public:
 
-	UResolutionSettingRow(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer), LastIdx(0) {}
+	UResolutionSettingRow(const FObjectInitializer& ObjectInitializer)
+		: Super(ObjectInitializer), LastIdx(0), bReverting(false)
+	{}
 
 	void AcceptResolution();
-	void RevertResolution() const;
+	void RevertResolution();
 	
 	FIntPoint GetResValue() const;
 	void SetResValue(const FIntPoint& InValue);
@@ -303,6 +305,7 @@ public:
 protected:
 
 	UPROPERTY() uint8 LastIdx;
+	UPROPERTY() bool bReverting;
 
 	virtual void AssignGetter(const TFunction<uint8()>& Function) override { }
 	virtual void AssignSetter(const TFunction<void(const uint8)>& Function) override { }
