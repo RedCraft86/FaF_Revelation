@@ -3,7 +3,7 @@
 #include "SaveSystem/ToroSaveManager.h"
 #include "ToroSettings.h"
 
-UToroSaveObject* UToroSaveManager::GetSaveObject(const FGameplayTag InTag)
+UToroSaveObject* UToroSaveManager::FindSaveObject(const FGameplayTag InTag)
 {
 	if (SaveTags::IsValidTag(InTag)) return nullptr;
 	if (TObjectPtr<UToroSaveObject>* Ptr = SaveObjects.Find(InTag))
@@ -17,7 +17,7 @@ UToroSaveObject* UToroSaveManager::GetSaveObject(const FGameplayTag InTag)
 
 bool UToroSaveManager::CreateSaveObject(const TSubclassOf<UToroSaveObject> Class, const FGameplayTag InTag)
 {
-	if (!Class || !SaveTags::IsValidTag(InTag) || GetSaveObject(InTag)) return false;
+	if (!Class || !SaveTags::IsValidTag(InTag) || FindSaveObject(InTag)) return false;
 	UToroSaveObject* Obj = UToroSaveObject::Create(this, Class, InTag);
 	if (Obj)
 	{
