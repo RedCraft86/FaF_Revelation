@@ -35,7 +35,7 @@ protected:
 	UPROPERTY() float Progress;
 	UPROPERTY(Transient) TObjectPtr<class AToroSequenceActor> Sequence;
 
-	void SkipCutscene();
+	void SkipCutscene() const;
 	virtual void NativePreConstruct() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;

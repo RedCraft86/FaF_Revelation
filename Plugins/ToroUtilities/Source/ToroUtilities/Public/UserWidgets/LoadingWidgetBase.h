@@ -17,5 +17,6 @@ public:
 	{
 		ZOrder = 98;
 		bAutoActivate = false;
+		UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
 };

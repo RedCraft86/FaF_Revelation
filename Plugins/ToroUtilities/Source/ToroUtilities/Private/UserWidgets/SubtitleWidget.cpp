@@ -9,6 +9,7 @@ USubtitleWidget::USubtitleWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bCaptureNativeSubtitles(false)
 {
 	ZOrder = 95;
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void USubtitleWidget::QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle)

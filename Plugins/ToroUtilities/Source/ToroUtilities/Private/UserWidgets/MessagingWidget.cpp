@@ -8,6 +8,7 @@ UMessagingWidget::UMessagingWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	ZOrder = 99;
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UMessagingWidget::QueueNotice(const UObject* ContextObject, const FToroSimpleMsg& InNotice)

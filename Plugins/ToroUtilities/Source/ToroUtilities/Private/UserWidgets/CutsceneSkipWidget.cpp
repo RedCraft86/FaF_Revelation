@@ -6,13 +6,14 @@
 #include "Components/TextBlock.h"
 
 UCutsceneSkipWidget::UCutsceneSkipWidget(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
-                                                                                       , SkipKey(EKeys::Enter), HoldTime(2.0f), bHolding(false), Progress(0.0f)
+	, SkipKey(EKeys::Enter), HoldTime(2.0f), bHolding(false), Progress(0.0f)
 {
 	ZOrder = 97;
 	bAutoActivate = false;
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
-void UCutsceneSkipWidget::SkipCutscene()
+void UCutsceneSkipWidget::SkipCutscene() const
 {
 	if (Sequence)
 	{
