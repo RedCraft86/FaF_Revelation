@@ -10,7 +10,7 @@
 UInventoryWidget::UInventoryWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bArchiveTab(false)
 {
-	// TODO ZOrder
+	ZOrder = 95;
 	bAutoActivate = false;
 }
 

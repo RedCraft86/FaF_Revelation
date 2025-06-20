@@ -10,7 +10,7 @@ class TOROUTILITIES_API USettingsWidget : public UToroWidgetBase
 {
 	GENERATED_BODY()
 
-public:
+public: // TODO
 
 	USettingsWidget(const FObjectInitializer& ObjectInitializer);
 };

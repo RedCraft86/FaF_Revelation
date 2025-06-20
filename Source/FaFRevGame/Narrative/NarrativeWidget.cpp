@@ -5,5 +5,5 @@
 UNarrativeWidget::UNarrativeWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	// TODO ZOrder
+	ZOrder = 95;
 }

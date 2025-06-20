@@ -5,4 +5,5 @@
 UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	ZOrder = 96;
 }

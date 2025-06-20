@@ -15,7 +15,7 @@ public:
 
 	UNarrativeWidget(const FObjectInitializer& ObjectInitializer);
 
-private:
+private: // TODO
 
 	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
 };

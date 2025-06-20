@@ -7,7 +7,7 @@
 UInteractionWidget::UInteractionWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), DefaultIconSize(35.0f)
 {
-	// TODO ZOrder
+	ZOrder = 95;
 }
 
 void UInteractionWidget::UpdateUI(const bool bEnabled, const FInteractionData& Data)
