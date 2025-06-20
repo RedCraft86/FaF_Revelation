@@ -13,18 +13,30 @@ UCutsceneSkipWidget::UCutsceneSkipWidget(const FObjectInitializer& ObjectInitial
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
+void UCutsceneSkipWidget::ShowWidget(AToroSequenceActor* InSequence)
+{
+	if (InSequence)
+	{
+		Sequence = InSequence;
+		ActivateWidget();
+	}
+}
+
 void UCutsceneSkipWidget::SkipCutscene() const
 {
-	if (Sequence)
-	{
-		Sequence->SkipToEnd();
-	}
+	if (Sequence) Sequence->SkipToEnd();
 }
 
 void UCutsceneSkipWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
 	if (SkipKeyText) SkipKeyText->SetText(SkipKey.GetDisplayName());
+}
+
+void UCutsceneSkipWidget::InternalProcessDeactivation()
+{
+	Sequence = nullptr;
+	Super::InternalProcessDeactivation();
 }
 
 void UCutsceneSkipWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

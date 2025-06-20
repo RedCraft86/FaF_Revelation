@@ -7,6 +7,7 @@
 
 class UTextBlock;
 class UProgressBar;
+class AToroSequenceActor;
 
 UCLASS(Abstract)
 class TOROUTILITIES_API UCutsceneSkipWidget final : public UToroWidgetBase
@@ -29,14 +30,17 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.5f, UIMin = 0.5f))
 		float HoldTime;
 
+	void ShowWidget(AToroSequenceActor* InSequence);
+		
 protected:
 
 	UPROPERTY() bool bHolding;
 	UPROPERTY() float Progress;
-	UPROPERTY(Transient) TObjectPtr<class AToroSequenceActor> Sequence;
+	UPROPERTY(Transient) TObjectPtr<AToroSequenceActor> Sequence;
 
 	void SkipCutscene() const;
 	virtual void NativePreConstruct() override;
+	virtual void InternalProcessDeactivation() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
 	virtual FReply NativeOnKeyUp(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
