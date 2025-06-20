@@ -5,6 +5,7 @@
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
 #include "Libraries/ToroGeneralUtils.h"
+#include "Components/Button.h"
 #include "EnhancedCodeFlow.h"
 
 UGamePauseWidget::UGamePauseWidget(const FObjectInitializer& ObjectInitializer)
@@ -48,7 +49,7 @@ void UGamePauseWidget::QuitGame()
 {
 	FadeOut([this]()
 	{
-		UKismetSystemLibrary::QuitGame(this, Controller,
+		UKismetSystemLibrary::QuitGame(this, nullptr,
 			EQuitPreference::Quit, false);
 	});
 }
@@ -85,6 +86,11 @@ void UGamePauseWidget::InitWidget()
 	Super::InitWidget();
 	Controller = AToroPlayerController::Get(this);
 	Controller->OnGamePaused.AddUObject(this, &UGamePauseWidget::OnGamePause);
+	ResumeBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::ResumeGame);
+	SettingsBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::SettingsMenu);
+	CheckpointBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::Checkpoint);
+	MainMenuBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::MainMenu);
+	QuitBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::QuitGame);
 }
 
 void UGamePauseWidget::InternalProcessActivation()
