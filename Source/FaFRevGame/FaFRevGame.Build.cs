@@ -30,7 +30,8 @@ public class FaFRevGame : ModuleRules
                 "GameplayTags",
                 "CommonUI",
                 "ToroCore",
-                "ToroUtilities"
+                "ToroUtilities",
+                "EnhancedCodeFlow"
             }
         );
     }
