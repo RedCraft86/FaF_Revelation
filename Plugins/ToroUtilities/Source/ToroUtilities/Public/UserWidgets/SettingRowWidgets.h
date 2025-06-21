@@ -19,7 +19,6 @@ class UTextBlock;
 		bSkipSetter = true; \
 		SetValue(GetterFunc(UserSettings)); \
 		bSkipSetter = false; \
-		Super::LoadValue(); \
 	}
 
 #define ADD_DEFAULT_PROPERTIES(Type) \
@@ -69,22 +68,12 @@ public:
 		ESettingPerformance Performance;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		EImageFidelityMode OnlyShowWhen;
-
-	UPROPERTY(EditAnywhere, Category = Settings)
 		TSubclassOf<USettingRowTooltip> TooltipClass;
 
 	DECLARE_MULTICAST_DELEGATE(FOnValueChanged);
 	FOnValueChanged OnValueChanged;
 
-	virtual void LoadValue()
-	{
-		if (OnlyShowWhen != EImageFidelityMode::None)
-		{
-			SetVisibility(UserSettings->GetImageFidelityMode() == OnlyShowWhen
-				? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
-		}
-	}
+	virtual void LoadValue() {}
 
 protected:
 

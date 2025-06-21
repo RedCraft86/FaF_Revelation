@@ -108,11 +108,14 @@ void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8
 }
 
 DEFINE_SETTER_DYNAMIC(bool, ShowFPS)
-DEFINE_SETTER_BASIC(bool, Borderless)
-
 DEFINE_SETTER_BASIC(bool, SmoothCamera)
 DEFINE_SETTER_BASIC(float, SensitivityX)
 DEFINE_SETTER_BASIC(float, SensitivityY)
+
+DEFINE_SETTER(EColorBlindMode, ColorBlindMode, ApplyColorBlindSettings();)
+DEFINE_SETTER(uint8, ColorBlindIntensity, ApplyColorBlindSettings();)
+
+DEFINE_SETTER_BASIC(bool, Borderless)
 
 DEFINE_SETTER(float, Gamma, if (GEngine) GEngine->DisplayGamma = GetGamma();)
 DEFINE_SETTER_DYNAMIC(uint8, Brightness)
@@ -124,13 +127,7 @@ DEFINE_SETTER(uint8, LumenGI, ApplyLumen();)
 DEFINE_SETTER(uint8, LumenReflection, ApplyLumen();)
 DEFINE_SETTER(bool, HitLightingReflections, ApplyLumen();)
 
-DEFINE_SETTER(EColorBlindMode, ColorBlindMode, ApplyColorBlindSettings();)
-DEFINE_SETTER(uint8, ColorBlindIntensity, ApplyColorBlindSettings();)
-
 DEFINE_SETTER(EImageFidelityMode, ImageFidelityMode, ApplyImageFidelityMode();)
-
-DEFINE_SETTER(uint8, FXAADithering, SET_CONSOLE_VAR(r.FXAA.Quality, GetFXAADithering() + 1))
-DEFINE_SETTER_CONSOLE(uint8, TAAUpsampling, r.TemporalAA.Quality)
 DEFINE_SETTER_CONSOLE(uint8, TSRResolution, r.ScreenPercentage)
 
 DEFINE_SETTER(uint8, FSRQuality, ApplyFSR();)
@@ -185,11 +182,9 @@ void UToroUserSettings::ApplyImageFidelityMode()
 		case EImageFidelityMode::None: break;
 		case EImageFidelityMode::FXAA:
 			AAMode = 1;
-			SET_CONSOLE_VAR(r.FXAA.Quality, GetFXAADithering() + 1)
 			break;
 		case EImageFidelityMode::TAA:
 			AAMode = 2;
-			SET_CONSOLE_VAR(r.TemporalAA.Quality, GetTAAUpsampling())
 			break;
 		case EImageFidelityMode::TSR:
 			AAMode = 4;
@@ -327,8 +322,6 @@ void UToroUserSettings::SetToDefaults()
 	ColorBlindMode = EColorBlindMode::None;
 	ColorBlindIntensity = 0;
 	ImageFidelityMode = EImageFidelityMode::TAA;
-	FXAADithering = 3;
-	TAAUpsampling = 2;
 	TSRResolution = 70;
 	FSRQuality = 2;
 	FSRSharpness = 0.0f;
