@@ -108,7 +108,6 @@ void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8
 }
 
 DEFINE_SETTER_DYNAMIC(bool, ShowFPS)
-DEFINE_SETTER_BASIC(FString, Username)
 DEFINE_SETTER_BASIC(bool, Borderless)
 
 DEFINE_SETTER_BASIC(bool, SmoothCamera)

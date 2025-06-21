@@ -81,7 +81,6 @@ public:
 	}
 
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
-	DECLARE_PROPERTY_FUNC(FString, Username)
 	DECLARE_PROPERTY_FUNC(bool, Borderless)
 
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
