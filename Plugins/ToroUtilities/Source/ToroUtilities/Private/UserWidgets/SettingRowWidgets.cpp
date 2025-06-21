@@ -87,7 +87,7 @@ void UToggleSettingRow::ApplyValue()
 {
 	if (!bSkipSetter)
 	{
-		SetterFunc(GetValue());
+		SetterFunc(UserSettings, GetValue());
 		OnValueChanged.Broadcast();
 	}
 }
@@ -125,7 +125,7 @@ void USliderSettingRow::ApplyValue()
 {
 	if (!bSkipSetter)
 	{
-		SetterFunc(SliderBox->GetValue());
+		SetterFunc(UserSettings, SliderBox->GetValue());
 		OnValueChanged.Broadcast();
 	}
 }
@@ -182,7 +182,7 @@ void USwapperSettingRow::ApplyValue()
 {
 	if (!bSkipSetter)
 	{
-		SetterFunc(Value);
+		SetterFunc(UserSettings, Value);
 		OnValueChanged.Broadcast();
 	}
 }
@@ -246,7 +246,7 @@ void UDropdownSettingRow::ApplyValue()
 {
 	if (!bSkipSetter)
 	{
-		SetterFunc(DropdownBox->GetSelectedIndex());
+		SetterFunc(UserSettings, DropdownBox->GetSelectedIndex());
 		OnValueChanged.Broadcast();
 	}
 }
