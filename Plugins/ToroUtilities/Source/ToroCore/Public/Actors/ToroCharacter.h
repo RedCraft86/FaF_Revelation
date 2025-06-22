@@ -13,6 +13,10 @@ namespace CharacterTags
 	TOROCORE_API DECLARE_GAMEPLAY_TAG(Player)
 
 	TOROCORE_API CREATE_TAG_VERIFIER(Character)
+	TOROCORE_API inline bool IsPlayer(const AActor* Target)
+	{
+		return ICharInterface::GetCharacterID(Target) == TAG_Player;
+	}
 }
 
 UCLASS(Abstract)

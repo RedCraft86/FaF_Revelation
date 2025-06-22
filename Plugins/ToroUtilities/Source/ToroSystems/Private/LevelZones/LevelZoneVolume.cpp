@@ -3,10 +3,10 @@
 #include "LevelZones/LevelZoneVolume.h"
 #include "LevelZones/LevelZoneManager.h"
 #include "WorldActions/WorldActionComponent.h"
-#include "Framework/ToroPlayerCharacter.h"
 #include "Components/ReferenceCulling.h"
 #include "Interfaces/CharInterface.h"
 #include "Kismet/GameplayStatics.h"
+#include "Actors/ToroCharacter.h"
 #if WITH_EDITOR
 #include "EngineUtils.h"
 #endif
@@ -104,9 +104,7 @@ void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorEndOverlap(OtherActor);
-
-	if (!IsEnabled()) return;
-	if (OtherActor->IsA<AToroPlayerCharacter>())
+	if (IsEnabled() && CharacterTags::IsPlayer(OtherActor))
 	{
 		ActionManager->SetActions(ActionsExit, false);
 		ActionManager->RunActions();
