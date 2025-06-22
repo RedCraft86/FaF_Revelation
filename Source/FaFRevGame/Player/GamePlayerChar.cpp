@@ -9,10 +9,10 @@
 #include "Interaction/InteractionComponent.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "Inventory/InventoryComponent.h"
-#include "MusicSystem/GameMusicManager.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroMathLibrary.h"
+#include "MusicSystem/GameMusicManager.h"
 #include "Narrative/GameNarrative.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
@@ -248,7 +248,7 @@ void AGamePlayerChar::SetInspectable(AActor* InActor)
 void AGamePlayerChar::SetHidingSpot(AActor* InActor)
 {
 	if (InActor && HidingSpot) return; // No hot-swapping
-	if (AGameMusicManager* Manager = AGameMusicManager::Get<AGameMusicManager>(this))
+	if (UGameMusicManager* Manager = UGameMusicManager::Get(this))
 	{
 		if (HidingSpot && !InActor)
 		{
@@ -284,7 +284,7 @@ bool AGamePlayerChar::TryJumpscare()
 	AddLockTag(PlayerLockTag::TAG_GameOver);
 	ResetStates();
 
-	if (AGameMusicManager* Manager = AGameMusicManager::Get<AGameMusicManager>(this))
+	if (UGameMusicManager* Manager = UGameMusicManager::Get(this))
 	{
 		Manager->RemoveDipRequest(GetPlayerController());
 		Manager->RemoveDipRequest(this);

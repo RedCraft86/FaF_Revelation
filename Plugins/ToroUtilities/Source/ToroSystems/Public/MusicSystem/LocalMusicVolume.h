@@ -3,16 +3,16 @@
 #pragma once
 
 #include "Actors/ToroVolume.h"
-#include "LocalSoundVolume.generated.h"
+#include "LocalMusicVolume.generated.h"
 
 UCLASS()
-class FAFREVGAME_API ALocalSoundVolume final : public AToroVolume
+class TOROSYSTEMS_API ALocalMusicVolume : public AToroVolume
 {
 	GENERATED_BODY()
 
 public:
 
-	ALocalSoundVolume();
+	ALocalMusicVolume();
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TObjectPtr<USoundBase> Sound;
@@ -30,21 +30,20 @@ public:
 		FVector2D FadeInOut;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		TSet<uint8> AllowedMusicStates;
+		bool bDipMainTheme;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TSet<uint8> AllowedStates;
 
 private:
 
 	UPROPERTY() bool bInVolume;
 	UPROPERTY() bool bOnCooldown;
 	UPROPERTY() uint8 MusicState;
+	UPROPERTY(Transient) TObjectPtr<class UGameMusicManager> Manager;
 
 	UPROPERTY(VisibleAnywhere, Category = Subobjects)
 		TObjectPtr<UAudioComponent> SoundComponent;
-
-	void UpdateAudio();
-	virtual void BeginPlay() override;
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 
 	void CooldownFinish()
 	{
@@ -61,4 +60,9 @@ private:
 		MusicState = State;
 		UpdateAudio();
 	}
+
+	void UpdateAudio();
+	virtual void BeginPlay() override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
+	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
 };

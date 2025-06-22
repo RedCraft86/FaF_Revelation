@@ -5,9 +5,9 @@
 
 bool AGamePlayerController::SetPause(bool bPause, FCanUnpause CanUnpauseDelegate)
 {
-	if (AGameMusicManager* MusicManager = AGameMusicManager::Get<AGameMusicManager>(this))
+	if (UGameMusicManager* Manager = UGameMusicManager::Get(this))
 	{
-		bPause ? MusicManager->AddDipRequest(this) : MusicManager->RemoveDipRequest(this);
+		bPause ? Manager->AddDipRequest(this) : Manager->RemoveDipRequest(this);
 	}
 	return Super::SetPause(bPause, CanUnpauseDelegate);
 }

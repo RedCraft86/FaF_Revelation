@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "MetasoundSource.h"
 #include "Helpers/ClassGetters.h"
 // #include "GamePhase/GamePhaseData.h"
 #include "Engine/DeveloperSettings.h"
@@ -22,9 +21,6 @@ public:
 	}
 
 	SETTING_GETTER(UFaFRevSettings)
-
-	UPROPERTY(Config, EditAnywhere, Category = Settings)
-		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 
 	// UPROPERTY(Config, EditAnywhere, Category = Settings)
 	// 	TSoftObjectPtr<UGamePhaseGraph> PhaseGraph;

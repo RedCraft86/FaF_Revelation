@@ -23,8 +23,6 @@ public class FaFRevGame : ModuleRules
                 "InputCore",
                 "PhysicsCore",
                 "EnhancedInput",
-                "AudioExtensions",
-                "MetasoundEngine",
                 "DeveloperSettings",
                 "EngineCameras",
                 "GameplayTags",

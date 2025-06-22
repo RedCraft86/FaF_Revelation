@@ -2,36 +2,38 @@
 
 #pragma once
 
-#include "Framework/ToroGameState.h"
+#include "MetasoundSource.h"
 #include "Components/AudioComponent.h"
 #include "GameMusicManager.generated.h"
 
-UCLASS()
-class FAFREVGAME_API AGameMusicManager final : public AToroGameState
+#define SetThemeMuted(bMuted) SetPaused(bMuted)
+
+UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
+class TOROSYSTEMS_API UGameMusicManager : public UAudioComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	AGameMusicManager();
+	UGameMusicManager();
 
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
-	static AGameMusicManager* GetMusicManager(const UObject* ContextObject)
+		static UGameMusicManager* GetMusicManager(const UObject* ContextObject, const int32 PlayerIndex = 0);
+
+	template <typename T = UGameMusicManager>
+	static T* Get(const UObject* ContextObject, const int32 PlayerIndex = 0)
 	{
-		return Get<AGameMusicManager>(ContextObject);
+		return Cast<T>(GetMusicManager(ContextObject, PlayerIndex));
 	}
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void ChangeMainTheme(UMetaSoundSource* InTheme);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetThemeMuted(const bool bInMuted);
+		void SetThemeState(const uint8 InState);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetThemeState(const uint8 InState) const;
-
-	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetThemeIntensity(const float InIntensity) const;
+		void SetThemeIntensity(const float InIntensity);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void AddDipRequest(const UObject* InObject);
@@ -39,27 +41,20 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void RemoveDipRequest(const UObject* InObject);
 
-	DECLARE_MULTICAST_DELEGATE(FOnAudioDipped);
-	FOnAudioDipped OnAudioDipped;
-
-	DECLARE_MULTICAST_DELEGATE(FOnThemeChanged);
-	FOnThemeChanged OnThemeChanged;
+	DECLARE_MULTICAST_DELEGATE(FOnMusicUpdate);
+	FOnMusicUpdate OnThemeChanged;
+	FOnMusicUpdate OnAudioDipped;
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnStateChanged, const uint8);
 	FOnStateChanged OnStateChanged;
 
-private:
+protected:
 
-	UPROPERTY(VisibleAnywhere, Category = Subobjects)
-		TObjectPtr<UAudioComponent> ThemeComponent;
-
+	UPROPERTY() uint8 StateIdx;
 	UPROPERTY() FTimerHandle ChangeTimer;
 	UPROPERTY(Transient) TSet<TWeakObjectPtr<const UObject>> DipRequests;
 
 	void UpdateDipState();
 	virtual void BeginPlay() override;
-	IAudioParameterControllerInterface* GetSoundParamInterface() const
-	{
-		return Cast<IAudioParameterControllerInterface>(ThemeComponent);
-	}
+	IAudioParameterControllerInterface* GetParamInterface();
 };

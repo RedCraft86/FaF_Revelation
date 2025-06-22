@@ -16,6 +16,8 @@ public class ToroSystems : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "AudioExtensions",
+                "MetasoundEngine",
                 "DeveloperSettings",
                 "GameplayTags",
                 "ToroCore",

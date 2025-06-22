@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "MetasoundSource.h"
 #include "Helpers/ClassGetters.h"
 #include "ToroSystems.generated.h"
 
@@ -33,4 +34,7 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Systems)
 		TSoftObjectPtr<UMaterialInterface> LightProbePPM;
+
+	UPROPERTY(Config, EditAnywhere, Category = Systems)
+		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
 };
