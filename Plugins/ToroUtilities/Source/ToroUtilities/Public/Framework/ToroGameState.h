@@ -15,7 +15,7 @@ public:
 
 	AToroGameState();
 
-	GAMEPLAY_CLASS_GETTER(AToroGameState, GetGameState)
+	GLOBAL_CLASS_GETTER(AToroGameState, GetGameState)
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;

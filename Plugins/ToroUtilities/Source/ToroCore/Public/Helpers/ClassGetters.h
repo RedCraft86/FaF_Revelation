@@ -34,7 +34,7 @@
 		return IsValid(World) ? World->GetSubsystem<Class>() : nullptr; \
 	}
 
-#define GAMEPLAY_CLASS_GETTER(Class, Func) \
+#define GLOBAL_CLASS_GETTER(Class, Func) \
 	template <typename T = Class> \
 	static T* Get(const UObject* ContextObject) \
 	{ \
@@ -46,4 +46,30 @@
 	static T* Get(const UObject* ContextObject, const int32 PlayerIndex = 0) \
 	{ \
 		return Cast<T>(UGameplayStatics::Func(ContextObject, PlayerIndex)); \
+}
+
+#define FIND_COMPONENT(CompClass, OwnerClass, ...) \
+	if (const AActor* Actor = OwnerClass::Get(__VA_ARGS__)) \
+	{ \
+		if (CompClass* Comp = Actor->FindComponentByClass<CompClass>()) \
+			return Comp; \
 	}
+
+#define FIND_GLOBAL_COMPONENT(Class) \
+	FIND_COMPONENT(Class, AToroGameMode, ContextObject) \
+	FIND_COMPONENT(Class, AToroGameState, ContextObject) \
+	return nullptr;
+
+#define FIND_PLAYER_COMPONENT(Class) \
+	FIND_COMPONENT(Class, AToroPlayerCharacter, ContextObject, PlayerIndex) \
+	FIND_COMPONENT(Class, AToroPlayerController, ContextObject, PlayerIndex) \
+	FIND_COMPONENT(Class, AToroPlayerState, ContextObject, PlayerIndex) \
+	return nullptr;
+
+#define FIND_GENERAL_COMPONENT(Class) \
+	FIND_COMPONENT(Class, AToroGameMode, ContextObject) \
+	FIND_COMPONENT(Class, AToroGameState, ContextObject) \
+	FIND_COMPONENT(Class, AToroPlayerCharacter, ContextObject, PlayerIndex) \
+	FIND_COMPONENT(Class, AToroPlayerController, ContextObject, PlayerIndex) \
+	FIND_COMPONENT(Class, AToroPlayerState, ContextObject, PlayerIndex) \
+	return nullptr;

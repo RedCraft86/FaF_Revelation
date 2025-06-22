@@ -17,7 +17,7 @@ public:
 
 	UToroGameInstance(): CachedVMI(VMI_Lit), bPlayerInvincible(false), bRanFirstLoads(false) {}
 
-	GAMEPLAY_CLASS_GETTER(UToroGameInstance, GetGameInstance)
+	GLOBAL_CLASS_GETTER(UToroGameInstance, GetGameInstance)
 
 	virtual void OnWorldBeginPlay(UWorld* InWorld);
 	virtual void OnWorldTick(const float DeltaSeconds) {}

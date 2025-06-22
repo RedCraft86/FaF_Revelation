@@ -7,13 +7,6 @@
 #include "Framework/ToroGameMode.h"
 #include "ToroSystems.h"
 
-#define FIND_IN_ACTOR(Class, ...) \
-	if (const Class* Actor = Class::Get(__VA_ARGS__)) \
-	{ \
-		if (UGameMusicManager* Manager = Actor->FindComponentByClass<UGameMusicManager>()) \
-			return Manager; \
-	}
-
 UGameMusicManager::UGameMusicManager()
 {
 	SetUISound(true);
@@ -23,14 +16,7 @@ UGameMusicManager::UGameMusicManager()
 }
 UGameMusicManager* UGameMusicManager::GetMusicManager(const UObject* ContextObject, const int32 PlayerIndex)
 {
-	FIND_IN_ACTOR(AToroPlayerCharacter, ContextObject, PlayerIndex)
-	FIND_IN_ACTOR(AToroPlayerController, ContextObject, PlayerIndex)
-	FIND_IN_ACTOR(AToroPlayerState, ContextObject, PlayerIndex)
-	
-	FIND_IN_ACTOR(AToroGameMode, ContextObject)
-	FIND_IN_ACTOR(AToroGameState, ContextObject)
-
-	return nullptr;
+	FIND_GENERAL_COMPONENT(UGameMusicManager)
 }
 
 void UGameMusicManager::ChangeMainTheme(UMetaSoundSource* InTheme)
