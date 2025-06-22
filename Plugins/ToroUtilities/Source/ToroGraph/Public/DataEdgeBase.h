@@ -5,6 +5,8 @@
 #include "Engine/DataAsset.h"
 #include "DataEdgeBase.generated.h"
 
+class UDataNodeBase;
+
 UCLASS(NotBlueprintable, BlueprintType)
 class TOROGRAPH_API UDataEdgeBase : public UDataAsset
 {
@@ -37,7 +39,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = Edge, AdvancedDisplay)
 		TObjectPtr<UDataNodeBase> EndNode;
 	
-	UPROPERTY() TObjectPtr<UDataGraphBase> OwningGraph;
+	UPROPERTY() TObjectPtr<class UDataGraphBase> OwningGraph;
 
 #if WITH_EDITOR
 	virtual FText GetNodeTitle() const { return Name; }
