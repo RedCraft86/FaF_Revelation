@@ -2,6 +2,8 @@
 
 #include "FaFRevGame.h"
 
+DEFINE_LOG_CATEGORY(LogFaFRevGame);
+
 #define LOCTEXT_NAMESPACE "FFaFRevGameModule"
 
 void FFaFRevGameModule::StartupModule()
