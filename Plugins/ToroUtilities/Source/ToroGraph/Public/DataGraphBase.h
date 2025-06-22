@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "Engine/DataAsset.h"
+#include "MiscObjects/ToroDataAsset.h"
 #include "DataGraphBase.generated.h"
 
 class UDataNodeBase;
 class UDataEdgeBase;
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TOROGRAPH_API UDataGraphBase : public UDataAsset
+class TOROGRAPH_API UDataGraphBase : public UToroDataAsset
 {
 	GENERATED_BODY()
 

@@ -30,7 +30,7 @@ private:
     static TSharedPtr<FSlateStyleSet> StyleSet;
 };
 
-namespace DataGraphColors
+namespace ToroGraphColors
 {
     static constexpr FLinearColor InvalidBackground(0.4f, 0.0f, 0.0f);
     static constexpr FLinearColor DefaultPin(0.02f, 0.02f, 0.02f);

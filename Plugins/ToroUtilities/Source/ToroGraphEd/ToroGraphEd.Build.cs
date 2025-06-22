@@ -23,8 +23,9 @@ public class ToroGraphEd : ModuleRules
                 "ApplicationCore",
                 "AssetDefinition",
                 "DeveloperSettings",
+                "ToroEditor",
                 "ToroGraph",
-                "ToroCore"
+                "ToroCore", 
             }
         );
     }
