@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "MessagingWidget.generated.h"
 
@@ -25,7 +25,7 @@ struct FToroSimpleMsg
 	{}
 
 	bool IsValidMessage() const { return Message.IsEmptyOrWhitespace() || ExtraTime < 0.0f; }
-	float CalcTime() const { return ExtraTime + UToroSettings::Get()->GetReadingTime(Message.ToString()); }
+	float CalcTime() const { return ExtraTime + UToroUtilSettings::Get()->GetReadingTime(Message.ToString()); }
 };
 
 UCLASS(Abstract)

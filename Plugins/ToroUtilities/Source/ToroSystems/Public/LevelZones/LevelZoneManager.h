@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "Helpers/GameplayTagMacros.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "LevelZoneManager.generated.h"
@@ -42,7 +42,7 @@ public:
 
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override
 	{
-		return Super::ShouldCreateSubsystem(Outer) && UToroSettings::Get()->IsOnGameplayMap(Outer);
+		return Super::ShouldCreateSubsystem(Outer) && UToroUtilSettings::Get()->IsOnGameplayMap(Outer);
 	}
 
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override

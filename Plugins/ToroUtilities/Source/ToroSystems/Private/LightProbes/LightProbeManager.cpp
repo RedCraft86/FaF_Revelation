@@ -2,10 +2,9 @@
 
 #include "LightProbes/LightProbeManager.h"
 #include "MiscActors/MasterPostProcess.h"
-#include "ToroSettings.h"
+#include "ToroSystems.h"
 #include "EngineUtils.h"
 #if WITH_EDITOR
-#include "ToroSystems.h"
 #include "Subsystems/UnrealEditorSubsystem.h"
 #endif
 
@@ -13,7 +12,7 @@
 
 void ULightProbeManager::UpdateProbes()
 {
-	if (UMaterialInstanceDynamic* MID = MasterPP ? MasterPP->GetLightProbeBlendable() : nullptr)
+	if (UMaterialInstanceDynamic* MID = GetLightProbeBlendable())
 	{
 		const FVector CamPos = GetCamera().GetTranslation();
 		LightProbes.RemoveAll([](const TWeakObjectPtr<ALightProbeActor>& Elem) { return !Elem.IsValid(); });
@@ -66,7 +65,7 @@ void ULightProbeManager::CollectProbes()
 
 void ULightProbeManager::ResetPPM(const uint8 Idx) const
 {
-	if (UMaterialInstanceDynamic* MID = MasterPP ? MasterPP->GetLightProbeBlendable() : nullptr)
+	if (UMaterialInstanceDynamic* MID = GetLightProbeBlendable())
 	{
 		MID->SetVectorParameterValue(ProbeParam(Idx, false), FLinearColor::Transparent);
 		MID->SetVectorParameterValue(ProbeParam(Idx, true), FLinearColor::Transparent);
@@ -97,6 +96,13 @@ FTransform ULightProbeManager::GetCamera() const
 	}
 
 	return {Rotation, Position};
+}
+
+UMaterialInstanceDynamic* ULightProbeManager::GetLightProbeBlendable() const
+{
+	return MasterPP
+		? MasterPP->FindOrAddBlendable(UToroSysSettings::Get()->LightProbePPM.LoadSynchronous())
+		: nullptr;
 }
 
 bool ULightProbeManager::IsTickable() const
@@ -136,7 +142,7 @@ void ULightProbeManager::OnWorldBeginPlay(UWorld& InWorld)
 
 bool ULightProbeManager::ShouldCreateSubsystem(UObject* Outer) const
 {
-	return Super::ShouldCreateSubsystem(Outer) && !UToroSettings::Get()->LightProbePPM.IsNull();
+	return Super::ShouldCreateSubsystem(Outer) && !UToroSysSettings::Get()->LightProbePPM.IsNull();
 }
 
 #if WITH_EDITOR

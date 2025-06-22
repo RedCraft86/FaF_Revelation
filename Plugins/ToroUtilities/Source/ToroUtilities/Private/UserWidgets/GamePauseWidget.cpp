@@ -41,7 +41,7 @@ void UGamePauseWidget::MainMenu()
 {
 	FadeOut([this]()
 	{
-		UGameplayStatics::OpenLevelBySoftObjectPtr(this, UToroSettings::Get()->LaunchMap);
+		UGameplayStatics::OpenLevelBySoftObjectPtr(this, UToroUtilSettings::Get()->LaunchMap);
 	});
 }
 

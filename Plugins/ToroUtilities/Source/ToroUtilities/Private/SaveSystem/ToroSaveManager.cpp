@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "SaveSystem/ToroSaveManager.h"
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 
 UToroSaveObject* UToroSaveManager::FindSaveObject(const FGameplayTag InTag)
 {
@@ -35,7 +35,7 @@ void UToroSaveManager::OnSaveActivity(const UToroSaveObject* Save, const ESaveGa
 void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	const UToroSettings* Settings = UToroSettings::Get();
+	const UToroUtilSettings* Settings = UToroUtilSettings::Get();
 	for (const TPair<FGameplayTag, TSoftClassPtr<UToroSaveObject>>& Save : Settings->DefaultSaves)
 	{
 		if (Save.Value.LoadSynchronous()) CreateSaveObject(Save.Value.LoadSynchronous(), Save.Key);

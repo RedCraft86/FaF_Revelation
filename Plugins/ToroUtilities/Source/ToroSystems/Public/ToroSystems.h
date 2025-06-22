@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "Helpers/ClassGetters.h"
+#include "ToroSystems.generated.h"
+
 DECLARE_LOG_CATEGORY_EXTERN(LogToroSystems, All, All);
 
 class FToroSystemsModule final : public IModuleInterface
@@ -9,4 +12,25 @@ class FToroSystemsModule final : public IModuleInterface
 public:
     virtual void StartupModule() override {}
     virtual void ShutdownModule() override {}
+};
+
+UCLASS(Config = Game, DefaultConfig, DisplayName = "Toro Systems")
+class TOROSYSTEMS_API UToroSysSettings final : public UDeveloperSettings
+{
+	GENERATED_BODY()
+
+public:
+
+	UToroSysSettings()
+	{
+		CategoryName = TEXT("Project");
+		SectionName = TEXT("ToroSystems");
+
+		LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbe.PPM_LightProbe"));
+	}
+
+	SETTING_GETTER(UToroSysSettings)
+
+	UPROPERTY(Config, EditAnywhere, Category = Systems)
+		TSoftObjectPtr<UMaterialInterface> LightProbePPM;
 };

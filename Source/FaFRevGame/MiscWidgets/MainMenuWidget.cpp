@@ -20,7 +20,7 @@ void UMainMenuWidget::PlayGame()
 {
 	FadeOut([this]()
 	{
-		UGameplayStatics::OpenLevelBySoftObjectPtr(this, UToroSettings::Get()->GameplayMap);
+		UGameplayStatics::OpenLevelBySoftObjectPtr(this, UToroUtilSettings::Get()->GameplayMap);
 	});
 }
 

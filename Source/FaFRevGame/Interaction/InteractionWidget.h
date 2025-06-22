@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "InteractionComponent.h"
@@ -40,5 +40,5 @@ private:
 
 	virtual void InitWidget() override;
 	virtual void NativeConstruct() override;
-	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };

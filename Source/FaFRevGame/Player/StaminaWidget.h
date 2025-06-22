@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "GamePlayerChar.h"
 #include "Components/ProgressBar.h"
 #include "UserWidgets/ToroWidgetBase.h"
@@ -31,7 +31,7 @@ private:
 
 	UPROPERTY(Transient) TObjectPtr<AGamePlayerChar> Player;
 
-	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 	virtual bool ShouldBeHidden() override
 	{
 		return Super::ShouldBeHidden() && Player ? Player->HasControlFlag(PCF_UseStamina) : false;

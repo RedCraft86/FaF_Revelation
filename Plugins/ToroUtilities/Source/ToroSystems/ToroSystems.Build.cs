@@ -16,6 +16,7 @@ public class ToroSystems : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "DeveloperSettings",
                 "GameplayTags",
                 "ToroCore",
                 "ToroUtilities",

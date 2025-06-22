@@ -3,7 +3,7 @@
 #pragma once
 
 #include "SlotWidgets.h"
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "InventoryItemData.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "InventoryWidget.generated.h"
@@ -90,5 +90,5 @@ private:
 	void UpdateSlots();
 	virtual void InitWidget() override;
 	virtual void InternalProcessActivation() override;
-	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };

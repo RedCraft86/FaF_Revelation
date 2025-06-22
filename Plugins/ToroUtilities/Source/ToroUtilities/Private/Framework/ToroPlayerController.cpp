@@ -6,7 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 
 AToroPlayerController::AToroPlayerController()
 {
@@ -108,7 +108,7 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 	{
 		RemovePauseRequest(this);
 	}
-	else if (UToroSettings::Get()->IsOnGameplayMap(this))
+	else if (UToroUtilSettings::Get()->IsOnGameplayMap(this))
 	{
 		AddPauseRequest(this);
 	}
@@ -123,7 +123,7 @@ void AToroPlayerController::BeginPlay()
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
 	{
 		Subsystem->ClearAllMappings();
-		Subsystem->AddMappingContext(UToroSettings::Get()->InputMappings.LoadSynchronous(), 0);
+		Subsystem->AddMappingContext(UToroUtilSettings::Get()->InputMappings.LoadSynchronous(), 0);
 		SetInputModeData({EGameInputMode::GameOnly, false});
 	}
 }

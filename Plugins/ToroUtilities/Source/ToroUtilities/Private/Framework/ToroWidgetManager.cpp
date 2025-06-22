@@ -3,7 +3,7 @@
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "Blueprint/UserWidget.h"
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 
 AToroWidgetManager::AToroWidgetManager()
 {
@@ -57,7 +57,7 @@ UUserWidget* AToroWidgetManager::FindWidget(const TSubclassOf<UUserWidget> Class
 void AToroWidgetManager::BeginPlay()
 {
 	Super::BeginPlay();
-	const UToroSettings* Settings = UToroSettings::Get();
+	const UToroUtilSettings* Settings = UToroUtilSettings::Get();
 	for (const TSoftClassPtr<UUserWidget>& Widget : Settings->DefaultWidgets)
 	{
 		FindOrAddWidget(Widget.LoadSynchronous());

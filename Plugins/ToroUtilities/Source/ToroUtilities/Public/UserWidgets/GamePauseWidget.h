@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "DataTypes/InputModeData.h"
 #include "Interfaces/ExitInterface.h"
 #include "UserWidgets/ToroWidgetBase.h"
@@ -52,5 +52,5 @@ protected:
 	virtual void InitWidget() override;
 	virtual void InternalProcessActivation() override;
 	virtual void ReturnToWidget_Implementation(UUserWidget* FromWidget) override;
-	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };

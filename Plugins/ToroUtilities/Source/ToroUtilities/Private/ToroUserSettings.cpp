@@ -4,7 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundClass.h"
 #include "Sound/SoundMix.h"
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "ToroConfigs.h"
 
 UToroUserSettings::UToroUserSettings()
@@ -229,7 +229,7 @@ void UToroUserSettings::ApplyAudioSettings() const
 #if WITH_EDITOR
 	if (!FApp::IsGame()) return;
 #endif
-	const UToroSettings* Settings = UToroSettings::Get();
+	const UToroUtilSettings* Settings = UToroUtilSettings::Get();
 	if (USoundMix* SoundMix = Settings->MainSoundMix.LoadSynchronous())
 	{
 		for (const ESoundClassType Type : TEnumRange<ESoundClassType>())

@@ -5,7 +5,6 @@
 #include "Helpers/DataCompression.h"
 #include "Helpers/WindowsHelpers.h"
 #include "ToroUtilities.h"
-#include "ToroSettings.h"
 
 #define LOG_ERROR(Msg, Data) WindowsHelpers::OpenDialogue(TEXT("Save System Error"), \
 	FString::Printf(TEXT("%s\n%s"), TEXT(Msg), *SavePath), EWindowsDialogueType::Ok, EWindowsDialogueIcon::Error); \

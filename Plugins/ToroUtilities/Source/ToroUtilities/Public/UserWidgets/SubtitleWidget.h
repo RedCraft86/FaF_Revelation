@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "SubtitleWidget.generated.h"
 
@@ -28,7 +28,7 @@ struct FToroSubtitle
 	{}
 
 	bool IsValidSubtitle() const { return Line.IsEmptyOrWhitespace() || ExtraTime < 0.0f; }
-	float CalcTime() const { return ExtraTime + UToroSettings::Get()->GetReadingTime(Line.ToString()); }
+	float CalcTime() const { return ExtraTime + UToroUtilSettings::Get()->GetReadingTime(Line.ToString()); }
 };
 
 UCLASS(Abstract)
@@ -68,5 +68,5 @@ private:
 
 	virtual void InitWidget() override;
 	virtual bool ShouldBeHidden() override { return Super::ShouldBeHidden(); } // TODO Hide on narrative dialogue
-	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };

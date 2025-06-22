@@ -5,7 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroGameInstance.h"
 #include "Framework/ToroGameMode.h"
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 
 AToroPlayerCharacter::AToroPlayerCharacter(): SlowTickInterval(0.1f), LockTags({PlayerLockTag::TAG_Startup.GetTag()})
 {
@@ -102,7 +102,7 @@ void AToroPlayerCharacter::ClearFade() const
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	if (UToroSettings::Get()->IsOnLaunchMap(this))
+	if (UToroUtilSettings::Get()->IsOnLaunchMap(this))
 	{
 		LockTags.AddTag(PlayerLockTag::TAG_MainMenu);
 	}

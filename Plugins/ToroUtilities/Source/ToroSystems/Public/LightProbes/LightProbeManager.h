@@ -37,7 +37,9 @@ private:
 	void UpdateProbes();
 	void CollectProbes();
 	void ResetPPM(const uint8 Idx) const;
+
 	FTransform GetCamera() const;
+	UMaterialInstanceDynamic* GetLightProbeBlendable() const;
 
 	virtual bool IsTickable() const override;
 	virtual void Tick(float DeltaTime) override;

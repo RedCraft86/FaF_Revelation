@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroUtilities.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "NarrativeWidget.generated.h"
 
@@ -17,5 +17,5 @@ public:
 
 private: // TODO
 
-	virtual bool CanCreateWidget() const override { return UToroSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };
