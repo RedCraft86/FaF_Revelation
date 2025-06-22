@@ -5,7 +5,6 @@
 #include "UserSettings/ToroUserSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroUtilities.h"
-#include "ToroSettings.h"
 #if WITH_EDITOR
 #include "Camera/CameraActor.h"
 #include "Camera/CameraComponent.h"
@@ -98,6 +97,28 @@ void AMasterPostProcess::CopyFromTarget()
 }
 #endif
 
+UMaterialInstanceDynamic* AMasterPostProcess::FindBlendable(UMaterialInterface* InMaterial) const
+{
+	return InMaterial ? Blendables.FindRef(InMaterial) : nullptr;
+}
+
+UMaterialInstanceDynamic* AMasterPostProcess::FindOrAddBlendable(UMaterialInterface* InMaterial)
+{
+	if (!InMaterial) return nullptr;
+	UMaterialInstanceDynamic* Blendable = Blendables.FindRef(InMaterial);
+	if (!Blendable)
+	{
+		Blendable = UMaterialInstanceDynamic::Create(InMaterial, this);
+		Blendables.Add(InMaterial, Blendable);
+	}
+	return Blendable;
+}
+
+void AMasterPostProcess::RemoveBlendable(UMaterialInterface* InMaterial)
+{
+	Blendables.Remove(InMaterial);
+}
+
 void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings)
 {
 	if (UDSSetterObj) UDSSetterObj->SetSettings(this, InSettings);
@@ -116,9 +137,9 @@ void AMasterPostProcess::ApplySettings()
 
 	PostProcess->Settings = Settings;
 
-	if (UMaterialInstanceDynamic* PPM = GetLightProbeBlendable())
+	for (const TPair<TObjectPtr<UMaterialInterface>, TObjectPtr<UMaterialInstanceDynamic>>& Pair : Blendables)
 	{
-		PostProcess->AddOrUpdateBlendable(PPM, 1.0f);
+		if (Pair.Key && Pair.Value) PostProcess->AddOrUpdateBlendable(Pair.Value, 1.0f);
 	}
 
 	if (UMaterialInstanceDynamic* PPM = GetBrightnessBlendable())
@@ -137,21 +158,10 @@ bool AMasterPostProcess::IsUsingLumenGI() const
 	return false;
 }
 
-UMaterialInstanceDynamic* AMasterPostProcess::GetLightProbeBlendable()
-{
-	if (LightProbePPM) return LightProbePPM;
-	if (UMaterialInterface* BaseMat = UToroSettings::Get()->LightProbePPM.LoadSynchronous())
-	{
-		LightProbePPM = UMaterialInstanceDynamic::Create(BaseMat, this);
-		
-	}
-	return LightProbePPM;
-}
-
 UMaterialInstanceDynamic* AMasterPostProcess::GetBrightnessBlendable()
 {
 	if (BrightnessPPM) return BrightnessPPM;
-	if (UMaterialInterface* BaseMat = UToroSettings::Get()->BrightnessPPM.LoadSynchronous())
+	if (UMaterialInterface* BaseMat = UToroUtilSettings::Get()->BrightnessPPM.LoadSynchronous())
 	{
 		BrightnessPPM = UMaterialInstanceDynamic::Create(BaseMat, this);
 	}
@@ -180,7 +190,7 @@ void AMasterPostProcess::BeginPlay()
 	}
 
 	UToroUserSettings::Get()->OnDynamicSettingsChanged.AddUObject(this, &AMasterPostProcess::OnSettingUpdate);
-	if (const TSubclassOf<UUDSSetterObject> Class = UToroSettings::Get()->UDS_Setter.LoadSynchronous())
+	if (const TSubclassOf<UUDSSetterObject> Class = UToroUtilSettings::Get()->UDS_Setter.LoadSynchronous())
 	{
 		UDSSetterObj = NewObject<UUDSSetterObject>(this, Class);
 	}

@@ -52,6 +52,15 @@ public:
 		void CopyFromTarget();
 #endif
 
+	UFUNCTION(BlueprintPure, Category = PostProcess)
+		UMaterialInstanceDynamic* FindBlendable(UMaterialInterface* InMaterial) const;
+
+	UFUNCTION(BlueprintCallable, Category = PostProcess)
+		UMaterialInstanceDynamic* FindOrAddBlendable(UMaterialInterface* InMaterial);
+
+	UFUNCTION(BlueprintCallable, Category = PostProcess)
+		void RemoveBlendable(UMaterialInterface* InMaterial);
+
 	UFUNCTION(BlueprintCallable, Category = PostProcess, DisplayName = "Set UDS Settings")
 		void SetUDSSettings(const FUDSSettings& InSettings);
 
@@ -59,14 +68,13 @@ public:
 		void ApplySettings();
 
 	bool IsUsingLumenGI() const;
-	UMaterialInstanceDynamic* GetLightProbeBlendable();
 	UMaterialInstanceDynamic* GetBrightnessBlendable();
 
 private:
 	
 	UPROPERTY(Transient) TObjectPtr<UUDSSetterObject> UDSSetterObj;
-	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> LightProbePPM;
 	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> BrightnessPPM;
+	UPROPERTY(Transient) TMap<TObjectPtr<UMaterialInterface>, TObjectPtr<UMaterialInstanceDynamic>> Blendables;
 
 	void OnSettingUpdate(const class UToroUserSettings* UserSettings);
 	
