@@ -6,8 +6,6 @@
 #include "Components/AudioComponent.h"
 #include "GameMusicManager.generated.h"
 
-#define SetThemeMuted(bMuted) SetPaused(bMuted)
-
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TOROSYSTEMS_API UGameMusicManager : public UAudioComponent
 {
