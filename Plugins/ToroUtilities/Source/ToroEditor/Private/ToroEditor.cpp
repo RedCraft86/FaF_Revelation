@@ -191,6 +191,7 @@ void FToroEditorStyle::Init()
 	AddSVG(ClassThumbnail.AchievementDatabase, Achievement, 64x64);
 	AddSVG(ClassThumbnail.InventoryItemData, InventoryGrid, 64x64);
 	AddSVG(ToroEditor.InventoryGridSmall, InventoryGridSmall, 20x20);
+
 	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))
 	{
 		StyleSet->Set("ClassIcon.ExprTextBlock", new FSlateImageBrush(
