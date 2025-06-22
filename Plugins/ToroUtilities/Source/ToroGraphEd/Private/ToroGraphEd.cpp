@@ -2,10 +2,10 @@
 
 #include "ToroGraphEd.h"
 #include "EdGraphUtilities.h"
-#include "Styling/SlateStyleMacros.h"
-#include "Styling/SlateStyleRegistry.h"
 #include "Interfaces/IPluginManager.h"
-#include "DataGraphNodeFactory.h"
+#include "Nodes/DataGraphNodeFactory.h"
+#include "Styling/SlateStyleRegistry.h"
+#include "Styling/SlateStyleMacros.h"
 
 DEFINE_LOG_CATEGORY(LogDataGraphEditor);
 

@@ -13,7 +13,7 @@ enum class EDataGraphLayoutStrategy : uint8
 };
 
 UCLASS(Config = Editor, DefaultConfig, DisplayName = "Toro Graph Editor")
-class TOROGRAPHED_API UToroGraphSettings final : public UDeveloperSettings
+class UToroGraphSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
