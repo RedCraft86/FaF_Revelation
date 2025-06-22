@@ -130,6 +130,6 @@ FText UDataGraphBase::GetDescription() const
 {
 	return FText::Format(INVTEXT("{0} Nodes | {1} Roots{2}"),
 		AllNodes.Num(), RootNodes.Num(), bCanBeCyclical
-		? FText::GetEmpty() : INVTEXT(" | Cyclical"));
+		? INVTEXT(" | Cyclical") : FText::GetEmpty());
 }
 #endif

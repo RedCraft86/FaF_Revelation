@@ -53,11 +53,6 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		TArray<uint8> GetSequenceFromNode(UDataNodeBase* InNode) const;
-
-#if WITH_EDITOR
-	void ClearGraph();
-	virtual FText GetDescription() const override;
-#endif
 	
 	template<typename T>
 	TArray<T*> GetNodesInSequence(const TArray<uint8>& InSequence, const bool bRootFallback) const
@@ -77,4 +72,9 @@ public:
 	{
 		return Cast<T>(GetLeafInSequence(InSequence, bRootFallback));
 	}
+
+#if WITH_EDITOR
+	void ClearGraph();
+	virtual FText GetDescription() const override;
+#endif
 };
