@@ -23,6 +23,7 @@ public class ToroGraphEd : ModuleRules
                 "ApplicationCore",
                 "AssetDefinition",
                 "DeveloperSettings",
+                "BlueprintGraph",
                 "ToroEditor",
                 "ToroGraph",
                 "ToroCore", 
