@@ -10,7 +10,7 @@
 #include "LightProbeActor.generated.h"
 
 UCLASS()
-class TOROUTILITIES_API ALightProbeActor final : public AActor
+class TOROSYSTEMS_API ALightProbeActor final : public AActor
 {
 	GENERATED_BODY()
 

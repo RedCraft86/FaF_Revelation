@@ -9,7 +9,7 @@
 #include "LevelZoneVolume.generated.h"
 
 UCLASS()
-class TOROUTILITIES_API ALevelZoneVolume final : public AToroVolume
+class TOROSYSTEMS_API ALevelZoneVolume final : public AToroVolume
 {
 	GENERATED_BODY()
 

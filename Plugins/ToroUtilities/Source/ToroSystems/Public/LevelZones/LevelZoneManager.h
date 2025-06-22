@@ -9,12 +9,12 @@
 
 namespace ZoneTags
 {
-	TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(Zone)
-	TOROUTILITIES_API CREATE_TAG_VERIFIER(Zone)
+	TOROSYSTEMS_API DECLARE_GAMEPLAY_TAG(Zone)
+	TOROSYSTEMS_API CREATE_TAG_VERIFIER(Zone)
 }
 
 UCLASS(BlueprintType, DisplayName = "Zone Manager")
-class TOROUTILITIES_API ULevelZoneManager final : public UWorldSubsystem
+class TOROSYSTEMS_API ULevelZoneManager final : public UWorldSubsystem
 {
 	GENERATED_BODY()
 

@@ -2,12 +2,11 @@
 
 #pragma once
 
-#include "Modules/ModuleManager.h"
+DECLARE_LOG_CATEGORY_EXTERN(LogToroSystems, All, All);
 
-class FDataGraphModule final : public IModuleInterface
+class FToroSystemsModule final : public IModuleInterface
 {
 public:
-    
     virtual void StartupModule() override {}
     virtual void ShutdownModule() override {}
 };

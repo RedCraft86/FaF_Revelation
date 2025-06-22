@@ -26,17 +26,12 @@
 			"LoadingPhase": "PostEngineInit"
 		},
 		{
-			"Name": "DataGraph",
+			"Name": "ToroUtilities",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "DataGraphEd",
-			"Type": "EditorNoCommandlet",
-			"LoadingPhase": "PostEngineInit"
-		},
-		{
-			"Name": "ToroUtilities",
+			"Name": "ToroSystems",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}

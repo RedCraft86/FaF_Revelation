@@ -5,7 +5,7 @@
 #include "ToroSettings.h"
 #include "EngineUtils.h"
 #if WITH_EDITOR
-#include "ToroUtilities.h"
+#include "ToroSystems.h"
 #include "Subsystems/UnrealEditorSubsystem.h"
 #endif
 
@@ -143,7 +143,7 @@ bool ULightProbeManager::ShouldCreateSubsystem(UObject* Outer) const
 void ULightProbeManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-	UE_LOG(LogToroUtilities, Display, TEXT("Light Probe Manager initialized by %s."), *GetNameSafe(GetWorld()));
+	UE_LOG(LogToroSystems, Display, TEXT("Light Probe Manager initialized by %s."), *GetNameSafe(GetWorld()));
 	if (!FApp::IsGame()) MasterPP = AMasterPostProcess::Get(this, false);
 }
 #endif

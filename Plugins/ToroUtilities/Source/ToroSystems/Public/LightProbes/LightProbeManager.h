@@ -14,7 +14,7 @@ inline FName ProbeParam(const uint8 Idx, const bool bPos)
 }
 
 UCLASS(BlueprintType, DisplayName = "Light Probe Manager")
-class TOROUTILITIES_API ULightProbeManager final : public UTickableWorldSubsystem
+class TOROSYSTEMS_API ULightProbeManager final : public UTickableWorldSubsystem
 {
 	GENERATED_BODY()
 
