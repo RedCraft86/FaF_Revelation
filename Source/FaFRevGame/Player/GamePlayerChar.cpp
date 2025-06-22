@@ -8,12 +8,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Interaction/InteractionComponent.h"
 #include "UserSettings/ToroUserSettings.h"
+#include "MusicSystem/GameMusicManager.h"
 #include "Inventory/InventoryComponent.h"
 #include "Framework/ToroCameraManager.h"
 #include "Framework/ToroGameInstance.h"
 #include "Libraries/ToroMathLibrary.h"
-#include "MusicSystem/GameMusicManager.h"
-#include "Narrative/GameNarrative.h"
 
 #define CAN_INPUT !IsLocked() && !IsPaused()
 #define TRACE_PARAMS FCollisionQueryParams(NAME_None, false, this)
@@ -56,7 +55,6 @@ AGamePlayerChar::AGamePlayerChar()
 	InspectRoot->bVisualizeComponent = true;
 #endif
 
-	Narrative = CreateDefaultSubobject<UGameNarrativeComponent>("Narrative");
 	Inventory = CreateDefaultSubobject<UInventoryComponent>("Inventory");
 	Interaction = CreateDefaultSubobject<UInteractionComponent>("Interaction");
 
@@ -707,7 +705,7 @@ void AGamePlayerChar::InputBinding_HideQuests(const FInputActionValue& InValue)
 {
 	if (CAN_INPUT)
 	{
-		Narrative->ToggleQuests();
+		//Narrative->ToggleQuests(); TODO
 	}
 }
 
