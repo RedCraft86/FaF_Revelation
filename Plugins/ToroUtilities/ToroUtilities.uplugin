@@ -34,6 +34,16 @@
 			"Name": "ToroSystems",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroGraph",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroGraphEd",
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "PostEngineInit"
 		}
 	],
 	"Plugins": [

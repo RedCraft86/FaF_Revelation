@@ -9,7 +9,7 @@ public class ToroSystems : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
         PublicDependencyModuleNames.AddRange(
-            new string[]
+            new[]
             {
                 "Core",
                 "CoreUObject",
