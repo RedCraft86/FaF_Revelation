@@ -14,8 +14,6 @@
 			return Manager; \
 	}
 
-#define GetWorldTimerManager() GetWorld()->GetTimerManager()
-
 UGameMusicManager::UGameMusicManager()
 {
 	SetUISound(true);
@@ -49,8 +47,8 @@ void UGameMusicManager::ChangeMainTheme(UMetaSoundSource* InTheme)
 		else
 		{
 			FadeOut(1.0f, 0.0f);
-			GetWorldTimerManager().ClearTimer(ChangeTimer);
-			GetWorldTimerManager().SetTimer(ChangeTimer, [this, InTheme]()
+			GetWorld()->GetTimerManager().ClearTimer(ChangeTimer);
+			GetWorld()->GetTimerManager().SetTimer(ChangeTimer, [this, InTheme]()
 			{
 				SetSound(InTheme);
 				FadeIn(1.0f);
