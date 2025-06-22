@@ -28,8 +28,9 @@ public class ToroEditor : ModuleRules
                 "DeveloperSettings",
                 "AssetDefinition",
                 "EditorSubsystem",
-                "ToroUtilities",
                 "ToroCore",
+                "ToroUtilities",
+                "ToroSystems"
             }
         );
     }

@@ -41,7 +41,8 @@ public class ToroUtilities : ModuleRules
                 {
                     "UnrealEd",
                     "EditorScriptingUtilities"
-                });
+                }
+            );
         }
     }
 }
