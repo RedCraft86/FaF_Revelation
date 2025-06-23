@@ -14,6 +14,7 @@ public class ToroGraph : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "ToroCore"
             }
         );
     }
