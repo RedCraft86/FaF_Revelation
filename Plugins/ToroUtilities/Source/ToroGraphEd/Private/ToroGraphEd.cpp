@@ -41,10 +41,10 @@ void FToroGraphEdStyle::Init()
 		TEXT("ToroUtilities"))->GetBaseDir() / TEXT("Resources"));
     
 	StyleSet->Set("ClassThumbnail.ToroDataGraph",
-		new IMAGE_BRUSH_SVG(TEXT("DataGraphIcon"), FVector2D(64.0f)));
+		new IMAGE_BRUSH_SVG(TEXT("ToroDataGraph"), FVector2D(64.0f)));
 
 	StyleSet->Set("ToroGraph.AutoArrange",
-		new IMAGE_BRUSH_SVG(TEXT("DataGraphArrange"), FVector2D(20.0f)));
+		new IMAGE_BRUSH_SVG(TEXT("GraphArrange"), FVector2D(20.0f)));
 	
 	FSlateStyleRegistry::RegisterSlateStyle(*StyleSet.Get());
 }
