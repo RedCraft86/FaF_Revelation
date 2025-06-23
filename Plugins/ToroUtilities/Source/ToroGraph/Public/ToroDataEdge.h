@@ -16,15 +16,15 @@ class TOROGRAPH_API UToroDataEdge : public UDataAsset
 
 public:
 
-	UToroDataEdge(): EdgeID(FGuid::NewGuid()), Name(INVTEXT("Generic Data Edge"))
+	UToroDataEdge(): Name(INVTEXT("Generic Data Edge")), EdgeID(FGuid::NewGuid())
 		, bDrawTitle(false), EdgeColor(0.9f, 0.9f, 0.9f, 1.0f)
 	{}
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Edge)
+		FText Name;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Edge)
 		FGuid EdgeID;
-
-	UPROPERTY(EditDefaultsOnly, Category = Edge, AdvancedDisplay)
-		FText Name;
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditDefaultsOnly, Category = Edge, AdvancedDisplay, DisplayName = "Show Title")

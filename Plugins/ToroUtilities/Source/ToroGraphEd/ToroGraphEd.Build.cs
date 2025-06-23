@@ -13,9 +13,20 @@ public class ToroGraphEd : ModuleRules
             {
                 "Core",
                 "CoreUObject",
+                "UnrealEd",
+                "Projects",
                 "Engine",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
+                "ToolMenus",
+                "GraphEditor",
+                "ApplicationCore",
+                "AssetDefinition",
+                "DeveloperSettings",
+                "BlueprintGraph",
+                "ToroCore",
+                "ToroEditor",
+                "ToroGraph"
             }
         );
     }
