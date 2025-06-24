@@ -44,16 +44,19 @@ void UUserDialogWidget::InitData(const FUserDialogSettings& InSettings, const FU
 	
 	Timer = InTimer;
 	CallbackFunc = Callback;
+	SetVisibility(ESlateVisibility::Visible);
 }
 
 void UUserDialogWidget::ButtonAEvent()
 {
+	SetVisibility(ESlateVisibility::HitTestInvisible);
 	if (CallbackFunc) CallbackFunc(0);
 	DeactivateWidget();
 }
 
 void UUserDialogWidget::ButtonBEvent()
 {
+	SetVisibility(ESlateVisibility::HitTestInvisible);
 	if (CallbackFunc) CallbackFunc(1);
 	DeactivateWidget();
 }
@@ -81,7 +84,7 @@ void UUserDialogWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTim
 		AutoMsgText->SetText(FText::Format(INVTEXT("Auto picking '{0}' in {1}s"),
 			AutoOption, FMath::Max(FMath::RoundToInt32(Timer.WaitTime), 0)));
 
-		if (!Timer.IsValidData())
+		if (!Timer.IsValidData() && GetVisibility() != ESlateVisibility::HitTestInvisible)
 		{
 			switch (Timer.ButtonIdx)
 			{
