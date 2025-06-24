@@ -27,7 +27,7 @@ struct FToroSubtitle
 		: Name(InName), Line(InLine), ExtraTime(InExtraTime)
 	{}
 
-	bool IsValidSubtitle() const { return Line.IsEmptyOrWhitespace() || ExtraTime < 0.0f; }
+	bool IsValidSubtitle() const { return !Line.IsEmptyOrWhitespace() && ExtraTime >= 0.0f; }
 	float CalcTime() const { return ExtraTime + UToroUtilSettings::Get()->GetReadingTime(Line.ToString()); }
 };
 

@@ -24,7 +24,7 @@ struct FToroSimpleMsg
 		: Message(InMessage), ExtraTime(InExtraTime)
 	{}
 
-	bool IsValidMessage() const { return Message.IsEmptyOrWhitespace() || ExtraTime < 0.0f; }
+	bool IsValidMessage() const { return !Message.IsEmptyOrWhitespace() && ExtraTime >= 0.0f; }
 	float CalcTime() const { return ExtraTime + UToroUtilSettings::Get()->GetReadingTime(Message.ToString()); }
 };
 
