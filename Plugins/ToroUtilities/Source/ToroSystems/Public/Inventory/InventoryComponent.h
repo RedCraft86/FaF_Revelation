@@ -13,13 +13,4 @@ class TOROSYSTEMS_API UInventoryComponent : public UActorComponent
 public:
 
 	UInventoryComponent();
-
-	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
-		static UInventoryComponent* GetInventory(const UObject* ContextObject, const int32 PlayerIndex = 0);
-
-	template <typename T = UInventoryComponent>
-	static T* Get(const UObject* ContextObject, const int32 PlayerIndex = 0)
-	{
-		return Cast<T>(GetInventory(ContextObject, PlayerIndex));
-	}
 };
