@@ -36,7 +36,7 @@ void USubtitleWidget::QueueSubtitles(const UObject* ContextObject, const TArray<
 
 void USubtitleWidget::AddSubtitle(const FToroSubtitle& InSubtitle)
 {
-	if (!InSubtitle.IsValidSubtitle()) return;
+	if (!InSubtitle.IsValidData()) return;
 	if (!Subtitles.IsEmpty() && Subtitles[Subtitles.Num() - 1].Line.EqualTo(InSubtitle.Line)) return;
 
 	Subtitles.Add(InSubtitle);

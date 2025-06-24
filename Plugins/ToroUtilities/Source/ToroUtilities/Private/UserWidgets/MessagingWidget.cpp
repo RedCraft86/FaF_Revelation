@@ -57,7 +57,7 @@ void UMessagingWidget::ShowNotice(const FToroSimpleMsg& InData)
 
 void UMessagingWidget::AddNotice(const FToroSimpleMsg& InNotice, const bool bImmediate)
 {
-	if (!InNotice.IsValidMessage()) return;
+	if (!InNotice.IsValidData()) return;
 	if (!Notices.IsEmpty() && Notices[Notices.Num() - 1].Message.EqualTo(InNotice.Message)) return;
 
 	if (bImmediate)
@@ -99,7 +99,7 @@ void UMessagingWidget::ShowTitle(const FToroSimpleMsg& InData)
 
 void UMessagingWidget::AddTitle(const FToroSimpleMsg& InTitle, const bool bImmediate)
 {
-	if (!InTitle.IsValidMessage()) return;
+	if (!InTitle.IsValidData()) return;
 	if (!Titles.IsEmpty() && Titles[Titles.Num() - 1].Message.EqualTo(InTitle.Message)) return;
 
 	if (bImmediate)
