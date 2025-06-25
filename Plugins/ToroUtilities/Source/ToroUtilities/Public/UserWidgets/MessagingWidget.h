@@ -3,11 +3,12 @@
 #pragma once
 
 #include "ToroUtilities.h"
-#include "Components/RichTextBlockImageDecorator.h"
 #include "UserWidgets/ToroWidgetBase.h"
+#include "Components/RichTextBlockImageDecorator.h"
 #include "MessagingWidget.generated.h"
 
 class UTextBlock;
+class UExprTextBlock;
 
 USTRUCT(BlueprintType)
 struct FToroSimpleMsg
@@ -76,10 +77,10 @@ public:
 	UMessagingWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> NoticeText; // TODO UExprTextBlock
+		TObjectPtr<UExprTextBlock> NoticeText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> TitleText; // TODO UExprTextBlock
+		TObjectPtr<UExprTextBlock> TitleText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> NoticeAnim;

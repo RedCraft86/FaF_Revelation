@@ -7,6 +7,7 @@
 
 class UButton;
 class UTextBlock;
+class UExprTextBlock;
 
 USTRUCT(BlueprintType)
 struct TOROUTILITIES_API FUserDialogSettings
@@ -65,7 +66,7 @@ public:
 		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> MsgText; // TODO UExprTextBlock
+		TObjectPtr<UExprTextBlock> MsgText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> AutoMsgText;

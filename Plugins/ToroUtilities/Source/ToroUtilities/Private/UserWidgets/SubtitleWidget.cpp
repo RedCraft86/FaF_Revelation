@@ -2,6 +2,7 @@
 
 #include "UserWidgets/SubtitleWidget.h"
 #include "Framework/ToroWidgetManager.h"
+#include "UserWidgets/ExprTextBlock.h"
 #include "Components/TextBlock.h"
 #include "SubtitleManager.h"
 

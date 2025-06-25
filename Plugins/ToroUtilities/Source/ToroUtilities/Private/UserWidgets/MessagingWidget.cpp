@@ -3,6 +3,7 @@
 #include "UserWidgets/MessagingWidget.h"
 #include "Animation/UMGSequencePlayer.h"
 #include "Framework/ToroWidgetManager.h"
+#include "UserWidgets/ExprTextBlock.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/PanelWidget.h"
 #include "Components/TextBlock.h"

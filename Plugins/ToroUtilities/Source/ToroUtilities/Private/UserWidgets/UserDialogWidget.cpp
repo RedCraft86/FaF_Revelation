@@ -2,6 +2,7 @@
 
 #include "UserWidgets/UserDialogWidget.h"
 #include "Framework/ToroWidgetManager.h"
+#include "UserWidgets/ExprTextBlock.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
 

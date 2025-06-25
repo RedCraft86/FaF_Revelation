@@ -6,8 +6,6 @@
 #include "UserWidgets/ToroWidgetBase.h"
 #include "SubtitleWidget.generated.h"
 
-class UTextBlock;
-
 USTRUCT(BlueprintType)
 struct FToroSubtitle
 {
@@ -41,10 +39,10 @@ public:
 	USubtitleWidget(const FObjectInitializer& ObjectInitializer);
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> NameText;
+		TObjectPtr<class UTextBlock> NameText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> LineText; // TODO UExprTextBlock
+		TObjectPtr<class UExprTextBlock> LineText;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bCaptureNativeSubtitles;
