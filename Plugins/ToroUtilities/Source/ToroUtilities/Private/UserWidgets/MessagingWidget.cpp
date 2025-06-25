@@ -1,8 +1,29 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/MessagingWidget.h"
+#include "Animation/UMGSequencePlayer.h"
 #include "Framework/ToroWidgetManager.h"
+#include "Blueprint/WidgetTree.h"
+#include "Components/PanelWidget.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
+#include "EnhancedCodeFlow.h"
+
+void UInputPreviewEntry::InitData(const FToroInputPrompt& InPreview)
+{
+	NameText->SetText(InPreview.Name);
+	for (const FKey& Key : InPreview.Keys)
+	{
+		if (FRichImageRow Icon = GetKeyIcon(Key.GetFName()); Icon.Brush.GetResourceObject())
+		{
+			if (UImage* Image = WidgetTree->ConstructWidget<UImage>())
+			{
+				Image->SetBrush(Icon.Brush);
+				KeysBox->AddChild(Image);
+			}
+		}
+	}
+}
 
 UMessagingWidget::UMessagingWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
@@ -29,6 +50,39 @@ void UMessagingWidget::QueueTitle(const UObject* ContextObject, const FToroSimpl
 		if (UMessagingWidget* Widget = Manager->FindWidget<UMessagingWidget>())
 		{
 			Widget->AddTitle(InTitle);
+		}
+	}
+}
+
+void UMessagingWidget::ShowInputPrompt(const UObject* ContextObject, const FName InKey, const FToroInputPrompt& InData)
+{
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
+	{
+		if (UMessagingWidget* Widget = Manager->FindWidget<UMessagingWidget>())
+		{
+			Widget->AddInputRow(InKey, InData);
+		}
+	}
+}
+
+void UMessagingWidget::HideInputPrompt(const UObject* ContextObject, const FName InKey)
+{
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
+	{
+		if (UMessagingWidget* Widget = Manager->FindWidget<UMessagingWidget>())
+		{
+			Widget->RemoveInputRow(InKey);
+		}
+	}
+}
+
+void UMessagingWidget::ClearInputPrompts(const UObject* ContextObject)
+{
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
+	{
+		if (UMessagingWidget* Widget = Manager->FindWidget<UMessagingWidget>())
+		{
+			Widget->ClearInputRows();
 		}
 	}
 }
@@ -84,14 +138,14 @@ void UMessagingWidget::NextTitle()
 	}
 	else
 	{
-		PlayAnimationReverse(ActivateAnim);
+		PlayAnimationReverse(TitleAnim);
 	}
 }
 
 void UMessagingWidget::ShowTitle(const FToroSimpleMsg& InData)
 {
 	TitleText->SetText(InData.Message);
-	PlayAnimation(ActivateAnim);
+	PlayAnimation(TitleAnim);
 
 	GetWorld()->GetTimerManager().SetTimer(TitleTimer, this,
 		&UMessagingWidget::NextTitle, InData.CalcTime(), false);
@@ -117,9 +171,60 @@ void UMessagingWidget::AddTitle(const FToroSimpleMsg& InTitle, const bool bImmed
 	}
 }
 
+void UMessagingWidget::ClearInputRows()
+{
+	if (!InputEntryWidget || InputPreviews.IsEmpty()) return;
+
+	TArray<TObjectPtr<UInputPreviewEntry>> Widgets;
+	InputPreviews.GenerateValueArray(Widgets);
+	InputPreviews.Empty();
+
+	PlayAnimationReverse(InputRowAnim);
+	FFlow::Delay(this, GetAnimDuration(InputRowAnim), [this, Widgets]()
+	{
+		for (const TObjectPtr<UInputPreviewEntry>& Widget : Widgets)
+		{
+			Widget->RemoveFromParent();
+		}
+	});
+}
+
+void UMessagingWidget::RemoveInputRow(const FName& InKey)
+{
+	if (!InputEntryWidget || !InputPreviews.Contains(InKey)) return;
+
+	UInputPreviewEntry* Widget = InputPreviews[InKey];
+	InputPreviews.Remove(InKey);
+
+	const bool bLastRow = InputPreviews.Num() == 1;
+	if (bLastRow) PlayAnimationReverse(InputRowAnim);
+	FFlow::Delay(this, bLastRow ? GetAnimDuration(InputRowAnim) : 0.01f, [this, Widget]()
+	{
+		Widget->RemoveFromParent();
+	});
+}
+
+void UMessagingWidget::AddInputRow(const FName& InKey, const FToroInputPrompt& InData)
+{
+	if (!InputEntryWidget || InputPreviews.Contains(InKey)) return;
+
+	PlayAnimationForward(InputRowAnim);
+	if (UInputPreviewEntry* Entry = CreateWidget<UInputPreviewEntry>(this, InputEntryWidget))
+	{
+		Entry->InitData(InData);
+		InputPreviews.Add(InKey, Entry);
+	}
+}
+
 void UMessagingWidget::InitWidget()
 {
 	Super::InitWidget();
 	NoticeText->SetText(FText::GetEmpty());
 	TitleText->SetText(FText::GetEmpty());
+}
+
+void UMessagingWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	InitAnim(InputRowAnim);
 }
