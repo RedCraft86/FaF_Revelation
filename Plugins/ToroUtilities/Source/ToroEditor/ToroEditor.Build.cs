@@ -30,7 +30,8 @@ public class ToroEditor : ModuleRules
                 "EditorSubsystem",
                 "ToroCore",
                 "ToroUtilities",
-                "ToroSystems"
+                "ToroSystems",
+                "ExpressiveText"
             }
         );
     }

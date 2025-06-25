@@ -25,6 +25,7 @@
 #include "DetailsPanels/Class/ZoneVolumeDetails.h"
 #include "DetailsPanels/Struct/InlineCurveDetails.h"
 #include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
+#include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
 
 #include "Actors/TeleportPoint.h"
 #include "Actors/NavPathVisualizer.h"
@@ -92,6 +93,8 @@ void FToroEditorModule::StartupModule()
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionDetails)
 
+		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExprTextFieldsDetails)
+
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{
 			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
@@ -138,6 +141,8 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
+
+		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
 		{

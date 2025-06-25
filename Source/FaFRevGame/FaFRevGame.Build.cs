@@ -30,7 +30,8 @@ public class FaFRevGame : ModuleRules
                 "ToroCore",
                 "ToroUtilities",
                 "ToroSystems",
-                "EnhancedCodeFlow"
+                "EnhancedCodeFlow",
+                "ExpressiveText"
             }
         );
     }

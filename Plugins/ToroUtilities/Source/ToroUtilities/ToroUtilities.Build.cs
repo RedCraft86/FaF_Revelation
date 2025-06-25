@@ -30,7 +30,8 @@ public class ToroUtilities : ModuleRules
                 "GameplayTags",
                 "CommonUI",
                 "ToroCore",
-                "EnhancedCodeFlow"
+                "EnhancedCodeFlow",
+                "ExpressiveText"
             }
         );
         

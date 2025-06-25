@@ -22,6 +22,7 @@ public class ToroSystems : ModuleRules
                 "GameplayTags",
                 "ToroCore",
                 "ToroUtilities",
+                "ExpressiveText"
             }
         );
         
