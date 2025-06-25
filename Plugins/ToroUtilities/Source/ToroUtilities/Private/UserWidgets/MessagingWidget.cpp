@@ -206,7 +206,7 @@ void UMessagingWidget::RemoveInputRow(const FName& InKey)
 
 void UMessagingWidget::AddInputRow(const FName& InKey, const FToroInputPrompt& InData)
 {
-	if (!InputEntryWidget || InputPreviews.Contains(InKey)) return;
+	if (!InputEntryWidget || InputPreviews.Contains(InKey) || !InData.IsValidData()) return;
 
 	PlayAnimationForward(InputRowAnim);
 	if (UInputPreviewEntry* Entry = CreateWidget<UInputPreviewEntry>(this, InputEntryWidget))
