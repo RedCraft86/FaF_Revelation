@@ -42,7 +42,7 @@ struct FToroTextureData
 		: Pixels(InPixels), Size({SizeX, SizeY}) 
 	{}
 	
-	friend FArchive& operator<<(FArchive& Ar, FToroTextureData& TextureData)
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FToroTextureData& TextureData)
 	{
 		Ar << TextureData.Pixels;
 		Ar << TextureData.Size;
@@ -62,7 +62,7 @@ struct TOROCORE_API FGameCurrency
 
 	FGameCurrency(): CurrencyUnits(0) {}
 	FGameCurrency(const int64 InMoney): CurrencyUnits(InMoney) {}
-	friend FArchive& operator<<(FArchive& Ar, FGameCurrency& Data)
+	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FGameCurrency& Data)
 	{
 		Ar << Data.CurrencyUnits;
 		return Ar;

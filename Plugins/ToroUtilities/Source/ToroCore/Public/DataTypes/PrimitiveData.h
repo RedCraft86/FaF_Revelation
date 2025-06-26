@@ -25,7 +25,7 @@ struct TOROCORE_API FStaticMeshData
         : Mesh(InMesh), Materials(InMaterials), bCastShadows(bInCastShadows)
     {}
     
-    friend FArchive& operator<<(FArchive& Ar, FStaticMeshData& Data)
+    FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FStaticMeshData& Data)
     {
         Ar << Data.Mesh;
         Ar << Data.Materials;
@@ -48,9 +48,9 @@ struct TOROCORE_API FTransformMeshData : public FStaticMeshData
         FTransform Transform;
 
     FTransformMeshData() : Transform(FTransform::Identity) {}
-    FStaticMeshData operator*() const { return {Mesh, Materials, bCastShadows}; }
+    FORCEINLINE FStaticMeshData operator*() const { return {Mesh, Materials, bCastShadows}; }
     
-    friend FArchive& operator<<(FArchive& Ar, FTransformMeshData& Data)
+    FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FTransformMeshData& Data)
     {
         Ar << Data.Mesh;
         Ar << Data.Materials;
@@ -69,9 +69,9 @@ struct TOROCORE_API FSplineMeshData : public FStaticMeshData
         TEnumAsByte<ESplineMeshAxis::Type> MeshAxis;
 
     FSplineMeshData() : MeshAxis(ESplineMeshAxis::X) {}
-    FStaticMeshData operator*() const { return {Mesh, Materials, bCastShadows}; }
+    FORCEINLINE FStaticMeshData operator*() const { return {Mesh, Materials, bCastShadows}; }
     
-    friend FArchive& operator<<(FArchive& Ar, FSplineMeshData& Data)
+    FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FSplineMeshData& Data)
     {
         Ar << Data.Mesh;
         Ar << Data.Materials;
@@ -167,7 +167,7 @@ struct TOROCORE_API FPrimitiveCollision
         FillResponsesMap();
     }
 
-    friend FArchive& operator<<(FArchive& Ar, FPrimitiveCollision& Data)
+    FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FPrimitiveCollision& Data)
     {
         Ar << Data.CollisionProfileName;
         Ar << Data.CollisionEnabled;
