@@ -74,7 +74,7 @@ void AToroSequenceActor::LockPlayer()
 		if (UCutsceneSkipWidget* SkipWidget = GetWidget())
 		{
 			SkipWidget->ShowWidget(this);
-			CachedInputMode = Controller->GetInputModeData();
+			CachedInput = Controller->GetInputModeData();
 			Controller->SetInputModeData({EGameInputMode::GameAndUI, false,
 				EMouseLockMode::LockAlways, true, SkipWidget});
 		}
@@ -91,7 +91,7 @@ void AToroSequenceActor::UnlockPlayer()
 		if (UCutsceneSkipWidget* SkipWidget = GetWidget(); SkipWidget && SkipWidget->IsActivated())
 		{
 			SkipWidget->DeactivateWidget();
-			Controller->SetInputModeData(CachedInputMode);
+			Controller->SetInputModeData(CachedInput);
 		}
 	}
 }

@@ -54,7 +54,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
 		FGuid CutsceneGuid;
 
-	UPROPERTY() FGameInputModeData CachedInputMode;
+	UPROPERTY() FGameInputModeData CachedInput;
 	UPROPERTY(Transient) TObjectPtr<class UCutsceneSkipWidget> Widget;
 
 	void OnFinished();
