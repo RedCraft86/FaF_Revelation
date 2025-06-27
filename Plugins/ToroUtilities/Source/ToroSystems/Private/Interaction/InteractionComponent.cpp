@@ -45,16 +45,16 @@ void UInteractionComponent::SetInteracting(const bool bInInteracting, AToroPlaye
 
 void UInteractionComponent::UpdateWidget()
 {
-	if (!Widget)
+	if (!WidgetPtr)
 	{
 		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this, 0))
 		{
-			Widget = Manager->FindWidget<UInteractionWidget>();
+			WidgetPtr = Manager->FindWidget<UInteractionWidget>();
 		}
 	}
-	if (Widget)
+	if (WidgetPtr)
 	{
-		Widget->UpdateUI(bEnabled, InteractCache);
+		WidgetPtr->UpdateUI(bEnabled, InteractCache);
 	}
 }
 

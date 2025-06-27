@@ -38,7 +38,7 @@ protected:
 	UPROPERTY() bool bInteracting;
 	UPROPERTY() FInteractionCache InteractCache;
 	UPROPERTY(Transient) TObjectPtr<AToroPlayerCharacter> Player;
-	UPROPERTY(Transient) TObjectPtr<UInteractionWidget> Widget;
+	UPROPERTY(Transient) TObjectPtr<UInteractionWidget> WidgetPtr;
 
 	void UpdateWidget();
 	virtual void CleanupCache();
