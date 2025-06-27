@@ -37,12 +37,12 @@ public:
 	virtual void OnUnequip_Implementation() {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Equipment)
-		void OnDataSave(UPARAM(ref) FJsonObjectWrapper& JsonData);
-	virtual void OnDataSave_Implementation(UPARAM(ref) FJsonObjectWrapper& JsonData) {}
+		void OnDataSave(UPARAM(ref) FJsonObjectWrapper& Json);
+	virtual void OnDataSave_Implementation(UPARAM(ref) FJsonObjectWrapper& Json) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Equipment)
-		void OnDataLoad(const FJsonObjectWrapper& JsonData);
-	virtual void OnDataLoad_Implementation(const FJsonObjectWrapper& JsonData) {}
+		void OnDataLoad(const FJsonObjectWrapper& Json);
+	virtual void OnDataLoad_Implementation(const FJsonObjectWrapper& Json) {}
 
 	UFUNCTION(BlueprintPure, Category = Equipment)
 		bool IsBeingUsed() const { return bUsing; }

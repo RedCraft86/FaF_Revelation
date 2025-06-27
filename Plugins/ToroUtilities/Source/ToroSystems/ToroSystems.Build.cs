@@ -23,6 +23,7 @@ public class ToroSystems : ModuleRules
                 "MetasoundEngine",
                 "DeveloperSettings",
                 "GameplayTags",
+                "CommonUI",
                 "ToroCore",
                 "ToroUtilities",
                 "ExpressiveText"
