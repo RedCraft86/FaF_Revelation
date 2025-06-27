@@ -75,6 +75,16 @@ public:
 		}
 	}
 
+	bool IsValidEquipment() const
+	{
+		return ItemType == EInvItemType::Equipment && !Equipment.IsNull();
+	}
+
+	bool IsValidArchive() const
+	{
+		return Type == EInvAssetType::Archive && !ContentText.IsEmptyOrWhitespace();
+	}
+
 #if WITH_EDITOR
 	virtual FText GetDescription() const override
 	{

@@ -5,8 +5,9 @@
 #include "InventorySlot.h"
 #include "EquipmentActor.h"
 #include "InventoryAsset.h"
-#include "Components/ActorComponent.h"
+#include "InventoryWidget.h"
 #include "DataTypes/InputModeData.h"
+#include "Components/ActorComponent.h"
 #include "InventoryComponent.generated.h"
 
 USTRUCT(BlueprintType)
@@ -34,26 +35,11 @@ struct TOROSYSTEMS_API FInventoryData
 	}
 	
 	void EnsureData(const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& InItems,
-		const TMap<TSoftObjectPtr<UInventoryAsset>, bool>& InArchives)
-	{
-		for (const TPair<TSoftObjectPtr<UInventoryAsset>, uint8>& Item : InItems)
-		{
-			if (Item.Key.IsNull()) continue;
-			FInvItemSlot& Slot = Items.FindOrAdd(Item.Key);
-			Slot.Amount = FMath::Max(Item.Value, Slot.Amount);
-		}
-
-		for (const TPair<TSoftObjectPtr<UInventoryAsset>, bool>& Archive : InArchives)
-		{
-			if (Archive.Key.IsNull()) continue;
-			FInvArchiveSlot& Slot = Archives.FindOrAdd(Archive.Key);
-			Slot.bKnowSecret = Slot.bKnowSecret || Archive.Value;
-		}
-	}
+		const TMap<TSoftObjectPtr<UInventoryAsset>, bool>& InArchives);
 };
 
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
-class TOROSYSTEMS_API UInventoryComponent : public UActorComponent
+class TOROSYSTEMS_API UInventoryComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -61,12 +47,70 @@ public:
 
 	UInventoryComponent();
 
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		uint8 AddItem(const TSoftObjectPtr<UInventoryAsset>& InItem, const uint8 Amount = 1, const FString& Json = TEXT(""));
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		uint8 RemoveItem(const TSoftObjectPtr<UInventoryAsset>& InItem, const uint8 Amount = 1);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		bool UseKeyItem(const TSoftObjectPtr<UInventoryAsset>& InItem);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		bool GetItemSlot(const TSoftObjectPtr<UInventoryAsset>& InItem, FInvItemSlot& Slot) const;
+
+	UFUNCTION(BlueprintPure, Category = Inventory)
+		TArray<TSoftObjectPtr<UInventoryAsset>> GetSortedItems();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void AddArchive(const TSoftObjectPtr<UInventoryAsset>& InArchive, const bool bKnowSecret = false);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		bool GetArchiveSlot(const TSoftObjectPtr<UInventoryAsset>& InArchive, FInvArchiveSlot& Slot) const;
+
+	UFUNCTION(BlueprintPure, Category = Inventory)
+		TArray<TSoftObjectPtr<UInventoryAsset>> GetSortedArchives();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void UnEquipItem();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void EquipItem(const TSoftObjectPtr<UInventoryAsset>& InItem);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void SetEquipmentUsage(const bool bUsing) const;
+
+	UFUNCTION(BlueprintPure, Category = Inventory)
+		const TSoftObjectPtr<UInventoryAsset>& GetEquipment() { return InvData.Equipment; }
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void OpenInventory();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void CloseInventory();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void LoadSaveData(const FInventoryData& InData);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		FInventoryData GetSaveData() const { return InvData; }
+
+	// Only used internally when the player SHOULD have a certain item/archive entry when changing game phases
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void EnsureInventory(const TSoftObjectPtr<UInventoryAsset>& InEquipment,
+			const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& InItems,
+			const TMap<TSoftObjectPtr<UInventoryAsset>, bool>& InArchives);
+
+	DECLARE_DELEGATE_RetVal(USceneComponent*, FGetEquipmentRoot);
+	FGetEquipmentRoot GetEquipmentRoot;
+
 protected:
 
 	UPROPERTY() bool bInInventory;
 	UPROPERTY() FInventoryData InvData;
 	UPROPERTY() FGameInputModeData CachedInput;
-	UPROPERTY(Transient) TObjectPtr<AEquipmentActor> Equipment;
+	UPROPERTY(Transient) TObjectPtr<AEquipmentActor> EquipActor;
+	UPROPERTY(Transient) TObjectPtr<UInventoryWidget> WidgetPtr;
 
-	virtual void BeginPlay() override;
+	UInventoryWidget* GetWidget();
 };
