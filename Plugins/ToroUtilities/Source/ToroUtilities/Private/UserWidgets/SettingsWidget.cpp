@@ -37,7 +37,7 @@
 USettingsWidget::USettingsWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), ScreenIndex(0), AutoDetectTime(0.0f)
 {
-	ZOrder = 96;
+	ZOrder = 97;
 	bAutoActivate = false;
 }
 

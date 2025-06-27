@@ -8,7 +8,7 @@
 UCutsceneSkipWidget::UCutsceneSkipWidget(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
 	, SkipKey(EKeys::Enter), HoldTime(2.0f), bHolding(false), Progress(0.0f)
 {
-	ZOrder = 97;
+	ZOrder = 98;
 	bAutoActivate = false;
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }

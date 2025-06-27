@@ -11,7 +11,7 @@
 UGamePauseWidget::UGamePauseWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	ZOrder = 96;
+	ZOrder = 97;
 	bAutoActivate = false;
 }
 
