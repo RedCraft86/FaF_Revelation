@@ -2,8 +2,7 @@
 
 #include "Interaction/InteractionComponent.h"
 #include "Framework/ToroPlayerCharacter.h"
-
-#define UpdateUI() if (OnDataUpdate.IsBound()) OnDataUpdate.Execute(CanInteract(), InteractCache)
+#include "Framework/ToroWidgetManager.h"
 
 UInteractionComponent::UInteractionComponent(): bEnabled(true), bInteracting(false)
 {
@@ -16,7 +15,14 @@ void UInteractionComponent::SetEnabled(const bool bInEnabled)
 	if (bEnabled != bInEnabled)
 	{
 		bEnabled = bInEnabled;
-		if (!bEnabled) SetInteracting(false, nullptr);
+		if (!bEnabled && bInteracting)
+		{
+			SetInteracting(false, nullptr);
+		}
+		else
+		{
+			UpdateWidget();
+		}
 	}
 }
 
@@ -37,13 +43,28 @@ void UInteractionComponent::SetInteracting(const bool bInInteracting, AToroPlaye
 	}
 }
 
+void UInteractionComponent::UpdateWidget()
+{
+	if (!Widget)
+	{
+		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this, 0))
+		{
+			Widget = Manager->FindWidget<UInteractionWidget>();
+		}
+	}
+	if (Widget)
+	{
+		Widget->UpdateUI(bEnabled, InteractCache);
+	}
+}
+
 void UInteractionComponent::CleanupCache()
 {
 	if (InteractCache.Target)
 	{
 		InteractCache.StopInteract(Player);
 		InteractCache.Reset();
-		UpdateUI();
+		UpdateWidget();
 	}
 }
 
@@ -75,6 +96,6 @@ void UInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 		InteractCache.Info = Info;
 		InteractCache.Target = HitActor;
 		InteractCache.StartInteract(Player, HitResult);
-		UpdateUI();
+		UpdateWidget();
 	}
 }
