@@ -2,8 +2,17 @@
 
 #include "Inventory/InventoryComponent.h"
 
-UInventoryComponent::UInventoryComponent()
+#define InvItems InvData.Items
+#define InvArchives InvData.Archives
+#define InvEquipment InvData.Equipment
+
+UInventoryComponent::UInventoryComponent(): bInInventory(false)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
+}
+
+void UInventoryComponent::BeginPlay()
+{
+	Super::BeginPlay();
 }
