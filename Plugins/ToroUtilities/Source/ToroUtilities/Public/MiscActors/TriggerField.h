@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Actors/ToroVolume.h"
+#include "Components/BrushComponent.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "WorldActions/WorldActionComponent.h"
 #include "TriggerField.generated.h"
@@ -11,13 +12,19 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGameFieldEvent, AToroPlayerCharacte
 DECLARE_MULTICAST_DELEGATE_OneParam(FGameFieldEventNative, AToroPlayerCharacter*);
 
 UCLASS(NotBlueprintable, BlueprintType)
-class TOROSYSTEMS_API ATriggerField final : public AToroVolume
+class TOROUTILITIES_API ATriggerField final : public AToroVolume
 {
 	GENERATED_BODY()
 
 public:
 
-	ATriggerField();
+	ATriggerField()
+	{
+		ActionComponent = CreateDefaultSubobject<UWorldActionComponent>("ActionComponent");
+		ActionComponent->bAutoConstruction = false;
+	
+		GetBrushComponent()->SetCollisionProfileName("Trigger");
+	}
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bSingleUse;
@@ -34,6 +41,24 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Subobjects)
 		TObjectPtr<UWorldActionComponent> ActionComponent;
 
-	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
-	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override
+	{
+		Super::NotifyActorBeginOverlap(OtherActor);
+		
+		if (!IsEnabled()) return;
+		if (AToroPlayerCharacter* Player = Cast<AToroPlayerCharacter>(OtherActor))
+		{
+			OnTriggered.Broadcast(Player);
+			OnTriggeredEvent.Broadcast(Player);
+			ActionComponent->SetActions(Actions);
+			ActionComponent->RunActions();
+			if (bSingleUse) SetEnabled(false);
+		}
+	}
+
+	virtual void OnConstruction(const FTransform& Transform) override
+	{
+		Super::OnConstruction(Transform);
+		ActionComponent->SetActions(Actions, true);
+	}
 };

@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Interaction/InteractionField.h"
-#include "Components/BrushComponent.h"
 
 AInteractionField::AInteractionField()
 {

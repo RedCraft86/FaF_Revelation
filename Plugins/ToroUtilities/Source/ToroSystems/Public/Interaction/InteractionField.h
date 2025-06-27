@@ -2,9 +2,9 @@
 
 #pragma once
 
-#include "TriggerField.h"
 #include "Actors/ToroVolume.h"
 #include "InteractionInterface.h"
+#include "MiscActors/TriggerField.h"
 #include "WorldActions/WorldActionBase.h"
 #include "InteractionField.generated.h"
 
