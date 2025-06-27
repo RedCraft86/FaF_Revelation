@@ -9,7 +9,7 @@
 #include "InteractionComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
-class TOROSYSTEMS_API UInteractionComponent : public UActorComponent
+class TOROSYSTEMS_API UInteractionComponent final : public UActorComponent
 {
 	GENERATED_BODY()
 
@@ -41,7 +41,7 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<UInteractionWidget> WidgetPtr;
 
 	void UpdateWidget();
-	virtual void CleanupCache();
-	virtual bool CanInteract() const { return bEnabled && HandleTrace.IsBound(); }
+	void CleanupCache();
+	bool CanInteract() const { return bEnabled && HandleTrace.IsBound(); }
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 };
