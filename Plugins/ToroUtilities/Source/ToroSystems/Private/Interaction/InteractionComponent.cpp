@@ -47,7 +47,7 @@ void UInteractionComponent::UpdateWidget()
 {
 	if (!WidgetPtr)
 	{
-		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this, 0))
+		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 		{
 			WidgetPtr = Manager->FindWidget<UInteractionWidget>();
 		}
