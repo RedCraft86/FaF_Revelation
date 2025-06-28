@@ -325,6 +325,10 @@
 			"Enabled": true
 		},
 		{
+			"Name": "NiagaraSimCaching",
+			"Enabled": true
+		},
+		{
 			"Name": "CascadeToNiagaraConverter",
 			"Enabled": true
 		},
