@@ -149,7 +149,7 @@ TArray<TSoftObjectPtr<UInventoryAsset>> UInventoryComponent::GetSortedItems()
 void UInventoryComponent::AddArchive(const TSoftObjectPtr<UInventoryAsset>& InArchive, const bool bKnowSecret)
 {
 	if (const UInventoryAsset* Archive = InArchive.LoadSynchronous(); !Archive || !Archive->IsValidArchive()) return;
-	if (!InvArchives.Contains(InArchive) || !InvArchives[InArchive].bKnowSecret)
+	if (!InvArchives.Contains(InArchive) || (bKnowSecret && !InvArchives[InArchive].bKnowSecret))
 	{
 		InvArchives.Add(InArchive, {bKnowSecret, InvArchives.Num()});
 	}
