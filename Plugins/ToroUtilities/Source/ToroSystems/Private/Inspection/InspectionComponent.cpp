@@ -90,6 +90,6 @@ UInspectionWidget* UInspectionComponent::GetWidget()
 
 UInventoryComponent* UInspectionComponent::GetInventory()
 {
-	if (!Inventory) Inventory = UInventoryComponent::Get(this, 0);
+	if (!Inventory) Inventory = UInventoryComponent::Get(this);
 	return Inventory;
 }
