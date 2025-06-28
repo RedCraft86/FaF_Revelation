@@ -2,11 +2,15 @@
 
 #pragma once
 
-#include "Components/SceneComponent.h"
+#include "InspectableActor.h"
+#include "InspectionWidget.h"
+#include "Interfaces/ExitInterface.h"
+#include "Framework/ToroCameraManager.h"
+#include "Inventory/InventoryComponent.h"
 #include "InspectionComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
-class TOROSYSTEMS_API UInspectionComponent : public USceneComponent
+class TOROSYSTEMS_API UInspectionComponent : public USceneComponent, public IExitInterface
 {
 	GENERATED_BODY()
 
@@ -21,4 +25,36 @@ public:
 	{
 		return GetInspectionComponent(ContextObject, PlayerIndex);
 	}
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+		FVector2D TurnRate;
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		void BeginInspection(AInspectableActor* InInspectable);
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		void EndInspection();
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		AInspectableActor* GetInspectable() { return Inspectable; }
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		bool IsInspecting() const { return IsValid(Inspectable); }
+
+	DECLARE_DELEGATE_OneParam(FOnInspection, const bool);
+	FOnInspection OnInspection;
+
+	void OnMouseXY(const FVector2D& InValue);
+	virtual void Exit_Implementation() override { EndInspection(); }
+
+private:
+
+	UPROPERTY() bool bSecretKnown;
+	UPROPERTY(Transient) TObjectPtr<UInspectionWidget> Widget;
+	UPROPERTY(Transient) TObjectPtr<UInventoryComponent> Inventory;
+	UPROPERTY(Transient) TObjectPtr<AInspectableActor> Inspectable;
+	UPROPERTY(Transient) TObjectPtr<AToroCameraManager> CamManager;
+
+	UInspectionWidget* GetWidget();
+	UInventoryComponent* GetInventory();
 };
