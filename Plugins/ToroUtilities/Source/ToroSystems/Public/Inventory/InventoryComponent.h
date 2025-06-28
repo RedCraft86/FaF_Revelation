@@ -68,6 +68,9 @@ public:
 		bool GetItemSlot(const TSoftObjectPtr<UInventoryAsset>& InItem, FInvItemSlot& Slot) const;
 
 	UFUNCTION(BlueprintPure, Category = Inventory)
+		uint8 GetItemAmount(const TSoftObjectPtr<UInventoryAsset>& InItem) const;
+
+	UFUNCTION(BlueprintPure, Category = Inventory)
 		TArray<TSoftObjectPtr<UInventoryAsset>> GetSortedItems();
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)

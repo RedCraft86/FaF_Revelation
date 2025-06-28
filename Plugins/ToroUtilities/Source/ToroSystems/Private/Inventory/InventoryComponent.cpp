@@ -126,6 +126,13 @@ bool UInventoryComponent::GetItemSlot(const TSoftObjectPtr<UInventoryAsset>& InI
 	return bHasItem;
 }
 
+uint8 UInventoryComponent::GetItemAmount(const TSoftObjectPtr<UInventoryAsset>& InItem) const
+{
+	FInvItemSlot Slot;
+	if (!GetItemSlot(InItem, Slot)) return 0;
+	return Slot.Amount;
+}
+
 TArray<TSoftObjectPtr<UInventoryAsset>> UInventoryComponent::GetSortedItems()
 {
 	TArray<TSoftObjectPtr<UInventoryAsset>> Items;
