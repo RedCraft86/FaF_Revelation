@@ -40,8 +40,8 @@ void AInspectableActor::Exit_Implementation()
 void AInspectableActor::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult)
 {
 	if (!HasValidArchive()) return;
-	CamManager = AToroCameraManager::Get(this, 0);
-	Manager = UInspectionComponent::Get(this, 0);
+	CamManager = AToroCameraManager::Get(this);
+	Manager = UInspectionComponent::Get(this);
 	if (Manager)
 	{
 		ScaleLerp.Target = 1.0f;
