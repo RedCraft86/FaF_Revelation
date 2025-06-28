@@ -3,11 +3,17 @@
 #include "Interaction/InteractionComponent.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroWidgetManager.h"
+#include "Framework/ToroPlayerState.h"
 
 UInteractionComponent::UInteractionComponent(): bEnabled(true), bInteracting(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickInterval = 0.05f;
+}
+
+UInteractionComponent* UInteractionComponent::GetInteractionComponent(const UObject* ContextObject, const int32 PlayerIndex)
+{
+	FIND_PLAYER_COMPONENT(UInteractionComponent)
 }
 
 void UInteractionComponent::SetEnabled(const bool bInEnabled)

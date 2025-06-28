@@ -51,7 +51,7 @@
 #define FIND_COMPONENT(CompClass, OwnerClass, ...) \
 	if (const AActor* Actor = OwnerClass::Get(__VA_ARGS__)) \
 	{ \
-		if (CompClass* Comp = Actor->FindComponentByClass<CompClass>()) \
+		if (auto* Comp = Actor->FindComponentByClass<CompClass>()) \
 			return Comp; \
 	}
 

@@ -47,6 +47,14 @@ public:
 
 	UInventoryComponent();
 
+	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
+		static UInventoryComponent* GetInventoryComponent(const UObject* ContextObject, const int32 PlayerIndex);
+
+	static UInventoryComponent* Get(const UObject* ContextObject, const int32 PlayerIndex = 0)
+	{
+		return GetInventoryComponent(ContextObject, PlayerIndex);
+	}
+
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 		uint8 AddItem(const TSoftObjectPtr<UInventoryAsset>& InItem, const uint8 Amount = 1, const FString& Json = TEXT(""));
 

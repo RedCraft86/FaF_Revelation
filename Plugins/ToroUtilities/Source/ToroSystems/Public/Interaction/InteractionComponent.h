@@ -17,6 +17,14 @@ public:
 
 	UInteractionComponent();
 
+	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = "ContextObject"))
+		static UInteractionComponent* GetInteractionComponent(const UObject* ContextObject, const int32 PlayerIndex);
+
+	static UInteractionComponent* Get(const UObject* ContextObject, const int32 PlayerIndex = 0)
+	{
+		return GetInteractionComponent(ContextObject, PlayerIndex);
+	}
+
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void SetEnabled(const bool bInEnabled);
 

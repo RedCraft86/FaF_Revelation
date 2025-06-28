@@ -1,8 +1,10 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Inventory/InventoryComponent.h"
+#include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
+#include "Framework/ToroPlayerState.h"
 
 #define InvItems InvData.Items
 #define InvArchives InvData.Archives
@@ -30,6 +32,11 @@ UInventoryComponent::UInventoryComponent(): bInInventory(false)
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	PrimaryComponentTick.bStartWithTickEnabled = false;
+}
+
+UInventoryComponent* UInventoryComponent::GetInventoryComponent(const UObject* ContextObject, const int32 PlayerIndex)
+{
+	FIND_PLAYER_COMPONENT(UInventoryComponent)
 }
 
 uint8 UInventoryComponent::AddItem(const TSoftObjectPtr<UInventoryAsset>& InItem, const uint8 Amount, const FString& Json)
