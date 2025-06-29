@@ -95,7 +95,7 @@ public:
 		TSubclassOf<UInputPreviewEntry> InputEntryWidget;
 
 	UFUNCTION(BlueprintCallable, Category = Message, meta = (WorldContext = "ContextObject"))
-		static void QueueNotice(const UObject* ContextObject, const FToroSimpleMsg& InNotice);
+		static void QueueNotice(const UObject* ContextObject, const FToroSimpleMsg& InNotice, bool bImmediate = false);
 
 	UFUNCTION(BlueprintCallable, Category = Message, meta = (WorldContext = "ContextObject"))
 		static void QueueTitle(const UObject* ContextObject, const FToroSimpleMsg& InTitle);

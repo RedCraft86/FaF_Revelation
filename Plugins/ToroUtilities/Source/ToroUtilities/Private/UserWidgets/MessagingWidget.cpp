@@ -33,13 +33,13 @@ UMessagingWidget::UMessagingWidget(const FObjectInitializer& ObjectInitializer)
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
-void UMessagingWidget::QueueNotice(const UObject* ContextObject, const FToroSimpleMsg& InNotice)
+void UMessagingWidget::QueueNotice(const UObject* ContextObject, const FToroSimpleMsg& InNotice, const bool bImmediate)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
 		if (UMessagingWidget* Widget = Manager->FindWidget<UMessagingWidget>())
 		{
-			Widget->AddNotice(InNotice);
+			Widget->AddNotice(InNotice, bImmediate);
 		}
 	}
 }
