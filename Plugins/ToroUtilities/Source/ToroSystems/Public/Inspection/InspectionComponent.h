@@ -4,13 +4,12 @@
 
 #include "InspectableActor.h"
 #include "InspectionWidget.h"
-#include "Interfaces/ExitInterface.h"
 #include "Framework/ToroCameraManager.h"
 #include "Inventory/InventoryComponent.h"
 #include "InspectionComponent.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
-class TOROSYSTEMS_API UInspectionComponent : public USceneComponent, public IExitInterface
+class TOROSYSTEMS_API UInspectionComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
@@ -45,7 +44,6 @@ public:
 	FOnInspection OnInspection;
 
 	void OnMouseXY(const FVector2D& InValue);
-	virtual void Exit_Implementation() override { EndInspection(); }
 
 private:
 
