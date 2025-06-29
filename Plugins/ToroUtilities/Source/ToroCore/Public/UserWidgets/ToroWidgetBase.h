@@ -37,6 +37,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = UserWidget)
 		void SetHidden(const bool bInHidden);
 
+	UFUNCTION(BlueprintPure, Category = UserWidget)
+		bool WantsHidden() const { return bWantHidden; }
+
 	template <typename T = AGameModeBase>
 		T* GetGameMode() const { return Cast<T>(GameMode); }
 
