@@ -9,6 +9,9 @@
 
 UGameMusicManager::UGameMusicManager()
 {
+	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = true;
+
 	SetUISound(true);
 	bAutoActivate = false;
 	bCanPlayMultipleInstances = false;
@@ -100,6 +103,16 @@ void UGameMusicManager::BeginPlay()
 	{
 		SetSound(Default);
 		FadeIn(1.0f);
+	}
+}
+
+void UGameMusicManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
+{
+	Super::TickComponent(DeltaTime, TickType, TickFunc);
+	if (const bool bIsGamePaused = GetWorld()->IsPaused(); bGamePaused != bIsGamePaused)
+	{
+		bGamePaused = bIsGamePaused;
+		bGamePaused ? AddDipRequest(this) : RemoveDipRequest(this);
 	}
 }
 

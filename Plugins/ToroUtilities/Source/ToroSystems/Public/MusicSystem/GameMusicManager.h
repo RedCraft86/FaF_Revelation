@@ -49,10 +49,12 @@ public:
 protected:
 
 	UPROPERTY() uint8 StateIdx;
+	UPROPERTY() bool bGamePaused;
 	UPROPERTY() FTimerHandle ChangeTimer;
 	UPROPERTY(Transient) TSet<TWeakObjectPtr<const UObject>> DipRequests;
 
 	void UpdateDipState();
 	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 	IAudioParameterControllerInterface* GetParamInterface();
 };
