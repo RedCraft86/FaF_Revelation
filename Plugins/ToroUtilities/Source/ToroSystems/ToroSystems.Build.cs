@@ -28,6 +28,7 @@ public class ToroSystems : ModuleRules
                 "ToroCore",
                 "ToroGraph",
                 "ToroUtilities",
+                "EnhancedCodeFlow",
                 "ExpressiveText",
                 "Narrative"
             }

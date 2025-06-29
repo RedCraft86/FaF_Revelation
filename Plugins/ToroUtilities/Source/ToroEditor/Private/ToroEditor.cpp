@@ -192,7 +192,7 @@ void FToroEditorStyle::Init()
 	AddPNG(ClassThumbnail.MasterPostProcess, PostProcess, 64x64);
 	AddPNG(ClassThumbnail.LightProbeActor, LightProbe, 64x64);
 
-	AddSVG(ClassThumbnail.GuideDatabase, GuideBook, 64x64);
+	AddSVG(ClassThumbnail.TutorialDatabase, GuideBook, 64x64);
 	AddSVG(ClassThumbnail.AchievementDatabase, Achievement, 64x64);
 	AddSVG(ClassThumbnail.InventoryItemData, InventoryGrid, 64x64);
 	AddSVG(ToroEditor.InventoryGridSmall, InventoryGridSmall, 20x20);

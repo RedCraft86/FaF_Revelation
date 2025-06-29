@@ -4,6 +4,7 @@
 
 #include "MetasoundSource.h"
 #include "Helpers/ClassGetters.h"
+#include "Tutorial/TutorialDatabase.h"
 #include "ToroSystems.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogToroSystems, All, All);
@@ -37,4 +38,7 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Systems)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
+
+	UPROPERTY(Config, EditAnywhere, Category = Systems)
+		TSoftObjectPtr<UTutorialDatabase> TutorialDB;
 };
