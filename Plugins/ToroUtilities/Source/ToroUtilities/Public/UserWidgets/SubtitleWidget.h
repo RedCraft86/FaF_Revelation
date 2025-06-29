@@ -55,8 +55,8 @@ public:
 
 private:
 
-	FTimerHandle SubtitleTimer;
-	TArray<FToroSubtitle> Subtitles;
+	UPROPERTY() FTimerHandle SubtitleTimer;
+	UPROPERTY() TArray<FToroSubtitle> Subtitles;
 
 	void NextSubtitle();
 	void ShowSubtitle(const FToroSubtitle& InData);

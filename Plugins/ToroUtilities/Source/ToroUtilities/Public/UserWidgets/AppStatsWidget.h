@@ -31,8 +31,8 @@ public:
 
 private:
 
-	float TargetFPS;
-	float UpdateTick;
+	UPROPERTY() float TargetFPS;
+	UPROPERTY() float UpdateTick;
 
 	void UpdateFrameRate() const;
 	void OnGameFocusChanged(const bool bFocused) const;

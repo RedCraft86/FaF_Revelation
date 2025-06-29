@@ -42,7 +42,7 @@ public:
 		TObjectPtr<USceneComponent> EquipmentRoot;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<class UInspectionComponent> Inspection; // TODO delegate
+		TObjectPtr<class UInspectionComponent> Inspection;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UGameMusicManager> MusicManager;
@@ -54,7 +54,7 @@ public:
 		TObjectPtr<class UInventoryComponent> Inventory;
 	
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<class UInteractionComponent> Interaction; // TODO delegate
+		TObjectPtr<class UInteractionComponent> Interaction;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
 		int32 ControlFlags;

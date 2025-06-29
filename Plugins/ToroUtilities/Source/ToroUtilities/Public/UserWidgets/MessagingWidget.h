@@ -111,11 +111,11 @@ public:
 
 protected:
 
-	FTimerHandle NoticeTimer;
-	FTimerHandle TitleTimer;
-	TArray<FToroSimpleMsg> Notices;
-	TArray<FToroSimpleMsg> Titles;
-	TMap<FName, TObjectPtr<UInputPreviewEntry>> InputPreviews;
+	UPROPERTY() FTimerHandle NoticeTimer;
+	UPROPERTY() FTimerHandle TitleTimer;
+	UPROPERTY() TArray<FToroSimpleMsg> Notices;
+	UPROPERTY() TArray<FToroSimpleMsg> Titles;
+	UPROPERTY(Transient) TMap<FName, TObjectPtr<UInputPreviewEntry>> InputPreviews;
 	
 	void NextNotice();
 	void ShowNotice(const FToroSimpleMsg& InData);
