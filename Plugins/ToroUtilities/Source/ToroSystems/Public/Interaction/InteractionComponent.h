@@ -37,7 +37,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = Interaction)
 		bool IsInteracting() const { return bInteracting; }
 
-	DECLARE_DELEGATE_RetVal(const FHitResult&, FHandleTrace);
+	DECLARE_DELEGATE_RetVal(FHitResult, FHandleTrace);
 	FHandleTrace HandleTrace;
 
 protected:
