@@ -37,7 +37,7 @@ public:
 		TObjectPtr<UWidgetAnimation> SecretAnim;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-	TObjectPtr<USoundBase> SecretSound;
+		TObjectPtr<USoundBase> SecretSound;
 
 private:
 

@@ -9,7 +9,7 @@
 #include "UserWidgets/ToroWidgetBase.h"
 #include "InteractionWidget.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class TOROSYSTEMS_API UInteractionWidget final : public UToroWidgetBase
 {
 	GENERATED_BODY()
