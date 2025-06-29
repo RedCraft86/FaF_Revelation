@@ -6,7 +6,9 @@
 #include "InteractionCache.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Narrative/NarrativeWidget.h"
 #include "UserWidgets/ToroWidgetBase.h"
+#include "Framework/ToroWidgetManager.h"
 #include "InteractionWidget.generated.h"
 
 UCLASS(Abstract)
@@ -37,6 +39,8 @@ public:
 
 private:
 
+	UPROPERTY(Transient) TObjectPtr<UDialogueWidget> NarrativeWidget;
+
 	void UpdateUI(const bool bEnabled, const FInteractionCache& Data)
 	{
 		SetHidden(!bEnabled);
@@ -58,5 +62,25 @@ private:
 		}
 	}
 
+	virtual void NativeConstruct() override
+	{
+		Super::NativeConstruct();
+		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+		{
+			if (!NarrativeWidget)
+			{
+				if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+				{
+					NarrativeWidget = Manager->FindWidget<UDialogueWidget>();
+				}
+			}
+		});
+	}
+
+	virtual bool ShouldBeHidden() override
+	{
+		return Super::ShouldBeHidden() || (NarrativeWidget && NarrativeWidget->IsActivated());
+	}
+	
 	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };

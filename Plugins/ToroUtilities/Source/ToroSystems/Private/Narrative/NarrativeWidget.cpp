@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Narrative/NarrativeWidget.h"
+#include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/MessagingWidget.h"
 #include "UserWidgets/ExprTextBlock.h"
 #include "Narrative/ToroNarrative.h"
@@ -145,13 +146,16 @@ void UDialogueWidget::OnSkipClicked()
 	Narrative->SkipCurrentDialogueLine();
 }
 
+void UDialogueWidget::OnBegan(UDialogue* Dialogue)
+{
+	if (SimpleSubtitles) SimpleSubtitles->SetHidden(true);
+}
+
 void UDialogueWidget::OnFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
 {
 	ReplyBox->ClearChildren();
-	if (GetAnimationCurrentTime(RepliesAnim) > 0.0f)
-	{
-		PlayAnimationReverse(RepliesAnim);
-	}
+	PlayAnimationReverse(RepliesAnim, 10.0f);
+	if (SimpleSubtitles) SimpleSubtitles->SetHidden(false);
 	DeactivateWidget();
 }
 
@@ -212,6 +216,7 @@ void UDialogueWidget::InitWidget()
 	Super::InitWidget();
 	Narrative = UToroNarrative::Get(this);
 
+	Narrative->OnDialogueBegan.AddDynamic(this, &ThisClass::OnBegan);
 	Narrative->OnDialogueFinished.AddDynamic(this, &ThisClass::OnFinished);
 	Narrative->OnDialogueRepliesAvailable.AddDynamic(this, &ThisClass::OnRepliesAvailable);
 	Narrative->OnPlayerDialogueLineStarted.AddDynamic(this, &ThisClass::OnPlayerLineStarted);
@@ -219,4 +224,16 @@ void UDialogueWidget::InitWidget()
 	Narrative->OnNPCDialogueLineStarted.AddDynamic(this, &ThisClass::OnNPCLineStarted);
 
 	SkipButton->OnClicked.AddDynamic(this, &ThisClass::OnSkipClicked);
+}
+
+void UDialogueWidget::InternalProcessActivation()
+{
+	Super::InternalProcessActivation();
+	if (!SimpleSubtitles)
+	{
+		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+		{
+			SimpleSubtitles = Manager->FindWidget<USubtitleWidget>();
+		}
+	}
 }

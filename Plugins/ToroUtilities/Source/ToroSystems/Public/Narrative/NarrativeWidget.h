@@ -7,6 +7,7 @@
 #include "DialogueSM.h"
 #include "ToroUtilities.h"
 #include "NarrativeSubWidgets.h"
+#include "UserWidgets/SubtitleWidget.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "NarrativeWidget.generated.h"
 
@@ -102,9 +103,11 @@ public:
 private:
 
 	UPROPERTY(Transient) TObjectPtr<UToroNarrative> Narrative;
+	UPROPERTY(Transient) TObjectPtr<USubtitleWidget> SimpleSubtitles;
 	UPROPERTY(Transient) TMap<FName, TObjectPtr<UDialogueOptionWidget>> Replies;
 
 	UFUNCTION() void OnSkipClicked();
+	UFUNCTION() void OnBegan(UDialogue* Dialogue);
 	UFUNCTION() void OnFinished(UDialogue* Dialogue, const bool bStartingNewDialogue);
 	UFUNCTION() void OnRepliesAvailable(UDialogue* Dialogue, const TArray<UDialogueNode_Player*>& PlayerReplies);
 	UFUNCTION() void OnPlayerLineStarted(UDialogue* Dialogue, UDialogueNode_Player* Node, const FDialogueLine& Line);
@@ -112,5 +115,6 @@ private:
 	UFUNCTION() void OnNPCLineStarted(UDialogue* Dialogue, UDialogueNode_NPC* Node, const FDialogueLine& Line, const FSpeakerInfo& Speaker);
 
 	virtual void InitWidget() override;
+	virtual void InternalProcessActivation() override;
 	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };

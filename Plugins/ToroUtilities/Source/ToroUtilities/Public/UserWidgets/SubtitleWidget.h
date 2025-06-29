@@ -65,6 +65,5 @@ private:
 	void OnNativeSubtitle(const FText& InText);
 
 	virtual void InitWidget() override;
-	virtual bool ShouldBeHidden() override { return Super::ShouldBeHidden(); } // TODO Hide on narrative dialogue
 	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };
