@@ -18,6 +18,7 @@ public class ToroSystems : ModuleRules
                 "UMG",
                 "Slate",
                 "SlateCore",
+                "InputCore",
                 "JsonUtilities",
                 "AudioExtensions",
                 "MetasoundEngine",

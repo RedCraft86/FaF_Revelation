@@ -78,9 +78,10 @@ void UInventoryWidget::UpdateInfo()
 
 		if (!ArchiveData->SecretText.IsEmptyOrWhitespace())
 		{
-			FInvArchiveSlot Slot;
-			Inventory->GetArchiveSlot(ArchiveData, Slot);
-			SecretText->SetVisibility(Slot.bKnowSecret ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+			FInvArchiveSlot ArSlot;
+			Inventory->GetArchiveSlot(ArchiveData, ArSlot);
+			SecretText->SetVisibility(ArSlot.bKnowSecret
+				? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 			SecretText->SetText(ArchiveData->SecretText);
 		}
 	}
