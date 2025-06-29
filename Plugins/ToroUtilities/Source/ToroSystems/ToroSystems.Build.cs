@@ -25,8 +25,10 @@ public class ToroSystems : ModuleRules
                 "GameplayTags",
                 "CommonUI",
                 "ToroCore",
+                "ToroGraph",
                 "ToroUtilities",
-                "ExpressiveText"
+                "ExpressiveText",
+                "Narrative"
             }
         );
         

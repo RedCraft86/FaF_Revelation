@@ -70,6 +70,10 @@
 		{
 			"Name": "ExpressiveText",
 			"Enabled": true
+		},
+		{
+			"Name": "Narrative",
+			"Enabled": true
 		}
 	]
 }
