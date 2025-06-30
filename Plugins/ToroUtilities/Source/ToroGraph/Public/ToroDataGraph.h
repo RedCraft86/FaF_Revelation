@@ -43,6 +43,9 @@ public:
 		int32 GetNodeDepth() const;
 
 	UFUNCTION(BlueprintPure, Category = DataGraphs)
+		UToroDataNode* GetNodeByID(const FGuid& InID, const bool bRootFallback = true) const;
+
+	UFUNCTION(BlueprintPure, Category = DataGraphs)
 		TArray<uint8> ValidateSequence(const TArray<uint8>& InSequence, const bool bRootFallback = true) const;
 
 	UFUNCTION(BlueprintPure, Category = DataGraphs)

@@ -31,6 +31,19 @@ int32 UToroDataGraph::GetNodeDepth() const
 	return Depth;
 }
 
+UToroDataNode* UToroDataGraph::GetNodeByID(const FGuid& InID, const bool bRootFallback) const
+{
+	if (!InID.IsValid()) return bRootFallback ? RootNodes[0] : nullptr;
+	for (const TObjectPtr<UToroDataNode>& Node : AllNodes)
+	{
+		if (Node->NodeID == InID)
+		{
+			return Node;
+		}
+	}
+	return bRootFallback ? RootNodes[0] : nullptr;
+}
+
 TArray<uint8> UToroDataGraph::ValidateSequence(const TArray<uint8>& InSequence, const bool bRootFallback) const
 {
 	if (RootNodes.IsEmpty()) return {};
@@ -61,12 +74,7 @@ TArray<uint8> UToroDataGraph::ValidateSequence(const TArray<uint8>& InSequence, 
 TArray<UToroDataNode*> UToroDataGraph::GetNodesInSequence(const TArray<uint8>& InSequence, const bool bRootFallback) const
 {
 	if (RootNodes.IsEmpty()) return {};
-	if (InSequence.IsEmpty())
-	{
-		return bRootFallback
-			? TArray<UToroDataNode*>{RootNodes[0]}
-		: TArray<UToroDataNode*>();
-	}
+	if (InSequence.IsEmpty()) return bRootFallback ? TArray<UToroDataNode*>{RootNodes[0]} : TArray<UToroDataNode*>();
 	
 	TArray<UToroDataNode*> Nodes;
 	TObjectPtr<UToroDataNode> LastNode = nullptr;
