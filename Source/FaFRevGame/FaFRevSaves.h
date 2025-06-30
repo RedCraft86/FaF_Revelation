@@ -33,14 +33,14 @@ public:
 	UFaFRevGlobalSave() {}
 
 	UPROPERTY(BlueprintReadOnly, Category = GlobalSave)
-		TSet<FGuid> SectionNodes;
+		TSet<FGuid> PhaseNodes;
 
 protected:
 
 	virtual void SerializeData(FArchive& Ar) override
 	{
 		Super::SerializeData(Ar);
-		Ar << SectionNodes;
+		Ar << PhaseNodes;
 	}
 };
 
@@ -59,16 +59,21 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		TMap<FGuid, FGamePhaseData> PhaseData;
 
+	void SetPhaseInventory(const FGuid& InPhase, const FInventoryData& InInventory)
+	{
+		PhaseData.FindOrAdd(InPhase).Inventory = InInventory;
+	}
+
+	FInventoryData GetPhaseInventory(const FGuid& InPhase) const
+	{
+		return PhaseData.FindRef(InPhase).Inventory;
+	}
+
 	void SetPhasePlayTime(const FGuid& InPhase, float& InTime)
 	{
 		FGamePhaseData& Data = PhaseData.FindOrAdd(InPhase);
 		Data.PlayTime = FMath::Min(Data.PlayTime, InTime);
 		InTime = 0.0f;
-	}
-
-	void SetPhaseInventory(const FGuid& InPhase, const FInventoryData& InInventory)
-	{
-		PhaseData.FindOrAdd(InPhase).Inventory = InInventory;
 	}
 
 	float GetPhasePlayTime(const FGuid& InPhase) const
