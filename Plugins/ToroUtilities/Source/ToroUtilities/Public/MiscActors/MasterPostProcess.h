@@ -16,7 +16,13 @@ public:
 
 	AMasterPostProcess();
 
-	static AMasterPostProcess* Get(const UObject* ContextObject, const bool bCreateIfNotFound = true);
+	UFUNCTION(BlueprintCallable, Category = Game, meta = (WorldContext = "ContextObject", AdvancedDisplay = "bCreateIfNull"))
+	static AMasterPostProcess* GetMasterPostProcess(const UObject* ContextObject, const bool bCreateIfNull = true)
+	{
+		return AMasterPostProcess::Get(ContextObject, bCreateIfNull);
+	}
+
+	static AMasterPostProcess* Get(const UObject* ContextObject, const bool bCreateIfNull = true);
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UPostProcessComponent> PostProcess;
@@ -61,8 +67,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = PostProcess)
 		void RemoveBlendable(UMaterialInterface* InMaterial);
 
-	UFUNCTION(BlueprintCallable, Category = PostProcess, DisplayName = "Set UDS Settings")
-		void SetUDSSettings(const FUDSSettings& InSettings);
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = PostProcess, DisplayName = "Set UDS Settings")
+		void SetUDSSettings(const FUDSSettings& InSettings) const;
 
 	UFUNCTION(BlueprintCallable, Category = PostProcess)
 		void ApplySettings();

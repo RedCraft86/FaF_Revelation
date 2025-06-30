@@ -41,10 +41,10 @@ AMasterPostProcess::AMasterPostProcess()
 	Settings.AutoExposureBias = 11.0f;
 }
 
-AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject, const bool bCreateIfNotFound)
+AMasterPostProcess* AMasterPostProcess::Get(const UObject* ContextObject, const bool bCreateIfNull)
 {
 	AMasterPostProcess* Out = Cast<AMasterPostProcess>(UGameplayStatics::GetActorOfClass(ContextObject, StaticClass()));
-	if (!Out && bCreateIfNotFound)
+	if (!Out && bCreateIfNull)
 	{
 		UE_LOG(LogToroUtilities, Warning, TEXT("Master Post Process actor not found! Attempting to spawn one."));
 		UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
@@ -119,7 +119,7 @@ void AMasterPostProcess::RemoveBlendable(UMaterialInterface* InMaterial)
 	Blendables.Remove(InMaterial);
 }
 
-void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings)
+void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings) const
 {
 	if (UDSSetterObj) UDSSetterObj->SetSettings(this, InSettings);
 }
