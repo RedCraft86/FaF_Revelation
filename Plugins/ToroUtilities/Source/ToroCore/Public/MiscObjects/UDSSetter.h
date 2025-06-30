@@ -79,4 +79,11 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void SetSettings(const UObject* ContextObject, const FUDSSettings& InSettings);
+
+	virtual UWorld* GetWorld() const override
+	{
+		UWorld* World = Super::GetWorld();
+		if (!World) World = GEngine->GetCurrentPlayWorld();
+		return World;
+	}
 };

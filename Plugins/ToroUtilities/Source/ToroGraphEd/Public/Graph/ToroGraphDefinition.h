@@ -26,7 +26,7 @@ public:
 
 	virtual const FSlateBrush* GetIconBrush(const FAssetData& InAssetData, const FName InClassName) const override
 	{
-		return FToroGraphEdStyle::Get().GetBrush("ClassThumbnail.ToroDataGraph");
+		return FToroGraphEdStyle::Get().GetBrush("ToroGraph.AutoArrange");
 	}
 	
 	virtual EAssetCommandResult OpenAssets(const FAssetOpenArgs& OpenArgs) const override
