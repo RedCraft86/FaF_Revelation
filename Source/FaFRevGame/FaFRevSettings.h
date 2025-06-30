@@ -4,6 +4,7 @@
 
 #include "Helpers/ClassGetters.h"
 #include "Engine/DeveloperSettings.h"
+#include "GamePhase/GamePhaseData.h"
 #include "FaFRevSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "FaF:Rev Settings")
@@ -20,4 +21,7 @@ public:
 	}
 
 	SETTING_GETTER(UFaFRevSettings)
+
+	UPROPERTY(Config, EditAnywhere, Category = Settings)
+		TSoftObjectPtr<UGamePhaseGraph> PhaseGraph;
 };

@@ -24,14 +24,17 @@ public class FaFRevGame : ModuleRules
                 "PhysicsCore",
                 "EnhancedInput",
                 "DeveloperSettings",
+                "MetasoundEngine",
                 "EngineCameras",
                 "GameplayTags",
                 "CommonUI",
                 "ToroCore",
+                "ToroGraph",
                 "ToroUtilities",
                 "ToroSystems",
                 "EnhancedCodeFlow",
-                "ExpressiveText"
+                "ExpressiveText",
+                "Narrative"
             }
         );
     }
