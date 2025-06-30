@@ -44,10 +44,10 @@ public:
 		TObjectPtr<UTexture2D> DefaultImage;
 
 	UFUNCTION(BlueprintCallable, Category = Subtitles, meta = (WorldContext = "ContextObject"))
-		static void QueueTutorial(const UObject* ContextObject, UPARAM(meta = (Categories = "GuidePage")) const FGameplayTag InTutorial);
+		static void QueueTutorial(const UObject* ContextObject, UPARAM(meta = (Categories = "Tutorial")) const FGameplayTag InTutorial);
 
 	UFUNCTION(BlueprintCallable, Category = Subtitles, meta = (WorldContext = "ContextObject"))
-		static void QueueTutorials(const UObject* ContextObject, UPARAM(meta = (Categories = "GuidePage")) const TArray<FGameplayTag>& InTutorials);
+		static void QueueTutorials(const UObject* ContextObject, UPARAM(meta = (Categories = "Tutorial")) const TArray<FGameplayTag>& InTutorials);
 
 private:
 
