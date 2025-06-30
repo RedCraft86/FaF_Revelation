@@ -8,6 +8,7 @@
 namespace ContentTags
 {
 	TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(Content)
+	TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(Backgrounds)
 	TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(Character)
 	TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(Ending)
 	TOROUTILITIES_API DECLARE_GAMEPLAY_TAG(Mode)
@@ -17,6 +18,7 @@ namespace ContentTags
 	{
 		return InTag.IsValid()
 			&& InTag != TAG_Content
+			&& InTag != TAG_Backgrounds
 			&& InTag != TAG_Character
 			&& InTag != TAG_Ending
 			&& InTag != TAG_Mode

@@ -7,6 +7,7 @@
 namespace ContentTags
 {
 	DEFINE_GAMEPLAY_TAG(Content)
+	DEFINE_GAMEPLAY_TAG_CHILD(Content, Backgrounds)
 	DEFINE_GAMEPLAY_TAG_CHILD(Content, Character)
 	DEFINE_GAMEPLAY_TAG_CHILD(Content, Ending)
 	DEFINE_GAMEPLAY_TAG_CHILD(Content, Mode)
