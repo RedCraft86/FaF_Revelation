@@ -44,15 +44,18 @@ void ATeleportPoint::OffsetFromFloor()
 	FHitResult Hit;
 	const FCollisionQueryParams Params(NAME_None, false, this);
 	const bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_WorldStatic, Params);
-	DrawDebugLine(GetWorld(), Start, Hit.Location, FColor::Green, false, 2.0f);
-	DrawDebugPoint(GetWorld(), Hit.Location, 10.0f, FColor::Red, false, 2.0f);
-	if (bHit)
+	if (FMath::IsNearlyEqual(Start.X, Hit.Location.X) && FMath::IsNearlyEqual(Start.Y, Hit.Location.Y))
 	{
-		const float DistanceToFloor = Start.Z - Hit.ImpactPoint.Z;
-		if (!FMath::IsNearlyEqual(DistanceToFloor, DesiredOffset))
+		DrawDebugLine(GetWorld(), Start, Hit.Location, FColor::Green, false, 2.0f);
+		DrawDebugPoint(GetWorld(), Hit.Location, 10.0f, FColor::Red, false, 2.0f);
+		if (bHit)
 		{
-			const float NeededOffset = DesiredOffset - DistanceToFloor;
-			SetActorLocation(Start + FVector(0, 0, NeededOffset));
+			const float DistanceToFloor = Start.Z - Hit.ImpactPoint.Z;
+			if (!FMath::IsNearlyEqual(DistanceToFloor, DesiredOffset))
+			{
+				const float NeededOffset = DesiredOffset - DistanceToFloor;
+				SetActorLocation(Start + FVector(0, 0, NeededOffset));
+			}
 		}
 	}
 }
