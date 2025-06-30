@@ -177,6 +177,7 @@ void FToroEditorStyle::Init()
 		TEXT("ToroUtilities"))->GetBaseDir() / TEXT("Resources"));
 
 	const FVector2D Icon64x64(64.0f, 64.0f);
+	const FVector2D Icon32x32(32.0f, 32.0f);
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	const FVector2D Icon16x16(16.0f, 16.0f);
 
@@ -186,6 +187,7 @@ void FToroEditorStyle::Init()
 	AddSVG(ToroEditor.StaticMeshBaker, StaticMeshBaker, 20x20);
 	AddSVG(ToroEditor.StaticMeshMerger, StaticMeshMerger, 20x20);
 	AddSVG(ToroEditor.StaticMeshInstancer, StaticMeshInstancer, 20x20);
+	AddSVG(ToroEditor.InventoryGridSmall, InventoryGridSmall, 32x32);
 
 	AddSVG(ClassThumbnail.SplineCable, SplineCable, 64x64);
 	AddSVG(ClassThumbnail.SplineBarrier, SplineBarrier, 64x64);
@@ -193,9 +195,8 @@ void FToroEditorStyle::Init()
 	AddPNG(ClassThumbnail.LightProbeActor, LightProbe, 64x64);
 
 	AddSVG(ClassThumbnail.TutorialDatabase, GuideBook, 64x64);
+	AddSVG(ClassThumbnail.InventoryAsset, InventoryGrid, 64x64);
 	AddSVG(ClassThumbnail.AchievementDatabase, Achievement, 64x64);
-	AddSVG(ClassThumbnail.InventoryItemData, InventoryGrid, 64x64);
-	AddSVG(ToroEditor.InventoryGridSmall, InventoryGridSmall, 20x20);
 
 	if (const TSharedPtr<IPlugin> ExpressiveText = IPluginManager::Get().FindPlugin(TEXT("ExpressiveText")))
 	{
