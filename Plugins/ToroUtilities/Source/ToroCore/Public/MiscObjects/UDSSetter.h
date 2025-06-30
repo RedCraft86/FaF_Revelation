@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Helpers/GameplayTagMacros.h"
+#include "Kismet/GameplayStatics.h"
 #include "UDSSetter.generated.h"
 
 namespace WeatherTags
@@ -80,6 +81,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
 		void SetSettings(const UObject* ContextObject, const FUDSSettings& InSettings);
 
+	UFUNCTION(BlueprintCallable, Category = Actor, meta = (DeterminesOutputType="ActorClass"))
+	static AActor* TryGetActorOfClass(const UObject* ContextObject, TSubclassOf<AActor> ActorClass)
+	{
+		return UGameplayStatics::GetActorOfClass(ContextObject, ActorClass);
+	}
+	
 	virtual UWorld* GetWorld() const override
 	{
 		UWorld* World = Super::GetWorld();
