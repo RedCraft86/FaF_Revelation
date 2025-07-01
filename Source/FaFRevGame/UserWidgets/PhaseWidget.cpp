@@ -35,8 +35,7 @@ void UPhaseNodeWidget::NativeConstruct()
 void UPhaseNodeWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
-	const UGamePhaseGraph* Graph = GetGraph();
-	if (Graph && NameText)
+	if (const UGamePhaseGraph* Graph = GetGraph(); Graph && NameText)
 	{
 		if (const UToroDataNode* Node = Graph->GetNodeByID(PhaseID))
 		{

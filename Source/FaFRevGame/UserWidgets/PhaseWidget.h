@@ -11,7 +11,7 @@ class UTextBlock;
 class UExprTextBlock;
 
 UCLASS(Abstract)
-class TOROUTILITIES_API UPhaseNodeWidget : public UUserWidget
+class FAFREVGAME_API UPhaseNodeWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -29,7 +29,7 @@ public:
 		FString PhaseName;
 #endif
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayAfter = "PhaseName"))
+	UPROPERTY(EditAnywhere, Category = Settings)
 		FGuid PhaseID;
 
 	UFUNCTION(BlueprintImplementableEvent)
