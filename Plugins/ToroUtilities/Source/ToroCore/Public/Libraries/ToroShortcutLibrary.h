@@ -46,7 +46,7 @@ public:
 	* @param bHoldWhenFinished - True for fade to hold at the ToAlpha until explicitly stopped (e.g. with StopCameraFade).
 	*/
 	UFUNCTION(BlueprintCallable, Category = CameraFades, meta = (WorldContext = "ContextObject", Keywords = "Fade Camera", AdvancedDisplay = "Color, bHoldWhenFinished"))
-	static void StartCameraFade(UObject* ContextObject, const float FromAlpha, const float ToAlpha = 1.0f, const float Duration = 1.0f,
+	static void StartCameraFade(UObject* ContextObject, const float FromAlpha = 0.0f, const float ToAlpha = 1.0f, const float Duration = 1.0f,
 		const FLinearColor Color = FLinearColor::Black, const bool bShouldFadeAudio = true, const bool bHoldWhenFinished = true)
 	{
 		if (APlayerCameraManager* PCM = UGameplayStatics::GetPlayerCameraManager(ContextObject, 0))
