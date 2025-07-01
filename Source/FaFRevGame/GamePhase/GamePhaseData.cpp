@@ -59,7 +59,11 @@ void UGamePhaseNode::BindSequenceEvents(UGamePhaseManager* Target) const
 
 bool UGamePhaseNode::PlaySequence(const TSoftObjectPtr<AToroSequenceActor>& InSequence)
 {
-	if (InSequence.LoadSynchronous()) InSequence->Play();
+	if (InSequence.LoadSynchronous())
+	{
+		InSequence->bLockPlayer = false;
+		InSequence->Play();
+	}
 	return InSequence.IsValid();
 }
 
