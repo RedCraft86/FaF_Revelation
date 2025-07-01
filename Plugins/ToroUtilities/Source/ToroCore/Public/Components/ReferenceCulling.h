@@ -22,6 +22,9 @@ public:
 		bool bAffectTicking;
 
 	UFUNCTION(BlueprintCallable, Category = Culling)
+		void SetEnabled(const bool bInEnabled);
+
+	UFUNCTION(BlueprintCallable, Category = Culling)
 		void AddRenderRequest(const UObject* Object);
 
 	UFUNCTION(BlueprintCallable, Category = Culling)
@@ -29,7 +32,8 @@ public:
 
 private:
 
-	UPROPERTY() bool bCachedTickState;
+	UPROPERTY() bool bEnabled;
+	UPROPERTY() TOptional<bool> bCachedTick;
 	UPROPERTY(Transient) TSet<TWeakObjectPtr<const UObject>> Requests;
 
 	void UpdateRenderingState();
