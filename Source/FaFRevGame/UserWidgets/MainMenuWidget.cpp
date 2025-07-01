@@ -89,8 +89,13 @@ void UMainMenuWidget::InternalProcessActivation()
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
 		Phases = Manager->FindWidget<UPhaseWidget>();
+		Phases->ParentUI = this;
+		
 		Extras = Manager->FindWidget<UExtrasWidget>();
+		Extras->ParentUI = this;
+		
 		Settings = Manager->FindWidget<USettingsWidget>();
+		Settings->ParentUI = this;
 	}
 }
 

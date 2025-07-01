@@ -99,6 +99,7 @@ void UGamePauseWidget::InternalProcessActivation()
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 	{
 		Settings = Manager->FindWidget<USettingsWidget>();
+		Settings->ParentUI = this;
 	}
 }
 
