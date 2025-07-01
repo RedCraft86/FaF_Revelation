@@ -90,7 +90,6 @@ protected:
 	UFUNCTION() void OnPlayClicked();
 	UFUNCTION() void OnExitClicked() { DeactivateWidget(); }
 
-	UGamePhaseGraph* GetGraph();
 	virtual void InitWidget() override;
 	virtual void InternalProcessDeactivation() override;
 	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnLaunchMap(this); }

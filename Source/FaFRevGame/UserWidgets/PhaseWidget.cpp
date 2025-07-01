@@ -41,6 +41,10 @@ void UPhaseNodeWidget::NativePreConstruct()
 		{
 			NameText->SetText(Node->Name);
 		}
+		else
+		{
+			NameText->SetText(INVTEXT("Invalid Phase"));
+		}
 	}
 }
 
@@ -96,7 +100,7 @@ void UPhaseWidget::SelectPhase(const FGuid& InPhaseID)
 	{
 		SelectedPhase = InPhaseID;
 		PlayButton->SetIsEnabled(true);
-		if (const UGamePhaseGraph* Graph = GetGraph())
+		if (const UGamePhaseGraph* Graph = UFaFRevSettings::Get()->PhaseGraph.LoadSynchronous())
 		{
 			if (const UToroDataNode* Node = Graph->GetNodeByID(SelectedPhase))
 			{
@@ -131,13 +135,6 @@ void UPhaseWidget::OnPlayClicked()
 			}
 		});
 	}
-}
-
-UGamePhaseGraph* UPhaseWidget::GetGraph()
-{
-	if (PhaseGraph) return PhaseGraph;
-	PhaseGraph = UFaFRevSettings::Get()->PhaseGraph.LoadSynchronous();
-	return PhaseGraph;
 }
 
 void UPhaseWidget::InitWidget()
