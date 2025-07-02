@@ -34,7 +34,8 @@ public class FaFRevGame : ModuleRules
                 "ToroSystems",
                 "EnhancedCodeFlow",
                 "ExpressiveText",
-                "Narrative"
+                "Narrative",
+                "SMSystem"
             }
         );
     }
