@@ -12,6 +12,9 @@ AToroLightSwitch::AToroLightSwitch()
 	CollisionBox->SetCollisionResponseToAllChannels(ECR_Ignore);
 	CollisionBox->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
+	ActionManager = CreateDefaultSubobject<UWorldActionComponent>("ActionManager");
+	ActionManager->bAutoConstruction = false;
 }
 
 void AToroLightSwitch::SetSwitchState(const bool bInState)
@@ -20,6 +23,9 @@ void AToroLightSwitch::SetSwitchState(const bool bInState)
 	{
 		bSwitchState = bInState;
 		UpdateLights();
+
+		ActionManager->SetActions(bSwitchState ? OnActions : OffActions, false);
+		ActionManager->RunActions();
 	}
 }
 
@@ -53,3 +59,12 @@ void AToroLightSwitch::OnBeginInteract_Implementation(AToroPlayerCharacter* Play
 {
 	SetSwitchState(!bSwitchState);
 }
+
+#if WITH_EDITOR
+void AToroLightSwitch::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	ActionManager->SetActions(OnActions, false);
+	ActionManager->AppendActions(OffActions, true);
+}
+#endif
