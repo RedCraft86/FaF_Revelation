@@ -103,6 +103,7 @@ void AGamePlayerChar::ResetStates()
 	ExitActiveTask();
 	Inspection->EndInspection();
 	Inventory->CloseInventory();
+	SetFocalDistance(0.0f, 0.0f);
 }
 
 void AGamePlayerChar::OverrideControlFlags(const int32 InFlags)
@@ -230,6 +231,12 @@ void AGamePlayerChar::SetFocalDistance(const float InFocalDistance, const float 
 {
 	InterpFocal.Target = FMath::Max(InFocalDistance, 0.0f);
 	InterpFocal.Speed = FMath::Max(InSpeed, 0.1f);
+	if (FMath::IsNearlyZero(InFocalDistance) && FMath::IsNearlyZero(InSpeed))
+	{
+		InterpFocal.SnapToTarget();
+		PlayerCamera->PostProcessSettings.bOverride_DepthOfFieldFocalDistance = false;
+		PlayerCamera->PostProcessSettings.DepthOfFieldFocalDistance = 0.0f;
+	}
 }
 
 void AGamePlayerChar::SetHidingSpot(AActor* InActor)
