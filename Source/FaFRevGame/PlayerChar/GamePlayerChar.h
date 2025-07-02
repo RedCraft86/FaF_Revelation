@@ -3,6 +3,7 @@
 #pragma once
 
 #include "PlayerTypes.h"
+#include "Characters/EnemyBase.h"
 #include "Camera/CameraComponent.h"
 #include "DataTypes/ToroModifiers.h"
 #include "DataTypes/ToroInterpolator.h"
@@ -134,6 +135,8 @@ private:
 	TObjectPtr<AActor> WorldDevice;
 	TObjectPtr<AActor> ActiveTask;
 
+	TMap<FGameplayTag, EEnemyState> Enemies;
+
 public:
 
 	UFUNCTION(BlueprintPure, Category = Player)
@@ -252,6 +255,7 @@ public:
 	EXTERNAL_OBJECT_FUNC(ActiveTask)
 
 	bool TryJumpscare();
+	void UpdateEnemyState(const FGameplayTag& InCharID, const EEnemyState InState);
 
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 	virtual void EnterCinematic(AActor* CinematicActor) override;
@@ -267,7 +271,8 @@ private:
 	bool IsStandingBlocked() const;
 	bool IsLeaningBlocked(const float Direction) const;
 
-	FHitResult OnInteraction();
+	void UpdateEnemyMusic();
+	FHitResult OnInteraction() const;
 	void OnInspection(const bool bInspecting);
 	void OnSettingsChange(const class UToroUserSettings* InSettings);
 

@@ -281,6 +281,15 @@ bool AGamePlayerChar::TryJumpscare()
 	return true;
 }
 
+void AGamePlayerChar::UpdateEnemyState(const FGameplayTag& InCharID, const EEnemyState InState)
+{
+	if (CharacterTags::IsValidTag(InCharID) && Enemies.FindRef(InCharID) != InState)
+	{
+		Enemies.Add(InCharID, InState);
+		UpdateEnemyMusic();
+	}
+}
+
 void AGamePlayerChar::SetActorHiddenInGame(bool bNewHidden)
 {
 	Super::SetActorHiddenInGame(bNewHidden);
@@ -398,7 +407,11 @@ bool AGamePlayerChar::IsLeaningBlocked(const float Direction) const
 		SideTrace, FCollisionShape::MakeSphere(10.0f), TRACE_PARAMS);
 }
 
-FHitResult AGamePlayerChar::OnInteraction()
+void AGamePlayerChar::UpdateEnemyMusic()
+{
+}
+
+FHitResult AGamePlayerChar::OnInteraction() const
 {
 	FHitResult Hit;
 	if (const AToroPlayerController* PC = GetPlayerController(); PC && PC->bShowMouseCursor)
