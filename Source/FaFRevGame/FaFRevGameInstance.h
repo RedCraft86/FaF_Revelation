@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
 #include "Framework/ToroGameInstance.h"
 #include "FaFRevGameInstance.generated.h"
 
@@ -13,4 +14,5 @@ class FAFREVGAME_API UFaFRevGameInstance final : public UToroGameInstance
 public:
 
 	UPROPERTY() TOptional<FGuid> PlayFromPhase;
+	UPROPERTY() TOptional<FGameplayTag> LastJumpscare;
 };
