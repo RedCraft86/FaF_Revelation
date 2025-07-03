@@ -40,29 +40,35 @@ void AEnemyBase::SetEnemyState(const EEnemyState InState)
 		EnemyState = InState;
 		if (EnemyState == EEnemyState::None)
 		{
-			StopCharacterAI();
+			AIComponent->Stop();
+			GetCharacterMovement()->StopMovementImmediately();
 		}
-		else if (AIComponent->IsStateMachineActive())
+		else if (!AIComponent->IsStateMachineActive())
 		{
-			StartCharacterAI();
+			AIComponent->Start();
 		}
 
 		if (AGamePlayerChar* Player = AGamePlayerChar::Get<AGamePlayerChar>(this))
 		{
-			Player->UpdateEnemyState(GetCharacterID(), EnemyState);
+			Player->UpdateEnemyState(this);
 		}
 	}
 }
 
 void AEnemyBase::StopCharacterAI()
-{
-	AIComponent->Stop();
-	GetCharacterMovement()->StopMovementImmediately();
-	SetEnemyState(EEnemyState::None);
+{	if (EnemyState != EEnemyState::None && AIComponent->IsStateMachineActive())
+	{
+		AIComponent->Stop();
+		GetCharacterMovement()->StopMovementImmediately();
+		SetEnemyState(EEnemyState::None);
+	}
 }
 
 void AEnemyBase::StartCharacterAI()
 {
-	AIComponent->Start();
-	SetEnemyState(EEnemyState::Roam);
+	if (EnemyState == EEnemyState::None && !AIComponent->IsStateMachineActive())
+	{
+		AIComponent->Start();
+		SetEnemyState(EEnemyState::Roam);
+	}
 }

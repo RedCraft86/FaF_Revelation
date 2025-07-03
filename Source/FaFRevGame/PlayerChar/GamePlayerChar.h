@@ -135,7 +135,7 @@ private:
 	TObjectPtr<AActor> WorldDevice;
 	TObjectPtr<AActor> ActiveTask;
 
-	TMap<FGameplayTag, EEnemyState> Enemies;
+	TSet<TObjectPtr<const AEnemyBase>> Enemies;
 
 public:
 
@@ -255,7 +255,7 @@ public:
 	EXTERNAL_OBJECT_FUNC(ActiveTask)
 
 	bool TryJumpscare();
-	void UpdateEnemyState(const FGameplayTag& InCharID, const EEnemyState InState);
+	void UpdateEnemyState(const AEnemyBase* InEnemy);
 
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 	virtual void EnterCinematic(AActor* CinematicActor) override;
@@ -271,7 +271,6 @@ private:
 	bool IsStandingBlocked() const;
 	bool IsLeaningBlocked(const float Direction) const;
 
-	void UpdateEnemyMusic();
 	FHitResult OnInteraction() const;
 	void OnInspection(const bool bInspecting);
 	void OnSettingsChange(const class UToroUserSettings* InSettings);

@@ -13,9 +13,8 @@ enum class EEnemyState : uint8
 	Roam,
 	Suspect,
 	Investigate,
-	Chase,
-	LostChase,
 	Search,
+	Chase,
 };
 
 UCLASS(Abstract)
