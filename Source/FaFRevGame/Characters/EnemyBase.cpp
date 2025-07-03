@@ -12,6 +12,24 @@ AEnemyBase::AEnemyBase(): bJumpscare(false), EnemyState(EEnemyState::None)
 	PrimaryActorTick.bStartWithTickEnabled = false;
 }
 
+void AEnemyBase::StopCharacterAI()
+{	if (EnemyState != EEnemyState::None && AIComponent->IsStateMachineActive())
+	{
+		AIComponent->Stop();
+		GetCharacterMovement()->StopMovementImmediately();
+		SetEnemyState(EEnemyState::None);
+	}
+}
+
+void AEnemyBase::StartCharacterAI()
+{
+	if (EnemyState == EEnemyState::None && !AIComponent->IsStateMachineActive())
+	{
+		AIComponent->Start();
+		SetEnemyState(EEnemyState::Roam);
+	}
+}
+
 void AEnemyBase::JumpscarePlayer()
 {
 	if (bJumpscare) return;
@@ -38,37 +56,9 @@ void AEnemyBase::SetEnemyState(const EEnemyState InState)
 	if (EnemyState != InState)
 	{
 		EnemyState = InState;
-		if (EnemyState == EEnemyState::None)
-		{
-			AIComponent->Stop();
-			GetCharacterMovement()->StopMovementImmediately();
-		}
-		else if (!AIComponent->IsStateMachineActive())
-		{
-			AIComponent->Start();
-		}
-
 		if (AGamePlayerChar* Player = AGamePlayerChar::Get<AGamePlayerChar>(this))
 		{
 			Player->UpdateEnemyState(this);
 		}
-	}
-}
-
-void AEnemyBase::StopCharacterAI()
-{	if (EnemyState != EEnemyState::None && AIComponent->IsStateMachineActive())
-	{
-		AIComponent->Stop();
-		GetCharacterMovement()->StopMovementImmediately();
-		SetEnemyState(EEnemyState::None);
-	}
-}
-
-void AEnemyBase::StartCharacterAI()
-{
-	if (EnemyState == EEnemyState::None && !AIComponent->IsStateMachineActive())
-	{
-		AIComponent->Start();
-		SetEnemyState(EEnemyState::Roam);
 	}
 }

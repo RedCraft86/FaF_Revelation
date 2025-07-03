@@ -283,49 +283,48 @@ bool AGamePlayerChar::TryJumpscare()
 
 void AGamePlayerChar::UpdateEnemyState(const AEnemyBase* InEnemy)
 {
-	if (InEnemy)
+	if (!InEnemy) return;
+	Enemies.Add(InEnemy);
+
+	EEnemyState HighestState = EEnemyState::None;
+	for (auto It = Enemies.CreateIterator(); It; ++It)
 	{
-		Enemies.Add(InEnemy);
-		EEnemyState HighestState = EEnemyState::None;
-		for (auto It = Enemies.CreateIterator(); It; ++It)
+		if (const AEnemyBase* Enemy = *It)
 		{
-			if (const AEnemyBase* Enemy = *It)
+			if ((uint8)Enemy->GetEnemyState() > (uint8)HighestState)
 			{
-				if ((uint8)Enemy->GetEnemyState() > (uint8)HighestState)
-				{
-					HighestState = Enemy->GetEnemyState();
-				}
+				HighestState = Enemy->GetEnemyState();
 			}
-			else It.RemoveCurrent();
 		}
+		else It.RemoveCurrent();
+	}
 
-		auto SetMusicTheme = [this](const uint8 State, const uint8 Intensity)
-		{
-			MusicManager->SetThemeState(State);
-			MusicManager->SetThemeIntensity(Intensity);
-		};
+	auto SetMusicTheme = [this](const uint8 State, const uint8 Intensity)
+	{
+		MusicManager->SetThemeState(State);
+		MusicManager->SetThemeIntensity(Intensity);
+	};
 
-		switch (HighestState)
-		{
-		case EEnemyState::None:
-			SetMusicTheme(0, 0);
-			break;
-		case EEnemyState::Roam:
-			SetMusicTheme(0, 1);
-			break;
-		case EEnemyState::Suspect:
-			SetMusicTheme(1, 0);
-			break;
-		case EEnemyState::Investigate:
-			SetMusicTheme(1, 1);
-			break;
-		case EEnemyState::Chase:
-			SetMusicTheme(2, 1);
-			break;
-		case EEnemyState::Search:
-			SetMusicTheme(2, 0);
-			break;
-		}
+	switch (HighestState)
+	{
+	case EEnemyState::None:
+		SetMusicTheme(0, 0);
+		break;
+	case EEnemyState::Roam:
+		SetMusicTheme(0, 1);
+		break;
+	case EEnemyState::Suspect:
+		SetMusicTheme(1, 0);
+		break;
+	case EEnemyState::Investigate:
+		SetMusicTheme(1, 1);
+		break;
+	case EEnemyState::Chase:
+		SetMusicTheme(2, 1);
+		break;
+	case EEnemyState::Search:
+		SetMusicTheme(2, 0);
+		break;
 	}
 }
 

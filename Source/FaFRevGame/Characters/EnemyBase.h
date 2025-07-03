@@ -32,6 +32,12 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Jumpscare Player")
 		void OnJumpscarePlayer() const;
 
+	UFUNCTION(BlueprintCallable, Category = Game)
+		void StopCharacterAI();
+
+	UFUNCTION(BlueprintCallable, Category = Game)
+		void StartCharacterAI();
+
 	UFUNCTION(BlueprintCallable, Category = Character)
 		void JumpscarePlayer();
 
@@ -48,7 +54,4 @@ protected:
 
 	UPROPERTY() bool bJumpscare;
 	UPROPERTY() EEnemyState EnemyState;
-
-	void StopCharacterAI();
-	void StartCharacterAI();
 };
