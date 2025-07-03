@@ -60,9 +60,9 @@ void UGameMusicManager::SetThemeState(const uint8 InState)
 	}
 }
 
-void UGameMusicManager::SetThemeIntensity(const float InIntensity)
+void UGameMusicManager::SetThemeIntensity(const uint8 InIntensity)
 {
-	GetParamInterface()->SetFloatParameter(TEXT("Intensity"), InIntensity);
+	GetParamInterface()->SetIntParameter(TEXT("Intensity"), InIntensity);
 }
 
 void UGameMusicManager::AddDipRequest(const UObject* InObject)

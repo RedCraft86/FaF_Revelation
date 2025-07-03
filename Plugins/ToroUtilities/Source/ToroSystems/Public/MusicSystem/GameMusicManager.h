@@ -31,7 +31,7 @@ public:
 		void SetThemeState(const uint8 InState);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
-		void SetThemeIntensity(const float InIntensity);
+		void SetThemeIntensity(const uint8 InIntensity);
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void AddDipRequest(const UObject* InObject);
