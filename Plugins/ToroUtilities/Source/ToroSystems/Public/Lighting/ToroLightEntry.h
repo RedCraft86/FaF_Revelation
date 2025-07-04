@@ -20,11 +20,10 @@ struct TOROSYSTEMS_API FToroLightEntry
 		TMap<TObjectPtr<UStaticMeshComponent>, bool> Meshes;
 
 	FToroLightEntry() {}
-	void UpdateLight(const bool bState, const float Multiplier, const float Fresnel,
-		const uint8 Flicker, UMaterialInterface* FlickerMat) const
+	void UpdateLight(const bool bState, const float Multiplier, const float Fresnel, UMaterialInterface* Flicker) const
 	{
 		Light->SetVisibility(bState);
-		Light->SetLightFunctionMaterial(FlickerMat);
+		Light->SetLightFunctionMaterial(Flicker);
 
 		FVector4 Color = Light->GetLightColor();
 		Color.W = Light->Intensity * Multiplier;
@@ -41,14 +40,12 @@ struct TOROSYSTEMS_API FToroLightEntry
 			{
 				Mesh.Key->SetDefaultCustomPrimitiveDataVector4(0, bState ? Color : OffColor); // 0..3 (RGB + Intensity)
 				Mesh.Key->SetDefaultCustomPrimitiveDataFloat(4, Fresnel);
-				Mesh.Key->SetDefaultCustomPrimitiveDataFloat(5, Flicker);
 				continue;
 			}
 #endif
 
 			Mesh.Key->SetCustomPrimitiveDataVector4(0, bState ? Color : OffColor); // 0..3 (RGB + Intensity)
 			Mesh.Key->SetCustomPrimitiveDataFloat(4, Fresnel);
-			Mesh.Key->SetCustomPrimitiveDataFloat(5, Flicker);
 		}
 	}
 };

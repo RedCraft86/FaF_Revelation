@@ -2,7 +2,7 @@
 
 #include "Lighting/ToroLightBase.h"
 
-AToroLightBase::AToroLightBase(): bReferenceCull(true), FlickerType(0), Multiplier(1.0f), Fresnel(0.5f)
+AToroLightBase::AToroLightBase(): bReferenceCull(true), Multiplier(1.0f), Fresnel(0.5f)
 {
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 
@@ -10,22 +10,21 @@ AToroLightBase::AToroLightBase(): bReferenceCull(true), FlickerType(0), Multipli
 	RefCulling->bAffectTicking = false;
 }
 
-void AToroLightBase::SetFlickerType(const uint8 InFlicker)
+void AToroLightBase::SetFlickerMat(UMaterialInterface* InMaterial)
 {
-	if (FlickerType != InFlicker)
+	if (FlickerMat != InMaterial)
 	{
-		FlickerType = FMath::Clamp(InFlicker, 0, FlickerMats.Num());
+		FlickerMat = InMaterial;
 		UpdateLights();
 	}
 }
 
-void AToroLightBase::UpdateLights()
+void AToroLightBase::UpdateLights() const
 {
 	ApplyLightSettings();
-	UMaterialInterface* FlickerMat = FlickerType == 0 ? nullptr : FlickerMats[FlickerType - 1];
 	for (TArray<FToroLightEntry> Entries = GetLights(); const FToroLightEntry& Entry : Entries)
 	{
-		Entry.UpdateLight(IsEnabled(), Multiplier, Fresnel, FlickerType, FlickerMat);
+		Entry.UpdateLight(IsEnabled(), Multiplier, Fresnel, FlickerMat);
 	}
 }
 
@@ -38,6 +37,5 @@ void AToroLightBase::EnableStateChanged(const bool bIsEnabled)
 void AToroLightBase::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	FlickerType = FMath::Clamp(FlickerType, 0, FlickerMats.Num());
 	UpdateLights();
 }
