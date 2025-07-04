@@ -274,6 +274,7 @@ private:
 	FHitResult OnInteraction() const;
 	void OnInspection(const bool bInspecting);
 	void OnSettingsChange(const class UToroUserSettings* InSettings);
+	USceneComponent* GetEquipmentRoot() const { return EquipmentRoot; }
 
 	virtual void SlowTick() override;
 	virtual void BeginPlay() override;

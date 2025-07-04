@@ -509,6 +509,7 @@ void AGamePlayerChar::BeginPlay()
 	Super::BeginPlay();
 	Inspection->OnInspection.BindUObject(this, &AGamePlayerChar::OnInspection);
 	Interaction->HandleTrace.BindUObject(this, &AGamePlayerChar::OnInteraction);
+	Inventory->GetEquipmentRoot.BindUObject(this, &AGamePlayerChar::GetEquipmentRoot);
 
 	GameInstance = UToroGameInstance::Get(this);
 	if (const AToroCameraManager* CamManager = AToroCameraManager::Get(this))
