@@ -38,7 +38,7 @@ namespace VisualizerHelpers
 		}
 	}
 
-	TOROEDITOR_API inline void DrawTextVis(const FSceneView* View, FCanvas* Canvas, const FVector& Location,
+	TOROEDITOR_API inline void DrawText(const FSceneView* View, FCanvas* Canvas, const FVector& Location,
 		const FText& Text, const uint8 FontScale = 12, const FLinearColor& Color = FLinearColor::White,
 		const bool bDrawShadow = false, const UFont* Font = nullptr)
 	{
