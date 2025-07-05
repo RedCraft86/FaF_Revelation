@@ -10,6 +10,8 @@ AEnemyBase::AEnemyBase(): bJumpscare(false), EnemyState(EEnemyState::None)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	AIComponent = CreateDefaultSubobject<USMStateMachineComponent>("AIComponent");
 }
 
 void AEnemyBase::StopCharacterAI()
