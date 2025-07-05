@@ -18,9 +18,9 @@
 #include "Toolbar/StaticMeshMerger.h"
 
 #include "ComponentVis/EditorShapesVisualizer.h"
+#include "ComponentVis/VisionConeVisualizer.h"
 
 #include "DetailsPanels/PropertyMetadataDetails.h"
-
 #include "DetailsPanels/ToroActorDetails.h"
 #include "DetailsPanels/Class/ZoneVolumeDetails.h"
 #include "DetailsPanels/Struct/InlineCurveDetails.h"
@@ -66,6 +66,7 @@ void FToroEditorModule::StartupModule()
 	if (GUnrealEd)
 	{
 		REGISTER_VISUALIZER(UEditorShapesComponent, FEditorShapesVisualizer)
+		REGISTER_VISUALIZER(UVisionConeComponent, FVisionConeVisualizer)
 	}
 
 	// Blueprint Variable Metadata Editor
@@ -115,6 +116,7 @@ void FToroEditorModule::ShutdownModule()
 	if (GUnrealEd)
 	{
 		UNREGISTER_VISUALIZER(UEditorShapesComponent)
+		UNREGISTER_VISUALIZER(UVisionConeComponent)
 	}
 
 	// Blueprint Variable Metadata Editor

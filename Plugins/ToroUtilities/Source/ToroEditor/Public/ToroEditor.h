@@ -2,6 +2,9 @@
 
 #pragma once
 
+// Fixes a crap ton of errors for whatever reason. It's actual magic.
+#include "Windows/WindowsHWrapper.h"
+
 #include "Modules/ModuleManager.h"
 
 #define REGISTER_CLASS_CUSTOMIZATION(Class, Customization) PropertyModule->RegisterCustomClassLayout(Class::StaticClass()->GetFName(), FOnGetDetailCustomizationInstance::CreateStatic(&Customization::MakeInstance));
