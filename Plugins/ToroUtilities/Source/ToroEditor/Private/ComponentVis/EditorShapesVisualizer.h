@@ -115,7 +115,7 @@ private:
 		{
 			for (const TPair<FName, FWireStringData>& StringData : VizComponent->WireStrings)
 			{
-				VisualizerHelpers::DrawText(View, Canvas, VizComponent->TransformLocation(StringData.Value.Location),
+				VisualizerHelpers::DrawTextVis(View, Canvas, VizComponent->TransformLocation(StringData.Value.Location),
 					StringData.Value.String.IsEmpty() ? FText::FromName(StringData.Key) : FText::FromString(StringData.Value.String),
 					StringData.Value.FontScale, StringData.Value.Color, StringData.Value.bDrawShadow);
 			}
