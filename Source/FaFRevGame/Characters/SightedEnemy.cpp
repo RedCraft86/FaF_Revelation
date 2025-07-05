@@ -2,10 +2,9 @@
 
 #include "SightedEnemy.h"
 
-ASightedEnemy::ASightedEnemy()
-	: VisionCooldown(0.1f), VisionTimer(0.0f), VisionState(EVisionState::None), PendingState(EVisionState::None)
+ASightedEnemy::ASightedEnemy(): VisionState(EVisionState::None)
 {
-	PrimaryActorTick.TickInterval = 0.05f;
+	PrimaryActorTick.TickInterval = 0.1f;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 
@@ -27,25 +26,10 @@ void ASightedEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (!PlayerChar) return;
-
-	PendingState = VisionCone->GetActorVisionState(PlayerChar);
-	if (VisionTimer > 0.0f)
+	if (const EVisionState NewState = VisionCone->GetActorVisionState(PlayerChar); VisionState != NewState)
 	{
-		VisionTimer -= DeltaTime;
-		if (VisionState == PendingState)
-		{
-			VisionTimer = 0.0f;
-		}
-		else if (VisionTimer <= 0.0f)
-		{
-			VisionTimer = 0.0f;
-			VisionState = PendingState;
-			OnVisionUpdate(VisionState);
-		}
-	}
-	else if (VisionState != PendingState)
-	{
-		VisionTimer = VisionCooldown;
+		VisionState = NewState;
+		OnVisionUpdate(VisionState);
 	}
 }
 

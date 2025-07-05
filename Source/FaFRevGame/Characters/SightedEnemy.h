@@ -19,9 +19,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UVisionConeComponent> VisionCone;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f))
-		float VisionCooldown;
-
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Vision Update")
 		void OnVisionUpdate(const EVisionState State);
 
@@ -30,13 +27,11 @@ public:
 	FName GetVisionAttachmentBone_Implementation() { return FName("head"); }
 
 	UFUNCTION(BlueprintPure, Category = AI)
-		EVisionState GetVisionState() const { return VisionState; }
+		EVisionState GetPlayerVisionState() const { return VisionState; }
 
 private:
 
-	UPROPERTY() float VisionTimer;
 	UPROPERTY() EVisionState VisionState;
-	UPROPERTY() EVisionState PendingState;
 	UPROPERTY(Transient) TObjectPtr<AGamePlayerChar> PlayerChar;
 
 	virtual void BeginPlay() override;
