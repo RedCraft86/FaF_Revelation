@@ -16,6 +16,7 @@ enum class EInvAssetType : uint8
 UENUM(BlueprintType)
 enum class EInvItemType : uint8
 {
+	Important,
 	Generic,
 	KeyItem,
 	Equipment
@@ -70,9 +71,10 @@ public:
 		if (Type == EInvAssetType::Archive) return 0;
 		switch (ItemType)
 		{
-			case EInvItemType::Equipment: return Priority;
-			case EInvItemType::KeyItem: return Priority + 50;
-			default: return Priority + 100;
+			case EInvItemType::Important: return Priority;
+			case EInvItemType::Equipment: return Priority + 50;
+			case EInvItemType::KeyItem: return Priority + 100;
+			default: return Priority + 150;
 		}
 	}
 
