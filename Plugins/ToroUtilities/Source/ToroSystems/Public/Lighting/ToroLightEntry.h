@@ -26,6 +26,11 @@ struct TOROSYSTEMS_API FToroLightEntry
 		Light->SetLightFunctionMaterial(Flicker);
 
 		FVector4 Color = Light->GetLightColor();
+		if (Light->bUseTemperature)
+		{
+			Color *= FLinearColor::MakeFromColorTemperature(Light->Temperature);
+		}
+
 		Color.W = Light->Intensity * Multiplier;
 		for (const TPair<TObjectPtr<UStaticMeshComponent>, bool>& Mesh : Meshes)
 		{
