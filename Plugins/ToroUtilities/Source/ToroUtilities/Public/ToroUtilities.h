@@ -52,6 +52,9 @@ public:
 		TSoftObjectPtr<UWorld> LaunchMap;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
+		TSoftObjectPtr<UWorld> ExtrasMap;
+
+	UPROPERTY(Config, EditAnywhere, Category = Runtime)
 		TSoftObjectPtr<UWorld> GameplayMap;
 
 	UPROPERTY(Config, EditAnywhere, Category = Runtime)
@@ -93,8 +96,9 @@ public:
 
 	bool IsOnGameplayMap(const UObject* WorldContext) const
 	{
-		if (GameplayMap.IsNull()) return false;
-		return UGameplayStatics::GetCurrentLevelName(WorldContext) == GameplayMap.GetAssetName();
+		if (GameplayMap.IsNull() && ExtrasMap.IsNull()) return false;
+		const FString LvlName = UGameplayStatics::GetCurrentLevelName(WorldContext);
+		return LvlName == GameplayMap.GetAssetName() || LvlName == ExtrasMap.GetAssetName();
 	}
 
 	FText GetVersionLabel() const
