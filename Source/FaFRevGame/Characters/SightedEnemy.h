@@ -19,6 +19,9 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UVisionConeComponent> VisionCone;
 
+	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bDetectMovementOnly;
+
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Vision Update")
 		void OnVisionUpdate(const EVisionState State);
 

@@ -2,7 +2,7 @@
 
 #include "SightedEnemy.h"
 
-ASightedEnemy::ASightedEnemy(): VisionState(EVisionState::None)
+ASightedEnemy::ASightedEnemy(): bDetectMovementOnly(false), VisionState(EVisionState::None)
 {
 	PrimaryActorTick.TickInterval = 0.1f;
 	PrimaryActorTick.bStartWithTickEnabled = true;
@@ -26,7 +26,11 @@ void ASightedEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	if (!PlayerChar) return;
-	if (const EVisionState NewState = VisionCone->GetActorVisionState(PlayerChar); VisionState != NewState)
+
+	const EVisionState NewState = bDetectMovementOnly && !PlayerChar->IsMoving()
+		? EVisionState::None : VisionCone->GetActorVisionState(PlayerChar);
+
+	if (VisionState != NewState)
 	{
 		VisionState = NewState;
 		OnVisionUpdate(VisionState);
