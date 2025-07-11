@@ -107,6 +107,8 @@ void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8
 	ApplyAudioSettings();
 }
 
+DEFINE_SETTER_BASIC(EGameDifficulty, Difficulty)
+
 DEFINE_SETTER_DYNAMIC(bool, ShowFPS)
 DEFINE_SETTER_BASIC(bool, SmoothCamera)
 DEFINE_SETTER_BASIC(float, SensitivityX)
@@ -307,6 +309,7 @@ void UToroUserSettings::CacheScalabilityDefaults()
 
 void UToroUserSettings::SetToDefaults()
 {
+	Difficulty = EGameDifficulty::Normal;
 	ShowFPS = false;
 	SmoothCamera = true;
 	SensitivityX = 1.0f;

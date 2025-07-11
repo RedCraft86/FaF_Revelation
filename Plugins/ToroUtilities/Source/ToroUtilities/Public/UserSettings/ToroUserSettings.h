@@ -81,6 +81,8 @@ public:
 	}
 
 	TArray<uint8>& GetScalabilityDefaults() { return ScalabilityDefaults; }
+	
+	DECLARE_CONVERTABLE_FUNC(EGameDifficulty, Difficulty, uint8, Int)
 
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
@@ -134,6 +136,7 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<UGameInstance> GameInstance;
 
 	/* Misc */
+	UPROPERTY(Config) EGameDifficulty Difficulty;
 	UPROPERTY(Config) bool ShowFPS;
 	UPROPERTY(Config) bool Borderless;
 	UPROPERTY(Config) TMap<ESoundClassType, uint8> AudioVolume;

@@ -14,6 +14,14 @@ enum class ESettingPerformance : uint8
 };
 
 UENUM(BlueprintType)
+enum class EGameDifficulty : uint8
+{
+	Easy,
+	Normal,
+	Hard
+};
+
+UENUM(BlueprintType)
 enum class EColorBlindMode : uint8
 {
 	None,

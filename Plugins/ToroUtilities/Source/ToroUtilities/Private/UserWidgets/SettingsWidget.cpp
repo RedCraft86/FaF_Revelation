@@ -120,6 +120,8 @@ void USettingsWidget::InitWidget()
 {
 	ToroSettings = UToroUserSettings::Get();
 
+	SETUP_SWAPPER(Difficulty, GetDifficultyInt, SetDifficultyInt);
+
 	SETUP_TOGGLE(ShowFPS, GetShowFPS, SetShowFPS);
 	SETUP_TOGGLE(SmoothCamera, GetSmoothCamera, SetSmoothCamera);
 
