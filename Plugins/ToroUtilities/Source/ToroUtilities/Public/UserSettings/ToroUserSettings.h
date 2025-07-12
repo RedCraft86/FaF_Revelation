@@ -82,7 +82,7 @@ public:
 
 	TArray<uint8>& GetScalabilityDefaults() { return ScalabilityDefaults; }
 	
-	DECLARE_CONVERTABLE_FUNC(EGameDifficulty, Difficulty, uint8, Int)
+	DECLARE_PROPERTY_FUNC(EGameDifficulty, Difficulty)
 
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
