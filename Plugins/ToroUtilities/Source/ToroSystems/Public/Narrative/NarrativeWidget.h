@@ -116,5 +116,5 @@ private:
 
 	virtual void InitWidget() override;
 	virtual void InternalProcessActivation() override;
-	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsPlayableMap(this); }
 };

@@ -82,5 +82,5 @@ private:
 		return Super::ShouldBeHidden() || (NarrativeWidget && NarrativeWidget->IsActivated());
 	}
 	
-	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsPlayableMap(this); }
 };

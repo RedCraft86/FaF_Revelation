@@ -65,5 +65,5 @@ private:
 	void OnNativeSubtitle(const FText& InText);
 
 	virtual void InitWidget() override;
-	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
+	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsPlayableMap(this); }
 };

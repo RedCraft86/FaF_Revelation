@@ -108,7 +108,7 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 	{
 		RemovePauseRequest(this);
 	}
-	else if (UToroUtilSettings::Get()->IsOnGameplayMap(this))
+	else if (UToroUtilSettings::Get()->IsPlayableMap(this))
 	{
 		AddPauseRequest(this);
 	}

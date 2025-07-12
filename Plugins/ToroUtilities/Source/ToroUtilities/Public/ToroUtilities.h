@@ -94,11 +94,21 @@ public:
 		return UGameplayStatics::GetCurrentLevelName(WorldContext) == LaunchMap.GetAssetName();
 	}
 
+	bool IsOnExtrasMap(const UObject* WorldContext) const
+	{
+		if (ExtrasMap.IsNull()) return false;
+		return UGameplayStatics::GetCurrentLevelName(WorldContext) == ExtrasMap.GetAssetName();
+	}
+
 	bool IsOnGameplayMap(const UObject* WorldContext) const
 	{
-		if (GameplayMap.IsNull() && ExtrasMap.IsNull()) return false;
-		const FString LvlName = UGameplayStatics::GetCurrentLevelName(WorldContext);
-		return LvlName == GameplayMap.GetAssetName() || LvlName == ExtrasMap.GetAssetName();
+		if (GameplayMap.IsNull()) return false;
+		return UGameplayStatics::GetCurrentLevelName(WorldContext) == GameplayMap.GetAssetName();
+	}
+
+	bool IsPlayableMap(const UObject* WorldContext) const
+	{
+		return IsOnExtrasMap(WorldContext) || IsOnGameplayMap(WorldContext);
 	}
 
 	FText GetVersionLabel() const

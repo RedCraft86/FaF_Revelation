@@ -91,6 +91,11 @@ void UGamePauseWidget::InitWidget()
 	CheckpointBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::Checkpoint);
 	MainMenuBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::MainMenu);
 	QuitBtn->OnClicked.AddDynamic(this, &UGamePauseWidget::QuitGame);
+
+	if (UToroUtilSettings::Get()->IsOnExtrasMap(this))
+	{
+		CheckpointBtn->SetVisibility(ESlateVisibility::Collapsed);
+	}
 }
 
 void UGamePauseWidget::InternalProcessActivation()

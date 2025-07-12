@@ -56,5 +56,4 @@ protected:
 
 	virtual void InitWidget() override;
 	virtual void InternalProcessActivation() override;
-	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };
