@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include "DifficultyWidget.h"
 #include "SettingRowWidgets.h"
+#include "Interfaces/ExitInterface.h"
 #include "Framework/ToroGameInstance.h"
 #include "UserWidgets/ToroWidgetBase.h"
 #include "SettingsWidget.generated.h"
@@ -10,7 +12,7 @@
 class UWidgetSwitcher;
 
 UCLASS(Abstract)
-class TOROUTILITIES_API USettingsWidget : public UToroWidgetBase
+class TOROUTILITIES_API USettingsWidget : public UToroWidgetBase, public IExitInterface
 {
 	GENERATED_BODY()
 
@@ -21,7 +23,10 @@ public:
 	/* GENERAL */
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<USwapperSettingRow> Difficulty;
+		TObjectPtr<UPanelWidget> DifficultyBox;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UButton> ChangeDifficulty;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UToggleSettingRow> ShowFPS;
@@ -213,6 +218,7 @@ protected:
 
 	UPROPERTY() uint8 ScreenIndex;
 	UPROPERTY() float AutoDetectTime;
+	UPROPERTY(Transient) TObjectPtr<UDifficultyWidget> DifficultyUI;
 	UPROPERTY(Transient) TObjectPtr<UToroUserSettings> ToroSettings;
 
 	void SetScreenIndex(const uint8 InIndex);
@@ -229,11 +235,13 @@ protected:
 	void OnAnyScalabilityChanged() const { OverallQuality->LoadValue(); }
 	UToroGameInstance* GetToroGameInstance() const { return GetWorld()->GetGameInstance<UToroGameInstance>(); }
 
+	UFUNCTION() void OnDifficulty();
 	UFUNCTION() void OnAutoDetect();
 	UFUNCTION() void OnExit() { DeactivateWidget(); }
 
 	virtual void InitWidget() override;
 	virtual void InternalProcessActivation() override;
 	virtual void InternalProcessDeactivation() override;
+	virtual void ReturnToWidget_Implementation(UUserWidget* FromWidget) override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
 };

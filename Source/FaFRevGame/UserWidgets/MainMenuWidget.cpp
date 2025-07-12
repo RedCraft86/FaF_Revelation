@@ -18,10 +18,9 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer)
 
 void UMainMenuWidget::PlayGame()
 {
-	FadeOut([this]()
-	{
-		UGameplayStatics::OpenLevelBySoftObjectPtr(this, UToroUtilSettings::Get()->GameplayMap);
-	});
+	DeactivateWidget();
+	Difficulty->ParentUI = this;
+	Difficulty->ActivateWidget();
 }
 
 void UMainMenuWidget::PhaseMenu()
@@ -96,10 +95,19 @@ void UMainMenuWidget::InternalProcessActivation()
 		
 		Settings = Manager->FindWidget<USettingsWidget>();
 		Settings->ParentUI = this;
+		
+		Difficulty = Manager->FindWidget<UDifficultyWidget>();
 	}
 }
 
 void UMainMenuWidget::ReturnToWidget_Implementation(UUserWidget* FromWidget)
 {
 	if (FromWidget == Phases || FromWidget == Extras || FromWidget == Settings) ActivateWidget();
+	else if (FromWidget == Difficulty)
+	{
+		FadeOut([this]()
+		{
+			UGameplayStatics::OpenLevelBySoftObjectPtr(this, UToroUtilSettings::Get()->GameplayMap);
+		});
+	}
 }

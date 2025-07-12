@@ -1,8 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/SettingsWidget.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Components/WidgetSwitcher.h"
-#include "Interfaces/ExitInterface.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
 #include "ToroConfigs.h"
@@ -109,6 +109,13 @@ void USettingsWidget::OnOverallQualityChanged() const
 	ShadingQuality->LoadValue();
 }
 
+void USettingsWidget::OnDifficulty()
+{
+	SetHidden(true);
+	DifficultyUI->ParentUI = this;
+	DifficultyUI->ActivateWidget();
+}
+
 void USettingsWidget::OnAutoDetect()
 {
 	AutoDetectTime = 5.0f;
@@ -120,10 +127,12 @@ void USettingsWidget::InitWidget()
 {
 	ToroSettings = UToroUserSettings::Get();
 
-	SETUP_SWAPPER(Difficulty, GetDifficultyInt, SetDifficultyInt);
-
 	SETUP_TOGGLE(ShowFPS, GetShowFPS, SetShowFPS);
 	SETUP_TOGGLE(SmoothCamera, GetSmoothCamera, SetSmoothCamera);
+
+	ChangeDifficulty->OnClicked.AddDynamic(this, &USettingsWidget::OnDifficulty);
+	DifficultyBox->SetVisibility(UToroUtilSettings::Get()->IsOnGameplayMap(this)
+		? ESlateVisibility::SelfHitTestInvisible : ESlateVisibility::Collapsed);
 
 	OnRefreshDisplay.AddUObject(SensitivityX, &USettingRowBase::LoadValue);
 	SensitivityX->AssignGetter([](UToroUserSettings* Settings)->float { return FMath::Abs(Settings->GetSensitivityX()); });
@@ -233,6 +242,10 @@ void USettingsWidget::InitWidget()
 void USettingsWidget::InternalProcessActivation()
 {
 	Super::InternalProcessActivation();
+	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
+	{
+		DifficultyUI = Manager->FindWidget<UDifficultyWidget>();
+	}
 	RefreshUI();
 }
 
@@ -240,6 +253,11 @@ void USettingsWidget::InternalProcessDeactivation()
 {
 	Super::InternalProcessDeactivation();
 	IExitInterface::ReturnToWidget(ParentUI, this);
+}
+
+void USettingsWidget::ReturnToWidget_Implementation(UUserWidget* FromWidget)
+{
+	if (FromWidget == DifficultyUI) SetHidden(false);
 }
 
 void USettingsWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
