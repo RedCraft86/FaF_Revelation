@@ -6,7 +6,8 @@
 #include "UserWidgets/SettingsWidget.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
-#include "ExtrasWidget.h"
+#include "Engine/StreamableManager.h"
+#include "Engine/AssetManager.h"
 #include "PhaseWidget.h"
 
 UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer)
@@ -21,6 +22,9 @@ void UMainMenuWidget::PlayGame()
 	DeactivateWidget();
 	Difficulty->ParentUI = this;
 	Difficulty->ActivateWidget();
+
+	FStreamableManager& Streamable = UAssetManager::GetStreamableManager();
+	Streamable.RequestAsyncLoad(UToroUtilSettings::Get()->GameplayMap.ToSoftObjectPath());
 }
 
 void UMainMenuWidget::PhaseMenu()
@@ -43,11 +47,12 @@ void UMainMenuWidget::SettingsMenu()
 
 void UMainMenuWidget::ExtrasMenu()
 {
-	if (Extras)
+	FStreamableManager& Streamable = UAssetManager::GetStreamableManager();
+	Streamable.RequestAsyncLoad(UToroUtilSettings::Get()->ExtrasMap.ToSoftObjectPath());
+	FadeOut([this]()
 	{
-		DeactivateWidget();
-		Extras->ActivateWidget();
-	}
+		UGameplayStatics::OpenLevelBySoftObjectPtr(this, UToroUtilSettings::Get()->ExtrasMap);
+	});
 }
 
 void UMainMenuWidget::QuitGame()
@@ -90,9 +95,6 @@ void UMainMenuWidget::InternalProcessActivation()
 		Phases = Manager->FindWidget<UPhaseWidget>();
 		Phases->ParentUI = this;
 		
-		Extras = Manager->FindWidget<UExtrasWidget>();
-		Extras->ParentUI = this;
-		
 		Settings = Manager->FindWidget<USettingsWidget>();
 		Settings->ParentUI = this;
 		
@@ -102,7 +104,7 @@ void UMainMenuWidget::InternalProcessActivation()
 
 void UMainMenuWidget::ReturnToWidget_Implementation(UUserWidget* FromWidget)
 {
-	if (FromWidget == Phases || FromWidget == Extras || FromWidget == Settings) ActivateWidget();
+	if (FromWidget == Phases || FromWidget == Settings) ActivateWidget();
 	else if (FromWidget == Difficulty)
 	{
 		FadeOut([this]()

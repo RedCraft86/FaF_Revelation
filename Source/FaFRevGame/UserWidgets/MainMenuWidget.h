@@ -36,7 +36,6 @@ public:
 private:
 
 	UPROPERTY(Transient) TObjectPtr<class UPhaseWidget> Phases;
-	UPROPERTY(Transient) TObjectPtr<class UExtrasWidget> Extras;
 	UPROPERTY(Transient) TObjectPtr<class USettingsWidget> Settings;
 	UPROPERTY(Transient) TObjectPtr<class UDifficultyWidget> Difficulty;
 	UPROPERTY(Transient) TObjectPtr<class AToroPlayerController> Controller;
