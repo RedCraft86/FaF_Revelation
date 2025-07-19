@@ -26,15 +26,16 @@ void UGamePhaseManager::LoadSequence()
 		UFaFRevGameInstance* GI = UToroGameInstance::Get<UFaFRevGameInstance>(this);
 		if (GI && GI->PlayFromPhase.IsSet())
 		{
-			ChangePhase(Cast<UGamePhaseNode>(Graph->GetNodeByID(*GI->PlayFromPhase)));
+			UGamePhaseNode* Node = Cast<UGamePhaseNode>(Graph->GetNodeByID(*GI->PlayFromPhase));
 			GI->PlayFromPhase.Reset();
+			
+			Sequence = Graph->GetSequenceFromNode(Node);
+			ChangePhase(Node);
 		}
-		else
+		else if (const UFaFRevGameSave* Save = UToroSaveManager::GetSaveObject<UFaFRevGameSave>(this, SaveTags::TAG_Game))
 		{
-			GET_SAVE(Game, {
-				Sequence = Graph->ValidateSequence(Save->Sequence);
-				ChangePhase(Graph->GetLeafInSequence<UGamePhaseNode>(Sequence, true));
-			})
+			Sequence = Graph->ValidateSequence(Save->Sequence);
+			ChangePhase(Graph->GetLeafInSequence<UGamePhaseNode>(Sequence, true));
 		}
 	}
 }
