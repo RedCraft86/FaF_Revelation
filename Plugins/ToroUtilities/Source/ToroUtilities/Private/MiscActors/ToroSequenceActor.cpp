@@ -53,7 +53,7 @@ void AToroSequenceActor::OnFinished()
 	UnlockPlayer();
 	OnFinishedEvent.Broadcast();
 
-	if (!Skippable) return;
+	if (!bSkippable) return;
 	if (UToroGlobalSave* Save = UToroSaveManager::GetSaveObject<UToroGlobalSave>(this, SaveTags::TAG_Global))
 	{
 		Save->Cutscenes.Add(CutsceneGuid);
@@ -66,7 +66,7 @@ void AToroSequenceActor::LockPlayer()
 	{
 		if (bLockPlayer) Controller->EnterCinematic(this);
 
-		if (!Skippable) return;
+		if (!bSkippable) return;
 		if (const UToroGlobalSave* Save = UToroSaveManager::GetSaveObject<UToroGlobalSave>(this, SaveTags::TAG_Global))
 		{
 			if (!Save->Cutscenes.Contains(CutsceneGuid)) return;
@@ -87,7 +87,7 @@ void AToroSequenceActor::UnlockPlayer()
 	{
 		if (bLockPlayer) Controller->ExitCinematic();
 
-		if (!Skippable) return;
+		if (!bSkippable) return;
 		if (UCutsceneSkipWidget* SkipWidget = GetWidget(); SkipWidget && SkipWidget->IsActivated())
 		{
 			SkipWidget->DeactivateWidget();

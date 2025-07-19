@@ -14,13 +14,13 @@ class TOROUTILITIES_API AToroSequenceActor : public ALevelSequenceActor
 
 public:
 
-	AToroSequenceActor(const FObjectInitializer& Init): Super(Init), bLockPlayer(false), Skippable(false) {}
+	AToroSequenceActor(const FObjectInitializer& Init): Super(Init), bLockPlayer(false), bSkippable(false) {}
 
 	UPROPERTY(EditAnywhere, Category = General)
 		bool bLockPlayer;
 
 	UPROPERTY(EditAnywhere, Category = General)
-		bool Skippable;
+		bool bSkippable;
 
 	UFUNCTION(BlueprintPure, Category = Actor)
 		FGuid GetCutsceneGuid() const { return CutsceneGuid; }
