@@ -183,6 +183,8 @@ void FToroEditorStyle::Init()
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	const FVector2D Icon16x16(16.0f, 16.0f);
 
+	AddSVG(ToroEditor.TestButton01, Test, 20x20);
+
 	AddSVG(ToroEditor.LinkAssetLibrary, LinkFolder, 20x20);
 	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
 	AddSVG(ToroEditor.ActorLayout, ActorLayout, 20x20);
