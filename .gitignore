@@ -50,6 +50,5 @@ Build/*/**
 !/Plugins/ToroUtilities/
 /Plugins/ToroUtilities/Binaries/
 /Plugins/ToroUtilities/Intermediate/
-/Plugins/ToroUtilities/Resources/Test.svg
 
 Backup.Lock
