@@ -19,7 +19,7 @@ class FAFREVGAME_API AGameOverSequence final : public AToroSequenceActor
 
 public:
 
-	AGameOverSequence() {}
+	AGameOverSequence(const FObjectInitializer& Init): Super(Init) {}
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TObjectPtr<ACameraActor> Camera;
@@ -55,9 +55,9 @@ public:
 		OnFinishedEvent.Broadcast();
 		if (AToroWidgetManager* WidgetManager = AToroWidgetManager::Get(this))
 		{
-			if (UGameOverWidget* Widget = WidgetManager->FindWidget<UGameOverWidget>())
+			if (UGameOverWidget* OverWidget = WidgetManager->FindWidget<UGameOverWidget>())
 			{
-				Widget->ActivateWidget();
+				OverWidget->ActivateWidget();
 			}
 		}
 		if (AGamePlayerChar* Player = AGamePlayerChar::Get<AGamePlayerChar>(this))

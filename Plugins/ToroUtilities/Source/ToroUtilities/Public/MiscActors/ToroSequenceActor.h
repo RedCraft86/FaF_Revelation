@@ -49,7 +49,7 @@ public:
 	DECLARE_MULTICAST_DELEGATE(FOnFinishedEvent)
 	FOnFinishedEvent OnFinishedEvent;
 	
-private:
+protected:
 
 	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
 		FGuid CutsceneGuid;
