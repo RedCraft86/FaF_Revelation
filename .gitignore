@@ -50,5 +50,7 @@ Build/*/**
 !/Plugins/ToroUtilities/
 /Plugins/ToroUtilities/Binaries/
 /Plugins/ToroUtilities/Intermediate/
+/Plugins/ToroUtilities/Resources/Private/
+/Plugins/ToroUtilities/Source/ToroEditor/Secret/
 
 Backup.Lock
