@@ -57,9 +57,9 @@ private:
 	UPROPERTY() FGameInputModeData CachedInput;
 	UPROPERTY(Transient) TObjectPtr<class UCutsceneSkipWidget> Widget;
 
-	void OnFinished();
-	void LockPlayer();
-	void UnlockPlayer();
+	virtual void OnFinished();
+	virtual void LockPlayer();
+	virtual void UnlockPlayer();
 
 	UCutsceneSkipWidget* GetWidget();
 	virtual void BeginPlay() override;

@@ -1,5 +1,5 @@
 ﻿100 - AppStats
-99 - Messaging
+99 - Messaging, Game Overs
 98 - User Dialogue, Cutscene Skip
 97 - Pause, Settings, Tutorial (+ other menu widgets)
 96 - Inventory, Inspection, Dialogues (+ other gameplay widgets)
