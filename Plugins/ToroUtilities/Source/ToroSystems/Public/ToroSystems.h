@@ -4,6 +4,7 @@
 
 #include "MetasoundSource.h"
 #include "Helpers/ClassGetters.h"
+#include "GameHints/HintDatabase.h"
 #include "Tutorial/TutorialDatabase.h"
 #include "ToroSystems.generated.h"
 
@@ -41,4 +42,7 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Systems)
 		TSoftObjectPtr<UTutorialDatabase> TutorialDB;
+
+	UPROPERTY(Config, EditAnywhere, Category = Systems)
+		TSoftObjectPtr<UHintDatabase> HintDB;
 };

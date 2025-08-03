@@ -63,6 +63,7 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 		bWaiting = false;
 		bMainLoad = false;
 
+		HintSystem->ClearHints();
 		PlayerChar->AddLockTag(PlayerLockTag::TAG_Loading);
 		PlayerChar->EnterCinematic(GetWorld()->GetLevelScriptActor());
 
@@ -224,6 +225,7 @@ void UGamePhaseManager::OnWorldBeginPlay(UWorld& InWorld)
 	Super::OnWorldBeginPlay(InWorld);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
+		HintSystem = UHintSubsystem::Get(this);
 		PlayerChar = AGamePlayerChar::Get<AGamePlayerChar>(this);
 	});
 }

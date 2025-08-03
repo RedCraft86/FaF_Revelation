@@ -9,9 +9,10 @@
 #include "GamePhaseData.h"
 #include "ToroUtilities.h"
 #include "GameLoadingWidget.h"
+#include "GameHints/HintSubsystem.h"
+#include "Subsystems/WorldSubsystem.h"
 #include "PlayerChar/GamePlayerChar.h"
 #include "SaveSystem/ToroSaveManager.h"
-#include "Subsystems/WorldSubsystem.h"
 #include "GamePhaseManager.generated.h"
 
 UCLASS()
@@ -23,7 +24,7 @@ class FAFREVGAME_API UGamePhaseManager final : public UTickableWorldSubsystem
 
 public:
 
-	UGamePhaseManager(): bLoading(false), bWaiting(false), bMainLoad(false), PhaseTime(0.0f) {}
+	UGamePhaseManager(): bLoading(false), bWaiting(false), bMainLoad(false), PhaseTime(0.0f), UnloadTasks(0) {}
 
 	WORLD_SUBSYSTEM_GETTER(UGamePhaseManager);
 
@@ -53,6 +54,7 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UGamePhaseNode> ThisPhase;
 
 	UPROPERTY(Transient) TObjectPtr<UGamePhaseGraph> Graph;
+	UPROPERTY(Transient) TObjectPtr<UHintSubsystem> HintSystem;
 	UPROPERTY(Transient) TObjectPtr<AGamePlayerChar> PlayerChar;
 	UPROPERTY(Transient) TObjectPtr<UGameLoadingWidget> LoadingUI;
 
