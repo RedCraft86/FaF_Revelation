@@ -8,7 +8,7 @@
 #include "SightedEnemy.generated.h"
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FVisionConeData
+struct FAFREVGAME_API FVisionConeData
 {
 	GENERATED_BODY()
 
