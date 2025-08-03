@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "SightedEnemy.h"
+#include "UserSettings/ToroUserSettings.h"
 
 ASightedEnemy::ASightedEnemy(): bDetectMovementOnly(false), VisionState(EVisionState::None)
 {
@@ -20,6 +21,22 @@ void ASightedEnemy::BeginPlay()
 	{
 		PlayerChar = AGamePlayerChar::Get<AGamePlayerChar>(this);
 	});
+
+	FVisionConeData Vision = NormalVision;
+	switch (UToroUserSettings::Get()->GetDifficulty())
+	{
+	case EGameDifficulty::Easy:
+		Vision = EasyVision;
+		break;
+	case EGameDifficulty::Hard:
+		Vision = HardVision;
+		break;
+	default: break;
+	}
+
+	VisionCone->Distance = Vision.Distance;
+	VisionCone->InnerAngle = Vision.InnerAngle;
+	VisionCone->OuterAngle = Vision.OuterAngle;
 }
 
 void ASightedEnemy::Tick(float DeltaTime)
@@ -46,4 +63,8 @@ void ASightedEnemy::OnConstruction(const FTransform& Transform)
 			FAttachmentTransformRules::KeepRelativeTransform,
 			GetVisionAttachmentBone());
 	}
+
+	VisionCone->Distance = NormalVision.Distance;
+	VisionCone->InnerAngle = NormalVision.InnerAngle;
+	VisionCone->OuterAngle = NormalVision.OuterAngle;
 }
