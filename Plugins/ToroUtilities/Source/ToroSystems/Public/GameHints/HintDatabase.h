@@ -39,7 +39,7 @@ struct TOROSYSTEMS_API FHintEntry
 	UPROPERTY(EditAnywhere, Category = HintEntry, meta = (MultiLine = true))
 		FText Message;
 	
-	FHintEntry(): EasyDelay(30.0f), NormalDelay(60.0f), HardDelay(-1.0f), bUseSubtitle(false) {}
+	FHintEntry(): EasyDelay(60.0f), NormalDelay(120.0f), HardDelay(-1.0f), bUseSubtitle(false) {}
 	
 	FORCEINLINE bool IsValidData() const { return Message.IsEmptyOrWhitespace() && GetTime() > 0.0f; }
 	FORCEINLINE float GetTime() const
