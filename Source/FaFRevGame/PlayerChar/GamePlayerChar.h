@@ -90,6 +90,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		FVector2D StrafeOffsets;
 
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.1f, UIMin = 0.1f, UIMax = 2.0f))
+		FVector DifficultySpeed;
+
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 100.0f, UIMin = 100.0f))
 		float WalkSpeed;
 

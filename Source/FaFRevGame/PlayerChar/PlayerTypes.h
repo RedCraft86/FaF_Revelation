@@ -186,6 +186,7 @@ namespace Player
 		inline static FName Leaning		= TEXT("Internal_Leaning");
 		inline static FName Running		= TEXT("Internal_Running");
 		inline static FName Crouching	= TEXT("Internal_Crouching");
+		inline static FName Difficulty	= TEXT("Internal_Difficulty");
 	}
 
 	static float LeanToFloat(const EPlayerLeanState& State)

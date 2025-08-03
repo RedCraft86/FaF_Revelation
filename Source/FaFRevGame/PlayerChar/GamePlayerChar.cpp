@@ -75,6 +75,7 @@ AGamePlayerChar::AGamePlayerChar()
 	LeanOffsets = FVector2D(75.0f, 25.0f);
 	SideTrace = ECC_Visibility;
 	StrafeOffsets = FVector2D(2.5f, 1.5f);
+	DifficultySpeed = FVector(1.5f, 1.0f, 0.8f);
 	WalkSpeed = 300.0f;
 	RunSpeedMulti = 2.5f;
 	SneakSpeedMulti = 0.72f;
@@ -522,6 +523,20 @@ void AGamePlayerChar::BeginPlay()
 	{
 		Settings->OnDynamicSettingsChanged.AddUObject(this, &AGamePlayerChar::OnSettingsChange);
 		OnSettingsChange(Settings);
+	}
+
+	switch (UToroUserSettings::Get()->GetDifficulty())
+	{
+	case EGameDifficulty::Easy:
+		AddWalkMulti(Player::Keys::Difficulty, DifficultySpeed.X);
+		break;
+	case EGameDifficulty::Normal:
+		AddWalkMulti(Player::Keys::Difficulty, DifficultySpeed.Y);
+		break;
+	case EGameDifficulty::Hard:
+		AddWalkMulti(Player::Keys::Difficulty, DifficultySpeed.Z);
+		break;
+	default: break;
 	}
 
 	InterpCrouch.Target = CrouchHeights.X;
