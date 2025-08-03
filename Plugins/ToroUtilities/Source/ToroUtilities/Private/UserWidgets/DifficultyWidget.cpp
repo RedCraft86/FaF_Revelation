@@ -2,6 +2,8 @@
 
 #include "UserWidgets/DifficultyWidget.h"
 #include "UserSettings/ToroUserSettings.h"
+#include "UserWidgets/UserDialogWidget.h"
+#include "Libraries/ToroGeneralUtils.h"
 #include "Interfaces/ExitInterface.h"
 
 UDifficultyWidget::UDifficultyWidget(const FObjectInitializer& ObjectInitializer)
@@ -13,11 +15,34 @@ UDifficultyWidget::UDifficultyWidget(const FObjectInitializer& ObjectInitializer
 void UDifficultyWidget::OnConfirmClicked()
 {
 	DeactivateWidget();
-	UToroUserSettings::Get()->SetDifficulty(Difficulty);
-
-	if (!ParentUI) return;
-	IExitInterface::ReturnToWidget(ParentUI, this);
-	ParentUI = nullptr;
+	EGameDifficulty Initial = UToroUserSettings::Get()->GetDifficulty();
+	if (Initial != Difficulty)
+	{
+		UUserDialogWidget::ShowDialog(this, {
+			INVTEXT("Difficulty Change"),
+			INVTEXT("Changing the difficulty requires reloading from the last checkpoint. Do you wish to reload?"),
+			INVTEXT("Last Checkpoint"), INVTEXT("Cancel Change")},
+			{}, [WeakThis = TWeakObjectPtr(this)](uint8 Button)
+			{
+				if (!WeakThis.IsValid()) return;
+				if (Button == 0)
+				{
+					UToroUserSettings::Get()->SetDifficulty(WeakThis->Difficulty);
+					UToroGeneralUtils::RestartLevel(WeakThis.Get());
+				}
+				else if (WeakThis->ParentUI)
+				{
+					IExitInterface::ReturnToWidget(WeakThis->ParentUI, WeakThis.Get());
+					WeakThis->ParentUI = nullptr;
+				}
+			}
+		);
+	}
+	else if (ParentUI)
+	{
+		IExitInterface::ReturnToWidget(ParentUI, this);
+		ParentUI = nullptr;
+	}
 }
 
 void UDifficultyWidget::SetDifficulty(const EGameDifficulty InDifficulty)
