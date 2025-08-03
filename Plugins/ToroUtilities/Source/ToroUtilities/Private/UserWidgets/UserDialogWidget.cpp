@@ -35,6 +35,8 @@ void UUserDialogWidget::InitData(const FUserDialogSettings& InSettings, const FU
 	OptionBText->SetText(InSettings.OptionB);
 	OptionBBtn->SetVisibility(InSettings.OptionB.IsEmptyOrWhitespace()
 		? ESlateVisibility::Collapsed : ESlateVisibility::Visible);
+
+	AutoMsgText->SetText(INVTEXT(""));
 	
 	switch (InTimer.ButtonIdx)
 	{
