@@ -27,7 +27,7 @@ public:
 			  {TEXT("r.VSyncEditor"), TEXT("1")},
 			  {TEXT("r.Streaming.PoolSize"), TEXT("3000")}
 		}), AssetLibrary(TEXT("D:/UnrealEngine/Shared/AssetProject/Content/AssetPacks"))
-		, DFSize(5), DFSizeType(EDupliFilterSizeType::Megabytes)
+		, DFLimit(20000), DFSize(5), DFSizeType(EDupliFilterSizeType::Megabytes)
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("ToroEditor");
@@ -43,6 +43,9 @@ private:
 	UPROPERTY(Config, EditAnywhere, Category = Editor)
 		FDirectoryPath AssetLibrary;
 	
+	UPROPERTY(Config, EditAnywhere, Category = DupliFilter, DisplayName = "Max Assets", meta = (ClampMin = 5000, UIMin = 5000, ClampMax = 200000))
+		int32 DFLimit;
+	
 	UPROPERTY(Config, EditAnywhere, Category = DupliFilter, DisplayName = "Size Threshold", meta = (ClampMin = 0, UIMin = 0))
 		int64 DFSize;
 
@@ -50,6 +53,8 @@ private:
 		EDupliFilterSizeType DFSizeType;
 
 public:
+
+	int32 GetDupliFilterLimit() const { return FMath::Clamp(DFLimit, 5000, 200000); }
 	
 	int64 CalcDupliFilterSize() const
 	{

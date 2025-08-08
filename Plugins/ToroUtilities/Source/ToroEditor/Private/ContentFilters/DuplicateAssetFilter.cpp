@@ -129,14 +129,17 @@ public:
 
 		Duplicates.Empty();
 		SizeTolerance = UToroEdSettings::Get()->CalcDupliFilterSize();
+		int32 MaxNumAssets = UToroEdSettings::Get()->GetDupliFilterLimit();
 		if (const FAssetRegistryModule* Module = FModuleManager::LoadModulePtr<FAssetRegistryModule>("AssetRegistry"))
 		{
 			TArray<FAssetData> AllAssets;
 			Module->Get().GetAllAssets(AllAssets);
-			if (const int32 NumAssets = AllAssets.Num(); NumAssets > 20000)
+			if (const int32 NumAssets = AllAssets.Num(); NumAssets > MaxNumAssets)
 			{
-				UE_LOG(LogToroEditor, Error, TEXT("Content browser failed to filter duplicates. Too many assets [%d/10,000]"), NumAssets)
 				SetActive(false);
+				UE_LOG(LogToroEditor, Error,
+					TEXT("Cannot filter duplicates. Too many assets [%d/%d]"),
+					NumAssets, MaxNumAssets)
 			}
 
 			TMap<FName, FDuplicateAssetData> Dupes;
