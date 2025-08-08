@@ -36,8 +36,7 @@ void UHintSubsystem::Tick(float DeltaTime)
 		}
 		else
 		{
-			const FHintEntry Entry = UHintDatabase::Get(It.Key());
-			if (Entry.bUseSubtitle)
+			if (const FHintEntry Entry = UHintDatabase::Get(It.Key()); Entry.bUseSubtitle)
 			{
 				USubtitleWidget::QueueSubtitle(this,
 					{INVTEXT("You"), Entry.Message, 2.0f});
