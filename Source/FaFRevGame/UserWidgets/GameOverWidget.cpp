@@ -2,6 +2,7 @@
 
 #include "GameOverWidget.h"
 #include "Engine/AssetManager.h"
+#include "Framework/ToroWidgetManager.h"
 #include "Framework/ToroPlayerController.h"
 #include "Libraries/ToroGeneralUtils.h"
 #include "EnhancedCodeFlow.h"
@@ -11,6 +12,21 @@ UGameOverWidget::UGameOverWidget(const FObjectInitializer& ObjectInitializer)
 {
 	ZOrder = 96;
 	bAutoActivate = false;
+}
+
+void UGameOverWidget::ShowWidget(const FGameplayTag& InCharacter)
+{
+	if (const FGameOverInfo* Info = GameOverEntries.Find(InCharacter))
+	{
+		ActivateWidget();
+		NameText->SetText(Info->Name);
+		DescText->SetText(Info->Description);
+		OnShowTutorial(Info->bRightText);
+	}
+	else
+	{
+		UToroGeneralUtils::RestartLevel(this);
+	}
 }
 
 void UGameOverWidget::Restart()
@@ -49,4 +65,6 @@ void UGameOverWidget::InitWidget()
 	Controller = AToroPlayerController::Get(this);
 	RestartBtn->OnClicked.AddDynamic(this, &UGameOverWidget::Restart);
 	MainMenuBtn->OnClicked.AddDynamic(this, &UGameOverWidget::MainMenu);
+	HideUI->OnClicked.AddDynamic(this, &UGameOverWidget::HideWidget);
+	RevealUI->OnClicked.AddDynamic(this, &UGameOverWidget::RevealWidget);
 }

@@ -59,6 +59,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		TMap<FGuid, FGamePhaseData> PhaseData;
 
+	UPROPERTY(BlueprintReadOnly, Category = GameSave)
+		TMap<FGameplayTag, int32> TotalDeaths;
+
 	void SetPhaseInventory(const FGuid& InPhase, const FInventoryData& InInventory)
 	{
 		PhaseData.FindOrAdd(InPhase).Inventory = InInventory;
@@ -96,6 +99,7 @@ public:
 		Super::DeleteData();
 		Sequence.Empty();
 		PhaseData.Empty();
+		TotalDeaths.Empty();
 	}
 
 protected:
@@ -105,5 +109,6 @@ protected:
 		Super::SerializeData(Ar);
 		Ar << Sequence;
 		Ar << PhaseData;
+		Ar << TotalDeaths;
 	}
 };

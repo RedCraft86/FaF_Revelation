@@ -1,10 +1,11 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "EnemyBase.h"
-#include "FaFRevGameInstance.h"
+#include "EngineUtils.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "PlayerChar/GamePlayerChar.h"
-#include "EngineUtils.h"
+#include "FaFRevSaves.h"
 
 AEnemyBase::AEnemyBase(): bJumpscare(false), EnemyState(EEnemyState::None)
 {
@@ -40,11 +41,16 @@ void AEnemyBase::JumpscarePlayer()
 	{
 		bJumpscare = true;
 		StopCharacterAI();
-		GetGameInstance<UFaFRevGameInstance>()->LastJumpscare = GetCharacterID();
 		for (const TObjectPtr<AEnemyBase> Enemy : TActorRange<AEnemyBase>(GetWorld()))
 		{
 			Enemy->StopCharacterAI();
 		}
+
+		if (UFaFRevGameSave* Save = UToroSaveManager::GetSaveObject<UFaFRevGameSave>(this, SaveTags::TAG_Game))
+		{
+			Save->TotalDeaths.FindOrAdd(GetCharacterID(), 0)++;
+		}
+
 		OnJumpscarePlayer();
 	}
 	else

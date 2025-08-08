@@ -20,6 +20,8 @@ struct FAFREVGAME_API FVisionConeData
 
 	UPROPERTY(EditAnywhere, Category = VisionSettings, meta = (ClampMin = 0.0f, UIMin = 0.0f))
 		float InnerAngle;
+
+	FVisionConeData(): Distance(2000.0f), OuterAngle(50.0f), InnerAngle(10.0f) {}
 };
 
 UCLASS(Abstract)
