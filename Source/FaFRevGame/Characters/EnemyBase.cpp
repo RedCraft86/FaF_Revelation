@@ -49,6 +49,7 @@ void AEnemyBase::JumpscarePlayer()
 		if (UFaFRevGameSave* Save = UToroSaveManager::GetSaveObject<UFaFRevGameSave>(this, SaveTags::TAG_Game))
 		{
 			Save->TotalDeaths.FindOrAdd(GetCharacterID(), 0)++;
+			Save->SaveObject(nullptr);
 		}
 
 		OnJumpscarePlayer();
