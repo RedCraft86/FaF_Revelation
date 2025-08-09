@@ -22,6 +22,8 @@ UToroWidgetBase* UToroWidgetBase::CreateToroWidget(APlayerController* Controller
 			Widget->AddToViewport(FMath::Min(MAX_Z_ORDER, (int32)Widget->ZOrder));
 			return Widget;
 		}
+
+		Widget->MarkAsGarbage();
 	}
 
 	return nullptr;
