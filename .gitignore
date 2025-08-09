@@ -34,11 +34,13 @@
 /Archives/
 /Binaries/
 /Config/
-/Content/
 /DerivedDataCache/
 /FMODProject/
 /Intermediate/
 /Saved/
+
+/Content/*
+!/Content/Blueprints/
 
 Build/*
 !Build/*/
