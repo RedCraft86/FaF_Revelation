@@ -36,6 +36,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TSet<FGameplayTag> Content;
 
+	UPROPERTY(BlueprintReadOnly, Category = GlobalSave)
+		TSet<FGameplayTag> Tutorials;
+
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TSet<FGuid> Cutscenes;
 

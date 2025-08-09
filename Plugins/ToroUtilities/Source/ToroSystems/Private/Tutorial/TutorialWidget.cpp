@@ -2,6 +2,8 @@
 
 #include "Tutorial/TutorialWidget.h"
 #include "Tutorial/TutorialDatabase.h"
+#include "SaveSystem/ToroGlobalSave.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/ExprTextBlock.h"
@@ -18,24 +20,65 @@ UTutorialWidget::UTutorialWidget(const FObjectInitializer& ObjectInitializer)
 	bAutoActivate = false;
 }
 
-void UTutorialWidget::QueueTutorial(const UObject* ContextObject, const FGameplayTag InTutorial)
+void UTutorialWidget::QueueTutorial(const UObject* ContextObject, const FGameplayTag InTutorial, const bool bHideKnown)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
 		if (UTutorialWidget* Widget = Manager->FindWidget<UTutorialWidget>())
 		{
-			Widget->AddTutorial(InTutorial);
+			bool bKnown = true;
+			if (UToroGlobalSave* Save = UToroSaveManager::GetSaveObject
+				<UToroGlobalSave>(ContextObject, SaveTags::TAG_Global))
+			{
+				if (!Save->Tutorials.Contains(InTutorial))
+				{
+					bKnown = false;
+					Save->Tutorials.Add(InTutorial);
+					Save->SaveObject(nullptr);
+				}
+			}
+
+			if (!bHideKnown || !bKnown)
+			{
+				Widget->AddTutorial(InTutorial);
+			}
 		}
 	}
 }
 
-void UTutorialWidget::QueueTutorials(const UObject* ContextObject, const TArray<FGameplayTag>& InTutorials)
+void UTutorialWidget::QueueTutorials(const UObject* ContextObject, const TArray<FGameplayTag>& InTutorials, const bool bHideKnowns)
 {
 	if (AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject))
 	{
 		if (UTutorialWidget* Widget = Manager->FindWidget<UTutorialWidget>())
 		{
-			Widget->AddTutorials(InTutorials);
+			TArray<FGameplayTag> Checked = InTutorials;
+			if (UToroGlobalSave* Save = UToroSaveManager::GetSaveObject
+				<UToroGlobalSave>(ContextObject, SaveTags::TAG_Global))
+			{
+				if (bHideKnowns)
+				{
+					for (auto It = Checked.CreateIterator(); It; ++It)
+					{
+						if (Save->Tutorials.Contains(*It))
+						{
+							It.RemoveCurrent();
+						}
+						else
+						{
+							Save->Tutorials.Add(*It);
+						}
+					}
+				}
+				else
+				{
+					Save->Tutorials.Append(Checked);
+				}
+
+				Save->SaveObject(nullptr);
+			}
+			
+			Widget->AddTutorials(Checked);
 		}
 	}
 }

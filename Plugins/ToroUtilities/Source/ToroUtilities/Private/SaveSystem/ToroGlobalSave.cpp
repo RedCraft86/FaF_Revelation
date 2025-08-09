@@ -28,5 +28,6 @@ void UToroGlobalSave::DeleteData()
 void UToroGlobalSave::SerializeData(FArchive& Ar)
 {
 	Ar << Content;
+	Ar << Tutorials;
 	Ar << Cutscenes;
 }
