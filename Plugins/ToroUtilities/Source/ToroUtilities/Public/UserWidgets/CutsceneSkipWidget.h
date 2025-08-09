@@ -24,6 +24,9 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UProgressBar> SkipProgressBar;
 
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> HoldAnim;
+
 	UPROPERTY(EditAnywhere, Category = Settings)
 		FKey SkipKey;
 
@@ -39,6 +42,8 @@ protected:
 	UPROPERTY(Transient) TObjectPtr<AToroSequenceActor> Sequence;
 
 	void SkipCutscene() const;
+	void SetHoldingState(const bool InState);
+	
 	virtual void NativePreConstruct() override;
 	virtual void InternalProcessDeactivation() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

@@ -27,6 +27,16 @@ void UCutsceneSkipWidget::SkipCutscene() const
 	if (Sequence) Sequence->SkipToEnd();
 }
 
+void UCutsceneSkipWidget::SetHoldingState(const bool InState)
+{
+	if (bHolding != InState)
+	{
+		bHolding = InState;
+		PlayAnimation(HoldAnim, 0.0f, 1,
+			bHolding ? EUMGSequencePlayMode::Forward : EUMGSequencePlayMode::Reverse);
+	}
+}
+
 void UCutsceneSkipWidget::NativePreConstruct()
 {
 	Super::NativePreConstruct();
@@ -36,6 +46,7 @@ void UCutsceneSkipWidget::NativePreConstruct()
 void UCutsceneSkipWidget::InternalProcessDeactivation()
 {
 	Sequence = nullptr;
+	SetHoldingState(false);
 	Super::InternalProcessDeactivation();
 }
 
@@ -61,9 +72,9 @@ void UCutsceneSkipWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaT
 
 FReply UCutsceneSkipWidget::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
 {
-	if (InKeyEvent.GetKey() == SkipKey)
+	if (Sequence && InKeyEvent.GetKey() == SkipKey)
 	{
-		bHolding = true;
+		SetHoldingState(true);
 		return FReply::Handled();
 	}
 	return FReply::Unhandled();
@@ -73,7 +84,7 @@ FReply UCutsceneSkipWidget::NativeOnKeyUp(const FGeometry& InGeometry, const FKe
 {
 	if (InKeyEvent.GetKey() == SkipKey)
 	{
-		bHolding = false;
+		SetHoldingState(false);
 		return FReply::Handled();
 	}
 	return FReply::Unhandled();
