@@ -3,7 +3,6 @@
 #pragma once
 
 #include "UserSettingTypes.h"
-#include "UpscalerWrappers.h"
 #include "Libraries/ToroConsoleLibrary.h"
 #include "GameFramework/GameUserSettings.h"
 #include "ToroUserSettings.generated.h"
@@ -59,9 +58,6 @@ public:
 	static inline FIntPoint FullscreenRes = {1920, 1080};
 	static void CheckSupportedResolutions();
 
-	static inline TArray<EImageFidelityMode> SupportedFidelityModes = {};
-	static void CheckSupportedFidelityModes();
-
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const UToroUserSettings*)
 	FUserSettingsDelegate OnDynamicSettingsChanged;
 	FUserSettingsDelegate OnSettingsApplied;
@@ -110,15 +106,13 @@ public:
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, FSRSharpness, 0.0f, 1.0f)
 	DECLARE_PROPERTY_FUNC(bool, FSRFrameGeneration)
-	
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6)
 
 	void InitSettings(UGameInstance* InGameInstance);
 
 protected:
 
 	void ApplyFSR() const;
-	void ApplyImageFidelityMode();
+	void ApplyImageFidelityMode() const;
 
 	void ApplyColorBlindSettings() const;
 	void ApplyAudioSettings() const;

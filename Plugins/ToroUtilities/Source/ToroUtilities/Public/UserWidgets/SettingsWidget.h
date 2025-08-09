@@ -116,9 +116,6 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UToggleSettingRow> FSRFrameGen;
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<USwapperSettingRow> XeSSQuality;
-
 	/* GRAPHICS */
 	
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))

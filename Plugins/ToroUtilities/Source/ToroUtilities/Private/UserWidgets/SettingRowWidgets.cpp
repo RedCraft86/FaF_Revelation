@@ -374,18 +374,14 @@ void UResolutionSettingRow::FillOptions()
 
 EImageFidelityMode UImageFidelitySettingRow::GetFidelityMode() const
 {
-	const EImageFidelityMode* Mode = ModeToName.FindKey(DropdownBox->GetSelectedOption());
-	return Mode && UToroUserSettings::SupportedFidelityModes.Contains(*Mode) ? *Mode : EImageFidelityMode::TAA;
+	const EImageFidelityMode* Mode = FidelityModes.FindKey(DropdownBox->GetSelectedOption());
+	return Mode ? *Mode : EImageFidelityMode::TAA;
 }
 
 void UImageFidelitySettingRow::SetFidelityMode(const EImageFidelityMode InValue)
 {
-	UToroUserSettings::CheckSupportedFidelityModes();
-	if (UToroUserSettings::SupportedFidelityModes.Contains(InValue))
-	{
-		const FString* Name = ModeToName.Find(InValue);
-		SetValueStr(Name ? *Name : ModeToName.FindRef(EImageFidelityMode::TAA));
-	}
+	const FString* Name = FidelityModes.Find(InValue);
+	SetValueStr(Name ? *Name : FidelityModes.FindRef(EImageFidelityMode::TAA));
 }
 
 void UImageFidelitySettingRow::LoadValue()
@@ -408,16 +404,15 @@ void UImageFidelitySettingRow::FillOptions()
 {
 	Options.Empty(4);
 	DropdownBox->ClearOptions();
-	UToroUserSettings::CheckSupportedFidelityModes();
-	for (const EImageFidelityMode& Mode : UToroUserSettings::SupportedFidelityModes)
+	for (const TPair<EImageFidelityMode, FString>& Mode : FidelityModes)
 	{
-		const FString AsString(ModeToName.FindRef(Mode));
-		DropdownBox->AddOption(AsString);
-		Options.Add(AsString);
+		DropdownBox->AddOption(Mode.Value);
+		Options.Add(Mode.Value);
 	}
+	
 	if (!Options.Contains(DefaultValue))
 	{
-		DefaultValue = ModeToName.FindRef(EImageFidelityMode::TAA);
+		DefaultValue = FidelityModes.FindRef(EImageFidelityMode::TAA);
 	}
 	DropdownBox->SetSelectedOption(DefaultValue);
 }

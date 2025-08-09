@@ -63,8 +63,5 @@ enum class EImageFidelityMode : uint8
 	TSR,
 
 	// FidelityFX™ Super Resolution 3.1 (Upscaler)
-	FSR,
-
-	// Intel® Xe Super Sampling (Upscaler)
-	XeSS
+	FSR
 };

@@ -327,13 +327,12 @@ public:
 
 protected:
 
-	static inline TMap<EImageFidelityMode, FString> ModeToName = {
+	static inline TMap<EImageFidelityMode, FString> FidelityModes = {
 		{EImageFidelityMode::None, TEXT("None")},
 		{EImageFidelityMode::FXAA, TEXT("Fast Approximate AA")},
 		{EImageFidelityMode::TAA, TEXT("Temporal AA")},
 		{EImageFidelityMode::TSR, TEXT("Temporal Super Resolution")},
-		{EImageFidelityMode::FSR, TEXT("FidelityFX Super Resolution 3.1")},
-		{EImageFidelityMode::XeSS, TEXT("Xe Super Sampling")}
+		{EImageFidelityMode::FSR, TEXT("FidelityFX Super Resolution 3.1")}
 	};
 
 	virtual void AssignGetter(const TFunction<uint8(UToroUserSettings*)>& Function) override {}

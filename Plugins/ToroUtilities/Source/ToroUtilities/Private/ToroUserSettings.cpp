@@ -19,19 +19,6 @@ void UToroUserSettings::CheckSupportedResolutions()
 	Algo::Reverse(SupportedResolutions);
 }
 
-void UToroUserSettings::CheckSupportedFidelityModes()
-{
-	SupportedFidelityModes = {
-		EImageFidelityMode::None,
-		EImageFidelityMode::FXAA,
-		EImageFidelityMode::TAA,
-		EImageFidelityMode::TSR,
-		// EImageFidelityMode::FSR // TODO - Not updated
-	};
-
-	if (XeSS::IsXeSSSupported()) SupportedFidelityModes.Add(EImageFidelityMode::XeSS);
-}
-
 void UToroUserSettings::AutoConfigureQuality()
 {
 	const float Res = ScalabilityQuality.ResolutionQuality;
@@ -136,10 +123,6 @@ DEFINE_SETTER(uint8, FSRQuality, ApplyFSR();)
 DEFINE_SETTER(float, FSRSharpness, ApplyFSR();)
 DEFINE_SETTER_CONSOLE(bool, FSRFrameGeneration, r.FidelityFX.FI.Enabled)
 
-DEFINE_SETTER(uint8, XeSSQuality,
-	XeSS::SetXeSSMode(ImageFidelityMode == EImageFidelityMode::XeSS ? GetXeSSQuality() : 0);
-)
-
 void UToroUserSettings::InitSettings(UGameInstance* InGameInstance)
 {
 	GameInstance = InGameInstance;
@@ -170,51 +153,38 @@ void UToroUserSettings::ApplyFSR() const
 	SET_CONSOLE_VAR(r.FidelityFX.FSR3.Sharpness, GetFSRSharpness())
 }
 
-void UToroUserSettings::ApplyImageFidelityMode()
+void UToroUserSettings::ApplyImageFidelityMode() const
 {
 #if WITH_EDITOR
 	if (!FApp::IsGame()) return;
 #endif
-	if (SupportedFidelityModes.Contains(ImageFidelityMode))
+	uint8 AAMode = 0;
+	bool bFSR = false;
+	switch (ImageFidelityMode)
 	{
-		uint8 AAMode = 0;
-		bool bFSR = false, bXeSS = false;
-		switch (ImageFidelityMode)
-		{
-		case EImageFidelityMode::None: break;
-		case EImageFidelityMode::FXAA:
-			AAMode = 1;
-			break;
-		case EImageFidelityMode::TAA:
-			AAMode = 2;
-			break;
-		case EImageFidelityMode::TSR:
-			AAMode = 4;
-			break;
-		case EImageFidelityMode::FSR:
-			bFSR = true;
-			ApplyFSR();
-			break;
-		case EImageFidelityMode::XeSS:
-			bXeSS = true;
-			break;
-		}
-
-		SET_CONSOLE_VAR(r.AntiAliasingMethod, AAMode)
-		SET_CONSOLE_VAR(r.ScreenPercentage, AAMode == 4 ? GetTSRResolution() : 100.0f);
-
-		SET_CONSOLE_VAR(r.FidelityFX.FSR3.Enable, bFSR)
-		SET_CONSOLE_VAR(r.FidelityFX.FI.Enabled, bFSR && FSRFrameGeneration)
-
-		XeSS::SetXeSSMode(bXeSS ? GetXeSSQuality() : 0);
-
-		RefreshUI.Broadcast(this);
+	case EImageFidelityMode::None: break;
+	case EImageFidelityMode::FXAA:
+		AAMode = 1;
+		break;
+	case EImageFidelityMode::TAA:
+		AAMode = 2;
+		break;
+	case EImageFidelityMode::TSR:
+		AAMode = 4;
+		break;
+	case EImageFidelityMode::FSR:
+		bFSR = true;
+		ApplyFSR();
+		break;
 	}
-	else
-	{
-		// Should never hit this fallback unless someone edits the file
-		SetImageFidelityMode(EImageFidelityMode::TAA);
-	}
+
+	SET_CONSOLE_VAR(r.AntiAliasingMethod, AAMode)
+	SET_CONSOLE_VAR(r.ScreenPercentage, AAMode == 4 ? GetTSRResolution() : 100.0f);
+
+	SET_CONSOLE_VAR(r.FidelityFX.FSR3.Enable, bFSR)
+	SET_CONSOLE_VAR(r.FidelityFX.FI.Enabled, bFSR && FSRFrameGeneration)
+
+	RefreshUI.Broadcast(this);
 }
 
 void UToroUserSettings::ApplyColorBlindSettings() const

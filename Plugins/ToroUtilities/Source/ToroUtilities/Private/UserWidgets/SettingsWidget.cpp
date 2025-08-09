@@ -75,9 +75,6 @@ void USettingsWidget::RefreshFidelity() const
 		? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
 	FSRSharpness->SetVisibility(FSRQuality->GetVisibility());
 	FSRFrameGen->SetVisibility(FSRQuality->GetVisibility());
-
-	XeSSQuality->SetVisibility(Mode == EImageFidelityMode::XeSS
-		? ESlateVisibility::Visible : ESlateVisibility::Collapsed);
 }
 
 void USettingsWidget::RefreshScalability() const
@@ -206,7 +203,6 @@ void USettingsWidget::InitWidget()
 	SETUP_SWAPPER(FSRQuality, GetFSRQuality, SetFSRQuality);
 	SETUP_SLIDER(FSRSharpness, GetFSRSharpness, SetFSRSharpness);
 	SETUP_TOGGLE(FSRFrameGen, GetFSRFrameGeneration, SetFSRFrameGeneration);
-	SETUP_SWAPPER(XeSSQuality, GetXeSSQuality, SetXeSSQuality);
 
 	AutoDetectText->SetText(FText::FromString(TEXT("Run Hardware Benchmark")));
 	AutoDetectButton->OnClicked.AddDynamic(this, &USettingsWidget::OnAutoDetect);
