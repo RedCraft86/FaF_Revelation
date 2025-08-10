@@ -45,7 +45,7 @@ public:
 		TObjectPtr<class UExprTextBlock> LineText;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		bool bCaptureNativeSubtitles;
+		FLinearColor PlayerColor;
 
 	UFUNCTION(BlueprintCallable, Category = Subtitles, meta = (WorldContext = "ContextObject"))
 		static void QueueSubtitle(const UObject* ContextObject, const FToroSubtitle& InSubtitle);

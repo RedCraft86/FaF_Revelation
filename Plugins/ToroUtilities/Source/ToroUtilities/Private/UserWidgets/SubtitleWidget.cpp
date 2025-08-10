@@ -7,7 +7,7 @@
 #include "SubtitleManager.h"
 
 USubtitleWidget::USubtitleWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bCaptureNativeSubtitles(false)
+	: Super(ObjectInitializer), PlayerColor(FLinearColor::Yellow)
 {
 	ZOrder = 95;
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
@@ -71,6 +71,7 @@ void USubtitleWidget::NextSubtitle()
 void USubtitleWidget::ShowSubtitle(const FToroSubtitle& InData)
 {
 	LineText->SetText(InData.Line);
+	NameText->SetColorAndOpacity(InData.Name.ToString() == TEXT("You") ? PlayerColor : FLinearColor::White);
 	NameText->SetText(InData.Name.IsEmptyOrWhitespace() ? FText::GetEmpty()
 		: FText::Format(INVTEXT("{0}:"), InData.Name));
 
@@ -90,9 +91,9 @@ void USubtitleWidget::InitWidget()
 	Super::InitWidget();
 	LineText->SetText(FText::GetEmpty());
 	NameText->SetText(FText::GetEmpty());
-	if (bCaptureNativeSubtitles)
-	{
-		FSubtitleManager::GetSubtitleManager()->OnSetSubtitleText()
-			.AddUObject(this, &USubtitleWidget::OnNativeSubtitle);
-	}
+	// if (bCaptureNativeSubtitles)
+	// {
+	// 	FSubtitleManager::GetSubtitleManager()->OnSetSubtitleText()
+	// 		.AddUObject(this, &USubtitleWidget::OnNativeSubtitle);
+	// }
 }
