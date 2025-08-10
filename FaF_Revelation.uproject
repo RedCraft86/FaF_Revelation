@@ -444,6 +444,16 @@
 			"Name": "ScreenSpaceFogScattering",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/260929cfa39b43238302154c98311fc7"
+		},
+		{
+			"Name": "ExpressiveText",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fc8f100e734144179e1679596d1eee07",
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
 		}
 	],
 	"TargetPlatforms": [
