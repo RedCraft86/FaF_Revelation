@@ -1,17 +1,19 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/MessagingWidget.h"
+#include "Components/HorizontalBoxSlot.h"
 #include "Animation/UMGSequencePlayer.h"
 #include "Framework/ToroWidgetManager.h"
 #include "UserWidgets/ExprTextBlock.h"
-#include "Blueprint/WidgetTree.h"
 #include "Components/PanelWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "EnhancedCodeFlow.h"
+#include "Blueprint/WidgetTree.h"
 
 void UInputPreviewEntry::InitData(const FToroInputPrompt& InPreview)
 {
+	KeysBox->ClearChildren();
 	NameText->SetText(InPreview.Name);
 	for (const FKey& Key : InPreview.Keys)
 	{
@@ -20,7 +22,13 @@ void UInputPreviewEntry::InitData(const FToroInputPrompt& InPreview)
 			if (UImage* Image = WidgetTree->ConstructWidget<UImage>())
 			{
 				Image->SetBrush(Icon.Brush);
-				KeysBox->AddChild(Image);
+				Image->SetBrushSize(Icon.Brush.GetImageSize() * 0.75f);
+				if (UHorizontalBoxSlot* Slot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(Image)))
+				{
+					Slot->SetVerticalAlignment(VAlign_Center);
+					Slot->SetHorizontalAlignment(HAlign_Center);
+					Slot->SetPadding(FMargin(2.0f, 0.0f));
+				}
 			}
 		}
 	}
@@ -213,6 +221,7 @@ void UMessagingWidget::AddInputRow(const FName& InKey, const FToroInputPrompt& I
 	if (UInputPreviewEntry* Entry = CreateWidget<UInputPreviewEntry>(this, InputEntryWidget))
 	{
 		Entry->InitData(InData);
+		InputBox->AddChild(Entry);
 		InputPreviews.Add(InKey, Entry);
 	}
 }

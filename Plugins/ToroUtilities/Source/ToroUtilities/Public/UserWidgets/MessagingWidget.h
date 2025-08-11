@@ -91,6 +91,9 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> InputRowAnim;
 
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UPanelWidget> InputBox;
+
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSubclassOf<UInputPreviewEntry> InputEntryWidget;
 
