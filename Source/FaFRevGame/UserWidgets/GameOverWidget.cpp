@@ -65,12 +65,4 @@ void UGameOverWidget::InitWidget()
 	Controller = AToroPlayerController::Get(this);
 	RestartBtn->OnClicked.AddDynamic(this, &UGameOverWidget::Restart);
 	MainMenuBtn->OnClicked.AddDynamic(this, &UGameOverWidget::MainMenu);
-	HideUI->OnClicked.AddDynamic(this, &UGameOverWidget::HideWidget);
-	RevealUI->OnClicked.AddDynamic(this, &UGameOverWidget::RevealWidget);
-}
-
-void UGameOverWidget::NativeConstruct()
-{
-	Super::NativeConstruct();
-	InitAnim(SwitchAnim);
 }

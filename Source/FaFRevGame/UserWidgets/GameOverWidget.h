@@ -48,15 +48,6 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> MainMenuBtn;
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UButton> HideUI;
-
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UButton> RevealUI;
-
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
-		TObjectPtr<UWidgetAnimation> SwitchAnim;
-
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TMap<FGameplayTag, FGameOverInfo> GameOverEntries;
 
@@ -71,12 +62,9 @@ private:
 
 	UFUNCTION() void Restart();
 	UFUNCTION() void MainMenu();
-	UFUNCTION() void HideWidget() { PlayAnimationForward(SwitchAnim); }
-	UFUNCTION() void RevealWidget() { PlayAnimationReverse(SwitchAnim); }
 
 	void FadeOut(const TFunction<void()>& Callback);
 	
 	virtual void InitWidget() override;
-	virtual void NativeConstruct() override;
 	virtual bool CanCreateWidget() const override { return UToroUtilSettings::Get()->IsOnGameplayMap(this); }
 };
