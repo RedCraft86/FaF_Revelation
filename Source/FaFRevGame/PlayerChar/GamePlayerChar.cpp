@@ -472,7 +472,7 @@ void AGamePlayerChar::OnInspection(const bool bInspecting)
 	}
 
 	bInspecting ? SetStateFlag(PSF_Inspect) : UnsetStateFlag(PSF_Inspect);
-	SetFocalDistance(bInspecting ? Inspection->GetRelativeLocation().X : 100.0f);
+	SetFocalDistance(bInspecting ? Inspection->GetRelativeLocation().X : 0.0f);
 }
 
 void AGamePlayerChar::OnSettingsChange(const UToroUserSettings* InSettings)
