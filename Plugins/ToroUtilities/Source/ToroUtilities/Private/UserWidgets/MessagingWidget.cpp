@@ -23,11 +23,11 @@ void UInputPreviewEntry::InitData(const FToroInputPrompt& InPreview)
 			{
 				Image->SetBrush(Icon.Brush);
 				Image->SetBrushSize(Icon.Brush.GetImageSize() * 0.75f);
-				if (UHorizontalBoxSlot* Slot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(Image)))
+				if (UHorizontalBoxSlot* BoxSlot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(Image)))
 				{
-					Slot->SetVerticalAlignment(VAlign_Center);
-					Slot->SetHorizontalAlignment(HAlign_Center);
-					Slot->SetPadding(FMargin(2.0f, 0.0f));
+					BoxSlot->SetVerticalAlignment(VAlign_Center);
+					BoxSlot->SetHorizontalAlignment(HAlign_Center);
+					BoxSlot->SetPadding(FMargin(2.0f, 0.0f));
 				}
 			}
 		}
