@@ -68,3 +68,9 @@ void UGameOverWidget::InitWidget()
 	HideUI->OnClicked.AddDynamic(this, &UGameOverWidget::HideWidget);
 	RevealUI->OnClicked.AddDynamic(this, &UGameOverWidget::RevealWidget);
 }
+
+void UGameOverWidget::NativeConstruct()
+{
+	Super::NativeConstruct();
+	InitAnim(SwitchAnim);
+}
