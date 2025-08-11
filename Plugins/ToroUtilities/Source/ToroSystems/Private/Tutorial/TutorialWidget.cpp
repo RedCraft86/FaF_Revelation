@@ -88,6 +88,7 @@ void UTutorialWidget::ShowTutorial()
 	bLockNextBtn = true;
 	if (TutorialQueue.IsEmpty())
 	{
+		DeactivateWidget();
 		CustomWidgetBox->ClearChildren();
 		TutorialTitle->SetText(FText::GetEmpty());
 		TutorialText->SetText(FText::GetEmpty());
@@ -97,6 +98,7 @@ void UTutorialWidget::ShowTutorial()
 	}
 	else if (const FTutorialEntry Data = UTutorialDatabase::Get(TutorialQueue[0]); Data.IsValidData())
 	{
+		ActivateWidget();
 		if (Data.CustomWidget.IsNull())
 		{
 			TypeSwitch->SetActiveWidgetIndex(0);
@@ -134,6 +136,8 @@ void UTutorialWidget::ShowTutorial()
 void UTutorialWidget::OnNextClicked()
 {
 	if (bLockNextBtn) return;
+
+	bLockNextBtn = true;
 	PlayAnimationReverse(TutorialAnim);
 	PlayAnimationReverse(NextBtnAnim, 2.0f);
 	FFlow::Delay(this, 0.5f, [this]()
