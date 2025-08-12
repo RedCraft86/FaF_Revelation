@@ -22,7 +22,7 @@ void UInputPreviewEntry::InitData(const FToroInputPrompt& InPreview)
 			if (UImage* Image = WidgetTree->ConstructWidget<UImage>())
 			{
 				Image->SetBrush(Icon.Brush);
-				Image->SetBrushSize(Icon.Brush.GetImageSize() * 0.75f);
+				Image->SetDesiredSizeOverride(Icon.Brush.GetImageSize() * 0.75f);
 				if (UHorizontalBoxSlot* BoxSlot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(Image)))
 				{
 					BoxSlot->SetVerticalAlignment(VAlign_Center);
