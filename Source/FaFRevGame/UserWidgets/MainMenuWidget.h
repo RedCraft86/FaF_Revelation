@@ -8,6 +8,7 @@
 #include "MainMenuWidget.generated.h"
 
 class UButton;
+class UTextBlock;
 
 UCLASS(Abstract)
 class FAFREVGAME_API UMainMenuWidget final : public UToroWidgetBase, public IExitInterface
@@ -32,6 +33,9 @@ public:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> QuitBtn;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> VersionText;
 
 private:
 

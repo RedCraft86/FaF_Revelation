@@ -85,6 +85,7 @@ void UMainMenuWidget::InitWidget()
 	SettingsBtn->OnClicked.AddDynamic(this, &UMainMenuWidget::SettingsMenu);
 	ExtrasBtn->OnClicked.AddDynamic(this, &UMainMenuWidget::ExtrasMenu);
 	QuitBtn->OnClicked.AddDynamic(this, &UMainMenuWidget::QuitGame);
+	VersionText->SetText(UToroUtilSettings::Get()->GetVersionLabel());
 }
 
 void UMainMenuWidget::InternalProcessActivation()

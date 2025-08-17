@@ -122,7 +122,25 @@ public:
 		{
 			Result = FText::Format(INVTEXT("{0} | {1}"), Result, FText::FromName(DemoName));
 		}
-		return FText::Format(INVTEXT("{0} | {1} Build"), Result,
-			FText::FromString(LexToString(FApp::GetBuildConfiguration())));
+
+		FString BuildCfg = TEXT("");
+		switch (FApp::GetBuildConfiguration())
+		{
+		case EBuildConfiguration::Debug:
+		case EBuildConfiguration::DebugGame:
+		case EBuildConfiguration::Development:
+		case EBuildConfiguration::Test:
+			BuildCfg = TEXT("Debug");
+			break;
+
+		case EBuildConfiguration::Shipping:
+			BuildCfg = TEXT("Production");
+			break;
+
+		default: break;
+		}
+
+		return BuildCfg.IsEmpty() ? Result : FText::Format(INVTEXT("{0} | {1} Build"),
+			Result, FText::FromString(BuildCfg));
 	}
 };
