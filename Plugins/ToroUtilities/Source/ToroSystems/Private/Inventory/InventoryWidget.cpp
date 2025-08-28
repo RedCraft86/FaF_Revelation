@@ -65,16 +65,21 @@ void UInventoryWidget::OnEquipClicked()
 
 void UInventoryWidget::UpdateInfo()
 {
-	ThumbnailImage->SetVisibility(ESlateVisibility::HitTestInvisible);
+	ThumbnailImage->SetVisibility(ESlateVisibility::Collapsed);
 	SecretText->SetVisibility(ESlateVisibility::Collapsed);
 	EquipBtn->SetVisibility(ESlateVisibility::Collapsed);
 	if (bArchiveTab && !SelectedArchive.IsNull())
 	{
 		UInventoryAsset* ArchiveData = SelectedArchive.LoadSynchronous();
-		ThumbnailImage->SetBrushFromTexture(ArchiveData->Icon.LoadSynchronous(), true);
 		LabelText->SetText(ArchiveData->DisplayName);
 		DescText->SetText(ArchiveData->ContentText);
 		ArDescText->SetText(ArchiveData->Description);
+
+		if (!ArchiveData->Icon.IsNull())
+		{
+			ThumbnailImage->SetBrushFromTexture(ArchiveData->Icon.LoadSynchronous(), true);
+			ThumbnailImage->SetVisibility(ESlateVisibility::HitTestInvisible);
+		}
 
 		if (!ArchiveData->SecretText.IsEmptyOrWhitespace())
 		{
@@ -88,10 +93,15 @@ void UInventoryWidget::UpdateInfo()
 	else if (!bArchiveTab && !SelectedItem.IsNull())
 	{
 		const UInventoryAsset* ItemData = SelectedItem.LoadSynchronous();
-		ThumbnailImage->SetBrushFromTexture(ItemData->Icon.LoadSynchronous(), true);
 		LabelText->SetText(ItemData->DisplayName);
 		DescText->SetText(ItemData->Description);
 		ArDescText->SetText(FText::GetEmpty());
+
+		if (!ItemData->Icon.IsNull())
+		{
+			ThumbnailImage->SetBrushFromTexture(ItemData->Icon.LoadSynchronous(), true);
+			ThumbnailImage->SetVisibility(ESlateVisibility::HitTestInvisible);
+		}
 
 		if (ItemData->ItemType == EInvItemType::Equipment)
 		{
@@ -104,7 +114,6 @@ void UInventoryWidget::UpdateInfo()
 	{
 		LabelText->SetText(INVTEXT("None Selected"));
 		DescText->SetText(INVTEXT("Select something to view the description"));
-		ThumbnailImage->SetVisibility(ESlateVisibility::Collapsed);
 	}
 
 	PlayAnimation(InfoAnim);
