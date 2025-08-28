@@ -10,7 +10,7 @@ class UImage;
 class UTextBlock;
 class UInventoryWidget;
 
-UCLASS(NotBlueprintable)
+UCLASS(Abstract, NotBlueprintable)
 class TOROSYSTEMS_API UInvSlotWidget : public UUserWidget
 {
 	GENERATED_BODY()
@@ -27,7 +27,7 @@ protected:
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& Geometry, const FPointerEvent& MouseEvent) override;
 };
 
-UCLASS(Abstract)
+UCLASS(Abstract, Blueprintable)
 class TOROSYSTEMS_API UInvItemSlotWidget final : public UInvSlotWidget
 {
 	GENERATED_BODY()
@@ -47,7 +47,7 @@ public:
 	void InitWidget(UInventoryWidget* Owner, const TSoftObjectPtr<UInventoryAsset>& InItem, const uint8 Amount, const bool bEquipped);
 };
 
-UCLASS(Abstract)
+UCLASS(Abstract, Blueprintable)
 class TOROSYSTEMS_API UInvArchiveSlotWidget final : public UInvSlotWidget
 {
 	GENERATED_BODY()

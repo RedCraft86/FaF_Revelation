@@ -169,7 +169,7 @@ void UDialogueWidget::OnRepliesAvailable(UDialogue* Dialogue, const TArray<UDial
 	}
 
 	SkipButton->SetIsEnabled(false);
-	SkipButton->SetRenderOpacity(0.5f);
+	SkipButton->SetRenderOpacity(0.25f);
 	for (UDialogueNode_Player* Reply : PlayerReplies)
 	{
 		if (!Reply) continue;

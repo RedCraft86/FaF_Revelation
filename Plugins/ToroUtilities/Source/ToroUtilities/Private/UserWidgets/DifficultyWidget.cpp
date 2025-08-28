@@ -15,6 +15,12 @@ UDifficultyWidget::UDifficultyWidget(const FObjectInitializer& ObjectInitializer
 void UDifficultyWidget::OnConfirmClicked()
 {
 	DeactivateWidget();
+	if (!UToroUtilSettings::Get()->IsOnGameplayMap(this))
+	{
+		UToroUserSettings::Get()->SetDifficulty(Difficulty);
+		return;
+	}
+
 	EGameDifficulty Initial = UToroUserSettings::Get()->GetDifficulty();
 	if (Initial != Difficulty)
 	{
