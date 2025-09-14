@@ -1,8 +1,9 @@
 {
 	"FileVersion": 3,
 	"EngineAssociation": "{466895D4-4DEF-C334-3945-EB9400021157}",
-	"Category": "",
+	"DevCategory": "LanternInteractive",
 	"Description": "",
+	"Category": "",
 	"Modules": [
 		{
 			"Name": "FaF_Revelation",
