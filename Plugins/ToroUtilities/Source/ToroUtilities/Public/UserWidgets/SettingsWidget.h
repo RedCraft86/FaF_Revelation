@@ -182,6 +182,9 @@ public:
 	/* MENU */
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> CategoryText;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> GeneralButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
@@ -204,6 +207,9 @@ public:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> RefreshAnim;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+		TArray<FText> Categories;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Settings)
 		TObjectPtr<UUserWidget> ParentUI;

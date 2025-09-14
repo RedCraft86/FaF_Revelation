@@ -35,7 +35,9 @@
 #define SETUP_DEV_SWAPPER(Property, GetterFunc, SetterFunc) __DEV_SETUP_BASE(int32, Property, GetterFunc, SetterFunc)
 
 USettingsWidget::USettingsWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), ScreenIndex(0), AutoDetectTime(0.0f)
+	: Super(ObjectInitializer), Categories({
+		INVTEXT("General"), INVTEXT("Graphics"), INVTEXT("Audio"), INVTEXT("Keybinds"), INVTEXT("Developer")
+	}), ScreenIndex(0), AutoDetectTime(0.0f)
 {
 	ZOrder = 97;
 	bAutoActivate = false;
@@ -46,6 +48,7 @@ void USettingsWidget::SetScreenIndex(const uint8 InIndex)
 	if (ScreenIndex != InIndex)
 	{
 		ScreenIndex = InIndex;
+		CategoryText->SetText(Categories[InIndex]);
 		ScreenSwitch->SetActiveWidgetIndex(ScreenIndex);
 		PlayAnimation(RefreshAnim);
 	}
