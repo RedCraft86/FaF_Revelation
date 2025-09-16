@@ -26,13 +26,13 @@ enum class EColorBlindMode : uint8
 {
 	None,
 	
-	// Deuteranope (red-green weak/blind)
+	// Deuteranope (Red-Green Weak/Blind)
 	Deuteranope,
 	
-	// Protanope (red weak/blind)
+	// Protanope (Red Weak/Blind)
 	Protanope,
 	
-	// Tritanope (blue-yellow weak / bind)
+	// Tritanope (Blue-Yellow Weak/Blind)
 	Tritanope
 };
 
