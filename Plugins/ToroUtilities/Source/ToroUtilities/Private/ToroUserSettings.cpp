@@ -302,6 +302,13 @@ void UToroUserSettings::SetToDefaults()
 	FSRFrameGeneration = false;
 	XeSSQuality = 3;
 
+	AudioVolume = {
+		{ESoundClassType::Master, 100},
+		{ESoundClassType::Music, 100},
+		{ESoundClassType::SoundFX, 100},
+		{ESoundClassType::Voice, 100}
+	};
+
 	ReapplySettings();
 	Super::SetToDefaults();
 }
