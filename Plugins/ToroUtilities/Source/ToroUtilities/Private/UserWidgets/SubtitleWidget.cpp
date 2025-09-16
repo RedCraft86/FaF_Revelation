@@ -10,6 +10,7 @@ USubtitleWidget::USubtitleWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), PlayerColor(FLinearColor::Yellow)
 {
 	ZOrder = 95;
+	bAutoActivate = false;
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
