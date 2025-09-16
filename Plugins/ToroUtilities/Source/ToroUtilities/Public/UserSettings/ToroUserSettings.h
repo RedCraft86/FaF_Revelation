@@ -91,7 +91,7 @@ public:
 	DECLARE_PROPERTY_FUNC(bool, Borderless)
 	
 	DECLARE_PROPERTY_FUNC_CLAMPED(float, Gamma, 0.5f, 5.0f)
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 100)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 200)
 	DECLARE_PROPERTY_FUNC(bool, FancyBloom)
 	DECLARE_PROPERTY_FUNC(bool, ScreenSpaceFogScattering)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3)
