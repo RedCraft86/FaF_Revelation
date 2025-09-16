@@ -2,7 +2,7 @@
 
 #include "ToroGameplay.h"
 
-DEFINE_LOG_CATEGORY(LogToroGameplay, All, All);
+DEFINE_LOG_CATEGORY(LogToroGameplay);
 
 #define LOCTEXT_NAMESPACE "ToroGameplay"
 
