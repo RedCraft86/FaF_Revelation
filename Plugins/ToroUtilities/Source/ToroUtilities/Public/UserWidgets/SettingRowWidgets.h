@@ -61,7 +61,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		FText DisplayName;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (MultiLine = true))
 		FText Description;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
