@@ -2,9 +2,11 @@
 
 #pragma once
 
+#include "InputAction.h"
 #include "Blueprint/UserWidget.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "UserSettings/UserSettingTypes.h"
+#include "Components/RichTextBlockImageDecorator.h"
 #include "SettingRowWidgets.generated.h"
 
 class UButton;
@@ -41,6 +43,35 @@ public:
 		TObjectPtr<UTextBlock> ImpactText;
 
 	void UpdateTooltip(const class USettingRowBase* SettingRow) const;
+};
+
+UCLASS(Abstract)
+class TOROUTILITIES_API UKeybindWidget : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+
+	UKeybindWidget(const FObjectInitializer& ObjectInitializer);
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> LabelText;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UPanelWidget> KeysBox;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+		FText DisplayName;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TObjectPtr<UInputAction> Action;
+
+	UFUNCTION(BlueprintImplementableEvent)
+		FRichImageRow GetKeyIcon(const FName& InKey);
+
+protected:
+
+	virtual void NativePreConstruct() override;
 };
 
 UCLASS(Abstract)
@@ -97,7 +128,10 @@ protected:
 	virtual void NativePreConstruct() override;
 	virtual void SynchronizeProperties() override
 	{
-		if (!ToolTipWidgetDelegate.IsBound()) ToolTipWidgetDelegate.BindDynamic(this, &USettingRowBase::CreateTooltip);
+		if (!ToolTipWidgetDelegate.IsBound())
+		{
+			ToolTipWidgetDelegate.BindDynamic(this, &USettingRowBase::CreateTooltip);
+		}
 		Super::SynchronizeProperties();
 	}
 };

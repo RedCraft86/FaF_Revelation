@@ -1,13 +1,18 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserWidgets/SettingRowWidgets.h"
+#include "Components/HorizontalBoxSlot.h"
 #include "UserWidgets/UserDialogWidget.h"
 #include "Components/ComboBoxString.h"
 #include "Components/TextBlock.h"
 #include "Components/CheckBox.h"
 #include "Components/SpinBox.h"
 #include "Components/Button.h"
+#include "Components/Image.h"
 #include "EnhancedCodeFlow.h"
+#include "ToroUtilities.h"
+#include "InputMappingContext.h"
+#include "Blueprint/WidgetTree.h"
 
 void USettingRowTooltip::UpdateTooltip(const USettingRowBase* SettingRow) const
 {
@@ -34,6 +39,43 @@ void USettingRowTooltip::UpdateTooltip(const USettingRowBase* SettingRow) const
 			} break;
 		default:
 			ImpactText->SetVisibility(ESlateVisibility::Collapsed);
+		}
+	}
+}
+
+UKeybindWidget::UKeybindWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer), DisplayName(INVTEXT("Setting Row"))
+{
+	SetPadding({10.0f, 5.0f, 10.0f, 5.0f});
+}
+
+void UKeybindWidget::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	if (LabelText) LabelText->SetText(DisplayName);
+	if (KeysBox && WidgetTree)
+	{
+		KeysBox->ClearChildren();
+		if (const UInputMappingContext* Context = UToroUtilSettings::Get()->InputMappings.Get())
+		{
+			for (const FEnhancedActionKeyMapping& Mapping : Context->GetMappings())
+			{
+				if (Mapping.Action != Action) continue;
+				if (FRichImageRow Icon = GetKeyIcon(Mapping.Key.GetFName()); Icon.Brush.GetResourceObject())
+				{
+					if (UImage* Image = WidgetTree->ConstructWidget<UImage>())
+					{
+						Image->SetBrush(Icon.Brush);
+						Image->SetDesiredSizeOverride(Icon.Brush.GetImageSize() * 0.75f);
+						if (UHorizontalBoxSlot* BoxSlot = Cast<UHorizontalBoxSlot>(KeysBox->AddChild(Image)))
+						{
+							BoxSlot->SetVerticalAlignment(VAlign_Center);
+							BoxSlot->SetHorizontalAlignment(HAlign_Center);
+							BoxSlot->SetPadding(FMargin(5.0f, 0.0f));
+						}
+					}
+				}
+			}
 		}
 	}
 }
