@@ -17,7 +17,7 @@ class UTextBlock;
 	virtual void AssignSetter(const TFunction<void(UToroUserSettings*, const Type)>& Func) { if (Func) SetterFunc = Func; } \
 	virtual void LoadValue() override { \
 		bSkipSetter = true; \
-		SetValue(GetterFunc(UserSettings)); \
+		if (GetterFunc) SetValue(GetterFunc(UserSettings)); \
 		bSkipSetter = false; \
 	}
 
