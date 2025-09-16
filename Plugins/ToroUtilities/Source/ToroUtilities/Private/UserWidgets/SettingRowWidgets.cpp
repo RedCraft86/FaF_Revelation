@@ -41,6 +41,7 @@ void USettingRowTooltip::UpdateTooltip(const USettingRowBase* SettingRow) const
 USettingRowBase::USettingRowBase(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
 	, DisplayName(INVTEXT("Setting Row")), Performance(ESettingPerformance::None), bSkipSetter(false)
 {
+	SetPadding({10.0f, 5.0f, 10.0f, 5.0f});
 	ToolTipWidgetDelegate.BindDynamic(this, &USettingRowBase::CreateTooltip);
 }
 
