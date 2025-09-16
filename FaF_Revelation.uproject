@@ -350,10 +350,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "ModelViewViewModel",
-			"Enabled": true
-		},
-		{
 			"Name": "ColorCorrectRegions",
 			"Enabled": true
 		},
