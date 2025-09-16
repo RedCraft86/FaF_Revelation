@@ -15,8 +15,9 @@ public class ToroCore : ModuleRules
                 "Engine",
                 "UMG",
                 "Slate",
-                "SlateCore"
+                "SlateCore",
                 "InputCore",
+                "ExpressiveText"
             ]
         );
     }
