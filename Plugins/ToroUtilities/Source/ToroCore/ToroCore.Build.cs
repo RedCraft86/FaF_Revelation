@@ -13,8 +13,10 @@ public class ToroCore : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore"
+                "InputCore",
             ]
         );
     }
