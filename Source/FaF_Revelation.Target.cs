@@ -1,6 +1,7 @@
-// Copyright (C) RedCraft86. All Rights Reserved.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
+using System.Collections.Generic;
 
 public class FaF_RevelationTarget : TargetRules
 {
@@ -9,6 +10,6 @@ public class FaF_RevelationTarget : TargetRules
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_6;
-		ExtraModuleNames.AddRange(new[] { "FaF_Revelation", "FaFRevGame" });
+		ExtraModuleNames.Add("FaF_Revelation");
 	}
 }
