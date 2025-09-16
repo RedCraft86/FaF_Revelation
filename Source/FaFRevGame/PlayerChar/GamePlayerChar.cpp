@@ -742,7 +742,7 @@ void AGamePlayerChar::InputBinding_Move(const FInputActionValue& InValue)
 
 void AGamePlayerChar::InputBinding_Run(const FInputActionValue& InValue)
 {
-	if (CAN_INPUT) SetRunState(HasControlFlag(PCF_CanRun) && InValue.Get<bool>());
+	SetRunState(CAN_INPUT && HasControlFlag(PCF_CanRun) && InValue.Get<bool>());
 }
 
 void AGamePlayerChar::InputBinding_Crouch(const FInputActionValue& InValue)
@@ -783,8 +783,17 @@ void AGamePlayerChar::InputBinding_Lean(const FInputActionValue& InValue)
 void AGamePlayerChar::InputBinding_Inventory(const FInputActionValue& InValue)
 {
 	if (StateFlags & (PSF_GuideBook | PSF_QuickTime | PSF_Inspect | PSF_Hiding | PSF_Device)
-		|| !LockTags.IsEmpty() || ControlFlags & PCF_Locked) return;
-	HasStateFlag(PSF_Inventory) ? Inventory->CloseInventory() : Inventory->OpenInventory();
+		|| !LockTags.IsEmpty() || ControlFlags & PCF_Locked || GetPlayerController()->IsGamePaused()) return;
+	if (HasStateFlag(PSF_Inventory))
+	{
+		Inventory->CloseInventory();
+		UnsetStateFlag(PSF_Inventory);
+	}
+	else
+	{
+		Inventory->OpenInventory();
+		SetStateFlag(PSF_Inventory);
+	}
 }
 
 void AGamePlayerChar::InputBinding_HideQuests(const FInputActionValue& InValue)

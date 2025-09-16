@@ -248,7 +248,7 @@ void UInventoryComponent::OpenInventory()
 		{
 			PC->AddPauseRequest(this);
 			CachedInput = PC->GetInputModeData();
-			PC->SetInputModeData({EGameInputMode::UI_Only, true});
+			PC->SetInputModeData({EGameInputMode::GameAndUI, true});
 		}
 	}
 }

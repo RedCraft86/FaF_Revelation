@@ -65,6 +65,7 @@ void UInventoryWidget::OnEquipClicked()
 
 void UInventoryWidget::UpdateInfo()
 {
+	DescText->SetText(FText::GetEmpty());
 	ThumbnailImage->SetVisibility(ESlateVisibility::Collapsed);
 	SecretText->SetVisibility(ESlateVisibility::Collapsed);
 	EquipBtn->SetVisibility(ESlateVisibility::Collapsed);

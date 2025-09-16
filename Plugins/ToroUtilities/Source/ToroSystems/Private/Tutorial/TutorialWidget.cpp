@@ -185,7 +185,7 @@ void UTutorialWidget::InternalProcessActivation()
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		CachedInput = PC->GetInputModeData();
-		PC->SetInputModeData({EGameInputMode::UI_Only, true,
+		PC->SetInputModeData({EGameInputMode::GameAndUI, true,
 			EMouseLockMode::LockAlways, true, this});
 		PC->AddPauseRequest(this);
 	}

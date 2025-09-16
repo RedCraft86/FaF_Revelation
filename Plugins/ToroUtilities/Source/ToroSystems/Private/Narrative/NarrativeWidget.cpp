@@ -10,7 +10,7 @@
 
 UQuestWidget::UQuestWidget(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
 {
-	ZOrder = 95;
+	ZOrder = 94;
 }
 
 void UQuestWidget::QuestUpdatedNotify() const

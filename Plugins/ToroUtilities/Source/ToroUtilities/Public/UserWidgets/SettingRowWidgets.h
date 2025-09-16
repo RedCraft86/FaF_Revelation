@@ -115,6 +115,7 @@ protected:
 	UFUNCTION() virtual void ResetToDefault() {}
 	UFUNCTION() virtual UWidget* CreateTooltip()
 	{
+		if (!TooltipClass) return nullptr;
 		if (!Tooltip) Tooltip = CreateWidget<USettingRowTooltip>(this, TooltipClass);
 		Tooltip->UpdateTooltip(this);
 		return Tooltip;

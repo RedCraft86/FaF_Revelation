@@ -25,7 +25,7 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> ActivateAnim;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMax = 50, UIMax = 50))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMax = 200, UIMax = 200))
 		uint8 ZOrder;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.05f, UIMin = 0.05f))
