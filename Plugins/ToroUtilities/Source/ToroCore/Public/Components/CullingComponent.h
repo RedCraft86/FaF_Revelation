@@ -16,6 +16,7 @@ public:
 
 	static UCullingComponent* Get(const AActor* Target);
 
+	/* Whether the owning actor's ticking should also be disabled when culled */
 	UPROPERTY(EditAnywhere, Category = Culling)
 		bool bAffectTicking;
 
