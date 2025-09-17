@@ -2,7 +2,6 @@
 
 #include "Libraries/ToroGeneralUtils.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
-#include "Helpers/WindowsHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/OutputDeviceNull.h"
 

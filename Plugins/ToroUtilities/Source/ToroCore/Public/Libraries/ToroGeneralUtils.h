@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Helpers/WindowsHelpers.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ToroGeneralUtils.generated.h"
 
