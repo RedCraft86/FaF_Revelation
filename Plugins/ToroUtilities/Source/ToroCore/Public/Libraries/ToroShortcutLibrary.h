@@ -18,7 +18,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = CameraFades, meta = (WorldContext = "ContextObject", Keywords = "Fade Camera"))
 		static void ClearCameraFade(const UObject* ContextObject);
 
-	/* Turns on camera fading at the given opacity. Does not auto-animate, allowing user to animate themselves.
+	/** Turns on camera fading at the given opacity. Does not auto-animate, allowing user to animate themselves.
 	* @param Alpha - Alpha/Amount to set the fade to.
 	* @param Color - Color of the fade.
 	* @param bFadeAudio - True to fade audio volume along with the alpha of the solid color.
@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = CameraFades, meta = (WorldContext = "ContextObject", Keywords = "Fade Camera"))
 		static void SetCameraFade(const UObject* ContextObject, const float Alpha, const FLinearColor Color, const bool bFadeAudio);
 
-	/* Does a camera fade to/from a solid color. Animates automatically.
+	/** Does a camera fade to/from a solid color. Animates automatically.
 	* @param FromAlpha - Alpha at which to begin the fade. Range [0..1], where 0 is fully transparent and 1 is fully opaque solid color.
 	* @param ToAlpha - Alpha at which to finish the fade.
 	* @param Duration - How long the fade should take, in seconds.
@@ -38,7 +38,7 @@ public:
 		static void StartCameraFade(UObject* ContextObject, const float FromAlpha = 0.0f, const float ToAlpha = 1.0f, const float Duration = 1.0f,
 			const FLinearColor Color = FLinearColor::Black, const bool bShouldFadeAudio = true, const bool bHoldWhenFinished = true);
 
-	/* Set the view target blending with variable control.
+	/** Set the view target blending with variable control.
 	* @param NewTarget - New actor to set as view target.
 	* @param BlendTime - Time taken to blend.
 	* @param BlendFunc - Cubic, Linear, etc. functions for blending.

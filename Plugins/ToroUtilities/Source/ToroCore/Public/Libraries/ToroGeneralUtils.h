@@ -61,7 +61,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Windows)
 		static void TriggerVirtualKey(const FKey InKey, const EVirtualKeyTriggerType Type, const bool bRepeat);
 
-	/* Gets the vertices/corner locations of the actor's bounding box.
+	/** Gets the vertices/corner locations of the actor's bounding box.
 	* @param Target - Actor to use.
 	* @param bOnlyCollidingComponents - If enabled, only components that can collide will be used in calculation.
 	* @param bIncludeFromChildActors - Whether child actors should be included in the calculation.
@@ -73,12 +73,12 @@ public:
 		static TArray<FVector> GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
 			const bool bIncludeFromChildActors, FVector& Origin, FVector& BoxExtent);
 	
-	/* Checks if actor is on the player screen.
+	/** Checks if actor is on the player screen.
 	* @param Target - Actor to check.
 	* @param MaxDistance - The maximum distance before the actor is considered no longer in sight.
 	* @param bOriginOnly - If enabled, the checks will only make use of the actor's origin, bounds will not be used.
-	* @param bLineTraceCheck - Draw a line trace from the camera to the target when checking if it's in player view.
-	* @param TraceCheckParams - Settings to use when testing the different vertices of the actor's bounding box.
+	* @param bLineTrace - Draw a line trace from the camera to the target when checking if it's in player view.
+	* @param TraceParams - Settings to use when testing the different vertices of the actor's bounding box.
 	* @return Whether the actor is visible in screen with the given settings.
 	*/
 	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target", AutoCreateRefTerm = "TraceCheckParams"))

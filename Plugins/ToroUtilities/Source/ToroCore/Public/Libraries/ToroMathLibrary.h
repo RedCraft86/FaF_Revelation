@@ -29,7 +29,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Math|Vector")
 		static float GetHorizontalDistance(const FVector& A, const FVector& B);
 
-	/* Calculates the line trace vectors from a base location.
+	/** Calculates the line trace vectors from a base location.
 	* @param Location - Base Location to start the trace from
 	* @param Rotation - Rotation to identify the various vectors from.
 	* @param Direction - Direction of the Line Trace
@@ -41,7 +41,7 @@ public:
 		static void GetLineTraceVectors(const FVector& Location, const FRotator& Rotation,
 			const EVectorDirection Direction, const float Distance, FVector& Start, FVector& End);
 
-	/* Calculates the line trace vectors from an actor.
+	/** Calculates the line trace vectors from an actor.
 	* @param Actor - Actor to get base location from
 	* @param Direction - Direction of the Line Trace
 	* @param Distance - Distance of the Line Trace
@@ -52,7 +52,7 @@ public:
 		static void GetActorLineTraceVectors(const AActor* Actor, const EVectorDirection Direction,
 			const float Distance, FVector& Start, FVector& End);
 
-	/* Calculates the line trace vectors from a component.
+	/** Calculates the line trace vectors from a component.
 	* @param Component - Component to get base location from
 	* @param Direction - Direction of the Line Trace
 	* @param Distance - Distance of the Line Trace
@@ -63,7 +63,7 @@ public:
 		static void GetComponentLineTraceVectors(const USceneComponent* Component, const EVectorDirection Direction,
 			const float Distance, FVector& Start, FVector& End);
 
-	/* Calculates the line trace vectors from the player camera.
+	/** Calculates the line trace vectors from the player camera.
 	* @param Direction - Direction of the Line Trace
 	* @param Distance - Distance of the Line Trace
 	* @param Start - Starting Line Trace Point
@@ -109,27 +109,25 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Math|Color")
 		static FColor RandomColor(const bool bTrueRandom, const bool bRandomAlpha);
 
-	/* Get Date Time from Ticks
-	* @param Ticks - Number of ticks since midnight, January 1, 0001
+	/** Get Date Time from Ticks
+	* @param InTicks - Number of ticks since midnight, January 1, 0001
 	*/
 	UFUNCTION(BlueprintPure, Category = "Math|DateTime", meta = (DisplayName = "From Ticks (Date Time)"))
 		static FDateTime GetDateTimeFromTicks(const int64 InTicks);
 	
-	/* Get Ticks from DateTime 
-	* @param DateTime - DateTime to use
+	/** Get Ticks from DateTime
 	* @return Number of ticks since midnight, January 1, 0001
 	*/
 	UFUNCTION(BlueprintPure, Category = "Math|DateTime", meta = (DisplayName = "Get Ticks (Date Time)"))
 		static int64 GetDateTimeTicks(const FDateTime& InDateTime);
 
-	/* Get Timespan from Ticks
-	* @param Ticks - Number of ticks since midnight, January 1, 0001
+	/** Get Timespan from Ticks
+	* @param InTicks - Number of ticks since midnight, January 1, 0001
 	*/
 	UFUNCTION(BlueprintPure, Category = "Math|Timespan", meta = (DisplayName = "From Ticks (Timespan)"))
 		static FTimespan GetTimespanFromTicks(const int64 InTicks);
 
-	/* Gets Ticks from FTimespan 
-	* @param Timespan - Timespan to use
+	/** Gets Ticks from FTimespan 
 	* @return Number of ticks represented by this time span
 	*/
 	UFUNCTION(BlueprintPure, Category = "Math|Timespan", meta = (DisplayName = "Get Ticks (Timespan)"))
