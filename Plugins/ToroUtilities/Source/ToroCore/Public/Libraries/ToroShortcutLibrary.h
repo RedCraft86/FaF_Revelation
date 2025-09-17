@@ -54,4 +54,12 @@ public:
 	/* Removes an actor tag. */
 	UFUNCTION(BlueprintCallable, Category = Actor, DisplayName = "Remove Tag", meta = (DefaultToSelf = "Target"))
 		static void RemoveActorTag(AActor* Target, const FName InTag);
+	
+	/* Restarts the current Level. Returns the Level Name. */
+	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject", AdvancedDisplay = "Options"))
+		static void RestartLevel(const UObject* ContextObject, const FString Options = TEXT(""));
+
+	/* Calls a remote event by name anywhere. */
+	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
+		static void CallRemoteEvent(UObject* ContextObject, const FName EventName);
 };

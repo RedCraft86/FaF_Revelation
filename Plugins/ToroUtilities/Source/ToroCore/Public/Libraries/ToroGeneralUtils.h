@@ -97,18 +97,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = World, meta = (AdvancedDisplay = "Context", DefaultToSelf = "Context"))
 		static UWorld* GetPlayWorld(const UObject* Context);
 
-	/* Check if we're currently in editor or in a PIE/Standalone game. */
-	UFUNCTION(BlueprintPure, Category = World)
-		static bool IsInEditor();
-	
-	/* Restarts the current Level. Returns the Level Name. */
-	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject", AdvancedDisplay = "Options"))
-		static void RestartLevel(const UObject* ContextObject, const FString Options = TEXT(""));
-
-	/* Calls a remote event by name anywhere. */
-	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
-		static void CallRemoteEvent(UObject* ContextObject, const FName EventName);
-
 	/* Force a garbage collection to take place to hopefully reduce memory usage */
 	UFUNCTION(BlueprintCallable, Category = Loading)
 		static void ForceGarbageCollection();
@@ -124,6 +112,10 @@ public:
 	/* Calls an event by name in the Target object. */
 	UFUNCTION(BlueprintCallable, Category = Object, meta = (DefaultToSelf = "Target"))
 		static void CallLocalEvent(UObject* Target, const FName EventName);
+
+	/* Check if we're currently in editor or in a PIE/Standalone game. */
+	UFUNCTION(BlueprintPure, Category = Misc)
+		static bool IsInEditor();
 
 	/* EDITOR ONLY - Adds a component to an actor similar to the add component functions but also refreshes component list to include this new one. */
 	UFUNCTION(BlueprintCallable, Category = Editor, meta = (DeterminesOutputType = "InClass", DynamicOutputParam = "ReturnValue"))

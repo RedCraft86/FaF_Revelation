@@ -2,7 +2,6 @@
 
 #include "Libraries/ToroGeneralUtils.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
-#include "Engine/LevelScriptActor.h"
 #include "Helpers/WindowsHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "Misc/OutputDeviceNull.h"
@@ -155,30 +154,6 @@ UWorld* UToroGeneralUtils::GetPlayWorld(const UObject* Context)
 	return World ? World : GWorld;
 }
 
-bool UToroGeneralUtils::IsInEditor()
-{
-#if WITH_EDITOR
-	return !FApp::IsGame();
-#else
-	return false;
-#endif
-}
-
-void UToroGeneralUtils::RestartLevel(const UObject* ContextObject, const FString Options)
-{
-	UGameplayStatics::OpenLevel(ContextObject, *UGameplayStatics::GetCurrentLevelName(ContextObject), true, Options);
-}
-
-void UToroGeneralUtils::CallRemoteEvent(UObject* ContextObject, const FName EventName)
-{
-	if (EventName.IsNone()) return;
-	const UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
-	if (ALevelScriptActor* LSA = World ? World->GetLevelScriptActor() : nullptr)
-	{
-		LSA->RemoteEvent(EventName);
-	}
-}
-
 void UToroGeneralUtils::ForceGarbageCollection()
 {
 	if (GEngine)
@@ -209,6 +184,15 @@ void UToroGeneralUtils::CallLocalEvent(UObject* Target, const FName EventName)
 		Target->CallFunctionByNameWithArguments(*EventName.ToString(),
 			Ar, nullptr, true);
 	}
+}
+
+bool UToroGeneralUtils::IsInEditor()
+{
+#if WITH_EDITOR
+	return !FApp::IsGame();
+#else
+	return false;
+#endif
 }
 
 UActorComponent* UToroGeneralUtils::AddActorInstanceComponent(AActor* Target, const TSubclassOf<UActorComponent> InClass)

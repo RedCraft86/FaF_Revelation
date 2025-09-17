@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Libraries/ToroShortcutLibrary.h"
+#include "Engine/LevelScriptActor.h"
 #include "Kismet/GameplayStatics.h"
 
 void UToroShortcutLibrary::ClearCameraFade(const UObject* ContextObject)
@@ -50,5 +51,20 @@ void UToroShortcutLibrary::RemoveActorTag(AActor* Target, const FName InTag)
 	if (IsValid(Target))
 	{
 		Target->Tags.Remove(InTag);
+	}
+}
+
+void UToroShortcutLibrary::RestartLevel(const UObject* ContextObject, const FString Options)
+{
+	UGameplayStatics::OpenLevel(ContextObject, *UGameplayStatics::GetCurrentLevelName(ContextObject), true, Options);
+}
+
+void UToroShortcutLibrary::CallRemoteEvent(UObject* ContextObject, const FName EventName)
+{
+	if (EventName.IsNone()) return;
+	const UWorld* World = GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull);
+	if (ALevelScriptActor* LSA = World ? World->GetLevelScriptActor() : nullptr)
+	{
+		LSA->RemoteEvent(EventName);
 	}
 }
