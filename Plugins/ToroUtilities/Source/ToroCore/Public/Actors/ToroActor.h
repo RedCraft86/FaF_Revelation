@@ -2,11 +2,11 @@
 
 #pragma once
 
+#if WITH_EDITOR
+#include "Components/EditorVisualComponent.h"
+#endif
 #include "GameFramework/Actor.h"
 #include "Interfaces/GuidInterface.h"
-#if WITH_EDITOR
-#include "Components/EditorVisual.h"
-#endif
 #include "ToroActor.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FActorEnableChanged, const bool);
