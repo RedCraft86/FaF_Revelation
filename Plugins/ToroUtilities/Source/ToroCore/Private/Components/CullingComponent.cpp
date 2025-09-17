@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Components/CullingComponent.h"
+#include "Helpers/LoggingMacros.h"
 #include "ToroCore.h"
 
 UCullingComponent::UCullingComponent(): bAffectTicking(false)
@@ -68,7 +69,7 @@ void UCullingComponent::BeginPlay()
 	GetOwner()->GetComponents<UCullingComponent>(Components);
 	if (Components.Num() > 1 && Components.Find(this) > 0)
 	{
-		UE_LOG(LogToroCore, Warning,
+		UE_LOG_WARNING(LogToroCore, 1.0f,
 			TEXT("Multiple CullingComponents found on %s. Removing duplicate %s."),
 			*GetOwner()->GetName(), *GetName());
 
