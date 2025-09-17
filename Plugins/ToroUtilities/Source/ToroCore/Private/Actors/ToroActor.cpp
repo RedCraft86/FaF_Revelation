@@ -10,6 +10,10 @@ AToroActor::AToroActor(): bEnabled(true), bStartWithCollision(true)
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
+#if WITH_EDITOR
+	DEFINE_VISUAL_COMPONENT
+#endif
+
 	SetCanBeDamaged(false);
 }
 

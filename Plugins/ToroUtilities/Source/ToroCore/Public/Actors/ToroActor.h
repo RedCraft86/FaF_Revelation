@@ -4,6 +4,9 @@
 
 #include "GameFramework/Actor.h"
 #include "Interfaces/GuidInterface.h"
+#if WITH_EDITOR
+#include "Components/EditorVisual.h"
+#endif
 #include "ToroActor.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FActorEnableChanged, const bool);
@@ -38,6 +41,9 @@ public:
 	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }
 
 protected:
+#if WITH_EDITOR
+	DECLARE_VISUAL_COMPONENT
+#endif
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditDefaultsOnly, Category = Tick)
 		bool bTickInEditor = false;

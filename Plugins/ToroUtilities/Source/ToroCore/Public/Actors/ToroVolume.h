@@ -7,7 +7,7 @@
 #include "Components/BrushComponent.h"
 #include "ToroVolume.generated.h"
 
-UCLASS(Abstract)
+UCLASS()
 class TOROCORE_API AToroVolume : public AVolume, public IGuidInterface
 {
 	GENERATED_BODY()
@@ -33,6 +33,9 @@ public:
 	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }
 
 protected:
+#if WITH_EDITOR
+	DECLARE_VISUAL_COMPONENT
+#endif
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(EditDefaultsOnly, Category = Tick)
 		bool bTickInEditor = false;

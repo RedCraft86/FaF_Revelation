@@ -9,6 +9,10 @@ AToroVolume::AToroVolume(): bEnabled(true)
 
 	GetBrushComponent()->SetCollisionProfileName("Trigger");
 	SetCanBeDamaged(false);
+
+#if WITH_EDITOR
+	DEFINE_VISUAL_COMPONENT
+#endif
 	
 #if WITH_EDITOR
 	bColored = true;
