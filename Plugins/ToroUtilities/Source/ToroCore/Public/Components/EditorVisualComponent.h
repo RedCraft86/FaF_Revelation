@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Components/BillboardComponent.h"
-#include "EditorVisual.generated.h"
+#include "EditorVisualComponent.generated.h"
 
 /**
  * #if WITH_EDITOR
