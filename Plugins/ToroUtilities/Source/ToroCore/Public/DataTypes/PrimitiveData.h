@@ -81,7 +81,7 @@ struct TOROCORE_API FSplineMeshData : public FStaticMeshData
     }
 };
 
-USTRUCT(BlueprintType, meta = (DisableSplitPin, HasNativeMake = "/Script/ToroCore.PrimitiveUtils.Make_PrimitiveCollision", HasNativeBreak = "/Script/ToroCore.PrimitiveUtils.Break_PrimitiveCollision"))
+USTRUCT(BlueprintType, meta = (DisableSplitPin, HasNativeMake = "/Script/ToroCore.ToroPrimitiveUtils.Make_PrimitiveCollision", HasNativeBreak = "/Script/ToroCore.ToroPrimitiveUtils.Break_PrimitiveCollision"))
 struct TOROCORE_API FPrimitiveCollision
 {
 #if WITH_EDITOR
