@@ -19,7 +19,7 @@ struct TOROCORE_API FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWirePointData : public FWireShapeBase
+struct TOROCORE_API FWirePointData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -33,7 +33,7 @@ struct TOROCORE_API FWirePointData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireLineData : public FWireShapeBase
+struct TOROCORE_API FWireLineData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -50,7 +50,7 @@ struct TOROCORE_API FWireLineData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireCircleData : public FWireShapeBase
+struct TOROCORE_API FWireCircleData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -79,7 +79,7 @@ struct TOROCORE_API FWireCircleData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireArcData : public FWireShapeBase
+struct TOROCORE_API FWireArcData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -116,7 +116,7 @@ struct TOROCORE_API FWireArcData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireBoxData : public FWireShapeBase
+struct TOROCORE_API FWireBoxData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -141,7 +141,7 @@ struct TOROCORE_API FWireBoxData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireSphereData : public FWireShapeBase
+struct TOROCORE_API FWireSphereData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -166,7 +166,7 @@ struct TOROCORE_API FWireSphereData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireCylinderData : public FWireShapeBase
+struct TOROCORE_API FWireCylinderData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -199,7 +199,7 @@ struct TOROCORE_API FWireCylinderData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireCapsuleData : public FWireShapeBase
+struct TOROCORE_API FWireCapsuleData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -232,7 +232,7 @@ struct TOROCORE_API FWireCapsuleData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireNavPathData : public FWireShapeBase
+struct TOROCORE_API FWireNavPathData final : public FWireShapeBase
 {
     GENERATED_BODY()
 
@@ -257,7 +257,7 @@ struct TOROCORE_API FWireNavPathData : public FWireShapeBase
 };
 
 USTRUCT(BlueprintType)
-struct TOROCORE_API FWireStringData
+struct TOROCORE_API FWireStringData final
 {
     GENERATED_BODY()
 
