@@ -18,7 +18,7 @@ class TOROCORE_API IExitInterface
 public:
 
 	/* Universal generic exit command */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = ToroInterfaces)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = ExitInterface)
 		void Exit();
 	virtual void Exit_Implementation() {}
 

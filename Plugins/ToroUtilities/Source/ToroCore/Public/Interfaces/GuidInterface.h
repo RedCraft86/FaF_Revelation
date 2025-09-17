@@ -18,7 +18,7 @@ class TOROCORE_API IGuidInterface
 public:
 
 	/* Universal generic Guid getter */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = ToroInterfaces)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = GuidInterface)
 		FGuid GetUniqueGUID();
 	virtual FGuid GetUniqueGUID_Implementation() { return FGuid(); }
 
