@@ -354,10 +354,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "LightWeightInstancesEditor",
-			"Enabled": true
-		},
-		{
 			"Name": "Volumetrics",
 			"Enabled": true
 		},
