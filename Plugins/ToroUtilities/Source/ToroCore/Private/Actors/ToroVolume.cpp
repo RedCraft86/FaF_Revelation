@@ -33,10 +33,10 @@ void AToroVolume::BroadcastStateChanged()
 	OnEnableStateChangedBP.Broadcast(bEnabled);
 }
 
-void AToroVolume::EnableStateChanged(const bool bIsEnabled)
+void AToroVolume::EnableStateChanged(const bool bState)
 {
-	SetActorHiddenInGame(!bIsEnabled);
-	SetActorEnableCollision(bIsEnabled);
+	SetActorHiddenInGame(!bState);
+	SetActorEnableCollision(bState);
 }
 
 void AToroVolume::BeginPlay()
@@ -48,5 +48,5 @@ void AToroVolume::BeginPlay()
 void AToroVolume::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	if (!RuntimeGuid.IsValid()) RuntimeGuid = FGuid::NewGuid();
+	if (!UniqueGuid.IsValid()) UniqueGuid = FGuid::NewGuid();
 }

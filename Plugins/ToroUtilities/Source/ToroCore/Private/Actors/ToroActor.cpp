@@ -30,11 +30,11 @@ void AToroActor::BroadcastStateChanged()
 	OnEnableStateChangedBP.Broadcast(bEnabled);
 }
 
-void AToroActor::EnableStateChanged(const bool bIsEnabled)
+void AToroActor::EnableStateChanged(const bool bState)
 {
-	SetActorHiddenInGame(!bIsEnabled);
-	SetActorEnableCollision(bIsEnabled);
-	SetActorTickEnabled(PrimaryActorTick.bStartWithTickEnabled && bIsEnabled);
+	SetActorHiddenInGame(!bState);
+	SetActorEnableCollision(bState);
+	SetActorTickEnabled(PrimaryActorTick.bStartWithTickEnabled && bState);
 }
 
 void AToroActor::BeginPlay()
@@ -47,5 +47,5 @@ void AToroActor::BeginPlay()
 void AToroActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	if (!RuntimeGuid.IsValid()) RuntimeGuid = FGuid::NewGuid();
+	if (!UniqueGuid.IsValid()) UniqueGuid = FGuid::NewGuid();
 }

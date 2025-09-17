@@ -3,13 +3,14 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Interfaces/GuidInterface.h"
 #include "ToroActor.generated.h"
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FActorEnableChanged, const bool);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEnableChangedBP, const bool, bEnabled);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEnableChangedBP, const bool, bState);
 
 UCLASS(Abstract)
-class TOROCORE_API AToroActor : public AActor
+class TOROCORE_API AToroActor : public AActor, public IGuidInterface
 {
 	GENERATED_BODY()
 
@@ -29,13 +30,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = Actor)
 		bool IsEnabled() const { return bEnabled; }
 
-	UFUNCTION(BlueprintPure, Category = Actor)
-		FGuid GetRuntimeGuid() const { return RuntimeGuid; }
-
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
 		void EnableStateChangedBP(const bool bState);
 
 	FActorEnableChanged OnEnableStateChanged;
+
+	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }
 
 protected:
 #if WITH_EDITORONLY_DATA
@@ -47,13 +47,13 @@ protected:
 		bool bEnabled;
 
 	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
-		FGuid RuntimeGuid;
+		FGuid UniqueGuid;
 
 	UPROPERTY(EditAnywhere, Category = Actor)
 		bool bStartWithCollision;
 
 	void BroadcastStateChanged();
-	virtual void EnableStateChanged(const bool bIsEnabled);
+	virtual void EnableStateChanged(const bool bState);
 
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
