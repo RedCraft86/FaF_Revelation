@@ -179,6 +179,28 @@ void UToroGeneralUtils::CallRemoteEvent(UObject* ContextObject, const FName Even
 	}
 }
 
+void UToroGeneralUtils::ForceGarbageCollection()
+{
+	if (GEngine)
+	{
+#if WITH_EDITOR
+		GEngine->ForceGarbageCollection(false);
+#else
+		GEngine->ForceGarbageCollection(true);
+#endif
+	}
+}
+
+int32 UToroGeneralUtils::GetNumAsyncPkgs()
+{
+	return GetNumAsyncPackages();
+}
+
+float UToroGeneralUtils::GetAsyncPkgLoadPercent(const FString Package)
+{
+	return GetAsyncLoadPercentage(*Package);
+}
+
 void UToroGeneralUtils::CallLocalEvent(UObject* Target, const FName EventName)
 {
 	if (IsValid(Target) && !EventName.IsNone())

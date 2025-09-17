@@ -109,11 +109,23 @@ public:
 	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
 		static void CallRemoteEvent(UObject* ContextObject, const FName EventName);
 
+	/* Force a garbage collection to take place to hopefully reduce memory usage */
+	UFUNCTION(BlueprintCallable, Category = Loading)
+		static void ForceGarbageCollection();
+
+	/* Get the number of currently loading async packages */
+	UFUNCTION(BlueprintCallable, Category = Loading, DisplayName = "Get Num Async Packages")
+		static int32 GetNumAsyncPkgs();
+
+	/* Get the loading progress of an async package, otherwise -1 */
+	UFUNCTION(BlueprintCallable, Category = Loading, DisplayName = "Get Async Load Percentage")
+		static float GetAsyncPkgLoadPercent(const FString Package);
+
 	/* Calls an event by name in the Target object. */
 	UFUNCTION(BlueprintCallable, Category = Object, meta = (DefaultToSelf = "Target"))
 		static void CallLocalEvent(UObject* Target, const FName EventName);
 
 	/* EDITOR ONLY - Adds a component to an actor similar to the add component functions but also refreshes component list to include this new one. */
-	UFUNCTION(BlueprintCallable, Category = Object, meta = (DeterminesOutputType = "InClass", DynamicOutputParam = "ReturnValue"))
+	UFUNCTION(BlueprintCallable, Category = Editor, meta = (DeterminesOutputType = "InClass", DynamicOutputParam = "ReturnValue"))
 		static UActorComponent* AddActorInstanceComponent(AActor* Target, const TSubclassOf<UActorComponent> InClass);
 };
