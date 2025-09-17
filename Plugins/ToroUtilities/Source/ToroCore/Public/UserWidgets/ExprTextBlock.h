@@ -48,7 +48,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
 		void SetTextAsset(UExpressiveTextAsset* InAsset);
 
-	// Run with tick to update any size changes to this text
+	/* Run with tick to update any size changes to this text */
 	UFUNCTION(BlueprintCallable, Category = "Expressive Text Block")
 		void UpdateSize();
 	
