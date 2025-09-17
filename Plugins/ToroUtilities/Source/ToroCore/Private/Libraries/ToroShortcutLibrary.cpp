@@ -68,3 +68,54 @@ void UToroShortcutLibrary::CallRemoteEvent(UObject* ContextObject, const FName E
 		LSA->RemoteEvent(EventName);
 	}
 }
+
+void UToroShortcutLibrary::PlayAmbientSound(const AAmbientSound* Target, const float StartTime)
+{
+	if (Target && Target->GetAudioComponent())
+	{
+		Target->GetAudioComponent()->Play(StartTime);
+	}
+}
+
+void UToroShortcutLibrary::StopAmbientSound(const AAmbientSound* Target)
+{
+	if (Target && Target->GetAudioComponent())
+	{
+		Target->GetAudioComponent()->Stop();
+	}
+}
+
+void UToroShortcutLibrary::StopAmbientSoundDelayed(const AAmbientSound* Target, const float DelayTime)
+{
+	if (Target && Target->GetAudioComponent())
+	{
+		Target->GetAudioComponent()->StopDelayed(DelayTime);
+	}
+}
+
+void UToroShortcutLibrary::AdjustAmbientSoundVolume(const AAmbientSound* Target,
+	const float Duration, const float TargetLevel, const EAudioFaderCurve FadeCurve)
+{
+	if (Target && Target->GetAudioComponent())
+	{
+		Target->GetAudioComponent()->AdjustVolume(Duration, TargetLevel, FadeCurve);
+	}
+}
+
+void UToroShortcutLibrary::FadeInAmbientSound(const AAmbientSound* Target, float Duration,
+	const float TargetLevel, const float StartTime, const EAudioFaderCurve FadeCurve)
+{
+	if (Target && Target->GetAudioComponent())
+	{
+		Target->GetAudioComponent()->FadeIn(Duration, TargetLevel, StartTime, FadeCurve);
+	}
+}
+
+void UToroShortcutLibrary::FadeOutAmbientSound(const AAmbientSound* Target,
+	const float Duration, const float TargetLevel, const EAudioFaderCurve FadeCurve)
+{
+	if (Target && Target->GetAudioComponent())
+	{
+		Target->GetAudioComponent()->FadeOut(Duration, TargetLevel, FadeCurve);
+	}
+}
