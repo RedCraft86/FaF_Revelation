@@ -215,77 +215,77 @@ int64 UToroMathLibrary::GetTimespanTicks(const FTimespan& InTimespan)
 	return InTimespan.GetTicks();
 }
 
-bool UToroMathLibrary::HasInlineCurveData_Float(const FInlineFloatCurve& InCurve)
+bool UToroMathLibrary::HasInlineCurveData_Float(const FInlineFloatCurve& Target)
 {
-	return InCurve.HasAnyData();
+	return Target.HasAnyData();
 }
 
-UCurveFloat* UToroMathLibrary::GetInlineCurveAsset_Float(const FInlineFloatCurve& InCurve)
+UCurveFloat* UToroMathLibrary::GetInlineCurveAsset_Float(const FInlineFloatCurve& Target)
 {
-	return InCurve.GetCurveAsset();
+	return Target.GetCurveAsset();
 }
 
-float UToroMathLibrary::GetInlineCurveValue_Float(const FInlineFloatCurve& InCurve, float InTime)
+float UToroMathLibrary::GetInlineCurveValue_Float(const FInlineFloatCurve& Target, float InTime)
 {
-	return InCurve.GetValue(InTime);
+	return Target.GetValue(InTime);
 }
 
-void UToroMathLibrary::GetInlineCurveTimeRange_Float(const FInlineFloatCurve& InCurve, float& Min, float& Max)
+void UToroMathLibrary::GetInlineCurveTimeRange_Float(const FInlineFloatCurve& Target, float& Min, float& Max)
 {
-	InCurve.GetTimeRange(Min, Max);
+	Target.GetTimeRange(Min, Max);
 }
 
-void UToroMathLibrary::GetInlineCurveValueRange_Float(const FInlineFloatCurve& InCurve, float& Min, float& Max)
+void UToroMathLibrary::GetInlineCurveValueRange_Float(const FInlineFloatCurve& Target, float& Min, float& Max)
 {
-	InCurve.GetValueRange(Min, Max);
+	Target.GetValueRange(Min, Max);
 }
 
-bool UToroMathLibrary::HasInlineCurveData_Vector(const FInlineVectorCurve& InCurve)
+bool UToroMathLibrary::HasInlineCurveData_Vector(const FInlineVectorCurve& Target)
 {
-	return InCurve.HasAnyData();
+	return Target.HasAnyData();
 }
 
-UCurveVector* UToroMathLibrary::GetInlineCurveAsset_Vector(const FInlineVectorCurve& InCurve)
+UCurveVector* UToroMathLibrary::GetInlineCurveAsset_Vector(const FInlineVectorCurve& Target)
 {
-	return InCurve.GetCurveAsset();
+	return Target.GetCurveAsset();
 }
 
-FVector UToroMathLibrary::GetInlineCurveValue_Vector(const FInlineVectorCurve& InCurve, float InTime)
+FVector UToroMathLibrary::GetInlineCurveValue_Vector(const FInlineVectorCurve& Target, float InTime)
 {
-	return InCurve.GetValue(InTime);
+	return Target.GetValue(InTime);
 }
 
-void UToroMathLibrary::GetInlineCurveTimeRange_Vector(const FInlineVectorCurve& InCurve, float& Min, float& Max)
+void UToroMathLibrary::GetInlineCurveTimeRange_Vector(const FInlineVectorCurve& Target, float& Min, float& Max)
 {
-	InCurve.GetTimeRange(Min, Max);
+	Target.GetTimeRange(Min, Max);
 }
 
-void UToroMathLibrary::GetInlineCurveValueRange_Vector(const FInlineVectorCurve& InCurve, FVector& Min, FVector& Max)
+void UToroMathLibrary::GetInlineCurveValueRange_Vector(const FInlineVectorCurve& Target, FVector& Min, FVector& Max)
 {
-	InCurve.GetValueRange(Min, Max);
+	Target.GetValueRange(Min, Max);
 }
 
-bool UToroMathLibrary::HasInlineCurveData_Color(const FInlineColorCurve& InCurve)
+bool UToroMathLibrary::HasInlineCurveData_Color(const FInlineColorCurve& Target)
 {
-	return InCurve.HasAnyData();
+	return Target.HasAnyData();
 }
 
-UCurveLinearColor* UToroMathLibrary::GetInlineCurveAsset_Color(const FInlineColorCurve& InCurve)
+UCurveLinearColor* UToroMathLibrary::GetInlineCurveAsset_Color(const FInlineColorCurve& Target)
 {
-	return InCurve.GetCurveAsset();
+	return Target.GetCurveAsset();
 }
 
-FLinearColor UToroMathLibrary::GetInlineCurveValue_Color(const FInlineColorCurve& InCurve, float InTime)
+FLinearColor UToroMathLibrary::GetInlineCurveValue_Color(const FInlineColorCurve& Target, float InTime)
 {
-	return InCurve.GetValue(InTime);
+	return Target.GetValue(InTime);
 }
 
-void UToroMathLibrary::GetInlineCurveTimeRange_Color(const FInlineColorCurve& InCurve, float& Min, float& Max)
+void UToroMathLibrary::GetInlineCurveTimeRange_Color(const FInlineColorCurve& Target, float& Min, float& Max)
 {
-	InCurve.GetTimeRange(Min, Max);
+	Target.GetTimeRange(Min, Max);
 }
 
-void UToroMathLibrary::GetInlineCurveValueRange_Color(const FInlineColorCurve& InCurve, FLinearColor& Min, FLinearColor& Max)
+void UToroMathLibrary::GetInlineCurveValueRange_Color(const FInlineColorCurve& Target, FLinearColor& Min, FLinearColor& Max)
 {
-	InCurve.GetValueRange(Min, Max);
+	Target.GetValueRange(Min, Max);
 }

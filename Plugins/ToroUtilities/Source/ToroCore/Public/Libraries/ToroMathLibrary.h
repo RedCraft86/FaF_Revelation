@@ -136,47 +136,47 @@ public:
 		static int64 GetTimespanTicks(const FTimespan& InTimespan);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Has Any Data (Inline Float Curve)")
-		static bool HasInlineCurveData_Float(const FInlineFloatCurve& InCurve);
+		static bool HasInlineCurveData_Float(const FInlineFloatCurve& Target);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Curve Asset (Inline Float Curve)")
-		static UCurveFloat* GetInlineCurveAsset_Float(const FInlineFloatCurve& InCurve);
+		static UCurveFloat* GetInlineCurveAsset_Float(const FInlineFloatCurve& Target);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Value (Inline Float Curve)")
-		static float GetInlineCurveValue_Float(const FInlineFloatCurve& InCurve, float InTime);
+		static float GetInlineCurveValue_Float(const FInlineFloatCurve& Target, float InTime);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Time Range (Inline Float Curve)")
-		static void GetInlineCurveTimeRange_Float(const FInlineFloatCurve& InCurve, float& Min, float& Max);
+		static void GetInlineCurveTimeRange_Float(const FInlineFloatCurve& Target, float& Min, float& Max);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Value Range (Inline Float Curve)")
-		static void GetInlineCurveValueRange_Float(const FInlineFloatCurve& InCurve, float& Min, float& Max);
+		static void GetInlineCurveValueRange_Float(const FInlineFloatCurve& Target, float& Min, float& Max);
 	
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Has Any Data (Inline Vector Curve)")
-		static bool HasInlineCurveData_Vector(const FInlineVectorCurve& InCurve);
+		static bool HasInlineCurveData_Vector(const FInlineVectorCurve& Target);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Curve Asset (Inline Vector Curve)")
-		static UCurveVector* GetInlineCurveAsset_Vector(const FInlineVectorCurve& InCurve);
+		static UCurveVector* GetInlineCurveAsset_Vector(const FInlineVectorCurve& Target);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Value (Inline Vector Curve)")
-		static FVector GetInlineCurveValue_Vector(const FInlineVectorCurve& InCurve, float InTime);
+		static FVector GetInlineCurveValue_Vector(const FInlineVectorCurve& Target, float InTime);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Time Range (Inline Vector Curve)")
-		static void GetInlineCurveTimeRange_Vector(const FInlineVectorCurve& InCurve, float& Min, float& Max);
+		static void GetInlineCurveTimeRange_Vector(const FInlineVectorCurve& Target, float& Min, float& Max);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Value Range (Inline Vector Curve)")
-		static void GetInlineCurveValueRange_Vector(const FInlineVectorCurve& InCurve, FVector& Min, FVector& Max);
+		static void GetInlineCurveValueRange_Vector(const FInlineVectorCurve& Target, FVector& Min, FVector& Max);
 	
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Has Any Data (Inline Color Curve)")
-		static bool HasInlineCurveData_Color(const FInlineColorCurve& InCurve);
+		static bool HasInlineCurveData_Color(const FInlineColorCurve& Target);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Curve Asset (Inline Color Curve)")
-		static UCurveLinearColor* GetInlineCurveAsset_Color(const FInlineColorCurve& InCurve);
+		static UCurveLinearColor* GetInlineCurveAsset_Color(const FInlineColorCurve& Target);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Value (Inline Color Curve)")
-		static FLinearColor GetInlineCurveValue_Color(const FInlineColorCurve& InCurve, float InTime);
+		static FLinearColor GetInlineCurveValue_Color(const FInlineColorCurve& Target, float InTime);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Time Range (Inline Color Curve)")
-		static void GetInlineCurveTimeRange_Color(const FInlineColorCurve& InCurve, float& Min, float& Max);
+		static void GetInlineCurveTimeRange_Color(const FInlineColorCurve& Target, float& Min, float& Max);
 
 	UFUNCTION(BlueprintPure, Category = "Math|Curves|Inline", DisplayName = "Get Value Range (Inline Color Curve)")
-		static void GetInlineCurveValueRange_Color(const FInlineColorCurve& InCurve, FLinearColor& Min, FLinearColor& Max);
+		static void GetInlineCurveValueRange_Color(const FInlineColorCurve& Target, FLinearColor& Min, FLinearColor& Max);
 };
