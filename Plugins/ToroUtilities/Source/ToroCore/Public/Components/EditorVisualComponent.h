@@ -61,13 +61,6 @@ private:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override
     {
         Super::TickComponent(DeltaTime, TickType, TickFunc);
-        
-        const bool bShouldShow = MaxComps > 0 && CountSceneComponents() <= MaxComps;
-        SetVisibility(bShouldShow);
-    }
-
-    uint8 CountSceneComponents() const
-    {
         uint8 Count = 0;
         TArray<USceneComponent*> Components;
         GetOwner()->GetComponents<USceneComponent>(Components);
@@ -78,7 +71,8 @@ private:
                 if (++Count > MaxComps) break;
             }
         }
-        return Count;
+        
+        SetVisibility(MaxComps > 0 && Count <= MaxComps);
     }
 #endif
 
