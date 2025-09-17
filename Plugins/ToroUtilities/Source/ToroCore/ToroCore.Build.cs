@@ -17,6 +17,7 @@ public class ToroCore : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "GameplayTags",
                 "ExpressiveText"
             ]
         );
