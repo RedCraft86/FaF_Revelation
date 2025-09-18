@@ -1,3 +1,3 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Core/ToroUserSettings.h"
+#include "Settings/ToroUserSettings.h"
