@@ -15,6 +15,9 @@ public class ToroRuntime : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "GameplayTags",
+                "MovieScene",
+                "LevelSequence",
                 
                 "ToroCore",
                 "ToroFramework"
