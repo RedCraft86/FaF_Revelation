@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Components/SceneComponent.h"
-#include "VisionComponent.generated.h"
+#include "VisionConeComponent.generated.h"
 
 UENUM(BlueprintType)
 enum class EVisionState : uint8
@@ -35,17 +35,19 @@ struct TOROCORE_API FVisionSettings
 };
 
 UCLASS(NotBlueprintable, ClassGroup = (AI), meta = (BlueprintSpawnableComponent))
-class TOROCORE_API UVisionComponent final : public USceneComponent
+class TOROCORE_API UVisionConeComponent final : public USceneComponent
 {
 	GENERATED_BODY()
-
+#if WITH_EDITOR
+	friend class FVisionConeVisualizer;
+#endif
 public:
 
-	UVisionComponent();
+	UVisionConeComponent();
 
 	/* Settings for the Vision Cone shape. */
 	UPROPERTY(EditAnywhere, Category = Settings)
-		FVisionSettings Vision;
+		FVisionSettings VisionCone;
 
 	/* Line trace channel that should be used when occlusion checking. */
 	UPROPERTY(EditAnywhere, Category = Settings)
@@ -74,8 +76,8 @@ private:
 	float GetAngleToActor(const AActor* InActor) const;
 	bool IsActorInRange(const AActor* InActor) const;
 
-	float GetOuterAngle() const { return FMath::Clamp(Vision.OuterAngle, 0.0f, 90.0f); }
-	float GetInnerAngle() const { return FMath::Clamp(Vision.InnerAngle, 0.0f, GetOuterAngle() - 1.0f); }
+	float GetOuterAngle() const { return FMath::Clamp(VisionCone.OuterAngle, 0.0f, 90.0f); }
+	float GetInnerAngle() const { return FMath::Clamp(VisionCone.InnerAngle, 0.0f, GetOuterAngle() - 1.0f); }
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

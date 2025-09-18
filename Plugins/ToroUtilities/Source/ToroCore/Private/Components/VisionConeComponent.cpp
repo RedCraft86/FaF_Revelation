@@ -1,16 +1,16 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Components/VisionComponent.h"
+#include "Components/VisionConeComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
 #include "EngineUtils.h"
 
-UVisionComponent::UVisionComponent(): TraceChannel(ECC_Visibility), bDetectCharacters(false)
+UVisionConeComponent::UVisionConeComponent(): TraceChannel(ECC_Visibility), bDetectCharacters(false)
 {
 	PrimaryComponentTick.TickInterval = 0.1f;
 }
 
-EVisionState UVisionComponent::GetActorVisionState(const AActor* InActor) const
+EVisionState UVisionConeComponent::GetActorVisionState(const AActor* InActor) const
 {
 	if (!IsActorInRange(InActor) || !GetTraceToActor(InActor))
 	{
@@ -26,7 +26,7 @@ EVisionState UVisionComponent::GetActorVisionState(const AActor* InActor) const
 	return EVisionState::None;
 }
 
-bool UVisionComponent::GetTraceToActor(const AActor* InActor) const
+bool UVisionConeComponent::GetTraceToActor(const AActor* InActor) const
 {
 	if (!InActor) return false;
 
@@ -43,25 +43,25 @@ bool UVisionComponent::GetTraceToActor(const AActor* InActor) const
 	return !GetWorld()->LineTraceSingleByChannel(Hit, GetComponentLocation(), Target, TraceChannel, Params);
 }
 
-float UVisionComponent::GetAngleToActor(const AActor* InActor) const
+float UVisionConeComponent::GetAngleToActor(const AActor* InActor) const
 {
 	if (!InActor) return -1.0f;
 	const FVector DotA = InActor->GetActorLocation() - GetComponentLocation(), DotB = GetForwardVector();
 	return 180.0f / UE_PI * FMath::Acos(FVector::DotProduct(DotA.GetSafeNormal(), DotB.GetSafeNormal()));
 }
 
-bool UVisionComponent::IsActorInRange(const AActor* InActor) const
+bool UVisionConeComponent::IsActorInRange(const AActor* InActor) const
 {
-	return InActor && FVector::Dist(GetComponentLocation(), InActor->GetActorLocation()) <= Vision.Distance;
+	return InActor && FVector::Dist(GetComponentLocation(), InActor->GetActorLocation()) <= VisionCone.Distance;
 }
 
-void UVisionComponent::BeginPlay()
+void UVisionConeComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	SetComponentTickEnabled(bDetectCharacters);
 }
 
-void UVisionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UVisionConeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	for (auto It = DetectionCache.CreateIterator(); It; ++It)
