@@ -2,10 +2,24 @@
 
 #pragma once
 
-#include "Components/AudioComponent.h"
+#include "LevelSequenceActor.h"
 #include "Sound/AmbientSound.h"
+#include "Components/AudioComponent.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ToroShortcutLibrary.generated.h"
+
+UENUM(BlueprintType)
+enum class ESequenceStopType : uint8
+{
+	// Use default behavior of Stop()
+	Default,
+
+	// Stop at current time
+	AtCurrentTime,
+
+	// Quickly go to the end and stop
+	SkipToEnd
+};
 
 UCLASS(DisplayName = "Shortcut Library")
 class TOROCORE_API UToroShortcutLibrary final : public UBlueprintFunctionLibrary
@@ -65,17 +79,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category = World, meta = (WorldContext = "ContextObject"))
 		static void CallRemoteEvent(UObject* ContextObject, const FName EventName);
 
+	/* Start playback forwards from the current time cursor position, using the play rate. */
+	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Play Sequence", meta = (DefaultToSelf = "Target"))
+		static void PlayLevelSequence(const ALevelSequenceActor* Target, const float PlayRate = 1.0f);
+
+	/* Start playback reverse from the current time cursor position, using the play rate. */
+	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Reverse Sequence", meta = (DefaultToSelf = "Target"))
+		static void ReverseLevelSequence(const ALevelSequenceActor* Target, const float PlayRate = 1.0f);
+
+	/** Stop playback of the sequence.
+	 * @param StopType The kind of stopping behavior which should be used
+	 */
+	UFUNCTION(BlueprintCallable, Category = LevelSequence, DisplayName = "Stop Sequence", meta = (DefaultToSelf = "Target"))
+		static void StopLevelSequence(const ALevelSequenceActor* Target, const ESequenceStopType StopType = ESequenceStopType::Default);
+
 	/** Begins playing the targeted Audio Component's sound at the designated Start Time, seeking into a sound.
 	 * @param StartTime The offset, in seconds, to begin reading the sound at
 	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Play", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Play Sound", meta = (DefaultToSelf = "Target"))
 	// ReSharper disable once UnrealHeaderToolError
-		static void PlayAmbientSound(const AAmbientSound* Target, float StartTime = 0.0f);
+	static void PlayAmbientSound(const AAmbientSound* Target, float StartTime = 0.0f);
 
 	/* Stop an audio component's sound, issue any delegates if needed */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Stop", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Stop Sound", meta = (DefaultToSelf = "Target"))
 	// ReSharper disable once UnrealHeaderToolError
-		static void StopAmbientSound(const AAmbientSound* Target);
+	static void StopAmbientSound(const AAmbientSound* Target);
 
 	/** This function calls Play on an Audio Component instance while applying a volume curve over time.
 	 * @param Duration How long it should take to reach the FadeVolumeLevel
@@ -83,10 +111,10 @@ public:
 	 * @param StartTime The playback time in which the sound should start from
 	 * @param FadeCurve The curve to use when interpolating between the old and new volume
 	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade In", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade In Sound", meta = (DefaultToSelf = "Target"))
 	// ReSharper disable once UnrealHeaderToolError
-		static void FadeInAmbientSound(const AAmbientSound* Target, float Duration = 1.0f, float TargetLevel = 1.0f,
-			float StartTime = 0.0f, const EAudioFaderCurve FadeCurve = EAudioFaderCurve::Linear);
+	static void FadeInAmbientSound(const AAmbientSound* Target, float Duration = 1.0f, float TargetLevel = 1.0f,
+		float StartTime = 0.0f, const EAudioFaderCurve FadeCurve = EAudioFaderCurve::Linear);
 
 	/** This calls a delayed Stop on an Audio Component instance while applying a
 	 * volume curve over time. Parameters allow designers to indicate the duration of the fade and the curve shape.
@@ -94,8 +122,8 @@ public:
 	 * @param TargetLevel the percentage of the AudioComponents's calculated volume in which to fade to
 	 * @param FadeCurve The curve to use when interpolating between the old and new volume
 	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade Out", meta = (DefaultToSelf = "Target"))
+	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Fade Out Sound", meta = (DefaultToSelf = "Target"))
 	// ReSharper disable once UnrealHeaderToolError
-		static void FadeOutAmbientSound(const AAmbientSound* Target, float Duration = 1.0f,
-			float TargetLevel = 0.0f, const EAudioFaderCurve FadeCurve = EAudioFaderCurve::Linear);
+	static void FadeOutAmbientSound(const AAmbientSound* Target, float Duration = 1.0f,
+		float TargetLevel = 0.0f, const EAudioFaderCurve FadeCurve = EAudioFaderCurve::Linear);
 };

@@ -3,6 +3,7 @@
 #include "Libraries/ToroShortcutLibrary.h"
 #include "Engine/LevelScriptActor.h"
 #include "Kismet/GameplayStatics.h"
+#include "LevelSequencePlayer.h"
 
 void UToroShortcutLibrary::ClearCameraFade(const UObject* ContextObject)
 {
@@ -66,6 +67,45 @@ void UToroShortcutLibrary::CallRemoteEvent(UObject* ContextObject, const FName E
 	if (ALevelScriptActor* LSA = World ? World->GetLevelScriptActor() : nullptr)
 	{
 		LSA->RemoteEvent(EventName);
+	}
+}
+
+void UToroShortcutLibrary::PlayLevelSequence(const ALevelSequenceActor* Target, const float PlayRate)
+{
+	if (ULevelSequencePlayer* SequencePlayer = Target ? Target->GetSequencePlayer() : nullptr)
+	{
+		SequencePlayer->SetPlayRate(PlayRate);
+		SequencePlayer->Play();
+	}
+}
+
+void UToroShortcutLibrary::ReverseLevelSequence(const ALevelSequenceActor* Target, const float PlayRate)
+{
+	if (ULevelSequencePlayer* SequencePlayer = Target ? Target->GetSequencePlayer() : nullptr)
+	{
+		SequencePlayer->SetPlayRate(PlayRate);
+		SequencePlayer->PlayReverse();
+	}
+}
+
+void UToroShortcutLibrary::StopLevelSequence(const ALevelSequenceActor* Target, const ESequenceStopType StopType)
+{
+	if (ULevelSequencePlayer* SequencePlayer = Target ? Target->GetSequencePlayer() : nullptr)
+	{
+		switch (StopType)
+		{
+		case ESequenceStopType::Default:
+			SequencePlayer->Stop();
+			break;
+
+		case ESequenceStopType::AtCurrentTime:
+			SequencePlayer->StopAtCurrentTime();
+			break;
+
+		case ESequenceStopType::SkipToEnd:
+			SequencePlayer->GoToEndAndStop();
+			break;
+		}
 	}
 }
 
