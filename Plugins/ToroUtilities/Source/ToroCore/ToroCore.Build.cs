@@ -23,8 +23,19 @@ public class ToroCore : ModuleRules
                 "MovieScene",
                 "LevelSequence",
                 "NavigationSystem",
+                "ProceduralMeshComponent",
                 "ExpressiveText"
             ]
         );
+        
+        if (Target.Type == TargetType.Editor)
+        {
+            PublicDependencyModuleNames.AddRange(
+                [
+                    "UnrealEd",
+                    "EditorScriptingUtilities"
+                ]
+            );
+        }
     }
 }

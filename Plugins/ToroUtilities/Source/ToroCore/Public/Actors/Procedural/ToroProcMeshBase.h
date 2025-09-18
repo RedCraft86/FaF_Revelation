@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ToroProcGenBase.h"
+#include "ProceduralMeshComponent.h"
 #include "ToroProcMeshBase.generated.h"
 
 UCLASS(Abstract)
@@ -10,5 +11,17 @@ class TOROCORE_API AToroProcMeshBase : public AToroProcGenBase
 {
 	GENERATED_BODY()
 
-	// TODO
+public:
+
+	AToroProcMeshBase();
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UProceduralMeshComponent> ProceduralMesh;
+
+#if WITH_EDITOR
+protected:
+	TSet<int32> EditorSections = {1};
+	UFUNCTION(CallInEditor, Category = Tools, DisplayName = "Create Asset")
+		virtual void CreateStaticMesh();
+#endif
 };
