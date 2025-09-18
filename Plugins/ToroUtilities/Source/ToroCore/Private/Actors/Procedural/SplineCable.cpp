@@ -77,7 +77,7 @@ void ASplineCable::Construct()
 				SplineComponent->GetLocalLocationAndTangentAtSplinePoint(0, Location, Tangent);
 			
 				StartMeshComponent->SetRelativeTransform({
-					StartCap.Transform.GetRotation() * FRotationMatrix::MakeFromX(Tangent).ToQuat(),
+					StartCap.Transform.GetRotation().Rotator() + FRotationMatrix::MakeFromX(Tangent).Rotator(),
 					StartCap.Transform.GetTranslation() + Location,
 					StartCap.Transform.GetScale3D()
 				});
@@ -86,17 +86,20 @@ void ASplineCable::Construct()
 
 		if (EndCap.IsValidData())
 		{
-			EndCap.ToStaticMeshComponent(EndMeshComponent);
-			Collision.ToPrimitiveComponent(EndMeshComponent);
+			if (EndMeshComponent = AddGenericComponent<UStaticMeshComponent>(); EndMeshComponent)
+			{
+				EndCap.ToStaticMeshComponent(EndMeshComponent);
+				Collision.ToPrimitiveComponent(EndMeshComponent);
 			
-			FVector Location, Tangent;
-			SplineComponent->GetLocalLocationAndTangentAtSplinePoint(NumPoints - 1, Location, Tangent);
+				FVector Location, Tangent;
+				SplineComponent->GetLocalLocationAndTangentAtSplinePoint(NumPoints - 1, Location, Tangent);
 					
-			EndMeshComponent->SetRelativeTransform({
-				EndCap.Transform.GetRotation() * FRotationMatrix::MakeFromX(Tangent).ToQuat(),
-				EndCap.Transform.GetTranslation() + Location,
-				EndCap.Transform.GetScale3D()
-			});
+				EndMeshComponent->SetRelativeTransform({
+					EndCap.Transform.GetRotation().Rotator() + FRotationMatrix::MakeFromX(Tangent).Rotator(),
+					EndCap.Transform.GetTranslation() + Location,
+					EndCap.Transform.GetScale3D()
+				});
+			}
 		}
 	}
 

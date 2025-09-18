@@ -78,7 +78,7 @@ void ASplineBarrier::Construct()
 		
 		FVector Location, Tangent;
 		SplineComponent->GetLocalLocationAndTangentAtSplinePoint(i, Location, Tangent);
-		const float DistB = SplineComponent->GetDistanceAlongSplineAtSplinePoint((i + 1) % NumPoints);
+		const float DistB = SplineComponent->GetDistanceAlongSplineAtSplinePoint(i + 1);
 		const float DistA = SplineComponent->GetDistanceAlongSplineAtSplinePoint(i);
 
 		WallMeshComponent->AddInstance({
