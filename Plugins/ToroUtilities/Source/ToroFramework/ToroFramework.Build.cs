@@ -15,6 +15,7 @@ public class ToroFramework : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "CommonUI",
                 
                 "ToroCore",
                 "ToroRuntime"
