@@ -24,7 +24,7 @@ struct TOROCORE_API FVisionSettings
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f, ClampMax = 90.0f, UIMax = 90.0f))
 		float OuterAngle;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 0.0f, UIMin = 0.0f, ClampMax = 89.0f, UIMax = 89.0f))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ClampMin = 5.0f, UIMin = 5.0f, ClampMax = 89.0f, UIMax = 89.0f))
 		float InnerAngle;
 
 	FVisionSettings()
@@ -76,8 +76,8 @@ private:
 	float GetAngleToActor(const AActor* InActor) const;
 	bool IsActorInRange(const AActor* InActor) const;
 
-	float GetOuterAngle() const { return FMath::Clamp(VisionCone.OuterAngle, 0.0f, 90.0f); }
-	float GetInnerAngle() const { return FMath::Clamp(VisionCone.InnerAngle, 0.0f, GetOuterAngle() - 1.0f); }
+	float GetOuterAngle() const { return FMath::Clamp(VisionCone.OuterAngle, 10.0f, 90.0f); }
+	float GetInnerAngle() const { return FMath::Clamp(VisionCone.InnerAngle, 5.0f, GetOuterAngle() - 1.0f); }
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
