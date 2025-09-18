@@ -15,6 +15,7 @@ public class ToroGameplay : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "Narrative",
                 
                 "ToroCore",
                 "ToroRuntime",
