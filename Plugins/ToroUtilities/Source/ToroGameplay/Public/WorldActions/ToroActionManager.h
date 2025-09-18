@@ -3,10 +3,10 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "WorldActionManager.generated.h"
+#include "ToroActionManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (World), meta = (BlueprintSpawnableComponent))
-class TOROGAMEPLAY_API UWorldActionManager final : public UActorComponent
+class TOROGAMEPLAY_API UToroActionManager final : public UActorComponent
 {
 	GENERATED_BODY()
 

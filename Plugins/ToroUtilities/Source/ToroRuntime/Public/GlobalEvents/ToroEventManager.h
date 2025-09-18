@@ -3,10 +3,10 @@
 #pragma once
 
 #include "Subsystems/GameInstanceSubsystem.h"
-#include "GlobalEventManager.generated.h"
+#include "ToroEventManager.generated.h"
 
 UCLASS()
-class TORORUNTIME_API UGlobalEventManager final : public UGameInstanceSubsystem
+class TORORUNTIME_API UToroEventManager final : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 

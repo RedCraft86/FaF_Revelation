@@ -3,10 +3,10 @@
 #pragma once
 
 #include "Subsystems/WorldSubsystem.h"
-#include "TutorialManager.generated.h"
+#include "ToroLightProbeManager.generated.h"
 
 UCLASS()
-class TORORUNTIME_API UTutorialManager final : public UTickableWorldSubsystem
+class TORORUNTIME_API UToroLightProbeManager final : public UTickableWorldSubsystem
 {
 	GENERATED_BODY()
 
