@@ -69,6 +69,7 @@ void UVisionConeComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 		if (!It->Key.IsValid()) It.RemoveCurrent();
 	}
 
+	if (!bDetectCharacters) return;
 	for (const ACharacter* Char : TActorRange<ACharacter>(GetWorld()))
 	{
 		EVisionState State = GetActorVisionState(Char);
