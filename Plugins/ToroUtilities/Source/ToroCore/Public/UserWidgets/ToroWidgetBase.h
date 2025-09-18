@@ -20,6 +20,4 @@ class TOROCORE_API UToroWidgetBase : public UCommonActivatableWidget
 public:
 
 	UToroWidgetBase(const FObjectInitializer& ObjectInitializer);
-
-	// TODO
 };
