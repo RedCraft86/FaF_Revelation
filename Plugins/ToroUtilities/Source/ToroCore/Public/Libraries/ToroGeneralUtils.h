@@ -60,7 +60,8 @@ public:
 			const EWindowsDialogueType Type, const EWindowsDialogueIcon Icon);
 
 	UFUNCTION(BlueprintCallable, Category = Windows)
-		static void TriggerVirtualKey(const FKey InKey, const EVirtualKeyTriggerType Type, const bool bRepeat);
+	// ReSharper disable once UnrealHeaderToolError
+	static void TriggerVirtualKey(const FKey InKey, const EVirtualKeyTriggerType Type, const bool bRepeat);
 
 	/** Gets the vertices/corner locations of the actor's bounding box.
 	* @param Target - Actor to use.
@@ -119,6 +120,6 @@ public:
 		static bool IsInEditor();
 
 	/* EDITOR ONLY - Adds a component to an actor similar to the add component functions but also refreshes component list to include this new one. */
-	UFUNCTION(BlueprintCallable, Category = Editor, meta = (DeterminesOutputType = "InClass", DynamicOutputParam = "ReturnValue"))
+	UFUNCTION(BlueprintCallable, Category = Editor, meta = (DefaultToSelf = "Target", DeterminesOutputType = "InClass"))
 		static UActorComponent* AddActorInstanceComponent(AActor* Target, const TSubclassOf<UActorComponent> InClass);
 };
