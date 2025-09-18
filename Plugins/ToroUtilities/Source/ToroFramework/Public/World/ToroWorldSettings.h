@@ -13,4 +13,6 @@ class TOROFRAMEWORK_API AToroWorldSettings : public AWorldSettings
 public:
 
 	AToroWorldSettings();
+
+	// TODO
 };

@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API AToroLevelScriptActor : public ALevelScriptActor
 {
 	GENERATED_BODY()
+
+	// TODO
 };

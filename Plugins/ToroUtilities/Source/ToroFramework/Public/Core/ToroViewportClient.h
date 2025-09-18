@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API UToroViewportClient : public UCommonGameViewportClient
 {
 	GENERATED_BODY()
+
+	// TODO
 };

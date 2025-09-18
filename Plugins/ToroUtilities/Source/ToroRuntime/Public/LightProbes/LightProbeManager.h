@@ -9,4 +9,6 @@ UCLASS()
 class TORORUNTIME_API ULightProbeManager final : public UTickableWorldSubsystem
 {
 	GENERATED_BODY()
+
+	// TODO
 };

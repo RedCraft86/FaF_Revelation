@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API UToroCheatManager : public UCheatManager
 {
 	GENERATED_BODY()
+
+	// TODO
 };

@@ -9,4 +9,6 @@ UCLASS()
 class TORORUNTIME_API UToroSaveManager final : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
+
+	// TODO
 };

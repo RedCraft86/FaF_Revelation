@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API UToroGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
+
+	// TODO
 };

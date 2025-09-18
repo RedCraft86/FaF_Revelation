@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API UToroUserSettings : public UGameUserSettings
 {
 	GENERATED_BODY()
+
+	// TODO
 };

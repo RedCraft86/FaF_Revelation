@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API AToroWidgetManager : public AHUD
 {
 	GENERATED_BODY()
+
+	// TODO
 };

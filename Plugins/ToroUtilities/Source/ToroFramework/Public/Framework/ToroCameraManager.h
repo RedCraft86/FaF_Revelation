@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API AToroCameraManager : public APlayerCameraManager
 {
 	GENERATED_BODY()
+
+	// TODO
 };

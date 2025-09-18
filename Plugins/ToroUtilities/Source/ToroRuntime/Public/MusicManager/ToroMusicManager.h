@@ -9,4 +9,6 @@ UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponen
 class TORORUNTIME_API UToroMusicManager final : public UAudioComponent
 {
 	GENERATED_BODY()
+
+	// TODO
 };

@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API AToroPlayerState : public APlayerState
 {
 	GENERATED_BODY()
+
+	// TODO
 };

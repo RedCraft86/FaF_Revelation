@@ -9,4 +9,6 @@ UCLASS()
 class TOROFRAMEWORK_API AToroPlayerCharacter : public AToroCharacter
 {
 	GENERATED_BODY()
+
+	// TODO
 };

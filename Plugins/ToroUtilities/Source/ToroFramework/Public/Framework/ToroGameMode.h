@@ -13,4 +13,6 @@ class TOROFRAMEWORK_API AToroGameMode : public AGameModeBase
 public:
 
 	AToroGameMode();
+
+	// TODO
 };
