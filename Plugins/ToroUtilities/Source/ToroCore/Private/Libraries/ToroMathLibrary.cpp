@@ -124,7 +124,7 @@ void UToroMathLibrary::GetCameraLineTraceVectors(const UObject* ContextObject, c
 	}
 }
 
-FRotator UToroMathLibrary::Add_RotatorRotator(const FRotator A, const FRotator B)
+FRotator UToroMathLibrary::Add_RotatorRotator(const FRotator& A, const FRotator& B)
 {
 	return FRotator(FQuat(A) * FQuat(B));
 }
