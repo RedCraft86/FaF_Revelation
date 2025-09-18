@@ -39,7 +39,7 @@ TArray<int32> AToroProcGenBase::LoopMeshArray(const TArray<FTransformMeshData>& 
 		}
 	}
 
-	if (FilteredIndices.Num() <= 1) 
+	if (FilteredIndices.IsEmpty()) 
 		return FilteredIndices;
 
 	TArray<int32> RetVal;
