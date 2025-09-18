@@ -50,6 +50,7 @@ void ASplineCable::Construct()
 			{
 				CableMesh.ToStaticMeshComponent(MeshComp);
 				Collision.ToPrimitiveComponent(MeshComp);
+				MeshComp->SetCanEverAffectNavigation(false);
 
 				FVector Location, Tangent, NextLocation, NextTangent;
 				SplineComponent->GetLocalLocationAndTangentAtSplinePoint(i, Location, Tangent);
@@ -72,6 +73,7 @@ void ASplineCable::Construct()
 			{
 				StartCap.ToStaticMeshComponent(StartMeshComponent);
 				Collision.ToPrimitiveComponent(StartMeshComponent);
+				StartMeshComponent->SetCanEverAffectNavigation(false);
 	
 				FVector Location, Tangent;
 				SplineComponent->GetLocalLocationAndTangentAtSplinePoint(0, Location, Tangent);
@@ -90,6 +92,7 @@ void ASplineCable::Construct()
 			{
 				EndCap.ToStaticMeshComponent(EndMeshComponent);
 				Collision.ToPrimitiveComponent(EndMeshComponent);
+				EndMeshComponent->SetCanEverAffectNavigation(false);
 			
 				FVector Location, Tangent;
 				SplineComponent->GetLocalLocationAndTangentAtSplinePoint(NumPoints - 1, Location, Tangent);
@@ -110,6 +113,7 @@ void ASplineCable::Construct()
 			UInstancedStaticMeshComponent* MeshComp = AddGenericComponent<UInstancedStaticMeshComponent>();
 			AttachmentSample[i].ToStaticMeshComponent(MeshComp);
 			Collision.ToPrimitiveComponent(MeshComp);
+			MeshComp->SetCanEverAffectNavigation(false);
 			AttachMeshComponents.Add(MeshComp);
 		}
 
