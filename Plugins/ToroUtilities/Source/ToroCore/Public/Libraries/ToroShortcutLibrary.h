@@ -77,22 +77,6 @@ public:
 	// ReSharper disable once UnrealHeaderToolError
 		static void StopAmbientSound(const AAmbientSound* Target);
 
-	/* Cues request to stop sound after the provided delay (in seconds), stopping immediately if delay is zero or negative */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Stop Delayed", meta = (DefaultToSelf = "Target"))
-	// ReSharper disable once UnrealHeaderToolError
-		static void StopAmbientSoundDelayed(const AAmbientSound* Target, float DelayTime = 1.0f);
-
-	/** This function allows designers to trigger an adjustment to the sound’s
-	 * playback Volume with options for smoothly applying a curve over time.
-	 * @param Duration The length of time in which to interpolate between the initial volume and the new volume.
-	 * @param TargetLevel The new volume to set the Audio Component to.
-	 * @param FadeCurve The curve used when interpolating between the old and new volume.
-	 */
-	UFUNCTION(BlueprintCallable, Category = Audio, DisplayName = "Adjust Volume", meta = (DefaultToSelf = "Target"))
-	// ReSharper disable once UnrealHeaderToolError
-		static void AdjustAmbientSoundVolume(const AAmbientSound* Target, float Duration = 1.0f,
-			float TargetLevel = 1.0f, const EAudioFaderCurve FadeCurve = EAudioFaderCurve::Linear);
-	
 	/** This function calls Play on an Audio Component instance while applying a volume curve over time.
 	 * @param Duration How long it should take to reach the FadeVolumeLevel
 	 * @param TargetLevel The percentage of the AudioComponents's calculated volume to fade to

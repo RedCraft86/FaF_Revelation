@@ -85,23 +85,6 @@ void UToroShortcutLibrary::StopAmbientSound(const AAmbientSound* Target)
 	}
 }
 
-void UToroShortcutLibrary::StopAmbientSoundDelayed(const AAmbientSound* Target, const float DelayTime)
-{
-	if (Target && Target->GetAudioComponent())
-	{
-		Target->GetAudioComponent()->StopDelayed(DelayTime);
-	}
-}
-
-void UToroShortcutLibrary::AdjustAmbientSoundVolume(const AAmbientSound* Target,
-	const float Duration, const float TargetLevel, const EAudioFaderCurve FadeCurve)
-{
-	if (Target && Target->GetAudioComponent())
-	{
-		Target->GetAudioComponent()->AdjustVolume(Duration, TargetLevel, FadeCurve);
-	}
-}
-
 void UToroShortcutLibrary::FadeInAmbientSound(const AAmbientSound* Target, float Duration,
 	const float TargetLevel, const float StartTime, const EAudioFaderCurve FadeCurve)
 {
