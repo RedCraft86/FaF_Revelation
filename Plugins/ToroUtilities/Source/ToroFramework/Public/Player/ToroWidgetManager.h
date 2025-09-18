@@ -3,10 +3,10 @@
 #pragma once
 
 #include "GameFramework/HUD.h"
-#include "ToroHUD.generated.h"
+#include "ToroWidgetManager.generated.h"
 
 UCLASS()
-class TOROFRAMEWORK_API AToroHUD : public AHUD
+class TOROFRAMEWORK_API AToroWidgetManager : public AHUD
 {
 	GENERATED_BODY()
 };
