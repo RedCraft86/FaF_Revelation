@@ -3,10 +3,10 @@
 #pragma once
 
 #include "GameFramework/GameStateBase.h"
-#include "ToroMusicManager.generated.h"
+#include "ToroGameState.generated.h"
 
 UCLASS()
-class TOROFRAMEWORK_API AToroMusicManager : public AGameStateBase
+class TOROFRAMEWORK_API AToroGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 };
