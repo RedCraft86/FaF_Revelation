@@ -25,6 +25,16 @@
 			"LoadingPhase": "PostEngineInit"
 		},
 		{
+			"Name": "ToroFramework",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ToroRuntime",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
 			"Name": "ToroGameplay",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
@@ -35,19 +45,9 @@
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "ToroFramework",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
 			"Name": "ToroGraphEd",
 			"Type": "EditorNoCommandlet",
 			"LoadingPhase": "PostEngineInit"
-		},
-		{
-			"Name": "ToroRuntime",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [

@@ -17,8 +17,7 @@ public class ToroFramework : ModuleRules
                 "SlateCore",
                 "CommonUI",
                 
-                "ToroCore",
-                "ToroRuntime"
+                "ToroCore"
             ]
         );
     }
