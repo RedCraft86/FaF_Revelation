@@ -11,4 +11,8 @@ class TORORUNTIME_API ULightProbeManager final : public UTickableWorldSubsystem
 	GENERATED_BODY()
 
 	// TODO
+
+private:
+
+	virtual TStatId GetStatId() const override { return GetStatID(); }
 };
