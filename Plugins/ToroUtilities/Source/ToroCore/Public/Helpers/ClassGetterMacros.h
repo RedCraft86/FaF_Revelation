@@ -31,3 +31,17 @@
 		const UGameInstance* GI = IsValid(World) ? World->GetGameInstance() : nullptr; \
 		return IsValid(GI) ? GI->GetSubsystem<Class>() : nullptr; \
 	}
+
+#define GLOBAL_CLASS_GETTER(Class, Func) \
+	template<typename T = Class> \
+	static T* Get(const UObject* ContextObject) \
+	{ \
+		return Cast<T>(UGameplayStatics::Func(ContextObject)); \
+	}
+
+#define PLAYER_CLASS_GETTER(Class, Func) \
+	template<typename T = Class> \
+	static T* Get(const UObject* ContextObject, const int32 PlayerIdx = 0) \
+	{ \
+		return Cast<T>(UGameplayStatics::Func(ContextObject, PlayerIdx)); \
+	}
