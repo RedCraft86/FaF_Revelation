@@ -2,13 +2,56 @@
 
 #pragma once
 
+#include "ToroSaveTypes.h"
+#include "Helpers/ClassGetterMacros.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "ToroSaveManager.generated.h"
+
+USTRUCT(BlueprintInternalUseOnly)
+struct TORORUNTIME_API FSaveSlots
+{
+	GENERATED_BODY()
+
+	// Can be an Array but using a Map instead for sparse access. i.e, accessing Slot 5 before 1-4
+	UPROPERTY(Transient) TMap<uint8, TObjectPtr<UToroSaveObject>> Slots;
+
+	void AddObject(UToroSaveObject* Object);
+	UToroSaveObject* GetObject(const uint8 Slot);
+};
 
 UCLASS()
 class TORORUNTIME_API UToroSaveManager final : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
-	// TODO
+	friend UToroSaveObject;
+
+public:
+
+	UToroSaveManager() {}
+	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroSaveManager)
+
+	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (DeterminesOutputType = "SaveClass"))
+		UToroSaveObject* FindOrAddSave(TSubclassOf<UToroSaveObject> SaveClass, const uint8 Slot = 0);
+
+	template<typename T = UToroSaveObject>
+	T* FindOrAddSave(const uint8 Slot = 0) { return FindOrAddSave(T::StaticClass(), Slot); }
+
+	template<typename T = UToroSaveObject>
+	static T* GetSaveObject(const UObject* ContextObject, const uint8 Slot = 0)
+	{
+		UToroSaveManager* Subsystem = UToroSaveManager::Get(ContextObject);
+		return Subsystem ? Subsystem->FindOrAddSave(T::StaticClass(), Slot) : nullptr;
+	}
+
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSaveActivity, const UToroSaveObject*, const ESaveGameActivity);
+	FOnSaveActivity OnSaveActivity;
+
+private:
+
+	UPROPERTY(Transient)
+	TMap<TSubclassOf<UToroSaveObject>, FSaveSlots> SaveObjects;
+
+	virtual void Deinitialize() override;
+	void OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const;
 };
