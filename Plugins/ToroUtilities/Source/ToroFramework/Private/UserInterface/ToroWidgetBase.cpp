@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/ToroWidgetBase.h"
+#include "UserInterface/ToroWidgetBase.h"
 
 UToroWidgetBase::UToroWidgetBase(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)

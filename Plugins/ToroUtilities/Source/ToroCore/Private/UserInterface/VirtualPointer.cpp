@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/VirtualPointer.h"
+#include "UserInterface/VirtualPointer.h"
 #if WITH_EDITOR
 #include "Components/CanvasPanelSlot.h"
 #endif

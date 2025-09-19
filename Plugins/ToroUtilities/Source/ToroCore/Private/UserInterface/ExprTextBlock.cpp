@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserWidgets/ExprTextBlock.h"
+#include "UserInterface/ExprTextBlock.h"
 #include "Asset/ExpressiveTextAsset.h"
 #include "Styles/ExpressiveTextStyle.h"
 
