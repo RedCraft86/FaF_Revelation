@@ -58,6 +58,9 @@ public:
 
 private:
 
-	UPROPERTY(Transient) TMap<FGameplayTag, FGlobalEventMulti> Events;
-	UPROPERTY(Transient) TMap<FGameplayTag, TObjectPtr<UToroEventPayload>> Payloads;
+	UPROPERTY(Transient)
+		TMap<FGameplayTag, FGlobalEventMulti> Events;
+
+	UPROPERTY(Transient)
+		TMap<FGameplayTag, TObjectPtr<UToroEventPayload>> Payloads;
 };

@@ -46,7 +46,7 @@ public:
 	TArray<FVector> PathPoints;
 	
 private:
-	
+
 	UPROPERTY() TObjectPtr<UBillboardComponent> SceneRoot;
 #if WITH_EDITORONLY_DATA
 	UPROPERTY() TObjectPtr<UEditorShapeComponent> ShapeComponent;

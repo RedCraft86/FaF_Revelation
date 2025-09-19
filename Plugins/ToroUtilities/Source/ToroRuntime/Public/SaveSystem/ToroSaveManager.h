@@ -13,7 +13,8 @@ struct TORORUNTIME_API FSaveSlots
 	GENERATED_BODY()
 
 	// Can be an Array but using a Map instead for sparse access. i.e, accessing Slot 5 before 1-4
-	UPROPERTY(Transient) TMap<uint8, TObjectPtr<UToroSaveObject>> Slots;
+	UPROPERTY(Transient)
+		TMap<uint8, TObjectPtr<UToroSaveObject>> Slots;
 
 	void AddObject(UToroSaveObject* Object);
 	UToroSaveObject* GetObject(const uint8 Slot);
@@ -43,7 +44,7 @@ public:
 private:
 
 	UPROPERTY(Transient)
-	TMap<TSubclassOf<UToroSaveObject>, FSaveSlots> SaveObjects;
+		TMap<TSubclassOf<UToroSaveObject>, FSaveSlots> SaveObjects;
 	
 	void OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const;
 

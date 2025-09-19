@@ -56,7 +56,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Shapes)
 		FWireNavPathData WireNavPath;
 
-	UPROPERTY(Transient) TArray<FVector> NavPathPoints;
+	UPROPERTY(Transient)
+		TArray<FVector> NavPathPoints;
 #endif
 #if WITH_EDITOR
 	TOROCORE_API FVector TransformLocation(const FVector& LocalLocation) const

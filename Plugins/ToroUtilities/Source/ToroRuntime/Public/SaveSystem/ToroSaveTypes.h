@@ -53,10 +53,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
 		bool bSingleSlot;
+	
+	UPROPERTY(Transient)
+		TObjectPtr<UToroSaveManager> Manager;
 
 	uint8 Slot;
 	ESaveGameStatus Status;
-	UPROPERTY(Transient) TObjectPtr<UToroSaveManager> Manager;
 
 	void UpdateActivity(const ESaveGameActivity InActivity) const;
 	void UpdateStatus(const ESaveGameStatus InStatus, const TFunction<void(const ESaveGameStatus)>& Func);
