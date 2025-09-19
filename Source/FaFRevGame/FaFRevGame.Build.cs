@@ -17,6 +17,8 @@ public class FaFRevGame : ModuleRules
                 "SlateCore",
                 "InputCore", 
                 "EnhancedInput",
+                "DeveloperSettings",
+                
                 "ToroCore",
                 "ToroRuntime",
                 "ToroFramework",

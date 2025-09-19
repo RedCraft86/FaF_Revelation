@@ -16,6 +16,7 @@ public class ToroFramework : ModuleRules
                 "Slate",
                 "SlateCore",
                 "CommonUI",
+                "DeveloperSettings",
                 
                 "ToroCore"
             ]
