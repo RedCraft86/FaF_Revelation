@@ -36,7 +36,10 @@ public:
 		UToroSaveObject* FindOrAddSave(TSubclassOf<UToroSaveObject> SaveClass, const uint8 Slot = 0);
 
 	template<typename T = UToroSaveObject>
-	T* FindOrAddSave(const uint8 Slot = 0) { return FindOrAddSave(T::StaticClass(), Slot); }
+	T* FindOrAddSave(const uint8 Slot = 0)
+	{
+		return Cast<T>(FindOrAddSave(T::StaticClass(), Slot));
+	}
 
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSaveActivity, const UToroSaveObject*, const ESaveGameActivity);
 	FOnSaveActivity OnSaveActivity;
@@ -57,6 +60,6 @@ public: // Statics
 	static T* GetSave(const UObject* ContextObject, const uint8 Slot = 0)
 	{
 		UToroSaveManager* Manager = UToroSaveManager::Get(ContextObject);
-		return Manager ? Manager->FindOrAddSave(T::StaticClass(), Slot) : nullptr;
+		return Manager ? Manager->FindOrAddSave<T>(Slot) : nullptr;
 	}
 };
