@@ -37,6 +37,18 @@ UToroSaveObject* UToroSaveManager::FindOrAddSave(const TSubclassOf<UToroSaveObje
 	return nullptr;
 }
 
+void UToroSaveManager::OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const
+{
+	OnSaveActivity.Broadcast(Save, Activity);
+}
+
+void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+
+	// TODO automatic loading
+}
+
 void UToroSaveManager::Deinitialize()
 {
 	Super::Deinitialize();
@@ -47,9 +59,4 @@ void UToroSaveManager::Deinitialize()
 			Slot.Value->SaveObject(nullptr);
 		}
 	}
-}
-
-void UToroSaveManager::OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const
-{
-	OnSaveActivity.Broadcast(Save, Activity);
 }

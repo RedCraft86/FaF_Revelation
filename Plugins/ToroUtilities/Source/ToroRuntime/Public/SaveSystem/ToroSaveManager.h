@@ -44,9 +44,11 @@ private:
 
 	UPROPERTY(Transient)
 	TMap<TSubclassOf<UToroSaveObject>, FSaveSlots> SaveObjects;
-
-	virtual void Deinitialize() override;
+	
 	void OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const;
+
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void Deinitialize() override;
 
 public: // Statics
 
