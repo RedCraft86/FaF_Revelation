@@ -81,7 +81,7 @@ public:
 	UUDSSetterObject(): TargetClass(nullptr) {}
 
 	/* Class of the Ultra Dynamic Sky actor */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Settings)
+	UPROPERTY(EditDefaultsOnly, Category = Settings)
 		TSubclassOf<AActor> TargetClass;
 
 	UFUNCTION(BlueprintCallable, Category = UDSSetter, meta = (WorldContext = "ContextObject"))
