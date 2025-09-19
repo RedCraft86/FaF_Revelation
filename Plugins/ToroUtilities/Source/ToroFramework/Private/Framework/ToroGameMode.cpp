@@ -5,7 +5,7 @@
 #include "Framework/ToroPlayerController.h"
 #include "Player/ToroPlayerCharacter.h"
 #include "Player/ToroPlayerState.h"
-#include "Player/ToroWidgetManager.h"
+#include "UserInterface/ToroWidgetManager.h"
 
 AToroGameMode::AToroGameMode()
 {

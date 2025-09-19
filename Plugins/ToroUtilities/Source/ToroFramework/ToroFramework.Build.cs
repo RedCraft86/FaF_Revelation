@@ -13,6 +13,7 @@ public class ToroFramework : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore",
                 "CommonUI",

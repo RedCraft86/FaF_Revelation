@@ -13,7 +13,7 @@
 #define GetAnimDuration(Anim) (Anim->GetEndTime() - Anim->GetStartTime())
 
 UCLASS(Abstract)
-class TOROCORE_API UToroWidgetBase : public UCommonActivatableWidget
+class TOROFRAMEWORK_API UToroWidgetBase : public UCommonActivatableWidget
 {
 	GENERATED_BODY()
 
