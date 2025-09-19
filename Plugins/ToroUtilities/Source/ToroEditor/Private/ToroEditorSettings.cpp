@@ -1,18 +1,18 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "ToroEdSettings.h"
+#include "ToroEditorSettings.h"
 
-UToroEdSettings::UToroEdSettings()
+UToroEditorSettings::UToroEditorSettings()
 	: StartupCommands({
 		{TEXT("r.VSyncEditor"), TEXT("1")},
 		{TEXT("r.Streaming.PoolSize"), TEXT("3000")}
 	}), AssetLibrary(TEXT("D:/UnrealEngine/Shared/AssetProject/Content/AssetPacks"))
 {
-	CategoryName = TEXT("Project");
-	SectionName = TEXT("ToroEditor");
+	CategoryName = TEXT("ToroUtilities");
+	SectionName = TEXT("Editor");
 }
 
-FString UToroEdSettings::GetAssetLibraryPath() const
+FString UToroEditorSettings::GetAssetLibraryPath() const
 {
 	FString Path = AssetLibrary.Path;
 	FPaths::NormalizeDirectoryName(Path);
@@ -35,13 +35,13 @@ FString UToroEdSettings::GetAssetLibraryPath() const
 	return TEXT("");
 }
 
-void UToroEdSettings::PostInitProperties()
+void UToroEditorSettings::PostInitProperties()
 {
 	Super::PostInitProperties();
 	AssetLibrary.Path = GetAssetLibraryPath();
 }
 
-void UToroEdSettings::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+void UToroEditorSettings::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	AssetLibrary.Path = GetAssetLibraryPath();

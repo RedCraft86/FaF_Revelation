@@ -4,18 +4,17 @@
 
 #include "Engine/DeveloperSettings.h"
 #include "Helpers/ClassGetterMacros.h"
-#include "ToroEdSettings.generated.h"
+#include "ToroEditorSettings.generated.h"
 
 UCLASS(Config = Editor, DefaultConfig, DisplayName = "Toro Editor")
-class TOROEDITOR_API UToroEdSettings final : public UDeveloperSettings
+class TOROEDITOR_API UToroEditorSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroEdSettings();
-
-	SETTING_GETTER(UToroEdSettings)
+	UToroEditorSettings();
+	SETTING_GETTER(UToroEditorSettings)
 
 	UPROPERTY(Config, EditAnywhere, Category = Editor)
 		TMap<FString, FString> StartupCommands;
