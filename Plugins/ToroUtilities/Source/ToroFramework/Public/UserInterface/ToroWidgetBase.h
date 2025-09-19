@@ -20,4 +20,22 @@ class TOROCORE_API UToroWidgetBase : public UCommonActivatableWidget
 public:
 
 	UToroWidgetBase(const FObjectInitializer& ObjectInitializer);
+
+	UFUNCTION(BlueprintCallable, Category = UserInterface, DisplayName = "Create ToroWidget", meta = (DeterminesOutputType = "WidgetClass"))
+		static UToroWidgetBase* CreateToroWidget(APlayerController* Owner, const TSubclassOf<UToroWidgetBase> WidgetClass);
+
+protected:
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnimOptional))
+		TObjectPtr<UWidgetAnimation> FadeAnim;
+
+	UPROPERTY(Transient)
+		TObjectPtr<AGameModeBase> GameMode;
+
+	virtual void InitWidget(APlayerController* Controller);
+	virtual bool CanCreateWidget(const UObject* ContextObject) const { return IsValid(ContextObject); }
+
+	virtual void NativeConstruct() override;
+	virtual void InternalProcessActivation() override;
+	virtual void InternalProcessDeactivation() override;
 };
