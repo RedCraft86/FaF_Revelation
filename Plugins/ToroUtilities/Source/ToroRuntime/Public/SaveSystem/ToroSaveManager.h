@@ -37,13 +37,6 @@ public:
 	template<typename T = UToroSaveObject>
 	T* FindOrAddSave(const uint8 Slot = 0) { return FindOrAddSave(T::StaticClass(), Slot); }
 
-	template<typename T = UToroSaveObject>
-	static T* GetSaveObject(const UObject* ContextObject, const uint8 Slot = 0)
-	{
-		UToroSaveManager* Subsystem = UToroSaveManager::Get(ContextObject);
-		return Subsystem ? Subsystem->FindOrAddSave(T::StaticClass(), Slot) : nullptr;
-	}
-
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSaveActivity, const UToroSaveObject*, const ESaveGameActivity);
 	FOnSaveActivity OnSaveActivity;
 
@@ -54,4 +47,13 @@ private:
 
 	virtual void Deinitialize() override;
 	void OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const;
+
+public: // Statics
+
+	template<typename T = UToroSaveObject>
+	static T* GetSave(const UObject* ContextObject, const uint8 Slot = 0)
+	{
+		UToroSaveManager* Manager = UToroSaveManager::Get(ContextObject);
+		return Manager ? Manager->FindOrAddSave(T::StaticClass(), Slot) : nullptr;
+	}
 };
