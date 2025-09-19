@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Camera/PlayerCameraManager.h"
+#include "Helpers/ClassGetterMacros.h"
 #include "ToroCameraManager.generated.h"
 
 UCLASS()
@@ -10,5 +11,13 @@ class TOROFRAMEWORK_API AToroCameraManager : public APlayerCameraManager
 {
 	GENERATED_BODY()
 
-	// TODO
+public:
+
+	AToroCameraManager();
+	PLAYER_CLASS_GETTER(AToroCameraManager, GetPlayerCameraManager)
+
+protected:
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 };
