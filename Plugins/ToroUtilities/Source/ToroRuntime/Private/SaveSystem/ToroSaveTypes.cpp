@@ -40,13 +40,13 @@ UToroSaveObject* UToroSaveObject::Create(UToroSaveManager* InOwner, const TSubcl
 
 void UToroSaveObject::DeleteData()
 {
-	Manager->OnActivity(this, ESaveGameActivity::Deleting);
+	UpdateActivity(ESaveGameActivity::Deleting);
 	IFileManager::Get().Delete(*GetSavePath());
 }
 
 void UToroSaveObject::SaveObject(const TFunction<void(const ESaveGameStatus)>& Callback)
 {
-	Manager->OnActivity(this, ESaveGameActivity::Saving);
+	UpdateActivity(ESaveGameActivity::Saving);
 
 	FBufferArchive ToBinary(true);
 	SerializeData(ToBinary);
@@ -84,7 +84,7 @@ void UToroSaveObject::LoadObject(const TFunction<void(const ESaveGameStatus)>& C
 		return;
 	}
 	
-	Manager->OnActivity(this, ESaveGameActivity::Loading);
+	UpdateActivity(ESaveGameActivity::Loading);
 
 	AsyncTask(ENamedThreads::AnyBackgroundHiPriTask, [this, Callback]()
 	{
@@ -135,6 +135,11 @@ FString UToroSaveObject::GetSavePath()
 	}
 
 	return BasePath / (SaveName + TEXT(".tsave"));
+}
+
+void UToroSaveObject::UpdateActivity(const ESaveGameActivity InActivity) const
+{
+	if (Manager) Manager->OnActivity(this, InActivity);
 }
 
 void UToroSaveObject::UpdateStatus(const ESaveGameStatus InStatus, const TFunction<void(const ESaveGameStatus)>& Func)
