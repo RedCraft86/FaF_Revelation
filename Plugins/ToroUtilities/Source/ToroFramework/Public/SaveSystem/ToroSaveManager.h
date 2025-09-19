@@ -8,7 +8,7 @@
 #include "ToroSaveManager.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FSaveSlots
+struct TOROFRAMEWORK_API FSaveSlots
 {
 	GENERATED_BODY()
 
@@ -21,7 +21,7 @@ struct TORORUNTIME_API FSaveSlots
 };
 
 UCLASS()
-class TORORUNTIME_API UToroSaveManager final : public UGameInstanceSubsystem
+class TOROFRAMEWORK_API UToroSaveManager final : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 

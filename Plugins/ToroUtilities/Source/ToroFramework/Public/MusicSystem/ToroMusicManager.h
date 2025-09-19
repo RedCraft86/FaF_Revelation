@@ -6,7 +6,7 @@
 #include "ToroMusicManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (World), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UToroMusicManager final : public UAudioComponent
+class TOROFRAMEWORK_API UToroMusicManager final : public UAudioComponent
 {
 	GENERATED_BODY()
 

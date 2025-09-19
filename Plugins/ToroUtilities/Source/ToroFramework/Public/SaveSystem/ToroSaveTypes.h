@@ -27,7 +27,7 @@ enum class ESaveGameActivity : uint8
 };
 
 UCLASS(Abstract, NotBlueprintable, BlueprintType)
-class TORORUNTIME_API UToroSaveObject : public UObject
+class TOROFRAMEWORK_API UToroSaveObject : public UObject
 {
 	GENERATED_BODY()
 

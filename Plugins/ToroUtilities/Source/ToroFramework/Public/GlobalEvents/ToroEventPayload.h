@@ -6,7 +6,7 @@
 #include "ToroEventPayload.generated.h"
 
 UCLASS(Blueprintable, BlueprintType)
-class TORORUNTIME_API UToroEventPayload : public UObject
+class TOROFRAMEWORK_API UToroEventPayload : public UObject
 {
 	GENERATED_BODY()
 

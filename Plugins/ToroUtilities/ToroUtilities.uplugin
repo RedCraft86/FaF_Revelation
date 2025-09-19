@@ -30,11 +30,6 @@
 			"LoadingPhase": "Default"
 		},
 		{
-			"Name": "ToroRuntime",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		},
-		{
 			"Name": "ToroGameplay",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"

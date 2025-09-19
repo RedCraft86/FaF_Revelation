@@ -19,7 +19,6 @@ public class ToroGameplay : ModuleRules
                 "DeveloperSettings",
                 
                 "ToroCore",
-                "ToroRuntime",
                 "ToroFramework"
             ]
         );

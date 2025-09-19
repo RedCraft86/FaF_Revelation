@@ -5,11 +5,11 @@
 #include "Serialization/BufferArchive.h"
 #include "Helpers/DataCompression.h"
 #include "Helpers/WindowsHelpers.h"
-#include "ToroRuntime.h"
+#include "ToroFramework.h"
 
 #define LOG_ERROR(Msg, Data) WindowsHelpers::OpenDialogue(TEXT("Save System Error"), \
 	FString::Printf(TEXT("%s\n%s"), TEXT(Msg), *GetSavePath()), EWindowsDialogueType::Ok, EWindowsDialogueIcon::Error); \
-	UE_LOG(LogToroRuntime, Error, TEXT("%s [Size: %d] [Path: %s]"), TEXT(Msg), Data.Num(), *GetSavePath())
+	UE_LOG(LogToroFramework, Error, TEXT("%s [Size: %d] [Path: %s]"), TEXT(Msg), Data.Num(), *GetSavePath())
 
 UToroSaveObject::UToroSaveObject(): bSingleSlot(false), Slot(0), Status(ESaveGameStatus::None)
 {
@@ -31,7 +31,7 @@ UToroSaveObject* UToroSaveObject::Create(UToroSaveManager* InOwner, const TSubcl
 		Obj->Manager = InOwner;
 		Obj->LoadObject(nullptr);
 		
-		UE_LOG(LogToroRuntime, Display, TEXT("Created Save Object for %s #%02d"), *Obj->SaveName, Obj->Slot);
+		UE_LOG(LogToroFramework, Display, TEXT("Created Save Object for %s #%02d"), *Obj->SaveName, Obj->Slot);
 		return Obj;
 	}
 

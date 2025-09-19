@@ -17,6 +17,9 @@ public class ToroFramework : ModuleRules
                 "Slate",
                 "SlateCore",
                 "CommonUI",
+                "MovieScene",
+                "LevelSequence",
+                "GameplayTags",
                 "DeveloperSettings",
                 
                 "ToroCore"

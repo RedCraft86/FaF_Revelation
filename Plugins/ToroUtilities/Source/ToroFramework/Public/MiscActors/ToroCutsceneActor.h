@@ -6,7 +6,7 @@
 #include "ToroCutsceneActor.generated.h"
 
 UCLASS()
-class TORORUNTIME_API AToroCutsceneActor final : public ALevelSequenceActor
+class TOROFRAMEWORK_API AToroCutsceneActor final : public ALevelSequenceActor
 {
 	GENERATED_BODY()
 

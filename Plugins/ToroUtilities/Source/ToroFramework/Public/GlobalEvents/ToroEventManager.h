@@ -10,15 +10,15 @@
 
 namespace GlobalEvents
 {
-	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(GlobalEvent)
-	TORORUNTIME_API CREATE_TAG_VERIFIER(GlobalEvent)
+	TOROFRAMEWORK_API DECLARE_GAMEPLAY_TAG(GlobalEvent)
+	TOROFRAMEWORK_API CREATE_TAG_VERIFIER(GlobalEvent)
 }
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FGlobalEventSingle, const UToroEventPayload*, Payload);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGlobalEventMulti, const UToroEventPayload*, Payload);
 
 UCLASS()
-class TORORUNTIME_API UToroEventManager final : public UGameInstanceSubsystem
+class TOROFRAMEWORK_API UToroEventManager final : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 

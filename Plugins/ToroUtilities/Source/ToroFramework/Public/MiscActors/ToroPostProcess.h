@@ -6,7 +6,7 @@
 #include "ToroPostProcess.generated.h"
 
 UCLASS()
-class TORORUNTIME_API AToroPostProcess final : public AActor
+class TOROFRAMEWORK_API AToroPostProcess final : public AActor
 {
 	GENERATED_BODY()
 
