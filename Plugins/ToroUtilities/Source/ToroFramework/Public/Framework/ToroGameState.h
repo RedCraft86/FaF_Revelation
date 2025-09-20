@@ -2,13 +2,25 @@
 
 #pragma once
 
+#include "Helpers/ClassGetterMacros.h"
 #include "GameFramework/GameStateBase.h"
+#include "MusicSystem/ToroMusicManager.h"
 #include "ToroGameState.generated.h"
 
-UCLASS()
+UCLASS(meta = (ChildCanTick = true))
 class TOROFRAMEWORK_API AToroGameState : public AGameStateBase
 {
 	GENERATED_BODY()
 
-	// TODO
+public:
+
+	AToroGameState();
+	
+	GLOBAL_CLASS_GETTER(AToroGameState, GetGameState)
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USceneComponent> SceneRoot;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UToroMusicManager> MusicManager;
 };
