@@ -16,6 +16,8 @@ public class ToroFramework : ModuleRules
                 "UMG",
                 "Slate",
                 "SlateCore",
+                "EnhancedInput",
+                "InputCore",
                 "CommonUI",
                 "MovieScene",
                 "LevelSequence",

@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "EnhancedInputSubsystems.h"
+#include "DataTypes/GameInputConfig.h"
+#include "Helpers/ClassGetterMacros.h"
 #include "GameFramework/PlayerController.h"
 #include "ToroPlayerController.generated.h"
 
@@ -13,6 +16,58 @@ class TOROFRAMEWORK_API AToroPlayerController : public APlayerController
 public:
 
 	AToroPlayerController();
+	PLAYER_CLASS_GETTER(AToroPlayerController, GetPlayerController)
 
-	// TODO
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USceneComponent> SceneRoot;
+
+	UFUNCTION(BlueprintCallable, Category = Input)
+		virtual void SetInputConfig(const FGameInputConfig& InputConfig);
+
+	UFUNCTION(BlueprintPure, Category = Input)
+		const FGameInputConfig& GetInputConfig() const { return CachedInputConfig; }
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		virtual void SetUserPause(bool bShouldPause);
+
+	UFUNCTION(BlueprintPure, Category = Controller)
+		bool IsUserPaused() const { return bUserPaused; }
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		virtual void AddPauseRequest(const UObject* InObject);
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		virtual void RemovePauseRequest(const UObject* InObject);
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		virtual void EnterCinematic(AActor* InActor);
+
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		virtual void ExitCinematic();
+
+	UFUNCTION(BlueprintPure, Category = Controller)
+		AActor* GetCinematicActor() const { return CinematicActor.Get(); }
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnUserPaused, const bool)
+	FOnUserPaused OnUserPaused;
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnGameFocusChanged, const bool);
+	FOnGameFocusChanged OnGameFocusChanged;
+
+protected:
+
+	bool bUserPaused;
+	FGameInputConfig CachedInputConfig;
+	TWeakObjectPtr<AActor> CinematicActor;
+	TSet<TWeakObjectPtr<const UObject>> PauseRequests;
+	// FTimerHandle ValidityCheckTimer;
+
+	// virtual void CheckValidity(); // Use lazy loading instead since this happening is unlikely
+
+	virtual void UpdatePauseState();
+	virtual void OnWindowFocusChanged(bool bFocused);
+
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
 };
