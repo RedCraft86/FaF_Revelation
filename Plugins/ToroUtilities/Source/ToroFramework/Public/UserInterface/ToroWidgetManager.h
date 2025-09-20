@@ -7,7 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "ToroWidgetManager.generated.h"
 
-UCLASS()
+UCLASS(meta = (ChildCanTick = true))
 class TOROFRAMEWORK_API AToroWidgetManager : public AHUD
 {
 	GENERATED_BODY()
