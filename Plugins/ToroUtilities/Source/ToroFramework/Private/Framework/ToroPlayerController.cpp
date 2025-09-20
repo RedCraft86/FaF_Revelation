@@ -50,6 +50,12 @@ void AToroPlayerController::RemovePauseRequest(const UObject* InObject)
 	}
 }
 
+void AToroPlayerController::ExitCinematic()
+{
+	CinematicActor = nullptr;
+	SetCinematicMode(false, false, false, true, true);
+}
+
 void AToroPlayerController::EnterCinematic(AActor* InActor)
 {
 	CinematicActor = InActor;
@@ -61,12 +67,6 @@ void AToroPlayerController::EnterCinematic(AActor* InActor)
 	{
 		ExitCinematic();
 	}
-}
-
-void AToroPlayerController::ExitCinematic()
-{
-	CinematicActor = nullptr;
-	SetCinematicMode(false, false, false, true, true);
 }
 
 // void AToroPlayerController::CheckValidity()

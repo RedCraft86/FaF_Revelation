@@ -13,6 +13,8 @@ class TOROFRAMEWORK_API AToroPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+	friend class AToroPlayerCharacter;
+
 public:
 
 	AToroPlayerController();
@@ -40,12 +42,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Controller)
 		virtual void RemovePauseRequest(const UObject* InObject);
 
-	UFUNCTION(BlueprintCallable, Category = Controller)
-		virtual void EnterCinematic(AActor* InActor);
-
-	UFUNCTION(BlueprintCallable, Category = Controller)
-		virtual void ExitCinematic();
-
 	UFUNCTION(BlueprintPure, Category = Controller)
 		AActor* GetCinematicActor() const { return CinematicActor.Get(); }
 
@@ -63,8 +59,10 @@ protected:
 	TSet<TWeakObjectPtr<const UObject>> PauseRequests;
 	// FTimerHandle ValidityCheckTimer;
 
-	// virtual void CheckValidity(); // Use lazy loading instead since this happening is unlikely
+	virtual void ExitCinematic();
+	virtual void EnterCinematic(AActor* InActor);
 
+	// virtual void CheckValidity(); // Use lazy loading instead since this happening is unlikely
 	virtual void UpdatePauseState();
 	virtual void OnWindowFocusChanged(bool bFocused);
 
