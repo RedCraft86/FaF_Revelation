@@ -22,6 +22,7 @@ public class ToroFramework : ModuleRules
                 "MovieScene",
                 "LevelSequence",
                 "GameplayTags",
+                "EngineSettings",
                 "DeveloperSettings",
                 
                 "ToroCore"
