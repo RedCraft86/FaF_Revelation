@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Helpers/ClassGetterMacros.h"
 #include "GameFramework/GameModeBase.h"
 #include "ToroGameMode.generated.h"
 
@@ -14,5 +15,16 @@ public:
 
 	AToroGameMode();
 
-	// TODO
+	GLOBAL_CLASS_GETTER(AToroGameMode, GetGameMode)
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USceneComponent> SceneRoot;
+
+protected:
+
+	UPROPERTY(Transient)
+		TWeakObjectPtr<class UToroGameInstance> GameInstance;
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
 };
