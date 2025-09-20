@@ -16,8 +16,8 @@ struct TOROFRAMEWORK_API FSaveSlots
 	UPROPERTY(Transient)
 		TMap<uint8, TObjectPtr<UToroSaveObject>> Slots;
 
-	void AddObject(UToroSaveObject* Object);
-	UToroSaveObject* GetObject(const uint8 Slot);
+	void AddSlotObject(UToroSaveObject* Object);
+	UToroSaveObject* GetSlotObject(const uint8 Slot);
 };
 
 UCLASS()

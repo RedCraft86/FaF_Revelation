@@ -7,6 +7,7 @@ public class ToroFramework : ModuleRules
     public ToroFramework(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+        bUseUnity = false;
 
         PublicDependencyModuleNames.AddRange(
             [
