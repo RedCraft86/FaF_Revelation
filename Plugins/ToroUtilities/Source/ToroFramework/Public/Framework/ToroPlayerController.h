@@ -16,6 +16,7 @@ class TOROFRAMEWORK_API AToroPlayerController : public APlayerController
 public:
 
 	AToroPlayerController();
+	
 	PLAYER_CLASS_GETTER(AToroPlayerController, GetPlayerController)
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)

@@ -14,5 +14,6 @@ class TOROGAMEPLAY_API UToroGameplaySettings final : public UDeveloperSettings
 public:
 
 	UToroGameplaySettings();
+	
 	SETTING_GETTER(UToroGameplaySettings)
 };

@@ -14,5 +14,6 @@ class TOROFRAMEWORK_API UToroFrameworkSettings final : public UDeveloperSettings
 public:
 
 	UToroFrameworkSettings();
+	
 	SETTING_GETTER(UToroFrameworkSettings)
 };

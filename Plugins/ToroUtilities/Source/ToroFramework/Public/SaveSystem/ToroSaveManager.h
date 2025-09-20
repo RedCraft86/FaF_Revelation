@@ -30,6 +30,7 @@ class TOROFRAMEWORK_API UToroSaveManager final : public UGameInstanceSubsystem
 public:
 
 	UToroSaveManager() {}
+	
 	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroSaveManager)
 
 	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (DeterminesOutputType = "SaveClass"))

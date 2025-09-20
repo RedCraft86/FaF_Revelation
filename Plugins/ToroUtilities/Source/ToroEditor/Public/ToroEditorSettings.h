@@ -14,6 +14,7 @@ class TOROEDITOR_API UToroEditorSettings final : public UDeveloperSettings
 public:
 
 	UToroEditorSettings();
+	
 	SETTING_GETTER(UToroEditorSettings)
 
 	UPROPERTY(Config, EditAnywhere, Category = Editor)

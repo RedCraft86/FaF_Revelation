@@ -25,6 +25,7 @@ class TOROFRAMEWORK_API UToroEventManager final : public UGameInstanceSubsystem
 public:
 
 	UToroEventManager() {}
+	
 	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroEventManager);
 
 	/* Binds a delegate to a global event. The delegate will be called whenever this event is invoked. */

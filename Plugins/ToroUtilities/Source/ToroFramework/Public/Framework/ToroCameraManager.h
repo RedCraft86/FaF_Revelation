@@ -14,6 +14,7 @@ class TOROFRAMEWORK_API AToroCameraManager : public APlayerCameraManager
 public:
 
 	AToroCameraManager();
+	
 	PLAYER_CLASS_GETTER(AToroCameraManager, GetPlayerCameraManager)
 
 protected:
