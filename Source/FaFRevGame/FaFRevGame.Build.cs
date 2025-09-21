@@ -20,8 +20,7 @@ public class FaFRevGame : ModuleRules
                 "DeveloperSettings",
                 
                 "ToroCore",
-                "ToroFramework",
-                "ToroGameplay"
+                "ToroRuntime"
             ]
         );
     }

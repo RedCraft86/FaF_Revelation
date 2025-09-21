@@ -20,8 +20,7 @@ public class ToroEditor : ModuleRules
                 "DeveloperSettings",
                 
                 "ToroCore",
-                "ToroFramework",
-                "ToroGameplay"
+                "ToroRuntime"
             ]
         );
     }
