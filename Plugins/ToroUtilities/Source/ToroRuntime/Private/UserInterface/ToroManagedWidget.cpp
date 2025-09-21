@@ -47,7 +47,7 @@ UToroContainerWidget* UToroManagedWidget::GetContainerWidget() const
 
 	if (AToroWidgetManager* Manager = PC->GetHUD<AToroWidgetManager>())
 	{
-		return Manager->FindWidget<UToroContainerWidget>(ContainerClass);
+		return Manager->FindWidget<UToroContainerWidget>();
 	}
 
 	return nullptr;
