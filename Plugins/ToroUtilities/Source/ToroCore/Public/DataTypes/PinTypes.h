@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "MiscTypes.generated.h"
+#include "PinTypes.generated.h"
 
 UENUM(BlueprintInternalUseOnly)
 enum class EToroFoundPins : uint8
