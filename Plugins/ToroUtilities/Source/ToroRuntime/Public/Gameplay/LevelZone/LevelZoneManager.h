@@ -3,10 +3,10 @@
 #pragma once
 
 #include "Subsystems/WorldSubsystem.h"
-#include "ToroZoneManager.generated.h"
+#include "LevelZoneManager.generated.h"
 
 UCLASS()
-class TORORUNTIME_API UToroZoneManager final : public UWorldSubsystem
+class TORORUNTIME_API ULevelZoneManager final : public UWorldSubsystem
 {
 	GENERATED_BODY()
 

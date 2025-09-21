@@ -1,3 +1,3 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "Gameplay/GuideSystem/ToroGuideManager.h"
+#include "Gameplay/Tutorials/TutorialManager.h"

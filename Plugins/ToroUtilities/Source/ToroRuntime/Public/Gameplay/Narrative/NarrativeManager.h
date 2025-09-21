@@ -3,10 +3,10 @@
 #pragma once
 
 #include "NarrativeComponent.h"
-#include "ToroNarrativeManager.generated.h"
+#include "NarrativeManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UToroNarrativeManager : public UNarrativeComponent
+class TORORUNTIME_API UNarrativeManager : public UNarrativeComponent
 {
 	GENERATED_BODY()
 	

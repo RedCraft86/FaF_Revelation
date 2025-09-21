@@ -3,10 +3,10 @@
 #pragma once
 
 #include "Components/AudioComponent.h"
-#include "ToroMusicManager.generated.h"
+#include "WorldMusicManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (World), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UToroMusicManager final : public UAudioComponent
+class TORORUNTIME_API UWorldMusicManager final : public UAudioComponent
 {
 	GENERATED_BODY()
 
