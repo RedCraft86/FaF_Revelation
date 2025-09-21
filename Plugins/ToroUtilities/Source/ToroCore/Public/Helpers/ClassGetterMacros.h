@@ -6,7 +6,10 @@
 #include "Engine/GameInstance.h"
 #include "Kismet/GameplayStatics.h"
 
-#define SETTING_GETTER(Class) static Class* Get() { return GetMutableDefault<Class>(); }
+#define SETTING_GETTER(Class) static Class* Get() \
+	{ \
+		return GetMutableDefault<Class>(); \
+	}
 
 #define ENGINE_SUBSYSTEM_GETTER(Class) static Class* Get() \
 	{ \
