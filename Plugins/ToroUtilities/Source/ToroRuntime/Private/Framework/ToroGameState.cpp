@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameState.h"
+#include "MusicSystem/WorldMusicManager.h"
+#include "Achievements/AchievementManager.h"
 
 AToroGameState::AToroGameState()
 {
@@ -11,6 +13,8 @@ AToroGameState::AToroGameState()
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
 
-	MusicManager = CreateDefaultSubobject<UToroMusicManager>("MusicManager");
+	MusicManager = CreateDefaultSubobject<UWorldMusicManager>("MusicManager");
 	MusicManager->SetupAttachment(SceneRoot);
+
+	Achievements = CreateDefaultSubobject<UAchievementManager>("Achievements");
 }

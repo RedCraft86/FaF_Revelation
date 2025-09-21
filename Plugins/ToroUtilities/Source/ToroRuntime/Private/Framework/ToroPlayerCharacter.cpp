@@ -2,6 +2,10 @@
 
 #include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroPlayerController.h"
+#include "Components/PointLightComponent.h"
+#include "Interaction/InteractionManager.h"
+#include "Inspection/InspectionManager.h"
+#include "Camera/CameraComponent.h"
 
 namespace PlayerLockTags
 {
@@ -19,4 +23,15 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	AutoReceiveInput = EAutoReceiveInput::Player0;
+
+	PlayerLight = CreateDefaultSubobject<UPointLightComponent>("PlayerLight");
+	PlayerLight->SetupAttachment(GetMesh());
+
+	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
+	PlayerCamera->SetupAttachment(GetMesh());
+
+	Inspection = CreateDefaultSubobject<UInspectionManager>("Inspection");
+	Inspection->SetupAttachment(PlayerCamera);
+
+	Interaction = CreateDefaultSubobject<UInteractionManager>("Interaction");
 }

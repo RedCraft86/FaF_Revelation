@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroPlayerState.h"
+#include "Inventory/InventoryManager.h"
+#include "Narrative/NarrativeManager.h"
 
 AToroPlayerState::AToroPlayerState()
 {
@@ -10,4 +12,7 @@ AToroPlayerState::AToroPlayerState()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
+
+	Inventory = CreateDefaultSubobject<UInventoryManager>("Inventory");
+	Narrative = CreateDefaultSubobject<UNarrativeManager>("Narrative");
 }

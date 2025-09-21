@@ -30,4 +30,16 @@ public:
 	AToroPlayerCharacter();
 
 	PLAYER_CLASS_GETTER(AToroPlayerCharacter, GetPlayerPawn);
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UPointLightComponent> PlayerLight;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UCameraComponent> PlayerCamera;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UInspectionManager> Inspection;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UInteractionManager> Interaction;
 };

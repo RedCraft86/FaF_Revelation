@@ -4,7 +4,6 @@
 
 #include "Helpers/ClassGetterMacros.h"
 #include "GameFramework/GameStateBase.h"
-#include "MusicSystem/ToroMusicManager.h"
 #include "ToroGameState.generated.h"
 
 UCLASS(meta = (ChildCanTick = true))
@@ -22,5 +21,8 @@ public:
 		TObjectPtr<USceneComponent> SceneRoot;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<UToroMusicManager> MusicManager;
+		TObjectPtr<class UWorldMusicManager> MusicManager;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UAchievementManager> Achievements;
 };
