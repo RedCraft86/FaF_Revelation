@@ -8,8 +8,8 @@ UToroEditorSettings::UToroEditorSettings()
 		{TEXT("r.Streaming.PoolSize"), TEXT("3000")}
 	}), AssetLibrary(TEXT("D:/UnrealEngine/Shared/AssetProject/Content/AssetPacks"))
 {
-	CategoryName = TEXT("ToroUtilities");
-	SectionName = TEXT("Editor");
+	CategoryName = TEXT("Project");
+	SectionName = TEXT("ToroEditor");
 }
 
 FString UToroEditorSettings::GetAssetLibraryPath() const
