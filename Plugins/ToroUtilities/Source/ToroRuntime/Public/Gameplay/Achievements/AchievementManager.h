@@ -6,7 +6,7 @@
 #include "AchievementManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UAchievementManager : public UActorComponent
+class TORORUNTIME_API UAchievementManager final : public UActorComponent
 {
 	GENERATED_BODY()
 
