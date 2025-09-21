@@ -45,3 +45,19 @@
 	{ \
 		return Cast<T>(UGameplayStatics::Func(ContextObject, PlayerIdx)); \
 	}
+
+#define GLOBAL_COMPONENT_GETTER(Class, OwnerClass, Property) \
+	template<typename T = Class> \
+	static T* Get(const UObject* ContextObject) \
+	{ \
+		const OwnerClass* Owner = OwnerClass::Get(ContextObject); \
+		return Owner ? Owner->Property : nullptr; \
+}
+
+#define PLAYER_COMPONENT_GETTER(Class, OwnerClass, Property) \
+	template<typename T = Class> \
+	static T* Get(const UObject* ContextObject, const int32 PlayerIdx = 0) \
+	{ \
+		const OwnerClass* Owner = OwnerClass::Get(ContextObject, PlayerIdx); \
+		return Owner ? Owner->Property : nullptr; \
+	}
