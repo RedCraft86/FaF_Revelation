@@ -2,9 +2,9 @@
 
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroCameraManager.h"
-#include "ToroRuntimeSettings.h"
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
+#include "ToroSettings.h"
 
 AToroPlayerController::AToroPlayerController(): bUserPaused(false)
 {
@@ -127,7 +127,7 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 	{
 		RemovePauseRequest(this);
 	}
-	else if (!UToroRuntimeSettings::Get()->IsOnMapType(this, EToroMapType::MainMenu))
+	else if (!UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
 	{
 		AddPauseRequest(this);
 	}
@@ -146,7 +146,7 @@ void AToroPlayerController::BeginPlay()
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetEnhancedInputSubsystem())
 	{
 		Subsystem->ClearAllMappings();
-		Subsystem->AddMappingContext(UToroRuntimeSettings::Get()->InputMappings.LoadSynchronous(), 0);
+		Subsystem->AddMappingContext(UToroSettings::Get()->InputMappings.LoadSynchronous(), 0);
 		SetInputConfig({EGameInputMode::GameOnly, false});
 	}
 }

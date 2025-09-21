@@ -6,18 +6,18 @@
 #include "DataTypes/MiscTypes.h"
 #include "Engine/DeveloperSettings.h"
 #include "Helpers/ClassGetterMacros.h"
-#include "ToroRuntimeSettings.generated.h"
+#include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "ToroRuntime")
-class TORORUNTIME_API UToroRuntimeSettings final : public UDeveloperSettings
+class TORORUNTIME_API UToroSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
 public:
 
-	UToroRuntimeSettings();
+	UToroSettings();
 
-	SETTING_GETTER(UToroRuntimeSettings)
+	SETTING_GETTER(UToroSettings)
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings, meta = (ReadOnlyKeys = true))
 		TMap<EToroMapType, TSoftObjectPtr<UWorld>> MapRegistry;
@@ -25,7 +25,7 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UInputMappingContext> InputMappings;
 
-	bool IsOnMapType(const UObject* ContextObject, const EToroMapType MapType);
+	bool IsOnMap(const UObject* ContextObject, const EToroMapType MapType);
 
 private:
 #if WITH_EDITOR
