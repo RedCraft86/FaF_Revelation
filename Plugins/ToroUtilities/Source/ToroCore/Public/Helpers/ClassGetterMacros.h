@@ -27,9 +27,15 @@
 
 #define GAME_INSTANCE_SUBSYSTEM_GETTER(Class) static Class* Get(const UObject* WorldContext) \
 	{ \
-		const UWorld* World = IsValid(WorldContext) ? GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::LogAndReturnNull) : nullptr; \
+		const UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::LogAndReturnNull) : nullptr; \
 		const UGameInstance* GI = IsValid(World) ? World->GetGameInstance() : nullptr; \
 		return IsValid(GI) ? GI->GetSubsystem<Class>() : nullptr; \
+	}
+
+#define WORLD_SUBSYSTEM_GETTER(Class) static Class* Get(const UObject* WorldContext) \
+	{ \
+		const UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(WorldContext, EGetWorldErrorMode::LogAndReturnNull) : nullptr; \
+		return IsValid(World) ? World->GetSubsystem<Class>() : nullptr; \
 	}
 
 #define GLOBAL_CLASS_GETTER(Class, Func) \
