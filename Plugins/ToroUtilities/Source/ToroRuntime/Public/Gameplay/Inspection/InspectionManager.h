@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "Components/ActorComponent.h"
+#include "Components/SceneComponent.h"
 #include "InspectionManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UInspectionManager : public UActorComponent
+class TORORUNTIME_API UInspectionManager : public USceneComponent
 {
 	GENERATED_BODY()
 
