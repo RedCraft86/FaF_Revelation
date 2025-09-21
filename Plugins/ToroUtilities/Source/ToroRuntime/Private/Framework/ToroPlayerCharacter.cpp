@@ -24,6 +24,8 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 	AutoReceiveInput = EAutoReceiveInput::Player0;
 
+	CharacterID = CharacterTags::TAG_Player;
+
 	PlayerLight = CreateDefaultSubobject<UPointLightComponent>("PlayerLight");
 	PlayerLight->SetupAttachment(GetMesh());
 
