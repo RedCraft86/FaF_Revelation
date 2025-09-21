@@ -38,30 +38,26 @@
 		return IsValid(World) ? World->GetSubsystem<Class>() : nullptr; \
 	}
 
-#define GLOBAL_CLASS_GETTER(Class, Func) \
-	template<typename T = Class> \
+#define GLOBAL_CLASS_GETTER(Class, Func) template<typename T = Class> \
 	static T* Get(const UObject* ContextObject) \
 	{ \
 		return Cast<T>(UGameplayStatics::Func(ContextObject)); \
 	}
 
-#define PLAYER_CLASS_GETTER(Class, Func) \
-	template<typename T = Class> \
+#define PLAYER_CLASS_GETTER(Class, Func) template<typename T = Class> \
 	static T* Get(const UObject* ContextObject, const int32 PlayerIdx = 0) \
 	{ \
 		return Cast<T>(UGameplayStatics::Func(ContextObject, PlayerIdx)); \
 	}
 
-#define GLOBAL_COMPONENT_GETTER(Class, OwnerClass, Property) \
-	template<typename T = Class> \
+#define GLOBAL_COMPONENT_GETTER(Class, OwnerClass, Property) template<typename T = Class> \
 	static T* Get(const UObject* ContextObject) \
 	{ \
 		const OwnerClass* Owner = OwnerClass::Get(ContextObject); \
 		return Owner ? Owner->Property : nullptr; \
 }
 
-#define PLAYER_COMPONENT_GETTER(Class, OwnerClass, Property) \
-	template<typename T = Class> \
+#define PLAYER_COMPONENT_GETTER(Class, OwnerClass, Property) template<typename T = Class> \
 	static T* Get(const UObject* ContextObject, const int32 PlayerIdx = 0) \
 	{ \
 		const OwnerClass* Owner = OwnerClass::Get(ContextObject, PlayerIdx); \
