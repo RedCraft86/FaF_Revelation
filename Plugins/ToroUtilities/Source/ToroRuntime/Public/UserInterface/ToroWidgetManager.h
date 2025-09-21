@@ -30,9 +30,9 @@ public:
 		UToroWidgetBase* FindWidget(const TSubclassOf<UToroWidgetBase> WidgetClass);
 
 	template<typename T = UToroWidgetBase>
-	T* FindWidget(const TSubclassOf<UToroWidgetBase>& WidgetClass)
+	T* FindWidget()
 	{
-		return Cast<T>(FindWidget(WidgetClass));
+		return Cast<T>(FindWidget(T::StaticClass()));
 	}
 
 protected:
@@ -45,9 +45,9 @@ protected:
 public: // Statics
 
 	template<typename T = UToroWidgetBase>
-	static T* GetWidget(const UObject* ContextObject, const TSubclassOf<UToroWidgetBase>& WidgetClass)
+	static T* GetWidget(const UObject* ContextObject)
 	{
 		AToroWidgetManager* Manager = AToroWidgetManager::Get(ContextObject);
-		return Manager ? Manager->FindWidget<T>(WidgetClass) : nullptr;
+		return Manager ? Manager->FindWidget<T>() : nullptr;
 	}
 };
