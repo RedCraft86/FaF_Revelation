@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Helpers/ClassGetterMacros.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "LightProbeManager.generated.h"
 
@@ -10,7 +11,11 @@ class TORORUNTIME_API ULightProbeManager final : public UTickableWorldSubsystem
 {
 	GENERATED_BODY()
 
-	// TODO
+public:
+
+	ULightProbeManager() {}
+
+	WORLD_SUBSYSTEM_GETTER(ULightProbeManager);
 
 private:
 

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
+#include "Helpers/ClassGetterMacros.h"
+#include "Framework/ToroPlayerState.h"
 #include "InventoryManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
@@ -10,5 +12,9 @@ class TORORUNTIME_API UInventoryManager : public UActorComponent
 {
 	GENERATED_BODY()
 
-	// TODO
+public:
+
+	UInventoryManager() {}
+	
+	PLAYER_COMPONENT_GETTER(UInventoryManager, AToroPlayerState, Inventory)
 };
