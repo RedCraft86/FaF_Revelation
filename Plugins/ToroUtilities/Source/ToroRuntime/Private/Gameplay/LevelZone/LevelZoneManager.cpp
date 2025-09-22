@@ -8,7 +8,7 @@ namespace ZoneTags
 	DEFINE_GAMEPLAY_TAG(Zone)
 }
 
-void ULevelZoneManager::SetCharacterInZone(const FGameplayTag Character, const FGameplayTag Zone)
+void ULevelZoneManager::AssignCharacterToZone(const FGameplayTag Character, const FGameplayTag Zone)
 {
 	if (!CharacterTags::IsValidTag(Character) || !ZoneTags::IsValidTag(Zone)) return;
 	const FGameplayTag LastZone = CharToZone.FindRef(Character);

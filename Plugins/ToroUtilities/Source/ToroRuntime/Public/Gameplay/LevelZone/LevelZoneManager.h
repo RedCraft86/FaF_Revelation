@@ -23,6 +23,8 @@ public:
 
 	ULevelZoneManager() {}
 
+	// TODO Zone volume
+
 	WORLD_SUBSYSTEM_GETTER(ULevelZoneManager);
 
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FZoneActivity, const FGameplayTag&, Character, const FGameplayTag&, Zone);
@@ -30,7 +32,7 @@ public:
 	UPROPERTY(BlueprintAssignable) FZoneActivity OnExitZone;
 
 	UFUNCTION(BlueprintCallable, Category = LevelZone)
-		void SetCharacterInZone(
+		void AssignCharacterToZone(
 			UPARAM(meta = (Categories = "Character")) const FGameplayTag Character,
 			UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone);
 	
