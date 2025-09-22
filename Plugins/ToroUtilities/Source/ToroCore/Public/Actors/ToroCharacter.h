@@ -15,7 +15,7 @@ namespace CharacterTags
 	TOROCORE_API CREATE_TAG_VERIFIER(Character)
 	TOROCORE_API inline bool IsPlayer(const AActor* Target)
 	{
-		return ICharInterface::GetCharacterID(Target) == TAG_Player;
+		return ICharInterface::GetCharacterID(Target) == TAG_Player.GetTag();
 	}
 }
 
