@@ -27,8 +27,7 @@ AToroGameMode::AToroGameMode()
 void AToroGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	GameInstance = UToroGameInstance::Get(this);
-	if (GameInstance.IsValid())
+	if (GameInstance = UToroGameInstance::Get(this); GameInstance.IsValid())
 	{
 		GameInstance->OnWorldBeginPlay(GetWorld());
 	}
