@@ -26,6 +26,8 @@ public class ToroRuntime : ModuleRules
                 "LevelSequence",
                 "GameplayTags",
                 "EngineSettings",
+                "MetasoundEngine",
+                "AudioExtensions",
                 "DeveloperSettings",
                 
                 "ToroCore",
