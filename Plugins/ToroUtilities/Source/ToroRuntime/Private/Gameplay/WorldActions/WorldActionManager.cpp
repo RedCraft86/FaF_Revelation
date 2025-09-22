@@ -11,13 +11,23 @@ UWorldActionManager::UWorldActionManager(): bAutoConstruction(false)
 void UWorldActionManager::SetActions(TArray<TInstancedStruct<FWorldActionBase>>& InActions)
 {
 	Actions = MoveTemp(InActions);
-	RunConstruction();
+#if WITH_EDITOR
+	if (!FApp::IsGame())
+	{
+		RunConstruction();
+	}
+#endif
 }
 
 void UWorldActionManager::AppendActions(TArray<TInstancedStruct<FWorldActionBase>>& InActions)
 {
 	Actions.Append(MoveTemp(InActions));
-	RunConstruction();
+#if WITH_EDITOR
+	if (!FApp::IsGame())
+	{
+		RunConstruction();
+	}
+#endif
 }
 
 void UWorldActionManager::RunActions()
