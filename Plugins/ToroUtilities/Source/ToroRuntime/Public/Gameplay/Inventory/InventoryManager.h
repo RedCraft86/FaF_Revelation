@@ -17,4 +17,6 @@ public:
 	UInventoryManager() {}
 	
 	PLAYER_COMPONENT_GETTER(UInventoryManager, AToroPlayerState, Inventory)
+
+	// TODO
 };

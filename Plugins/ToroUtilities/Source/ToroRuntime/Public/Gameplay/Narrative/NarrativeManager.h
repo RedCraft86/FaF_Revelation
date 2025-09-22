@@ -17,4 +17,6 @@ public:
 	UNarrativeManager() {}
 	
 	PLAYER_COMPONENT_GETTER(UNarrativeManager, AToroPlayerState, Narrative)
+
+	// TODO
 };

@@ -17,4 +17,6 @@ public:
 	UInspectionManager() {}
 	
 	PLAYER_COMPONENT_GETTER(UInspectionManager, AToroPlayerCharacter, Inspection)
+
+	// TODO
 };

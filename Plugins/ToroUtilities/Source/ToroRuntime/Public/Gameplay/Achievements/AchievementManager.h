@@ -17,4 +17,6 @@ public:
 	UAchievementManager() {}
 	
 	GLOBAL_COMPONENT_GETTER(UAchievementManager, AToroGameState, Achievements)
+
+	// TODO
 };

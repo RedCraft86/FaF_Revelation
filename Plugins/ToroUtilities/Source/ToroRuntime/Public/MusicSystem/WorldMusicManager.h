@@ -17,4 +17,6 @@ public:
 	UWorldMusicManager() {}
 	
 	GLOBAL_COMPONENT_GETTER(UWorldMusicManager, AToroGameState, MusicManager)
+
+	// TODO
 };

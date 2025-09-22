@@ -17,6 +17,8 @@ public:
 
 	WORLD_SUBSYSTEM_GETTER(ULightProbeManager);
 
+	// TODO
+
 private:
 
 	virtual TStatId GetStatId() const override { return GetStatID(); }

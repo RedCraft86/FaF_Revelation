@@ -17,4 +17,6 @@ public:
 	UInteractionManager() {}
 	
 	PLAYER_COMPONENT_GETTER(UInteractionManager, AToroPlayerCharacter, Interaction)
+
+	// TODO
 };
