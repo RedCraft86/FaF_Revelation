@@ -30,13 +30,15 @@ void UWorldActionManager::RunActions()
 
 void UWorldActionManager::RunConstruction()
 {
-	bool bWantsTick = false;
-	ForEachAction([&bWantsTick](FWorldActionBase* Ptr)
+	PrimaryComponentTick.bStartWithTickEnabled = false;
+	ForEachAction([this](FWorldActionBase* Ptr)
 	{
 		Ptr->OnConstruction();
-		bWantsTick |= Ptr->ShouldTick();
+		if (Ptr->ShouldTick())
+		{
+			PrimaryComponentTick.bStartWithTickEnabled = true;
+		}
 	});
-	PrimaryComponentTick.bStartWithTickEnabled = bWantsTick;
 }
 
 void UWorldActionManager::ForEachAction(const TFunction<void(FWorldActionBase*)>& Func)
