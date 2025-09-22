@@ -48,7 +48,7 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void OnConstruction(const FTransform& Transform) override;
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 	virtual bool ShouldTickIfViewportsOnly() const override { return bTickInEditor; }
 #endif
 };

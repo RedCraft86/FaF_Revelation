@@ -87,7 +87,7 @@ void ASplineBarrier::Construct()
 		});
 	}
 	
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 	WallMeshComponent->SetOverlayMaterial(OverlayMaterial);
 #endif
 	Super::Construct();
