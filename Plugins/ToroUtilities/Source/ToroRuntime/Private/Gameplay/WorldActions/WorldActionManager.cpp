@@ -8,26 +8,22 @@ UWorldActionManager::UWorldActionManager(): bAutoConstruction(false)
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 }
 
-void UWorldActionManager::SetActions(TArray<TInstancedStruct<FWorldActionBase>>& InActions)
+void UWorldActionManager::SetActions(FWorldActionArray& InActions, bool bRunConstruction)
 {
-	Actions = MoveTemp(InActions);
-#if WITH_EDITOR
-	if (!FApp::IsGame())
+	ActionPtrs = InActions.GetPtrs();
+	if (bRunConstruction)
 	{
 		RunConstruction();
 	}
-#endif
 }
 
-void UWorldActionManager::AppendActions(TArray<TInstancedStruct<FWorldActionBase>>& InActions)
+void UWorldActionManager::AppendActions(FWorldActionArray& InActions, bool bRunConstruction)
 {
-	Actions.Append(MoveTemp(InActions));
-#if WITH_EDITOR
-	if (!FApp::IsGame())
+	ActionPtrs.Append(InActions.GetPtrs());
+	if (bRunConstruction)
 	{
 		RunConstruction();
 	}
-#endif
 }
 
 void UWorldActionManager::RunActions()
@@ -53,10 +49,9 @@ void UWorldActionManager::RunConstruction()
 
 void UWorldActionManager::ForEachAction(const TFunction<void(FWorldActionBase*)>& Func)
 {
-	for (auto It = Actions.CreateIterator(); It; ++It)
+	for (auto It = ActionPtrs.CreateIterator(); It; ++It)
 	{
-		TInstancedStruct<FWorldActionBase>& Action = *It;
-		if (FWorldActionBase* Ptr = Action.GetMutablePtr())
+		if (FWorldActionBase* Ptr = *It)
 		{
 			Ptr->SetWorldContext(this);
 			if (Func) Func(Ptr);

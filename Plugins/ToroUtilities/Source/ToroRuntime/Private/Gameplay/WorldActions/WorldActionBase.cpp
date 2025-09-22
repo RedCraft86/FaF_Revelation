@@ -56,3 +56,17 @@ void FWorldActionArray::OnTick(const UObject* Context, const float DeltaTime)
 		}
 	}
 }
+
+TArray<FWorldActionBase*> FWorldActionArray::GetPtrs()
+{
+	TArray<FWorldActionBase*> Result;
+	Result.Reserve(Actions.Num());
+	for (TInstancedStruct<FWorldActionBase>& Action : Actions)
+	{
+		if (FWorldActionBase* Ptr = Action.GetMutablePtr())
+		{
+			Result.Add(Ptr);
+		}
+	}
+	return Result;
+}

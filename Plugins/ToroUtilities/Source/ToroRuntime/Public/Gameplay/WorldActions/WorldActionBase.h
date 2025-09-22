@@ -48,6 +48,8 @@ struct TORORUNTIME_API FWorldActionArray final
 	void OnTick(const UObject* Context, const float DeltaTime);
 
 	bool ShouldTick() const { return bShouldTick; }
+	
+	TArray<FWorldActionBase*> GetPtrs();
 	TArray<TInstancedStruct<FWorldActionBase>>& GetActions() { return Actions; }
 
 private:

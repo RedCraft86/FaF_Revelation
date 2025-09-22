@@ -19,10 +19,10 @@ public:
 		bool bAutoConstruction;
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
-		void SetActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions);
+		void SetActions(UPARAM(ref) FWorldActionArray& InActions, bool bRunConstruction);
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
-		void AppendActions(UPARAM(ref) TArray<TInstancedStruct<FWorldActionBase>>& InActions);
+		void AppendActions(UPARAM(ref) FWorldActionArray& InActions, bool bRunConstruction);
 
 	UFUNCTION(BlueprintCallable, Category = WorldActions)
 		void RunActions();
@@ -31,8 +31,9 @@ public:
 
 private:
 
-	UPROPERTY(Transient)
-		TArray<TInstancedStruct<FWorldActionBase>> Actions;
+	// POTENTIALLY DANGEROUS due to possible dangling pointers
+	// If anything sus happens, this might need a revisit
+	TArray<FWorldActionBase*> ActionPtrs;
 
 	void ForEachAction(const TFunction<void(FWorldActionBase*)>& Func);
 
