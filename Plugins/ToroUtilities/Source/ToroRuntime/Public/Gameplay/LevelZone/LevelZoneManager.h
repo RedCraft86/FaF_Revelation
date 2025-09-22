@@ -23,8 +23,6 @@ public:
 
 	ULevelZoneManager() {}
 
-	// TODO Zone volume
-
 	WORLD_SUBSYSTEM_GETTER(ULevelZoneManager);
 
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FZoneActivity, const FGameplayTag&, Character, const FGameplayTag&, Zone);
