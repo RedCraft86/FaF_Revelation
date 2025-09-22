@@ -12,7 +12,8 @@ void FSaveSlots::AddSlotObject(UToroSaveObject* Object)
 
 UToroSaveObject* FSaveSlots::GetSlotObject(const uint8 Slot)
 {
-	return Slots.Contains(Slot) ? *Slots.Find(Slot) : nullptr;
+	TObjectPtr<UToroSaveObject>* Obj = Slots.Find(Slot);
+	return Obj ? *Obj : nullptr;
 }
 
 UToroSaveObject* UToroSaveManager::FindOrAddSave(const TSubclassOf<UToroSaveObject> SaveClass, const uint8 Slot)
