@@ -31,6 +31,8 @@ class TORORUNTIME_API UToroSaveObject : public UObject
 {
 	GENERATED_BODY()
 
+	friend class UToroSaveManager;
+
 public:
 
 	UToroSaveObject();

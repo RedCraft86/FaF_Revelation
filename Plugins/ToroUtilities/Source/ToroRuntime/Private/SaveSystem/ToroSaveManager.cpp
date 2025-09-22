@@ -23,13 +23,16 @@ UToroSaveObject* UToroSaveManager::FindOrAddSave(const TSubclassOf<UToroSaveObje
 		return nullptr;
 	}
 
+	const UToroSaveObject* DefaultObj = SaveClass->GetDefaultObject<UToroSaveObject>();
+	const uint8 ActualSlot = DefaultObj && DefaultObj->bSingleSlot ? 0 : Slot;
+
 	FSaveSlots* Slots = SaveObjects.Find(SaveClass);
-	if (UToroSaveObject* ExistingObj = Slots ? Slots->GetSlotObject(Slot) : nullptr)
+	if (UToroSaveObject* ExistingObj = Slots ? Slots->GetSlotObject(ActualSlot) : nullptr)
 	{
 		return ExistingObj;
 	}
 
-	if (UToroSaveObject* NewObj = UToroSaveObject::Create(this, SaveClass, Slot))
+	if (UToroSaveObject* NewObj = UToroSaveObject::Create(this, SaveClass, ActualSlot))
 	{
 		SaveObjects.FindOrAdd(SaveClass).AddSlotObject(NewObj);
 		return NewObj;
