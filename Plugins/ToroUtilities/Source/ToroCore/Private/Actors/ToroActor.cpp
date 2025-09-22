@@ -17,7 +17,7 @@ AToroActor::AToroActor(): bEnabled(true), bStartWithCollision(true)
 	SetCanBeDamaged(false);
 }
 
-void AToroActor::SetEnabled(const bool bInEnabled)
+void AToroActor::SetEnabledState_Implementation(const bool bInEnabled)
 {
 	if (bEnabled != bInEnabled)
 	{

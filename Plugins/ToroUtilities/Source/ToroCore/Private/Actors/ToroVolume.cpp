@@ -20,7 +20,7 @@ AToroVolume::AToroVolume(): bEnabled(true)
 #endif
 }
 
-void AToroVolume::SetEnabled(const bool bInEnabled)
+void AToroVolume::SetEnabledState_Implementation(const bool bInEnabled)
 {
 	if (bEnabled != bInEnabled)
 	{

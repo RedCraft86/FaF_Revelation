@@ -8,7 +8,7 @@
 #include "ToroVolume.generated.h"
 
 UCLASS()
-class TOROCORE_API AToroVolume : public AVolume, public IGuidInterface
+class TOROCORE_API AToroVolume : public AVolume, public IActorStateInterface, public IGuidInterface
 {
 	GENERATED_BODY()
 
@@ -19,17 +19,13 @@ public:
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
 		FActorEnableChangedBP OnEnableStateChangedBP;
 
-	UFUNCTION(BlueprintCallable, Category = Actor)
-		virtual void SetEnabled(const bool bInEnabled);
-
-	UFUNCTION(BlueprintPure, Category = Actor)
-		bool IsEnabled() const { return bEnabled; }
-
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
 		void EnableStateChangedBP(const bool bState);
 
 	FActorEnableChanged OnEnableStateChanged;
 
+	virtual void SetEnabledState_Implementation(const bool bInEnabled) override;
+	virtual bool GetEnabledState_Implementation() const override { return bEnabled; }
 	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }
 
 protected:

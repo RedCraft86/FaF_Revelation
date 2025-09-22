@@ -6,6 +6,7 @@
 #include "Components/EditorVisualComponent.h"
 #endif
 #include "GameFramework/Actor.h"
+#include "Interfaces/ActorStateInterface.h"
 #include "Interfaces/GuidInterface.h"
 #include "ToroActor.generated.h"
 
@@ -13,7 +14,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FActorEnableChanged, const bool);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FActorEnableChangedBP, const bool, bState);
 
 UCLASS(Abstract)
-class TOROCORE_API AToroActor : public AActor, public IGuidInterface
+class TOROCORE_API AToroActor : public AActor, public IActorStateInterface, public IGuidInterface
 {
 	GENERATED_BODY()
 
@@ -27,17 +28,13 @@ public:
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
 		FActorEnableChangedBP OnEnableStateChangedBP;
 
-	UFUNCTION(BlueprintCallable, Category = Actor)
-		virtual void SetEnabled(const bool bInEnabled);
-
-	UFUNCTION(BlueprintPure, Category = Actor)
-		bool IsEnabled() const { return bEnabled; }
-
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
 		void EnableStateChangedBP(const bool bState);
 
 	FActorEnableChanged OnEnableStateChanged;
 
+	virtual void SetEnabledState_Implementation(const bool bInEnabled) override;
+	virtual bool GetEnabledState_Implementation() const override { return bEnabled; }
 	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }
 
 protected:
