@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserInterface/ToroWidgetManager.h"
+#include "UserInterface/ToroContainerWidget.h"
+#include "ToroSettings.h"
 
 AToroWidgetManager::AToroWidgetManager()
 {
@@ -47,6 +49,19 @@ UToroWidgetBase* AToroWidgetManager::FindWidget(const TSubclassOf<UToroWidgetBas
 void AToroWidgetManager::BeginPlay()
 {
 	Super::BeginPlay();
+	TArray<TSoftClassPtr<UToroWidgetBase>> Widgets = UToroSettings::Get()->DefaultWidgets;
+	Widgets.Sort([](const TSoftClassPtr<UToroWidgetBase>& A, const TSoftClassPtr<UToroWidgetBase>& B)
+	{
+		// Ensure Containers are always loaded first since some Managed widgets might auto push to them
+		const UClass* ClassA = A.LoadSynchronous();
+		const UClass* ClassB = B.LoadSynchronous();
+		const bool AIsContainer = ClassA && ClassA->IsChildOf<UToroContainerWidget>();
+		const bool BIsContainer = ClassB && ClassB->IsChildOf<UToroContainerWidget>();
+		return AIsContainer > BIsContainer;
+	});
 
-	// TODO automatic loading
+	for (const TSoftClassPtr<UToroWidgetBase>& Widget : Widgets)
+	{
+		AddWidget(Widget.LoadSynchronous());
+	}
 }

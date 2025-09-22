@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "SaveSystem/ToroSaveManager.h"
+#include "ToroSettings.h"
 
 void FSaveSlots::AddSlotObject(UToroSaveObject* Object)
 {
@@ -49,8 +50,11 @@ void UToroSaveManager::OnActivity(const UToroSaveObject* Save, const ESaveGameAc
 void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
-
-	// TODO automatic loading
+	UToroSettings* Settings = UToroSettings::Get();
+	for (TPair<TSoftClassPtr<UToroSaveObject>, uint8>& DefaultSave : Settings->DefaultSaves)
+	{
+		FindOrAddSave(DefaultSave.Key.LoadSynchronous(), DefaultSave.Value);
+	}
 }
 
 void UToroSaveManager::Deinitialize()

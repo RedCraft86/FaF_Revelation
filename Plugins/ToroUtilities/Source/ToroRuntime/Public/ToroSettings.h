@@ -2,10 +2,13 @@
 
 #pragma once
 
+#include "MetasoundSource.h"
 #include "InputMappingContext.h"
 #include "DataTypes/MiscTypes.h"
 #include "Engine/DeveloperSettings.h"
+#include "SaveSystem/ToroSaveTypes.h"
 #include "Helpers/ClassGetterMacros.h"
+#include "UserInterface/ToroWidgetBase.h"
 #include "ToroSettings.generated.h"
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "ToroRuntime")
@@ -24,6 +27,15 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UInputMappingContext> InputMappings;
+
+	UPROPERTY(Config, EditAnywhere, Category = Settings)
+		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
+
+	UPROPERTY(Config, EditAnywhere, Category = Settings)
+		TMap<TSoftClassPtr<UToroSaveObject>, uint8> DefaultSaves;
+
+	UPROPERTY(Config, EditAnywhere, Category = Settings)
+		TArray<TSoftClassPtr<UToroWidgetBase>> DefaultWidgets;
 
 	bool IsOnMap(const UObject* ContextObject, const EToroMapType MapType);
 

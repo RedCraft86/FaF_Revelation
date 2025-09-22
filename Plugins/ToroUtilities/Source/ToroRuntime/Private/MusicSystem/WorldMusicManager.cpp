@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "MusicSystem/WorldMusicManager.h"
+#include "ToroSettings.h"
 
 UWorldMusicManager::UWorldMusicManager(): StateIdx(0), bGamePaused(false)
 {
@@ -98,7 +99,11 @@ void UWorldMusicManager::UpdateDipState()
 void UWorldMusicManager::BeginPlay()
 {
 	Super::BeginPlay();
-	// TODO default
+	if (UMetaSoundSource* Default = UToroSettings::Get()->DefaultTheme.LoadSynchronous())
+	{
+		SetSound(Default);
+		FadeIn(1.0f);
+	}
 }
 
 void UWorldMusicManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
