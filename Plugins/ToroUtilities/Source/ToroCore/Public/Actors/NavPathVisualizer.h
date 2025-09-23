@@ -25,8 +25,8 @@ public:
 		SceneRoot->SetHiddenInGame(true);
 		SetRootComponent(SceneRoot);
 	
-#if WITH_EDITORONLY_DATA
-		ShapeComponent = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("ShapeComponent");
+#if WITH_EDITOR
+		ShapeComponent = TStrongObjectPtr(CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("ShapeComponent"));
 		if (ShapeComponent)
 		{
 			FWireStringData Data; Data.String = TEXT("NavPath Visualizer");
@@ -40,16 +40,16 @@ public:
 	}
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-	bool bRefresh;
+		bool bRefresh;
 	
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (MakeEditWidget = true))
-	TArray<FVector> PathPoints;
+		TArray<FVector> PathPoints;
 	
 private:
 
 	UPROPERTY() TObjectPtr<UBillboardComponent> SceneRoot;
-#if WITH_EDITORONLY_DATA
-	UPROPERTY() TObjectPtr<UEditorShapeComponent> ShapeComponent;
+#if WITH_EDITOR
+	TStrongObjectPtr<UEditorShapeComponent> ShapeComponent;
 #endif
 	
 	virtual void BeginPlay() override
@@ -62,7 +62,7 @@ private:
 	{
 		Super::OnConstruction(Transform);
 		SetActorScale3D(FVector{1.0f});
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 		if (ShapeComponent)
 		{
 			ShapeComponent->WireNavPath.Targets = PathPoints;
