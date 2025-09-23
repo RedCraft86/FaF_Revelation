@@ -57,7 +57,7 @@ public:
         TSoftObjectPtr<UMaterialInterface> BrightnessPPM;
 
     UPROPERTY(Config, EditAnywhere, Category = Saves)
-        FName DemoName; // TODO
+        FName DemoName;
 
     UPROPERTY(Config, EditAnywhere, Category = Saves)
         TMap<TSoftClassPtr<class UToroSaveObject>, uint8> InitSaves;

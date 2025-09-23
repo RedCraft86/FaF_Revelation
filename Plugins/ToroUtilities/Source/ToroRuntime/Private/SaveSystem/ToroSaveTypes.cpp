@@ -129,6 +129,12 @@ void UToroSaveObject::LoadObject(const TFunction<void(const ESaveGameStatus)>& C
 FString UToroSaveObject::GetSavePath()
 {
 	FString BasePath = FPaths::ProjectSavedDir() / TEXT("SaveGames");
+
+	if (const FName DemoName = UToroSettings::Get()->DemoName; !DemoName.IsNone())
+	{
+		BasePath /= DemoName.ToString();
+	}
+	
 	if (!bSingleSlot)
 	{
 		BasePath /= Slot == 0 ? TEXT("AutoSave") : FString::Printf(TEXT("Slot_%02d"), Slot);
