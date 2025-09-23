@@ -8,12 +8,6 @@ namespace AchievementTags
 	DEFINE_GAMEPLAY_TAG(Achievement)
 }
 
-FAchievementEntry* UAchievementDatabase::Get(const FGameplayTag& Key)
-{
-	UAchievementDatabase* Database = UToroSettings::Get()->GetDatabase<UAchievementDatabase>();
-	return Database ? Database->Entries.Find(Key) : nullptr;
-}
-
 FAchievementEntry* UAchievementDatabase::GetEntry(const FGameplayTag& Key)
 {
 	return AchievementTags::IsValidTag(Key) ? Entries.Find(Key) : nullptr;

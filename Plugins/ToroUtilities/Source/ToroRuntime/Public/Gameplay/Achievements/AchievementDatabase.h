@@ -44,8 +44,6 @@ public:
 
 	UAchievementDatabase() {}
 
-	static FAchievementEntry* Get(const FGameplayTag& Key);
-
 	UPROPERTY(EditAnywhere, Category = Database)
 		TSoftObjectPtr<USoundBase> Sound;
 
