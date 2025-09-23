@@ -43,7 +43,7 @@ private:
 		FName CullFindTag = NAME_None;
 #endif
 #if WITH_EDITOR
-	UFUNCTION(CallInEditor)
+	UFUNCTION(CallInEditor, Category = Tools)
 		void FindCullTargets();
 #endif
 
