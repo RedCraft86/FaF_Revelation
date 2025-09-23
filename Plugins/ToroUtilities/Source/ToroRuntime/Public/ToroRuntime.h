@@ -73,7 +73,10 @@ public:
     {
         for (const TSoftObjectPtr<UToroDatabase>& Database : Databases)
         {
-            return Cast<T>(Database.LoadSynchronous());
+            if (T* FoundDatabase = Cast<T>(Database.LoadSynchronous()))
+            {
+                return FoundDatabase;
+            }
         }
         return nullptr;
     }
