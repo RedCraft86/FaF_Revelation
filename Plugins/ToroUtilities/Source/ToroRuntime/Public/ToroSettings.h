@@ -23,23 +23,35 @@ public:
 
 	SETTING_GETTER(UToroSettings)
 
-	UPROPERTY(Config, EditAnywhere, Category = Settings, meta = (ReadOnlyKeys = true))
+	UPROPERTY(Config, EditAnywhere, Category = World, meta = (ReadOnlyKeys = true))
 		TMap<EToroMapType, TSoftObjectPtr<UWorld>> MapRegistry;
+
+	UPROPERTY(Config, EditAnywhere, Category = World)
+		TSoftClassPtr<UUDSSetterObject> UDS_Setter;
+
+	UPROPERTY(Config, EditAnywhere, Category = Defaults)
+		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
+
+	UPROPERTY(Config, EditAnywhere, Category = Defaults)
+		TArray<TSoftClassPtr<UToroWidgetBase>> DefaultWidgets;
+
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
+		TSoftObjectPtr<UMaterialInterface> LightProbePPM; // TODO
+
+	UPROPERTY(Config, EditAnywhere, Category = LightProbes, meta = (ClampMin = 16, UIMin = 16, ClampMax = 32, UIMax = 32))
+		uint8 MaxProbes; // TODO
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UInputMappingContext> InputMappings;
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
-		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
+		TSoftObjectPtr<UMaterialInterface> Brightness;
 
-	UPROPERTY(Config, EditAnywhere, Category = Settings)
-		TSoftClassPtr<UUDSSetterObject> UDS_Setter;
+	UPROPERTY(Config, EditAnywhere, Category = Saves)
+		FName DemoName; // TODO
 
-	UPROPERTY(Config, EditAnywhere, Category = Settings)
-		TMap<TSoftClassPtr<UToroSaveObject>, uint8> DefaultSaves;
-
-	UPROPERTY(Config, EditAnywhere, Category = Settings)
-		TArray<TSoftClassPtr<UToroWidgetBase>> DefaultWidgets;
+	UPROPERTY(Config, EditAnywhere, Category = Saves)
+		TMap<TSoftClassPtr<UToroSaveObject>, uint8> InitSaves;
 
 	bool IsOnMap(const UObject* ContextObject, const EToroMapType MapType);
 

@@ -51,7 +51,7 @@ void UToroSaveManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 	UToroSettings* Settings = UToroSettings::Get();
-	for (TPair<TSoftClassPtr<UToroSaveObject>, uint8>& DefaultSave : Settings->DefaultSaves)
+	for (TPair<TSoftClassPtr<UToroSaveObject>, uint8>& DefaultSave : Settings->InitSaves)
 	{
 		FindOrAddSave(DefaultSave.Key.LoadSynchronous(), DefaultSave.Value);
 	}
