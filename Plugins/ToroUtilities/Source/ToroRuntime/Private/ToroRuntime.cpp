@@ -1,4 +1,7 @@
-﻿#include "ToroRuntime.h"
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
+
+#include "ToroRuntime.h"
+#include "SaveSystem/ToroNativeSaves.h"
 
 DEFINE_LOG_CATEGORY(LogToroRuntime);
 
@@ -16,6 +19,11 @@ UToroSettings::UToroSettings()
 
 	LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbe.PPM_LightProbe"));
 	BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
+
+	InitSaves = {
+		{UToroGlobalSave::StaticClass(), 0},
+		{UToroGameSave::StaticClass(), 0}
+	};
 }
 
 bool UToroSettings::IsOnMap(const UObject* ContextObject, const EToroMapType MapType)
