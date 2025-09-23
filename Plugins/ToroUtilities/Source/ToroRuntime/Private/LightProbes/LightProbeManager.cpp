@@ -20,7 +20,7 @@ void ULightProbeManager::UpdateProbes()
 
 		for (uint8 i = 0; i < LightProbes.Num(); i++)
 		{
-			if (i >= GetMaxProbes() - 1)
+			if (i >= GetMaxProbes())
 			{
 				break;
 			}
@@ -39,20 +39,20 @@ void ULightProbeManager::UpdateProbes()
 
 void ULightProbeManager::CollectProbes()
 {
-	if (!MasterPP)
+	if (!LightProbes.IsEmpty())
 	{
-		if (!LightProbes.IsEmpty())
+		for (uint8 i = 0; i < GetMaxProbes(); i++)
 		{
-			for (uint8 i = 0; i < GetMaxProbes(); i++)
-			{
-				ResetPPM(i);
-			}
-			LightProbes.Empty();
+			ResetPPM(i);
 		}
-		return;
+		LightProbes.Empty();
 	}
 
-	LightProbes.Empty();
+	if (!MasterPP)
+	{
+		return;
+	}
+	
 	const FTransform Camera = GetCameraTransform();
 	for (ALightProbeActor* Probe : TActorRange<ALightProbeActor>(GetWorld()))
 	{
@@ -133,7 +133,7 @@ void ULightProbeManager::Tick(float DeltaTime)
 	else
 	{
 		TickTime += DeltaTime;
-		if (!MasterPP) UpdateProbes();
+		UpdateProbes();
 	}
 }
 
