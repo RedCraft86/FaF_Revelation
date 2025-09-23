@@ -34,6 +34,8 @@ public:
 		: Super(ObjectInitializer), ZOrder(0)
 	{}
 
+	void ClearNullEntries();
+	bool HasWidget(UToroManagedWidget* Widget) const;
 	virtual bool PushEntry(UToroManagedWidget* Widget);
 	virtual bool PopEntry(UToroManagedWidget* Widget);
 
