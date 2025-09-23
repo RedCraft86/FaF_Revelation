@@ -2,9 +2,7 @@
 
 #include "LightProbes/LightProbeManager.h"
 #include "LightProbes/LightProbeActor.h"
-#include "ToroSettings.h"
 #include "EngineUtils.h"
-#include "ToroRuntime.h"
 #if WITH_EDITOR
 #include "Subsystems/UnrealEditorSubsystem.h"
 #endif

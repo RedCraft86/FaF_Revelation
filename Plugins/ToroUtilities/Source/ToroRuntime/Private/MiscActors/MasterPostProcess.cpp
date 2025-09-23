@@ -4,7 +4,6 @@
 #include "UserSettings/ToroUserSettings.h"
 #include "Components/PostProcessComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "ToroSettings.h"
 #include "ToroRuntime.h"
 #if WITH_EDITOR
 #include "Components/BillboardComponent.h"
@@ -141,7 +140,7 @@ void AMasterPostProcess::BeginPlay()
 #endif
 	{
 		const UToroSettings* ToroSettings = UToroSettings::Get();
-		BrightnessMID = FindOrAddBlendable(ToroSettings->Brightness.LoadSynchronous());
+		BrightnessMID = FindOrAddBlendable(ToroSettings->BrightnessPPM.LoadSynchronous());
 		if (const TSubclassOf<UUDSSetterObject> Class = ToroSettings->UDS_Setter.LoadSynchronous())
 		{
 			UDSSetterObj = NewObject<UUDSSetterObject>(this, Class);

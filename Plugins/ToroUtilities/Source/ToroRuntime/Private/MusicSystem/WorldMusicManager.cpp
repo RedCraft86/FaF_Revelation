@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "MusicSystem/WorldMusicManager.h"
-#include "ToroSettings.h"
+#include "ToroRuntime.h"
 
 UWorldMusicManager::UWorldMusicManager(): StateIdx(0), bGamePaused(false)
 {

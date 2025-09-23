@@ -4,7 +4,7 @@
 #include "Framework/ToroCameraManager.h"
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
-#include "ToroSettings.h"
+#include "ToroRuntime.h"
 
 AToroPlayerController::AToroPlayerController(): bUserPaused(false)
 {

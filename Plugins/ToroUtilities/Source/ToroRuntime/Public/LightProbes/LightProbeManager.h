@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroRuntime.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "MiscActors/MasterPostProcess.h"

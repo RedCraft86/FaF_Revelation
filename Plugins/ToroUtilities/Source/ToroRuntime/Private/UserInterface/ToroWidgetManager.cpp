@@ -2,7 +2,7 @@
 
 #include "UserInterface/ToroWidgetManager.h"
 #include "UserInterface/ToroContainerWidget.h"
-#include "ToroSettings.h"
+#include "ToroRuntime.h"
 
 AToroWidgetManager::AToroWidgetManager()
 {

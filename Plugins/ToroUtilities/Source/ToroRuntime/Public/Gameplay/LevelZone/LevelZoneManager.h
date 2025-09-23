@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "ToroSettings.h"
+#include "ToroRuntime.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Helpers/GameplayTagMacros.h"
 #include "Subsystems/WorldSubsystem.h"

@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "SaveSystem/ToroSaveManager.h"
-#include "ToroSettings.h"
+#include "ToroRuntime.h"
 
 void FSaveSlots::AddSlotObject(UToroSaveObject* Object)
 {

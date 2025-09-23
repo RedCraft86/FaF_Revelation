@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Tutorials/TutorialManager.h"
-#include "ToroSettings.h"
+#include "ToroRuntime.h"
 
 bool UTutorialManager::ShouldCreateSubsystem(UObject* Outer) const
 {
