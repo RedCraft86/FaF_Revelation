@@ -22,7 +22,7 @@ AMasterPostProcess::AMasterPostProcess()
 	PostProcess->bUnbound = true;
 	PostProcess->bEnabled = true;
 
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 	VisualBillboard = TStrongObjectPtr(CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DebugBillboard"));
 	if (VisualBillboard)
 	{

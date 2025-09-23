@@ -61,7 +61,7 @@ private:
 
 	TWeakObjectPtr<UMaterialInstanceDynamic> Brightness;
 
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 	TStrongObjectPtr<UBillboardComponent> VisualBillboard;
 #endif
 
