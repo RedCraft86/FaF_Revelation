@@ -8,6 +8,7 @@
 #include "Engine/DeveloperSettings.h"
 #include "SaveSystem/ToroSaveTypes.h"
 #include "Helpers/ClassGetterMacros.h"
+#include "MiscObjects/UDSSetterObject.h"
 #include "UserInterface/ToroWidgetBase.h"
 #include "ToroSettings.generated.h"
 
@@ -30,6 +31,9 @@ public:
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UMetaSoundSource> DefaultTheme;
+
+	UPROPERTY(Config, EditAnywhere, Category = Settings)
+		TSoftClassPtr<UUDSSetterObject> UDS_Setter;
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TMap<TSoftClassPtr<UToroSaveObject>, uint8> DefaultSaves;
