@@ -30,7 +30,7 @@ public class ToroCore : ModuleRules
         
         if (Target.Type == TargetType.Editor)
         {
-            PublicDependencyModuleNames.AddRange(
+            PrivateDependencyModuleNames.AddRange(
                 [
                     "UnrealEd",
                     "EditorScriptingUtilities"
