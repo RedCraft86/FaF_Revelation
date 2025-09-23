@@ -59,6 +59,7 @@ private:
 	UPROPERTY(Transient)
 		TSet<TObjectPtr<UMaterialInstanceDynamic>> Blendables;
 
+	// Weak Ptr since Blendables hold the actual instance
 	TWeakObjectPtr<UMaterialInstanceDynamic> Brightness;
 
 #if WITH_EDITOR
