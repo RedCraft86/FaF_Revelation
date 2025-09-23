@@ -8,8 +8,13 @@ public class ToroRuntime : ModuleRules
     public ToroRuntime(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+        bUseUnity = false;
         
         PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public/Gameplay"));
+        
+        // Fixes a really weird error that honestly makes no sense in this context
+        // MovieSceneNumericVariant.h... not enough arguments for function-like macro invocation 'max'...
+        PrivateDefinitions.Add("NOMINMAX");
 
         PublicDependencyModuleNames.AddRange(
             [

@@ -8,6 +8,7 @@
 #include "DataTypes/MiscDataTypes.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Engine/DeveloperSettings.h"
+#include "MiscObjects/ToroDataAsset.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "UserInterface/ToroWidgetBase.h"
 #include "ToroRuntime.generated.h"
@@ -44,6 +45,9 @@ public:
     UPROPERTY(Config, EditAnywhere, Category = Defaults)
         TArray<TSoftClassPtr<UToroWidgetBase>> DefaultWidgets;
 
+    UPROPERTY(Config, EditAnywhere, Category = Defaults)
+        TSet<TSoftObjectPtr<UToroDatabase>> Databases;
+
     UPROPERTY(Config, EditAnywhere, Category = LightProbes)
         TSoftObjectPtr<UMaterialInterface> LightProbePPM;
 
@@ -63,6 +67,16 @@ public:
         TMap<TSoftClassPtr<class UToroSaveObject>, uint8> InitSaves;
 
     bool IsOnMap(const UObject* ContextObject, const EToroMapType MapType);
+
+    template <typename T = UToroDatabase>
+    T* GetDatabase()
+    {
+        for (const TSoftObjectPtr<UToroDatabase>& Database : Databases)
+        {
+            return Cast<T>(Database.LoadSynchronous());
+        }
+        return nullptr;
+    }
 
 private:
 #if WITH_EDITOR
