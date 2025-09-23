@@ -40,12 +40,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Subobjects)
 		TObjectPtr<UAudioComponent> SoundComponent;
 
-	UPROPERTY(Transient)
-		TObjectPtr<class UWorldMusicManager> Manager;
-
 	bool bInVolume;
 	bool bOnCooldown;
 	uint8 MusicState;
+	TObjectPtr<class UWorldMusicManager> Manager;
 
 	void CooldownFinish()
 	{

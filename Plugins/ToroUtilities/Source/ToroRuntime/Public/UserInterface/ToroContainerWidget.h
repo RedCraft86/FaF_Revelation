@@ -42,8 +42,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
 		uint8 ZOrder;
 
-	UPROPERTY(Transient)
-		TSet<TObjectPtr<UToroManagedWidget>> ManagedWidgets;
+	TArray<TWeakObjectPtr<UToroManagedWidget>> ManagedWidgets;
 
 	virtual void InitWidget(APlayerController* Controller) override;
 };

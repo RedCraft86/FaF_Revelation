@@ -22,8 +22,7 @@ public:
 
 protected:
 
-	UPROPERTY(Transient)
-		TObjectPtr<class UToroGameInstance> GameInstance;
+	TObjectPtr<class UToroGameInstance> GameInstance;
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;

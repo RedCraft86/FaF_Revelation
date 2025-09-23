@@ -38,7 +38,7 @@ public:
 protected:
 
 	UPROPERTY(Transient)
-	TSet<TObjectPtr<UToroWidgetBase>> WidgetObjects;
+		TSet<TObjectPtr<UToroWidgetBase>> WidgetObjects;
 
 	virtual void BeginPlay() override;
 
