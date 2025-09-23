@@ -108,21 +108,22 @@ void AMasterPostProcess::SetUDSSettings(const FUDSSettings& InSettings) const
 
 void AMasterPostProcess::ApplySettings()
 {
-	PostProcess->Settings = Settings;
-	for (const TObjectPtr<UMaterialInstanceDynamic>& MID : Blendables)
-	{
-		PostProcess->AddOrUpdateBlendable(MID);
-	}
 	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
 		// TODO use settings
-		BloomOverride.ApplyChoice(PostProcess->Settings, true);
-		MotionBlurOverride.ApplyChoice(PostProcess->Settings, 1);
-		LumenOverride.ApplyChoice(PostProcess->Settings, 3, 3, true);
+		BloomOverride.ApplyChoice(Settings, true);
+		MotionBlurOverride.ApplyChoice(Settings, 1);
+		LumenOverride.ApplyChoice(Settings, 3, 3, true);
 		if (Brightness.IsValid())
 		{
 			Brightness->SetScalarParameterValue("Brightness", 1.0f);
 		}
+	}
+
+	PostProcess->Settings = Settings;
+	for (const TObjectPtr<UMaterialInstanceDynamic>& MID : Blendables)
+	{
+		PostProcess->AddOrUpdateBlendable(MID);
 	}
 }
 
