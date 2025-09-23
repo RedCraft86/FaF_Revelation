@@ -59,6 +59,8 @@ private:
 	UPROPERTY(Transient)
 		TSet<TObjectPtr<UMaterialInstanceDynamic>> Blendables;
 
+	TWeakObjectPtr<UMaterialInstanceDynamic> Brightness;
+
 #if WITH_EDITORONLY_DATA
 	TStrongObjectPtr<UBillboardComponent> VisualBillboard;
 #endif

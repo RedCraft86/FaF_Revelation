@@ -13,6 +13,7 @@
 AMasterPostProcess::AMasterPostProcess()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
 	
 	PostProcess = CreateDefaultSubobject<UPostProcessComponent>("PostProcess");
 	SetRootComponent(PostProcess);
@@ -74,6 +75,7 @@ UMaterialInstanceDynamic* AMasterPostProcess::FindBlendable(UMaterialInterface* 
 
 UMaterialInstanceDynamic* AMasterPostProcess::FindOrAddBlendable(UMaterialInterface* InParent)
 {
+	if (!InParent) return nullptr;
 	UMaterialInstanceDynamic* MID = FindBlendable(InParent);
 	if (!MID)
 	{
@@ -117,6 +119,10 @@ void AMasterPostProcess::ApplySettings()
 		BloomOverride.ApplyChoice(PostProcess->Settings, true);
 		MotionBlurOverride.ApplyChoice(PostProcess->Settings, 1);
 		LumenOverride.ApplyChoice(PostProcess->Settings, 3, 3, true);
+		if (Brightness.IsValid())
+		{
+			Brightness->SetScalarParameterValue("Brightness", 1.0f);
+		}
 	}
 }
 
@@ -127,11 +133,14 @@ void AMasterPostProcess::BeginPlay()
 	if (MultiActorCheck())
 #endif
 	{
-		ApplySettings();
-		if (const TSubclassOf<UUDSSetterObject> Class = UToroSettings::Get()->UDS_Setter.LoadSynchronous())
+		const UToroSettings* ToroSettings = UToroSettings::Get();
+		Brightness = FindOrAddBlendable(ToroSettings->Brightness.LoadSynchronous());
+		if (const TSubclassOf<UUDSSetterObject> Class = ToroSettings->UDS_Setter.LoadSynchronous())
 		{
 			UDSSetterObj = NewObject<UUDSSetterObject>(this, Class);
 		}
+
+		ApplySettings();
 	}
 }
 
