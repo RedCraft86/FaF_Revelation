@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "MiscTypes.generated.h"
+#include "MiscDataTypes.generated.h"
 
 UENUM(BlueprintInternalUseOnly)
 enum class EToroMapType : uint8
