@@ -80,6 +80,7 @@ UMaterialInstanceDynamic* AMasterPostProcess::FindOrAddBlendable(UMaterialInterf
 	{
 		MID = UMaterialInstanceDynamic::Create(InParent, this);
 		Blendables.Add(MID);
+		ApplySettings();
 	}
 	return MID;
 }
