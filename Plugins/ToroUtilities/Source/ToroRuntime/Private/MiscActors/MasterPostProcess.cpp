@@ -114,9 +114,9 @@ void AMasterPostProcess::ApplySettings()
 		BloomOverride.ApplyChoice(Settings, true);
 		MotionBlurOverride.ApplyChoice(Settings, 1);
 		LumenOverride.ApplyChoice(Settings, 3, 3, true);
-		if (Brightness.IsValid())
+		if (BrightnessMID.IsValid())
 		{
-			Brightness->SetScalarParameterValue("Brightness", 1.0f);
+			BrightnessMID->SetScalarParameterValue("Brightness", 1.0f);
 		}
 	}
 
@@ -127,6 +127,12 @@ void AMasterPostProcess::ApplySettings()
 	}
 }
 
+bool AMasterPostProcess::HasLumenGI() const
+{
+	return PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod
+		&& PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+}
+
 void AMasterPostProcess::BeginPlay()
 {
 	Super::BeginPlay();
@@ -135,7 +141,7 @@ void AMasterPostProcess::BeginPlay()
 #endif
 	{
 		const UToroSettings* ToroSettings = UToroSettings::Get();
-		Brightness = FindOrAddBlendable(ToroSettings->Brightness.LoadSynchronous());
+		BrightnessMID = FindOrAddBlendable(ToroSettings->Brightness.LoadSynchronous());
 		if (const TSubclassOf<UUDSSetterObject> Class = ToroSettings->UDS_Setter.LoadSynchronous())
 		{
 			UDSSetterObj = NewObject<UUDSSetterObject>(this, Class);

@@ -33,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = PostProcess)
 		void ApplySettings();
 
+	UFUNCTION(BlueprintPure, Category = PostProcess)
+		bool HasLumenGI() const;
+
 private:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Subobjects)
@@ -60,7 +63,7 @@ private:
 		TSet<TObjectPtr<UMaterialInstanceDynamic>> Blendables;
 
 	// Weak Ptr since Blendables hold the actual instance
-	TWeakObjectPtr<UMaterialInstanceDynamic> Brightness;
+	TWeakObjectPtr<UMaterialInstanceDynamic> BrightnessMID;
 
 #if WITH_EDITOR
 	TStrongObjectPtr<UBillboardComponent> VisualBillboard;
