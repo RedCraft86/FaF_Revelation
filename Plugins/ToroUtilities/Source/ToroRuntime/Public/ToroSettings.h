@@ -36,10 +36,10 @@ public:
 		TArray<TSoftClassPtr<UToroWidgetBase>> DefaultWidgets;
 
 	UPROPERTY(Config, EditAnywhere, Category = LightProbes)
-		TSoftObjectPtr<UMaterialInterface> LightProbePPM; // TODO
+		TSoftObjectPtr<UMaterialInterface> LightProbePPM;
 
 	UPROPERTY(Config, EditAnywhere, Category = LightProbes, meta = (ClampMin = 16, UIMin = 16, ClampMax = 32, UIMax = 32))
-		uint8 MaxProbes; // TODO
+		uint8 MaxProbes;
 
 	UPROPERTY(Config, EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UInputMappingContext> InputMappings;

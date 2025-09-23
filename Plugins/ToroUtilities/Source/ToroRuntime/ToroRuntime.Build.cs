@@ -36,5 +36,14 @@ public class ToroRuntime : ModuleRules
                 "ExpressiveText"
             ]
         );
+        
+        if (Target.Type == TargetType.Editor)
+        {
+            PrivateDependencyModuleNames.AddRange(
+                [
+                    "UnrealEd"
+                ]
+            );
+        }
     }
 }
