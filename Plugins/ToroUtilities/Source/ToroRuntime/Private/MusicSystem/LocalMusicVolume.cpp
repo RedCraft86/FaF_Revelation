@@ -31,7 +31,7 @@ void ALocalMusicVolume::UpdateAudio()
 		SoundComponent->FadeIn(FadeInOut.X, 1.0f,
 			FMath::FRandRange(StartRange.X, StartRange.Y));
 
-		if (bDipMainTheme && Manager.IsValid())
+		if (bDipMainTheme && Manager)
 		{
 			Manager->AddDipRequest(this);
 		}
@@ -47,7 +47,7 @@ void ALocalMusicVolume::UpdateAudio()
 	else
 	{
 		SoundComponent->FadeOut(FadeInOut.Y, 0.0f);
-		if (Manager.IsValid())
+		if (Manager)
 		{
 			Manager->RemoveDipRequest(this);
 		}
@@ -61,7 +61,7 @@ void ALocalMusicVolume::BeginPlay()
 	SoundComponent->SetVolumeMultiplier(Volume);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
-		if (Manager = UWorldMusicManager::Get(this); Manager.IsValid())
+		if (Manager = UWorldMusicManager::Get(this); Manager)
 		{
 			Manager->OnThemeChanged.AddUObject(this, &ALocalMusicVolume::StopUntilNextTrigger);
 			Manager->OnAudioDipped.AddUObject(this, &ALocalMusicVolume::StopUntilNextTrigger);

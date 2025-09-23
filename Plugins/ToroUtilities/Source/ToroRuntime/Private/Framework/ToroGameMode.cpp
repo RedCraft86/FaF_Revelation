@@ -27,7 +27,7 @@ AToroGameMode::AToroGameMode()
 void AToroGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	if (GameInstance = UToroGameInstance::Get(this); GameInstance.IsValid())
+	if (GameInstance = UToroGameInstance::Get(this); GameInstance)
 	{
 		GameInstance->OnWorldBeginPlay(GetWorld());
 	}
@@ -36,7 +36,7 @@ void AToroGameMode::BeginPlay()
 void AToroGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (GameInstance.IsValid())
+	if (GameInstance)
 	{
 		GameInstance->OnWorldTick(DeltaTime);
 	}
