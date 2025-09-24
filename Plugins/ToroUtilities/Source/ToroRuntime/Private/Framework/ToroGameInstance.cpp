@@ -1,13 +1,17 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameInstance.h"
+#include "UserSettings/ToroUserSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
 #include "GeneralProjectSettings.h"
 #include "Helpers/WindowsHelpers.h"
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
-	// TODO: Run first loads
+	if (UToroUserSettings::Get()->InitializeSettings())
+	{
+		OnFirstLaunch();
+	}
 }
 
 void UToroGameInstance::Init()

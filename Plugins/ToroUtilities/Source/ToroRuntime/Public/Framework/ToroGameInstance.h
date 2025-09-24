@@ -25,6 +25,7 @@ protected:
 
 	virtual void OnWorldBeginPlay(UWorld* InWorld);
 	virtual void OnWorldTick(const float DeltaSeconds) {}
+	virtual void OnFirstLaunch() {}
 
 	virtual void Init() override;
 };

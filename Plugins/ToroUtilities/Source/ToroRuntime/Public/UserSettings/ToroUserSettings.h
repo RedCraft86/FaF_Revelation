@@ -10,12 +10,20 @@ class TORORUNTIME_API UToroUserSettings : public UGameUserSettings
 {
 	GENERATED_BODY()
 
-	public:
+public:
 
-	UToroUserSettings() {}
+	UToroUserSettings();
 
 	static UToroUserSettings* Get()
 	{
 		return GEngine ? Cast<UToroUserSettings>(GEngine->GetGameUserSettings()) : nullptr;
 	}
+
+	bool InitializeSettings();
+
+	// TODO
+
+protected:
+
+	UPROPERTY(Config) bool bInitialized;
 };
