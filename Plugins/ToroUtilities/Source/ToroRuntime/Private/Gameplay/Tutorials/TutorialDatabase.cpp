@@ -7,7 +7,7 @@ namespace TutorialTags
 	DEFINE_GAMEPLAY_TAG(Tutorial)
 }
 
-FTutorialEntry* UTutorialDatabase::GetEntry(const FGameplayTag& Key)
+const FTutorialEntry* UTutorialDatabase::GetEntry(const FGameplayTag& Key) const
 {
 	return TutorialTags::IsValidTag(Key) ? Entries.Find(Key) : nullptr;
 }

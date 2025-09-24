@@ -19,6 +19,9 @@ public:
 		TSet<FGuid> Cutscenes;
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
+		TSet<FGameplayTag> Tutorials;
+
+	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TMap<FGameplayTag, uint8> Achievements;
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)

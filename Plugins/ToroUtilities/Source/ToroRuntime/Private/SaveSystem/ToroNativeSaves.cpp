@@ -22,9 +22,10 @@ void UToroGlobalSave::DeleteData()
 
 void UToroGlobalSave::SerializeData(FArchive& Ar)
 {
-	Ar << Content;
-	Ar << Achievements;
 	Ar << Cutscenes;
+	Ar << Tutorials;
+	Ar << Achievements;
+	Ar << Content;
 }
 
 UToroGameSave::UToroGameSave(): PlayTime(0.0f)

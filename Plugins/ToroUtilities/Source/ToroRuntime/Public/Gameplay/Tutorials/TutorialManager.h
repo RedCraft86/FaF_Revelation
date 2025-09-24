@@ -6,18 +6,17 @@
 #include "Components/ActorComponent.h"
 #include "Framework/ToroPlayerState.h"
 #include "Helpers/ClassGetterMacros.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "TutorialManager.generated.h"
 
 UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
-class TORORUNTIME_API UTutorialManager : public UActorComponent
+class TORORUNTIME_API UTutorialManager final : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	UTutorialManager();
-
-	 // TODO
+	UTutorialManager() {}
 	
 	PLAYER_COMPONENT_GETTER(UTutorialManager, AToroPlayerState, Tutorials)
 
@@ -26,4 +25,24 @@ public:
 	{
 		return Get(ContextObject, PlayerIdx);
 	}
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Tutorials)
+		void QueueTutorial(UPARAM(meta = (Categories = "Tutorial")) const FGameplayTag Key);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Tutorials)
+		void QueueTutorials(UPARAM(meta = (Categories = "Tutorial")) const TArray<FGameplayTag>& Keys);
+
+	void MarkTutorialsSeen();
+	const FTutorialEntry* GetTutorialData(const FGameplayTag& Key) const;
+	
+private:
+
+	UPROPERTY(Transient)
+		TObjectPtr<UTutorialDatabase> Database;
+
+	TArray<FGameplayTag> Tutorials;
+	TObjectPtr<UToroSaveManager> SaveManager;
+
+	void QueueInternal(const FGameplayTag& Key);
+	virtual void BeginPlay() override;
 };

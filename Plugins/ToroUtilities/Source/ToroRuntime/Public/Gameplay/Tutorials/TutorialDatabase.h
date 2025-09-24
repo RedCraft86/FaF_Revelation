@@ -45,7 +45,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Database, meta = (ForceInlineRow, Categories = "Tutorial", TitleProperty = "Label"))
 		TMap<FGameplayTag, FTutorialEntry> Entries;
 
-	FTutorialEntry* GetEntry(const FGameplayTag& Key);
+	const FTutorialEntry* GetEntry(const FGameplayTag& Key) const;
 
 #if WITH_EDITOR
 	virtual FIntPoint GetDataResults() const override;
