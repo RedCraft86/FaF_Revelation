@@ -3,7 +3,7 @@
 #pragma once
 
 #include "AchievementDatabase.h"
-#include "Framework/ToroGameState.h"
+#include "Framework/ToroPlayerState.h"
 #include "Components/ActorComponent.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "SaveSystem/ToroSaveManager.h"
@@ -18,12 +18,12 @@ public:
 
 	UAchievementManager() {}
 	
-	GLOBAL_COMPONENT_GETTER(UAchievementManager, AToroGameState, Achievements)
+	PLAYER_COMPONENT_GETTER(UAchievementManager, AToroPlayerState, Achievements)
 
 	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
-	static UAchievementManager* GetAchievementManager(const UObject* ContextObject)
+	static UAchievementManager* GetAchievementManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
 	{
-		return Get(ContextObject);
+		return Get(ContextObject, PlayerIdx);
 	}
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Achievements)

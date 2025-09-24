@@ -3,6 +3,7 @@
 #include "Framework/ToroPlayerState.h"
 #include "Inventory/InventoryManager.h"
 #include "Narrative/NarrativeManager.h"
+#include "Achievements/AchievementManager.h"
 
 AToroPlayerState::AToroPlayerState()
 {
@@ -15,4 +16,5 @@ AToroPlayerState::AToroPlayerState()
 
 	Inventory = CreateDefaultSubobject<UInventoryManager>("Inventory");
 	Narrative = CreateDefaultSubobject<UNarrativeManager>("Narrative");
+	Achievements = CreateDefaultSubobject<UAchievementManager>("Achievements");
 }

@@ -2,7 +2,6 @@
 
 #include "Framework/ToroGameState.h"
 #include "MusicSystem/WorldMusicManager.h"
-#include "Achievements/AchievementManager.h"
 
 AToroGameState::AToroGameState()
 {
@@ -15,6 +14,4 @@ AToroGameState::AToroGameState()
 
 	MusicManager = CreateDefaultSubobject<UWorldMusicManager>("MusicManager");
 	MusicManager->SetupAttachment(SceneRoot);
-
-	Achievements = CreateDefaultSubobject<UAchievementManager>("Achievements");
 }
