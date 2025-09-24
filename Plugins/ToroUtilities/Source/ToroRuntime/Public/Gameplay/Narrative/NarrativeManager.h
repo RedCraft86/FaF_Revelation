@@ -18,5 +18,11 @@ public:
 	
 	PLAYER_COMPONENT_GETTER(UNarrativeManager, AToroPlayerState, Narrative)
 
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+	static UNarrativeManager* GetNarrativeManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
+	{
+		return Get(ContextObject, PlayerIdx);
+	}
+
 	// TODO
 };

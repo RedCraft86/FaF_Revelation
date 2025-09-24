@@ -18,5 +18,11 @@ public:
 	
 	PLAYER_COMPONENT_GETTER(UInteractionManager, AToroPlayerCharacter, Interaction)
 
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+	static UInteractionManager* GetInteractionManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
+	{
+		return Get(ContextObject, PlayerIdx);
+	}
+
 	// TODO
 };

@@ -18,5 +18,11 @@ public:
 	
 	PLAYER_COMPONENT_GETTER(UInspectionManager, AToroPlayerCharacter, Inspection)
 
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+	static UInspectionManager* GetInspectionManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
+	{
+		return Get(ContextObject, PlayerIdx);
+	}
+
 	// TODO
 };

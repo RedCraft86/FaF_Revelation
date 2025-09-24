@@ -18,5 +18,11 @@ public:
 	
 	PLAYER_COMPONENT_GETTER(UInventoryManager, AToroPlayerState, Inventory)
 
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+	static UInventoryManager* GetInventoryManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
+	{
+		return Get(ContextObject, PlayerIdx);
+	}
+
 	// TODO
 };

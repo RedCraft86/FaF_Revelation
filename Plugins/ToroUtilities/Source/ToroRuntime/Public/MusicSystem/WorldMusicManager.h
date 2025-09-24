@@ -19,6 +19,12 @@ public:
 	
 	GLOBAL_COMPONENT_GETTER(UWorldMusicManager, AToroGameState, MusicManager)
 
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+	static UWorldMusicManager* GetMusicManager(const UObject* ContextObject)
+	{
+		return Get(ContextObject);
+	}
+
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void ChangeMainTheme(UMetaSoundSource* InTheme);
 
