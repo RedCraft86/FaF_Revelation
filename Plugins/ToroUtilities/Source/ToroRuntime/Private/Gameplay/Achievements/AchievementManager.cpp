@@ -16,7 +16,6 @@ void UAchievementManager::Grant(const FGameplayTag Key, const uint8 Value) const
 		if (Entry && Entry->IsValidData() && Entry->Requirement == Progress)
 		{
 			OnAchievement.Broadcast(*Entry, Progress);
-			UGameplayStatics::PlaySound2D(this, Database->Sound.LoadSynchronous());
 		}
 	}
 }

@@ -46,9 +46,6 @@ public:
 
 	UAchievementDatabase() {}
 
-	UPROPERTY(EditAnywhere, Category = Database)
-		TSoftObjectPtr<USoundBase> Sound;
-
 	UPROPERTY(EditAnywhere, Category = Database, meta = (ForceInlineRow, Categories = "Achievement", TitleProperty = "Label"))
 		TMap<FGameplayTag, FAchievementEntry> Entries;
 
