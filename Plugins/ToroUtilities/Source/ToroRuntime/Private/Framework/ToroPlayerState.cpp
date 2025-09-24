@@ -3,6 +3,7 @@
 #include "Framework/ToroPlayerState.h"
 #include "Inventory/InventoryManager.h"
 #include "Narrative/NarrativeManager.h"
+#include "MusicSystem/WorldMusicManager.h"
 #include "Achievements/AchievementManager.h"
 
 AToroPlayerState::AToroPlayerState()
@@ -13,6 +14,9 @@ AToroPlayerState::AToroPlayerState()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
+
+	MusicManager = CreateDefaultSubobject<UWorldMusicManager>("MusicManager");
+	MusicManager->SetupAttachment(SceneRoot);
 
 	Inventory = CreateDefaultSubobject<UInventoryManager>("Inventory");
 	Narrative = CreateDefaultSubobject<UNarrativeManager>("Narrative");

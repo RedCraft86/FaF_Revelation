@@ -19,7 +19,4 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<class UWorldMusicManager> MusicManager;
 };

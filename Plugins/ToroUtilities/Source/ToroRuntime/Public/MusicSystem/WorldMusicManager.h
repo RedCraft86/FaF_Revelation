@@ -3,7 +3,7 @@
 #pragma once
 
 #include "MetasoundSource.h"
-#include "Framework/ToroGameState.h"
+#include "Framework/ToroPlayerState.h"
 #include "Components/AudioComponent.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "WorldMusicManager.generated.h"
@@ -17,12 +17,12 @@ public:
 
 	UWorldMusicManager();
 	
-	GLOBAL_COMPONENT_GETTER(UWorldMusicManager, AToroGameState, MusicManager)
+	PLAYER_COMPONENT_GETTER(UWorldMusicManager, AToroPlayerState, MusicManager)
 
 	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
-	static UWorldMusicManager* GetMusicManager(const UObject* ContextObject)
+	static UWorldMusicManager* GetMusicManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
 	{
-		return Get(ContextObject);
+		return Get(ContextObject, PlayerIdx);
 	}
 
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
