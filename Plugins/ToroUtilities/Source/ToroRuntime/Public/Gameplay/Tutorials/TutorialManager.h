@@ -2,27 +2,28 @@
 
 #pragma once
 
+#include "TutorialDatabase.h"
+#include "Components/ActorComponent.h"
+#include "Framework/ToroPlayerState.h"
 #include "Helpers/ClassGetterMacros.h"
-#include "Subsystems/WorldSubsystem.h"
 #include "TutorialManager.generated.h"
 
-UCLASS()
-class TORORUNTIME_API UTutorialManager final : public UTickableWorldSubsystem
+UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
+class TORORUNTIME_API UTutorialManager : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
 
-	UTutorialManager() {}
+	UTutorialManager();
 
-	WORLD_SUBSYSTEM_GETTER(UTutorialManager);
+	 // TODO
+	
+	PLAYER_COMPONENT_GETTER(UTutorialManager, AToroPlayerState, Tutorials)
 
-	// TODO
-
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
-	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
-
-private:
-
-	virtual TStatId GetStatId() const override { return GetStatID(); }
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+	static UTutorialManager* GetTutorialManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
+	{
+		return Get(ContextObject, PlayerIdx);
+	}
 };

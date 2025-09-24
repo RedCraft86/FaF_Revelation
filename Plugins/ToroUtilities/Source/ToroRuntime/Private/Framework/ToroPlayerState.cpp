@@ -5,6 +5,7 @@
 #include "Narrative/NarrativeManager.h"
 #include "MusicSystem/WorldMusicManager.h"
 #include "Achievements/AchievementManager.h"
+#include "Tutorials/TutorialManager.h"
 
 AToroPlayerState::AToroPlayerState()
 {
@@ -18,6 +19,7 @@ AToroPlayerState::AToroPlayerState()
 	MusicManager = CreateDefaultSubobject<UWorldMusicManager>("MusicManager");
 	MusicManager->SetupAttachment(SceneRoot);
 
+	Tutorials = CreateDefaultSubobject<UTutorialManager>("Tutorials");
 	Inventory = CreateDefaultSubobject<UInventoryManager>("Inventory");
 	Narrative = CreateDefaultSubobject<UNarrativeManager>("Narrative");
 	Achievements = CreateDefaultSubobject<UAchievementManager>("Achievements");
