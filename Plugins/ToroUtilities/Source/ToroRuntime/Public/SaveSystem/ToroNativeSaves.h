@@ -16,6 +16,9 @@ public:
 	UToroGlobalSave();
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
+		TSet<FGuid> Cutscenes;
+
+	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TMap<FGameplayTag, uint8> Achievements;
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)

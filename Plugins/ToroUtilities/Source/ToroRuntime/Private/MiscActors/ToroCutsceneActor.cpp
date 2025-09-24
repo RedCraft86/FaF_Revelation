@@ -3,6 +3,8 @@
 #include "MiscActors/ToroCutsceneActor.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Libraries/ToroShortcutLibrary.h"
+#include "SaveSystem/ToroNativeSaves.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "LevelSequencePlayer.h"
 
 AToroCutsceneActor::AToroCutsceneActor(const FObjectInitializer& Init)
@@ -50,9 +52,11 @@ void AToroCutsceneActor::OnFinished()
 {
 	UnlockPlayer();
 	OnFinishedEvent.Broadcast();
-
-	if (!bSkippable) return;
-	// TODO save
+	if (UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr)
+	{
+		Save->Cutscenes.Add(CutsceneGuid);
+		Save->SaveObject(nullptr);
+	}
 }
 
 void AToroCutsceneActor::LockPlayer()
@@ -63,7 +67,11 @@ void AToroCutsceneActor::LockPlayer()
 	}
 
 	if (!bSkippable) return;
-	// TODO ui
+	const UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr;
+	if (!Save || Save->Cutscenes.Contains(CutsceneGuid))
+	{
+		// TODO ui
+	}
 }
 
 void AToroCutsceneActor::UnlockPlayer()

@@ -39,8 +39,9 @@ protected:
 		FGuid CutsceneGuid;
 
 	// TODO widget
-	FGameInputConfig CachedInput;
 	FTimerHandle FadedPlayHandle;
+	FGameInputConfig CachedInput;
+	TObjectPtr<class UToroSaveManager> SaveManager;
 
 	void OnFinished();
 	void LockPlayer();
