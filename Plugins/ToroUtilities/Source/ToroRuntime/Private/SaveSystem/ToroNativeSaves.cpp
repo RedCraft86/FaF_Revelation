@@ -4,16 +4,6 @@
 #include "Helpers/WindowsHelpers.h"
 #include "ToroRuntime.h"
 
-namespace ContentTags
-{
-	DEFINE_GAMEPLAY_TAG(Content)
-	DEFINE_GAMEPLAY_TAG_CHILD(Content, Cutscene)
-	DEFINE_GAMEPLAY_TAG_CHILD(Content, Tutorial)
-	DEFINE_GAMEPLAY_TAG_CHILD(Content, Character)
-	DEFINE_GAMEPLAY_TAG_CHILD(Content, Ending)
-	DEFINE_GAMEPLAY_TAG_CHILD(Content, Misc)
-}
-
 UToroGlobalSave::UToroGlobalSave()
 {
 	bSingleSlot = true;
