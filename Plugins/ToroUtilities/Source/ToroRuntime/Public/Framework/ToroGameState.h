@@ -23,6 +23,7 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UWorldMusicManager> MusicManager;
 
+	// Technically, this is player specific but that's really only for Multiplayer
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UAchievementManager> Achievements;
 };
