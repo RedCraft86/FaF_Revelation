@@ -51,7 +51,7 @@ public:
 
 	static uint8 GetMaxProbes()
 	{
-		static uint8 Limit = UToroSettings::Get()->MaxProbes;
+		static uint8 Limit = UToroSettings::Get()->LightProbeLimit;
 		return Limit;
 	}
 

@@ -12,7 +12,7 @@ UToroSettings::UToroSettings()
 		  {EToroMapType::MainMenu, nullptr},
 		  {EToroMapType::Gameplay, nullptr},
 		  {EToroMapType::Extras, nullptr}
-	}), MaxProbes(16)
+	}), LightProbeLimit(16)
 {
 	CategoryName = TEXT("Project");
 	SectionName = TEXT("ToroRuntime");
