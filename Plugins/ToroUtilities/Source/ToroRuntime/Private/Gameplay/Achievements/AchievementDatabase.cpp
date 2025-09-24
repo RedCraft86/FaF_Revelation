@@ -8,7 +8,7 @@ namespace AchievementTags
 	DEFINE_GAMEPLAY_TAG(Achievement)
 }
 
-FAchievementEntry* UAchievementDatabase::GetEntry(const FGameplayTag& Key)
+const FAchievementEntry* UAchievementDatabase::GetEntry(const FGameplayTag& Key) const
 {
 	return AchievementTags::IsValidTag(Key) ? Entries.Find(Key) : nullptr;
 }

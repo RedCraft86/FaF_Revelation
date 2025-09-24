@@ -49,7 +49,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Database, meta = (ForceInlineRow, Categories = "Achievement", TitleProperty = "Label"))
 		TMap<FGameplayTag, FAchievementEntry> Entries;
 
-	FAchievementEntry* GetEntry(const FGameplayTag& Key);
+	const FAchievementEntry* GetEntry(const FGameplayTag& Key) const;
 
 #if WITH_EDITOR
 	virtual FIntPoint GetDataResults() const override;
