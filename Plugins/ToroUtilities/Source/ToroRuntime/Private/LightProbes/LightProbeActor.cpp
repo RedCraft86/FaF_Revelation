@@ -13,8 +13,8 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 	SetRootComponent(SceneRoot);
 
 #if WITH_EDITOR
-	EditorShape = TStrongObjectPtr(CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("EditorShape"));
-	IconBillboard = TStrongObjectPtr(CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>("IconBillboard"));
+	EditorShape = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("EditorShape");
+	IconBillboard = CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>("IconBillboard");
 	if (IconBillboard)
 	{
 		IconBillboard->SetupAttachment(SceneRoot);
@@ -85,7 +85,7 @@ void ALightProbeActor::OnConstruction(const FTransform& Transform)
 			if (UMaterialInterface* BaseMat = LoadObject<UMaterialInterface>(nullptr,
 				TEXT("/ToroUtilities/Icons/LightProbe/M_LightProbe.M_LightProbe")))
 			{
-				IconMaterial = TStrongObjectPtr(UMaterialInstanceDynamic::Create(BaseMat, IconBillboard.Get()));
+				IconMaterial = UMaterialInstanceDynamic::Create(BaseMat, IconBillboard.Get());
 			}
 			
 			if (!IconBillboard->Elements.IsEmpty()) IconBillboard->SetElements({});

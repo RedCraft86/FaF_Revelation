@@ -26,7 +26,7 @@ public:
 		SetRootComponent(SceneRoot);
 	
 #if WITH_EDITOR
-		ShapeComponent = TStrongObjectPtr(CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("ShapeComponent"));
+		ShapeComponent = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("ShapeComponent");
 		if (ShapeComponent)
 		{
 			FWireStringData Data; Data.String = TEXT("NavPath Visualizer");
@@ -48,8 +48,8 @@ public:
 private:
 
 	UPROPERTY() TObjectPtr<UBillboardComponent> SceneRoot;
-#if WITH_EDITOR
-	TStrongObjectPtr<UEditorShapeComponent> ShapeComponent;
+#if WITH_EDITORONLY_DATA
+	UPROPERTY() TObjectPtr<UEditorShapeComponent> ShapeComponent;
 #endif
 	
 	virtual void BeginPlay() override

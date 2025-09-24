@@ -65,8 +65,8 @@ private:
 	// Weak Ptr since Blendables hold the actual instance
 	TWeakObjectPtr<UMaterialInstanceDynamic> BrightnessMID;
 
-#if WITH_EDITOR
-	TStrongObjectPtr<UBillboardComponent> VisualBillboard;
+#if WITH_EDITORONLY_DATA
+	UPROPERTY() TObjectPtr<UBillboardComponent> VisualBillboard;
 #endif
 
 	void OnSettingUpdate(const class UToroUserSettings* UserSettings) { ApplySettings(); }

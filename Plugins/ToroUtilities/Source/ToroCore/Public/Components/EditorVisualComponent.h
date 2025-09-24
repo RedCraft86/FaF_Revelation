@@ -10,7 +10,7 @@
  * DECLARE_VISUAL_COMPONENT
  * #endif
  */
-#define DECLARE_VISUAL_COMPONENT TStrongObjectPtr<UEditorVisualComponent> EdVisualComp = nullptr;
+#define DECLARE_VISUAL_COMPONENT TObjectPtr<UEditorVisualComponent> EdVisualComp = nullptr;
 
 /**
  * #if WITH_EDITOR
@@ -18,7 +18,7 @@
  * #endif
  */
 #define DEFINE_VISUAL_COMPONENT \
-	if (!FApp::IsGame()) EdVisualComp = TStrongObjectPtr(CreateEditorOnlyDefaultSubobject<UEditorVisualComponent>("EdVisual")); \
+	if (!FApp::IsGame()) EdVisualComp = CreateEditorOnlyDefaultSubobject<UEditorVisualComponent>("EdVisual"); \
 	if (EdVisualComp) EdVisualComp->SetupAttachment(GetRootComponent());
 
 #define UPDATE_VISUAL_MAX_COMP(Max) if (EdVisualComp) EdVisualComp->SetMaxComponents(Max);

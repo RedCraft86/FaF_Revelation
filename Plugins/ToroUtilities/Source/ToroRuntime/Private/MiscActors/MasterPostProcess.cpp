@@ -22,7 +22,7 @@ AMasterPostProcess::AMasterPostProcess()
 	PostProcess->bEnabled = true;
 
 #if WITH_EDITOR
-	VisualBillboard = TStrongObjectPtr(CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DebugBillboard"));
+	VisualBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DebugBillboard");
 	if (VisualBillboard)
 	{
 		VisualBillboard->bIsScreenSizeScaled = true;

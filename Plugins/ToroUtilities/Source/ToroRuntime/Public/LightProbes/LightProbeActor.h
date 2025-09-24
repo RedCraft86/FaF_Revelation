@@ -48,10 +48,11 @@ private:
 		float FadeRange;
 
 #if WITH_EDITORONLY_DATA
-	TStrongObjectPtr<UEditorShapeComponent> EditorShape;
-	TStrongObjectPtr<UMaterialBillboardComponent> IconBillboard;
-	TStrongObjectPtr<UMaterialInstanceDynamic> IconMaterial;
-	
+	UPROPERTY() TObjectPtr<UEditorShapeComponent> EditorShape;
+	UPROPERTY() TObjectPtr<UMaterialBillboardComponent> IconBillboard;
+	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> IconMaterial;
+#endif
+#if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
 };
