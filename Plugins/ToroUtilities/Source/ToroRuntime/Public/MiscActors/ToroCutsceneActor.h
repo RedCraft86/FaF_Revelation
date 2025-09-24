@@ -5,6 +5,7 @@
 #include "LevelSequenceActor.h"
 #include "Interfaces/GuidInterface.h"
 #include "DataTypes/GameInputConfig.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "ToroCutsceneActor.generated.h"
 
 UCLASS()
@@ -41,7 +42,7 @@ protected:
 	// TODO widget
 	FTimerHandle FadedPlayHandle;
 	FGameInputConfig CachedInput;
-	TObjectPtr<class UToroSaveManager> SaveManager;
+	TObjectPtr<UToroSaveManager> SaveManager;
 
 	void OnFinished();
 	void LockPlayer();
