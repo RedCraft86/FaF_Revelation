@@ -29,7 +29,6 @@ FIntPoint UAchievementDatabase::GetDataResults() const
 
 void UAchievementDatabase::UpdateData()
 {
-	Super::UpdateData();
 	for (TPair<FGameplayTag, FAchievementEntry>& Entry : Entries)
 	{
 		if (!AchievementTags::IsValidTag(Entry.Key))
