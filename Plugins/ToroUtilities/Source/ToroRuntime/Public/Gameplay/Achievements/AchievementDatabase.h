@@ -29,6 +29,8 @@ struct TORORUNTIME_API FAchievementEntry : public FDatabaseEntry
 	UPROPERTY(EditAnywhere, Category = Entry, meta = (ClampMin = 1, UIMin = 1, ClampMax = 255, UIMax = 255))
 		uint8 Requirement;
 
+	FAchievementEntry(): Requirement(1) {}
+
 	virtual bool IsValidData() const override
 	{
 		return !Icon.IsNull() && !Name.IsEmptyOrWhitespace();
