@@ -3,6 +3,7 @@
 #pragma once
 
 #include "NarrativeComponent.h"
+#include "DataTypes/GameInputConfig.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Framework/ToroPlayerState.h"
 #include "NarrativeManager.generated.h"
@@ -24,5 +25,11 @@ public:
 		return Get(ContextObject, PlayerIdx);
 	}
 
-	// TODO
+	void ToggleQuests() const;
+	virtual void DialogueBegan(UDialogue* Dialogue) override;
+	virtual void DialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue) override;
+
+private:
+
+	FGameInputConfig CachedInputConfig;
 };
