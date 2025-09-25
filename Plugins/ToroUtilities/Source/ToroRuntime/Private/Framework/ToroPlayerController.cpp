@@ -80,20 +80,22 @@ void AToroPlayerController::UpdatePauseState()
 		}
 	}
 
-	SetPause(bUserPaused || !PauseRequests.IsEmpty());
-}
-
-void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
-{
-	OnGameFocusChanged.Broadcast(bFocused);
+	const bool bTargetPaused = bUserPaused || !PauseRequests.IsEmpty();
 
 	if (const ALevelSequenceActor* Cinematic = Cast<ALevelSequenceActor>(GetCinematicActor()))
 	{
 		if (ULevelSequencePlayer* SequencePlayer = Cinematic->GetSequencePlayer())
 		{
-			bFocused ? SequencePlayer->Play() : SequencePlayer->Pause();
+			bTargetPaused ? SequencePlayer->Pause() : SequencePlayer->Play();
 		}
 	}
+
+	SetPause(bTargetPaused);
+}
+
+void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
+{
+	OnGameFocusChanged.Broadcast(bFocused);
 
 	if (bFocused)
 	{
