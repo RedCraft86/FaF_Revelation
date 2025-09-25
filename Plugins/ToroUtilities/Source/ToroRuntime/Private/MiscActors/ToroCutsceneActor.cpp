@@ -62,7 +62,7 @@ void AToroCutsceneActor::LockPlayer()
 {
 	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
 	{
-		// Controller->EnterCinematic(this); // TODO
+		Player->EnterCinematic(this);
 	}
 
 	if (!bSkippable) return;
@@ -77,7 +77,7 @@ void AToroCutsceneActor::UnlockPlayer()
 {
 	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
 	{
-		// Controller->ExitCinematic(); // TODO
+		Player->ExitCinematic();
 	}
 
 	if (!bSkippable) return;
