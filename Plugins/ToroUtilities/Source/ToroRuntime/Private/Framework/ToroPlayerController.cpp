@@ -57,9 +57,9 @@ void AToroPlayerController::ExitCinematic()
 	SetCinematicMode(false, false, false, true, true);
 }
 
-void AToroPlayerController::EnterCinematic(AActor* InActor)
+void AToroPlayerController::EnterCinematic(AActor* InInstigator)
 {
-	CinematicActor = InActor;
+	CinematicActor = InInstigator;
 	if (CinematicActor.IsValid())
 	{
 		SetCinematicMode(true, true, false, true, true);
@@ -69,34 +69,6 @@ void AToroPlayerController::EnterCinematic(AActor* InActor)
 		ExitCinematic();
 	}
 }
-
-// void AToroPlayerController::CheckValidity()
-// {
-// 	// Check pause requests
-// 	if (!PauseRequests.IsEmpty())
-// 	{
-// 		bool bChanged = false;
-// 		for (const TWeakObjectPtr<const UObject>& Element : PauseRequests)
-// 		{
-// 			if (!Element.IsValid())
-// 			{
-// 				bChanged = true;
-// 				break;
-// 			}
-// 		}
-//
-// 		if (bChanged)
-// 		{
-// 			UpdatePauseState();
-// 		}
-// 	}
-//
-// 	// Check cinematic actor
-// 	if (bCinematicMode && !CinematicActor.IsValid())
-// 	{
-// 		ExitCinematic();
-// 	}
-// }
 
 void AToroPlayerController::UpdatePauseState()
 {
@@ -137,9 +109,6 @@ void AToroPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// GetWorldTimerManager().SetTimer(ValidityCheckTimer, this,
-	// 	&AToroPlayerController::CheckValidity, 5.0f, true);
-	
 	FSlateApplication::Get().OnApplicationActivationStateChanged()
 		.AddUObject(this, &AToroPlayerController::OnWindowFocusChanged);
 

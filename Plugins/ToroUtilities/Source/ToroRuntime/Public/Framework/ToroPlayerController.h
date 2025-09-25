@@ -57,12 +57,10 @@ protected:
 	FGameInputConfig CachedInputConfig;
 	TWeakObjectPtr<AActor> CinematicActor;
 	TSet<TWeakObjectPtr<const UObject>> PauseRequests;
-	// FTimerHandle ValidityCheckTimer;
 
 	virtual void ExitCinematic();
-	virtual void EnterCinematic(AActor* InActor);
+	virtual void EnterCinematic(AActor* InInstigator);
 
-	// virtual void CheckValidity(); // Use lazy loading instead since this happening is unlikely
 	virtual void UpdatePauseState();
 	virtual void OnWindowFocusChanged(bool bFocused);
 
