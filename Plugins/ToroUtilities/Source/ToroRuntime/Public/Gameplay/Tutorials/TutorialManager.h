@@ -34,6 +34,7 @@ public:
 
 	void MarkTutorialsSeen();
 	const FTutorialEntry* GetTutorialData(const FGameplayTag& Key) const;
+	const TArray<FGameplayTag>& GetTutorials() const { return Tutorials; }
 	
 private:
 
