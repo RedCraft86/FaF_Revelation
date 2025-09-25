@@ -122,7 +122,7 @@ void AToroPlayerController::BeginPlay()
 
 void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	CachedInputConfig.ClearReferences();
+	CachedInputConfig.ClearAndReset();
 	Super::EndPlay(EndPlayReason);
 }
 

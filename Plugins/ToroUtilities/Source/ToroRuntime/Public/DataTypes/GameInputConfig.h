@@ -61,7 +61,7 @@ public:
 		, FocusWidget(InFocusWidget)
 	{}
 
-	void ClearReferences()
+	void ClearAndReset()
 	{
 		UI_Only = FInputModeUIOnly();
 		GameAndUI = FInputModeGameAndUI();
