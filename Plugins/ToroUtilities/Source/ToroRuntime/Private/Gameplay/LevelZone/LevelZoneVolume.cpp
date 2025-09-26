@@ -71,7 +71,10 @@ void ALevelZoneVolume::UpdateRefCulling()
 void ALevelZoneVolume::BeginPlay()
 {
 	Super::BeginPlay();
-	CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+	{
+		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	});
 }
 
 void ALevelZoneVolume::Tick(float DeltaSeconds)

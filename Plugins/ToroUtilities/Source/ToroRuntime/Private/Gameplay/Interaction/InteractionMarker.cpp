@@ -50,7 +50,10 @@ FVector UInteractionMarker::GetCameraPos() const
 void UInteractionMarker::BeginPlay()
 {
 	Super::BeginPlay();
-	CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+	{
+		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
+	});
 }
 
 void UInteractionMarker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
