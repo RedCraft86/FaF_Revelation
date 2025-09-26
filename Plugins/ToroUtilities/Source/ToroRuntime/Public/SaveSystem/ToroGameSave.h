@@ -23,7 +23,7 @@ public:
 		FInventoryArchives Archives;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TMap<FGameplayTag, FInventoryItems> Inventory;
+		TMap<FGameplayTag, FInventoryItems> Items;
 
 	virtual void DeleteData() override;
 

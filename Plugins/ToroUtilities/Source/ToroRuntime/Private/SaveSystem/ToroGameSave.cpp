@@ -12,12 +12,12 @@ void UToroGameSave::DeleteData()
 	Super::DeleteData();
 	PlayTime = 0.0f;
 	Archives.Empty();
-	Inventory.Empty();
+	Items.Empty();
 }
 
 void UToroGameSave::SerializeData(FArchive& Ar)
 {
 	Ar << PlayTime;
 	Ar << Archives;
-	Ar << Inventory;
+	Ar << Items;
 }
