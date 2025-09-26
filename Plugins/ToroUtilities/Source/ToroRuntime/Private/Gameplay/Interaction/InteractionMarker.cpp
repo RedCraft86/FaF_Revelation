@@ -26,11 +26,11 @@ UInteractionMarker::UInteractionMarker(): MaxDistance(250.0f)
 
 FVector UInteractionMarker::GetCameraPos() const
 {
-	FVector Position = FVector::ZeroVector;
+	FVector Position = GetComponentLocation();
 #if WITH_EDITOR
 	if (!FApp::IsGame())
 	{
-		if (!GEditor) return GetComponentLocation();
+		if (!GEditor) return Position;
 		if (UUnrealEditorSubsystem* Subsystem = GEditor->GetEditorSubsystem<UUnrealEditorSubsystem>())
 		{
 			FRotator Rotation;
@@ -56,6 +56,8 @@ void UInteractionMarker::BeginPlay()
 void UInteractionMarker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (GetOwner()->IsHidden()) return;
 	SetVisibility(FVector::Dist(GetComponentLocation(), GetCameraPos()) <= MaxDistance);
 }
 
