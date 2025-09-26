@@ -14,9 +14,13 @@ UInteractionMarker::UInteractionMarker(): MaxDistance(250.0f)
 	
 	SetHiddenInGame(false);
 	bIsScreenSizeScaled = true;
-	ScreenSize = 0.0005f;
+	ScreenSize = 0.0035f;
+	OpacityMaskRefVal = 0.4f;
+
 #if WITH_EDITOR
 	bTickInEditor = true;
+	UBillboardComponent::SetSprite(LoadObject<UTexture2D>(nullptr,
+		TEXT("/ToroUtilities/Assets/T_Interactable.T_Interactable")));
 #endif
 }
 
