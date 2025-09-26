@@ -13,8 +13,6 @@ public class ToroGraph : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
-                "Slate",
-                "SlateCore",
                 
                 "ToroCore"
             ]
