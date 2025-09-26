@@ -6,6 +6,7 @@
 UWorldMusicManager::UWorldMusicManager(): StateIdx(0), bGamePaused(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
 
 	SetUISound(true);

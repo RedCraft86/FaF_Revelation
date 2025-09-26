@@ -34,6 +34,7 @@ public:
     TOROCORE_API UEditorVisualComponent()
     {
         PrimaryComponentTick.bCanEverTick = true;
+	    PrimaryComponentTick.TickGroup = TG_DuringPhysics;
         PrimaryComponentTick.TickInterval = 0.2f;
         bIsScreenSizeScaled = true;
         bAutoActivate = false;

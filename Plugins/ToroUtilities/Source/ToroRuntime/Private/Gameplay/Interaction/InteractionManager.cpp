@@ -6,6 +6,7 @@
 UInteractionManager::UInteractionManager(): bEnabled(false), bInteracting(false)
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
 	PrimaryComponentTick.TickInterval = 0.05f;
 }
 
