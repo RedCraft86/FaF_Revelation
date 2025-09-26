@@ -113,6 +113,8 @@ public:
 		return Ar;
 	}
 
+	FORCEINLINE void Empty() { Slots.Empty(); }
+
 	void ForEachSlot(const TFunction<void(const FInventoryArchiveSlot&)>& Func);
 	const FInventoryArchiveSlot* AddArchive(UInventoryAsset* Archive, const bool bSecretFound = false);
 	void MoveToLast(const int32 IndexToMove);
