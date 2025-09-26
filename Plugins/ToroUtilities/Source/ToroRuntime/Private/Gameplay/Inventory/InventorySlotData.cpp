@@ -97,8 +97,19 @@ bool FInventoryItems::TakeItem(const UInventoryAsset* Item, const uint8 Amount)
 	return false;
 }
 
+void FInventoryItems::SetEquippedItem(UInventoryAsset* Item)
+{
+	Equipped.Reset();
+	const FInventoryItemSlot* Slot = FindItem(Item);
+	if (Slot && Slot->Amount > 0)
+	{
+		Equipped = Item;
+	}
+}
+
 FInventoryItemSlot* FInventoryItems::FindItem(const UInventoryAsset* Item)
 {
+	if (!Item) return nullptr;
 	return Slots.FindByPredicate([Item](const FInventoryItemSlot& Element)
 	{
 		return Element.Asset == Item;

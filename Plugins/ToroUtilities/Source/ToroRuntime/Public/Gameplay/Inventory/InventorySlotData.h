@@ -46,12 +46,14 @@ struct TORORUNTIME_API FInventoryItems
 private:
 
 	UPROPERTY() TArray<FInventoryItemSlot> Slots;
+	UPROPERTY() TSoftObjectPtr<UInventoryAsset> Equipped;
 	
 public:
 
 	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FInventoryItems& Data)
 	{
 		Ar << Data.Slots;
+		Ar << Data.Equipped;
 		return Ar;
 	}
 
@@ -59,6 +61,9 @@ public:
 	void ForEachSlot(const TFunction<void(const FInventoryItemSlot&)>& Func);
 	const FInventoryItemSlot* AddItem(UInventoryAsset* Item, const uint8 Amount = 1);
 	bool TakeItem(const UInventoryAsset* Item, const uint8 Amount = 1);
+
+	void SetEquippedItem(UInventoryAsset* Item);
+	const UInventoryAsset* GetEquippedItem() const { return Equipped.LoadSynchronous(); }
 	
 	FInventoryItemSlot* FindItem(const UInventoryAsset* Item);
 	const FInventoryItemSlot* FindItem(const UInventoryAsset* Item) const { return FindItem(Item); }
