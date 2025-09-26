@@ -62,8 +62,8 @@ public:
 	const FInventoryItemSlot* AddItem(UInventoryAsset* Item, const uint8 Amount = 1);
 	bool TakeItem(const UInventoryAsset* Item, const uint8 Amount = 1);
 
-	void SetEquippedItem(UInventoryAsset* Item);
-	const UInventoryAsset* GetEquippedItem() const { return Equipped.LoadSynchronous(); }
+	FInventoryItemSlot* SetEquippedItem(UInventoryAsset* Item);
+	const TSoftObjectPtr<UInventoryAsset>& GetEquippedItem() const { return Equipped; }
 	
 	FInventoryItemSlot* FindItem(const UInventoryAsset* Item);
 	const FInventoryItemSlot* FindItem(const UInventoryAsset* Item) const { return FindItem(Item); }

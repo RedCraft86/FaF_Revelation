@@ -97,14 +97,16 @@ bool FInventoryItems::TakeItem(const UInventoryAsset* Item, const uint8 Amount)
 	return false;
 }
 
-void FInventoryItems::SetEquippedItem(UInventoryAsset* Item)
+FInventoryItemSlot* FInventoryItems::SetEquippedItem(UInventoryAsset* Item)
 {
 	Equipped.Reset();
-	const FInventoryItemSlot* Slot = FindItem(Item);
+	FInventoryItemSlot* Slot = FindItem(Item);
 	if (Slot && Slot->Amount > 0)
 	{
 		Equipped = Item;
+		return Slot;
 	}
+	return nullptr;
 }
 
 FInventoryItemSlot* FInventoryItems::FindItem(const UInventoryAsset* Item)
