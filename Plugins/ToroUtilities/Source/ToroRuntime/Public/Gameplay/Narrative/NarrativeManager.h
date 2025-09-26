@@ -8,7 +8,7 @@
 #include "Framework/ToroPlayerState.h"
 #include "NarrativeManager.generated.h"
 
-UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
+UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TORORUNTIME_API UNarrativeManager : public UNarrativeComponent
 {
 	GENERATED_BODY()

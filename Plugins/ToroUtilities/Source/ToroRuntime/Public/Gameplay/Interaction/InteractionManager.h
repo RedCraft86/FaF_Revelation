@@ -8,7 +8,7 @@
 #include "Framework/ToroPlayerCharacter.h"
 #include "InteractionManager.generated.h"
 
-UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
+UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TORORUNTIME_API UInteractionManager : public UActorComponent
 {
 	GENERATED_BODY()

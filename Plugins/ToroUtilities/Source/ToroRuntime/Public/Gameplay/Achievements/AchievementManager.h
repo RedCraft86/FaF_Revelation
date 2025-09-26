@@ -9,7 +9,7 @@
 #include "SaveSystem/ToroSaveManager.h"
 #include "AchievementManager.generated.h"
 
-UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
+UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TORORUNTIME_API UAchievementManager final : public UActorComponent
 {
 	GENERATED_BODY()

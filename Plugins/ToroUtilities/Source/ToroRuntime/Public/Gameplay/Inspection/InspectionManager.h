@@ -7,7 +7,7 @@
 #include "Framework/ToroPlayerCharacter.h"
 #include "InspectionManager.generated.h"
 
-UCLASS(NotBlueprintable, ClassGroup = (Player), meta = (BlueprintSpawnableComponent))
+UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TORORUNTIME_API UInspectionManager : public USceneComponent
 {
 	GENERATED_BODY()
