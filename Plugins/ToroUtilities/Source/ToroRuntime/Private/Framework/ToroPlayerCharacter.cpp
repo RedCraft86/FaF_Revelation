@@ -93,6 +93,7 @@ void AToroPlayerCharacter::EnterCinematic(AActor* InInstigator)
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	Interaction->HandleTrace.BindUObject(this, &AToroPlayerCharacter::HandleInteraction);
 	if (UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
 	{
 		LockTags.AddTag(PlayerLockTags::TAG_MainMenu);

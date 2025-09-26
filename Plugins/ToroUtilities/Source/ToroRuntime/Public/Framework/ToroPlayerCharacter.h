@@ -85,6 +85,7 @@ protected:
 
 	virtual void SlowTick() {}
 	virtual void OnLockTagsChanged() {}
+	virtual FHitResult HandleInteraction() { return FHitResult(); }
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
