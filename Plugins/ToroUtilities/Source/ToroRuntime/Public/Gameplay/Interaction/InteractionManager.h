@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "InteractionData.h"
 #include "Components/ActorComponent.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Framework/ToroPlayerCharacter.h"
@@ -14,7 +15,7 @@ class TORORUNTIME_API UInteractionManager : public UActorComponent
 
 public:
 
-	UInteractionManager() {}
+	UInteractionManager();
 	
 	PLAYER_COMPONENT_GETTER(UInteractionManager, AToroPlayerCharacter, Interaction)
 
@@ -24,5 +25,33 @@ public:
 		return Get(ContextObject, PlayerIdx);
 	}
 
-	// TODO
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void SetEnabled(const bool bInEnabled);
+
+	UFUNCTION(BlueprintPure, Category = Interaction)
+		bool IsEnabled() const { return bEnabled; }
+
+	UFUNCTION(BlueprintCallable, Category = Interaction)
+		void SetInteracting(const bool bInInteracting);
+
+	UFUNCTION(BlueprintPure, Category = Interaction)
+		bool IsInteracting() const { return bInteracting; }
+
+	DECLARE_DELEGATE_RetVal(FHitResult, FHandleTrace);
+	FHandleTrace HandleTrace;
+
+private:
+
+	bool bEnabled;
+	bool bInteracting;
+	FInteractionCache InteractCache;
+	TObjectPtr<AToroPlayerCharacter> Player;
+
+	// TODO widget
+
+	void CleanupCache();
+	bool CanInteract() const { return bEnabled && Player && HandleTrace.IsBound(); }
+
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 };
