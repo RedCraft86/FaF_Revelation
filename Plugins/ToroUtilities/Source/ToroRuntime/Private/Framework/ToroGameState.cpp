@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameState.h"
+#include "GamePhase/GamePhaseManager.h"
 
 AToroGameState::AToroGameState()
 {
@@ -10,4 +11,6 @@ AToroGameState::AToroGameState()
 
 	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
 	SetRootComponent(SceneRoot);
+
+	GamePhase = CreateDefaultSubobject<UGamePhaseManager>("GamePhase");
 }

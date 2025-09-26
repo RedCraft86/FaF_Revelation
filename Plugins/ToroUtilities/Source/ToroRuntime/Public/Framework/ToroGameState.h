@@ -7,7 +7,7 @@
 #include "ToroGameState.generated.h"
 
 UCLASS(meta = (ChildCanTick = true))
-class TORORUNTIME_API AToroGameState : public AGameStateBase
+class TORORUNTIME_API AToroGameState final : public AGameStateBase
 {
 	GENERATED_BODY()
 
@@ -19,4 +19,7 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UGamePhaseManager> GamePhase;
 };
