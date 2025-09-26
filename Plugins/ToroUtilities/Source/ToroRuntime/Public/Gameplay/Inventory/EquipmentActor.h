@@ -36,14 +36,6 @@ public:
 		void OnUnequip();
 	virtual void OnUnequip_Implementation() { K2_DestroyActor(); }
 
-	UFUNCTION(BlueprintNativeEvent, Category = Equipment)
-		void OnSaveData(UPARAM(ref) FJsonObjectWrapper& Json);
-	virtual void OnSaveData_Implementation(UPARAM(ref) FJsonObjectWrapper& Json) {}
-
-	UFUNCTION(BlueprintNativeEvent, Category = Equipment)
-		void OnLoadData(const FJsonObjectWrapper& Json);
-	virtual void OnLoadData_Implementation(const FJsonObjectWrapper& Json) {}
-
 	UFUNCTION(BlueprintPure, Category = Equipment)
 		bool IsBeingUsed() const { return bUsing; }
 
@@ -51,7 +43,7 @@ protected:
 
 	bool bUsing;
 
-	FJsonObjectWrapper UnequipItem();
-	void EquipItem(const FJsonObjectWrapper& InMetadata);
+	void EquipItem();
+	void UnequipItem();
 	void SetUseState(const bool bInUse);
 };

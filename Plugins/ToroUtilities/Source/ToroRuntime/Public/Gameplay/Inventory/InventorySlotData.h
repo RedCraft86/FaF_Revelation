@@ -13,19 +13,17 @@ struct TORORUNTIME_API FInventoryItemSlot
 
 	UPROPERTY() TSoftObjectPtr<UInventoryAsset> Asset;
 	UPROPERTY() uint8 Amount;
-	UPROPERTY() FString Metadata;
 
-	FInventoryItemSlot(): Asset(nullptr), Amount(0), Metadata(TEXT("{}")) {}
+	FInventoryItemSlot(): Asset(nullptr), Amount(0) {}
 
 	FInventoryItemSlot(UInventoryAsset* InAsset, const uint8 InAmount = 1)
-		: Asset(InAsset), Amount(InAmount), Metadata(TEXT("{}"))
+		: Asset(InAsset), Amount(InAmount)
 	{}
 
 	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FInventoryItemSlot& Data)
 	{
 		Ar << Data.Asset;
 		Ar << Data.Amount;
-		Ar << Data.Metadata;
 		return Ar;
 	}
 
@@ -34,8 +32,6 @@ struct TORORUNTIME_API FInventoryItemSlot
 
 	void AddAmount(const uint8 InAmount);
 	bool TakeAmount(const uint8 InAmount);
-	FJsonObjectWrapper GetJsonMetadata() const;
-	void SetJsonMetadata(const FJsonObjectWrapper& InJson);
 };
 
 USTRUCT(BlueprintInternalUseOnly)

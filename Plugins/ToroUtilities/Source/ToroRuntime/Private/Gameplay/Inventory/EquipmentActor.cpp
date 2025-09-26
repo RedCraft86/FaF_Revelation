@@ -12,28 +12,21 @@ AEquipmentActor::AEquipmentActor(): bUsing(false)
 	SetRootComponent(SceneRoot);
 }
 
-FJsonObjectWrapper AEquipmentActor::UnequipItem()
+void AEquipmentActor::EquipItem()
 {
-	FJsonObjectWrapper Json;
-
-	SetUseState(false);
-	OnSaveData(Json);
-	GetWorldTimerManager().SetTimerForNextTick([this]()
-	{
-		OnUnequip();
-	});
-
-	return Json;
-}
-
-void AEquipmentActor::EquipItem(const FJsonObjectWrapper& InMetadata)
-{
-	OnLoadData(InMetadata);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		OnEquip();
 	});
-	
+}
+
+void AEquipmentActor::UnequipItem()
+{
+	SetUseState(false);
+	GetWorldTimerManager().SetTimerForNextTick([this]()
+	{
+		OnUnequip();
+	});
 }
 
 void AEquipmentActor::SetUseState(const bool bInUse)

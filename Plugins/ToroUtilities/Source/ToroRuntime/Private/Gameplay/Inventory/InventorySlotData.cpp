@@ -21,18 +21,6 @@ bool FInventoryItemSlot::TakeAmount(const uint8 InAmount)
 	return false;
 }
 
-FJsonObjectWrapper FInventoryItemSlot::GetJsonMetadata() const
-{
-	FJsonObjectWrapper Wrapper;
-	Wrapper.JsonObjectFromString(Metadata);
-	return Wrapper;
-}
-
-void FInventoryItemSlot::SetJsonMetadata(const FJsonObjectWrapper& InJson)
-{
-	InJson.JsonObjectToString(Metadata);
-}
-
 void FInventoryItems::CleanupAndSort()
 {
 	Slots.RemoveAllSwap([](const FInventoryItemSlot& Element)
