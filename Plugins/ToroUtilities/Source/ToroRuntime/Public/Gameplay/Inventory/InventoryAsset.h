@@ -52,7 +52,7 @@ public:
 		TSoftClassPtr<AEquipmentActor> Equipment;
 
 	UPROPERTY(EditAnywhere, Category = Archive, meta = (EditCondition = "AssetType == EInvAssetType::Archive", EditConditionHides, MultiLine = true))
-		FText SecretCode;
+		FText SecretText;
 
 	UPROPERTY(EditAnywhere, Category = Archive, meta = (EditCondition = "AssetType == EInvAssetType::Archive", EditConditionHides, MultiLine = true))
 		FText ContentText;
