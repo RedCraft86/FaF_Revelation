@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "SaveSystem/ToroNativeSaves.h"
+#include "SaveSystem/ToroGlobalSave.h"
 #include "Helpers/WindowsHelpers.h"
 #include "ToroRuntime.h"
 
@@ -26,20 +26,4 @@ void UToroGlobalSave::SerializeData(FArchive& Ar)
 	Ar << Tutorials;
 	Ar << Achievements;
 	Ar << Content;
-}
-
-UToroGameSave::UToroGameSave(): PlayTime(0.0f)
-{
-	bSingleSlot = false;
-}
-
-void UToroGameSave::DeleteData()
-{
-	Super::DeleteData();
-	PlayTime = 0.0f;
-}
-
-void UToroGameSave::SerializeData(FArchive& Ar)
-{
-	Ar << PlayTime;
 }

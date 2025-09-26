@@ -3,7 +3,7 @@
 #include "MiscActors/ToroCutsceneActor.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Libraries/ToroShortcutLibrary.h"
-#include "SaveSystem/ToroNativeSaves.h"
+#include "SaveSystem/ToroGlobalSave.h"
 #include "LevelSequencePlayer.h"
 
 AToroCutsceneActor::AToroCutsceneActor(const FObjectInitializer& Init)

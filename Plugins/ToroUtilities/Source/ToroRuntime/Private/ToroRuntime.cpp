@@ -1,7 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroRuntime.h"
-#include "SaveSystem/ToroNativeSaves.h"
+#include "SaveSystem/ToroGlobalSave.h"
+#include "SaveSystem/ToroGameSave.h"
 
 DEFINE_LOG_CATEGORY(LogToroRuntime);
 

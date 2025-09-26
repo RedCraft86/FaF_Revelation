@@ -1,7 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Tutorials/TutorialManager.h"
-#include "SaveSystem/ToroNativeSaves.h"
+#include "SaveSystem/ToroGlobalSave.h"
 #include "ToroRuntime.h"
 
 void UTutorialManager::QueueTutorial(const FGameplayTag Key)

@@ -3,8 +3,8 @@
 #pragma once
 
 #include "ToroSaveTypes.h"
-#include "Helpers/GameplayTagMacros.h"
-#include "ToroNativeSaves.generated.h"
+#include "GameplayTagContainer.h"
+#include "ToroGlobalSave.generated.h"
 
 UCLASS()
 class TORORUNTIME_API UToroGlobalSave : public UToroSaveObject
@@ -26,25 +26,6 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = GlobalSave)
 		TSet<FGameplayTag> Content;
-
-	virtual void DeleteData() override;
-
-protected:
-
-	virtual void SerializeData(FArchive& Ar) override;
-};
-
-UCLASS()
-class TORORUNTIME_API UToroGameSave : public UToroSaveObject
-{
-	GENERATED_BODY()
-
-public:
-
-	UToroGameSave();
-
-	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		float PlayTime;
 
 	virtual void DeleteData() override;
 
