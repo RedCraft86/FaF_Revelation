@@ -15,11 +15,14 @@ AEquipmentActor::AEquipmentActor(): bUsing(false)
 FJsonObjectWrapper AEquipmentActor::UnequipItem()
 {
 	FJsonObjectWrapper Json;
+
+	SetUseState(false);
 	OnSaveData(Json);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		OnUnequip();
 	});
+
 	return Json;
 }
 
