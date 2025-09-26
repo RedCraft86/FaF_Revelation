@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "EquipmentActor.h"
 #include "MiscObjects/ToroDataAsset.h"
 #include "InventoryAsset.generated.h"
 
@@ -48,7 +49,7 @@ public:
 		bool bReusableKey;
 
 	UPROPERTY(EditAnywhere, Category = Item, meta = (EditCondition = "AssetType == EInvAssetType::Item && ItemType == EInvItemType::Equipment", EditConditionHides))
-		TSoftClassPtr<AActor> Equipment;
+		TSoftClassPtr<AEquipmentActor> Equipment;
 
 	UPROPERTY(EditAnywhere, Category = Archive, meta = (EditCondition = "AssetType == EInvAssetType::Archive", EditConditionHides, MultiLine = true))
 		FText SecretCode;
