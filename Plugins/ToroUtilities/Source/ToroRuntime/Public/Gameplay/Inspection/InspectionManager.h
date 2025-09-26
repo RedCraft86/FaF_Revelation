@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "InspectableActor.h"
 #include "Components/SceneComponent.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Framework/ToroPlayerCharacter.h"
@@ -14,7 +15,7 @@ class TORORUNTIME_API UInspectionManager : public USceneComponent
 
 public:
 
-	UInspectionManager() {}
+	UInspectionManager();
 	
 	PLAYER_COMPONENT_GETTER(UInspectionManager, AToroPlayerCharacter, Inspection)
 
@@ -24,5 +25,33 @@ public:
 		return Get(ContextObject, PlayerIdx);
 	}
 
-	// TODO
+	UPROPERTY(EditAnywhere, Category = Settings)
+		FVector2D TurnRate;
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		void BeginInspection(AInspectableActor* InInspectable);
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		void EndInspection();
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		AInspectableActor* GetInspectable() const { return Inspectable.Get(); }
+
+	UFUNCTION(BlueprintCallable, Category = Inspection)
+		bool IsInspecting() const { return Inspectable.IsValid(); }
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnInspection, const bool);
+	FOnInspection OnInspection;
+
+	void OnMouseXY(const FVector2D& InValue);
+
+private:
+
+	// TODO ui
+
+	bool bSecretKnown;
+	TObjectPtr<UInventoryManager> Inventory;
+	TWeakObjectPtr<AInspectableActor> Inspectable;
+
+	virtual void BeginPlay() override;
 };
