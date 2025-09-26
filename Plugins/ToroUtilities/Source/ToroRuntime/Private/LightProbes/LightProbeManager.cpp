@@ -76,8 +76,8 @@ void ULightProbeManager::ResetPPM(const uint8 Idx)
 
 FTransform ULightProbeManager::GetCameraTransform() const
 {
-	FVector Position;
-	FRotator Rotation;
+	FVector Position = FVector::ZeroVector;
+	FRotator Rotation = FRotator::ZeroRotator;
 #if WITH_EDITOR
 	if (!FApp::IsGame())
 	{
