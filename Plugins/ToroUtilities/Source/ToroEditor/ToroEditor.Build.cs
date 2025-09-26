@@ -16,6 +16,7 @@ public class ToroEditor : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
+                "AssetDefinition",
                 "EditorSubsystem",
                 "DeveloperSettings",
                 
