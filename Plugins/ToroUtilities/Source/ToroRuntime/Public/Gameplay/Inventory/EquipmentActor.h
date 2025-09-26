@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "JsonObjectWrapper.h"
 #include "GameFramework/Actor.h"
 #include "EquipmentActor.generated.h"
 

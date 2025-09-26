@@ -3,7 +3,6 @@
 #pragma once
 
 #include "InventoryAsset.h"
-#include "JsonObjectWrapper.h"
 #include "InventorySlotData.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly)
