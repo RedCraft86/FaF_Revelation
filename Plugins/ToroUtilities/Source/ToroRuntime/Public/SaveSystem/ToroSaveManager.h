@@ -29,9 +29,15 @@ class TORORUNTIME_API UToroSaveManager final : public UGameInstanceSubsystem
 
 public:
 
-	UToroSaveManager() {}
-	
+	UToroSaveManager(): ActiveSlot(0) {}
+
 	GAME_INSTANCE_SUBSYSTEM_GETTER(UToroSaveManager)
+
+	UFUNCTION(BlueprintCallable, Category = SaveSystem)
+		void SetActiveSaveSlot(const uint8 InSlot);
+
+	UFUNCTION(BlueprintPure, Category = SaveSystem)
+		uint8 GetActiveSaveSlot() const { return ActiveSlot; }
 
 	UFUNCTION(BlueprintCallable, Category = SaveSystem, meta = (DeterminesOutputType = "SaveClass"))
 		UToroSaveObject* FindOrAddSave(TSubclassOf<UToroSaveObject> SaveClass, const uint8 Slot = 0);
@@ -42,6 +48,12 @@ public:
 		return Cast<T>(FindOrAddSave(T::StaticClass(), Slot));
 	}
 
+	template<typename T = UToroSaveObject>
+	T* FindOrAddSave()
+	{
+		return Cast<T>(FindOrAddSave(T::StaticClass(), ActiveSlot));
+	}
+
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSaveActivity, const UToroSaveObject*, const ESaveGameActivity);
 	FOnSaveActivity OnSaveActivity;
 
@@ -49,18 +61,11 @@ private:
 
 	UPROPERTY(Transient)
 		TMap<TSubclassOf<UToroSaveObject>, FSaveSlots> SaveObjects;
+
+	uint8 ActiveSlot;
 	
 	void OnActivity(const UToroSaveObject* Save, const ESaveGameActivity Activity) const;
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
-
-public: // Statics
-
-	template<typename T = UToroSaveObject>
-	static T* GetSave(const UObject* ContextObject, const uint8 Slot = 0)
-	{
-		UToroSaveManager* Manager = UToroSaveManager::Get(ContextObject);
-		return Manager ? Manager->FindOrAddSave<T>(Slot) : nullptr;
-	}
 };

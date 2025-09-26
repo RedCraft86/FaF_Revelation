@@ -17,6 +17,14 @@ UToroSaveObject* FSaveSlots::GetSlotObject(const uint8 Slot)
 	return Obj ? *Obj : nullptr;
 }
 
+void UToroSaveManager::SetActiveSaveSlot(const uint8 InSlot)
+{
+	if (UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
+	{
+		ActiveSlot = InSlot;
+	}
+}
+
 UToroSaveObject* UToroSaveManager::FindOrAddSave(const TSubclassOf<UToroSaveObject> SaveClass, const uint8 Slot)
 {
 	if (!SaveClass)
