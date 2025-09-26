@@ -41,10 +41,10 @@ public:
 		void AddItem(UInventoryAsset* InItem, const uint8 Amount = 1);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-	bool TakeItem(UInventoryAsset* InItem, const uint8 Amount = 1);
+		bool TakeItem(UInventoryAsset* InItem, const uint8 Amount = 1);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-		void AddArchive(UInventoryAsset* InItem, const bool bSecretFound = false);
+		FInventoryArchiveSlot AddArchive(UInventoryAsset* InItem, const bool bSecretFound = false);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 		void UnEquipItem();

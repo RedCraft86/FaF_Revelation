@@ -24,10 +24,14 @@ bool UInventoryManager::TakeItem(UInventoryAsset* InItem, const uint8 Amount)
 	return false;
 }
 
-void UInventoryManager::AddArchive(UInventoryAsset* InItem, const bool bSecretFound)
+FInventoryArchiveSlot UInventoryManager::AddArchive(UInventoryAsset* InItem, const bool bSecretFound)
 {
-	Archives.AddArchive(InItem, bSecretFound);
-	UpdateUI();
+	if (const FInventoryArchiveSlot* Ptr = Archives.AddArchive(InItem, bSecretFound))
+	{
+		UpdateUI();
+		return *Ptr;
+	}
+	return FInventoryArchiveSlot(); 
 }
 
 void UInventoryManager::UnEquipItem()
