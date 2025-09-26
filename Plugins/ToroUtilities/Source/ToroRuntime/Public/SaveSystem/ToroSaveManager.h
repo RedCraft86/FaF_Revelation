@@ -43,7 +43,7 @@ public:
 		UToroSaveObject* FindOrAddSave(TSubclassOf<UToroSaveObject> SaveClass, const uint8 Slot = 0);
 
 	template<typename T = UToroSaveObject>
-	T* FindOrAddSave(const uint8 Slot = 0)
+	T* FindOrAddSave(const uint8 Slot)
 	{
 		return Cast<T>(FindOrAddSave(T::StaticClass(), Slot));
 	}
