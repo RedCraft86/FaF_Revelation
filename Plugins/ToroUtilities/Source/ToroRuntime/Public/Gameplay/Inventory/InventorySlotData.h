@@ -66,7 +66,6 @@ public:
 	const TSoftObjectPtr<UInventoryAsset>& GetEquippedItem() const { return Equipped; }
 	
 	FInventoryItemSlot* FindItem(const UInventoryAsset* Item);
-	const FInventoryItemSlot* FindItem(const UInventoryAsset* Item) const { return FindItem(Item); }
 };
 
 USTRUCT(BlueprintInternalUseOnly)
@@ -120,5 +119,4 @@ public:
 	void MoveToLast(const int32 IndexToMove);
 	
 	FInventoryArchiveSlot* FindArchive(const UInventoryAsset* Archive);
-	const FInventoryArchiveSlot* FindArchive(const UInventoryAsset* Archive) const { return FindArchive(Archive); }
 };
