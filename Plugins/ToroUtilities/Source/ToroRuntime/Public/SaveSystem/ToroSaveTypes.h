@@ -2,6 +2,12 @@
 
 #pragma once
 
+// Fixes MovieSceneNumericVariant.h(312,32): Error C4003 : not enough arguments for function-like macro invocation 'max'
+// for whatever reason. It's actual magic.
+#ifndef NOMINMAX
+	#define NOMINMAX
+#endif
+
 #include "UObject/Object.h"
 #include "ToroSaveTypes.generated.h"
 
