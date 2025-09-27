@@ -8,6 +8,7 @@
 #include "DataTypes/MiscDataTypes.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Engine/DeveloperSettings.h"
+#include "GamePhase/GamePhaseData.h"
 #include "MiscObjects/ToroDataAsset.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "UserInterface/ToroWidgetBase.h"
@@ -47,6 +48,9 @@ public:
 
     UPROPERTY(Config, EditAnywhere, Category = World, meta = (ReadOnlyKeys = true))
         TMap<EToroMapType, TSoftObjectPtr<UWorld>> MapRegistry;
+
+    UPROPERTY(Config, EditAnywhere, Category = World)
+        TSoftObjectPtr<UGamePhaseGraph> PhaseGraph;
 
     UPROPERTY(Config, EditAnywhere, Category = World)
         TSoftClassPtr<UUDSSetterObject> UDS_Setter;
