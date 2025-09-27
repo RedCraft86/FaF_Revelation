@@ -14,7 +14,10 @@ public class ToroRuntime : ModuleRules
         
         // Fixes a really weird error that honestly makes no sense in this context
         // MovieSceneNumericVariant.h... not enough arguments for function-like macro invocation 'max'...
-        PrivateDefinitions.Add("NOMINMAX");
+        if (!PrivateDefinitions.Contains("NOMINMAX"))
+        {
+            PrivateDefinitions.Add("NOMINMAX");
+        }
 
         PublicDependencyModuleNames.AddRange(
             [
@@ -36,6 +39,7 @@ public class ToroRuntime : ModuleRules
                 "DeveloperSettings",
                 
                 "ToroCore",
+                "ToroGraph",
                 "Narrative",
                 "EnhancedCodeFlow",
                 "ExpressiveText"
