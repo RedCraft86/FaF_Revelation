@@ -20,6 +20,9 @@ public:
 		float PlayTime;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
+		TArray<uint8> Sequence;
+
+	UPROPERTY(BlueprintReadOnly, Category = GameSave)
 		FInventoryArchives Archives;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
