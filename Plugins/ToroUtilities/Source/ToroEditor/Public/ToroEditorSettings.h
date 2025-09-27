@@ -20,13 +20,17 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Editor)
 		TMap<FString, FString> StartupCommands;
 	
-	UPROPERTY(Config, EditAnywhere, Category = Editor)
-		FDirectoryPath AssetLibrary;
+	UPROPERTY(Config, EditAnywhere, Category = AssetLibrary, DisplayName = "Root Path")
+		FDirectoryPath ALRoot;
+	
+	UPROPERTY(Config, EditAnywhere, Category = AssetLibrary, DisplayName = "Directories")
+		TSet<FString> ALDirs;
 
-	FString GetAssetLibraryPath() const;
+	TMap<FString, FString> GetAssetLibraryPaths() const;
 
 private:
 
+	void FixAssetLibPaths();
 	virtual void PostInitProperties() override;
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 };

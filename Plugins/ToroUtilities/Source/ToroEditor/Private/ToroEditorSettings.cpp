@@ -6,43 +6,49 @@ UToroEditorSettings::UToroEditorSettings()
 	: StartupCommands({
 		{TEXT("r.VSyncEditor"), TEXT("1")},
 		{TEXT("r.Streaming.PoolSize"), TEXT("3000")}
-	}), AssetLibrary(TEXT("D:/UnrealEngine/Shared/AssetProject/Content/AssetPacks"))
+	}), ALRoot(TEXT("D:/UnrealEngine/Shared/AssetProject/"))
+	, ALDirs({TEXT("Content/AssetPacks"), TEXT("Saved/Collections")})
 {
 	CategoryName = TEXT("Project");
 	SectionName = TEXT("ToroEditor");
 }
 
-FString UToroEditorSettings::GetAssetLibraryPath() const
+TMap<FString, FString> UToroEditorSettings::GetAssetLibraryPaths() const
 {
-	FString Path = AssetLibrary.Path;
-	FPaths::NormalizeDirectoryName(Path);
-	if (FPaths::DirectoryExists(Path))
+	static FString ProjectPath = FPaths::ConvertRelativePathToFull(FPaths::ProjectDir());
+
+	TMap<FString, FString> Paths;
+	for (const FString& Dir : ALDirs)
 	{
-		FString ProjectDir, Remainder;
-		if (Path.Split(TEXT("/Content"), &ProjectDir, &Remainder))
-		{
-			if (!ProjectDir.IsEmpty() && FPaths::DirectoryExists(ProjectDir))
-			{
-				TArray<FString> Files;
-				IFileManager::Get().FindFiles(Files, *ProjectDir, TEXT(".uproject"));
-				if (Files.Num() == 1)
-				{
-					return Path;
-				}
-			}
-		}
+		Paths.Add(FPaths::Combine(ALRoot.Path, Dir), FPaths::Combine(ProjectPath, Dir));
 	}
-	return TEXT("");
+	return Paths;
+}
+
+void UToroEditorSettings::FixAssetLibPaths()
+{
+	FPaths::NormalizeDirectoryName(ALRoot.Path);
+	if (!FPaths::DirectoryExists(ALRoot.Path))
+	{
+		ALRoot.Path = TEXT("");
+	}
+
+	TArray<FString> Files;
+	IFileManager::Get().FindFiles(Files, *ALRoot.Path, TEXT(".uproject"));
+	if (Files.Num() != 1)
+	{
+		ALRoot.Path = TEXT("");
+	}
 }
 
 void UToroEditorSettings::PostInitProperties()
 {
 	Super::PostInitProperties();
-	AssetLibrary.Path = GetAssetLibraryPath();
+	FixAssetLibPaths();
 }
 
 void UToroEditorSettings::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
-	AssetLibrary.Path = GetAssetLibraryPath();
+	FixAssetLibPaths();
 }
