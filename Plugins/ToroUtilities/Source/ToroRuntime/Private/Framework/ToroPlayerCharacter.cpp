@@ -90,6 +90,12 @@ void AToroPlayerCharacter::EnterCinematic(AActor* InInstigator)
 	}
 }
 
+void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSettings)
+{
+	LightSettings = InSettings;
+	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
+}
+
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();

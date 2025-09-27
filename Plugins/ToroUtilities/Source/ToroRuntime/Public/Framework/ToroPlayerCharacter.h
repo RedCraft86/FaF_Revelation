@@ -46,15 +46,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UInteractionManager> Interaction;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
-		float SlowTickInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
-		FGameplayTagContainer LockTags;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
-		FPointLightProperties LightSettings;
-
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
@@ -70,6 +61,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
 		virtual void EnterCinematic(AActor* InInstigator);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+		virtual void SetLightSettings(const FPointLightProperties& InSettings);
+
 	template <typename T = AToroPlayerController>
 	T* GetPlayerController() const { return GetController<T>(); }
 
@@ -80,6 +74,15 @@ public:
 	T* GetGameState() const { return GetWorld()->GetGameState<T>(); }
 
 protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
+		float SlowTickInterval;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+		FGameplayTagContainer LockTags;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
+		FPointLightProperties LightSettings;
 
 	float SlowTickTime;
 
