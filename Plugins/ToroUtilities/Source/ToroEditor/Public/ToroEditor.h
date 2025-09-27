@@ -17,6 +17,20 @@ DECLARE_LOG_CATEGORY_EXTERN(LogToroEditor, All, All);
 class FToroEditorModule final : public IModuleInterface
 {
 public:
+
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
+
+class TOROEDITOR_API FToroEditorStyle final
+{
+public:
+
+    static void Init();
+    static void Shutdown();
+    static const ISlateStyle& Get() { return *StyleSet; }
+    static const FName& GetStyleSetName() { return StyleSet->GetStyleSetName(); }
+
+private:
+
+    static TSharedPtr<FSlateStyleSet> StyleSet;
 };
