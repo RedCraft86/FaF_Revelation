@@ -45,12 +45,12 @@ private:
 	bool bEnabled;
 	bool bInteracting;
 	FInteractionCache InteractCache;
-	TObjectPtr<AToroPlayerCharacter> Player;
+	TObjectPtr<AToroPlayerCharacter> PlayerChar;
 
 	// TODO widget
 
 	void CleanupCache();
-	bool CanInteract() const { return bEnabled && Player && HandleTrace.IsBound(); }
+	bool CanInteract() const { return bEnabled && PlayerChar && HandleTrace.IsBound(); }
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;

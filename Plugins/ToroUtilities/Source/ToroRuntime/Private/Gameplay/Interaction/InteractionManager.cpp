@@ -43,7 +43,7 @@ void UInteractionManager::CleanupCache()
 {
 	if (InteractCache.Target.IsValid())
 	{
-		InteractCache.StopInteract(Player);
+		InteractCache.StopInteract(PlayerChar);
 		InteractCache.Reset();
 		// UpdateWidget();
 	}
@@ -52,14 +52,14 @@ void UInteractionManager::CleanupCache()
 void UInteractionManager::BeginPlay()
 {
 	Super::BeginPlay();
-	Player = GetOwner<AToroPlayerCharacter>();
+	PlayerChar = GetOwner<AToroPlayerCharacter>();
 }
 
 void UInteractionManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
 
-	if (!Player) return;
+	if (!PlayerChar) return;
 	if (!CanInteract() || !bInteracting)
 	{
 		CleanupCache();
@@ -78,10 +78,10 @@ void UInteractionManager::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 	if (InteractCache.Target != HitActor)
 	{
-		InteractCache.StopInteract(Player);
+		InteractCache.StopInteract(PlayerChar);
 
 		InteractCache.Target = HitActor;
-		InteractCache.StartInteract(Player, HitResult);
+		InteractCache.StartInteract(PlayerChar, HitResult);
 		// UpdateWidget();
 	}
 }
