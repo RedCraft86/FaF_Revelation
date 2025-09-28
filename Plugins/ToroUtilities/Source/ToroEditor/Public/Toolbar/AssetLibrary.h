@@ -3,10 +3,7 @@
 #pragma once
 
 #include "ToroCommands.h"
-#include "ToroEditorSettings.h"
 #include "Framework/Commands/Commands.h"
-#include "Framework/Notifications/NotificationManager.h"
-#include "Widgets/Notifications/SNotificationList.h"
 
 class FAssetLibrary
 {

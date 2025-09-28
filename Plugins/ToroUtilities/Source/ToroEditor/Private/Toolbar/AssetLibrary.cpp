@@ -1,6 +1,9 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Toolbar/AssetLibrary.h"
+#include "Framework/Notifications/NotificationManager.h"
+#include "Widgets/Notifications/SNotificationList.h"
+#include "ToroEditorSettings.h"
 
 void FAssetLibrary::ExecuteAction()
 {
