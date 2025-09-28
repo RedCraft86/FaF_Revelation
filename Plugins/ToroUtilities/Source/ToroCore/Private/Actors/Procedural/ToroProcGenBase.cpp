@@ -2,6 +2,9 @@
 
 #include "Actors/Procedural/ToroProcGenBase.h"
 #include "Algo/RandomShuffle.h"
+#if WITH_EDITOR
+#include "Actors/Procedural/BakerHelpers.h"
+#endif
 
 AToroProcGenBase::AToroProcGenBase(): bRealtimeConstruction(true)
 {
@@ -22,6 +25,40 @@ void AToroProcGenBase::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 	if (bRealtimeConstruction) Construct();
 }
+
+#if WITH_EDITOR
+void AToroProcGenBase::BakeInternal(const bool bRemoveSource, const bool bSelectActors, TArray<AActor*>* OutActors)
+{
+	const FScopedTransaction Transaction(NSLOCTEXT("ToroCore", "BakeProceduralActor", "Bake Procedural Actor"));
+
+	UEditorActorSubsystem* Subsystem = GEditor ? GEditor->GetEditorSubsystem<UEditorActorSubsystem>() : nullptr;
+	if (!Subsystem) return;
+	
+	TArray<UStaticMeshComponent*> Comps;
+	GetComponents<UStaticMeshComponent>(Comps);
+
+	TArray<AActor*> Actors;
+	for (int32 i = 0; i < Comps.Num(); i++)
+	{
+		Actors.Append(BakerHelpers::BakeComponent(Subsystem, Comps[i], i));
+	}
+
+	if (OutActors)
+	{
+		OutActors->Empty(Actors.Num());
+		OutActors->Append(Actors);
+	}
+	if (bSelectActors)
+	{
+		Subsystem->SetSelectedLevelActors(Actors);
+	}
+	if (bRemoveSource)
+	{
+		Subsystem->SetActorSelectionState(this, false);
+		Subsystem->DestroyActor(this);
+	}
+}
+#endif
 
 TArray<int32> AToroProcGenBase::LoopMeshArray(const TArray<FTransformMeshData>& Sample,
 	const EGeneratorLoopMode Mode, const uint8 Amount)
