@@ -136,7 +136,7 @@ void UToroDataGraph::ClearGraph()
 
 FText UToroDataGraph::GetDescription() const
 {
-	return FText::Format(INVTEXT("{0} Nodes | {1} Roots{2}"), AllNodes.Num(),
+	return FText::Format(INVTEXT("{0} Node(s) | {1} Root(s){2}"), AllNodes.Num(),
 		RootNodes.Num(), bCyclical ? INVTEXT(" | Cyclical") : FText::GetEmpty());
 }
 #endif

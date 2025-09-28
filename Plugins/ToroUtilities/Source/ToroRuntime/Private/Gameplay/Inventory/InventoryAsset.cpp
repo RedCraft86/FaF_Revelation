@@ -25,9 +25,7 @@ bool UInventoryAsset::IsValidArchive() const
 #if WITH_EDITOR
 FText UInventoryAsset::GetDescription() const
 {
-	return AssetType == EInvAssetType::Item
-		? UEnum::GetDisplayValueAsText(ItemType)
-		: INVTEXT("Archive");
-		
+	return FText::Format(INVTEXT("Type: {0}"), AssetType == EInvAssetType::Item
+		? UEnum::GetDisplayValueAsText(ItemType) : INVTEXT("Archive"));
 }
 #endif

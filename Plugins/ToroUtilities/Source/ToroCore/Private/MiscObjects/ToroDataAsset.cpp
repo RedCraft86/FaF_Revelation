@@ -33,7 +33,7 @@ void UToroDataAsset::PostEditChangeProperty(FPropertyChangedEvent& PropertyChang
 FText UToroDatabase::GetDescription() const
 {
 	const FIntPoint Data = GetDataResults();
-	return FText::Format(INVTEXT("All: {0}\nValid: {1}\nInvalid: {2}"),
+	return FText::Format(INVTEXT("{0} Entries | {1} Valid | {2} Invalid"),
 		Data.GetMax(), Data.GetMin(), Data.GetMax() - Data.GetMin());
 }
 #endif
