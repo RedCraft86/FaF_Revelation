@@ -3,6 +3,10 @@
 #include "GamePhase/GamePhaseData.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Inventory/InventoryManager.h"
+#if WITH_EDITOR
+#include "Framework/Notifications/NotificationManager.h"
+#include "Widgets/Notifications/SNotificationList.h"
+#endif
 
 namespace ContentTags
 {
@@ -96,14 +100,43 @@ void UGamePhaseNode::EnsureInventoryItems(UInventoryManager* Inventory) const
 }
 
 #if WITH_EDITOR
+void ShowInventoryError(const UInventoryAsset* Asset, const FText& Expected)
+{
+	FNotificationInfo Info(FText::Format(
+		INVTEXT("\"{0}\" is not an {1}"),
+		FText::FromString(GetNameSafe(Asset)), Expected)
+	);
+	Info.ExpireDuration = 1.0f;
+	FSlateNotificationManager::Get().AddNotification(Info);
+}
+
 void UGamePhaseNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	if (!MainLevel.IsNull()) Levels.Remove(MainLevel);
 	if (Quest.LoadSynchronous() == UQuest::StaticClass()) Quest.Reset();
-	for (TPair<TSoftObjectPtr<UInventoryAsset>, uint8>& Item : Items)
+
+	for (auto It = Archives.CreateIterator(); It; ++It)
 	{
-		if (Item.Value == 0) Item.Value = 1;
+		const UInventoryAsset* Asset = It.Key().LoadSynchronous();
+		if (Asset && Asset->AssetType != EInvAssetType::Archive)
+		{
+			It.Key().Reset();
+			ShowInventoryError(Asset, INVTEXT("Archive"));
+		}
+	}
+	for (auto It = Items.CreateIterator(); It; ++It)
+	{
+		const UInventoryAsset* Asset = It.Key().LoadSynchronous();
+		if (Asset && Asset->AssetType != EInvAssetType::Item)
+		{
+			It.Key().Reset();
+			ShowInventoryError(Asset, INVTEXT("Item"));
+		}
+		else if (It.Value() == 0)
+		{
+			It.Value() = 1;
+		}
 	}
 }
 #endif
