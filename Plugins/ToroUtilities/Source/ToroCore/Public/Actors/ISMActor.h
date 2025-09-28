@@ -9,8 +9,8 @@
 
 class UInstancedStaticMeshComponent;
 
-UCLASS(MinimalAPI, meta = (ChildCanTick))
-class AInstancedStaticMeshActor : public AStaticMeshActor
+UCLASS(meta = (ChildCanTick))
+class TOROCORE_API AInstancedStaticMeshActor : public AStaticMeshActor
 {
 	GENERATED_BODY()
 
@@ -34,7 +34,7 @@ public:
 	}
 
 	template<typename T = UInstancedStaticMeshComponent>
-	TOROCORE_API T* GetMeshComponent() const { return Cast<T>(GetStaticMeshComponent()); }
+	T* GetMeshComponent() const { return Cast<T>(GetStaticMeshComponent()); }
 
 #if WITH_EDITORONLY_DATA
 	UPROPERTY(Category = StaticMesh, EditAnywhere, meta = (MakeEditWidget, DisplayPriority = 1))
@@ -52,8 +52,8 @@ protected:
 #endif
 };
 
-UCLASS(MinimalAPI, meta = (ChildCanTick))
-class AHierarchicalInstancedStaticMeshActor : public AInstancedStaticMeshActor
+UCLASS(meta = (ChildCanTick))
+class TOROCORE_API AHierarchicalInstancedStaticMeshActor : public AInstancedStaticMeshActor
 {
 	GENERATED_BODY()
 
