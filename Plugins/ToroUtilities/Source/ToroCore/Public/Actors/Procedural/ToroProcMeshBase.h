@@ -21,7 +21,6 @@ public:
 #if WITH_EDITOR
 protected:
 	TSet<int32> EditorSections = {1};
-	UFUNCTION(CallInEditor, Category = Tools, DisplayName = "Create Asset")
-		virtual void CreateStaticMesh();
+	virtual void BakeInternal(const bool bRemoveSource, const bool bSelectActors, TArray<AActor*>* OutActors) override;
 #endif
 };

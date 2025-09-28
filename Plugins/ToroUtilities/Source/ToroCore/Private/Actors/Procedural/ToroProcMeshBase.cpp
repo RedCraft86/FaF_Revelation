@@ -10,7 +10,6 @@
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "Subsystems/EditorActorSubsystem.h"
 #include "Engine/StaticMeshActor.h"
-#include "EditorDialogLibrary.h"
 #endif
 
 AToroProcMeshBase::AToroProcMeshBase()
@@ -23,10 +22,12 @@ AToroProcMeshBase::AToroProcMeshBase()
 }
 
 #if WITH_EDITOR
-void AToroProcMeshBase::CreateStaticMesh()
+void AToroProcMeshBase::BakeInternal(const bool bRemoveSource, const bool bSelectActors, TArray<AActor*>* OutActors)
 {
 	for (const int32 i : EditorSections)
+	{
 		ProceduralMesh->ClearMeshSection(i);
+	}
 	
 	FString DefaultPath;
 	const FString DefaultDirectory = FEditorDirectories::Get().GetLastDirectory(ELastDirectory::NEW_ASSET);
@@ -73,7 +74,7 @@ void AToroProcMeshBase::CreateStaticMesh()
 			StaticMesh->CreateMeshDescription(0, MoveTemp(MeshDescription));
 			StaticMesh->CommitMeshDescription(0);
 
-			if (!ProceduralMesh->bUseComplexAsSimpleCollision )
+			if (!ProceduralMesh->bUseComplexAsSimpleCollision)
 			{
 				StaticMesh->CreateBodySetup();
 				UBodySetup* NewBodySetup = StaticMesh->GetBodySetup();
@@ -110,23 +111,30 @@ void AToroProcMeshBase::CreateStaticMesh()
 	if (!StaticMesh) return;
 	if (UEditorActorSubsystem* Subsystem = GEditor ? GEditor->GetEditorSubsystem<UEditorActorSubsystem>() : nullptr)
 	{
-		if (UEditorDialogLibrary::ShowMessage(FText::FromString(TEXT("Replace Actor?")),
-			FText::FromString(TEXT("Replace the Procedural Mesh actor with the generated Static Mesh?")),
-			EAppMsgType::YesNo, EAppReturnType::Yes, EAppMsgCategory::Info) == EAppReturnType::Yes)
+		const FScopedTransaction Transaction(NSLOCTEXT("ToroCore", "BakeProceduralMesh", "Bake Procedural Mesh"));
+		if (AStaticMeshActor* NewActor = Cast<AStaticMeshActor>(Subsystem->SpawnActorFromClass(
+			AStaticMeshActor::StaticClass(), GetActorLocation(), GetActorRotation())))
 		{
-			if (AStaticMeshActor* NewActor = Cast<AStaticMeshActor>(Subsystem->SpawnActorFromClass(
-				AStaticMeshActor::StaticClass(), GetActorLocation(), GetActorRotation())))
+			NewActor->SetFolderPath(GetFolderPath());
+			NewActor->SetActorLabel(GetActorLabel());
+			NewActor->SetActorScale3D(GetActorScale3D());
+			NewActor->GetStaticMeshComponent()->SetStaticMesh(StaticMesh);
+			if (OutActors)
 			{
-				
-				NewActor->SetFolderPath(GetFolderPath());
-				NewActor->SetActorLabel(GetActorLabel());
-				NewActor->SetActorScale3D(GetActorScale3D());
-				NewActor->GetStaticMeshComponent()->SetStaticMesh(StaticMesh);
-				Subsystem->SetActorSelectionState(NewActor, true);
+				OutActors->Empty(1);
+				OutActors->Add(NewActor);
 			}
-			Subsystem->DestroyActor(this);
-			return;
+			if (bSelectActors)
+			{
+				Subsystem->SetSelectedLevelActors({NewActor});
+			}
+			if (bRemoveSource)
+			{
+				Subsystem->SetActorSelectionState(this, false);
+				Subsystem->DestroyActor(this);
+			}
 		}
+		return;
 	}
 
 	Construct();
