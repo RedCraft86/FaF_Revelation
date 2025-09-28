@@ -4,6 +4,23 @@
 
 #include "Modules/ModuleManager.h"
 
+#define REGISTER_CLASS_CUSTOMIZATION(Class, Customization) PropertyModule->RegisterCustomClassLayout(Class::StaticClass()->GetFName(), FOnGetDetailCustomizationInstance::CreateStatic(&Customization::MakeInstance));
+#define UNREGISTER_CLASS_CUSTOMIZATION(Class) PropertyModule->UnregisterCustomClassLayout(Class::StaticClass()->GetFName());
+
+#define REGISTER_STRUCT_CUSTOMIZATION_DIRECT(Property, Customization) PropertyModule->RegisterCustomPropertyTypeLayout(Property->GetFName(), FOnGetPropertyTypeCustomizationInstance::CreateStatic(&Customization::MakeInstance));
+#define UNREGISTER_STRUCT_CUSTOMIZATION_DIRECT(Property) PropertyModule->UnregisterCustomPropertyTypeLayout(Property->GetFName());
+
+#define REGISTER_STRUCT_CUSTOMIZATION(Property, Customization) REGISTER_STRUCT_CUSTOMIZATION_DIRECT(Property::StaticStruct(), Customization)
+#define UNREGISTER_STRUCT_CUSTOMIZATION(Property) UNREGISTER_STRUCT_CUSTOMIZATION_DIRECT(Property::StaticStruct())
+
+#define REGISTER_STRUCT_CUSTOMIZATION_INHERITED(Type, Customization) \
+    if (ScriptStruct->IsChildOf(Type::StaticStruct()) && !ScriptStruct->HasMetaData(TEXT("UniqueStructCustomization"))) \
+    { REGISTER_STRUCT_CUSTOMIZATION_DIRECT(ScriptStruct, Customization) }
+
+#define UNREGISTER_STRUCT_CUSTOMIZATION_INHERITED(Type) \
+    if (ScriptStruct->IsChildOf(Type::StaticStruct()) && !ScriptStruct->HasMetaData(TEXT("UniqueStructCustomization"))) \
+    { UNREGISTER_STRUCT_CUSTOMIZATION_DIRECT(ScriptStruct) }
+
 #define REGISTER_VISUALIZER(Component, Visualizer) \
     TSharedPtr<FComponentVisualizer> VizInst_##Component = Visualizer::MakeInstance(); \
     GUnrealEd->RegisterComponentVisualizer(Component::StaticClass()->GetFName(), VizInst_##Component); \
