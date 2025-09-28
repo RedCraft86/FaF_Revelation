@@ -56,7 +56,7 @@ void ASplineCable::Construct()
 				SplineComponent->GetLocalLocationAndTangentAtSplinePoint(i, Location, Tangent);
 				SplineComponent->GetLocalLocationAndTangentAtSplinePoint(NextIdx, NextLocation, NextTangent);
 
-				MeshComp->SetForwardAxis(CableMesh.MeshAxis, true);
+				MeshComp->SetForwardAxis(CableMesh.MeshAxis, false);
 				MeshComp->SetStartAndEnd(Location, Tangent,
 					NextLocation, NextTangent, true);
 
