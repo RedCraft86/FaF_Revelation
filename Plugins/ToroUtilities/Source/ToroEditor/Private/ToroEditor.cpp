@@ -10,7 +10,7 @@
 #include "Toolbar/AssetLibrary.h"
 #include "Toolbar/RestartEditor.h"
 #include "Toolbar/ActorLayout.h"
-#include "Toolbar/StaticMeshMerger.h"
+#include "Toolbar/ActorMerger.h"
 #include "Interfaces/IMainFrameModule.h"
 
 #include "ComponentVis/EditorShapeVisualizer.h"
@@ -32,7 +32,7 @@ void FToroEditorModule::StartupModule()
 		FAssetLibrary::Register(PluginCommands);
 		FRestartEditor::Register(PluginCommands);
 		FActorLayout::Register(PluginCommands);
-		FStaticMeshMerger::Register(PluginCommands);
+		FActorMerger::Register(PluginCommands);
 
 		IMainFrameModule& MainFrame = FModuleManager::Get().LoadModuleChecked<IMainFrameModule>("MainFrame");
 		MainFrame.GetMainFrameCommandBindings()->Append(PluginCommands.ToSharedRef());
@@ -75,7 +75,7 @@ void FToroEditorModule::RegisterMenus()
 		FAssetLibrary::RegisterMenus(PluginCommands);
 		FRestartEditor::RegisterMenus(PluginCommands);
 		FActorLayout::RegisterMenus(PluginCommands);
-		FStaticMeshMerger::RegisterMenus(PluginCommands);
+		FActorMerger::RegisterMenus(PluginCommands);
 	}
 }
 
@@ -99,7 +99,7 @@ void FToroEditorStyle::Init()
 	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
 	AddSVG(ToroEditor.ActorLayout, ActorLayout, 20x20);
 	AddSVG(ToroEditor.StaticMeshBaker, StaticMeshBaker, 20x20);
-	AddSVG(ToroEditor.StaticMeshMerger, StaticMeshMerger, 20x20);
+	AddSVG(ToroEditor.ActorMerger, ActorMerger, 20x20);
 
 	AddSVG(ClassThumbnail.SplineCable, SplineCable, 64x64);
 	AddSVG(ClassThumbnail.SplineBarrier, SplineBarrier, 64x64);

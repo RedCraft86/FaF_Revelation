@@ -42,18 +42,13 @@ public:
 		UI_COMMAND(ActorLayout, "Actor Layout", "Lay out selected actors in a Overview style",
 			EUserInterfaceActionType::Button, FInputChord());
 
-		UI_COMMAND(StaticMeshBaker, "Bake Static Meshes", "Bake Static Meshes from a single actor to individual Static Meshes",
-			EUserInterfaceActionType::Button, FInputChord());
-
-		UI_COMMAND(StaticMeshMerger, "Merge Static Meshes", "Opens the Merge Actors tab",
+		UI_COMMAND(ActorMerger, "Merge Actors", "Opens the Merge Actors tab",
 			EUserInterfaceActionType::Button, FInputChord());
 	}
 
 	TSharedPtr<FUICommandInfo> AssetLibrary;
 	TSharedPtr<FUICommandInfo> RestartEditor;
-
 	TSharedPtr<FUICommandInfo> ActorLayout;
-	TSharedPtr<FUICommandInfo> StaticMeshBaker;
-	TSharedPtr<FUICommandInfo> StaticMeshMerger;
+	TSharedPtr<FUICommandInfo> ActorMerger;
 };
 #undef LOCTEXT_NAMESPACE

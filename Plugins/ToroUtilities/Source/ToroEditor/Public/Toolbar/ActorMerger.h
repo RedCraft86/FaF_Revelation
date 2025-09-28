@@ -6,19 +6,19 @@
 #include "Framework/Commands/Commands.h"
 #include "Subsystems/EditorActorSubsystem.h"
 
-class FStaticMeshMerger
+class FActorMerger
 {
 public:
 
 	static void Register(const TSharedPtr<FUICommandList>& Commands)
 	{
-		MAP_TOOL(StaticMeshMerger, FStaticMeshMerger);
+		MAP_TOOL(ActorMerger, FActorMerger);
 	}
 	
 	static void RegisterMenus(const TSharedPtr<FUICommandList>& Commands)
 	{
-		REGISTER_TOP_MENU(StaticMeshMerger)
-		REGISTER_TOOLBAR(StaticMeshMerger, Actor)
+		REGISTER_TOP_MENU(ActorMerger)
+		REGISTER_TOOLBAR(ActorMerger, Actor)
 	}
 
 private:
