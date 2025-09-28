@@ -68,7 +68,7 @@ void FToroEditorStyle::Init()
 
 	AddSVG(ClassThumbnail.SplineCable, SplineCable, 64x64);
 	AddSVG(ClassThumbnail.SplineBarrier, SplineBarrier, 64x64);
-	AddPNG(ClassThumbnail.MasterPostProcess, PostProcess, 64x64);
+	AddPNG(ClassThumbnail.MasterPostProcess, MasterPostProcess, 64x64);
 	AddPNG(ClassThumbnail.LightProbeActor, LightProbe, 64x64);
 
 	AddSVG(ClassThumbnail.InventoryAsset, InventoryGrid, 64x64);
@@ -87,9 +87,9 @@ void FToroEditorStyle::Init()
 
 	FSlateStyleRegistry::RegisterSlateStyle(*StyleSet.Get());
 }
-#undef RootToContentDir
-#undef AddSVG
 #undef AddPNG
+#undef AddSVG
+#undef RootToContentDir
 
 void FToroEditorStyle::Shutdown()
 {
