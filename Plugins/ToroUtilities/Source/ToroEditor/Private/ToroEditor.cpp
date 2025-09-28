@@ -6,6 +6,13 @@
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleMacros.h"
 
+#include "ToroCommands.h"
+#include "Toolbar/AssetLibrary.h"
+#include "Toolbar/RestartEditor.h"
+#include "Toolbar/ActorLayout.h"
+#include "Toolbar/StaticMeshMerger.h"
+#include "Interfaces/IMainFrameModule.h"
+
 #include "ComponentVis/EditorShapeVisualizer.h"
 #include "ComponentVis/VisionConeVisualizer.h"
 
@@ -16,6 +23,24 @@ DEFINE_LOG_CATEGORY(LogToroEditor);
 void FToroEditorModule::StartupModule()
 {
 	FToroEditorStyle::Init();
+
+	// Toolbar Buttons
+	{
+		FToroCommands::Register();
+		PluginCommands = MakeShareable(new FUICommandList);
+
+		FAssetLibrary::Register(PluginCommands);
+		FRestartEditor::Register(PluginCommands);
+		FActorLayout::Register(PluginCommands);
+		FStaticMeshMerger::Register(PluginCommands);
+
+		IMainFrameModule& MainFrame = FModuleManager::Get().LoadModuleChecked<IMainFrameModule>("MainFrame");
+		MainFrame.GetMainFrameCommandBindings()->Append(PluginCommands.ToSharedRef());
+	
+		UToolMenus::RegisterStartupCallback(FSimpleMulticastDelegate::FDelegate::CreateRaw(
+			this, &FToroEditorModule::RegisterMenus));
+	}
+
 	// Component Visualizers
 	if (GUnrealEd)
 	{
@@ -26,6 +51,13 @@ void FToroEditorModule::StartupModule()
 
 void FToroEditorModule::ShutdownModule()
 {
+	// Toolbar Buttons
+	{
+		UToolMenus::UnRegisterStartupCallback(this);
+		UToolMenus::UnregisterOwner(this);
+		FToroCommands::Unregister();
+	}
+
 	// Component Visualizers
 	if (GUnrealEd)
 	{
@@ -40,6 +72,10 @@ void FToroEditorModule::RegisterMenus()
 {
 	FToolMenuOwnerScoped OwnerScoped(this);
 	{
+		FAssetLibrary::RegisterMenus(PluginCommands);
+		FRestartEditor::RegisterMenus(PluginCommands);
+		FActorLayout::RegisterMenus(PluginCommands);
+		FStaticMeshMerger::RegisterMenus(PluginCommands);
 	}
 }
 
@@ -59,12 +95,11 @@ void FToroEditorStyle::Init()
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	const FVector2D Icon16x16(16.0f, 16.0f);
 
-	AddSVG(ToroEditor.LinkAssetLibrary, LinkFolder, 20x20);
+	AddSVG(ToroEditor.AssetLibrary, LinkFolder, 20x20);
 	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
 	AddSVG(ToroEditor.ActorLayout, ActorLayout, 20x20);
-	AddSVG(ToroEditor.StaticMeshMerger, StaticMeshMerger, 20x20);
 	AddSVG(ToroEditor.StaticMeshBaker, StaticMeshBaker, 20x20);
-	AddSVG(ToroEditor.StaticMeshInstancer, StaticMeshInstancer, 20x20);
+	AddSVG(ToroEditor.StaticMeshMerger, StaticMeshMerger, 20x20);
 
 	AddSVG(ClassThumbnail.SplineCable, SplineCable, 64x64);
 	AddSVG(ClassThumbnail.SplineBarrier, SplineBarrier, 64x64);

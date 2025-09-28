@@ -23,6 +23,7 @@ public class ToroEditor : ModuleRules
                 "AssetDefinition",
                 "EditorSubsystem",
                 "DeveloperSettings",
+                "EditorScriptingUtilities",
                 
                 "ToroCore",
                 "ToroRuntime"

@@ -21,6 +21,12 @@ public:
     virtual void StartupModule() override;
     virtual void ShutdownModule() override;
 
+private:
+
+    void RegisterMenus();
+    TSharedPtr<FUICommandList> PluginCommands;
+};
+
 class TOROEDITOR_API FToroEditorStyle final
 {
 public:
