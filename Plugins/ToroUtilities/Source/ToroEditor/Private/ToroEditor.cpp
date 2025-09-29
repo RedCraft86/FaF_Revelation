@@ -16,6 +16,9 @@
 #include "ComponentVis/VisionConeVisualizer.h"
 
 #include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
+#include "DetailsPanels/Struct/InlineCurveDetails.h"
+#include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
+#include "DetailsPanels/Struct/WorldActionArrayDetails.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -52,6 +55,13 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve, FInlineCurveDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision, FPrimitiveCollisionDetails)
+		REGISTER_STRUCT_CUSTOMIZATION(FWorldActionArray, FWorldActionArrayDetails)
+
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExprTextFieldsDetails)
 
 		for (TObjectIterator<UScriptStruct> It; It; ++It)
@@ -80,6 +90,12 @@ void FToroEditorModule::ShutdownModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FPrimitiveCollision)
+		UNREGISTER_STRUCT_CUSTOMIZATION(FWorldActionArray)
+
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 
 		for (TObjectIterator<UScriptStruct> It; It; ++It)

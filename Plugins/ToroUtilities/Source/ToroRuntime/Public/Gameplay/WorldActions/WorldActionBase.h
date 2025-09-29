@@ -34,11 +34,14 @@ protected:
 	TWeakObjectPtr<const UObject> WorldContext;
 };
 
-// TODO Details customization to show the array in heading row
 USTRUCT(BlueprintInternalUseOnly)
 struct TORORUNTIME_API FWorldActionArray final
 {
 	GENERATED_BODY()
+
+#if WITH_EDITOR
+	friend class FWorldActionArrayDetails;
+#endif
 
 	FWorldActionArray(): bShouldTick(false) {}
 

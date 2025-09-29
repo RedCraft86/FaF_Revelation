@@ -101,6 +101,7 @@ private:
 		IDetailGroup& AlignmentGroup = StructBuilder.AddGroup("AlignmentSettings", INVTEXT("Alignment"));
 		{
 			constexpr float Width(75.0f);
+			constexpr float Offset(5.0f);
 			
 			AlignmentGroup.HeaderRow()
 			.NameContent()
@@ -111,7 +112,7 @@ private:
 			[
 				SNew(SHorizontalBox)
 				+SHorizontalBox::Slot()
-				.Padding(0.0f, 0.0f, 5.0f, 0.0f)
+				.Padding(0.0f, 0.0f, Offset, 0.0f)
 				.VAlign(VAlign_Center)
 				.MinWidth(Width)
 				.AutoWidth()
@@ -136,7 +137,7 @@ private:
 			[
 				SNew(SHorizontalBox)
 				+SHorizontalBox::Slot()
-				.Padding(0.0f, 0.0f, 6.0f, 0.0f)
+				.Padding(0.0f, 0.0f, Offset, 0.0f)
 				.VAlign(VAlign_Center)
 				.MinWidth(Width)
 				.AutoWidth()
@@ -161,7 +162,7 @@ private:
 			[
 				SNew(SHorizontalBox)
 				+SHorizontalBox::Slot()
-				.Padding(0.0f, 0.0f, 6.0f, 0.0f)
+				.Padding(0.0f, 0.0f, Offset, 0.0f)
 				.MaxWidth(Width).MinWidth(Width)
 				.VAlign(VAlign_Center)
 				.AutoWidth()
@@ -186,7 +187,7 @@ private:
 			[
 				SNew(SHorizontalBox)
 				+SHorizontalBox::Slot()
-				.Padding(0.0f, 0.0f, 6.0f, 0.0f)
+				.Padding(0.0f, 0.0f, Offset, 0.0f)
 				.VAlign(VAlign_Center)
 				.MinWidth(Width)
 				.AutoWidth()
