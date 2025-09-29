@@ -143,6 +143,7 @@ void FToroEditorStyle::Init()
 	AddSVG(ClassThumbnail.SplineCable, SplineCable, 64x64);
 	AddSVG(ClassThumbnail.SplineBarrier, SplineBarrier, 64x64);
 	AddPNG(ClassThumbnail.MasterPostProcess, MasterPostProcess, 64x64);
+	AddPNG(ClassThumbnail.LevelZoneVolume, LevelZoneVolume, 64x64);
 	AddPNG(ClassThumbnail.LightProbeActor, LightProbe, 64x64);
 
 	AddSVG(ClassThumbnail.InventoryAsset, InventoryGrid, 64x64);
