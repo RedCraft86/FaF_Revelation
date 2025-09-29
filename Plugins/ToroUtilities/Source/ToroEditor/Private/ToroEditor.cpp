@@ -1,20 +1,21 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroEditor.h"
-#include "UnrealEd.h"
-
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleMacros.h"
 
 #include "ToroCommands.h"
+#include "Interfaces/IMainFrameModule.h"
 #include "Toolbar/AssetLibrary.h"
 #include "Toolbar/RestartEditor.h"
 #include "Toolbar/ActorLayout.h"
 #include "Toolbar/ActorMerger.h"
-#include "Interfaces/IMainFrameModule.h"
 
+#include "UnrealEd.h"
 #include "ComponentVis/EditorShapeVisualizer.h"
 #include "ComponentVis/VisionConeVisualizer.h"
+
+#include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -47,6 +48,17 @@ void FToroEditorModule::StartupModule()
 		REGISTER_VISUALIZER(UEditorShapeComponent, FEditorShapeVisualizer)
 		REGISTER_VISUALIZER(UVisionConeComponent, FVisionConeVisualizer)
 	}
+
+	// Struct and Class Details Customization
+	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
+	{
+		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExprTextFieldsDetails)
+
+		for (TObjectIterator<UScriptStruct> It; It; ++It)
+		{
+			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+		}
+	}
 }
 
 void FToroEditorModule::ShutdownModule()
@@ -63,6 +75,17 @@ void FToroEditorModule::ShutdownModule()
 	{
 		UNREGISTER_VISUALIZER(UEditorShapeComponent)
 		UNREGISTER_VISUALIZER(UVisionConeComponent)
+	}
+
+	// Struct and Class Details Customization
+	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
+	{
+		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
+
+		for (TObjectIterator<UScriptStruct> It; It; ++It)
+		{
+			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
+		}
 	}
 
 	FToroEditorStyle::Shutdown();

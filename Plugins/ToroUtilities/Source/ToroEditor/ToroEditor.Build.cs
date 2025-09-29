@@ -20,13 +20,15 @@ public class ToroEditor : ModuleRules
                 "Projects",
                 "MainFrame",
                 "ToolMenus",
+                "PropertyEditor",
                 "AssetDefinition",
                 "EditorSubsystem",
                 "DeveloperSettings",
                 "EditorScriptingUtilities",
                 
                 "ToroCore",
-                "ToroRuntime"
+                "ToroRuntime",
+                "ExpressiveText"
             ]
         );
     }
