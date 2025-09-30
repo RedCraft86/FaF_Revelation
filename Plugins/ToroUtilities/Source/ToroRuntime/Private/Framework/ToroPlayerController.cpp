@@ -44,9 +44,8 @@ void AToroPlayerController::AddPauseRequest(const UObject* InObject)
 
 void AToroPlayerController::RemovePauseRequest(const UObject* InObject)
 {
-	if (InObject && PauseRequests.Contains(InObject))
+	if (InObject && PauseRequests.Remove(InObject) > 0)
 	{
-		PauseRequests.Remove(InObject);
 		UpdatePauseState();
 	}
 }

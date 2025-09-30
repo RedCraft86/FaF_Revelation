@@ -11,19 +11,10 @@ void UToroContainerWidget::ClearNullEntries()
 	});
 }
 
-bool UToroContainerWidget::HasWidget(UToroManagedWidget* Widget) const
-{
-	if (!Widget) return false;
-	return ManagedWidgets.ContainsByPredicate([Widget](const TWeakObjectPtr<UToroManagedWidget>& Elem)
-	{
-		return Elem.IsValid() && Elem.Get() == Widget;
-	});
-}
-
 bool UToroContainerWidget::PushEntry(UToroManagedWidget* Widget)
 {
 	ClearNullEntries();
-	if (Widget && !HasWidget(Widget))
+	if (Widget && !ManagedWidgets.Contains(Widget))
 	{
 		ManagedWidgets.Add(Widget);
 		return true;
@@ -34,12 +25,7 @@ bool UToroContainerWidget::PushEntry(UToroManagedWidget* Widget)
 bool UToroContainerWidget::PopEntry(UToroManagedWidget* Widget)
 {
 	ClearNullEntries();
-	if (Widget && HasWidget(Widget))
-	{
-		ManagedWidgets.Remove(Widget);
-		return true;
-	}
-	return false;
+	return Widget && ManagedWidgets.Remove(Widget) > 0;
 }
 
 void UToroContainerWidget::InitWidget(APlayerController* Controller)
