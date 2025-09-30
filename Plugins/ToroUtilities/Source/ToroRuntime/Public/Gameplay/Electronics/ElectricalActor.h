@@ -3,12 +3,16 @@
 #pragma once
 
 #include "Actors/ToroActor.h"
-#include "ElectricActor.generated.h"
+#include "ElectricalActor.generated.h"
 
 UCLASS(Abstract)
-class TORORUNTIME_API AElectricActor : public AToroActor
+class TORORUNTIME_API AElectricalActor : public AToroActor
 {
 	GENERATED_BODY()
+
+public:
+
+	AElectricalActor();
 
 	// TODO
 };
