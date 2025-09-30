@@ -6,6 +6,37 @@
 #include "GeneralProjectSettings.h"
 #include "Helpers/WindowsHelpers.h"
 
+void UToroGameInstance::SetUnlitViewmode(const bool bUnlit)
+{
+	if (bUnlitMode != bUnlit)
+	{
+		bUnlitMode = bUnlit;
+		const UWorld* World = GetWorld();
+		if (UGameViewportClient* Viewport = World ? World->GetGameViewport() : nullptr)
+		{
+			Viewport->ViewModeIndex = bUnlit ? VMI_Unlit : VMI_Lit;
+		}
+	}
+}
+
+void UToroGameInstance::SetPlayerInvincible(const bool bInvincible)
+{
+	if (bInvinciblePlayer != bInvincible)
+	{
+		bInvinciblePlayer = bInvincible;
+		OnPlayerInvincible.Broadcast(bInvinciblePlayer);
+	}
+}
+
+void UToroGameInstance::OnFirstLaunch()
+{
+	const UWorld* World = GetWorld();
+	if (UGameViewportClient* Viewport = World ? World->GetGameViewport() : nullptr)
+	{
+		Viewport->ViewModeIndex = VMI_Lit;
+	}
+}
+
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
 	if (UToroUserSettings::Get()->InitializeSettings())
