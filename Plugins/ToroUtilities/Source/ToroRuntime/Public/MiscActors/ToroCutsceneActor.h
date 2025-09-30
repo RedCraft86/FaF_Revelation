@@ -39,7 +39,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = General, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
 		FGuid CutsceneGuid;
 
-	// TODO widget
+	// TODO ui
 	FTimerHandle FadedPlayHandle;
 	FGameInputConfig CachedInput;
 	TObjectPtr<UToroSaveManager> SaveManager;

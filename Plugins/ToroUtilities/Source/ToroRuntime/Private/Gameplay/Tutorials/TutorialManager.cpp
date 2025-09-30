@@ -45,7 +45,7 @@ void UTutorialManager::QueueInternal(const FGameplayTag& Key)
 	if (TutorialTags::IsValidTag(Key) && !Tutorials.Contains(Key))
 	{
 		Tutorials.Add(Key);
-		// TODO show UI
+		// TODO ui
 	}
 }
 

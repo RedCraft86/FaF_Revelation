@@ -47,7 +47,7 @@ private:
 	FInteractionCache InteractCache;
 	TObjectPtr<AToroPlayerCharacter> PlayerChar;
 
-	// TODO widget
+	// TODO ui
 
 	void CleanupCache();
 	bool CanInteract() const { return bEnabled && PlayerChar && HandleTrace.IsBound(); }
