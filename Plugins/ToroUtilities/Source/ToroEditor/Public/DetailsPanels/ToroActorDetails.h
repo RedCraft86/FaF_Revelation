@@ -67,7 +67,7 @@ protected:
 	{
 		CachedCategories = GetNativeCategories();
 
-		UClass* Class = nullptr;
+		const UClass* Class = nullptr;
 		TArray<TWeakObjectPtr<UObject>> Objects;
 		DetailBuilder.GetObjectsBeingCustomized(Objects);
 		for (const TWeakObjectPtr<UObject>& Object : Objects)
