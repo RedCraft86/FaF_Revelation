@@ -17,7 +17,9 @@ UCLASS(Abstract)
 class TOROCORE_API AToroActor : public AActor, public IActorStateInterface, public IGuidInterface
 {
 	GENERATED_BODY()
-
+#if WITH_EDITOR
+	friend class FToroActorDetails;
+#endif
 public:
 
 	AToroActor();

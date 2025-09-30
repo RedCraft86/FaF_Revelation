@@ -5,20 +5,28 @@
 #include "Styling/SlateStyleMacros.h"
 
 #include "ToroCommands.h"
-#include "Interfaces/IMainFrameModule.h"
 #include "Toolbar/AssetLibrary.h"
 #include "Toolbar/RestartEditor.h"
 #include "Toolbar/ActorLayout.h"
 #include "Toolbar/ActorMerger.h"
+#include "Interfaces/IMainFrameModule.h"
 
 #include "UnrealEd.h"
+#include "Actors/Procedural/ToroProcGenBase.h"
 #include "ComponentVis/EditorShapeVisualizer.h"
 #include "ComponentVis/VisionConeVisualizer.h"
 
+#include "DetailsPanels/ToroActorDetails.h"
 #include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
 #include "DetailsPanels/Struct/InlineCurveDetails.h"
 #include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
 #include "DetailsPanels/Struct/WorldActionArrayDetails.h"
+
+#include "Actors/TeleportPoint.h"
+#include "Actors/NavPathVisualizer.h"
+#include "LevelZone/LevelZoneVolume.h"
+#include "LightProbes/LightProbeActor.h"
+#include "MiscActors/MasterPostProcess.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -55,6 +63,15 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ATeleportPoint, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AToroProcGenBase, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ALightProbeActor, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FToroActorDetails)
 
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
@@ -64,10 +81,11 @@ void FToroEditorModule::StartupModule()
 
 		REGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields, FExprTextFieldsDetails)
 
-		for (TObjectIterator<UScriptStruct> It; It; ++It)
-		{
-			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
-		}
+		// for (TObjectIterator<UScriptStruct> It; It; ++It)
+		// {
+		// 	const UScriptStruct* ScriptStruct = *It;
+		// 	if (!ScriptStruct) continue;
+		// }
 	}
 }
 
@@ -90,6 +108,16 @@ void FToroEditorModule::ShutdownModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
+		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportPoint)
+		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroProcGenBase)
+		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALightProbeActor)
+		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
+
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineColorCurve)
@@ -98,10 +126,11 @@ void FToroEditorModule::ShutdownModule()
 
 		UNREGISTER_STRUCT_CUSTOMIZATION(FExpressiveTextFields)
 
-		for (TObjectIterator<UScriptStruct> It; It; ++It)
-		{
-			const UScriptStruct* ScriptStruct = *It; if (!ScriptStruct) continue;
-		}
+		// for (TObjectIterator<UScriptStruct> It; It; ++It)
+		// {
+		// 	const UScriptStruct* ScriptStruct = *It;
+		// 	if (!ScriptStruct) continue;
+		// }
 	}
 
 	FToroEditorStyle::Shutdown();

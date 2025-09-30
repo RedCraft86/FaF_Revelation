@@ -23,7 +23,9 @@ UCLASS(Abstract)
 class TOROCORE_API AToroCharacter : public ACharacter, public ICharInterface
 {
 	GENERATED_BODY()
-
+#if WITH_EDITOR
+	friend class FToroActorDetails;
+#endif
 public:
 
 	AToroCharacter() {}

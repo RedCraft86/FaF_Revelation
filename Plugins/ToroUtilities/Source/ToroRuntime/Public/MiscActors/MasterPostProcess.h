@@ -7,7 +7,7 @@
 #include "MiscObjects/UDSSetterObject.h"
 #include "MasterPostProcess.generated.h"
 
-UCLASS(NotBlueprintable, meta = (AllowedCategories = "PostProcessing", HiddenCategories = "Rendering, Actor"))
+UCLASS(NotBlueprintable, meta = (VisibleCategories = "PostProcessing", HiddenCategories = "Rendering, Actor"))
 class TORORUNTIME_API AMasterPostProcess final : public AActor
 {
 	GENERATED_BODY()

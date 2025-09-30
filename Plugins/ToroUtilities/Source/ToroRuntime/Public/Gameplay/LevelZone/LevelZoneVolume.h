@@ -11,7 +11,9 @@ UCLASS()
 class TORORUNTIME_API ALevelZoneVolume final : public AToroVolume
 {
 	GENERATED_BODY()
-
+#if WITH_EDITOR
+	friend class FZoneVolumeDetails;
+#endif
 public:
 
 	ALevelZoneVolume();
