@@ -17,10 +17,10 @@
 #include "ComponentVis/VisionConeVisualizer.h"
 
 #include "DetailsPanels/ToroActorDetails.h"
-#include "DetailsPanels/Struct/ExprTextFieldsDetails.h"
-#include "DetailsPanels/Struct/InlineCurveDetails.h"
-#include "DetailsPanels/Struct/PrimitiveCollisionDetails.h"
-#include "DetailsPanels/Struct/WorldActionArrayDetails.h"
+#include "DetailsPanels/ExprTextFieldsDetails.h"
+#include "DetailsPanels/InlineCurveDetails.h"
+#include "DetailsPanels/PrimitiveCollisionDetails.h"
+#include "DetailsPanels/WorldActionArrayDetails.h"
 
 #include "Actors/TeleportPoint.h"
 #include "Actors/NavPathVisualizer.h"
