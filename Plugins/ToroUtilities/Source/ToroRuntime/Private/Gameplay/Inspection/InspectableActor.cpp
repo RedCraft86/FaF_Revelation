@@ -34,8 +34,10 @@ AInspectableActor::AInspectableActor()
 
 void AInspectableActor::Exit_Implementation()
 {
-	// TODO link with manager
-	// if (Manager && Manager->GetInspectable() == this) Manager->EndInspection();
+	if (Manager && Manager->GetInspectable() == this)
+	{
+		Manager->EndInspection();
+	}
 }
 
 void AInspectableActor::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& HitResult)
@@ -50,8 +52,7 @@ void AInspectableActor::OnBeginInteract_Implementation(AToroPlayerCharacter* Pla
 		InspectRoot->bEnableCameraRotationLag = true;
 		InspectRoot->SetWorldLocation(Manager->GetComponentLocation());
 
-		// TODO link with manager
-		// Manager->BeginInspection(this);
+		Manager->BeginInspection(this);
 
 		GetWorldTimerManager().ClearTimer(LagTimer);
 		SetActorTickEnabled(true);
