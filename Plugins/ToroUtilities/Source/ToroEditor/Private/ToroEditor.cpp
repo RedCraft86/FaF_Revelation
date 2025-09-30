@@ -17,6 +17,7 @@
 #include "ComponentVis/VisionConeVisualizer.h"
 
 #include "DetailsPanels/ToroActorDetails.h"
+#include "DetailsPanels/ElectricActorDetails.h"
 #include "DetailsPanels/ExprTextFieldsDetails.h"
 #include "DetailsPanels/InlineCurveDetails.h"
 #include "DetailsPanels/PrimitiveCollisionDetails.h"
@@ -72,6 +73,7 @@ void FToroEditorModule::StartupModule()
 		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ALightProbeActor, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FToroActorDetails)
+		REGISTER_CLASS_CUSTOMIZATION(AElectricalActor, FElectricActorDetails)
 
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve, FInlineCurveDetails)
@@ -117,6 +119,7 @@ void FToroEditorModule::ShutdownModule()
 		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
 		UNREGISTER_CLASS_CUSTOMIZATION(ALightProbeActor)
 		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
+		UNREGISTER_CLASS_CUSTOMIZATION(AElectricalActor)
 
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineVectorCurve)
