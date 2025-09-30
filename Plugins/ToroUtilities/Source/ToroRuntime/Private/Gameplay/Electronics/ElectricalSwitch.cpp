@@ -4,4 +4,7 @@
 
 AElectricalSwitch::AElectricalSwitch()
 {
+	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 }

@@ -13,6 +13,4 @@ class TORORUNTIME_API AElectricalSwitch final : public AElectricalActor
 public:
 
 	AElectricalSwitch();
-
-	// TODO
 };
