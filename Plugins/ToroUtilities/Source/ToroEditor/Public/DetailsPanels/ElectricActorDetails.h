@@ -6,7 +6,7 @@
 #include "Electronics/ElectricalActor.h"
 #include "Electronics/ElectricalSwitch.h"
 #include "Electronics/ElectricalProvider.h"
-#include "Electronics/ElectricalReciever.h"
+#include "Electronics/ElectricalReceiver.h"
 
 #define CLASSNAME AElectricalActor
 class TOROEDITOR_API FElectricActorDetails final : public FToroActorDetails
@@ -23,7 +23,7 @@ public:
 	static inline TMap<UClass*, ERelation> Entries = {
 		{AElectricalSwitch::StaticClass(),		ERelation::Both},
 		{AElectricalProvider::StaticClass(),	ERelation::Provide},
-		{AElectricalReciever::StaticClass(),	ERelation::Receive}
+		{AElectricalReceiver::StaticClass(),	ERelation::Receive}
 	};
 
 	static TSharedRef<IDetailCustomization> MakeInstance()
