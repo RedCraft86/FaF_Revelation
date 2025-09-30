@@ -3,7 +3,7 @@
 #pragma once
 
 #include "Actors/ToroActor.h"
-#include "DataTypes/SimpleDelegates.h"
+#include "DataTypes/ToroDelegates.h"
 #include "ElectricalActor.generated.h"
 
 UCLASS(Abstract)
@@ -31,7 +31,7 @@ public:
 		TSet<TWeakObjectPtr<AElectricalActor>> Providers;
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Powered State Changed")
-		FSimpleBoolDelegateBP OnPoweredStateChangedBP;
+		FToroBoolDelegateBP OnPoweredStateChangedBP;
 
 	UFUNCTION(BlueprintPure, Category = Electricals)
 		bool IsPowered() const { return bPowered; }
@@ -39,7 +39,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Powered State Changed")
 		void PoweredStateChangedBP(bool bState);
 
-	FSimpleBoolDelegate OnPoweredStateChanged;
+	FToroBoolDelegate OnPoweredStateChanged;
 	void AddProvider(AElectricalActor* InProvider);
 	void RemoveProvider(AElectricalActor* InProvider);
 
