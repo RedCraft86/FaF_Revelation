@@ -4,6 +4,7 @@
 
 #include "ToroActor.h"
 #include "GameFramework/Volume.h"
+#include "DataTypes/SimpleDelegates.h"
 #include "Components/BrushComponent.h"
 #include "ToroVolume.generated.h"
 
@@ -17,12 +18,12 @@ public:
 	AToroVolume();
 
 	UPROPERTY(BlueprintAssignable, DisplayName = "On Enable State Changed")
-		FActorEnableChangedBP OnEnableStateChangedBP;
+		FBoolStateDelegateBP OnEnableStateChangedBP;
 
 	UFUNCTION(BlueprintImplementableEvent, DisplayName = "Enable State Changed")
 		void EnableStateChangedBP(const bool bState);
 
-	FActorEnableChanged OnEnableStateChanged;
+	FBoolStateDelegate OnEnableStateChanged;
 
 	virtual void SetEnabledState_Implementation(const bool bInEnabled) override;
 	virtual bool GetEnabledState_Implementation() const override { return bEnabled; }
