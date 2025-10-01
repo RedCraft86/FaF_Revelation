@@ -68,6 +68,14 @@
 		{
 			"Name": "Narrative",
 			"Enabled": true
+		},
+		{
+			"Name": "FSR3",
+			"Enabled": true
+		},
+		{
+			"Name": "XeSS",
+			"Enabled": true
 		}
 	]
 }
