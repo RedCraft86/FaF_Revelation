@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "ToroRuntime.h"
+#include "GeneralProjectSettings.h"
 #include "SaveSystem/ToroGlobalSave.h"
 #include "SaveSystem/ToroGameSave.h"
 
@@ -21,13 +22,31 @@ UToroSettings::UToroSettings()
 	LightProbePPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_LightProbe.PPM_LightProbe"));
 	BrightnessPPM = FSoftObjectPath(TEXT("/ToroUtilities/Assets/PostProcess/PPM_Brightness.PPM_Brightness"));
 
+	MainSoundMix = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SMC_Master.SMC_Master"));
+	SoundClasses[0] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Master.SC_Master"));
+	SoundClasses[1] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Music.SC_Music"));
+	SoundClasses[2] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_SoundFX.SC_SoundFX"));
+	SoundClasses[3] = FSoftObjectPath(TEXT("/Game/AssetPacks/_Globals/Audio/SC_Voice.SC_Voice"));
+
 	InitSaves = {
 		{UToroGlobalSave::StaticClass(), 0},
 		{UToroGameSave::StaticClass(), 0}
 	};
 }
 
-bool UToroSettings::IsOnMap(const UObject* ContextObject, const EToroMapType MapType)
+FText UToroSettings::GetVersionLabel() const
+{
+	static FString DemoString = FString::Printf(TEXT(" | %s"), *DemoName.ToString());
+	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
+	{
+		return FText::Format(INVTEXT("Version: {0}{1}"),
+			FText::FromString(ProjectSettings->ProjectVersion),
+			DemoName.IsNone() ? FText::GetEmpty() : FText::FromString(DemoString));
+	}
+	return INVTEXT("Failed to determine version");
+}
+
+bool UToroSettings::IsOnMap(const UObject* ContextObject, const EToroMapType MapType) const
 {
 	const TSoftObjectPtr<UWorld>* World = MapRegistry.Find(MapType);
 	return World && UGameplayStatics::GetCurrentLevelName(ContextObject) == World->GetAssetName();
