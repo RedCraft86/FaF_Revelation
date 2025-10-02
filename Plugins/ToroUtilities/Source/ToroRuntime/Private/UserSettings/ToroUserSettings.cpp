@@ -8,6 +8,8 @@
 extern ENGINE_API float GAverageFPS;
 extern ENGINE_API float GAverageMS;
 
+#define OnSettingsApply(Type) OnSettingsUpdated.Broadcast(ESettingApplyType::Type);
+
 UToroUserSettings::UToroUserSettings(): bInitialized(false)
 {
 	UToroUserSettings::SetToDefaults();
@@ -132,9 +134,9 @@ void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8
 	ApplyAudioVolume();
 }
 
-DEFINE_PROPERTY_FUNC(bool, ShowFPS, OnDynamic.Broadcast();)
-DEFINE_PROPERTY_FUNC(bool, DeveloperMode, OnDeveloper.Broadcast();)
-DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnDifficulty.Broadcast();)
+DEFINE_PROPERTY_FUNC(bool, ShowFPS, OnSettingsApply(Dynamic))
+DEFINE_PROPERTY_FUNC(bool, DeveloperMode, OnSettingsApply(Developer))
+DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnSettingsApply(Difficulty))
 
 DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
 DEFINE_PROPERTY_FUNC(FVector2D, Sensitivity,)
@@ -144,15 +146,15 @@ DEFINE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10,)
 
 DEFINE_PROPERTY_FUNC(bool, Borderless,)
 
-DEFINE_PROPERTY_FUNC(bool, FancyBloom, OnDynamic.Broadcast();)
+DEFINE_PROPERTY_FUNC(bool, FancyBloom, OnSettingsApply(Dynamic);)
 DEFINE_PROPERTY_FUNC(bool, SSFogScattering, ApplySSFogScattering();)
 DEFINE_PROPERTY_FUNC_CLAMPED(float, Gamma, 0.5f, 5.0f, ApplyScreenGamma();)
-DEFINE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 200, OnDynamic.Broadcast();)
-DEFINE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3, OnDynamic.Broadcast();)
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 200, OnSettingsApply(Dynamic);)
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3, OnSettingsApply(Dynamic);)
 
-DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3, OnDynamic.Broadcast();)
-DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflections, 0, 3, OnDynamic.Broadcast();)
-DEFINE_PROPERTY_FUNC(bool, HitLightingReflections, OnDynamic.Broadcast();)
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3, OnSettingsApply(Dynamic);)
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflections, 0, 3, OnSettingsApply(Dynamic);)
+DEFINE_PROPERTY_FUNC(bool, HitLightingReflections, OnSettingsApply(Dynamic);)
 
 DEFINE_PROPERTY_FUNC(EImageFidelityMode, ImageFidelity, ApplyImageFidelity();)
 
@@ -194,7 +196,7 @@ void UToroUserSettings::ApplyImageFidelity() const
 	ApplyFSR();
 	ApplyXeSS();
 
-	RefreshUI.Broadcast();
+	OnSettingsApply(UI)
 }
 
 void UToroUserSettings::ApplyAudioVolume() const
@@ -293,7 +295,7 @@ void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 		ApplyAudioVolume();
 	}
 
-	OnApply.Broadcast();
+	OnSettingsApply(Manual)
 	Super::ApplySettings(bCheckForCommandLineOverrides);
 }
 
@@ -304,3 +306,5 @@ UWorld* UToroUserSettings::GetWorld() const
 	if (!World) World = GEngine->GetCurrentPlayWorld();
 	return World;
 }
+
+#undef OnSettingsApply

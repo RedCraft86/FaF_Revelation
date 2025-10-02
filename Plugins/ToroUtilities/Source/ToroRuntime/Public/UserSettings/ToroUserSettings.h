@@ -30,6 +30,16 @@
 		} \
 	}
 
+UENUM(BlueprintInternalUseOnly)
+enum class ESettingApplyType : uint8
+{
+	Developer,
+	Difficulty,
+	Dynamic,
+	Manual,
+	UI
+};
+
 UCLASS()
 class TORORUNTIME_API UToroUserSettings : public UGameUserSettings
 {
@@ -98,13 +108,8 @@ public:
 	DECLARE_PROPERTY_FUNC(bool, XeSSFrameGen)
 	DECLARE_PROPERTY_FUNC(bool, XeSSLowLatency)
 
-	// TODO: Condense into single delegate with Enum to determine type
-	DECLARE_MULTICAST_DELEGATE(FUserSettingsDelegate)
-	FUserSettingsDelegate OnDeveloper;
-	FUserSettingsDelegate OnDifficulty;
-	FUserSettingsDelegate OnDynamic;
-	FUserSettingsDelegate OnApply;
-	FUserSettingsDelegate RefreshUI;
+	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const ESettingApplyType)
+	FUserSettingsDelegate OnSettingsUpdated;
 
 protected:
 
