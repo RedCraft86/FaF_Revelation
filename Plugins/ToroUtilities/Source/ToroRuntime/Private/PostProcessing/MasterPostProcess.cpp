@@ -112,8 +112,7 @@ void AMasterPostProcess::ApplySettings()
 		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
 		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
 		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(),
-			UserSettings->GetLumenReflections(),
-			UserSettings->GetHitLightingReflections());
+			UserSettings->GetLumenReflection(), UserSettings->GetHitLighting());
 
 		if (BrightnessMID.IsValid())
 		{

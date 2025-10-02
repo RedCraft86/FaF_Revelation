@@ -61,7 +61,7 @@ public:
 	static TArray<FIntPoint> GetSupportedResolutions() { return SupportedResolutions; }
 
 	bool InitializeSettings(UGameInstance* GI);
-	void ApplyAdjustedFullscreenMode();
+	void SetAdjustedFullscreenMode();
 
 	void AutoAdjustScalability();
 	TArray<uint8>& GetAutoScalability() { return AutoScalability; }
@@ -94,8 +94,8 @@ public:
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3)
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflections, 0, 3)
-	DECLARE_PROPERTY_FUNC(bool, HitLightingReflections)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflection, 0, 3)
+	DECLARE_PROPERTY_FUNC(bool, HitLighting)
 
 	DECLARE_PROPERTY_FUNC(EImageFidelityMode, ImageFidelity)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, TSRResolution, 50, 200)
@@ -158,8 +158,8 @@ protected:
 
 	// Lumen
 	UPROPERTY(Config) uint8 LumenGI;
-	UPROPERTY(Config) uint8 LumenReflections;
-	UPROPERTY(Config) bool HitLightingReflections;
+	UPROPERTY(Config) uint8 LumenReflection;
+	UPROPERTY(Config) bool HitLighting;
 
 	// Image Fidelity
 	UPROPERTY(Config) EImageFidelityMode ImageFidelity;

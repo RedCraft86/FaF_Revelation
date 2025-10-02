@@ -47,7 +47,7 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 		AutoAdjustScalability();
 		SetResolutionScaleNormalized(1.0f);
 
-		ApplyAdjustedFullscreenMode();
+		SetAdjustedFullscreenMode();
 		SetScreenResolution(GetFullscreenResolution());
 	}
 
@@ -55,7 +55,7 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 	return bFirstLoad;
 }
 
-void UToroUserSettings::ApplyAdjustedFullscreenMode()
+void UToroUserSettings::SetAdjustedFullscreenMode()
 {
 #if WITH_EDITOR
 	SetFullscreenMode(EWindowMode::Windowed);
@@ -144,7 +144,7 @@ DEFINE_PROPERTY_FUNC(FVector2D, Sensitivity,)
 DEFINE_PROPERTY_FUNC(EColorBlindMode, ColorBlindMode,)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10,)
 
-DEFINE_PROPERTY_FUNC(bool, Borderless,)
+DEFINE_PROPERTY_FUNC(bool, Borderless, SetAdjustedFullscreenMode();)
 
 DEFINE_PROPERTY_FUNC(bool, FancyBloom, OnSettingsApply(Dynamic);)
 DEFINE_PROPERTY_FUNC(bool, SSFogScattering, ApplySSFogScattering();)
@@ -153,8 +153,8 @@ DEFINE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 200, OnSettingsApply(Dynamic
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3, OnSettingsApply(Dynamic);)
 
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3, OnSettingsApply(Dynamic);)
-DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflections, 0, 3, OnSettingsApply(Dynamic);)
-DEFINE_PROPERTY_FUNC(bool, HitLightingReflections, OnSettingsApply(Dynamic);)
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflection, 0, 3, OnSettingsApply(Dynamic);)
+DEFINE_PROPERTY_FUNC(bool, HitLighting, OnSettingsApply(Dynamic);)
 
 DEFINE_PROPERTY_FUNC(EImageFidelityMode, ImageFidelity, ApplyImageFidelity();)
 
