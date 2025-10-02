@@ -183,8 +183,6 @@ DEFINE_PROPERTY_FUNC(bool, HitLighting, OnSettingsApply(Dynamic);)
 
 DEFINE_PROPERTY_FUNC(EImageFidelityMode, ImageFidelity, ApplyImageFidelity();)
 
-DEFINE_PROPERTY_FUNC_CLAMPED(uint8, TSRResolution, 50, 200, ApplyTSR();)
-
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4, ApplyFSR();)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, FSRSharpness, 0, 100, ApplyFSR();)
 DEFINE_PROPERTY_FUNC(bool, FSRFrameGen, ApplyFSR();)
@@ -217,7 +215,6 @@ void UToroUserSettings::ApplyImageFidelity() const
 {
 	ImageFidelity::SetAntiAliasing(GetImageFidelity());
 
-	ApplyTSR();
 	ApplyFSR();
 	ApplyXeSS();
 
@@ -241,12 +238,6 @@ void UToroUserSettings::ApplyAudioVolume() const
 		UGameplayStatics::SetSoundMixClassOverride(this, SoundMix, SoundClass,
 			GetAudioVolume(Type), 1.0f, 0.5f, true);
 	}
-}
-
-void UToroUserSettings::ApplyTSR() const
-{
-	const bool bTSR = GetImageFidelity() == EImageFidelityMode::TSR;
-	ImageFidelity::SetScreenPercentage(bTSR ? GetTSRResolution() : 100);
 }
 
 void UToroUserSettings::ApplyFSR() const
@@ -299,7 +290,6 @@ void UToroUserSettings::SetToDefaults()
 	HitLighting = false;
 	
 	ImageFidelity = EImageFidelityMode::TSR;
-	TSRResolution = 70;
 	
 	FSRQuality = 2;
 	FSRSharpness = 0.0f;

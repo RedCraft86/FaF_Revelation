@@ -120,7 +120,6 @@ public:
 	DECLARE_PROPERTY_FUNC(bool, HitLighting)
 
 	DECLARE_PROPERTY_FUNC(EImageFidelityMode, ImageFidelity)
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, TSRResolution, 50, 200)
 
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRSharpness, 0, 100)
@@ -145,7 +144,6 @@ protected:
 	void ApplyImageFidelity() const;
 	void ApplyAudioVolume() const;
 
-	void ApplyTSR() const;
 	void ApplyFSR() const;
 	void ApplyXeSS() const;
 
@@ -186,7 +184,6 @@ protected:
 
 	// Image Fidelity
 	UPROPERTY(Config) EImageFidelityMode ImageFidelity;
-	UPROPERTY(Config) uint8 TSRResolution;
 
 	// FSR 3
 	UPROPERTY(Config) uint8 FSRQuality;
