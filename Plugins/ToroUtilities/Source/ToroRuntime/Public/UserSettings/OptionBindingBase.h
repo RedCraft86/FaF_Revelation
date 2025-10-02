@@ -21,15 +21,21 @@ struct TORORUNTIME_API FOptionBindingBase
 {
 	GENERATED_BODY()
 
-	FOptionBindingBase() {}
 	virtual ~FOptionBindingBase() = default;
-
-	virtual void GetDisplayInfo(FText& Name, FText& Tooltip, EUserOptionImpact& Impact) const
+	FOptionBindingBase(): Impact(EUserOptionImpact::None)
 	{
 		Name = INVTEXT("Invalid Option");
 		Tooltip = INVTEXT("This option is not configured properly!");
-		Impact = EUserOptionImpact::None;
 	}
+
+	UPROPERTY(EditAnywhere, Category = Option)
+		FText Name;
+
+	UPROPERTY(EditAnywhere, Category = Option)
+		FText Tooltip;
+
+	UPROPERTY(EditAnywhere, Category = Option)
+		EUserOptionImpact Impact;
 
 	virtual void InitBinding()
 	{
