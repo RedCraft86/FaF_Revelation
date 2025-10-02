@@ -37,6 +37,18 @@ struct TORORUNTIME_API FOptionBindingBase
 	UPROPERTY(EditAnywhere, Category = Option)
 		EUserOptionImpact Impact;
 
+	FText GetImpactText() const
+	{
+		switch (Impact)
+		{
+			case EUserOptionImpact::Low:	return INVTEXT("Low");
+			case EUserOptionImpact::Medium:	return INVTEXT("Medium");
+			case EUserOptionImpact::High:	return INVTEXT("High");
+			case EUserOptionImpact::Varies:	return INVTEXT("Varies by Device/Scenario");
+			default: return FText::GetEmpty();
+		}
+	}
+
 	virtual void InitBinding()
 	{
 		Settings = UToroUserSettings::Get();
