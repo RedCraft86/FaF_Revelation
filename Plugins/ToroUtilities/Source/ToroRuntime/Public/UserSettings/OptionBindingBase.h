@@ -58,7 +58,7 @@ struct TORORUNTIME_API FOptionBindingBase
 		const FText ImpactText = GetImpactText();
 		if (!ImpactText.IsEmptyOrWhitespace())
 		{
-			Builder.AppendLineFormat(INVTEXT("\n{0}"), ImpactText);
+			Builder.AppendLineFormat(INVTEXT("\nImpact: {0}"), ImpactText);
 		}
 		
 		return Builder.ToText();
