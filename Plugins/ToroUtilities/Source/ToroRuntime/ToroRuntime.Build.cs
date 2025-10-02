@@ -43,7 +43,12 @@ public class ToroRuntime : ModuleRules
                 "ToroGraph",
                 "Narrative",
                 "EnhancedCodeFlow",
-                "ExpressiveText"
+                "ExpressiveText",
+                
+                "XeFGRHI",
+                "XeSSBlueprint",
+                "XeFGBlueprint",
+                "XeLLBlueprint"
             ]
         );
         
