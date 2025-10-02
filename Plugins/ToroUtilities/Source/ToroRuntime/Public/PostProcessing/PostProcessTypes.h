@@ -110,7 +110,7 @@ struct TORORUNTIME_API FPPMotionBlurChoice
 protected:
 
 	const FPPMotionBlurConfig& GetOption(const uint8 Quality) const;
-	static inline FPPMotionBlurConfig Disabled = FPPMotionBlurConfig(0.0f, 0.0f);
+	static const inline FPPMotionBlurConfig Disabled = FPPMotionBlurConfig(0.0f, 0.0f);
 };
 
 USTRUCT(BlueprintInternalUseOnly)
