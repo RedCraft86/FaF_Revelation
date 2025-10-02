@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroGameInstance.h"
-#include "UserSettings/ToroUserSettings.h"
 #include "Windows/WindowsPlatformApplicationMisc.h"
 #include "GeneralProjectSettings.h"
 #include "Helpers/WindowsHelpers.h"
@@ -28,6 +27,18 @@ void UToroGameInstance::SetPlayerInvincible(const bool bInvincible)
 	}
 }
 
+void UToroGameInstance::OnSettingUpdate(const ESettingApplyType Type)
+{
+	if (Type == ESettingApplyType::Developer)
+	{
+		if (!UToroUserSettings::Get()->GetDeveloperMode())
+		{
+			SetUnlitViewmode(false);
+			SetPlayerInvincible(false);
+		}
+	}
+}
+
 void UToroGameInstance::OnFirstLaunch()
 {
 	const UWorld* World = GetWorld();
@@ -39,9 +50,11 @@ void UToroGameInstance::OnFirstLaunch()
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
-	if (UToroUserSettings::Get()->InitializeSettings(this))
+	UToroUserSettings* Settings = UToroUserSettings::Get();
+	if (Settings->InitializeSettings(this))
 	{
 		OnFirstLaunch();
+		Settings->OnSettingsUpdated.AddUObject(this, &UToroGameInstance::OnSettingUpdate);
 	}
 }
 

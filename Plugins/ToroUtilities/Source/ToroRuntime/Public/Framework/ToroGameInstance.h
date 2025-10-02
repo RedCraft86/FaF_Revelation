@@ -4,6 +4,7 @@
 
 #include "Engine/GameInstance.h"
 #include "Helpers/ClassGetterMacros.h"
+#include "UserSettings/ToroUserSettings.h"
 #include "ToroGameInstance.generated.h"
 
 UCLASS()
@@ -38,6 +39,8 @@ protected:
 
 	bool bUnlitMode;
 	bool bInvinciblePlayer;
+
+	void OnSettingUpdate(const ESettingApplyType Type);
 
 	virtual void OnFirstLaunch();
 	virtual void OnWorldBeginPlay(UWorld* InWorld);
