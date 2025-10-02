@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Sound/SoundMix.h"
+#include "Sound/SoundClass.h"
 #include "UserSettingTypes.generated.h"
 
 UENUM(BlueprintType)
@@ -42,9 +44,10 @@ enum class ESoundClassType : uint8
 	Master,
 	Music,
 	SFX,
-	Voice
+	Voice,
+	MAX UMETA(Hidden)
 };
-ENUM_RANGE_BY_FIRST_AND_LAST(ESoundClassType, ESoundClassType::Master, ESoundClassType::Voice)
+ENUM_RANGE_BY_COUNT(ESoundClassType, ESoundClassType::MAX)
 
 UENUM(BlueprintType)
 enum class EImageFidelityMode : uint8
@@ -75,6 +78,7 @@ inline EAntiAliasingMethod ConvertImageFidelity(const EImageFidelityMode InMode)
 {
 	switch (InMode)
 	{
+		case EImageFidelityMode::None:	return AAM_None;
 		case EImageFidelityMode::FXAA:	return AAM_FXAA;
 		case EImageFidelityMode::TAA:	return AAM_TemporalAA;
 		// case EImageFidelityMode::SMAA:	return AAM_SMAA // TODO 5.7 implementation
