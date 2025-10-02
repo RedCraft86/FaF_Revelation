@@ -93,12 +93,12 @@ struct TORORUNTIME_API FSliderOptionBinding : public FOptionBindingBase
 	virtual void SetValue(const float InValue) {}
 };
 
-USTRUCT(BlueprintInternalUseOnly, DisplayName = "Switchers", meta = (Hidden))
-struct TORORUNTIME_API FSwitcherOptionBinding : public FOptionBindingBase
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "Swappers", meta = (Hidden))
+struct TORORUNTIME_API FSwapperOptionBinding : public FOptionBindingBase
 {
 	GENERATED_BODY()
 
-	FSwitcherOptionBinding(): Options(LMHEC) {}
+	FSwapperOptionBinding(): Options(LMHEC) {}
 
 	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
 		TArray<FName> Options;
