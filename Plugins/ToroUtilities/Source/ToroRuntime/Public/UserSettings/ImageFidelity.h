@@ -43,7 +43,7 @@ namespace ImageFidelity
         TORORUNTIME_API inline void SetSharpness(const uint8 Value)
         {
             UToroConsoleLibrary::SetCVarFloat("r.FidelityFX.FSR3.Sharpness",
-                FMath::Clamp(Value, 0, 100) / 100.0f);
+                FMath::Clamp(Value, 0, 100) * 0.01f);
         }
 
         TORORUNTIME_API inline void SetFrameGenEnabled(const bool bEnabled)
