@@ -12,6 +12,7 @@
 #include "MiscObjects/ToroDataAsset.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "UserInterface/ToroWidgetBase.h"
+#include "UserSettings/UserSettingTypes.h"
 #include "ToroRuntime.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogToroRuntime, All, All);
@@ -70,7 +71,14 @@ public:
     UPROPERTY(Config, EditAnywhere, Category = Settings)
         TSoftObjectPtr<UMaterialInterface> BrightnessPPM;
 
-    bool IsOnMap(const UObject* ContextObject, const EToroMapType MapType);
+    UPROPERTY(Config, EditAnywhere, Category = Settings)
+        TSoftObjectPtr<USoundMix> MainSoundMix;
+
+    UPROPERTY(Config, EditAnywhere, Category = Settings, meta = (ArraySizeEnum = "/Script/ToroRuntime.ESoundClassType"))
+        TSoftObjectPtr<USoundClass> SoundClasses[static_cast<uint8>(ESoundClassType::MAX)];
+
+    FText GetVersionLabel() const;
+    bool IsOnMap(const UObject* ContextObject, const EToroMapType MapType) const;
 
     template <typename T = UToroDatabase>
     T* GetDatabase()
