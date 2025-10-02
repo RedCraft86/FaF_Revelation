@@ -105,6 +105,8 @@ struct TORORUNTIME_API FSwapperOptionBinding : public FOptionBindingBase
 
 	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1, GetOptions = "Options"))
 		TMap<FName, FText> OptionTooltips;
+
+	virtual FText FormatTooltip() const { return Tooltip; }
 	
 	virtual uint8 GetValue() const { return 0; }
 	virtual void SetValue(const uint8 InValue) {}
