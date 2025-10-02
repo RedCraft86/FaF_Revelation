@@ -39,7 +39,7 @@ void UToroGameInstance::OnFirstLaunch()
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
-	if (UToroUserSettings::Get()->InitializeSettings())
+	if (UToroUserSettings::Get()->InitializeSettings(this))
 	{
 		OnFirstLaunch();
 	}
