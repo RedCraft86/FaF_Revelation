@@ -5,7 +5,7 @@
 #include "ToroRuntime.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Subsystems/WorldSubsystem.h"
-#include "MiscActors/MasterPostProcess.h"
+#include "PostProcessing/MasterPostProcess.h"
 #include "LightProbeManager.generated.h"
 
 UCLASS()

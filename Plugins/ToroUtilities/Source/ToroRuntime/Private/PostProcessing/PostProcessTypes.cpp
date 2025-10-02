@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "DataTypes/PostProcessTypes.h"
+#include "PostProcessing/PostProcessTypes.h"
 
 void FPPBloomConfig::ModifyPP(FPostProcessSettings& Settings) const
 {

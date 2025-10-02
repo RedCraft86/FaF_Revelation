@@ -27,7 +27,7 @@
 #include "Actors/NavPathVisualizer.h"
 #include "LevelZone/LevelZoneVolume.h"
 #include "LightProbes/LightProbeActor.h"
-#include "MiscActors/MasterPostProcess.h"
+#include "PostProcessing/MasterPostProcess.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 

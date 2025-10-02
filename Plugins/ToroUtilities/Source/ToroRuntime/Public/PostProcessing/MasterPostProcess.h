@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "PostProcessTypes.h"
 #include "GameFramework/Actor.h"
-#include "DataTypes/PostProcessTypes.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "MasterPostProcess.generated.h"

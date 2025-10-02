@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "MiscActors/MasterPostProcess.h"
+#include "PostProcessing/MasterPostProcess.h"
 #include "Components/PostProcessComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroRuntime.h"
