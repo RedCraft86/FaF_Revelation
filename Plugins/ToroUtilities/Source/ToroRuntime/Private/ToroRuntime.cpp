@@ -36,12 +36,16 @@ UToroSettings::UToroSettings()
 
 FText UToroSettings::GetVersionLabel() const
 {
-	static FString DemoString = FString::Printf(TEXT(" | %s"), *DemoName.ToString());
 	if (const UGeneralProjectSettings* ProjectSettings = GetDefault<UGeneralProjectSettings>())
 	{
-		return FText::Format(INVTEXT("Version: {0}{1}"),
-			FText::FromString(ProjectSettings->ProjectVersion),
-			DemoName.IsNone() ? FText::GetEmpty() : FText::FromString(DemoString));
+		FTextBuilder Builder;
+		Builder.AppendLine(INVTEXT("Version: "));
+		Builder.AppendLine(ProjectSettings->ProjectVersion);
+		if (!DemoName.IsNone())
+		{
+			Builder.AppendLineFormat(INVTEXT(" | {0}"), FText::FromName(DemoName));
+		}
+		return Builder.ToText();
 	}
 	return INVTEXT("Failed to determine version");
 }

@@ -45,9 +45,23 @@ struct TORORUNTIME_API FOptionBindingBase
 			case EUserOptionImpact::Low:	return INVTEXT("Low");
 			case EUserOptionImpact::Medium:	return INVTEXT("Medium");
 			case EUserOptionImpact::High:	return INVTEXT("High");
-			case EUserOptionImpact::Varies:	return INVTEXT("Varies by Device/Scenario");
-			default: return FText::GetEmpty();
+			case EUserOptionImpact::Varies:	return INVTEXT("Varies by Scenario");
+			default:						return FText::GetEmpty();
 		}
+	}
+
+	virtual FText GetFormattedTooltip() const
+	{
+		FTextBuilder Builder;
+		Builder.AppendLine(Tooltip);
+
+		const FText ImpactText = GetImpactText();
+		if (!ImpactText.IsEmptyOrWhitespace())
+		{
+			Builder.AppendLineFormat(INVTEXT("\n{0}"), ImpactText);
+		}
+		
+		return Builder.ToText();
 	}
 
 	virtual void InitBinding()
@@ -106,8 +120,32 @@ struct TORORUNTIME_API FSwapperOptionBinding : public FOptionBindingBase
 	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1, GetOptions = "Options"))
 		TMap<FName, FText> OptionTooltips;
 
-	virtual FText FormatTooltip() const { return Tooltip; }
-	
+	virtual FText GetFormattedTooltip() const override
+	{
+		if (OptionTooltips.IsEmpty())
+		{
+			return Super::GetFormattedTooltip();
+		}
+
+		FTextBuilder Builder;
+		Builder.AppendLine(Tooltip);
+
+		const uint8 Idx = GetValue();
+		if (Options.IsValidIndex(Idx) && OptionTooltips.Contains(Options[Idx]))
+		{
+			Builder.AppendLineFormat(INVTEXT("\n{0}: {1}"),
+				FText::FromName(Options[Idx]), OptionTooltips.FindRef(Options[Idx]));
+		}
+
+		const FText ImpactText = GetImpactText();
+		if (!ImpactText.IsEmptyOrWhitespace())
+		{
+			Builder.AppendLineFormat(INVTEXT("\n{0}"), ImpactText);
+		}
+		
+		return Builder.ToText();
+	}
+
 	virtual uint8 GetValue() const { return 0; }
 	virtual void SetValue(const uint8 InValue) {}
 
