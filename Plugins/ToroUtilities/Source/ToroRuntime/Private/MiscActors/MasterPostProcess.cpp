@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "MiscActors/MasterPostProcess.h"
-#include "UserSettings/ToroUserSettings.h"
 #include "Components/PostProcessComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroRuntime.h"
@@ -110,13 +109,15 @@ void AMasterPostProcess::ApplySettings()
 {
 	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
 	{
-		// TODO use settings
-		BloomOverride.ApplyChoice(Settings, true);
-		MotionBlurOverride.ApplyChoice(Settings, 1);
-		LumenOverride.ApplyChoice(Settings, 3, 3, true);
+		BloomOverride.ApplyChoice(Settings, UserSettings->GetFancyBloom());
+		MotionBlurOverride.ApplyChoice(Settings, UserSettings->GetMotionBlur());
+		LumenOverride.ApplyChoice(Settings, UserSettings->GetLumenGI(),
+			UserSettings->GetLumenReflections(),
+			UserSettings->GetHitLightingReflections());
+
 		if (BrightnessMID.IsValid())
 		{
-			BrightnessMID->SetScalarParameterValue("Brightness", 1.0f);
+			BrightnessMID->SetScalarParameterValue("Brightness", UserSettings->GetBrightness() * 0.01f);
 		}
 	}
 
@@ -131,6 +132,14 @@ bool AMasterPostProcess::HasLumenGI() const
 {
 	return PostProcess->Settings.bOverride_DynamicGlobalIlluminationMethod
 		&& PostProcess->Settings.DynamicGlobalIlluminationMethod == EDynamicGlobalIlluminationMethod::Lumen;
+}
+
+void AMasterPostProcess::OnSettingsUpdated(const ESettingApplyType Type)
+{
+	if (Type == ESettingApplyType::Dynamic || Type == ESettingApplyType::Manual)
+	{
+		ApplySettings();
+	}
 }
 
 void AMasterPostProcess::BeginPlay()
@@ -148,6 +157,11 @@ void AMasterPostProcess::BeginPlay()
 		}
 
 		ApplySettings();
+	}
+
+	if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
+	{
+		UserSettings->OnSettingsUpdated.AddUObject(this, &AMasterPostProcess::OnSettingsUpdated);
 	}
 }
 
