@@ -8,6 +8,8 @@
 extern ENGINE_API float GAverageFPS;
 extern ENGINE_API float GAverageMS;
 
+const FMouseInversion FMouseInversion::Disabled = FMouseInversion();
+
 #define OnSettingsApply(Type) OnSettingsUpdated.Broadcast(ESettingApplyType::Type);
 
 UToroUserSettings::UToroUserSettings(): bInitialized(false)
@@ -134,12 +136,35 @@ void UToroUserSettings::SetAudioVolume(const ESoundClassType InType, const uint8
 	ApplyAudioVolume();
 }
 
+void UToroUserSettings::SetSensitivityX(const float InValue)
+{
+	Sensitivity.X = FMath::Clamp(InValue, 0.2f, 2.0f);
+}
+
+void UToroUserSettings::SetSensitivityY(const float InValue)
+{
+	Sensitivity.Y = FMath::Clamp(InValue, 0.2f, 2.0f);
+}
+
+FVector2D UToroUserSettings::GetRawSensitivity() const
+{
+	return Sensitivity.GetAbs().ClampAxes(0.2f, 2.0f);
+}
+
+FVector2D UToroUserSettings::GetSensitivity() const
+{
+	FVector2D Result = GetRawSensitivity();
+	return {
+		GetInvertMouse().X ? -Result.X : Result.X,
+		GetInvertMouse().Y ? -Result.Y : Result.Y,
+	};
+}
+
 DEFINE_PROPERTY_FUNC(bool, ShowFPS, OnSettingsApply(Dynamic))
 DEFINE_PROPERTY_FUNC(bool, DeveloperMode, OnSettingsApply(Developer))
 DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnSettingsApply(Difficulty))
 
 DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
-DEFINE_PROPERTY_FUNC(FVector2D, Sensitivity,)
 
 DEFINE_PROPERTY_FUNC(EColorBlindMode, ColorBlindMode,)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10,)
@@ -253,6 +278,7 @@ void UToroUserSettings::SetToDefaults()
 	
 	SmoothCamera = true;
 	Sensitivity = FVector2D::UnitVector;
+	InvertMouse = FMouseInversion::Disabled;
 	
 	ColorBlindMode = EColorBlindMode::None;
 	ColorBlindIntensity = 0;

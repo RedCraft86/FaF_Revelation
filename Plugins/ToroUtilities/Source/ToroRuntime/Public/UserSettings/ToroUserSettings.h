@@ -40,6 +40,20 @@ enum class ESettingApplyType : uint8
 	UI
 };
 
+USTRUCT(BlueprintInternalUseOnly)
+struct FMouseInversion
+{
+	GENERATED_BODY()
+	
+	UPROPERTY() bool X;
+	UPROPERTY() bool Y;
+
+	FMouseInversion(): X(false), Y(false) {}
+	TPair<bool, bool> AsPair() { return {X, Y}; }
+
+	static const FMouseInversion Disabled;
+};
+
 UCLASS()
 class TORORUNTIME_API UToroUserSettings : public UGameUserSettings
 {
@@ -75,12 +89,20 @@ public:
 		return FMath::Clamp(AudioVolume.FindRef(InType), 0, 150);
 	}
 
+	void SetSensitivityX(const float InValue);
+	void SetSensitivityY(const float InValue);
+	FVector2D GetRawSensitivity() const;
+	FVector2D GetSensitivity() const;
+
+	void SetInvertMouseX(const bool bInvert) { InvertMouse.X = bInvert; }
+	void SetInvertMouseY(const bool bInvert) { InvertMouse.Y = bInvert; }
+	const FMouseInversion& GetInvertMouse() const { return InvertMouse; }
+
 	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
 	DECLARE_PROPERTY_FUNC(bool, DeveloperMode)
 	DECLARE_PROPERTY_FUNC(EGameDifficulty, Difficulty)
 
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
-	DECLARE_PROPERTY_FUNC(FVector2D, Sensitivity)
 
 	DECLARE_PROPERTY_FUNC(EColorBlindMode, ColorBlindMode)
 	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
@@ -141,6 +163,7 @@ protected:
 	// Camera
 	UPROPERTY(Config) bool SmoothCamera;
 	UPROPERTY(Config) FVector2D Sensitivity;
+	UPROPERTY(Config) FMouseInversion InvertMouse;
 
 	// Accessibility
 	UPROPERTY(Config) EColorBlindMode ColorBlindMode;
