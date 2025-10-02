@@ -81,7 +81,14 @@ struct TORORUNTIME_API FSliderOptionBinding : public FOptionBindingBase
 {
 	GENERATED_BODY()
 
-	FSliderOptionBinding() {}
+	FSliderOptionBinding(): SliderRange(0.0f, 100.0f), NumDecimals(0) {}
+
+	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
+		FVector2D SliderRange;
+
+	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
+		uint8 NumDecimals;
+
 	virtual float GetValue() const { return 0.0f; }
 	virtual void SetValue(const float InValue) {}
 };
@@ -91,9 +98,19 @@ struct TORORUNTIME_API FSwitcherOptionBinding : public FOptionBindingBase
 {
 	GENERATED_BODY()
 
-	FSwitcherOptionBinding() {}
+	FSwitcherOptionBinding(): Options(LMHEC) {}
+
+	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
+		TArray<FName> Options;
+
+	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1, GetOptions = "Options"))
+		TMap<FName, FText> OptionTooltips;
+	
 	virtual uint8 GetValue() const { return 0; }
 	virtual void SetValue(const uint8 InValue) {}
+
+	static inline TArray<FName> OLMH = {"Off", "Low", "Medium", "High"};
+	static inline TArray<FName> LMHEC = {"Low", "Medium", "High", "Epic", "Cinematic"};
 };
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Dropdowns", meta = (Hidden))
@@ -102,6 +119,8 @@ struct TORORUNTIME_API FDropdownOptionBinding : public FOptionBindingBase
 	GENERATED_BODY()
 
 	FDropdownOptionBinding() {}
+
+	virtual TArray<FString> GetOptions() const { return {}; }
 	virtual FString GetValue() const { return TEXT(""); }
 	virtual void SetValue(const FString InValue) {}
 };
