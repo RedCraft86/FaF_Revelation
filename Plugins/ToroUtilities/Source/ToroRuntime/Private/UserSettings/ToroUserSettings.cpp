@@ -278,7 +278,6 @@ void UToroUserSettings::SetToDefaults()
 		{ESoundClassType::Voice, 100}
 	};
 
-	ApplySettings(false);
 	Super::SetToDefaults();
 }
 
