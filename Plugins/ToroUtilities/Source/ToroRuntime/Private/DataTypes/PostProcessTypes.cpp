@@ -135,7 +135,7 @@ void FPPLumenChoice::ApplyReflect(FPostProcessSettings& Settings, const uint8 Qu
 {
 	Settings.bOverride_ReflectionMethod = true;
 	Settings.ReflectionMethod = (Quality == 0)
-		? EReflectionMethod::None
+		? EReflectionMethod::ScreenSpace
 		: EReflectionMethod::Lumen;
 
 	GetOption(Quality).ModifyReflect(Settings);
