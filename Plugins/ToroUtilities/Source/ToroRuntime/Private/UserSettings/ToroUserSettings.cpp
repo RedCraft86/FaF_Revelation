@@ -243,33 +243,47 @@ void UToroUserSettings::ApplyXeSS() const
 
 void UToroUserSettings::SetToDefaults()
 {
+	Super::SetToDefaults();
 	ImageFidelity::FSR::Initialize();
 	UpdateResolutions();
 
 	ShowFPS = false;
 	DeveloperMode = false;
 	Difficulty = EGameDifficulty::Normal;
+	
 	SmoothCamera = true;
 	Sensitivity = FVector2D::UnitVector;
+	
 	ColorBlindMode = EColorBlindMode::None;
 	ColorBlindIntensity = 0;
+	
 	Borderless = false;
+	bUseVSync = true;
+	FrameRateLimit = 60.0f;
+	SetResolutionScaleValueEx(100.0f);
+	
 	Gamma = 2.2;
 	Brightness = 100;
 	FancyBloom = true;
 	SSFogScattering = true;
 	MotionBlur = 1;
+	
 	LumenGI = 0;
-	LumenReflections = 2;
-	HitLightingReflections = false;
+	LumenReflection = 2;
+	HitLighting = false;
+	
 	ImageFidelity = EImageFidelityMode::TSR;
 	TSRResolution = 70;
+	
 	FSRQuality = 2;
 	FSRSharpness = 0.0f;
 	FSRFrameGen = false;
+	
 	XeSSQuality = 2;
 	XeSSFrameGen = false;
 	XeSSLowLatency = false;
+
+	SetOverallScalabilityLevel(3);
 
 	AudioVolume = {
 		{ESoundClassType::Master, 100},
@@ -277,8 +291,6 @@ void UToroUserSettings::SetToDefaults()
 		{ESoundClassType::SFX, 100},
 		{ESoundClassType::Voice, 100}
 	};
-
-	Super::SetToDefaults();
 }
 
 void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
