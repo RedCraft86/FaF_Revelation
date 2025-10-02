@@ -6,6 +6,30 @@
 #include "GameFramework/GameUserSettings.h"
 #include "ToroUserSettings.generated.h"
 
+#define DECLARE_PROPERTY_FUNC(Type, Name) \
+	void Set##Name(const Type InValue); \
+	Type Get##Name() const { return Name; }
+
+#define DECLARE_PROPERTY_FUNC_CLAMPED(Type, Name, Min, Max) \
+	void Set##Name(const Type InValue); \
+	Type Get##Name() const { return FMath::Clamp(Name, Min, Max); }
+
+#define DEFINE_PROPERTY_FUNC(Type, Name, Update) \
+	void UToroUserSettings::Set##Name(const Type InValue) { \
+		if (Name != InValue) { \
+			Name = InValue; \
+			Update \
+		} \
+	}
+
+#define DEFINE_PROPERTY_FUNC_CLAMPED(Type, Name, Min, Max, Update) \
+	void UToroUserSettings::Set##Name(const Type InValue) { \
+		if (Name != InValue) { \
+			Name = FMath::Clamp(InValue, Min, Max); \
+			Update \
+		} \
+	}
+
 UCLASS()
 class TORORUNTIME_API UToroUserSettings : public UGameUserSettings
 {
@@ -20,11 +44,87 @@ public:
 		return GEngine ? Cast<UToroUserSettings>(GEngine->GetGameUserSettings()) : nullptr;
 	}
 
-	bool InitializeSettings();
+	static float GetAverageMS();
+	static float GetAverageFPS();
+	static void UpdateResolutions();
+	static FIntPoint GetFullscreenResolution() { return FullscreenRes; }
+	static TArray<FIntPoint> GetSupportedResolutions() { return SupportedResolutions; }
 
-	// TODO
+	bool InitializeSettings(UGameInstance* GI);
+	void ApplyAdjustedFullscreenMode();
+
+	void AutoAdjustScalability();
+	TArray<uint8>& GetAutoScalability() { return AutoScalability; }
+
+	void SetOverallQuality(const uint8 InValue);
+	uint8 GetOverallQuality() const;
+
+	void SetAudioVolume(const ESoundClassType InType, const uint8 InVolume);
+	uint8 GetAudioVolume(const ESoundClassType InType) const
+	{
+		return FMath::Clamp(AudioVolume.FindRef(InType), 0, 150);
+	}
+
+	DECLARE_PROPERTY_FUNC(bool, ShowFPS)
+	DECLARE_PROPERTY_FUNC(bool, DeveloperMode)
+	DECLARE_PROPERTY_FUNC(EGameDifficulty, Difficulty)
+
+	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
+	DECLARE_PROPERTY_FUNC(FVector2D, Sensitivity)
+
+	DECLARE_PROPERTY_FUNC(EColorBlindMode, ColorBlindMode)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
+
+	DECLARE_PROPERTY_FUNC(bool, Borderless)
+
+	DECLARE_PROPERTY_FUNC(bool, FancyBloom)
+	DECLARE_PROPERTY_FUNC(bool, SSFogScattering)
+	DECLARE_PROPERTY_FUNC_CLAMPED(float, Gamma, 0.5f, 5.0f)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, Brightness, 10, 200)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, MotionBlur, 0, 3)
+
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenGI, 0, 3)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, LumenReflections, 0, 3)
+	DECLARE_PROPERTY_FUNC(bool, HitLightingReflections)
+
+	DECLARE_PROPERTY_FUNC(EImageFidelityMode, ImageFidelity)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, TSRResolution, 50, 200)
+
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRQuality, 0, 4)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, FSRSharpness, 0, 100)
+	DECLARE_PROPERTY_FUNC(bool, FSRFrameGen)
+
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6)
+	DECLARE_PROPERTY_FUNC(bool, XeSSFrameGen)
+	DECLARE_PROPERTY_FUNC(bool, XeSSLowLatency)
+
+	// TODO: Condense into single delegate with Enum to determine type
+	DECLARE_MULTICAST_DELEGATE(FUserSettingsDelegate)
+	FUserSettingsDelegate OnDeveloper;
+	FUserSettingsDelegate OnDifficulty;
+	FUserSettingsDelegate OnDynamic;
+	FUserSettingsDelegate OnApply;
+	FUserSettingsDelegate RefreshUI;
 
 protected:
+
+	static inline FIntPoint FullscreenRes = {1920, 1080};
+	static inline TArray<FIntPoint> SupportedResolutions = {};
+	TObjectPtr<UGameInstance> GameInstance;
+
+	void ApplyColorBlind() const;
+	void ApplyScreenGamma() const;
+	void ApplySSFogScattering() const;
+	void ApplyImageFidelity() const;
+	void ApplyAudioVolume() const;
+
+	void ApplyTSR() const;
+	void ApplyFSR() const;
+	void ApplyXeSS() const;
+
+	virtual void SetToDefaults() override;
+	virtual void ApplySettings(bool bCheckForCommandLineOverrides) override;
+	virtual UWorld* GetWorld() const override;
 
 	UPROPERTY(Config) bool bInitialized;
 
@@ -45,10 +145,10 @@ protected:
 	UPROPERTY(Config) bool Borderless;
 
 	// Visuals
+	UPROPERTY(Config) bool FancyBloom;
+	UPROPERTY(Config) bool SSFogScattering;
 	UPROPERTY(Config) float Gamma;
 	UPROPERTY(Config) uint8 Brightness;
-	UPROPERTY(Config) bool FancyBloom;
-	UPROPERTY(Config) bool ScreenSpaceFogScattering;
 	UPROPERTY(Config) uint8 MotionBlur;
 
 	// Lumen
@@ -62,8 +162,8 @@ protected:
 
 	// FSR 3
 	UPROPERTY(Config) uint8 FSRQuality;
-	UPROPERTY(Config) float FSRSharpness;
-	UPROPERTY(Config) bool FSRFrameInterp;
+	UPROPERTY(Config) uint8 FSRSharpness;
+	UPROPERTY(Config) bool FSRFrameGen;
 	
 	// XeSS
 	UPROPERTY(Config) uint8 XeSSQuality;
