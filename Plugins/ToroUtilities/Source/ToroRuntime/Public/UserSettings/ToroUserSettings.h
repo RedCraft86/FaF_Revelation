@@ -132,6 +132,8 @@ public:
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const ESettingApplyType)
 	FUserSettingsDelegate OnSettingsUpdated;
 
+	UGameInstance* GetGameInstance() const { return GameInstance; }
+
 protected:
 
 	static inline FIntPoint FullscreenRes = {1920, 1080};

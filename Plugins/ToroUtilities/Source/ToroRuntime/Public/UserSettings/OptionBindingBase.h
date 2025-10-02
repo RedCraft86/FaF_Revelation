@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ToroUserSettings.h"
+#include "Framework/ToroGameInstance.h"
 #include "StructUtils/InstancedStruct.h"
 #include "OptionBindingBase.generated.h"
 
@@ -55,6 +56,10 @@ struct TORORUNTIME_API FOptionBindingBase
 	}
 
 	UToroUserSettings* GetSettings() const { return Settings; }
+	UToroGameInstance* GetGameInstance() const
+	{
+		return Settings ? Cast<UToroGameInstance>(Settings->GetGameInstance()) : nullptr;
+	}
 
 private:
 
