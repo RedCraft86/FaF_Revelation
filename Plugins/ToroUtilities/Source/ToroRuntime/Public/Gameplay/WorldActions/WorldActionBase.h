@@ -5,7 +5,7 @@
 #include "StructUtils/InstancedStruct.h"
 #include "WorldActionBase.generated.h"
 
-USTRUCT(BlueprintInternalUseOnly)
+USTRUCT(BlueprintInternalUseOnly, DisplayName = "World Actions", meta = (Hidden))
 struct TORORUNTIME_API FWorldActionBase
 {
 	GENERATED_BODY()
