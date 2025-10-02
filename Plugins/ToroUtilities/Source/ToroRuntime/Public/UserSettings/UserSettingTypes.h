@@ -7,15 +7,6 @@
 #include "UserSettingTypes.generated.h"
 
 UENUM(BlueprintType)
-enum class ESettingPerformance : uint8
-{
-	None,
-	Low,
-	Medium,
-	High
-};
-
-UENUM(BlueprintType)
 enum class EGameDifficulty : uint8
 {
 	Easy,
