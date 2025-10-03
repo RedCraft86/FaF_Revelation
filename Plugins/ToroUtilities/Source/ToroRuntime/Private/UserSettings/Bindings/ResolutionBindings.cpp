@@ -1,6 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserSettings/Bindings/ResolutionBindings.h"
+#include "UserSettings/Widgets/ResolutionWidget.h"
+#include "UserInterface/ToroWidgetManager.h"
 
 FResolutionBindings::FResolutionBindings()
 {
@@ -17,13 +19,19 @@ FString FResolutionBindings::GetValue() const
 
 void FResolutionBindings::SetValue(const FString InValue)
 {
-	OldOption = InValue;
+	OldOption = GetValue();
 	const TArray<FIntPoint>& Resolutions = UToroUserSettings::GetSupportedResolutions();
 	const FIntPoint& Selection = DecomposeResolution(InValue);
 	if (Resolutions.Contains(Selection))
 	{
 		ApplyInternal(Selection);
-		// TODO widget
+		if (UResolutionWidget* Widget = AToroWidgetManager::GetWidget<UResolutionWidget>(GetGameInstance()))
+		{
+			Widget->ShowWidget([this]()
+			{
+				RevertValue();
+			});
+		}
 	}
 }
 
@@ -76,7 +84,13 @@ void FBorderlessBinding::SetValue(const bool InValue)
 {
 	bOldValue = GetValue();
 	ApplyInternal(InValue);
-	// TODO widget
+	if (UResolutionWidget* Widget = AToroWidgetManager::GetWidget<UResolutionWidget>(GetGameInstance()))
+	{
+		Widget->ShowWidget([this]()
+		{
+			RevertValue();
+		});
+	}
 }
 
 void FBorderlessBinding::RevertValue() const
