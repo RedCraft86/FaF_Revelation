@@ -38,6 +38,11 @@ void UToroUserSettings::UpdateResolutions()
 
 bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 {
+	if (SupportedResolutions.IsEmpty())
+	{
+		UpdateResolutions();
+	}
+
 	LoadSettings(true);
 	bool bFirstLoad = false;
 	if (!bInitialized)
