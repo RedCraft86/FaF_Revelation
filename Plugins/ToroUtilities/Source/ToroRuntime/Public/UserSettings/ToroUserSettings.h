@@ -62,7 +62,6 @@ public:
 	void SetAdjustedFullscreenMode();
 
 	void AutoAdjustScalability();
-	TArray<uint8>& GetAutoScalability() { return AutoScalability; }
 
 	void SetOverallQuality(const uint8 InValue);
 	uint8 GetOverallQuality() const;
@@ -184,9 +183,6 @@ protected:
 	UPROPERTY(Config) uint8 DLSSFrameGen;
 	UPROPERTY(Config) uint8 DLSSReflex;
 	UPROPERTY(Config) bool DLSSRayReconstruct;
-	
-	/* Cached auto-set scalability */
-	UPROPERTY(Config) TArray<uint8> AutoScalability{3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
 	
 	/* Audio */
 	UPROPERTY(Config) TMap<ESoundClassType, uint8> AudioVolume;

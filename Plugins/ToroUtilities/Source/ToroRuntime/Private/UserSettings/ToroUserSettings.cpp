@@ -104,18 +104,6 @@ void UToroUserSettings::AutoAdjustScalability()
 	RunHardwareBenchmark();
 	SetResolutionScaleValueEx(Res);
 	ApplyHardwareBenchmarkResults();
-
-	AutoScalability[0]	= GetOverallQuality();
-	AutoScalability[1]	= GetViewDistanceQuality();
-	AutoScalability[2]	= GetAntiAliasingQuality();
-	AutoScalability[3]	= GetShadowQuality();
-	AutoScalability[4]	= GetGlobalIlluminationQuality();
-	AutoScalability[5]	= GetReflectionQuality();
-	AutoScalability[6]	= GetPostProcessingQuality();
-	AutoScalability[7]	= GetTextureQuality();
-	AutoScalability[8]	= GetVisualEffectQuality();
-	AutoScalability[9]	= GetFoliageQuality();
-	AutoScalability[10] = GetShadingQuality();
 }
 
 void UToroUserSettings::SetOverallQuality(const uint8 InValue)
