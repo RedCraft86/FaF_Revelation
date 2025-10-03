@@ -273,16 +273,23 @@ void UToroUserSettings::ApplyXeSS() const
 void UToroUserSettings::ApplyDLSS()
 {
 	const bool bDLSS = GetImageFidelity() == EImageFidelityMode::DLSS;
-
+	if (!ImageFidelity::DLSS::SR::IsSupportedModeIdx(GetDLSSQuality()))
+	{
+		SetDLSSQuality(4);
+	}
+	if (!ImageFidelity::DLSS::FG::IsSupportedModeIdx(GetDLSSFrameGen()))
+	{
+		SetDLSSFrameGen(0);
+	}
 	if (GetDLSSFrameGen() > 0 && GetDLSSReflex() == 0)
 	{
 		SetDLSSReflex(1);
 	}
-
-	ImageFidelity::DLSS::SR::SetMode(bDLSS, DLSSQuality, GetScreenResolution());
+	
+	ImageFidelity::DLSS::SR::SetMode(bDLSS, GetDLSSQuality(), GetScreenResolution());
 	ImageFidelity::DLSS::FG::SetMode(bDLSS ? GetDLSSFrameGen() : 0);
-	ImageFidelity::DLSS::RR::SetMode(bDLSS && GetDLSSRayReconstruct());
 	ImageFidelity::DLSS::Reflex::SetMode(bDLSS ? GetDLSSReflex() : 0);
+	ImageFidelity::DLSS::RR::SetMode(bDLSS && GetDLSSRayReconstruct());
 }
 
 void UToroUserSettings::SetToDefaults()
@@ -327,7 +334,7 @@ void UToroUserSettings::SetToDefaults()
 	XeSSFrameGen = false;
 	XeSSLowLatency = false;
 
-	DLSSQuality = 0;
+	DLSSQuality = 4;
 	DLSSFrameGen = 0;
 	DLSSReflex = 0;
 	DLSSRayReconstruct = false;
