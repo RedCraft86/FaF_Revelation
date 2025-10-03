@@ -251,10 +251,12 @@ void UToroUserSettings::ApplyFSR() const
 
 void UToroUserSettings::ApplyXeSS() const
 {
-	const bool bXeSS = GetImageFidelity() == EImageFidelityMode::XeSS;
-	ImageFidelity::XeSS::SetMode(bXeSS, GetXeSSQuality());
-	ImageFidelity::XeSS::FG::SetEnabled(bXeSS && GetXeSSFrameGen() && ImageFidelity::XeSS::FG::IsSupported());
-	ImageFidelity::XeSS::LL::SetEnabled(bXeSS && GetXeSSLowLatency() && ImageFidelity::XeSS::LL::IsSupported());
+	const bool bXeSS = ImageFidelity::XeSS::SR::IsSupported()
+		&& GetImageFidelity() == EImageFidelityMode::XeSS;
+
+	ImageFidelity::XeSS::SR::SetMode(bXeSS, GetXeSSQuality());
+	ImageFidelity::XeSS::FG::SetEnabled(bXeSS && GetXeSSFrameGen());
+	ImageFidelity::XeSS::LL::SetEnabled(bXeSS && GetXeSSLowLatency());
 }
 
 void UToroUserSettings::SetToDefaults()

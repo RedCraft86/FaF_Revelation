@@ -14,12 +14,6 @@ namespace ImageFidelity
     {
         UToroConsoleLibrary::SetCVarInt("r.AntiAliasingMethod", ConvertImageFidelity(Method));
     }
-    
-    TORORUNTIME_API inline void SetScreenPercentage(const uint8 Percent)
-    {
-        UToroConsoleLibrary::SetCVarFloat("r.ScreenPercentage",
-            FMath::Clamp((int32)Percent, 50, 200));
-    }
 
     namespace FSR
     {
@@ -54,21 +48,24 @@ namespace ImageFidelity
 
     namespace XeSS
     {
-        TORORUNTIME_API inline bool IsSupported()
+        namespace SR
         {
-            return UXeSSBlueprintLibrary::IsXeSSSupported();
-        }
-
-        TORORUNTIME_API inline void SetMode(const bool bEnabled, const uint8 Quality)
-        {
-            if (!bEnabled || !IsSupported())
+            TORORUNTIME_API inline bool IsSupported()
             {
-                UXeSSBlueprintLibrary::SetXeSSQualityMode(EXeSSQualityMode::Off);
+                return UXeSSBlueprintLibrary::IsXeSSSupported();
             }
-            else
+
+            TORORUNTIME_API inline void SetMode(const bool bEnabled, const uint8 Quality)
             {
-                const uint8 ClampedQuality = FMath::Clamp((int32)Quality, 0, 6);
-                UXeSSBlueprintLibrary::SetXeSSQualityMode(static_cast<EXeSSQualityMode>(ClampedQuality + 1));
+                if (!bEnabled || !IsSupported())
+                {
+                    UXeSSBlueprintLibrary::SetXeSSQualityMode(EXeSSQualityMode::Off);
+                }
+                else
+                {
+                    const uint8 ClampedQuality = FMath::Clamp((int32)Quality, 0, 6);
+                    UXeSSBlueprintLibrary::SetXeSSQualityMode(static_cast<EXeSSQualityMode>(ClampedQuality + 1));
+                }
             }
         }
 
