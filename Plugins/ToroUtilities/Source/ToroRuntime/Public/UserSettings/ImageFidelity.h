@@ -181,7 +181,7 @@ namespace ImageFidelity
         {
             TORORUNTIME_API inline bool IsSupported()
             {
-                return UDLSSLibrary::IsDLSSRRSupported();
+                return IsRayTracingEnabled() && UDLSSLibrary::IsDLSSRRSupported();
             }
 
             TORORUNTIME_API inline void SetMode(const bool bEnabled)
