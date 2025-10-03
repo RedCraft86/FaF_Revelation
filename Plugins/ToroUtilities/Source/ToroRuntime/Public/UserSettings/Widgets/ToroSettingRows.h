@@ -21,13 +21,13 @@ public:
 		: UUserWidget(ObjectInitializer), bHideWhenDisabled(false)
 	{}
 
+protected:
+
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> LabelText;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		bool bHideWhenDisabled;
-
-protected:
 
 	virtual void OnRefreshUI() {}
 	virtual FText GetLabelText() { return INVTEXT("Invalid Option"); }
@@ -74,6 +74,8 @@ public:
 
 	UToggleSettingRow(const FObjectInitializer& ObjectInitializer);
 
+protected:
+
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> ToggleButton;
 
@@ -82,8 +84,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TInstancedStruct<FToggleOptionBinding> Binding;
-
-private:
 
 	bool bState;
 
@@ -104,13 +104,13 @@ public:
 
 	USliderSettingRow(const FObjectInitializer& ObjectInitializer);
 
+protected:
+
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<USpinBox> SliderBox;
 
 	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TInstancedStruct<FSliderOptionBinding> Binding;
-
-private:
 
 	bool bOverriding;
 
@@ -133,6 +133,8 @@ public:
 
 	USwapperSettingRow(const FObjectInitializer& ObjectInitializer);
 
+protected:
+
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> RightButton;
 
@@ -144,8 +146,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TInstancedStruct<FSwapperOptionBinding> Binding;
-
-private:
 
 	uint8 OptionIdx;
 	TArray<FName> Options;
@@ -168,13 +168,13 @@ public:
 
 	UDropdownSettingRow(const FObjectInitializer& ObjectInitializer);
 
+protected:
+
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UComboBoxString> DropdownBox;
 
 	UPROPERTY(EditAnywhere, Category = Settings, NoClear, meta = (ExcludeBaseStruct, HideViewOptions))
 		TInstancedStruct<FDropdownOptionBinding> Binding;
-
-private:
 
 	bool bOverriding;
 
