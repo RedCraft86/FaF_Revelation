@@ -24,6 +24,7 @@ public class ToroRuntime : ModuleRules
             [
                 "Core",
                 "CoreUObject",
+                "RenderCore",
                 "Engine",
                 "UMG",
                 "Slate",

@@ -14,22 +14,6 @@
 	void Set##Name(const Type InValue); \
 	Type Get##Name() const { return FMath::Clamp(Name, Min, Max); }
 
-#define DEFINE_PROPERTY_FUNC(Type, Name, Update) \
-	void UToroUserSettings::Set##Name(const Type InValue) { \
-		if (Name != InValue) { \
-			Name = InValue; \
-			Update \
-		} \
-	}
-
-#define DEFINE_PROPERTY_FUNC_CLAMPED(Type, Name, Min, Max, Update) \
-	void UToroUserSettings::Set##Name(const Type InValue) { \
-		if (Name != InValue) { \
-			Name = FMath::Clamp(InValue, Min, Max); \
-			Update \
-		} \
-	}
-
 UENUM(BlueprintInternalUseOnly)
 enum class ESettingApplyType : uint8
 {
@@ -207,3 +191,6 @@ protected:
 	/* Audio */
 	UPROPERTY(Config) TMap<ESoundClassType, uint8> AudioVolume;
 };
+
+#undef DECLARE_PROPERTY_FUNC
+#undef DECLARE_PROPERTY_FUNC_CLAMPED

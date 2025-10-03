@@ -8,6 +8,22 @@
 extern ENGINE_API float GAverageFPS;
 extern ENGINE_API float GAverageMS;
 
+#define DEFINE_PROPERTY_FUNC(Type, Name, Update) \
+	void UToroUserSettings::Set##Name(const Type InValue) { \
+		if (Name != InValue) { \
+			Name = InValue; \
+			Update \
+		} \
+	}
+
+#define DEFINE_PROPERTY_FUNC_CLAMPED(Type, Name, Min, Max, Update) \
+	void UToroUserSettings::Set##Name(const Type InValue) { \
+		if (Name != InValue) { \
+			Name = FMath::Clamp(InValue, Min, Max); \
+			Update \
+		} \
+	}
+
 const FMouseInversion FMouseInversion::Disabled = FMouseInversion();
 
 #define OnSettingsApply(Type) OnSettingsUpdated.Broadcast(ESettingApplyType::Type);
@@ -25,7 +41,11 @@ float UToroUserSettings::GetAverageMS()
 float UToroUserSettings::GetAverageFPS()
 {
 	const UToroUserSettings* Settings = UToroUserSettings::Get();
-	return Settings && Settings->ImageFidelity == EImageFidelityMode::XeSS ? GAverageFPS : GXeFGAverageFPS;
+	const bool bUsingXeFG = Settings
+		&& Settings->ImageFidelity == EImageFidelityMode::XeSS
+		&& ImageFidelity::IsUsingAnyFrameGen();
+
+	return bUsingXeFG ? GXeFGAverageFPS :GAverageFPS;
 }
 
 void UToroUserSettings::UpdateResolutions()
@@ -193,6 +213,11 @@ DEFINE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6, ApplyXeSS();)
 DEFINE_PROPERTY_FUNC(bool, XeSSFrameGen, ApplyXeSS();)
 DEFINE_PROPERTY_FUNC(bool, XeSSLowLatency, ApplyXeSS();)
 
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSQuality, 0, 6, ApplyDLSS();)
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSFrameGen, 0, 4, ApplyDLSS();)
+DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSReflex, 0, 2, ApplyDLSS();)
+DEFINE_PROPERTY_FUNC(bool, DLSSRayReconstruct, ApplyDLSS();)
+
 void UToroUserSettings::ApplyScreenGamma() const
 {
 	if (GEngine) GEngine->DisplayGamma = GetGamma();
@@ -262,15 +287,15 @@ void UToroUserSettings::ApplyDLSS()
 	const bool bDLSS = GetImageFidelity() == EImageFidelityMode::DLSS;
 	if (!ImageFidelity::DLSS::SR::IsSupportedModeIdx(GetDLSSQuality()))
 	{
-		SetDLSSQuality(4);
+		DLSSQuality = 4;
 	}
 	if (!ImageFidelity::DLSS::FG::IsSupportedModeIdx(GetDLSSFrameGen()))
 	{
-		SetDLSSFrameGen(0);
+		DLSSFrameGen = 0;
 	}
 	if (GetDLSSFrameGen() > 0 && GetDLSSReflex() == 0)
 	{
-		SetDLSSReflex(1);
+		DLSSReflex = 1;
 	}
 	
 	ImageFidelity::DLSS::SR::SetMode(bDLSS, GetDLSSQuality(), GetScreenResolution());
@@ -358,3 +383,5 @@ UWorld* UToroUserSettings::GetWorld() const
 }
 
 #undef OnSettingsApply
+#undef DEFINE_PROPERTY_FUNC
+#undef DEFINE_PROPERTY_FUNC_CLAMPED
