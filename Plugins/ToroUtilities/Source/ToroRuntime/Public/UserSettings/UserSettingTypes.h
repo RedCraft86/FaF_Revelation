@@ -52,6 +52,16 @@ enum class EImageFidelityMode : uint8
 	// Nvidia Deep Learning Super Sampling (AA + Upscaler)
 	DLSS
 };
+static TMap<FString, EImageFidelityMode> FidelityStringMap = {
+	{TEXT("None"), EImageFidelityMode::None},
+	{TEXT("FXAA"), EImageFidelityMode::FXAA},
+	{TEXT("TAA"), EImageFidelityMode::TAA},
+	{TEXT("SMAA"), EImageFidelityMode::SMAA},
+	{TEXT("TSR"), EImageFidelityMode::TSR},
+	{TEXT("FSR"), EImageFidelityMode::FSR},
+	{TEXT("XeSS"), EImageFidelityMode::XeSS},
+	{TEXT("DLSS"), EImageFidelityMode::DLSS}
+};
 
 inline EAntiAliasingMethod ConvertImageFidelity(const EImageFidelityMode InMode)
 {
