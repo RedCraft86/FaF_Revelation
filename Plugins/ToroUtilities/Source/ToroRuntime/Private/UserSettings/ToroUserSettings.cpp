@@ -211,16 +211,6 @@ void UToroUserSettings::ApplySSFogScattering() const
 	UToroConsoleLibrary::SetCVarBool(TEXT("r.SSFS"), GetSSFogScattering());
 }
 
-void UToroUserSettings::ApplyImageFidelity() const
-{
-	ImageFidelity::SetAntiAliasing(GetImageFidelity());
-
-	ApplyFSR();
-	ApplyXeSS();
-
-	OnSettingsApply(UI)
-}
-
 void UToroUserSettings::ApplyAudioVolume() const
 {
 #if WITH_EDITOR
@@ -240,9 +230,26 @@ void UToroUserSettings::ApplyAudioVolume() const
 	}
 }
 
+void UToroUserSettings::ApplyImageFidelity()
+{
+	ImageFidelity::SetAntiAliasing(GetImageFidelity());
+
+	ApplyFSR();
+	ApplyXeSS();
+	ApplyDLSS();
+
+	if (ImageFidelity::IsUsingAnyFrameGen())
+	{
+		SetVSyncEnabled(false);
+	}
+
+	OnSettingsApply(UI)
+}
+
 void UToroUserSettings::ApplyFSR() const
 {
 	const bool bFSR = GetImageFidelity() == EImageFidelityMode::FSR;
+
 	ImageFidelity::FSR::SetEnabled(bFSR);
 	ImageFidelity::FSR::SetQuality(GetFSRQuality());
 	ImageFidelity::FSR::SetSharpness(GetFSRSharpness());
@@ -251,12 +258,26 @@ void UToroUserSettings::ApplyFSR() const
 
 void UToroUserSettings::ApplyXeSS() const
 {
-	const bool bXeSS = ImageFidelity::XeSS::SR::IsSupported()
-		&& GetImageFidelity() == EImageFidelityMode::XeSS;
+	const bool bXeSS = ImageFidelity::XeSS::SR::IsSupported() && GetImageFidelity() == EImageFidelityMode::XeSS;
 
 	ImageFidelity::XeSS::SR::SetMode(bXeSS, GetXeSSQuality());
 	ImageFidelity::XeSS::FG::SetEnabled(bXeSS && GetXeSSFrameGen());
 	ImageFidelity::XeSS::LL::SetEnabled(bXeSS && GetXeSSLowLatency());
+}
+
+void UToroUserSettings::ApplyDLSS()
+{
+	const bool bDLSS = GetImageFidelity() == EImageFidelityMode::DLSS;
+
+	if (GetDLSSFrameGen() > 0 && GetDLSSReflex() == 0)
+	{
+		SetDLSSReflex(1);
+	}
+
+	ImageFidelity::DLSS::SR::SetMode(bDLSS, DLSSQuality, GetScreenResolution());
+	ImageFidelity::DLSS::FG::SetMode(bDLSS ? GetDLSSFrameGen() : 0);
+	ImageFidelity::DLSS::RR::SetMode(bDLSS && GetDLSSRayReconstruct());
+	ImageFidelity::DLSS::Reflex::SetMode(bDLSS ? GetDLSSReflex() : 0);
 }
 
 void UToroUserSettings::SetToDefaults()
@@ -276,8 +297,8 @@ void UToroUserSettings::SetToDefaults()
 	ColorBlindMode = EColorBlindMode::None;
 	ColorBlindIntensity = 0;
 	
-	Borderless = false;
-	bUseVSync = true;
+	Borderless = true;
+	bUseVSync = false;
 	FrameRateLimit = 60.0f;
 	SetResolutionScaleValueEx(100.0f);
 	
@@ -301,6 +322,11 @@ void UToroUserSettings::SetToDefaults()
 	XeSSFrameGen = false;
 	XeSSLowLatency = false;
 
+	DLSSQuality = 0;
+	DLSSFrameGen = 0;
+	DLSSReflex = 0;
+	DLSSRayReconstruct = false;
+
 	SetOverallScalabilityLevel(3);
 
 	AudioVolume = {
@@ -320,8 +346,8 @@ void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 		ApplyColorBlind();
 		ApplyScreenGamma();
 		ApplySSFogScattering();
-		ApplyImageFidelity();
 		ApplyAudioVolume();
+		ApplyImageFidelity();
 	}
 
 	OnSettingsApply(Manual)

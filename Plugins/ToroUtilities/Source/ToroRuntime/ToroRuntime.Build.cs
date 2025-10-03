@@ -48,7 +48,12 @@ public class ToroRuntime : ModuleRules
                 "XeFGRHI",
                 "XeSSBlueprint",
                 "XeFGBlueprint",
-                "XeLLBlueprint"
+                "XeLLBlueprint",
+                
+                "DLSSBlueprint",
+                "StreamlineBlueprint",
+                "StreamlineDLSSGBlueprint",
+                "StreamlineReflexBlueprint"
             ]
         );
         

@@ -55,14 +55,17 @@ enum class EImageFidelityMode : uint8
 	// Subpixel Morphological Anti-Aliasing (TODO 5.7 implementation)
 	SMAA	UMETA(Hidden),
 
-	// Temporal Super-Resolution (Upscaler)
+	// Temporal Super-Resolution (AA + Upscaler)
 	TSR,
 
-	// FidelityFX™ Super Resolution 3.1 (Upscaler)
+	// FidelityFX™ Super Resolution 3.1 (AA + Upscaler)
 	FSR,
 	
-	// Intel® XeSS Super Resolution
-	XeSS
+	// Intel® XeSS Super Resolution (AA + Upscaler)
+	XeSS,
+
+	// Nvidia Deep Learning Super Sampling (AA + Upscaler)
+	DLSS
 };
 
 inline EAntiAliasingMethod ConvertImageFidelity(const EImageFidelityMode InMode)
@@ -73,6 +76,7 @@ inline EAntiAliasingMethod ConvertImageFidelity(const EImageFidelityMode InMode)
 		case EImageFidelityMode::FXAA:	return AAM_FXAA;
 		case EImageFidelityMode::TAA:	return AAM_TemporalAA;
 		// case EImageFidelityMode::SMAA:	return AAM_SMAA // TODO 5.7 implementation
+		case EImageFidelityMode::DLSS:	return AAM_None; // DLSS wants AA to be NONE unlike FSR or XeSS
 		default:						return AAM_TSR; // Catch TSR, FSR, XeSS
 	}
 }

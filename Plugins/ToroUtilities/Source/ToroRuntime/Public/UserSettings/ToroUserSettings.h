@@ -129,6 +129,11 @@ public:
 	DECLARE_PROPERTY_FUNC(bool, XeSSFrameGen)
 	DECLARE_PROPERTY_FUNC(bool, XeSSLowLatency)
 
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSQuality, 0, 6)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSFrameGen, 0, 4)
+	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, DLSSReflex, 0, 2)
+	DECLARE_PROPERTY_FUNC(bool, DLSSRayReconstruct)
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FUserSettingsDelegate, const ESettingApplyType)
 	FUserSettingsDelegate OnSettingsUpdated;
 
@@ -143,11 +148,12 @@ protected:
 	void ApplyColorBlind() const;
 	void ApplyScreenGamma() const;
 	void ApplySSFogScattering() const;
-	void ApplyImageFidelity() const;
 	void ApplyAudioVolume() const;
+	void ApplyImageFidelity();
 
 	void ApplyFSR() const;
 	void ApplyXeSS() const;
+	void ApplyDLSS();
 
 	virtual void SetToDefaults() override;
 	virtual void ApplySettings(bool bCheckForCommandLineOverrides) override;
@@ -196,6 +202,12 @@ protected:
 	UPROPERTY(Config) uint8 XeSSQuality;
 	UPROPERTY(Config) bool XeSSFrameGen;
 	UPROPERTY(Config) bool XeSSLowLatency;
+	
+	// DLSS
+	UPROPERTY(Config) uint8 DLSSQuality;
+	UPROPERTY(Config) uint8 DLSSFrameGen;
+	UPROPERTY(Config) uint8 DLSSReflex;
+	UPROPERTY(Config) bool DLSSRayReconstruct;
 	
 	/* Cached auto-set scalability */
 	UPROPERTY(Config) TArray<uint8> AutoScalability{3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
