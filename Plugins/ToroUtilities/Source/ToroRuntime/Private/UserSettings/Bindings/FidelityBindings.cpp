@@ -46,15 +46,22 @@ void FImageFidelityBindings::SetValue(const FString InValue)
 
 void FImageFidelityBindings::InitBinding()
 {
-	FDropdownOptionBinding::InitBinding();
-	Options.Remove(TEXT("SMAA")); // TODO (5.7 Implementation)
-	if (!ImageFidelity::XeSS::SR::IsSupported())
+	Super::InitBinding();
+	Options = {
+		TEXT("None"),
+		TEXT("FXAA"),
+		TEXT("TAA"),
+		// TEXT("SMAA"), TODO (5.7 Implementation)
+		TEXT("TSR"),
+		TEXT("FSR")
+	};
+	if (ImageFidelity::XeSS::SR::IsSupported())
 	{
-		Options.Remove(TEXT("XeSS"));
+		Options.Add(TEXT("XeSS"));
 	}
-	if (!ImageFidelity::DLSS::SR::IsSupported())
+	if (ImageFidelity::DLSS::SR::IsSupported())
 	{
-		Options.Remove(TEXT("DLSS"));
+		Options.Add(TEXT("DLSS"));
 	}
 }
 
@@ -284,8 +291,7 @@ void FDLSSReflexBinding::SetValue(const uint8 InValue)
 void FDLSSReflexBinding::InitBinding()
 {
 	Super::InitBinding();
-	AcceptedOptions.Empty();
-	AcceptedOptions.Append(Options);
+	AcceptedOptions = Options;
 	if (ImageFidelity::IsUsingAnyFrameGen())
 	{
 		AcceptedOptions.Remove("Off");

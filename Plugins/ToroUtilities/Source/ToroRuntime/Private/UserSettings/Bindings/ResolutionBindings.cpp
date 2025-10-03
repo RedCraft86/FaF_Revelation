@@ -37,9 +37,9 @@ void FResolutionBindings::SetValue(const FString InValue)
 
 void FResolutionBindings::InitBinding()
 {
-	FDropdownOptionBinding::InitBinding();
+	Super::InitBinding();
 	const TArray<FIntPoint>& Resolutions = UToroUserSettings::GetSupportedResolutions();
-	Options.Reserve(Resolutions.Num());
+	Options.Empty(Resolutions.Num());
 	for (const FIntPoint& Res : Resolutions)
 	{
 		Options.Add(FString::Printf(TEXT("%dx%d"), Res.X, Res.Y));
