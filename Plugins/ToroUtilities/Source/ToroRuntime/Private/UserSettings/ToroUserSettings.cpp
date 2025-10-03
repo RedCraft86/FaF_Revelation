@@ -72,7 +72,7 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 		bFirstLoad = true;
 
 		AutoAdjustScalability();
-		SetResolutionScaleNormalized(1.0f);
+		SetResolutionPercent(100);
 
 		SetAdjustedFullscreenMode();
 		SetScreenResolution(GetFullscreenResolution());
@@ -80,6 +80,13 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 
 	ApplySettings(false);
 	return bFirstLoad;
+}
+
+void UToroUserSettings::AutoAdjustScalability()
+{
+	RunHardwareBenchmark();
+	ApplyHardwareBenchmarkResults();
+	SetResolutionScaleNormalized(ResPercent * 0.01f);
 }
 
 void UToroUserSettings::SetAdjustedFullscreenMode()
@@ -97,13 +104,13 @@ void UToroUserSettings::SetAdjustedFullscreenMode()
 #endif
 }
 
-void UToroUserSettings::AutoAdjustScalability()
+void UToroUserSettings::SetResolutionPercent(const uint8 InValue)
 {
-	const float Res = ScalabilityQuality.ResolutionQuality;
-
-	RunHardwareBenchmark();
-	SetResolutionScaleValueEx(Res);
-	ApplyHardwareBenchmarkResults();
+	if (ResPercent != InValue)
+	{
+		ResPercent = InValue;
+		SetResolutionScaleNormalized(ResPercent * 0.01f);
+	}
 }
 
 void UToroUserSettings::SetOverallQuality(const uint8 InValue)
@@ -307,9 +314,9 @@ void UToroUserSettings::SetToDefaults()
 	InvertMouse = FMouseInversion::Disabled;
 	
 	Borderless = true;
+	ResPercent = 100;
 	bUseVSync = false;
 	FrameRateLimit = 60.0f;
-	SetResolutionScaleValueEx(100.0f);
 	
 	Gamma = 2.2;
 	Brightness = 100;

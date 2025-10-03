@@ -59,9 +59,11 @@ public:
 	static TArray<FIntPoint> GetSupportedResolutions() { return SupportedResolutions; }
 
 	bool InitializeSettings(UGameInstance* GI);
-	void SetAdjustedFullscreenMode();
-
 	void AutoAdjustScalability();
+
+	void SetAdjustedFullscreenMode();
+	void SetResolutionPercent(const uint8 InValue);
+	uint8 GetResolutionPercent() const { return ResPercent; }
 
 	void SetOverallQuality(const uint8 InValue);
 	uint8 GetOverallQuality() const;
@@ -88,6 +90,7 @@ public:
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
 
 	DECLARE_PROPERTY_FUNC(bool, Borderless)
+	DECLARE_PROPERTY_FUNC(uint8, ResPercent)
 
 	DECLARE_PROPERTY_FUNC(bool, FancyBloom)
 	DECLARE_PROPERTY_FUNC(bool, SSFogScattering)
@@ -152,6 +155,7 @@ protected:
 
 	/* Graphics */
 	UPROPERTY(Config) bool Borderless;
+	UPROPERTY(Config) uint8 ResPercent;
 
 	// Visuals
 	UPROPERTY(Config) bool FancyBloom;
