@@ -14,6 +14,9 @@ struct TORORUNTIME_API FScreenGammaBinding : public FSliderOptionBinding
 	{
 		Name = INVTEXT("Screen Gamma");
 		Tooltip = INVTEXT("The lightness of the screen. (Affects whole screen)");
+		SliderRange = {0.5f, 5.0f};
+		MaxDecimals = 1;
+		bConstantUpdate = true;
 	}
 
 	virtual float GetValue() const override { return GetSettings()->GetGamma(); }
@@ -29,6 +32,8 @@ struct TORORUNTIME_API FBrightnessBinding : public FSliderOptionBinding
 	{
 		Name = INVTEXT("Brightness");
 		Tooltip = INVTEXT("The brightness of the lighting in-game. (Does not affect UI)");
+		SliderRange = {0, 200};
+		bConstantUpdate = true;
 	}
 
 	virtual float GetValue() const override { return GetSettings()->GetBrightness(); }
@@ -95,10 +100,12 @@ struct TORORUNTIME_API FAudioVolumeBinding : public FSliderOptionBinding
 	{
 		Name = INVTEXT("Audio Volume");
 		Tooltip = INVTEXT("Volume of the Sound Type.");
+		SliderRange = {0, 150};
+		bConstantUpdate = true;
 	}
 
 	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 2))
-	ESoundClassType SoundType;
+		ESoundClassType SoundType;
 
 	virtual float GetValue() const override { return GetSettings()->GetAudioVolume(SoundType); }
 	virtual void SetValue(const float InValue) override

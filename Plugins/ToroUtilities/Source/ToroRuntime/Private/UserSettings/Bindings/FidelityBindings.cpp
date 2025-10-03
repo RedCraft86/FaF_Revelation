@@ -83,6 +83,7 @@ FFSRSharpnessBinding::FFSRSharpnessBinding()
 {
 	Name = INVTEXT("FSR Sharpness");
 	Tooltip = INVTEXT("Sharpening intensity applied during FSR upscaling. Higher values increase edge definition but may introduce artifacts.");
+	bConstantUpdate = true;
 }
 
 FFSRFrameGenBinding::FFSRFrameGenBinding()

@@ -93,13 +93,16 @@ struct TORORUNTIME_API FSliderOptionBinding : public FOptionBindingBase
 {
 	GENERATED_BODY()
 
-	FSliderOptionBinding(): SliderRange(0.0f, 100.0f), NumDecimals(0) {}
+	FSliderOptionBinding(): bConstantUpdate(false), SliderRange(0, 100), MaxDecimals(0) {}
+
+	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
+		bool bConstantUpdate;
 
 	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
 		FVector2D SliderRange;
 
 	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
-		uint8 NumDecimals;
+		uint8 MaxDecimals;
 
 	virtual float GetValue() const { return 0.0f; }
 	virtual void SetValue(const float InValue) {}

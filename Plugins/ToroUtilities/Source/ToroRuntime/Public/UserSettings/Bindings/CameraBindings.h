@@ -29,6 +29,8 @@ struct TORORUNTIME_API FSensitivityXBinding : public FSliderOptionBinding
 	{
 		Name = INVTEXT("Sensitivity X");
 		Tooltip = INVTEXT("The turning speed in the X direction.");
+		SliderRange = {0.5f, 2.0f};
+		MaxDecimals = 1;
 	}
 
 	virtual float GetValue() const override { return GetSettings()->GetRawSensitivity().X; }
@@ -59,6 +61,8 @@ struct TORORUNTIME_API FSensitivityYBinding : public FSliderOptionBinding
 	{
 		Name = INVTEXT("Sensitivity Y");
 		Tooltip = INVTEXT("The turning speed in the Y direction.");
+		SliderRange = {0.5f, 2.0f};
+		MaxDecimals = 1;
 	}
 
 	virtual float GetValue() const override { return GetSettings()->GetRawSensitivity().Y; }
