@@ -15,21 +15,6 @@ enum class EGameDifficulty : uint8
 };
 
 UENUM(BlueprintType)
-enum class EColorBlindMode : uint8
-{
-	None,
-	
-	// Deuteranope (Red-Green Weak/Blind)
-	Deuteranope,
-	
-	// Protanope (Red Weak/Blind)
-	Protanope,
-	
-	// Tritanope (Blue-Yellow Weak/Blind)
-	Tritanope
-};
-
-UENUM(BlueprintType)
 enum class ESoundClassType : uint8
 {
 	Master,

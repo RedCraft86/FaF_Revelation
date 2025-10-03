@@ -104,9 +104,6 @@ public:
 
 	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
 
-	DECLARE_PROPERTY_FUNC(EColorBlindMode, ColorBlindMode)
-	DECLARE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10)
-
 	DECLARE_PROPERTY_FUNC(bool, Borderless)
 
 	DECLARE_PROPERTY_FUNC(bool, FancyBloom)
@@ -145,7 +142,6 @@ protected:
 	static inline TArray<FIntPoint> SupportedResolutions = {};
 	TObjectPtr<UGameInstance> GameInstance;
 
-	void ApplyColorBlind() const;
 	void ApplyScreenGamma() const;
 	void ApplySSFogScattering() const;
 	void ApplyAudioVolume() const;
@@ -170,10 +166,6 @@ protected:
 	UPROPERTY(Config) bool SmoothCamera;
 	UPROPERTY(Config) FVector2D Sensitivity;
 	UPROPERTY(Config) FMouseInversion InvertMouse;
-
-	// Accessibility
-	UPROPERTY(Config) EColorBlindMode ColorBlindMode;
-	UPROPERTY(Config) uint8 ColorBlindIntensity;
 
 	/* Graphics */
 	UPROPERTY(Config) bool Borderless;

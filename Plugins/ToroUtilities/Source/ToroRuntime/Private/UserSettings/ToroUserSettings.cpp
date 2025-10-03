@@ -171,9 +171,6 @@ DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnSettingsApply(Difficulty))
 
 DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
 
-DEFINE_PROPERTY_FUNC(EColorBlindMode, ColorBlindMode,)
-DEFINE_PROPERTY_FUNC_CLAMPED(uint8, ColorBlindIntensity, 0, 10,)
-
 DEFINE_PROPERTY_FUNC(bool, Borderless, SetAdjustedFullscreenMode();)
 
 DEFINE_PROPERTY_FUNC(bool, FancyBloom, OnSettingsApply(Dynamic);)
@@ -195,16 +192,6 @@ DEFINE_PROPERTY_FUNC(bool, FSRFrameGen, ApplyFSR();)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, XeSSQuality, 0, 6, ApplyXeSS();)
 DEFINE_PROPERTY_FUNC(bool, XeSSFrameGen, ApplyXeSS();)
 DEFINE_PROPERTY_FUNC(bool, XeSSLowLatency, ApplyXeSS();)
-
-void UToroUserSettings::ApplyColorBlind() const
-{
-#if WITH_EDITOR
-	if (!FApp::IsGame()) return;
-#endif
-	FSlateApplication::Get().GetRenderer()->SetColorVisionDeficiencyType(
-		static_cast<EColorVisionDeficiency>(GetColorBlindMode()),
-		GetColorBlindIntensity(), true, false);
-}
 
 void UToroUserSettings::ApplyScreenGamma() const
 {
@@ -306,9 +293,6 @@ void UToroUserSettings::SetToDefaults()
 	Sensitivity = FVector2D::UnitVector;
 	InvertMouse = FMouseInversion::Disabled;
 	
-	ColorBlindMode = EColorBlindMode::None;
-	ColorBlindIntensity = 0;
-	
 	Borderless = true;
 	bUseVSync = false;
 	FrameRateLimit = 60.0f;
@@ -355,7 +339,6 @@ void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
 	if (FApp::IsGame())
 #endif
 	{
-		ApplyColorBlind();
 		ApplyScreenGamma();
 		ApplySSFogScattering();
 		ApplyAudioVolume();
