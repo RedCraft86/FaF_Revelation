@@ -144,6 +144,7 @@ struct TORORUNTIME_API FSwapperOptionBinding : public FOptionBindingBase
 		return Builder.ToText();
 	}
 
+	virtual TArray<FName> GetOptions() const { return Options; }
 	virtual uint8 GetValue() const { return 0; }
 	virtual void SetValue(const uint8 InValue) {}
 
