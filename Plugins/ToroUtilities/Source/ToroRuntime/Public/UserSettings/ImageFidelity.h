@@ -124,6 +124,26 @@ namespace ImageFidelity
                 return UDLSSLibrary::IsDLSSSupported();
             }
 
+            TORORUNTIME_API inline bool IsSupportedModeIdx(const uint8 Mode)
+            {
+                return Mode <= 6 && UDLSSLibrary::IsDLSSModeSupported(static_cast<UDLSSMode>(Mode + 1));
+            }
+
+            TORORUNTIME_API inline bool IsSupportedModeName(const FName Mode)
+            {
+                static TMap<FName, UDLSSMode> ModeMap = {
+                    {"Auto",                UDLSSMode::Auto},
+                    {"DLAA",                UDLSSMode::DLAA},
+                    {"Ultra Quality",       UDLSSMode::UltraQuality},
+                    {"Quality",             UDLSSMode::Quality},
+                    {"Balanced",            UDLSSMode::Balanced},
+                    {"Performance",         UDLSSMode::Performance},
+                    {"Ultra Performance",   UDLSSMode::UltraPerformance}
+                };
+
+                return ModeMap.Contains(Mode) && UDLSSLibrary::IsDLSSModeSupported(ModeMap[Mode]);
+            }
+
             TORORUNTIME_API inline void SetMode(const bool bEnabled, const uint8 Quality, const FVector2D ScreenRes)
             {
                 if (!bEnabled || !IsSupported())
@@ -155,20 +175,40 @@ namespace ImageFidelity
                 return UStreamlineLibraryDLSSG::IsDLSSGSupported();
             }
 
+            TORORUNTIME_API inline EStreamlineDLSSGMode IndexToMode(const uint8 Mode)
+            {
+                switch (Mode)
+                {
+                    case 1:  return EStreamlineDLSSGMode::Auto;
+                    case 2:  return EStreamlineDLSSGMode::On2X;
+                    case 3:  return EStreamlineDLSSGMode::On3X;
+                    case 4:  return EStreamlineDLSSGMode::On4X;
+                    default: return EStreamlineDLSSGMode::Off;
+                }
+            }
+
+            TORORUNTIME_API inline bool IsSupportedModeIdx(const uint8 Mode)
+            {
+                return Mode <= 4 && UStreamlineLibraryDLSSG::IsDLSSGModeSupported(IndexToMode(Mode));
+            }
+
+            TORORUNTIME_API inline bool IsSupportedModeName(const FName Mode)
+            {
+                static TMap<FName, EStreamlineDLSSGMode> ModeMap = {
+                    {"Auto",    EStreamlineDLSSGMode::Auto},
+                    {"2x",      EStreamlineDLSSGMode::On2X},
+                    {"3x",      EStreamlineDLSSGMode::On3X},
+                    {"4x",      EStreamlineDLSSGMode::On4X}
+                };
+
+                return ModeMap.Contains(Mode) && UStreamlineLibraryDLSSG::IsDLSSGModeSupported(ModeMap[Mode]);
+            }
+
             TORORUNTIME_API inline void SetMode(const uint8 Mode)
             {
                 if (Mode > 0 && IsSupported())
                 {
-                    EStreamlineDLSSGMode FGMode;
-                    switch (Mode)
-                    {
-                        case 1:  FGMode = EStreamlineDLSSGMode::Auto; break;
-                        case 2:  FGMode = EStreamlineDLSSGMode::On2X; break;
-                        case 3:  FGMode = EStreamlineDLSSGMode::On3X; break;
-                        case 4:  FGMode = EStreamlineDLSSGMode::On4X; break;
-                        default: FGMode = EStreamlineDLSSGMode::Off;  break;
-                    }
-                    UStreamlineLibraryDLSSG::SetDLSSGMode(FGMode);
+                    UStreamlineLibraryDLSSG::SetDLSSGMode(IndexToMode(Mode));
                 }
                 else
                 {
@@ -204,9 +244,9 @@ namespace ImageFidelity
                     EStreamlineReflexMode RFMode;
                     switch (Mode)
                     {
-                    case 1:  RFMode = EStreamlineReflexMode::Enabled; break;
-                    case 2:  RFMode = EStreamlineReflexMode::Boost; break;
-                    default: RFMode = EStreamlineReflexMode::Off;  break;
+                        case 1:  RFMode = EStreamlineReflexMode::Enabled;   break;
+                        case 2:  RFMode = EStreamlineReflexMode::Boost;     break;
+                        default: RFMode = EStreamlineReflexMode::Off;       break;
                     }
                     UStreamlineLibraryReflex::SetReflexMode(RFMode);
                 }
