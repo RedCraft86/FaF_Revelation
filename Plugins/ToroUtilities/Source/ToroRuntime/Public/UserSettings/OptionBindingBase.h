@@ -159,6 +159,38 @@ struct TORORUNTIME_API FDropdownOptionBinding : public FOptionBindingBase
 
 	FDropdownOptionBinding() {}
 
+	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1))
+		TArray<FString> Options;
+
+	UPROPERTY(EditAnywhere, Category = Option, meta = (DisplayPriority = 1, GetOptions = "Options"))
+		TMap<FString, FText> OptionTooltips;
+
+	virtual FText GetFormattedTooltip() const override
+	{
+		if (OptionTooltips.IsEmpty())
+		{
+			return Super::GetFormattedTooltip();
+		}
+
+		FTextBuilder Builder;
+		Builder.AppendLine(Tooltip);
+
+		const FString Val = GetValue();
+		if (Options.Contains(Val) && OptionTooltips.Contains(Val))
+		{
+			Builder.AppendLineFormat(INVTEXT("\n{0}: {1}"),
+				FText::FromString(Val), OptionTooltips.FindRef(Val));
+		}
+
+		const FText ImpactText = GetImpactText();
+		if (!ImpactText.IsEmptyOrWhitespace())
+		{
+			Builder.AppendLineFormat(INVTEXT("\n{0}"), ImpactText);
+		}
+		
+		return Builder.ToText();
+	}
+
 	virtual TArray<FString> GetOptions() const { return {}; }
 	virtual FString GetValue() const { return TEXT(""); }
 	virtual void SetValue(const FString InValue) {}
