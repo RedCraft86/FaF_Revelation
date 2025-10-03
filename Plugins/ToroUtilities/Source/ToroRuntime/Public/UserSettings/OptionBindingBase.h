@@ -64,7 +64,7 @@ struct TORORUNTIME_API FOptionBindingBase
 		return Builder.ToText();
 	}
 
-	virtual bool ShouldHide() { return !Settings; }
+	virtual bool ShouldHide() const { return !Settings; }
 	virtual void InitBinding() { Settings = UToroUserSettings::Get(); }
 
 	UToroUserSettings* GetSettings() const { return Settings; }

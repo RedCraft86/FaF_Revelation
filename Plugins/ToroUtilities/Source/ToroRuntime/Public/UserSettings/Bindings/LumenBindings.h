@@ -57,7 +57,7 @@ struct TORORUNTIME_API FHitLightingBinding : public FToggleOptionBinding
 
 	virtual bool GetValue() const override { return GetSettings()->GetHitLighting(); }
 	virtual void SetValue(const bool InValue) override { GetSettings()->SetHitLighting(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || GetSettings()->GetLumenReflection() == 0;
 	}

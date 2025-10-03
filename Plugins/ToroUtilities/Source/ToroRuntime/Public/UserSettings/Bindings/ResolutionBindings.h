@@ -54,7 +54,7 @@ struct TORORUNTIME_API FResolutionScaleBinding : public FSliderOptionBinding
 
 	virtual float GetValue() const override { return GetSettings()->GetResolutionPercent(); }
 	virtual void SetValue(const float InValue) override { GetSettings()->SetResolutionPercent(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || ImageFidelity::IsUsingAnyExternalUpscaler();
 	}

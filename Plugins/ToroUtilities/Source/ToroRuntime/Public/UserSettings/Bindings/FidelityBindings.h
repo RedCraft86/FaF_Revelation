@@ -31,7 +31,7 @@ struct TORORUNTIME_API FFSRQualityBinding : public FSwapperOptionBinding
 
 	virtual uint8 GetValue() const override { return GetSettings()->GetFSRQuality(); }
 	virtual void SetValue(const uint8 InValue) override { GetSettings()->SetFSRQuality(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || GetSettings()->GetImageFidelity() != EImageFidelityMode::FSR;
 	}
@@ -46,7 +46,7 @@ struct TORORUNTIME_API FFSRSharpnessBinding : public FSliderOptionBinding
 
 	virtual float GetValue() const override { return GetSettings()->GetFSRSharpness(); }
 	virtual void SetValue(const float InValue) override { GetSettings()->SetFSRSharpness(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || GetSettings()->GetImageFidelity() != EImageFidelityMode::FSR;
 	}
@@ -61,7 +61,7 @@ struct TORORUNTIME_API FFSRFrameGenBinding : public FToggleOptionBinding
 
 	virtual bool GetValue() const override { return GetSettings()->GetFSRFrameGen(); }
 	virtual void SetValue(const bool InValue) override { GetSettings()->SetFSRFrameGen(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || GetSettings()->GetImageFidelity() != EImageFidelityMode::FSR;
 	}
@@ -77,7 +77,7 @@ struct TORORUNTIME_API FXeSSQualityBinding : public FSwapperOptionBinding
 	// XeSS's quality presets are ordered reverse of FSR's, so it needs to be flipped
 	virtual uint8 GetValue() const override { return 6 - GetSettings()->GetXeSSQuality(); }
 	virtual void SetValue(const uint8 InValue) override { GetSettings()->SetXeSSQuality(6 - InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || GetSettings()->GetImageFidelity() != EImageFidelityMode::XeSS;
 	}
@@ -92,7 +92,7 @@ struct TORORUNTIME_API FXeSSFrameGenBinding : public FToggleOptionBinding
 
 	virtual bool GetValue() const override { return GetSettings()->GetXeSSFrameGen(); }
 	virtual void SetValue(const bool InValue) override { GetSettings()->SetXeSSFrameGen(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || !ImageFidelity::XeSS::FG::IsSupported()
 			|| GetSettings()->GetImageFidelity() != EImageFidelityMode::XeSS;
@@ -108,7 +108,7 @@ struct TORORUNTIME_API FXeSSLowLatencyBinding : public FToggleOptionBinding
 
 	virtual bool GetValue() const override { return GetSettings()->GetXeSSLowLatency(); }
 	virtual void SetValue(const bool InValue) override { GetSettings()->SetXeSSLowLatency(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || !ImageFidelity::XeSS::LL::IsSupported()
 			|| GetSettings()->GetImageFidelity() != EImageFidelityMode::XeSS;
@@ -125,7 +125,7 @@ struct TORORUNTIME_API FDLSSQualityBinding : public FSwapperOptionBinding
 	virtual uint8 GetValue() const override;
 	virtual void SetValue(const uint8 InValue) override;
 	virtual TArray<FName> GetOptions() const override { return AcceptedOptions; }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || GetSettings()->GetImageFidelity() != EImageFidelityMode::DLSS;
 	}
@@ -146,7 +146,7 @@ struct TORORUNTIME_API FDLSSFrameGenBinding : public FSwapperOptionBinding
 	virtual uint8 GetValue() const override;
 	virtual void SetValue(const uint8 InValue) override;
 	virtual TArray<FName> GetOptions() const override { return AcceptedOptions; }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || !ImageFidelity::DLSS::FG::IsSupported()
 			|| GetSettings()->GetImageFidelity() != EImageFidelityMode::DLSS;
@@ -168,7 +168,7 @@ struct TORORUNTIME_API FDLSSReflexBinding : public FSwapperOptionBinding
 	virtual uint8 GetValue() const override;
 	virtual void SetValue(const uint8 InValue) override;
 	virtual TArray<FName> GetOptions() const override { return AcceptedOptions; }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || !ImageFidelity::DLSS::Reflex::IsSupported()
 			|| GetSettings()->GetImageFidelity() != EImageFidelityMode::DLSS;
@@ -189,7 +189,7 @@ struct TORORUNTIME_API FDLSSRayReconstructBinding : public FToggleOptionBinding
 
 	virtual bool GetValue() const override { return GetSettings()->GetDLSSRayReconstruct(); }
 	virtual void SetValue(const bool InValue) override { GetSettings()->SetDLSSRayReconstruct(InValue); }
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || !ImageFidelity::DLSS::RR::IsSupported()
 			|| GetSettings()->GetImageFidelity() != EImageFidelityMode::DLSS;

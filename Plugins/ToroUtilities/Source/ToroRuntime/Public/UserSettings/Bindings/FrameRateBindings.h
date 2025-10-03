@@ -56,7 +56,7 @@ struct TORORUNTIME_API FFrameRateLimitBinding : public FSwapperOptionBinding
 		}
 		GetSettings()->SetFrameRateLimit(FPS);
 	}
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || GetSettings()->IsVSyncEnabled();
 	}
@@ -84,7 +84,7 @@ struct TORORUNTIME_API FVSyncBinding : public FToggleOptionBinding
 		}
 		GetSettings()->OnSettingsUpdated.Broadcast(ESettingApplyType::UI);
 	}
-	virtual bool ShouldHide() override
+	virtual bool ShouldHide() const override
 	{
 		return Super::ShouldHide() || ImageFidelity::IsUsingAnyFrameGen();
 	}
