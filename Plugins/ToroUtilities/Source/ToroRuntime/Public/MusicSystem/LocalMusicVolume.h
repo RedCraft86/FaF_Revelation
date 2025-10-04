@@ -5,7 +5,7 @@
 #include "Actors/ToroVolume.h"
 #include "LocalMusicVolume.generated.h"
 
-UCLASS()
+UCLASS(PrioritizeCategories = (Settings))
 class TORORUNTIME_API ALocalMusicVolume final : public AToroVolume
 {
 	GENERATED_BODY()
@@ -37,8 +37,7 @@ public:
 
 private:
 
-	UPROPERTY(VisibleAnywhere, Category = Subobjects)
-		TObjectPtr<UAudioComponent> SoundComponent;
+	UPROPERTY() TObjectPtr<UAudioComponent> SoundComponent;
 
 	bool bInVolume;
 	bool bOnCooldown;

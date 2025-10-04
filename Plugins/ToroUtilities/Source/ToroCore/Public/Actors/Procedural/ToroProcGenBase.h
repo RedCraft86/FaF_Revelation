@@ -14,7 +14,7 @@ enum class EGeneratorLoopMode : uint8
 	Random
 };
 
-UCLASS(Abstract)
+UCLASS(Abstract, HideCategories = (HLOD, Replication, Collision, Physics, Networking, Input), PrioritizeCategories = (Settings, Tools))
 class TOROCORE_API AToroProcGenBase : public AActor
 {
 	GENERATED_BODY()

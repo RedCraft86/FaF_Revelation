@@ -11,13 +11,11 @@
 #include "Interfaces/GuidInterface.h"
 #include "ToroActor.generated.h"
 
-UCLASS(Abstract)
+UCLASS(Abstract, HideCategories = (Replication, Networking, Mobile, Input, RayTracing, Cooking), PrioritizeCategories = (Settings, Tools))
 class TOROCORE_API AToroActor : public AActor, public IActorStateInterface, public IGuidInterface
 {
 	GENERATED_BODY()
-#if WITH_EDITOR
-	friend class FToroActorDetails;
-#endif
+
 public:
 
 	AToroActor();
@@ -46,7 +44,7 @@ protected:
 		bool bTickInEditor = false;
 #endif
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1))
 		bool bEnabled;
 
 	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
