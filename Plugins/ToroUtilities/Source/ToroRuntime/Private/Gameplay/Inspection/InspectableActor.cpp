@@ -28,7 +28,7 @@ AInspectableActor::AInspectableActor()
 	SecretAngle->SetupAttachment(InspectRoot);
 
 #if WITH_EDITOR
-	UPDATE_VISUAL_MAX_COMP(2)
+	UPDATE_VISUAL_MAX_COMP(3)
 #endif
 }
 
