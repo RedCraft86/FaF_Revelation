@@ -17,7 +17,7 @@ AToroPlayerState::AToroPlayerState()
 	SetRootComponent(SceneRoot);
 
 	MusicManager = CreateDefaultSubobject<UWorldMusicManager>("MusicManager");
-	MusicManager->SetupAttachment(SceneRoot);
+	MusicManager->SetupAttachment(GetRootComponent());
 
 	Tutorials = CreateDefaultSubobject<UTutorialManager>("Tutorials");
 	Inventory = CreateDefaultSubobject<UInventoryManager>("Inventory");

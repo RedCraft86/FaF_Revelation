@@ -11,7 +11,7 @@ AMasterPostProcess::AMasterPostProcess()
 	PrimaryActorTick.bStartWithTickEnabled = false;
 	
 	PostProcess = CreateDefaultSubobject<UPostProcessComponent>("PostProcess");
-	SetRootComponent(PostProcess);
+	PostProcess->SetupAttachment(GetRootComponent());
 	PostProcess->BlendWeight = 1.0f;
 	PostProcess->Priority = 1.0f;
 	PostProcess->bUnbound = true;

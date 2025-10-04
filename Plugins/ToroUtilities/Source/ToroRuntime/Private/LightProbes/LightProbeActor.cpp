@@ -14,7 +14,7 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 	IconBillboard = CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>("IconBillboard");
 	if (IconBillboard)
 	{
-		IconBillboard->SetupAttachment(SceneRoot);
+		IconBillboard->SetupAttachment(GetRootComponent());
 		IconBillboard->SetHiddenInGame(true);
 	}
 #endif
