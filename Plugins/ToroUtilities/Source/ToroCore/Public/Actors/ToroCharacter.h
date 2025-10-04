@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "Helpers/GameplayTagMacros.h"
 #include "Interfaces/CharInterface.h"
+#include "Interfaces/GuidInterface.h"
 #include "ToroCharacter.generated.h"
 
 namespace CharacterTags
@@ -19,8 +20,8 @@ namespace CharacterTags
 	}
 }
 
-UCLASS(Abstract, ShowCategories = (Actor), PrioritizeCategories = (Settings))
-class TOROCORE_API AToroCharacter : public ACharacter, public ICharInterface
+UCLASS(Abstract, PrioritizeCategories = Settings)
+class TOROCORE_API AToroCharacter : public ACharacter, public ICharInterface, public IGuidInterface
 {
 	GENERATED_BODY()
 #if WITH_EDITOR
@@ -33,6 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Game)
 		virtual void Teleport(const FVector& InLocation, const FRotator& InRotation);
 
+	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }
 	virtual FGameplayTag GetCharacterID_Implementation() const override { return CharacterID; }
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const override;
 
@@ -40,4 +42,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1, Categories = "Character"))
 		FGameplayTag CharacterID;
+
+	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
+		FGuid UniqueGuid;
+
+	virtual void OnConstruction(const FTransform& Transform) override;
 };

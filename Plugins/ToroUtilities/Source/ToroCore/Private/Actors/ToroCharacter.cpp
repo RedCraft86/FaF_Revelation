@@ -20,3 +20,9 @@ void AToroCharacter::GetViewPoint_Implementation(FVector& Location, FVector& For
 	Forward = GetViewRotation().Vector();
 	Angle = 60.0f;
 }
+
+void AToroCharacter::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+	if (!UniqueGuid.IsValid()) UniqueGuid = FGuid::NewGuid();
+}
