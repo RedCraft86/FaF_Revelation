@@ -2,14 +2,16 @@
 
 #pragma once
 
-#include "ToroActorDetails.h"
+#include "CustomizationHelpers.h"
+#include "DetailLayoutBuilder.h"
+#include "IDetailCustomization.h"
 #include "Electronics/ElectricalActor.h"
 #include "Electronics/ElectricalSwitch.h"
 #include "Electronics/ElectricalProvider.h"
 #include "Electronics/ElectricalReceiver.h"
 
 #define CLASSNAME AElectricalActor
-class TOROEDITOR_API FElectricActorDetails final : public FToroActorDetails
+class TOROEDITOR_API FElectricActorDetails final : public IDetailCustomization
 {
 public:
 
@@ -33,10 +35,8 @@ public:
 
 protected:
 
-	virtual void AdjustProperties(IDetailLayoutBuilder& DetailBuilder) override
+	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
-		FToroActorDetails::AdjustProperties(DetailBuilder);
-
 		TArray<TWeakObjectPtr<UObject>> Objects;
 		DetailBuilder.GetObjectsBeingCustomized(Objects);
 		switch (GetRelation(Objects))

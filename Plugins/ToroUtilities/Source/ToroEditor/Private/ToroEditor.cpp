@@ -16,7 +16,6 @@
 #include "ComponentVis/EditorShapeVisualizer.h"
 #include "ComponentVis/VisionConeVisualizer.h"
 
-#include "DetailsPanels/ToroActorDetails.h"
 #include "DetailsPanels/ElectricActorDetails.h"
 #include "DetailsPanels/ExprTextFieldsDetails.h"
 #include "DetailsPanels/InlineCurveDetails.h"
@@ -64,15 +63,6 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
-		REGISTER_CLASS_CUSTOMIZATION(AToroActor, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AToroVolume, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(ATeleportPoint, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AToroProcGenBase, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(ALightProbeActor, FToroActorDetails)
-		REGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume, FToroActorDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricalActor, FElectricActorDetails)
 
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
@@ -110,15 +100,6 @@ void FToroEditorModule::ShutdownModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroActor)
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroVolume)
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
-		UNREGISTER_CLASS_CUSTOMIZATION(ATeleportPoint)
-		UNREGISTER_CLASS_CUSTOMIZATION(ANavPathVisualizer)
-		UNREGISTER_CLASS_CUSTOMIZATION(AToroProcGenBase)
-		UNREGISTER_CLASS_CUSTOMIZATION(AMasterPostProcess)
-		UNREGISTER_CLASS_CUSTOMIZATION(ALightProbeActor)
-		UNREGISTER_CLASS_CUSTOMIZATION(ALevelZoneVolume)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricalActor)
 
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
