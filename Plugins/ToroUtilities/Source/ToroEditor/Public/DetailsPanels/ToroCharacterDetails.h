@@ -15,7 +15,7 @@ class TOROEDITOR_API FToroCharacterDetails final : public IDetailCustomization
 public:
 
 	static inline TSet<FName> AlwaysShowCategories = {
-		"Transform", "TransformCommon"
+		"Transform", "TransformCommon", "Actor"
 	};
 
 	static TSharedRef<IDetailCustomization> MakeInstance()
@@ -42,8 +42,8 @@ protected:
 			else if (TargetClass != Object->GetClass()) return;
 		}
 
-		TArray<FString> Prioritize, Show, Hide;
-		TargetClass->GetPrioritizeCategories(Prioritize);
+		TArray<FString> Priority, Show, Hide;
+		TargetClass->GetPrioritizeCategories(Priority);
 		FEditorCategoryUtils::GetClassShowCategories(TargetClass, Show);
 		FEditorCategoryUtils::GetClassHideCategories(TargetClass, Hide);
 		Show.RemoveAll([&Hide](const FString& Category)
@@ -55,13 +55,15 @@ protected:
 		DetailBuilder.GetCategoryNames(CategoryNames);
 		CategoryNames.RemoveAll([&Show](const FName& Category)
 		{
-			return AlwaysShowCategories.Contains(Category) || Show.Contains(Category.ToString());
+			return AlwaysShowCategories.Contains(Category)
+				|| Show.Contains(Category.ToString())
+				|| Category.ToString().Contains(TEXT("|")); // Skip SubCategories
 		});
 
 		for (const FName& CategoryName : CategoryNames)
 		{
 			const FString Category = CategoryName.ToString();
-			if (Prioritize.Contains(CategoryName) && !Hide.Contains(CategoryName))
+			if (Priority.Contains(CategoryName) && !Hide.Contains(CategoryName))
 			{
 				DetailBuilder.EditCategory(CategoryName,
 					FText::GetEmpty(),
