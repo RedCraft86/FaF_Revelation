@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "Engine/TargetPoint.h"
+#include "GameFramework/Actor.h"
 #include "TeleportPoint.generated.h"
 
-UCLASS(meta = (ChildCanTick))
-class TOROCORE_API ATeleportPoint : public ATargetPoint
+UCLASS(MinimalAPI, HideCategories = (Rendering, HLOD, Replication, Collision, Physics, Networking, Input, Cooking), meta = (PrioritizeCategories = "Tools", ChildCanTick))
+class ATeleportPoint : public AActor
 {
 	GENERATED_BODY()
 
@@ -15,13 +15,24 @@ public:
 	ATeleportPoint();
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Actor)
-		void TeleportActor(AActor* TargetActor) const;
+		TOROCORE_API void TeleportActor(AActor* TargetActor) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Actor)
-		void TeleportPlayer(const int32 PlayerIndex = 0) const;
+		TOROCORE_API void TeleportPlayer(const int32 PlayerIndex = 0) const;
+
+protected:
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USceneComponent> SceneRoot;
 
 #if WITH_EDITORONLY_DATA
 private:
+	UPROPERTY(Transient)
+		TObjectPtr<UBillboardComponent> Icon;
+
+	UPROPERTY(Transient)
+		TObjectPtr<class UArrowComponent> Arrow;
+
 	UPROPERTY(EditAnywhere, Category = Tools)
 		float DesiredOffset = 88.0f;
 #endif
