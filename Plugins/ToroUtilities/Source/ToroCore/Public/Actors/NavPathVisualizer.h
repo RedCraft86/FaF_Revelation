@@ -26,10 +26,10 @@ public:
 		SetRootComponent(SceneRoot);
 	
 #if WITH_EDITOR
-		if (Shapes = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("ShapeComponent"); Shapes)
+		if (EditorShapes = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("EditorShapes"); EditorShapes)
 		{
 			FWireStringData Data; Data.String = TEXT("NavPath Visualizer");
-			Shapes->WireStrings.Add(TEXT("Label"), Data);
+			EditorShapes->WireStrings.Add(TEXT("Label"), Data);
 		}
 
 		bRunConstructionScriptOnDrag = true;
@@ -48,7 +48,7 @@ private:
 
 	UPROPERTY() TObjectPtr<UBillboardComponent> SceneRoot;
 #if WITH_EDITORONLY_DATA
-	UPROPERTY() TObjectPtr<UEditorShapeComponent> Shapes;
+	UPROPERTY() TObjectPtr<UEditorShapeComponent> EditorShapes;
 #endif
 	
 	virtual void BeginPlay() override
@@ -62,10 +62,10 @@ private:
 		Super::OnConstruction(Transform);
 		SetActorScale3D(FVector{1.0f});
 #if WITH_EDITOR
-		if (Shapes)
+		if (EditorShapes)
 		{
-			Shapes->WireNavPath.Targets = PathPoints;
-			Shapes->UpdateNavPoints();
+			EditorShapes->WireNavPath.Targets = PathPoints;
+			EditorShapes->UpdateNavPoints();
 		}
 #endif
 		bRefresh = false;

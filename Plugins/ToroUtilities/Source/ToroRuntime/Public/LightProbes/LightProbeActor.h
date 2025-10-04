@@ -45,7 +45,7 @@ private:
 		float FadeRange;
 
 #if WITH_EDITORONLY_DATA
-	UPROPERTY() TObjectPtr<UEditorShapeComponent> EditorShape;
+	UPROPERTY() TObjectPtr<UEditorShapeComponent> EditorShapes;
 	UPROPERTY() TObjectPtr<UMaterialBillboardComponent> IconBillboard;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> IconMaterial;
 #endif

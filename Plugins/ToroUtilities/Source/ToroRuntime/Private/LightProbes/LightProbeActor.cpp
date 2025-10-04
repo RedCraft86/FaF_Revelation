@@ -10,7 +10,7 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
 #if WITH_EDITOR
-	EditorShape = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("EditorShape");
+	EditorShapes = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("EditorShapes");
 	IconBillboard = CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>("IconBillboard");
 	if (IconBillboard)
 	{
@@ -72,13 +72,13 @@ void ALightProbeActor::EnableStateChanged(const bool bState)
 void ALightProbeActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	if (EditorShape)
+	if (EditorShapes)
 	{
 		FWireSphereData Data;
 		Data.NumOfSides = 64;
 		Data.Radius = Radius;
 		Data.Color = FColor::FromHex(TEXT("97C1D0FF"));
-		EditorShape->WireSpheres.Add(TEXT("Radius"), Data);
+		EditorShapes->WireSpheres.Add(TEXT("Radius"), Data);
 	}
 	if (IconBillboard)
 	{
