@@ -19,7 +19,7 @@ namespace CharacterTags
 	}
 }
 
-UCLASS(Abstract)
+UCLASS(Abstract, ShowCategories = (Actor), PrioritizeCategories = (Settings))
 class TOROCORE_API AToroCharacter : public ACharacter, public ICharInterface
 {
 	GENERATED_BODY()
@@ -38,6 +38,6 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "Character"))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1, Categories = "Character"))
 		FGameplayTag CharacterID;
 };

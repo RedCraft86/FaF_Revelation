@@ -12,21 +12,18 @@
 #include "Interfaces/IMainFrameModule.h"
 
 #include "UnrealEd.h"
-#include "Actors/Procedural/ToroProcGenBase.h"
 #include "ComponentVis/EditorShapeVisualizer.h"
 #include "ComponentVis/VisionConeVisualizer.h"
 
+#include "DetailsPanels/ToroCharacterDetails.h"
 #include "DetailsPanels/ElectricActorDetails.h"
 #include "DetailsPanels/ExprTextFieldsDetails.h"
 #include "DetailsPanels/InlineCurveDetails.h"
 #include "DetailsPanels/PrimitiveCollisionDetails.h"
 #include "DetailsPanels/WorldActionArrayDetails.h"
 
-#include "Actors/TeleportPoint.h"
 #include "Actors/NavPathVisualizer.h"
 #include "LevelZone/LevelZoneVolume.h"
-#include "LightProbes/LightProbeActor.h"
-#include "PostProcessing/MasterPostProcess.h"
 
 DEFINE_LOG_CATEGORY(LogToroEditor);
 
@@ -63,6 +60,7 @@ void FToroEditorModule::StartupModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::LoadModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		REGISTER_CLASS_CUSTOMIZATION(AToroCharacter, FToroCharacterDetails)
 		REGISTER_CLASS_CUSTOMIZATION(AElectricalActor, FElectricActorDetails)
 
 		REGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve, FInlineCurveDetails)
@@ -100,6 +98,7 @@ void FToroEditorModule::ShutdownModule()
 	// Struct and Class Details Customization
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))
 	{
+		UNREGISTER_CLASS_CUSTOMIZATION(AToroCharacter)
 		UNREGISTER_CLASS_CUSTOMIZATION(AElectricalActor)
 
 		UNREGISTER_STRUCT_CUSTOMIZATION(FInlineFloatCurve)
