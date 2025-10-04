@@ -6,7 +6,7 @@
 #include "ProceduralMeshComponent.h"
 #include "ToroProcMeshBase.generated.h"
 
-UCLASS(Abstract)
+UCLASS(Abstract, NotBlueprintable)
 class TOROCORE_API AToroProcMeshBase : public AToroProcGenBase
 {
 	GENERATED_BODY()
