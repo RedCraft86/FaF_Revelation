@@ -35,8 +35,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Achievements)
 		bool HasAchievement(UPARAM(meta = (Categories = "Achievement")) const FGameplayTag Key) const;
 
-	// TODO ui
-	DECLARE_MULTICAST_DELEGATE_TwoParams(FAchievementEvent, const FAchievementEntry&, const uint8)
+	DECLARE_MULTICAST_DELEGATE_OneParam(FAchievementEvent, const FAchievementEntry&)
 	FAchievementEvent OnAchievement;
 
 private:

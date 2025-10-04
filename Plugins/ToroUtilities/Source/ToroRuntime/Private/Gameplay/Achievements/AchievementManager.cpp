@@ -15,7 +15,7 @@ void UAchievementManager::Grant(const FGameplayTag Key, const uint8 Value) const
 		const FAchievementEntry* Entry = Database ? Database->GetEntry(Key) : nullptr;
 		if (Entry && Entry->IsValidData() && Entry->Requirement == Progress)
 		{
-			OnAchievement.Broadcast(*Entry, Progress);
+			OnAchievement.Broadcast(*Entry);
 		}
 	}
 }
