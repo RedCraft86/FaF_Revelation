@@ -4,7 +4,7 @@
 #include "Components/VerticalBoxSlot.h"
 #include "Blueprint/WidgetTree.h"
 
-void UToroButtonEntry::SelectButton(bool bImmediate)
+void UToroButtonListEntry::SelectButton(bool bImmediate)
 {
 	if (!bSelected)
 	{
@@ -13,7 +13,7 @@ void UToroButtonEntry::SelectButton(bool bImmediate)
 	}
 }
 
-void UToroButtonEntry::DeselectButton(bool bImmediate)
+void UToroButtonListEntry::DeselectButton(bool bImmediate)
 {
 	if (bSelected)
 	{
@@ -22,13 +22,13 @@ void UToroButtonEntry::DeselectButton(bool bImmediate)
 	}
 }
 
-void UToroButtonEntry::SetDisplayData(const FText& InText, const FSlateFontInfo& InFont) const
+void UToroButtonListEntry::SetDisplayData(const FText& InText, const FSlateFontInfo& InFont) const
 {
 	Label->SetText(InText);
 	Label->SetFont(InFont);
 }
 
-void UToroButtonEntry::OnButtonClicked()
+void UToroButtonListEntry::OnButtonClicked()
 {
 	if (OnClicked.IsBound())
 	{
@@ -37,25 +37,32 @@ void UToroButtonEntry::OnButtonClicked()
 	}
 }
 
-void UToroButtonEntry::NativeConstruct()
+void UToroButtonListEntry::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Button->OnClicked.AddUniqueDynamic(this, &UToroButtonEntry::OnButtonClicked);
+	Button->OnClicked.AddUniqueDynamic(this, &UToroButtonListEntry::OnButtonClicked);
 }
 
 UToroButtonList::UToroButtonList(const FObjectInitializer& ObjectInitializer)
-	: UUserWidget(ObjectInitializer), EntryPadding(0.0f, 2.0f), SelectedIndex(INDEX_NONE)
+	: UVerticalBox(ObjectInitializer), EntryPadding(0.0f, 2.0f), SelectedIndex(INDEX_NONE)
 {
 #if WITH_EDITOR
+	ConstructorHelpers::FClassFinder<UToroButtonListEntry> EntryFinder(
+		TEXT("/ToroUtilities/Widgets/DefaultButtonListEntry.DefaultButtonListEntry_C"));
+	if (EntryFinder.Succeeded())
+	{
+		EntryClass = EntryFinder.Class;
+	}
+
 	const ConstructorHelpers::FObjectFinder<UObject> FontFinder(TEXT("/Engine/EngineFonts/Roboto.Roboto"));
 	if (FontFinder.Succeeded())
 	{
-		EntryFont = FSlateFontInfo(FontFinder.Object, 24, "Regular");
+		EntryFont = FSlateFontInfo(FontFinder.Object, 29, "Regular");
 	}
 #endif
 }
 
-void UToroButtonList::OnSelectionMade(UToroButtonEntry* Button)
+void UToroButtonList::OnSelectionMade(UToroButtonListEntry* Button)
 {
 	for (int i = 0; i < Buttons.Num(); i++)
 	{
@@ -72,25 +79,26 @@ void UToroButtonList::OnSelectionMade(UToroButtonEntry* Button)
 	}
 }
 
-void UToroButtonList::NativePreConstruct()
+void UToroButtonList::SynchronizeProperties()
 {
-	Super::NativePreConstruct();
-	if (!WidgetTree || !Container)
-		return;
+	Super::SynchronizeProperties();
 
-	Container->ClearChildren();
+	ClearChildren();
+	SelectedIndex = INDEX_NONE;
 	Buttons.Empty(Entries.Num());
+	if (!EntryClass) return;
+
 	for (const FText& Entry : Entries)
 	{
 		if (Entry.IsEmptyOrWhitespace()) continue;
-		if (UToroButtonEntry* Button = WidgetTree->ConstructWidget<UToroButtonEntry>(EntryClass))
+		if (UToroButtonListEntry* Button = CreateWidget<UToroButtonListEntry>(this, EntryClass))
 		{
 			Buttons.Add(Button);
 			Button->SetDisplayData(Entry, EntryFont);
-			if (UVerticalBoxSlot* VSlot = Cast<UVerticalBoxSlot>(Container->AddChild(Button)))
+			if (UVerticalBoxSlot* EntrySlot = AddChildToVerticalBox(Button))
 			{
-				VSlot->SetSize(EntrySize);
-				VSlot->SetPadding(EntryPadding);
+				EntrySlot->SetSize(EntrySize);
+				EntrySlot->SetPadding(EntryPadding);
 			}
 #if WITH_EDITOR
 			if (IsDesignTime())
@@ -103,5 +111,14 @@ void UToroButtonList::NativePreConstruct()
 				Button->SelectButton(true); // Select first
 			}
 		}
+	}
+}
+
+void UToroButtonList::ReleaseSlateResources(bool bReleaseChildren)
+{
+	Super::ReleaseSlateResources(bReleaseChildren);
+	for (UToroButtonListEntry* Button : Buttons)
+	{
+		if (Button) Button->OnClicked.Unbind();
 	}
 }

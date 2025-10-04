@@ -8,8 +8,8 @@
 #include "Blueprint/UserWidget.h"
 #include "ToroButtonList.generated.h"
 
-UCLASS(Abstract)
-class TORORUNTIME_API UToroButtonEntry final : public UUserWidget
+UCLASS(Abstract, NotPlaceable)
+class TORORUNTIME_API UToroButtonListEntry final : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -17,11 +17,11 @@ class TORORUNTIME_API UToroButtonEntry final : public UUserWidget
 
 public:
 
-	UToroButtonEntry(const FObjectInitializer& ObjectInitializer)
+	UToroButtonListEntry(const FObjectInitializer& ObjectInitializer)
 		: UUserWidget(ObjectInitializer), bSelected(false)
 	{}
 
-	DECLARE_DELEGATE_OneParam(FOnClicked, UToroButtonEntry*);
+	DECLARE_DELEGATE_OneParam(FOnClicked, UToroButtonListEntry*);
 	FOnClicked OnClicked;
 
 	void SelectButton(bool bImmediate = false);
@@ -45,8 +45,8 @@ protected:
 	virtual void NativeConstruct() override;
 };
 
-UCLASS(Abstract, HideCategories = (Interaction, Performance, Localization), meta = (PrioritizeCategories = "ButtonList"))
-class TORORUNTIME_API UToroButtonList final : public UUserWidget
+UCLASS(DisplayName = "Button List", PrioritizeCategories = ButtonList)
+class TORORUNTIME_API UToroButtonList final : public UVerticalBox
 {
 	GENERATED_BODY()
 
@@ -65,11 +65,8 @@ public:
 
 protected:
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UVerticalBox> Container;
-
-	UPROPERTY(EditAnywhere, Category = ButtonList)
-		TSubclassOf<UToroButtonEntry> EntryClass;
+	UPROPERTY(EditAnywhere, Category = ButtonList, NoClear)
+		TSubclassOf<UToroButtonListEntry> EntryClass;
 
 	UPROPERTY(EditAnywhere, Category = ButtonList)
 		FSlateChildSize EntrySize;
@@ -83,11 +80,15 @@ protected:
 	UPROPERTY(EditAnywhere, Category = ButtonList)
 		TArray<FText> Entries;
 
-	UPROPERTY(BlueprintReadOnly, Category = ButtonList)
-		TArray<TObjectPtr<UToroButtonEntry>> Buttons;
+	UPROPERTY(Transient)
+		TArray<TObjectPtr<UToroButtonListEntry>> Buttons;
 
 	int32 SelectedIndex;
 
-	void OnSelectionMade(UToroButtonEntry* Button);
-	virtual void NativePreConstruct() override;
+	void OnSelectionMade(UToroButtonListEntry* Button);
+	virtual void SynchronizeProperties() override;
+	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
+#if WITH_EDITOR
+	virtual const FText GetPaletteCategory() override { return NSLOCTEXT("UMG", "Input", "Input"); }
+#endif
 };
