@@ -40,11 +40,9 @@ void AToroCutsceneActor::PlayCutscene()
 
 void AToroCutsceneActor::SkipCutscene()
 {
-	if (!GetWorldTimerManager().IsTimerActive(FadedPlayHandle))
-	{
-		GetSequencePlayer()->GoToEndAndStop();
-		UnlockPlayer();
-	}
+	GetWorldTimerManager().ClearTimer(FadedPlayHandle);
+	GetSequencePlayer()->GoToEndAndStop();
+	UnlockPlayer();
 }
 
 void AToroCutsceneActor::OnFinished()
