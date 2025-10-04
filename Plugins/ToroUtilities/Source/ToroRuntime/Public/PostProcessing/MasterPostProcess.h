@@ -3,13 +3,13 @@
 #pragma once
 
 #include "PostProcessTypes.h"
-#include "GameFramework/Actor.h"
+#include "Actors/ToroActor.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "MasterPostProcess.generated.h"
 
-UCLASS(NotBlueprintable, meta = (VisibleCategories = "PostProcessing", HiddenCategories = "Rendering, Actor"))
-class TORORUNTIME_API AMasterPostProcess final : public AActor
+UCLASS(NotBlueprintable, HideCategories = (HLOD, Collision, Physics), PrioritizeCategories = (Settings, PostProcessing))
+class TORORUNTIME_API AMasterPostProcess final : public AToroActor
 {
 	GENERATED_BODY()
 
@@ -66,13 +66,10 @@ private:
 	// Weak Ptr since Blendables hold the actual instance
 	TWeakObjectPtr<UMaterialInstanceDynamic> BrightnessMID;
 
-#if WITH_EDITORONLY_DATA
-	UPROPERTY() TObjectPtr<UBillboardComponent> VisualBillboard;
-#endif
-
 	void OnSettingsUpdated(const ESettingApplyType Type);
 
 	virtual void BeginPlay() override;
+	virtual void EnableStateChanged(const bool bState) override;
 #if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;
 	bool MultiActorCheck() const;

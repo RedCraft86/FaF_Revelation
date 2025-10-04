@@ -9,9 +9,6 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
-	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
-	SetRootComponent(SceneRoot);
-
 #if WITH_EDITOR
 	EditorShape = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("EditorShape");
 	IconBillboard = CreateEditorOnlyDefaultSubobject<UMaterialBillboardComponent>("IconBillboard");
@@ -25,7 +22,7 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 
 bool ALightProbeActor::IsRelevantProbe(const FTransform& Camera, const bool bHasLumenGI) const
 {
-	if (IsHidden() || Radius < 50.0f
+	if (!GetEnabledState() || Radius < 50.0f
 		|| FMath::IsNearlyZero(Intensity)
 		|| (bHasLumenGI && bDisableWithLumenGI))
 		return false;
@@ -64,6 +61,11 @@ void ALightProbeActor::ApplyData(UMaterialInstanceDynamic* Material, const uint8
 			(float)Pos.X, (float)Pos.Y, (float)Pos.Z, Radius
 		));
 	}
+}
+
+void ALightProbeActor::EnableStateChanged(const bool bState)
+{
+	SetActorHiddenInGame(!bState);
 }
 
 #if WITH_EDITOR

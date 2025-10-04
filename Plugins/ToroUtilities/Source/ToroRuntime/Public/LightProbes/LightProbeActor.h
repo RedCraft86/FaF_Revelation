@@ -2,24 +2,21 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "Actors/ToroActor.h"
 #if WITH_EDITOR
 #include "Components/EditorShapeComponent.h"
 #include "Components/MaterialBillboardComponent.h"
 #endif
 #include "LightProbeActor.generated.h"
 
-UCLASS(NotBlueprintable)
-class TORORUNTIME_API ALightProbeActor final : public AActor
+UCLASS(NotBlueprintable, HideCategories = (Rendering, HLOD, Collision, Physics))
+class TORORUNTIME_API ALightProbeActor final : public AToroActor
 {
 	GENERATED_BODY()
 
 public:
 
 	ALightProbeActor();
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<USceneComponent> SceneRoot;
 
 	bool IsRelevantProbe(const FTransform& Camera, const bool bHasLumenGI) const;
 	void ApplyData(UMaterialInstanceDynamic* Material, const uint8 Idx, const FVector& Camera) const;
@@ -52,6 +49,8 @@ private:
 	UPROPERTY() TObjectPtr<UMaterialBillboardComponent> IconBillboard;
 	UPROPERTY() TObjectPtr<UMaterialInstanceDynamic> IconMaterial;
 #endif
+
+	virtual void EnableStateChanged(const bool bState) override;
 #if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif

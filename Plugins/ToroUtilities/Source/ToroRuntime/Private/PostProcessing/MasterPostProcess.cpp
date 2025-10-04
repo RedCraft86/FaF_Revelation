@@ -4,9 +4,6 @@
 #include "Components/PostProcessComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToroRuntime.h"
-#if WITH_EDITOR
-#include "Components/BillboardComponent.h"
-#endif
 
 AMasterPostProcess::AMasterPostProcess()
 {
@@ -21,15 +18,8 @@ AMasterPostProcess::AMasterPostProcess()
 	PostProcess->bEnabled = true;
 
 #if WITH_EDITOR
-	VisualBillboard = CreateEditorOnlyDefaultSubobject<UBillboardComponent>("DebugBillboard");
-	if (VisualBillboard)
-	{
-		VisualBillboard->bIsScreenSizeScaled = true;
-		VisualBillboard->SetupAttachment(PostProcess);
-		VisualBillboard->SetWorldScale3D(FVector(0.5f));
-		VisualBillboard->SetSprite(LoadObject<UTexture2D>(nullptr,
-			TEXT("/ToroUtilities/Icons/MasterPostProcess.MasterPostProcess")));
-	}
+	UPDATE_VISUAL_MAX_COMP(2);
+	UPDATE_VISUAL_ICON(TEXT("/ToroUtilities/Icons/MasterPostProcess.MasterPostProcess"))
 #endif
 
 	Settings.bOverride_AutoExposureMethod = true;
@@ -162,6 +152,11 @@ void AMasterPostProcess::BeginPlay()
 	{
 		UserSettings->OnSettingsUpdated.AddUObject(this, &AMasterPostProcess::OnSettingsUpdated);
 	}
+}
+
+void AMasterPostProcess::EnableStateChanged(const bool bState)
+{
+	PostProcess->bEnabled = bState;
 }
 
 #if WITH_EDITOR
