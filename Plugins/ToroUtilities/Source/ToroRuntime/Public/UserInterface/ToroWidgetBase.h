@@ -33,24 +33,23 @@ public:
 protected:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Animations, meta = (BindWidgetAnim))
-		TObjectPtr<UWidgetAnimation> FadeAnim;
+		TObjectPtr<UWidgetAnimation> HideAnim;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Widget)
 		TObjectPtr<AGameModeBase> GameMode;
 
-	UPROPERTY(BlueprintReadOnly, Category = Widget, DisplayName = "Wants To Fade In")
-		bool bWantsToShow;
+	UPROPERTY(BlueprintReadOnly, Category = Widget)
+		bool bWantsToHide;
 
-	bool bFadeState;
-	float FadeCheckTime;
+	bool bHidden;
+	float HideCheckTime;
 
 	void UpdateFadeState();
 
 	virtual void InitWidget(APlayerController* Controller);
-	virtual bool ShouldShowWidget() const { return true; }
+	virtual bool ShowHideWidget() const { return false; }
 	virtual bool CanCreateWidget(const UObject* ContextObject) const { return IsValid(ContextObject); }
 
-	virtual void NativeConstruct() override;
 	virtual void InternalProcessActivation() override;
 	virtual void InternalProcessDeactivation() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;

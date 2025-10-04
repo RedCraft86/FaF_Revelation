@@ -2,10 +2,10 @@
 
 #include "UserInterface/ToroWidgetBase.h"
 
-#define FADE_CHECK_INTERVAL 0.5f
+#define HIDE_CHECK_INTERVAL 0.5f
 
 UToroWidgetBase::UToroWidgetBase(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bWantsToShow(true), bFadeState(true), FadeCheckTime(0.0f)
+	: Super(ObjectInitializer), bWantsToHide(false), bHidden(false), HideCheckTime(0.0f)
 {
 	bAutoActivate = true;
 }
@@ -34,35 +34,29 @@ UToroWidgetBase* UToroWidgetBase::CreateToroWidget(APlayerController* Owner, con
 
 void UToroWidgetBase::FadeInWidget()
 {
-	bWantsToShow = true;
-	FadeCheckTime = FADE_CHECK_INTERVAL;
+	bWantsToHide = false;
+	HideCheckTime = HIDE_CHECK_INTERVAL;
 }
 
 void UToroWidgetBase::FadeOutWidget()
 {
-	bWantsToShow = false;
-	FadeCheckTime = FADE_CHECK_INTERVAL;
+	bWantsToHide = true;
+	HideCheckTime = HIDE_CHECK_INTERVAL;
 }
 
 void UToroWidgetBase::UpdateFadeState()
 {
-	const bool bTargetFade = bWantsToShow && ShouldShowWidget();
-	if (bFadeState != bTargetFade)
+	const bool bTargetHidden = bWantsToHide || ShowHideWidget();
+	if (bHidden != bTargetHidden)
 	{
-		bFadeState = bTargetFade;
-		bFadeState ? PlayAnimationForward(FadeAnim) : PlayAnimationReverse(FadeAnim);
+		bHidden = bTargetHidden;
+		bHidden ? PlayAnimationForward(HideAnim) : PlayAnimationReverse(HideAnim);
 	}
 }
 
 void UToroWidgetBase::InitWidget(APlayerController* Controller)
 {
 	GameMode = Controller->GetWorld()->GetAuthGameMode();
-}
-
-void UToroWidgetBase::NativeConstruct()
-{
-	InitAnim(FadeAnim)
-	Super::NativeConstruct();
 }
 
 void UToroWidgetBase::InternalProcessActivation()
@@ -82,11 +76,11 @@ void UToroWidgetBase::InternalProcessDeactivation()
 void UToroWidgetBase::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
-	if (FadeCheckTime < FADE_CHECK_INTERVAL)
+	if (HideCheckTime < HIDE_CHECK_INTERVAL)
 	{
-		FadeCheckTime += InDeltaTime;
+		HideCheckTime += InDeltaTime;
 		return;
 	}
-	FadeCheckTime = 0.0f;
+	HideCheckTime = 0.0f;
 	UpdateFadeState();
 }
