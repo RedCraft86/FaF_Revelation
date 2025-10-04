@@ -61,7 +61,7 @@ void AInspectableActor::OnBeginInteract_Implementation(AToroPlayerCharacter* Pla
 
 FInteractionInfo AInspectableActor::GetInteractInfo_Implementation(const FHitResult& HitResult)
 {
-	InteractionInfo.bEnabled = InteractionInfo.bEnabled && HasValidArchive() && GetEnabledState();
+	InteractionInfo.bEnabled = InteractionInfo.bEnabled && HasValidArchive() && IsEnabled();
 	return InteractionInfo;
 }
 
@@ -100,7 +100,7 @@ void AInspectableActor::BeginPlay()
 		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
 		if (HasValidArchive())
 		{
-			SetEnabledState(false);
+			SetEnabled(false);
 		}
 	});
 }

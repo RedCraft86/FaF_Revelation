@@ -5,6 +5,10 @@
 #include "UObject/Interface.h"
 #include "ActorStateInterface.generated.h"
 
+#define DECLARE_ENABLE_STATE_HELPERS \
+	bool IsEnabled() const { return Execute_GetEnabledState(this); } \
+	void SetEnabled(const bool bInEnabled) { Execute_SetEnabledState(this, bInEnabled); }
+
 UINTERFACE()
 class UActorStateInterface : public UInterface
 {

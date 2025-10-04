@@ -31,6 +31,7 @@ public:
 
 	FToroBoolDelegate OnEnableStateChanged;
 
+	DECLARE_ENABLE_STATE_HELPERS
 	virtual void SetEnabledState_Implementation(const bool bInEnabled) override;
 	virtual bool GetEnabledState_Implementation() const override { return bEnabled; }
 	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }

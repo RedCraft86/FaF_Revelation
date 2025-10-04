@@ -26,7 +26,7 @@ ALocalMusicVolume::ALocalMusicVolume()
 
 void ALocalMusicVolume::UpdateAudio()
 {
-	if (GetEnabledState() && bInVolume && !bOnCooldown && AllowedStates.Contains(MusicState))
+	if (IsEnabled() && bInVolume && !bOnCooldown && AllowedStates.Contains(MusicState))
 	{
 		SoundComponent->FadeIn(FadeInOut.X, 1.0f,
 			FMath::FRandRange(StartRange.X, StartRange.Y));

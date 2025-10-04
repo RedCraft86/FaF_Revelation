@@ -50,7 +50,7 @@ bool AElectricalActor::CalcPoweredState()
 {
 	if (MinProviders == 0)
 	{
-		return GetEnabledState();
+		return IsEnabled();
 	}
 
 	for (auto It = Providers.CreateIterator(); It; ++It)
@@ -58,7 +58,7 @@ bool AElectricalActor::CalcPoweredState()
 		if (!It->IsValid()) It.RemoveCurrent();
 	}
 
-	return GetEnabledState() && Providers.Num() >= MinProviders;
+	return IsEnabled() && Providers.Num() >= MinProviders;
 }
 
 void AElectricalActor::PoweredStateChanged(const bool bState)

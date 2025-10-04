@@ -13,7 +13,7 @@ AElectricalProvider::AElectricalProvider()
 
 bool AElectricalProvider::CalcPoweredState()
 {
-	return GetEnabledState();
+	return IsEnabled();
 }
 
 #if WITH_EDITOR

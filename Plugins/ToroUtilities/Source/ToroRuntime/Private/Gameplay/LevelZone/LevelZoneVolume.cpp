@@ -86,7 +86,7 @@ void ALevelZoneVolume::Tick(float DeltaSeconds)
 void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
-	if (GetEnabledState())
+	if (IsEnabled())
 	{
 		const FGameplayTag CharTag = ICharInterface::GetCharacterID(OtherActor);
 		ULevelZoneManager* Manager = ULevelZoneManager::Get(this);
@@ -105,7 +105,7 @@ void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 void ALevelZoneVolume::NotifyActorEndOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorEndOverlap(OtherActor);
-	if (GetEnabledState() && CharacterTags::IsPlayer(OtherActor))
+	if (IsEnabled() && CharacterTags::IsPlayer(OtherActor))
 	{
 		ActionManager->SetActions(ActionsExit, false);
 		ActionManager->RunActions();
