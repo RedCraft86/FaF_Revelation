@@ -2,7 +2,6 @@
 
 #include "Framework/ToroPlayerController.h"
 #include "Framework/ToroCameraManager.h"
-#include "Interfaces/ExitInterface.h"
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
 #include "ToroRuntime.h"
@@ -59,11 +58,6 @@ void AToroPlayerController::ExitCinematic()
 
 void AToroPlayerController::EnterCinematic(AActor* InInstigator)
 {
-	if (CinematicActor.IsValid())
-	{
-		IExitInterface::Exit(CinematicActor.Get());
-	}
-
 	CinematicActor = InInstigator;
 	if (CinematicActor.IsValid())
 	{
