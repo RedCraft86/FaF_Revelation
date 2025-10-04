@@ -7,7 +7,7 @@
 
 AInspectableActor::AInspectableActor()
 	: SecretThreshold(0.4f), InspectScale(0.1f), ScaleSpeed(6.0f)
-	, ScaleInterp(FVector::OneVector, 6.0f)
+	, bHasSecret(true), ScaleInterp(FVector::OneVector, 6.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -84,7 +84,7 @@ void AInspectableActor::HandleRemoveLag()
 
 float AInspectableActor::GetSecretDot() const
 {
-	if (CamManager)
+	if (CamManager && bHasSecret)
 	{
 		// Negate the result because we want the value to be +1.0 when facing the arrow
 		return -FVector::DotProduct(SecretAngle->GetForwardVector(), CamManager->GetActorForwardVector());
@@ -100,6 +100,11 @@ void AInspectableActor::BeginPlay()
 		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
 		if (HasValidArchive())
 		{
+			bHasSecret = !Archive->SecretText.IsEmptyOrWhitespace();
+		}
+		else
+		{
+			bHasSecret = false;
 			SetEnabled(false);
 		}
 	});
