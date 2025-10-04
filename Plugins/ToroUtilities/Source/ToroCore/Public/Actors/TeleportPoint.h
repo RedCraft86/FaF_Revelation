@@ -5,7 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "TeleportPoint.generated.h"
 
-UCLASS(MinimalAPI, HideCategories = (Rendering, HLOD, Replication, Collision, Physics, Networking, Input, Cooking), meta = (PrioritizeCategories = "Tools", ChildCanTick))
+UCLASS(MinimalAPI, HideCategories = (Rendering, HLOD, Replication, Collision, Physics, Networking, Input, Cooking), meta = (ChildCanTick))
 class ATeleportPoint : public AActor
 {
 	GENERATED_BODY()

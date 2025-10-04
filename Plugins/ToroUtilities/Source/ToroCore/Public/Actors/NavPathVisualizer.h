@@ -7,8 +7,8 @@
 #include "Components/BillboardComponent.h"
 #include "NavPathVisualizer.generated.h"
 
-UCLASS(NotBlueprintable, NotBlueprintType, meta = (HiddenCategories = "Actor,Collision"))
-class TOROCORE_API ANavPathVisualizer final : public AActor
+UCLASS(MinimalAPI, NotBlueprintable, NotBlueprintType, HideCategories = (Rendering, HLOD, Replication, Collision, Physics, Networking, Input, Actor, WorldPartition, LevelInstance, Cooking, DataLayers))
+class ANavPathVisualizer final : public AActor
 {
 	GENERATED_BODY()
 
@@ -26,11 +26,10 @@ public:
 		SetRootComponent(SceneRoot);
 	
 #if WITH_EDITOR
-		ShapeComponent = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("ShapeComponent");
-		if (ShapeComponent)
+		if (Shapes = CreateEditorOnlyDefaultSubobject<UEditorShapeComponent>("ShapeComponent"); Shapes)
 		{
 			FWireStringData Data; Data.String = TEXT("NavPath Visualizer");
-			ShapeComponent->WireStrings.Add(TEXT("Label"), Data);
+			Shapes->WireStrings.Add(TEXT("Label"), Data);
 		}
 
 		bRunConstructionScriptOnDrag = true;
@@ -49,7 +48,7 @@ private:
 
 	UPROPERTY() TObjectPtr<UBillboardComponent> SceneRoot;
 #if WITH_EDITORONLY_DATA
-	UPROPERTY() TObjectPtr<UEditorShapeComponent> ShapeComponent;
+	UPROPERTY() TObjectPtr<UEditorShapeComponent> Shapes;
 #endif
 	
 	virtual void BeginPlay() override
@@ -63,10 +62,10 @@ private:
 		Super::OnConstruction(Transform);
 		SetActorScale3D(FVector{1.0f});
 #if WITH_EDITOR
-		if (ShapeComponent)
+		if (Shapes)
 		{
-			ShapeComponent->WireNavPath.Targets = PathPoints;
-			ShapeComponent->UpdateNavPoints();
+			Shapes->WireNavPath.Targets = PathPoints;
+			Shapes->UpdateNavPoints();
 		}
 #endif
 		bRefresh = false;
