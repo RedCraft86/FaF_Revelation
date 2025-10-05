@@ -7,6 +7,7 @@
 #include "Windows/WindowsHWrapper.h"
 
 #include "GamePhaseData.h"
+#include "LoadingScreenWidget.h"
 #include "Framework/ToroGameState.h"
 #include "Components/ActorComponent.h"
 #include "Helpers/ClassGetterMacros.h"
@@ -61,6 +62,9 @@ private:
 	
 	UPROPERTY(Transient) TObjectPtr<UGamePhaseGraph> Graph;
 	UPROPERTY(Transient) TObjectPtr<UGamePhaseNode> ThisPhase;
+
+	TObjectPtr<ULoadingScreenWidget> LoadingWidget;
+	ULoadingScreenWidget* GetLoadingWidget();
 
 	bool IsValidManager() const;
 	void UnloadLevel(const TSoftObjectPtr<UWorld>& InLevel);

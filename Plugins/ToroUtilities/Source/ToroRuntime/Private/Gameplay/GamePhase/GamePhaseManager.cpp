@@ -9,6 +9,7 @@
 #include "MusicSystem/WorldMusicManager.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "PostProcessing/MasterPostProcess.h"
+#include "UserInterface/ToroWidgetManager.h"
 #include "SaveSystem/ToroGlobalSave.h"
 #include "SaveSystem/ToroGameSave.h"
 #include "Helpers/LatentInfo.h"
@@ -77,8 +78,11 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 	FTimerHandle FadeTimer;
 	GetWorld()->GetTimerManager().SetTimer(FadeTimer, [this, OldPhase = OldPhase]()
 	{
-		// TODO ui
-		PlayerChar->Teleport(FVector::ZeroVector, FRotator::ZeroRotator);
+		if (ULoadingScreenWidget* Widget = GetLoadingWidget())
+		{
+			Widget->ShowScreen(ThisPhase->bSimpleLoading);
+		}
+
 		if (OldPhase)
 		{
 			Inventory->PushToSave(OldPhase->InventoryProfile);
@@ -88,6 +92,7 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 			Inventory->PullFromSave(ThisPhase->InventoryProfile);
 		}
 		ThisPhase->EnsureInventoryItems(Inventory);
+		PlayerChar->Teleport(FVector::ZeroVector, FRotator::ZeroRotator);
 
 		for (const TSoftObjectPtr<UWorld>& Level : UnloadLevels)
 		{
@@ -97,13 +102,22 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 		{
 			LoadLevel(Level);
 		}
-	}, 0.5f, false);
+	}, 0.6f, false);
 
 	if (UToroGlobalSave* GlobalSave = SaveManager->FindOrAddSave<UToroGlobalSave>(0))
 	{
 		GlobalSave->Content.Append(ThisPhase->GetContentTags());
 		GlobalSave->SaveObject(nullptr);
 	}
+}
+
+ULoadingScreenWidget* UGamePhaseManager::GetLoadingWidget()
+{
+	if (!LoadingWidget)
+	{
+		LoadingWidget = AToroWidgetManager::GetWidget<ULoadingScreenWidget>(this);
+	}
+	return LoadingWidget;
 }
 
 bool UGamePhaseManager::IsValidManager() const
@@ -177,7 +191,10 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		PostProcessing->SetUDSSettings(ThisPhase->SkyWeather);
 	}
 
-	// TODO ui
+	if (ULoadingScreenWidget* Widget = GetLoadingWidget())
+	{
+		Widget->PopWidget();
+	}
 
 	FadeFromBlack();
 	FTimerHandle FadeTimer;
