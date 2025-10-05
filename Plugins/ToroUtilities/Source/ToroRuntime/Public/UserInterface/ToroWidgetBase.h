@@ -5,13 +5,6 @@
 #include "CommonActivatableWidget.h"
 #include "ToroWidgetBase.generated.h"
 
-#define InitAnim(Anim) { \
-		PlayAnimation(Anim); \
-		StopAnimation(Anim); \
-	}
-
-#define GetAnimDuration(Anim) (Anim->GetEndTime() - Anim->GetStartTime())
-
 UCLASS(Abstract)
 class TORORUNTIME_API UToroWidgetBase : public UCommonActivatableWidget
 {

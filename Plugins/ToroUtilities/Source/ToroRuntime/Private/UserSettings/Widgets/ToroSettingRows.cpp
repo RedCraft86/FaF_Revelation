@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "UserSettings/Widgets/ToroSettingRows.h"
+#include "Helpers/WidgetAnimHelpers.h"
 
 UToggleSettingRow::UToggleSettingRow(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bState(false)
@@ -19,9 +20,7 @@ void UToggleSettingRow::ToggleClicked()
 
 void UToggleSettingRow::SyncVisualState(const bool bImmediate)
 {
-	PlayAnimation(ToggleAnim, 0.0f, 1,
-		bState ? EUMGSequencePlayMode::Forward : EUMGSequencePlayMode::Reverse,
-		bImmediate ? 10.0f : 1.0f);
+	WidgetAnimHelpers::PlayOrSnapAnim(this, ToggleAnim, bState, bImmediate);
 }
 
 void UToggleSettingRow::OnRefreshUI()

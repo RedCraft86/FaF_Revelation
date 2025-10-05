@@ -2,6 +2,7 @@
 
 #include "UserInterface/Elements/ToroButtonList.h"
 #include "Components/VerticalBoxSlot.h"
+#include "Helpers/WidgetAnimHelpers.h"
 #include "Blueprint/WidgetTree.h"
 
 void UToroButtonListEntry::SelectButton(bool bImmediate)
@@ -9,7 +10,7 @@ void UToroButtonListEntry::SelectButton(bool bImmediate)
 	if (!bSelected)
 	{
 		bSelected = true;
-		PlayAnimationForward(SelectAnim, bImmediate ? 10.0f : 1.0f);
+		SyncSelectionState(bImmediate);
 	}
 }
 
@@ -18,7 +19,7 @@ void UToroButtonListEntry::DeselectButton(bool bImmediate)
 	if (bSelected)
 	{
 		bSelected = false;
-		PlayAnimationReverse(SelectAnim, bImmediate ? 10.0f : 1.0f);
+		SyncSelectionState(bImmediate);
 	}
 }
 
@@ -35,6 +36,11 @@ void UToroButtonListEntry::OnButtonClicked()
 		SelectButton();
 		OnClicked.Execute(this);
 	}
+}
+
+void UToroButtonListEntry::SyncSelectionState(const bool bImmediate)
+{
+	WidgetAnimHelpers::PlayOrSnapAnim(this, SelectAnim, bSelected, bImmediate);
 }
 
 void UToroButtonListEntry::NativeConstruct()

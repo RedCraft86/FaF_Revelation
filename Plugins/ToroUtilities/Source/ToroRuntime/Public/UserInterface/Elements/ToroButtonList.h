@@ -42,6 +42,8 @@ protected:
 	bool bSelected;
 
 	UFUNCTION() void OnButtonClicked();
+	void SyncSelectionState(const bool bImmediate);
+
 	virtual void NativeConstruct() override;
 };
 
