@@ -203,6 +203,10 @@ void UGamePhaseManager::OnMainLevelLoaded()
 		bLoading = false;
 		PlayerChar->ExitCinematic();
 		PlayerChar->ClearLockTag(PlayerLockTags::TAG_Loading);
+		if (!ThisPhase->PostLoadEvent.IsNone())
+		{
+			UToroShortcutLibrary::CallRemoteEvent(this, ThisPhase->PostLoadEvent);
+		}
 	}, 0.25f, false);
 }
 

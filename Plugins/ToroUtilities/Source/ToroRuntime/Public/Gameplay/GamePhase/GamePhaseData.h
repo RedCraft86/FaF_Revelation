@@ -51,6 +51,9 @@ public:
 		TArray<TSoftObjectPtr<UTexture2D>> Backgrounds;
 
 	UPROPERTY(EditAnywhere, Category = Game)
+		FName PostLoadEvent;
+
+	UPROPERTY(EditAnywhere, Category = Game)
 		TSoftClassPtr<UQuest> Quest;
 
 	UPROPERTY(EditAnywhere, Category = Game)
