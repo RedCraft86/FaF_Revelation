@@ -72,10 +72,43 @@ void UGamePhaseNode::ApplyPlayerSettings(AToroPlayerCharacter* PlayerChar) const
 }
 
 #if WITH_EDITOR
+void ShowInventoryError(const UInventoryAsset* Asset, const FText& Expected)
+{
+	FNotificationInfo Info(FText::Format(
+		INVTEXT("\"{0}\" is not an {1}"),
+		FText::FromString(GetNameSafe(Asset)), Expected)
+	);
+	Info.ExpireDuration = 1.0f;
+	FSlateNotificationManager::Get().AddNotification(Info);
+}
+
 void UGamePhaseNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	if (!MainLevel.IsNull()) Levels.Remove(MainLevel);
 	if (Quest.LoadSynchronous() == UQuest::StaticClass()) Quest.Reset();
+
+	for (auto It = Archives.CreateIterator(); It; ++It)
+	{
+		const UInventoryAsset* Asset = It->LoadSynchronous();
+		if (Asset && Asset->AssetType != EInvAssetType::Archive)
+		{
+			It->Reset();
+			ShowInventoryError(Asset, INVTEXT("Archive"));
+		}
+	}
+	for (auto It = Items.CreateIterator(); It; ++It)
+	{
+		const UInventoryAsset* Asset = It.Key().LoadSynchronous();
+		if (Asset && Asset->AssetType != EInvAssetType::Item)
+		{
+			It.Key().Reset();
+			ShowInventoryError(Asset, INVTEXT("Item"));
+		}
+		else if (It.Value() == 0)
+		{
+			It.Value() = 1;
+		}
+	}
 }
 #endif

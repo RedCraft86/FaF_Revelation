@@ -2,8 +2,12 @@
 
 #pragma once
 
+#include "InventoryAsset.h"
 #include "Components/ActorComponent.h"
+#include "Framework/ToroPlayerState.h"
+#include "Helpers/ClassGetterMacros.h"
 #include "Helpers/GameplayTagMacros.h"
+#include "SaveSystem/ToroSaveManager.h"
 #include "InventoryManager.generated.h"
 
 namespace InventoryTags
@@ -16,6 +20,17 @@ namespace InventoryTags
 	}
 }
 
+USTRUCT(BlueprintInternalUseOnly)
+struct TORORUNTIME_API FInventoryEquipment
+{
+	GENERATED_BODY()
+
+	UPROPERTY(Transient) TObjectPtr<UInventoryAsset> Item;
+	UPROPERTY(Transient) TObjectPtr<AEquipmentActor> Actor;
+
+	FInventoryEquipment(): Item(nullptr), Actor(nullptr) {}
+};
+
 UCLASS(NotBlueprintable, ClassGroup = (Game), meta = (BlueprintSpawnableComponent))
 class TORORUNTIME_API UInventoryManager final : public UActorComponent
 {
@@ -24,4 +39,53 @@ class TORORUNTIME_API UInventoryManager final : public UActorComponent
 public:
 
 	UInventoryManager() {}
+
+	PLAYER_COMPONENT_GETTER(UInventoryManager, AToroPlayerState, Inventory)
+
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+	static UInventoryManager* GetInventoryManager(const UObject* ContextObject, const int32 PlayerIdx = 0)
+	{
+		return Get(ContextObject, PlayerIdx);
+	}
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void AddItem(UInventoryAsset* InItem, const uint8 Amount = 1);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		bool RemoveItem(UInventoryAsset* InItem, const uint8 Amount = 1);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void AddArchive(UInventoryAsset* InItem);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void UnEquipItem();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void EquipItem(UInventoryAsset* InItem);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void SetEquipmentUsage(const bool bUsing) const;
+	
+	void PullFromSave(const FGameplayTag& Profile);
+	void PushToSave(const FGameplayTag& Profile) const;
+	void EnsureInventory(
+		const TArray<TSoftObjectPtr<UInventoryAsset>>& InArchives,
+		const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& InItems);
+
+	const TArray<TSoftObjectPtr<UInventoryAsset>>& GetArchives() { return Archives; }
+	const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& GetItems() { return Items; }
+	const FInventoryEquipment& GetEquipment() { return Equipment; }
+
+	// TODO ui
+
+private:
+
+	UPROPERTY(Transient) TArray<TSoftObjectPtr<UInventoryAsset>> Archives;
+	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryAsset>, uint8> Items;
+	UPROPERTY(Transient) FInventoryEquipment Equipment;
+
+	TObjectPtr<UToroSaveManager> SaveManager;
+
+	void UpdateUI();
+	virtual void BeginPlay() override;
 };

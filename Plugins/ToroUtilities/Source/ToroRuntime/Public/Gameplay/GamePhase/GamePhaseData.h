@@ -9,6 +9,7 @@
 #include "Actors/TeleportPoint.h"
 #include "DataTypes/LightingData.h"
 #include "Helpers/GameplayTagMacros.h"
+#include "Inventory/InventoryAsset.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "GamePhaseData.generated.h"
 
@@ -70,7 +71,14 @@ public:
 	UPROPERTY(EditAnywhere, Category = Player)
 		FPointLightProperties PlayerLight;
 
-	// TODO inventory integration
+	UPROPERTY(EditAnywhere, Category = Inventory, meta = (Categories = "Inventory"))
+		FGameplayTag InventoryProfile;
+
+	UPROPERTY(EditAnywhere, Category = Inventory)
+		TArray<TSoftObjectPtr<UInventoryAsset>> Archives;
+
+	UPROPERTY(EditAnywhere, Category = Inventory, meta = (ClampMin = 1, UIMin = 1))
+		TMap<TSoftObjectPtr<UInventoryAsset>, uint8> Items;
 
 	TSet<FGameplayTag> GetContentTags() const;
 	TSet<TSoftObjectPtr<UWorld>> GetLevels() const;

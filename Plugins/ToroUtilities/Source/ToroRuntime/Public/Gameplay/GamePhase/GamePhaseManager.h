@@ -54,6 +54,7 @@ private:
 	TSet<TSoftObjectPtr<UWorld>> UnloadLevels;
 	
 	TObjectPtr<class UNarrativeManager> Narrative;
+	TObjectPtr<class UInventoryManager> Inventory;
 	TObjectPtr<class UToroSaveManager> SaveManager;
 	TObjectPtr<class UWorldMusicManager> MusicManager;
 	TObjectPtr<class AToroPlayerCharacter> PlayerChar;
