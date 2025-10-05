@@ -4,12 +4,12 @@
 
 namespace CollisionHelpers
 {
-	static bool IsValidChannel(const ECollisionChannel InChannel)
+	inline bool IsValidChannel(const ECollisionChannel InChannel)
 	{
 		return InChannel != ECC_OverlapAll_Deprecated && InChannel != ECC_MAX; 
 	}
 
-	static bool IsHiddenChannel(const ECollisionChannel InChannel)
+	inline bool IsHiddenChannel(const ECollisionChannel InChannel)
 	{
 #if WITH_EDITOR
 		if (const UEnum* EnumPtr = StaticEnum<ECollisionChannel>())
@@ -20,7 +20,7 @@ namespace CollisionHelpers
 		return false;
 	}
 
-	static void ForEachChannel(const TFunction<void(const ECollisionChannel)>& Func, const bool bIgnoreHidden)
+	inline void ForEachChannel(const TFunction<void(const ECollisionChannel)>& Func, const bool bIgnoreHidden)
 	{
 		if (const UEnum* EnumPtr = StaticEnum<ECollisionChannel>())
 		{
@@ -36,7 +36,7 @@ namespace CollisionHelpers
 		}
 	}
 
-	static void ForEachChannel(const TFunction<void(const ECollisionChannel, const int32, const UEnum*)>& Func, const bool bIgnoreHidden)
+	inline void ForEachChannel(const TFunction<void(const ECollisionChannel, const int32, const UEnum*)>& Func, const bool bIgnoreHidden)
 	{
 		if (const UEnum* EnumPtr = StaticEnum<ECollisionChannel>())
 		{
@@ -52,7 +52,7 @@ namespace CollisionHelpers
 		}
 	}
 
-	static bool IsValidProfile(const FName& ProfileName)
+	inline bool IsValidProfile(const FName& ProfileName)
 	{
 		FCollisionResponseTemplate Template;
 		const UCollisionProfile* Profile = UCollisionProfile::Get();

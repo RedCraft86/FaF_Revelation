@@ -6,7 +6,7 @@
 
 namespace DataCompression
 {
-	static bool OodleCompress(const TArray<uint8>& InData, TArray<uint8>& OutData)
+	inline bool OodleCompress(const TArray<uint8>& InData, TArray<uint8>& OutData)
 	{
 		if (InData.IsEmpty())
 		{
@@ -17,7 +17,7 @@ namespace DataCompression
 			FOodleDataCompression::ECompressor::Kraken, FOodleDataCompression::ECompressionLevel::SuperFast);
 	}
 
-	static bool OodleDecompress(const TArray<uint8>& InData, TArray<uint8>& OutData)
+	inline bool OodleDecompress(const TArray<uint8>& InData, TArray<uint8>& OutData)
 	{
 		if (InData.IsEmpty())
 		{

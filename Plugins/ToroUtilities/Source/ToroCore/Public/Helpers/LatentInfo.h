@@ -5,7 +5,7 @@
 namespace LatentInfo
 {
 	// Start at an offset in case we have other startup tasks on lower IDs
-	static inline uint16 LatentID = 1000;
+	inline uint16 LatentID = 1000;
 
 	inline uint16 GetID() { return LatentID++; }
 

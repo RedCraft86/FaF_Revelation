@@ -53,14 +53,14 @@ enum class EVirtualKeyTriggerType : uint8
 
 namespace WindowsHelpers
 {
-	static EWindowsDialogueResult OpenDialogue(const FString& Title, const FString& Message,
+	inline EWindowsDialogueResult OpenDialogue(const FString& Title, const FString& Message,
 			const EWindowsDialogueType Type, const EWindowsDialogueIcon Icon)
 	{
 		return static_cast<EWindowsDialogueResult>(MessageBox(nullptr, *Message, *Title,
 			static_cast<uint8>(Type) | static_cast<uint8>(Icon)));
 	}
 	
-	static EMouseButtons::Type GetMouseButton(const FKey& InKey)
+	inline EMouseButtons::Type GetMouseButton(const FKey& InKey)
 	{
 		if (InKey.IsMouseButton())
 		{
@@ -74,7 +74,7 @@ namespace WindowsHelpers
 		return EMouseButtons::Invalid;
 	}
 	
-	static void GetKeyCode(const FKey& InKey, int32& KeyCode, int32& CharCode)
+	inline void GetKeyCode(const FKey& InKey, int32& KeyCode, int32& CharCode)
 	{
 		const uint32* KeyCodePtr;
 		const uint32* CharCodePtr;
@@ -83,7 +83,7 @@ namespace WindowsHelpers
 		CharCode = CharCodePtr ? static_cast<int32>(*CharCodePtr) : 0;
 	}
 	
-	static void VirtualKey(const FKey& InKey, const EVirtualKeyTriggerType TriggerType, const bool bRepeat)
+	inline void VirtualKey(const FKey& InKey, const EVirtualKeyTriggerType TriggerType, const bool bRepeat)
 	{
 		if (!FSlateApplication::IsInitialized() || !InKey.IsValid()) return;
 		const TSharedPtr<GenericApplication> PlatformApp = FSlateApplication::Get().GetPlatformApplication();
