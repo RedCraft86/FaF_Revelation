@@ -8,7 +8,17 @@ FInteractionInfo FInteractionInfo::Empty = FInteractionInfo(false, INVTEXT("INVA
 void FInteractionCache::Reset()
 {
 	bTriggered = false;
-	Target = nullptr;
+	SetTarget(nullptr);
+}
+
+void FInteractionCache::SetTarget(AActor* InTarget)
+{
+	IInteractionInterface::SetMarkerState(Target.Get(), true);
+	if (InTarget)
+	{
+		Target = InTarget;
+		IInteractionInterface::SetMarkerState(InTarget, false);
+	}
 }
 
 void FInteractionCache::StopInteract(AToroPlayerCharacter* Player)

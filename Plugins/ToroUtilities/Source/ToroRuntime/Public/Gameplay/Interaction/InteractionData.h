@@ -32,12 +32,20 @@ struct TORORUNTIME_API FInteractionCache
 {
 	GENERATED_BODY()
 
+private:
+
 	bool bTriggered;
 	TWeakObjectPtr<AActor> Target;
+
+public:
 
 	FInteractionCache(): bTriggered(false), Target(nullptr) {}
 
 	void Reset();
+
+	void SetTarget(AActor* InTarget);
+	AActor* GetTarget() const { return Target.Get(); }
+
 	void StopInteract(AToroPlayerCharacter* Player);
 	void StartInteract(AToroPlayerCharacter* Player, const FHitResult& Hit);
 	FInteractionInfo GetInteractInfo(const FHitResult& Hit) const;

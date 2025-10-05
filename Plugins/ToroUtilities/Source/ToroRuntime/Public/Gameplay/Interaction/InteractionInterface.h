@@ -32,6 +32,10 @@ public:
 	virtual void OnPawnInteract_Implementation(APawn* Pawn, const FHitResult& Hit) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
+		void SetMarkerState(const bool bVisible);
+	virtual void SetMarkerState_Implementation(const bool bVisible) {}
+
+	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		FInteractionInfo GetInteractInfo(const FHitResult& Hit);
 	virtual FInteractionInfo GetInteractInfo_Implementation(const FHitResult& Hit)
 	{
@@ -56,6 +60,11 @@ public:
 	static void PawnInteract(UObject* Target, APawn* Pawn, const FHitResult& Hit)
 	{
 		if (ImplementedBy(Target)) Execute_OnPawnInteract(Target, Pawn, Hit);
+	}
+
+	static void SetMarkerState(UObject* Target, const bool bState)
+	{
+		if (ImplementedBy(Target)) Execute_SetMarkerState(Target, bState);
 	}
 
 	static bool GetInteractInfo(UObject* Target, const FHitResult& Hit, FInteractionInfo& InteractionInfo)
