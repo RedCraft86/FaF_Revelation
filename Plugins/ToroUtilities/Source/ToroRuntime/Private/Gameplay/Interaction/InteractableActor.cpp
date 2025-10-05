@@ -1,0 +1,23 @@
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
+
+#include "Gameplay/Interaction/InteractableActor.h"
+
+AInteractableActor::AInteractableActor()
+{
+	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bStartWithTickEnabled = false;
+
+	Marker = CreateDefaultSubobject<UInteractionMarker>("Marker");
+	Marker->SetupAttachment(GetRootComponent());
+}
+
+void AInteractableActor::SetMarkerState_Implementation(const bool bVisible)
+{
+	Marker->SetVisibility(bVisible);
+}
+
+bool AInteractableActor::GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)
+{
+	Info = Interaction;
+	return IsEnabled() && Interaction.bEnabled;
+}
