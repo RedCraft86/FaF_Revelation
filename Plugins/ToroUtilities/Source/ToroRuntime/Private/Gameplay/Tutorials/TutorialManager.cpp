@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Tutorials/TutorialManager.h"
+#include "UserInterface/ToroWidgetManager.h"
 #include "SaveSystem/ToroGlobalSave.h"
 #include "ToroRuntime.h"
 
@@ -42,12 +43,28 @@ const FTutorialEntry* UTutorialManager::GetTutorialData(const FGameplayTag& Key)
 	return Database ? Database->GetEntry(Key) : nullptr;
 }
 
+UTutorialWidget* UTutorialManager::GetTutorialWidget()
+{
+	if (!TutorialWidget)
+	{
+		TutorialWidget = AToroWidgetManager::GetWidget<UTutorialWidget>(this);
+		if (TutorialWidget) TutorialWidget->SetCloseFunc([this]()
+		{
+				MarkTutorialsSeen();
+		});
+	}
+	return TutorialWidget;
+}
+
 void UTutorialManager::QueueInternal(const FGameplayTag& Key)
 {
-	if (!Tutorials.Contains(Key))
+	if (const FTutorialEntry* Data = Tutorials.Contains(Key) ? nullptr: GetTutorialData(Key))
 	{
 		Tutorials.Add(Key);
-		// TODO ui
+		if (UTutorialWidget* Widget = GetTutorialWidget())
+		{
+			Widget->ShowTutorial(*Data);
+		}
 	}
 }
 

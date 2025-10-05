@@ -3,6 +3,7 @@
 #pragma once
 
 #include "TutorialDatabase.h"
+#include "TutorialWidget.h"
 #include "Components/ActorComponent.h"
 #include "Framework/ToroPlayerState.h"
 #include "Helpers/ClassGetterMacros.h"
@@ -43,6 +44,9 @@ private:
 
 	TArray<FGameplayTag> Tutorials;
 	TObjectPtr<UToroSaveManager> SaveManager;
+
+	TObjectPtr<UTutorialWidget> TutorialWidget;
+	UTutorialWidget* GetTutorialWidget();
 
 	void QueueInternal(const FGameplayTag& Key);
 	virtual void BeginPlay() override;
