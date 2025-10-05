@@ -19,7 +19,7 @@ public:
 
 	void SetInteractionInfo(const FInteractionInfo& Info) const;
 
-private:
+protected:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UWidgetSwitcher> IconSwitch;
