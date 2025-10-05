@@ -1,7 +1,8 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Interaction/InteractionManager.h"
-#include "Interaction/InteractionInterface.h"
+#include "Gameplay/Interaction/InteractionInterface.h"
+#include "UserInterface/ToroWidgetManager.h"
 
 UInteractionManager::UInteractionManager(): bEnabled(false), bInteracting(false)
 {
@@ -19,9 +20,10 @@ void UInteractionManager::SetEnabled(const bool bInEnabled)
 		{
 			SetInteracting(false);
 		}
-		else
+
+		if (UInteractionWidget* Widget = GetInteractionWidget())
 		{
-			// UpdateWidget();
+			bEnabled ? Widget->PushWidget() : Widget->PopWidget();
 		}
 	}
 }
@@ -39,13 +41,26 @@ void UInteractionManager::SetInteracting(const bool bInInteracting)
 	}
 }
 
+UInteractionWidget* UInteractionManager::GetInteractionWidget()
+{
+	if (!InteractionWidget)
+	{
+		InteractionWidget = AToroWidgetManager::GetWidget<UInteractionWidget>(this);
+	}
+	return InteractionWidget;
+}
+
 void UInteractionManager::CleanupCache()
 {
-	if (InteractCache.Target.IsValid())
+	if (InteractCache.GetTarget())
 	{
 		InteractCache.StopInteract(PlayerChar);
 		InteractCache.Reset();
-		// UpdateWidget();
+
+		if (const UInteractionWidget* Widget = GetInteractionWidget())
+		{
+			Widget->SetInteractionInfo(FInteractionInfo::Empty);
+		}
 	}
 }
 
@@ -60,7 +75,7 @@ void UInteractionManager::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
 
 	if (!PlayerChar) return;
-	if (!CanInteract() || !bInteracting)
+	if (!CanInteract())
 	{
 		CleanupCache();
 		return;
@@ -76,12 +91,17 @@ void UInteractionManager::TickComponent(float DeltaTime, ELevelTick TickType, FA
 		return;
 	}
 
-	if (InteractCache.Target != HitActor)
+	if (const UInteractionWidget* Widget = GetInteractionWidget())
+	{
+		Widget->SetInteractionInfo(Info);
+	}
+
+	if (!bInteracting) return;
+	if (InteractCache.GetTarget() != HitActor)
 	{
 		InteractCache.StopInteract(PlayerChar);
 
-		InteractCache.Target = HitActor;
+		InteractCache.SetTarget(HitActor);
 		InteractCache.StartInteract(PlayerChar, HitResult);
-		// UpdateWidget();
 	}
 }

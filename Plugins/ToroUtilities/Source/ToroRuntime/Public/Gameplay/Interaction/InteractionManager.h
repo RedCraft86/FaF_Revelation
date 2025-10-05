@@ -3,6 +3,7 @@
 #pragma once
 
 #include "InteractionData.h"
+#include "InteractionWidget.h"
 #include "Components/ActorComponent.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Framework/ToroPlayerCharacter.h"
@@ -47,7 +48,8 @@ private:
 	FInteractionCache InteractCache;
 	TObjectPtr<AToroPlayerCharacter> PlayerChar;
 
-	// TODO ui
+	TObjectPtr<UInteractionWidget> InteractionWidget;
+	UInteractionWidget* GetInteractionWidget();
 
 	void CleanupCache();
 	bool CanInteract() const { return bEnabled && PlayerChar && HandleTrace.IsBound(); }
