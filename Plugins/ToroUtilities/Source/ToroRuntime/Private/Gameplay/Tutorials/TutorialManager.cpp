@@ -6,6 +6,7 @@
 
 void UTutorialManager::QueueTutorial(const FGameplayTag Key)
 {
+	if (!TutorialTags::IsValidTag(Key)) return;
 	const UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr;
 	if (!Save || !Save->Tutorials.Contains(Key))
 	{
@@ -18,6 +19,7 @@ void UTutorialManager::QueueTutorials(const TArray<FGameplayTag>& Keys)
 	const UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr;
 	for (const FGameplayTag& Key : Keys)
 	{
+		if (!TutorialTags::IsValidTag(Key)) continue;
 		if (!Save || !Save->Tutorials.Contains(Key))
 		{
 			QueueInternal(Key);
@@ -42,7 +44,7 @@ const FTutorialEntry* UTutorialManager::GetTutorialData(const FGameplayTag& Key)
 
 void UTutorialManager::QueueInternal(const FGameplayTag& Key)
 {
-	if (TutorialTags::IsValidTag(Key) && !Tutorials.Contains(Key))
+	if (!Tutorials.Contains(Key))
 	{
 		Tutorials.Add(Key);
 		// TODO ui
