@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Tutorials/TutorialWidget.h"
+#include "Framework/ToroPlayerController.h"
 
 void UTutorialEntryWidget::InitializeWidget(const FTutorialEntry& Entry) const
 {
@@ -63,11 +64,28 @@ void UTutorialWidget::CreateEntry(const FTutorialEntry& Entry)
 	}
 }
 
+void UTutorialWidget::PushWidget()
+{
+	Super::PushWidget();
+	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	{
+		InputConfig = PC->GetInputConfig();
+		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
+			EMouseLockMode::LockAlways, false, this});
+		PC->AddPauseRequest(this);
+	}
+}
+
 void UTutorialWidget::PopWidget()
 {
-	Super::PopWidget();
-	EntryContainer->ClearChildren();
+	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	{
+		PC->SetInputConfig(InputConfig);
+		PC->RemovePauseRequest(this);
+	}
 	if (CloseFunc) CloseFunc();
+	EntryContainer->ClearChildren();
+	Super::PopWidget();
 }
 
 void UTutorialWidget::NativeConstruct()

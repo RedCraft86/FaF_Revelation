@@ -3,10 +3,11 @@
 #pragma once
 
 #include "TutorialDatabase.h"
-#include "Components/Button.h"
 #include "Components/Image.h"
+#include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
+#include "DataTypes/GameInputConfig.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "TutorialWidget.generated.h"
 
@@ -74,6 +75,7 @@ protected:
 		TSubclassOf<UTutorialEntryWidget> EntryClass;
 
 	TFunction<void()> CloseFunc;
+	FGameInputConfig InputConfig;
 
 	UFUNCTION() void MoveLeft();
 	UFUNCTION() void MoveRight();
@@ -82,6 +84,7 @@ protected:
 	void UpdatePageCount() const;
 	void CreateEntry(const FTutorialEntry& Entry);
 
+	virtual void PushWidget() override;
 	virtual void PopWidget() override;
 	virtual void NativeConstruct() override;
 };
