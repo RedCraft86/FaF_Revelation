@@ -4,6 +4,8 @@
 #include "Narrative/NarrativeManager.h"
 #include "MusicSystem/WorldMusicManager.h"
 #include "Achievements/AchievementManager.h"
+#include "Inspection/InspectionManager.h"
+#include "Inventory/InventoryManager.h"
 #include "Tutorials/TutorialManager.h"
 
 AToroPlayerState::AToroPlayerState()
@@ -19,6 +21,8 @@ AToroPlayerState::AToroPlayerState()
 	MusicManager->SetupAttachment(GetRootComponent());
 
 	Tutorials = CreateDefaultSubobject<UTutorialManager>("Tutorials");
+	Inventory = CreateDefaultSubobject<UInventoryManager>("Inventory");
+	Inspection = CreateDefaultSubobject<UInspectionManager>("Inspection");
 	Narrative = CreateDefaultSubobject<UNarrativeManager>("Narrative");
 	Achievements = CreateDefaultSubobject<UAchievementManager>("Achievements");
 }

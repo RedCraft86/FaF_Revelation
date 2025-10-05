@@ -26,8 +26,11 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UTutorialManager> Tutorials;
 
-	// UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-	// 	TObjectPtr<class UInventoryManager> Inventory;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UInventoryManager> Inventory;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UInspectionManager> Inspection;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UNarrativeManager> Narrative;
