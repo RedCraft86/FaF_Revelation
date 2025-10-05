@@ -19,7 +19,7 @@ public:
 		: UUserWidget(ObjectInitializer)
 	{}
 
-	static UAchievementEntryWidget* CreateEntry(UUserWidget* Owner, const FAchievementEntry& Entry);
+	void InitializeWidget(const FAchievementEntry& Entry);
 
 protected:
 
@@ -32,7 +32,6 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> EntryAnim;
 
-	void InitializeWidget(const FAchievementEntry& Entry);
 	void OnAnimationFinished(FWidgetAnimationState& State)
 	{
 		RemoveFromParent();
@@ -54,6 +53,9 @@ protected:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UPanelWidget> AchievementList;
+
+	UPROPERTY(EditDefaultsOnly, Category = Settings)
+		TSubclassOf<UAchievementEntryWidget> EntryClass;
 
 	void OnAchievement(const FAchievementEntry& Data);
 

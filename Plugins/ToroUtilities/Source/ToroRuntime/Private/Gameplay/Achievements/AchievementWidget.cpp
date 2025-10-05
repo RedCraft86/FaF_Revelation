@@ -5,17 +5,6 @@
 #include "Animation/UMGSequencePlayer.h"
 #include "Components/PanelWidget.h"
 
-UAchievementEntryWidget* UAchievementEntryWidget::CreateEntry(UUserWidget* Owner, const FAchievementEntry& Entry)
-{
-	if (!Entry.IsValidData()) return nullptr;
-	if (UAchievementEntryWidget* Widget = CreateWidget<UAchievementEntryWidget>(Owner))
-	{
-		Widget->InitializeWidget(Entry);
-		return Widget;
-	}
-	return nullptr;
-}
-
 void UAchievementEntryWidget::InitializeWidget(const FAchievementEntry& Entry)
 {
 	TitleText->SetText(Entry.Name);
@@ -29,7 +18,12 @@ void UAchievementEntryWidget::InitializeWidget(const FAchievementEntry& Entry)
 
 void UAchievementWidget::OnAchievement(const FAchievementEntry& Data)
 {
-	AchievementList->AddChild(UAchievementEntryWidget::CreateEntry(this, Data));
+	if (!Data.IsValidData()) return;
+	if (UAchievementEntryWidget* Widget = CreateWidget<UAchievementEntryWidget>(this, EntryClass))
+	{
+		AchievementList->AddChild(Widget);
+		Widget->InitializeWidget(Data);
+	}
 }
 
 void UAchievementWidget::NativeConstruct()
