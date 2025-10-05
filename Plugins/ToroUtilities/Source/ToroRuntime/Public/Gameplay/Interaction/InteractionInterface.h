@@ -36,10 +36,10 @@ public:
 	virtual void SetMarkerState_Implementation(const bool bVisible) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
-		FInteractionInfo GetInteractInfo(const FHitResult& Hit);
-	virtual FInteractionInfo GetInteractInfo_Implementation(const FHitResult& Hit)
+		bool GetInteractInfo(const FHitResult& Hit, FInteractionInfo& Info);
+	virtual bool GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)
 	{
-		return FInteractionInfo::Empty;
+		return false;
 	}
 
 	static bool ImplementedBy(const UObject* Target) 
@@ -67,9 +67,8 @@ public:
 		if (ImplementedBy(Target)) Execute_SetMarkerState(Target, bState);
 	}
 
-	static bool GetInteractInfo(UObject* Target, const FHitResult& Hit, FInteractionInfo& InteractionInfo)
+	static bool GetInteractInfo(UObject* Target, const FHitResult& Hit, FInteractionInfo& Info)
 	{
-		InteractionInfo = ImplementedBy(Target) ? Execute_GetInteractInfo(Target, Hit) : FInteractionInfo::Empty;
-		return InteractionInfo.bEnabled;
+		return ImplementedBy(Target) && Execute_GetInteractInfo(Target, Hit, Info);
 	}
 };
