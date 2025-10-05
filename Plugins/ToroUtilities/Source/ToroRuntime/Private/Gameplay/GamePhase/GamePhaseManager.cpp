@@ -80,7 +80,7 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 	{
 		if (ULoadingScreenWidget* Widget = GetLoadingWidget())
 		{
-			Widget->ShowScreen(ThisPhase->bSimpleLoading);
+			Widget->ShowWidget(ThisPhase->bSimpleLoading);
 		}
 
 		if (OldPhase)

@@ -63,7 +63,7 @@ void UTutorialManager::QueueInternal(const FGameplayTag& Key)
 		Tutorials.Add(Key);
 		if (UTutorialWidget* Widget = GetTutorialWidget())
 		{
-			Widget->ShowTutorial(*Data);
+			Widget->ShowWidget(*Data);
 		}
 	}
 }

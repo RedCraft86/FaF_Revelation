@@ -44,7 +44,7 @@ public:
 
 	UTutorialWidget(const FObjectInitializer& ObjectInitializer);
 
-	void ShowTutorial(const FTutorialEntry& Entry);
+	void ShowWidget(const FTutorialEntry& Entry);
 	void SetCloseFunc(const TFunction<void()>& OnClose)
 	{
 		CloseFunc = OnClose;

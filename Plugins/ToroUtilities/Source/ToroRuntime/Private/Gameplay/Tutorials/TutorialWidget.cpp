@@ -15,7 +15,7 @@ UTutorialWidget::UTutorialWidget(const FObjectInitializer& ObjectInitializer)
 	bAutoPush = false;
 }
 
-void UTutorialWidget::ShowTutorial(const FTutorialEntry& Entry)
+void UTutorialWidget::ShowWidget(const FTutorialEntry& Entry)
 {
 	CreateEntry(Entry);
 	if (!IsPushed())

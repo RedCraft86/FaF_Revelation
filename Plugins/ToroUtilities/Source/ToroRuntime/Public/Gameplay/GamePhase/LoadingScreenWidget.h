@@ -22,7 +22,7 @@ public:
 		FText FormatProgress(const FIntPoint& Progress);
 	FText FormatProgress_Implementation(const FIntPoint& Progress);
 
-	void ShowScreen(const bool bMinimalUI);
+	void ShowWidget(const bool bMinimalUI);
 
 protected:
 

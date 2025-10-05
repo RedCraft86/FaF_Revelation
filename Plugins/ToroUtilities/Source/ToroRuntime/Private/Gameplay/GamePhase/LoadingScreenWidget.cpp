@@ -14,7 +14,7 @@ FText ULoadingScreenWidget::FormatProgress_Implementation(const FIntPoint& Progr
 	return FText::Format(INVTEXT("Loading: {0}/{1} Packages"), Progress.X, Progress.Y);
 }
 
-void ULoadingScreenWidget::ShowScreen(const bool bMinimalUI)
+void ULoadingScreenWidget::ShowWidget(const bool bMinimalUI)
 {
 	if (!IsPushed())
 	{
