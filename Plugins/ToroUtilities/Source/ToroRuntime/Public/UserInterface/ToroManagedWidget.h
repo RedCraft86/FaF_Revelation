@@ -21,6 +21,9 @@ public:
 		: Super(ObjectInitializer), bAutoPush(true), bIsPushed(false)
 	{}
 
+	UFUNCTION(BlueprintPure, Category = ManagedWidget)
+		bool IsPushed() const { return bIsPushed; }
+
 	virtual void PushWidget();
 	virtual void PopWidget();
 
