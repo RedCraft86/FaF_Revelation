@@ -4,7 +4,6 @@
 #include "Libraries/ToroGeneralUtils.h"
 #include "Libraries/ToroShortcutLibrary.h"
 #include "Narrative/NarrativeManager.h"
-#include "Inventory/InventoryManager.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "MusicSystem/WorldMusicManager.h"
 #include "Framework/ToroPlayerCharacter.h"
@@ -83,15 +82,6 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 			Widget->ShowScreen(ThisPhase->bSimpleLoading);
 		}
 
-		if (OldPhase)
-		{
-			Inventory->PushToSave(OldPhase->InventoryProfile);
-		}
-		if (!OldPhase || OldPhase->InventoryProfile != ThisPhase->InventoryProfile)
-		{
-			Inventory->PullFromSave(ThisPhase->InventoryProfile);
-		}
-		ThisPhase->EnsureInventoryItems(Inventory);
 		PlayerChar->Teleport(FVector::ZeroVector, FRotator::ZeroRotator);
 
 		for (const TSoftObjectPtr<UWorld>& Level : UnloadLevels)
@@ -222,7 +212,6 @@ void UGamePhaseManager::BeginPlay()
 			GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 			{
 				Narrative = UNarrativeManager::Get(this);
-				Inventory = UInventoryManager::Get(this);
 				SaveManager = UToroSaveManager::Get(this);
 				MusicManager = UWorldMusicManager::Get(this);
 				PlayerChar = AToroPlayerCharacter::Get(this);

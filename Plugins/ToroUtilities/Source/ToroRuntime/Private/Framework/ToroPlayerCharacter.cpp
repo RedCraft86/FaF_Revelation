@@ -4,7 +4,6 @@
 #include "Framework/ToroPlayerController.h"
 #include "Components/PointLightComponent.h"
 #include "Interaction/InteractionManager.h"
-#include "Inspection/InspectionManager.h"
 #include "Libraries/ToroLightingUtils.h"
 #include "Camera/CameraComponent.h"
 #include "ToroRuntime.h"
@@ -32,9 +31,6 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
 	PlayerCamera->SetupAttachment(GetMesh());
-
-	Inspection = CreateDefaultSubobject<UInspectionManager>("Inspection");
-	Inspection->SetupAttachment(PlayerCamera);
 
 	Interaction = CreateDefaultSubobject<UInteractionManager>("Interaction");
 

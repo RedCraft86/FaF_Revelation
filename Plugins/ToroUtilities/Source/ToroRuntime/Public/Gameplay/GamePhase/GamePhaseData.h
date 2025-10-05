@@ -8,7 +8,6 @@
 #include "MetasoundSource.h"
 #include "Actors/TeleportPoint.h"
 #include "DataTypes/LightingData.h"
-#include "Inventory/InventoryAsset.h"
 #include "Helpers/GameplayTagMacros.h"
 #include "MiscObjects/UDSSetterObject.h"
 #include "GamePhaseData.generated.h"
@@ -71,14 +70,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Player)
 		FPointLightProperties PlayerLight;
 
-	UPROPERTY(EditAnywhere, Category = Inventory, meta = (Categories = "Inventory"))
-		FGameplayTag InventoryProfile;
-
-	UPROPERTY(EditAnywhere, Category = Inventory)
-		TMap<TSoftObjectPtr<UInventoryAsset>, bool> Archives;
-
-	UPROPERTY(EditAnywhere, Category = Inventory, meta = (ClampMin = 1, UIMin = 1))
-		TMap<TSoftObjectPtr<UInventoryAsset>, uint8> Items;
+	// TODO inventory integration
 
 	TSet<FGameplayTag> GetContentTags() const;
 	TSet<TSoftObjectPtr<UWorld>> GetLevels() const;
@@ -86,7 +78,6 @@ public:
 	
 	virtual void TeleportPlayer() const;
 	virtual void ApplyPlayerSettings(class AToroPlayerCharacter* PlayerChar) const;
-	virtual void EnsureInventoryItems(class UInventoryManager* Inventory) const;
 
 #if WITH_EDITOR
 private:

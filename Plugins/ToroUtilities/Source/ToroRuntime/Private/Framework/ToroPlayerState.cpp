@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroPlayerState.h"
-#include "Inventory/InventoryManager.h"
 #include "Narrative/NarrativeManager.h"
 #include "MusicSystem/WorldMusicManager.h"
 #include "Achievements/AchievementManager.h"
@@ -20,7 +19,6 @@ AToroPlayerState::AToroPlayerState()
 	MusicManager->SetupAttachment(GetRootComponent());
 
 	Tutorials = CreateDefaultSubobject<UTutorialManager>("Tutorials");
-	Inventory = CreateDefaultSubobject<UInventoryManager>("Inventory");
 	Narrative = CreateDefaultSubobject<UNarrativeManager>("Narrative");
 	Achievements = CreateDefaultSubobject<UAchievementManager>("Achievements");
 }
