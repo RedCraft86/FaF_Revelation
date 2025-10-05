@@ -8,7 +8,7 @@
 #include "InteractableActor.generated.h"
 
 UCLASS(Abstract, meta = (ChildCanTick = true))
-class TORORUNTIME_API AInteractableActor final : public AToroActor, public IInteractionInterface
+class TORORUNTIME_API AInteractableActor : public AToroActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 

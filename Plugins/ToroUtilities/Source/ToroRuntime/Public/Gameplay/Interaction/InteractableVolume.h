@@ -8,7 +8,7 @@
 #include "InteractableVolume.generated.h"
 
 UCLASS(Abstract)
-class TORORUNTIME_API AInteractableVolume final : public AToroVolume, public IInteractionInterface
+class TORORUNTIME_API AInteractableVolume : public AToroVolume, public IInteractionInterface
 {
 	GENERATED_BODY()
 
