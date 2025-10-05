@@ -16,6 +16,12 @@ void UAchievementEntryWidget::InitializeWidget(const FAchievementEntry& Entry)
 	}
 }
 
+UAchievementWidget::UAchievementWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
+{
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
 void UAchievementWidget::OnAchievement(const FAchievementEntry& Data)
 {
 	if (!Data.IsValidData()) return;

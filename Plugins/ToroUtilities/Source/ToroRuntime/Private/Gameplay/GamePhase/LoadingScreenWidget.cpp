@@ -6,6 +6,7 @@ ULoadingScreenWidget::ULoadingScreenWidget(const FObjectInitializer& ObjectIniti
 	: Super(ObjectInitializer), bMinimal(false), MaxPackages(0)
 {
 	bAutoPush = false;
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 FText ULoadingScreenWidget::FormatProgress_Implementation(const FIntPoint& Progress)

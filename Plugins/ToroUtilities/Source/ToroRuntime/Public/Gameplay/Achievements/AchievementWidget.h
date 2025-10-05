@@ -45,9 +45,7 @@ class TORORUNTIME_API UAchievementWidget final : public UToroManagedWidget
 
 public:
 
-	UAchievementWidget(const FObjectInitializer& ObjectInitializer)
-		: Super(ObjectInitializer)
-	{}
+	UAchievementWidget(const FObjectInitializer& ObjectInitializer);
 
 protected:
 
