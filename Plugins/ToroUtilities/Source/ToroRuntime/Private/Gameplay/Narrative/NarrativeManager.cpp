@@ -1,12 +1,15 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Narrative/NarrativeManager.h"
-#include "Framework/ToroPlayerController.h"
+#include "UserInterface/ToroWidgetManager.h"
 #include "Framework/ToroPlayerCharacter.h"
 
-void UNarrativeManager::ToggleQuests() const
+void UNarrativeManager::ToggleQuests()
 {
-	// TODO ui
+	if (UQuestWidget* Widget = GetQuestWidget())
+	{
+		Widget->SetHidden(!Widget->WantsHidden());
+	}
 }
 
 void UNarrativeManager::DialogueBegan(UDialogue* Dialogue)
@@ -38,4 +41,14 @@ void UNarrativeManager::DialogueFinished(UDialogue* Dialogue, const bool bStarti
 		}
 	}
 		// TODO ui
+
+UQuestWidget* UNarrativeManager::GetQuestWidget()
+{
+	if (!QuestWidget)
+	{
+		QuestWidget = AToroWidgetManager::GetWidget<UQuestWidget>(this);
+	}
+	return QuestWidget;
+}
+
 }

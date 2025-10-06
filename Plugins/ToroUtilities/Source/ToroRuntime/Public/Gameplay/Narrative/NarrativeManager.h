@@ -3,6 +3,7 @@
 #pragma once
 
 #include "NarrativeComponent.h"
+#include "Widgets/QuestWidget.h"
 #include "DataTypes/GameInputConfig.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Framework/ToroPlayerState.h"
@@ -32,4 +33,7 @@ public:
 private:
 
 	FGameInputConfig CachedInputConfig;
+	TObjectPtr<UQuestWidget> QuestWidget;
+	UQuestWidget* GetQuestWidget();
+
 };
