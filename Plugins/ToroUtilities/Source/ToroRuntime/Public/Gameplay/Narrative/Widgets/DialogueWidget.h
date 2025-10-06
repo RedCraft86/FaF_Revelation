@@ -22,8 +22,7 @@ public:
 
 	UDialogueReplyWidget(const FObjectInitializer& ObjectInitializer);
 
-	void MarkSelected();
-	void MarkUnselected();
+	void SetSelectState(const bool bSelected);
 	void InitializeWidget(UDialogueWidget* InParent, UDialogue* InDialogue, UDialogueNode_Player* InReply);
 	FName GetID() const { return ReplyObj ? ReplyObj->GetID() : NAME_None; }
 

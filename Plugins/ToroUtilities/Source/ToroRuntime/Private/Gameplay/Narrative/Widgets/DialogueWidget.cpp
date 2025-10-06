@@ -12,16 +12,10 @@ UDialogueReplyWidget::UDialogueReplyWidget(const FObjectInitializer& ObjectIniti
 {
 }
 
-void UDialogueReplyWidget::MarkSelected()
+void UDialogueReplyWidget::SetSelectState(const bool bSelected)
 {
-	SetRenderOpacity(1.0f);
-	DisplayText->SetColorAndOpacity(SelectedColor);
-}
-
-void UDialogueReplyWidget::MarkUnselected()
-{
-	SetRenderOpacity(0.5f);
-	DisplayText->SetColorAndOpacity(UnselectedColor);
+	SetRenderOpacity(bSelected ? 1.0f : 0.5f);
+	DisplayText->SetColorAndOpacity(bSelected ? SelectedColor : UnselectedColor);
 }
 
 void UDialogueReplyWidget::InitializeWidget(UDialogueWidget* InParent, UDialogue* InDialogue, UDialogueNode_Player* InReply)
@@ -163,7 +157,7 @@ void UDialogueWidget::SelectReplyOption(UDialogueNode_Player* InChoice)
 	Manager->SelectDialogueOption(InChoice);
 	for (UDialogueReplyWidget* Reply : Replies)
 	{
-		(Reply->GetID() == InChoice->GetID()) ? Reply->MarkSelected() : Reply->MarkUnselected();
+		Reply->SetSelectState(Reply->GetID() == InChoice->GetID());
 	}
 
 	SkipButton->SetIsEnabled(true);
