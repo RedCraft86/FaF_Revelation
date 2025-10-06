@@ -4,7 +4,7 @@
 
 #include "NarrativeComponent.h"
 #include "Widgets/QuestWidget.h"
-#include "DataTypes/GameInputConfig.h"
+#include "Widgets/DialogueWidget.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Framework/ToroPlayerState.h"
 #include "NarrativeManager.generated.h"
@@ -35,8 +35,9 @@ public:
 
 private:
 
-	FGameInputConfig CachedInputConfig;
 	TObjectPtr<UQuestWidget> QuestWidget;
 	UQuestWidget* GetQuestWidget();
 
+	TObjectPtr<UDialogueWidget> DialogueWidget;
+	UDialogueWidget* GetDialogueWidget();
 };

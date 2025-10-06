@@ -15,32 +15,30 @@ void UNarrativeManager::ToggleQuests()
 void UNarrativeManager::DialogueBegan(UDialogue* Dialogue)
 {
 	Super::DialogueBegan(Dialogue);
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+	if (UDialogueWidget* Widget = GetDialogueWidget())
 	{
-		CachedInputConfig = PC->GetInputConfig();
-		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
-			EMouseLockMode::LockAlways, false, nullptr});
-		if (AToroPlayerCharacter* Player = PC->GetPawn<AToroPlayerCharacter>())
-		{
-			Player->AddLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
-		}
+		Widget->PushWidget();
 	}
-		// TODO ui
+	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
+	{
+		// TODO begin lock on
+		Player->AddLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
+	}
 }
 
 void UNarrativeManager::DialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
 {
 	Super::DialogueFinished(Dialogue, bStartingNewDialogue);
-	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+	if (UDialogueWidget* Widget = GetDialogueWidget())
 	{
-		PC->SetInputConfig(CachedInputConfig);
-		CachedInputConfig.ClearAndReset();
-		if (AToroPlayerCharacter* Player = PC->GetPawn<AToroPlayerCharacter>())
-		{
-			Player->ClearLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
-		}
+		Widget->PopWidget();
 	}
-		// TODO ui
+	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
+	{
+		// TODO end lock on
+		Player->ClearLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
+	}
+}
 
 UQuestWidget* UNarrativeManager::GetQuestWidget()
 {
@@ -51,4 +49,11 @@ UQuestWidget* UNarrativeManager::GetQuestWidget()
 	return QuestWidget;
 }
 
+UDialogueWidget* UNarrativeManager::GetDialogueWidget()
+{
+	if (!DialogueWidget)
+	{
+		DialogueWidget = AToroWidgetManager::GetWidget<UDialogueWidget>(this);
+	}
+	return DialogueWidget;
 }
