@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroRuntime.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "DataTypes/GameInputConfig.h"
@@ -39,4 +40,8 @@ protected:
 	FGameInputConfig InputConfig;
 
 	virtual void PushWidget() override;
+	virtual bool CanCreateWidget(const UObject* ContextObject) const override
+	{
+		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
+	}
 };

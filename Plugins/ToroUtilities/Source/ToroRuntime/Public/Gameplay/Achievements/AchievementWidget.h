@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroRuntime.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "AchievementDatabase.h"
@@ -58,4 +59,8 @@ protected:
 	void OnAchievement(const FAchievementEntry& Data);
 
 	virtual void InitWidget(APlayerController* Controller) override;
+	virtual bool CanCreateWidget(const UObject* ContextObject) const override
+	{
+		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
+	}
 };

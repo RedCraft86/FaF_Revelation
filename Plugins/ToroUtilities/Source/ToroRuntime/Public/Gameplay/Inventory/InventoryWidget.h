@@ -2,8 +2,9 @@
 
 #pragma once
 
-#include "Components/Button.h"
+#include "ToroRuntime.h"
 #include "Components/Image.h"
+#include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "DataTypes/GameInputConfig.h"
@@ -73,4 +74,8 @@ protected:
 	TObjectPtr<class UInventoryManager> Manager;
 
 	virtual void InitWidget(APlayerController* Controller) override;
+	virtual bool CanCreateWidget(const UObject* ContextObject) const override
+	{
+		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
+	}
 };

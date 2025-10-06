@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroRuntime.h"
 #include "TutorialDatabase.h"
 #include "Components/Image.h"
 #include "Components/Button.h"
@@ -87,4 +88,8 @@ protected:
 	virtual void PushWidget() override;
 	virtual void PopWidget() override;
 	virtual void InitWidget(APlayerController* Controller) override;
+	virtual bool CanCreateWidget(const UObject* ContextObject) const override
+	{
+		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
+	}
 };
