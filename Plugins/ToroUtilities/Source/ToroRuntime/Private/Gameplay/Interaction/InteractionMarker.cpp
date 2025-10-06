@@ -19,8 +19,12 @@ UInteractionMarker::UInteractionMarker(): MaxDistance(250.0f)
 
 #if WITH_EDITOR
 	bTickInEditor = true;
-	UBillboardComponent::SetSprite(LoadObject<UTexture2D>(nullptr,
-		TEXT("/ToroUtilities/Assets/T_Interactable.T_Interactable")));
+	const ConstructorHelpers::FObjectFinder<UTexture2D> SpriteFinder(
+		TEXT("/ToroUtilities/Assets/T_Interactable.T_Interactable"));
+	if (SpriteFinder.Succeeded())
+	{
+		UBillboardComponent::SetSprite(SpriteFinder.Object);
+	}
 #endif
 }
 
