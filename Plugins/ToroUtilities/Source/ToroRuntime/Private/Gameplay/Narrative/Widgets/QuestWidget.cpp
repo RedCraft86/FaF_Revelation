@@ -61,10 +61,10 @@ void UQuestWidget::AddOrUpdateQuestBranch(const UQuestBranch* Branch)
 		TArray<FText> Tasks;
 		for (const UNarrativeTask* Task : Branch->QuestTasks)
 		{
-			if (Task && !Task->bHidden && !Task->IsComplete())
+			if (Manager && Task && !Task->bHidden && !Task->IsComplete())
 			{
-				Tasks.Add(FText::Format(INVTEXT("{0}{1} {2}"),
-					TaskPrefix, Task->GetTaskDescription(), Task->GetTaskProgressText()));
+				Tasks.Add(Manager->InjectTextVariables(FText::Format(INVTEXT("{0}{1} {2}"),
+					TaskPrefix, Task->GetTaskDescription(), Task->GetTaskProgressText())));
 			}
 		}
 		if (Tasks.IsEmpty()) return;

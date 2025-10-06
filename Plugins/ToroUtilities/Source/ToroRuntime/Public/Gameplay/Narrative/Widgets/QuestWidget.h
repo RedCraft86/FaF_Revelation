@@ -29,9 +29,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = Settings)
 		FSlateFontInfo TaskFont;
 
-	UFUNCTION(BlueprintImplementableEvent)
-		FText InjectTextVariables(const FText& InText) const;
-
 	UPROPERTY(Transient)
 		TMap<TObjectPtr<const UQuestBranch>, TObjectPtr<UVerticalBox>> BranchBoxes;
 
