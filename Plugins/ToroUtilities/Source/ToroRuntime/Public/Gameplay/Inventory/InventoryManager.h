@@ -3,10 +3,11 @@
 #pragma once
 
 #include "InventoryAsset.h"
-#include "Components/ActorComponent.h"
-#include "Framework/ToroPlayerState.h"
+#include "InventoryWidget.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "Helpers/GameplayTagMacros.h"
+#include "Components/ActorComponent.h"
+#include "Framework/ToroPlayerState.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "InventoryManager.generated.h"
 
@@ -65,6 +66,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 		void SetEquipmentUsage(const bool bUsing) const;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void OpenInventory();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void CloseInventory();
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		bool IsInventoryOpen();
 	
 	void PullFromSave(const FGameplayTag& Profile);
 	void PushToSave(const FGameplayTag& Profile) const;
@@ -76,8 +86,6 @@ public:
 	const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& GetItems() { return Items; }
 	const FInventoryEquipment& GetEquipment() { return Equipment; }
 
-	// TODO ui
-
 private:
 
 	UPROPERTY(Transient) TArray<TSoftObjectPtr<UInventoryAsset>> Archives;
@@ -85,6 +93,9 @@ private:
 	UPROPERTY(Transient) FInventoryEquipment Equipment;
 
 	TObjectPtr<UToroSaveManager> SaveManager;
+
+	TObjectPtr<UInventoryWidget> InventoryWidget;
+	UInventoryWidget* GetInventoryWidget();
 
 	void UpdateUI();
 	virtual void BeginPlay() override;

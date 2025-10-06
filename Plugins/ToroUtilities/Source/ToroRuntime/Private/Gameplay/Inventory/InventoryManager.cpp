@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Inventory/InventoryManager.h"
+#include "UserInterface/ToroWidgetManager.h"
 #include "SaveSystem/ToroGameSave.h"
 
 namespace InventoryTags
@@ -76,6 +77,28 @@ void UInventoryManager::SetEquipmentUsage(const bool bUsing) const
 	}
 }
 
+void UInventoryManager::OpenInventory()
+{
+	if (UInventoryWidget* Widget = GetInventoryWidget())
+	{
+		Widget->PushWidget();
+	}
+}
+
+void UInventoryManager::CloseInventory()
+{
+	if (UInventoryWidget* Widget = GetInventoryWidget())
+	{
+		Widget->PopWidget();
+	}
+}
+
+bool UInventoryManager::IsInventoryOpen()
+{
+	UInventoryWidget* Widget = GetInventoryWidget();
+	return Widget && Widget->IsPushed();
+}
+
 void UInventoryManager::PullFromSave(const FGameplayTag& Profile)
 {
 	if (!InventoryTags::IsValidTag(Profile)) return;
@@ -113,9 +136,21 @@ void UInventoryManager::EnsureInventory(
 	}
 }
 
+UInventoryWidget* UInventoryManager::GetInventoryWidget()
+{
+	if (!InventoryWidget)
+	{
+		InventoryWidget = AToroWidgetManager::GetWidget<UInventoryWidget>(this);
+	}
+	return InventoryWidget;
+}
+
 void UInventoryManager::UpdateUI()
 {
-	// TODO ui
+	if (UInventoryWidget* Widget = GetInventoryWidget())
+	{
+		Widget->UpdateWidget();
+	}
 }
 
 void UInventoryManager::BeginPlay()
