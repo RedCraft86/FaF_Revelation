@@ -41,7 +41,7 @@ protected:
 
 	// TODO ui
 	FTimerHandle FadedPlayHandle;
-	FGameInputConfig CachedInput;
+	FGameInputConfig InputConfig;
 	TObjectPtr<UToroSaveManager> SaveManager;
 
 	void OnFinished();
