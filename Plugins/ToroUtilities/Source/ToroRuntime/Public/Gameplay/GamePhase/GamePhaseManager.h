@@ -42,8 +42,6 @@ public:
 	UFUNCTION(BlueprintPure, Category = GamePhase)
 		bool IsLoading() const { return bLoading; }
 
-	// TODO ui
-
 private:
 
 	bool bLoading;
