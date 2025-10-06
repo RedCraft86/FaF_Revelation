@@ -18,10 +18,10 @@ public:
 		static UToroWidgetBase* CreateToroWidget(APlayerController* Owner, const TSubclassOf<UToroWidgetBase> WidgetClass);
 
 	UFUNCTION(BlueprintCallable, Category = UserInterface)
-		void FadeInWidget();
+		void SetHidden(const bool bInHidden);
 
-	UFUNCTION(BlueprintCallable, Category = UserInterface)
-		void FadeOutWidget();
+	UFUNCTION(BlueprintPure, Category = UserInterface)
+		bool WantsHidden() const { return bWantsToHide; }
 
 protected:
 

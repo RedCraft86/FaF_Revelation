@@ -32,16 +32,13 @@ UToroWidgetBase* UToroWidgetBase::CreateToroWidget(APlayerController* Owner, con
 	return nullptr;
 }
 
-void UToroWidgetBase::FadeInWidget()
+void UToroWidgetBase::SetHidden(const bool bInHidden)
 {
-	bWantsToHide = false;
-	HideCheckTime = HIDE_CHECK_INTERVAL;
-}
-
-void UToroWidgetBase::FadeOutWidget()
-{
-	bWantsToHide = true;
-	HideCheckTime = HIDE_CHECK_INTERVAL;
+	if (bWantsToHide != bInHidden)
+	{
+		bWantsToHide = bInHidden;
+		HideCheckTime = HIDE_CHECK_INTERVAL;
+	}
 }
 
 void UToroWidgetBase::UpdateFadeState()
@@ -63,12 +60,12 @@ void UToroWidgetBase::InternalProcessActivation()
 {
 	Super::InternalProcessActivation();
 	SetVisibility(ESlateVisibility::Visible);
-	FadeInWidget();
+	SetHidden(false);
 }
 
 void UToroWidgetBase::InternalProcessDeactivation()
 {
-	FadeOutWidget();
+	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
 	Super::InternalProcessDeactivation();
 }
