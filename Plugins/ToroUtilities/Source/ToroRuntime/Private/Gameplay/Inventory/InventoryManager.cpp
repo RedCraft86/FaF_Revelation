@@ -49,13 +49,13 @@ void UInventoryManager::UnEquipItem()
 
 void UInventoryManager::EquipItem(UInventoryAsset* InItem)
 {
-	if (!InItem || !InItem->IsValidEquipment() || Equipment.Item == InItem) return;
-	
+	if (Equipment.Item == InItem) return;
 	if (Equipment.Actor)
 	{
 		UnEquipItem();
 	}
 
+	if (!InItem || !InItem->IsValidEquipment()) return;
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this, NewItem = InItem]()
 	{
 		Equipment.Actor = GetWorld()->SpawnActor<AEquipmentActor>(
