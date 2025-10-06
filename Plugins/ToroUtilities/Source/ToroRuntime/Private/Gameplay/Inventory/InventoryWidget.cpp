@@ -38,9 +38,9 @@ void UInventoryWidget::PopWidget()
 	Super::PopWidget();
 }
 
-void UInventoryWidget::NativeConstruct()
+void UInventoryWidget::InitWidget(APlayerController* Controller)
 {
-	Super::NativeConstruct();
+	Super::InitWidget(Controller);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		Manager = UInventoryManager::Get(this);

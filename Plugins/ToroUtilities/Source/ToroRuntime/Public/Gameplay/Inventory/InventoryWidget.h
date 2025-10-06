@@ -72,5 +72,5 @@ protected:
 	FGameInputConfig InputConfig;
 	TObjectPtr<class UInventoryManager> Manager;
 
-	virtual void NativeConstruct() override;
+	virtual void InitWidget(APlayerController* Controller) override;
 };

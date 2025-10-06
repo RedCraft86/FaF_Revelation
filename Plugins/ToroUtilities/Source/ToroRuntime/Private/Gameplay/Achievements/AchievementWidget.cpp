@@ -32,9 +32,9 @@ void UAchievementWidget::OnAchievement(const FAchievementEntry& Data)
 	}
 }
 
-void UAchievementWidget::NativeConstruct()
+void UAchievementWidget::InitWidget(APlayerController* Controller)
 {
-	Super::NativeConstruct();
+	Super::InitWidget(Controller);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		if (UAchievementManager* Manager = UAchievementManager::Get(this))

@@ -88,9 +88,9 @@ void UTutorialWidget::PopWidget()
 	Super::PopWidget();
 }
 
-void UTutorialWidget::NativeConstruct()
+void UTutorialWidget::InitWidget(APlayerController* Controller)
 {
-	Super::NativeConstruct();
+	Super::InitWidget(Controller);
 	CloseButton->OnClicked.AddUniqueDynamic(this, &UTutorialWidget::CloseMenu);
 	LeftButton->OnClicked.AddUniqueDynamic(this, &UTutorialWidget::MoveLeft);
 	RightButton->OnClicked.AddUniqueDynamic(this, &UTutorialWidget::MoveRight);

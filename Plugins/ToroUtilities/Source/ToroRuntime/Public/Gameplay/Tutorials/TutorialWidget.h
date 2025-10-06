@@ -86,5 +86,5 @@ protected:
 
 	virtual void PushWidget() override;
 	virtual void PopWidget() override;
-	virtual void NativeConstruct() override;
+	virtual void InitWidget(APlayerController* Controller) override;
 };

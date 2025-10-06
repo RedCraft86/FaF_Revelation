@@ -57,5 +57,5 @@ protected:
 
 	void OnAchievement(const FAchievementEntry& Data);
 
-	virtual void NativeConstruct() override;
+	virtual void InitWidget(APlayerController* Controller) override;
 };
