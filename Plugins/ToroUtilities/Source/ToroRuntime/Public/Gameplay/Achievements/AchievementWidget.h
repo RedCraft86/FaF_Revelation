@@ -33,6 +33,8 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> EntryAnim;
 
+	FDelegateHandle OnFinishHandle;
+
 	void OnAnimationFinished(FWidgetAnimationState& State)
 	{
 		RemoveFromParent();

@@ -9,9 +9,10 @@ void UAchievementEntryWidget::InitializeWidget(const FAchievementEntry& Entry)
 {
 	TitleText->SetText(Entry.Name);
 	IconImage->SetBrushFromTexture(Entry.Icon.LoadSynchronous());
-	if (FWidgetAnimationState* State = PlayAnimation(EntryAnim).GetAnimationState())
+	FWidgetAnimationState* State = PlayAnimation(EntryAnim).GetAnimationState();
+	if (State && !OnFinishHandle.IsValid())
 	{
-		State->GetOnWidgetAnimationFinished().AddUObject(
+		OnFinishHandle = State->GetOnWidgetAnimationFinished().AddUObject(
 			this, &UAchievementEntryWidget::OnAnimationFinished);
 	}
 }
