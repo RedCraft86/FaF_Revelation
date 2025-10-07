@@ -6,6 +6,7 @@
 UCutsceneWidget::UCutsceneWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), SkipKey(EKeys::Enter), HoldTime(2.0f), bHolding(false), Progress(0.0f)
 {
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UCutsceneWidget::ShowWidget(AToroCutsceneActor* InCutscene)
