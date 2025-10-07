@@ -3,7 +3,7 @@
 #pragma once
 
 #include "LevelSequenceActor.h"
-#include "MiscActors/ToroCutsceneActor.h"
+#include "Gameplay/Cutscenes/ToroCutsceneActor.h"
 #include "Gameplay/WorldActions/WorldActionBase.h"
 #include "SequenceActions.generated.h"
 

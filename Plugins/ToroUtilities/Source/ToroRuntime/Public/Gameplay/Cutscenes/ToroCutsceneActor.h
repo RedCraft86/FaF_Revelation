@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "CutsceneWidget.h"
 #include "LevelSequenceActor.h"
 #include "Interfaces/GuidInterface.h"
 #include "DataTypes/GameInputConfig.h"
@@ -39,10 +40,12 @@ protected:
 	UPROPERTY(EditAnywhere, Category = General, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
 		FGuid CutsceneGuid;
 
-	// TODO ui
 	FTimerHandle FadedPlayHandle;
 	FGameInputConfig InputConfig;
 	TObjectPtr<UToroSaveManager> SaveManager;
+
+	TObjectPtr<UCutsceneWidget> CutsceneWidget;
+	UCutsceneWidget* GetCutsceneWidget();
 
 	void OnFinished();
 	void LockPlayer();

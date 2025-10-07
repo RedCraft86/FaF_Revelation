@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "MiscActors/ToroCutsceneActor.h"
+#include "Gameplay/Cutscenes/ToroCutsceneActor.h"
+#include "UserInterface/ToroWidgetManager.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "Libraries/ToroShortcutLibrary.h"
 #include "SaveSystem/ToroGlobalSave.h"
@@ -45,6 +46,15 @@ void AToroCutsceneActor::SkipCutscene()
 	UnlockPlayer();
 }
 
+UCutsceneWidget* AToroCutsceneActor::GetCutsceneWidget()
+{
+	if (!CutsceneWidget)
+	{
+		return CutsceneWidget = AToroWidgetManager::GetWidget<UCutsceneWidget>(this);
+	}
+	return CutsceneWidget;
+}
+
 void AToroCutsceneActor::OnFinished()
 {
 	UnlockPlayer();
@@ -67,7 +77,10 @@ void AToroCutsceneActor::LockPlayer()
 	const UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr;
 	if (!Save || Save->Cutscenes.Contains(CutsceneGuid))
 	{
-		// TODO ui
+		if (UCutsceneWidget* Widget = GetCutsceneWidget())
+		{
+			Widget->ShowWidget(this);
+		}
 	}
 }
 
@@ -79,7 +92,10 @@ void AToroCutsceneActor::UnlockPlayer()
 	}
 
 	if (!bSkippable) return;
-	// TODO ui
+	if (UCutsceneWidget* Widget = GetCutsceneWidget())
+	{
+		Widget->PopWidget();
+	}
 }
 
 void AToroCutsceneActor::BeginPlay()
