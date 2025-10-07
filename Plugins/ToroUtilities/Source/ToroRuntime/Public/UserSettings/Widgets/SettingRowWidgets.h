@@ -8,7 +8,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/ComboBoxString.h"
 #include "UserSettings/OptionBindingBase.h"
-#include "ToroSettingRows.generated.h"
+#include "SettingRowWidgets.generated.h"
 
 UCLASS(Abstract)
 class TORORUNTIME_API UToroSettingRow : public UUserWidget

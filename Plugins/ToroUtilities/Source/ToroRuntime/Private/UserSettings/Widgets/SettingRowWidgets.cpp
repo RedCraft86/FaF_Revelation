@@ -1,6 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
-#include "UserSettings/Widgets/ToroSettingRows.h"
+#include "UserSettings/Widgets/SettingRowWidgets.h"
 #include "Helpers/WidgetAnimHelpers.h"
 
 UToggleSettingRow::UToggleSettingRow(const FObjectInitializer& ObjectInitializer)
