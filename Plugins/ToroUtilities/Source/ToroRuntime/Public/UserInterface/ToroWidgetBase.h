@@ -40,7 +40,7 @@ protected:
 	void UpdateFadeState();
 
 	virtual void InitWidget(APlayerController* Controller);
-	virtual bool ShowHideWidget() const { return false; }
+	virtual bool ShouldHideWidget() const { return false; }
 	virtual bool CanCreateWidget(const UObject* ContextObject) const { return IsValid(ContextObject); }
 
 	virtual void InternalProcessActivation() override;
