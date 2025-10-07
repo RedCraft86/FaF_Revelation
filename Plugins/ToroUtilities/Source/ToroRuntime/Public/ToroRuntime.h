@@ -80,6 +80,8 @@ public:
     FText GetVersionLabel() const;
     bool IsOnMap(const UObject* ContextObject, const EToroMapType MapType) const;
 
+    static float CalcReadingTime(const FText& InText);
+
     template <typename T = UToroDatabase>
     T* GetDatabase()
     {

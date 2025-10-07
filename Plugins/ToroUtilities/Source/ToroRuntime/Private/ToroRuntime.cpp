@@ -2,6 +2,7 @@
 
 #include "ToroRuntime.h"
 #include "GeneralProjectSettings.h"
+#include "NarrativeDialogueSettings.h"
 #include "SaveSystem/ToroGlobalSave.h"
 #include "SaveSystem/ToroGameSave.h"
 
@@ -54,6 +55,23 @@ bool UToroSettings::IsOnMap(const UObject* ContextObject, const EToroMapType Map
 {
 	const TSoftObjectPtr<UWorld>* World = MapRegistry.Find(MapType);
 	return World && UGameplayStatics::GetCurrentLevelName(ContextObject) == World->GetAssetName();
+}
+
+float UToroSettings::CalcReadingTime(const FText& InText)
+{
+	if (InText.IsEmptyOrWhitespace())
+	{
+		return 0.0f;
+	}
+
+	float LettersPerSecond = 25.0f, MinDisplayTime = 2.0f;
+	if (const UNarrativeDialogueSettings* DialogueSettings = GetDefault<UNarrativeDialogueSettings>())
+	{
+		LettersPerSecond = DialogueSettings->LettersPerSecondLineDuration;
+		MinDisplayTime = DialogueSettings->MinDialogueTextDisplayTime;
+	}
+
+	return FMath::Max(InText.ToString().Len() / LettersPerSecond, MinDisplayTime);
 }
 
 #if WITH_EDITOR
