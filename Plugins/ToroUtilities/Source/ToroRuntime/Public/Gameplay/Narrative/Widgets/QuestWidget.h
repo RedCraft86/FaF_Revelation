@@ -42,6 +42,7 @@ protected:
 	UFUNCTION() void OnQuestTaskProgressChanged(const UQuest* Quest, const UNarrativeTask* ProgressedTask, const UQuestBranch* Branch, int32 OldProgress, int32 NewProgress);
 	UFUNCTION() void OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucceededMessage);
 
+	void ShowObjectiveNotice() const;
 	void AddOrUpdateQuestBranch(const UQuestBranch* Branch);
 	UVerticalBox* FindOrAddTaskContainer(const UQuestBranch* Branch);
 	void ClearQuestContainers(const UQuest* Quest);

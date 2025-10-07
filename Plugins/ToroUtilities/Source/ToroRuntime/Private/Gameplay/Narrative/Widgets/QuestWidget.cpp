@@ -2,6 +2,7 @@
 
 #include "Gameplay/Narrative/Widgets/QuestWidget.h"
 #include "Gameplay/Narrative/NarrativeManager.h"
+#include "Gameplay/NativeWidgets/NoticeWidget.h"
 #include "Components/VerticalBox.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
@@ -25,32 +26,37 @@ void UQuestWidget::OnDialogueFinished(UDialogue* Dialogue, const bool bStartingN
 void UQuestWidget::OnQuestNewState(UQuest* Quest, const UQuestState* NewState)
 {
 	if (NewState) return;
-	GetWorld()->GetTimerManager().SetTimerForNextTick([this, Quest, NewState]()
+	ClearQuestContainers(Quest);
+	for (const UQuestBranch* Branch : NewState->Branches)
 	{
-		ClearQuestContainers(Quest);
-		for (const UQuestBranch* Branch : NewState->Branches)
-		{
-			AddOrUpdateQuestBranch(Branch);
-		}
-		SetHidden(BranchBoxes.IsEmpty());
-	});
+		AddOrUpdateQuestBranch(Branch);
+	}
+	SetHidden(BranchBoxes.IsEmpty());
+	if (!BranchBoxes.IsEmpty()) ShowObjectiveNotice();
 }
 
 void UQuestWidget::OnQuestTaskCompleted(const UQuest* Quest, const UNarrativeTask* CompletedTask, const UQuestBranch* Branch)
 {
 	AddOrUpdateQuestBranch(Branch);
+	ShowObjectiveNotice();
 }
 
 void UQuestWidget::OnQuestTaskProgressChanged(const UQuest* Quest, const UNarrativeTask* ProgressedTask,
 	const UQuestBranch* Branch, int32 OldProgress, int32 NewProgress)
 {
 	AddOrUpdateQuestBranch(Branch);
+	ShowObjectiveNotice();
 }
 
 void UQuestWidget::OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucceededMessage)
 {
 	ClearQuestContainers(Quest);
 	SetHidden(BranchBoxes.IsEmpty());
+}
+
+void UQuestWidget::ShowObjectiveNotice() const
+{
+	UNoticeWidget::QueueNotice(this, {INVTEXT("Objective Updated")});
 }
 
 void UQuestWidget::AddOrUpdateQuestBranch(const UQuestBranch* Branch)
