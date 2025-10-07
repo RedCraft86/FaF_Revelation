@@ -43,6 +43,7 @@ void UToroWidgetBase::SetHidden(const bool bInHidden)
 
 void UToroWidgetBase::UpdateFadeState()
 {
+	HideCheckTime = 0.0f;
 	const bool bTargetHidden = bWantsToHide || ShouldHideWidget();
 	if (bHidden != bTargetHidden)
 	{
