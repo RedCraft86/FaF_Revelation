@@ -7,6 +7,7 @@ UInspectionWidget::UInspectionWidget(const FObjectInitializer& ObjectInitializer
 	: Super(ObjectInitializer)
 {
 	bAutoPush = false;
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UInspectionWidget::ShowWidget(const UInventoryAsset* InArchive)
