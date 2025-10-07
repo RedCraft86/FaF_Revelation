@@ -8,6 +8,7 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "DataTypes/GameInputConfig.h"
+#include "UserInterface/ExprTextBlock.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "InventoryWidget.generated.h"
 
@@ -127,7 +128,7 @@ protected:
 		TObjectPtr<UTextBlock> LabelText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> DescText;
+		TObjectPtr<UExprTextBlock> DescText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> EquipButton;
@@ -139,7 +140,7 @@ protected:
 		TObjectPtr<UWidget> ArchivePanel;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> ArchiveText;
+		TObjectPtr<UExprTextBlock> ArchiveText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
 		TObjectPtr<UWidgetAnimation> TabAnim;

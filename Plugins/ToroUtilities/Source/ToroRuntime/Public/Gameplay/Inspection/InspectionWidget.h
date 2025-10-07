@@ -5,8 +5,9 @@
 #include "ToroRuntime.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
-#include "DataTypes/GameInputConfig.h"
 #include "Inventory/InventoryAsset.h"
+#include "DataTypes/GameInputConfig.h"
+#include "UserInterface/ExprTextBlock.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "InspectionWidget.generated.h"
 
@@ -32,10 +33,10 @@ protected:
 		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> DescText;
+		TObjectPtr<UExprTextBlock> DescText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> ContentText;
+		TObjectPtr<UExprTextBlock> ContentText;
 
 	FGameInputConfig InputConfig;
 

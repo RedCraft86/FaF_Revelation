@@ -9,6 +9,7 @@
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
 #include "DataTypes/GameInputConfig.h"
+#include "UserInterface/ExprTextBlock.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "TutorialWidget.generated.h"
 
@@ -34,7 +35,7 @@ protected:
 		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> ContentText;
+		TObjectPtr<UExprTextBlock> ContentText;
 };
 
 UCLASS(Abstract)
