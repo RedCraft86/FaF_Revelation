@@ -7,8 +7,8 @@
 #include "UserInterface/ToroManagedWidget.h"
 #include "CutsceneWidget.generated.h"
 
-UCLASS()
-class TORORUNTIME_API UCutsceneWidget : public UToroManagedWidget
+UCLASS(Abstract)
+class TORORUNTIME_API UCutsceneWidget final : public UToroManagedWidget
 {
 	GENERATED_BODY()
 
