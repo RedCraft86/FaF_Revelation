@@ -3,7 +3,6 @@
 #pragma once
 
 #include "QuestSM.h"
-#include "Dialogue.h"
 #include "ToroRuntime.h"
 #include "Components/VerticalBox.h"
 #include "UserInterface/ToroManagedWidget.h"
@@ -37,21 +36,19 @@ protected:
 	bool bVisible;
 	TObjectPtr<class UNarrativeManager> Manager;
 
-	UFUNCTION() void OnDialogueBegan(UDialogue* Dialogue);
-	UFUNCTION() void OnDialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue);
-
 	UFUNCTION() void OnQuestNewState(UQuest* Quest, const UQuestState* NewState);
 	UFUNCTION() void OnQuestTaskCompleted(const UQuest* Quest, const UNarrativeTask* CompletedTask, const UQuestBranch* Branch);
 	UFUNCTION() void OnQuestTaskProgressChanged(const UQuest* Quest, const UNarrativeTask* ProgressedTask, const UQuestBranch* Branch, int32 OldProgress, int32 NewProgress);
 	UFUNCTION() void OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucceededMessage);
 
+	void HideIfEmpty();
 	void ShowObjectiveNotice() const;
 	void AddOrUpdateQuestBranch(const UQuestBranch* Branch);
 	UVerticalBox* FindOrAddTaskContainer(const UQuestBranch* Branch);
 	void ClearQuestContainers(const UQuest* Quest);
 
+	virtual bool ShouldHideWidget() const override;
 	virtual void InitWidget(APlayerController* Controller) override;
-	virtual bool ShouldHideWidget() const override { return !bVisible; }
 	virtual bool CanCreateWidget(const UObject* ContextObject) const override
 	{
 		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);

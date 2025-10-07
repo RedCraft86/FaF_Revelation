@@ -8,7 +8,7 @@ void UNarrativeManager::ToggleQuests()
 {
 	if (UQuestWidget* Widget = GetQuestWidget())
 	{
-		Widget->SetHidden(!Widget->WantsHidden());
+		Widget->ToggleVisibility();
 	}
 }
 

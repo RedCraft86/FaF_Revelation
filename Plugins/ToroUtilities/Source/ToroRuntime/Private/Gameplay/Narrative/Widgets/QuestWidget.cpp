@@ -19,16 +19,6 @@ void UQuestWidget::ToggleVisibility()
 	UpdateFadeState();
 }
 
-void UQuestWidget::OnDialogueBegan(UDialogue* Dialogue)
-{
-	SetHidden(true);
-}
-
-void UQuestWidget::OnDialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
-{
-	SetHidden(BranchBoxes.IsEmpty());
-}
-
 void UQuestWidget::OnQuestNewState(UQuest* Quest, const UQuestState* NewState)
 {
 	if (NewState) return;
@@ -37,8 +27,11 @@ void UQuestWidget::OnQuestNewState(UQuest* Quest, const UQuestState* NewState)
 	{
 		AddOrUpdateQuestBranch(Branch);
 	}
-	SetHidden(BranchBoxes.IsEmpty());
-	if (!BranchBoxes.IsEmpty()) ShowObjectiveNotice();
+	HideIfEmpty();
+	if (!bVisible)
+	{
+		ShowObjectiveNotice();
+	}
 }
 
 void UQuestWidget::OnQuestTaskCompleted(const UQuest* Quest, const UNarrativeTask* CompletedTask, const UQuestBranch* Branch)
@@ -57,7 +50,15 @@ void UQuestWidget::OnQuestTaskProgressChanged(const UQuest* Quest, const UNarrat
 void UQuestWidget::OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucceededMessage)
 {
 	ClearQuestContainers(Quest);
-	SetHidden(BranchBoxes.IsEmpty());
+	HideIfEmpty();
+}
+
+void UQuestWidget::HideIfEmpty()
+{
+	if (bVisible && BranchBoxes.IsEmpty())
+	{
+		ToggleVisibility();
+	}
 }
 
 void UQuestWidget::ShowObjectiveNotice() const
@@ -129,15 +130,17 @@ void UQuestWidget::ClearQuestContainers(const UQuest* Quest)
 	}
 }
 
+bool UQuestWidget::ShouldHideWidget() const
+{
+	return !bVisible || Manager->IsInDialogue();
+}
+
 void UQuestWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		Manager = UNarrativeManager::Get(this);
-
-		Manager->OnDialogueBegan.AddDynamic(this, &ThisClass::OnDialogueBegan);
-		Manager->OnDialogueFinished.AddDynamic(this, &ThisClass::OnDialogueFinished);
 
 		Manager->OnQuestNewState.AddDynamic(this, &ThisClass::OnQuestNewState);
 		Manager->OnQuestTaskCompleted.AddDynamic(this, &ThisClass::OnQuestTaskCompleted);
