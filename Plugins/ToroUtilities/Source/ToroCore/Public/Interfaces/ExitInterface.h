@@ -22,8 +22,23 @@ public:
 		void Exit();
 	virtual void Exit_Implementation() {}
 
+	/* Universal generic return command */
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = ExitInterface)
+		void ReturnToWidget(UUserWidget* FromWidget);
+	virtual void ReturnToWidget_Implementation(UUserWidget* FromWidget) {}
+
+	static bool ImplementedBy(const UObject* Target) 
+	{ 
+		return IsValid(Target) && Target->Implements<UExitInterface>(); 
+	}
+
 	static void Exit(UObject* Target)
 	{
-		if (IsValid(Target) && Target->Implements<UExitInterface>()) Execute_Exit(Target);
+		if (ImplementedBy(Target)) Execute_Exit(Target);
+	}
+
+	static void ReturnToWidget(UObject* Target, UUserWidget* FromWidget)
+	{
+		if (ImplementedBy(Target)) Execute_ReturnToWidget(Target, FromWidget);
 	}
 };
