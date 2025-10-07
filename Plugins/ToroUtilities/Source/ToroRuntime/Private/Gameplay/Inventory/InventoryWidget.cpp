@@ -39,7 +39,7 @@ UInventoryWidget::UInventoryWidget(const FObjectInitializer& ObjectInitializer)
 
 void UInventoryWidget::UpdateWidget()
 {
-	UpdateSlots();
+	if (IsPushed()) UpdateSlots();
 }
 
 void UInventoryWidget::PushWidget()
