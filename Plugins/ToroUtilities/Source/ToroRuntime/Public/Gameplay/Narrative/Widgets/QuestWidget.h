@@ -18,6 +18,8 @@ public:
 
 	UQuestWidget(const FObjectInitializer& ObjectInitializer);
 
+	void ToggleVisibility();
+
 protected:
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
@@ -32,6 +34,7 @@ protected:
 	UPROPERTY(Transient)
 		TMap<TObjectPtr<const UQuestBranch>, TObjectPtr<UVerticalBox>> BranchBoxes;
 
+	bool bVisible;
 	TObjectPtr<class UNarrativeManager> Manager;
 
 	UFUNCTION() void OnDialogueBegan(UDialogue* Dialogue);
@@ -48,6 +51,7 @@ protected:
 	void ClearQuestContainers(const UQuest* Quest);
 
 	virtual void InitWidget(APlayerController* Controller) override;
+	virtual bool ShouldHideWidget() const override { return !bVisible; }
 	virtual bool CanCreateWidget(const UObject* ContextObject) const override
 	{
 		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);

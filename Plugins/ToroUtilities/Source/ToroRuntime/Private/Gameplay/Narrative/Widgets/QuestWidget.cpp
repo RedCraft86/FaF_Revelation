@@ -8,9 +8,15 @@
 #include "Components/TextBlock.h"
 
 UQuestWidget::UQuestWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), TaskPrefix(INVTEXT("- "))
+	: Super(ObjectInitializer), TaskPrefix(INVTEXT("- ")), bVisible(true)
 {
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UQuestWidget::ToggleVisibility()
+{
+	bVisible = !bVisible;
+	UpdateFadeState();
 }
 
 void UQuestWidget::OnDialogueBegan(UDialogue* Dialogue)
