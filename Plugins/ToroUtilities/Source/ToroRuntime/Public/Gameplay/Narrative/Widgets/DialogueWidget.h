@@ -102,7 +102,6 @@ protected:
 	TObjectPtr<class UNarrativeManager> Manager;
 
 	UFUNCTION() void OnSkipClicked();
-	UFUNCTION() void OnBegan(UDialogue* Dialogue);
 	UFUNCTION() void OnFinished(UDialogue* Dialogue, const bool bStartingNewDialogue);
 	UFUNCTION() void OnRepliesAvailable(UDialogue* Dialogue, const TArray<UDialogueNode_Player*>& PlayerReplies);
 	UFUNCTION() void OnPlayerLineStarted(UDialogue* Dialogue, UDialogueNode_Player* Node, const FDialogueLine& Line);

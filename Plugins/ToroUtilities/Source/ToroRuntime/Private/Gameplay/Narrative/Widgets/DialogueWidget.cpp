@@ -75,16 +75,10 @@ void UDialogueWidget::OnSkipClicked()
 	Manager->SkipCurrentDialogueLine();
 }
 
-void UDialogueWidget::OnBegan(UDialogue* Dialogue)
-{
-	// TODO hide simple subtitles
-}
-
 void UDialogueWidget::OnFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
 {
 	ReplyBox->ClearChildren();
 	WidgetAnimHelpers::PlayOrSnapAnim(this, RepliesAnim, false, true);
-	// TODO show simple subtitles
 	PopWidget();
 }
 
@@ -178,7 +172,6 @@ void UDialogueWidget::InitWidget(APlayerController* Controller)
 	{
 		Manager = UNarrativeManager::Get(this);
 
-		Manager->OnDialogueBegan.AddDynamic(this, &ThisClass::OnBegan);
 		Manager->OnDialogueFinished.AddDynamic(this, &ThisClass::OnFinished);
 		Manager->OnDialogueRepliesAvailable.AddDynamic(this, &ThisClass::OnRepliesAvailable);
 		Manager->OnPlayerDialogueLineStarted.AddDynamic(this, &ThisClass::OnPlayerLineStarted);
