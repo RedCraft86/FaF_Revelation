@@ -32,12 +32,17 @@ public:
 	void ToggleQuests();
 	virtual void DialogueBegan(UDialogue* Dialogue) override;
 	virtual void DialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue) override;
+	virtual void DialogueLineStarted(UDialogue* Dialogue, UDialogueNode* Node, const FDialogueLine& DialogueLine) override;
 
 private:
+
+	TObjectPtr<AToroPlayerCharacter> PlayerChar;
 
 	TObjectPtr<UQuestWidget> QuestWidget;
 	UQuestWidget* GetQuestWidget();
 
 	TObjectPtr<UDialogueWidget> DialogueWidget;
 	UDialogueWidget* GetDialogueWidget();
+
+	virtual void BeginPlay() override;
 };

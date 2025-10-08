@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Narrative/NarrativeManager.h"
+#include "Gameplay/Narrative/ToroDialogueNode_NPC.h"
 #include "UserInterface/ToroWidgetManager.h"
 #include "Framework/ToroPlayerCharacter.h"
 
@@ -19,10 +20,9 @@ void UNarrativeManager::DialogueBegan(UDialogue* Dialogue)
 	{
 		Widget->PushWidget();
 	}
-	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
+	if (PlayerChar)
 	{
-		// TODO begin lock on
-		Player->AddLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
+		PlayerChar->AddLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
 	}
 }
 
@@ -33,10 +33,20 @@ void UNarrativeManager::DialogueFinished(UDialogue* Dialogue, const bool bStarti
 	{
 		Widget->PopWidget();
 	}
-	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
+	if (PlayerChar)
 	{
-		// TODO end lock on
-		Player->ClearLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
+		PlayerChar->ClearLockOnTarget();
+		PlayerChar->ClearLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
+	}
+}
+
+void UNarrativeManager::DialogueLineStarted(UDialogue* Dialogue, UDialogueNode* Node, const FDialogueLine& DialogueLine)
+{
+	Super::DialogueLineStarted(Dialogue, Node, DialogueLine);
+	const UToroDialogueNode_NPC* NPCNode = Cast<UToroDialogueNode_NPC>(Node);
+	if (AActor* LookTarget = NPCNode ? NPCNode->GetLookTarget() : nullptr)
+	{
+		PlayerChar->SetLockOnTarget(LookTarget);
 	}
 }
 
@@ -56,4 +66,13 @@ UDialogueWidget* UNarrativeManager::GetDialogueWidget()
 		DialogueWidget = AToroWidgetManager::GetWidget<UDialogueWidget>(this);
 	}
 	return DialogueWidget;
+}
+
+void UNarrativeManager::BeginPlay()
+{
+	Super::BeginPlay();
+	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+	{
+		PlayerChar = AToroPlayerCharacter::Get(this);
+	});
 }
