@@ -20,7 +20,7 @@ public:
 	USettingsWidget(const FObjectInitializer& ObjectInitializer);
 
 	void ShowWidget(UUserWidget* InParent);
-	// void ReturnToWidget_Implementation(UUserWidget* FromWidget) override;
+	// virtual void ReturnToWidget_Implementation(UUserWidget* FromWidget) override;
 
 protected:
 
