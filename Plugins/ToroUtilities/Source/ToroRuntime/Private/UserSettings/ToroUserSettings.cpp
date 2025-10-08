@@ -78,7 +78,7 @@ bool UToroUserSettings::InitializeSettings(UGameInstance* GI)
 		SetScreenResolution(GetFullscreenResolution());
 	}
 
-	ApplySettings(false);
+	ApplySettings(true);
 	return bFirstLoad;
 }
 
@@ -212,6 +212,22 @@ DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSQuality, 0, 6, ApplyDLSS();)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSFrameGen, 0, 4, ApplyDLSS();)
 DEFINE_PROPERTY_FUNC_CLAMPED(uint8, DLSSReflex, 0, 2, ApplyDLSS();)
 DEFINE_PROPERTY_FUNC(bool, DLSSRayReconstruct, ApplyDLSS();)
+
+void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
+{
+#if WITH_EDITOR
+	if (FApp::IsGame())
+#endif
+	{
+		ApplyScreenGamma();
+		ApplySSFogScattering();
+		ApplyAudioVolume();
+		ApplyImageFidelity();
+	}
+
+	OnSettingsApply(Manual)
+	Super::ApplySettings(bCheckForCommandLineOverrides);
+}
 
 void UToroUserSettings::ApplyScreenGamma() const
 {
@@ -351,22 +367,6 @@ void UToroUserSettings::SetToDefaults()
 		{ESoundClassType::SFX, 100},
 		{ESoundClassType::Voice, 100}
 	};
-}
-
-void UToroUserSettings::ApplySettings(bool bCheckForCommandLineOverrides)
-{
-#if WITH_EDITOR
-	if (FApp::IsGame())
-#endif
-	{
-		ApplyScreenGamma();
-		ApplySSFogScattering();
-		ApplyAudioVolume();
-		ApplyImageFidelity();
-	}
-
-	OnSettingsApply(Manual)
-	Super::ApplySettings(bCheckForCommandLineOverrides);
 }
 
 UWorld* UToroUserSettings::GetWorld() const

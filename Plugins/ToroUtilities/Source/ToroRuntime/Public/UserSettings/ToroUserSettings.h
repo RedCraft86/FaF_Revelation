@@ -121,6 +121,7 @@ public:
 	FUserSettingsDelegate OnSettingsUpdated;
 
 	UGameInstance* GetGameInstance() const { return GameInstance; }
+	virtual void ApplySettings(bool bCheckForCommandLineOverrides) override;
 
 protected:
 
@@ -138,7 +139,6 @@ protected:
 	void ApplyDLSS();
 
 	virtual void SetToDefaults() override;
-	virtual void ApplySettings(bool bCheckForCommandLineOverrides) override;
 	virtual UWorld* GetWorld() const override;
 
 	UPROPERTY(Config) bool bInitialized;
