@@ -22,10 +22,15 @@ public:
 		FGameplayTag GetCharacterID() const;
 	virtual FGameplayTag GetCharacterID_Implementation() const { return {}; }
 
-	/* The location in which the character should be looking at */
+	/* The point that other characters focus on when looking at this character */
 	UFUNCTION(BlueprintNativeEvent, Category = Character)
-		bool GetLookTarget(FVector& Location) const;
-	virtual bool GetLookTarget_Implementation(FVector& Location) const { return false; }
+		bool GetFocusPoint(FVector& Location) const;
+	virtual bool GetFocusPoint_Implementation(FVector& Location) const { return false; }
+
+	/* The point this character is currently focusing on */
+	UFUNCTION(BlueprintNativeEvent, Category = Character)
+		bool GetViewTarget(FVector& Location) const;
+	virtual bool GetViewTarget_Implementation(FVector& Location) const { return false; }
 
 	/* The location, forward vector and angle in which the character's "eyes" are at */
 	UFUNCTION(BlueprintNativeEvent, Category = Character)
@@ -42,9 +47,20 @@ public:
 		return ImplementedBy(Target) ? Execute_GetCharacterID(Target) : FGameplayTag::EmptyTag;
 	}
 
-	static bool GetLookTarget(const UObject* Target, FVector& Location)
+	static FVector GetFocusPoint(const UObject* Target)
 	{
-		return ImplementedBy(Target) && Execute_GetLookTarget(Target, Location);
+		FVector Location;
+		if (!ImplementedBy(Target) || !Execute_GetFocusPoint(Target, Location))
+		{
+			const AActor* AsActor = Cast<AActor>(Target);
+			return AsActor ? AsActor->GetActorLocation() : FVector::ZeroVector;
+		}
+		return Location;
+	}
+
+	static bool GetViewTarget(const UObject* Target, FVector& Location)
+	{
+		return ImplementedBy(Target) && Execute_GetViewTarget(Target, Location);
 	}
 
 	static void GetViewPoint(const UObject* Target, FVector& Location, FVector& Forward, float& FOV)

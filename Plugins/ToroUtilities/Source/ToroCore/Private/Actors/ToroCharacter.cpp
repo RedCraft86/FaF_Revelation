@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Actors/ToroCharacter.h"
+#include "Components/CapsuleComponent.h"
 
 namespace CharacterTags
 {
@@ -12,6 +13,13 @@ void AToroCharacter::Teleport(const FVector& InLocation, const FRotator& InRotat
 {
 	SetActorLocation(InLocation);
 	Controller->SetControlRotation(InRotation);
+}
+
+bool AToroCharacter::GetFocusPoint_Implementation(FVector& Location) const
+{
+	const float Height = GetCapsuleComponent()->GetScaledCapsuleHalfHeight_WithoutHemisphere();
+	Location = GetActorLocation() + FVector{0.0f, 0.0f, Height};
+	return true;
 }
 
 void AToroCharacter::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const
