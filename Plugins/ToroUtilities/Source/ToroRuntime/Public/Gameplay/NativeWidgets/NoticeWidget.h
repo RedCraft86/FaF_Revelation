@@ -43,7 +43,7 @@ struct FToroInputPrompt
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Prompt)
 		TSet<FKey> Keys;
 
-	FToroInputPrompt() { }
+	FToroInputPrompt() {}
 	FToroInputPrompt(const FText& InName, const TSet<FKey>& InKeys): Name(InName), Keys(InKeys) {}
 	bool IsValidData() const { return !Name.IsEmptyOrWhitespace() && !Keys.IsEmpty(); }
 };
