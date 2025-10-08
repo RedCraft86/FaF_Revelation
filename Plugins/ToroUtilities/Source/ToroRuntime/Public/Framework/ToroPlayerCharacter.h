@@ -52,13 +52,22 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		bool HasLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag) const;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void ExitCinematic();
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void EnterCinematic(AActor* InInstigator);
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Player)
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void ClearLockOnTarget();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void SetLockOnTarget(AActor* InTarget);
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		AActor* GetLockOnTarget() const { return LockOnTarget.Get(); }
+
+	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
 
 	template <typename T = AToroPlayerController>
@@ -69,6 +78,8 @@ public:
 
 	template <typename T = AToroGameState>
 	T* GetGameState() const { return GetWorld()->GetGameState<T>(); }
+
+	virtual bool GetViewTarget_Implementation(FVector& Location) const override;
 
 protected:
 
@@ -82,6 +93,7 @@ protected:
 		FPointLightProperties LightSettings;
 
 	float SlowTickTime;
+	TWeakObjectPtr<AActor> LockOnTarget;
 
 	virtual void SlowTick() {}
 	virtual void OnLockTagsChanged() {}

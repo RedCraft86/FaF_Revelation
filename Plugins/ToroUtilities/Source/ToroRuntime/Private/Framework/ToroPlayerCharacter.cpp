@@ -86,10 +86,35 @@ void AToroPlayerCharacter::EnterCinematic(AActor* InInstigator)
 	}
 }
 
+void AToroPlayerCharacter::ClearLockOnTarget()
+{
+	LockOnTarget.Reset();
+}
+
+void AToroPlayerCharacter::SetLockOnTarget(AActor* InTarget)
+{
+	if (!InTarget)
+	{
+		ClearLockOnTarget();
+	}
+
+	LockOnTarget = InTarget;
+}
+
 void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSettings)
 {
 	LightSettings = InSettings;
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
+}
+
+bool AToroPlayerCharacter::GetViewTarget_Implementation(FVector& Location) const
+{
+	if (LockOnTarget.IsValid())
+	{
+		Location = ICharInterface::GetFocusPoint(LockOnTarget.Get());
+		return true;
+	}
+	return false;
 }
 
 void AToroPlayerCharacter::BeginPlay()
