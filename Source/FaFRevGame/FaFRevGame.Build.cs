@@ -12,12 +12,15 @@ public class FaFRevGame : ModuleRules
             [
                 "Core",
                 "CoreUObject", 
-                "Engine", 
+                "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore",
+                "CommonUI",
                 "InputCore", 
                 "EnhancedInput",
                 "DeveloperSettings",
+                "GameplayTags",
                 
                 "ToroCore",
                 "ToroRuntime"
