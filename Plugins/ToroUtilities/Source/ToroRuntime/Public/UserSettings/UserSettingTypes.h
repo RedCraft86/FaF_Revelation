@@ -11,7 +11,8 @@ enum class EGameDifficulty : uint8
 {
 	Easy,
 	Normal,
-	Hard
+	Hard,
+	Unset
 };
 
 UENUM(BlueprintType)

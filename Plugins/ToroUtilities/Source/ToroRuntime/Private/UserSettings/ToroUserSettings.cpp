@@ -323,7 +323,7 @@ void UToroUserSettings::SetToDefaults()
 
 	ShowFPS = false;
 	DeveloperMode = false;
-	Difficulty = EGameDifficulty::Normal;
+	Difficulty = EGameDifficulty::Unset;
 	
 	SmoothCamera = true;
 	Sensitivity = FVector2D::UnitVector;
