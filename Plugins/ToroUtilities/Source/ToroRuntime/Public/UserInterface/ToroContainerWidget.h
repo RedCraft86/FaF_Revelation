@@ -31,7 +31,7 @@ class TORORUNTIME_API UToroContainerWidget : public UToroWidgetBase
 public:
 
 	UToroContainerWidget(const FObjectInitializer& ObjectInitializer)
-		: Super(ObjectInitializer), ZOrder(0)
+		: Super(ObjectInitializer), ZOrder(100)
 	{}
 
 	void ClearNullEntries();
@@ -64,8 +64,10 @@ public:
 
 protected:
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements)
 		TObjectPtr<UOverlay> WidgetStack;
+
+	virtual void NativePreConstruct() override;
 };
 
 UCLASS(Abstract)
@@ -84,6 +86,8 @@ public:
 
 protected:
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements)
 		TObjectPtr<UCommonActivatableWidgetStack> WidgetStack;
+
+	virtual void NativePreConstruct() override;
 };

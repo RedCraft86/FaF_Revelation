@@ -54,6 +54,16 @@ bool UToroOverlayContainer::PopEntry(UToroManagedWidget* Widget)
 	return false;
 }
 
+void UToroOverlayContainer::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	if (!WidgetStack)
+	{
+		WidgetStack = WidgetTree->ConstructWidget<UOverlay>(UOverlay::StaticClass());
+		WidgetTree->RootWidget = WidgetStack;
+	}
+}
+
 bool UToroStackContainer::PushEntry(UToroManagedWidget* Widget)
 {
 	if (Super::PushEntry(Widget))
@@ -72,4 +82,14 @@ bool UToroStackContainer::PopEntry(UToroManagedWidget* Widget)
 		return true;
 	}
 	return false;
+}
+
+void UToroStackContainer::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	if (!WidgetStack)
+	{
+		WidgetStack = WidgetTree->ConstructWidget<UCommonActivatableWidgetStack>(UCommonActivatableWidgetStack::StaticClass());
+		WidgetTree->RootWidget = WidgetStack;
+	}
 }
