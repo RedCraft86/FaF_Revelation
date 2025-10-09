@@ -23,7 +23,7 @@ void AToroPlayerController::SetInputConfig(const FGameInputConfig& InputConfig)
 	FlushPressedKeys();
 }
 
-void AToroPlayerController::SetUserPause(bool bShouldPause)
+void AToroPlayerController::SetUserPause(const bool bShouldPause)
 {
 	if (bUserPaused != bShouldPause)
 	{

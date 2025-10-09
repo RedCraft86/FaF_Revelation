@@ -31,7 +31,7 @@ public:
 		const FGameInputConfig& GetInputConfig() const { return CachedInputConfig; }
 
 	UFUNCTION(BlueprintCallable, Category = Controller)
-		virtual void SetUserPause(bool bShouldPause);
+		virtual void SetUserPause(const bool bShouldPause);
 
 	UFUNCTION(BlueprintPure, Category = Controller)
 		bool IsUserPaused() const { return bUserPaused; }
