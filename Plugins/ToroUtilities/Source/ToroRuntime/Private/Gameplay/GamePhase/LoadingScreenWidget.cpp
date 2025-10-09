@@ -1,11 +1,13 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/GamePhase/LoadingScreenWidget.h"
+#include "UserInterface/NativeContainers.h"
 
 ULoadingScreenWidget::ULoadingScreenWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bMinimal(false), MaxPackages(0)
 {
 	bAutoPush = false;
+	ContainerClass = UOverlayWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 

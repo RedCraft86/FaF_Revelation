@@ -2,6 +2,7 @@
 
 #include "Achievements/AchievementWidget.h"
 #include "Achievements/AchievementManager.h"
+#include "UserInterface/NativeContainers.h"
 #include "Animation/UMGSequencePlayer.h"
 #include "Components/PanelWidget.h"
 
@@ -20,6 +21,7 @@ void UAchievementEntryWidget::InitializeWidget(const FAchievementEntry& Entry)
 UAchievementWidget::UAchievementWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	ContainerClass = UGameplayWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 

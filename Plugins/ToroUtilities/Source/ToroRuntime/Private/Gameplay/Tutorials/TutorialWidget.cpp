@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Tutorials/TutorialWidget.h"
+#include "UserInterface/NativeContainers.h"
 #include "Framework/ToroPlayerController.h"
 
 void UTutorialEntryWidget::InitializeWidget(const FTutorialEntry& Entry) const
@@ -14,6 +15,7 @@ UTutorialWidget::UTutorialWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	bAutoPush = false;
+	ContainerClass = UOverlayWidgetContainer::StaticClass();
 }
 
 void UTutorialWidget::ShowWidget(const FTutorialEntry& Entry)

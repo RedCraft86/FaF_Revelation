@@ -1,12 +1,14 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/Inspection/InspectionWidget.h"
+#include "UserInterface/NativeContainers.h"
 #include "Framework/ToroPlayerController.h"
 
 UInspectionWidget::UInspectionWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
 	bAutoPush = false;
+	ContainerClass = UMenuWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 

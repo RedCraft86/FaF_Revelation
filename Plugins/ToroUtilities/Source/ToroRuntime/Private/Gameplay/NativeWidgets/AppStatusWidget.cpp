@@ -79,7 +79,7 @@ void UAppStatusWidget::InitWidget(APlayerController* Controller)
 		SaveManager->OnSaveActivity.AddUObject(this, &UAppStatusWidget::OnSaveLoad);
 	}
 
-	AddToViewport();
+	AddToViewport(200);
 }
 
 void UAppStatusWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)

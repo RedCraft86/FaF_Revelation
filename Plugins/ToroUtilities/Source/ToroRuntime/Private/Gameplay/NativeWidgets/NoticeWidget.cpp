@@ -2,6 +2,7 @@
 
 #include "Gameplay/NativeWidgets/NoticeWidget.h"
 #include "UserInterface/ToroWidgetManager.h"
+#include "UserInterface/NativeContainers.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Helpers/WidgetAnimHelpers.h"
 #include "Blueprint/WidgetTree.h"
@@ -32,6 +33,7 @@ void UInputPreviewEntry::InitializeWidget(const FToroInputPrompt& InPreview)
 UNoticeWidget::UNoticeWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
+	ContainerClass = UOverlayWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 

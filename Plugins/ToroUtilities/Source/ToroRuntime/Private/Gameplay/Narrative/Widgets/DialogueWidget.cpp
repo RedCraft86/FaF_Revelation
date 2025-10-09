@@ -2,6 +2,7 @@
 
 #include "Gameplay/Narrative/Widgets/DialogueWidget.h"
 #include "Gameplay/Narrative/NarrativeManager.h"
+#include "UserInterface/NativeContainers.h"
 #include "Framework/ToroPlayerController.h"
 #include "Helpers/WidgetAnimHelpers.h"
 #include "Blueprint/WidgetTree.h"
@@ -9,8 +10,7 @@
 
 UDialogueReplyWidget::UDialogueReplyWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), SelectedColor(FLinearColor::Yellow), UnselectedColor(FLinearColor::Gray)
-{
-}
+{}
 
 void UDialogueReplyWidget::SetSelectState(const bool bSelected)
 {
@@ -40,6 +40,7 @@ UDialogueWidget::UDialogueWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), NameColor(FLinearColor::White), PlayerColor(FLinearColor::Yellow)
 {
 	bAutoPush = false;
+	ContainerClass = UGameplayWidgetContainer::StaticClass();
 #if WITH_EDITOR
 	const ConstructorHelpers::FObjectFinder<UNarrativeDataTask> ReplyTaskFinder(
 		TEXT("/Narrative/DefaultTasks/PlayDialogueNode.PlayDialogueNode"));

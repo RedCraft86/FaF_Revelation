@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Gameplay/NativeWidgets/DifficultyWidget.h"
+#include "UserInterface/NativeContainers.h"
 #include "UserSettings/ToroUserSettings.h"
 #include "Interfaces/ExitInterface.h"
 
@@ -8,6 +9,7 @@ UDifficultyWidget::UDifficultyWidget(const FObjectInitializer& ObjectInitializer
 	: Super(ObjectInitializer), Difficulty(1)
 {
 	bAutoPush = false;
+	ContainerClass = UMenuWidgetContainer::StaticClass();
 }
 
 void UDifficultyWidget::ShowWidget(UUserWidget* InParent)

@@ -2,10 +2,12 @@
 
 #include "Gameplay/Cutscenes/CutsceneWidget.h"
 #include "Gameplay/Cutscenes/ToroCutsceneActor.h"
+#include "UserInterface/NativeContainers.h"
 
 UCutsceneWidget::UCutsceneWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), SkipKey(EKeys::Enter), HoldTime(2.0f), bHolding(false), Progress(0.0f)
 {
+	ContainerClass = UOverlayWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 

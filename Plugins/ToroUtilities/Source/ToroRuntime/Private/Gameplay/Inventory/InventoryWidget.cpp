@@ -2,6 +2,7 @@
 
 #include "Gameplay/Inventory/InventoryWidget.h"
 #include "Gameplay/Inventory/InventoryManager.h"
+#include "UserInterface/NativeContainers.h"
 #include "Framework/ToroPlayerController.h"
 #include "Blueprint/WidgetTree.h"
 
@@ -35,6 +36,7 @@ UInventoryWidget::UInventoryWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bArchiveTab(false)
 {
 	bAutoPush = false;
+	ContainerClass = UMenuWidgetContainer::StaticClass();
 }
 
 void UInventoryWidget::UpdateWidget()

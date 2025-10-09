@@ -2,6 +2,7 @@
 
 #include "UserSettings/Widgets/SettingsWidget.h"
 #include "UserInterface/ToroWidgetManager.h"
+#include "UserInterface/NativeContainers.h"
 #include "Interfaces/ExitInterface.h"
 
 USettingsWidget::USettingsWidget(const FObjectInitializer& ObjectInitializer)
@@ -14,6 +15,7 @@ USettingsWidget::USettingsWidget(const FObjectInitializer& ObjectInitializer)
 	})
 {
 	bAutoPush = false;
+	ContainerClass = UMenuWidgetContainer::StaticClass();
 }
 
 void USettingsWidget::ShowWidget(UUserWidget* InParent)

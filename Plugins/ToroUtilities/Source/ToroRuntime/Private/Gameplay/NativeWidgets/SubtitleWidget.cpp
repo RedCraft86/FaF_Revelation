@@ -2,11 +2,13 @@
 
 #include "Gameplay/NativeWidgets/SubtitleWidget.h"
 #include "UserInterface/ToroWidgetManager.h"
+#include "UserInterface/NativeContainers.h"
 // #include "SubtitleManager.h"
 
 USubtitleWidget::USubtitleWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), NameColor(FLinearColor::White), PlayerColor(FLinearColor::Yellow)
 {
+	ContainerClass = UGameplayWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 

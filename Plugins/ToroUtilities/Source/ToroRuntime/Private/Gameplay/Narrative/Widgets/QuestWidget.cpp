@@ -3,6 +3,7 @@
 #include "Gameplay/Narrative/Widgets/QuestWidget.h"
 #include "Gameplay/Narrative/NarrativeManager.h"
 #include "Gameplay/NativeWidgets/NoticeWidget.h"
+#include "UserInterface/NativeContainers.h"
 #include "Components/VerticalBox.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/TextBlock.h"
@@ -10,6 +11,7 @@
 UQuestWidget::UQuestWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), TaskPrefix(INVTEXT("- ")), bVisible(true)
 {
+	ContainerClass = UGameplayWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
