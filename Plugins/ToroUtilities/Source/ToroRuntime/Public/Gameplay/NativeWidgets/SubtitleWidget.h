@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroRuntime.h"
 #include "Narrative/NarrativeManager.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "SubtitleWidget.generated.h"
@@ -78,4 +79,8 @@ protected:
 
 	virtual void InitWidget(APlayerController* Controller) override;
 	virtual bool ShouldHideWidget() const override { return Narrative && Narrative->IsInDialogue(); }
+	virtual bool CanCreateWidget(const UObject* ContextObject) const override
+	{
+		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
+	}
 };

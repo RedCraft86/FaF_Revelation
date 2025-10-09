@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroRuntime.h"
 #include "Interfaces/ExitInterface.h"
 #include "DataTypes/GameInputConfig.h"
 #include "UserInterface/ToroManagedWidget.h"
@@ -45,4 +46,8 @@ protected:
 	virtual void PopWidget() override;
 	virtual void PushWidget() override;
 	virtual void InitWidget(APlayerController* Controller) override;
+	virtual bool CanCreateWidget(const UObject* ContextObject) const override
+	{
+		return !UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
+	}
 };
