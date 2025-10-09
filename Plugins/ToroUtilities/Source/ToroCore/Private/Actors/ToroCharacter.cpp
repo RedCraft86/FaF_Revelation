@@ -2,11 +2,26 @@
 
 #include "Actors/ToroCharacter.h"
 #include "Components/CapsuleComponent.h"
+#include "EngineUtils.h"
 
 namespace CharacterTags
 {
 	DEFINE_GAMEPLAY_TAG(Character)
 	DEFINE_GAMEPLAY_TAG_CHILD(Character, Player)
+}
+
+AToroCharacter* AToroCharacter::FindCharacter(const UObject* ContextObject, const TSubclassOf<AToroCharacter> Class, const FGameplayTag Tag)
+{
+	if (!ContextObject || !Class || !CharacterTags::IsValidTag(Tag)) return nullptr;
+	const UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull) : nullptr;
+	for (AToroCharacter* Character : TActorRange(World, Class))
+	{
+		if (ICharInterface::GetCharacterID(Character) == Tag)
+		{
+			return Character;
+		}
+	}
+	return nullptr;
 }
 
 void AToroCharacter::Teleport(const FVector& InLocation, const FRotator& InRotation)

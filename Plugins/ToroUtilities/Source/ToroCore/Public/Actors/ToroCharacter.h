@@ -29,6 +29,10 @@ public:
 
 	AToroCharacter() {}
 
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject", DeterminesOutputType = "Class"))
+	static AToroCharacter* FindCharacter(const UObject* ContextObject, const TSubclassOf<AToroCharacter> Class,
+		UPARAM(meta = (Categories = "Character")) const FGameplayTag Tag);
+
 	UFUNCTION(BlueprintCallable, Category = Game)
 		virtual void Teleport(const FVector& InLocation, const FRotator& InRotation);
 
