@@ -12,10 +12,7 @@
 namespace PlayerLockTags
 {
 	DEFINE_GAMEPLAY_TAG(PlayerLock)
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, MainMenu)
 	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Loading)
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Dialogue)
-	DEFINE_GAMEPLAY_TAG_CHILD(PlayerLock, Cinematic)
 }
 
 AToroPlayerCharacter::AToroPlayerCharacter()
@@ -49,24 +46,23 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 
 void AToroPlayerCharacter::AddLockTag(const FGameplayTag InTag)
 {
-	if (PlayerLockTags::IsValidTag(InTag) && !LockTags.HasTagExact(InTag))
+	if (PlayerLockTags::IsValidTag(InTag))
 	{
-		LockTags.AddTagFast(InTag);
-		OnLockTagsChanged();
+		LockTags.AddTag(InTag);
 	}
 }
 
-void AToroPlayerCharacter::ClearLockTag(const FGameplayTag InTag)
+void AToroPlayerCharacter::RemoveLockTag(const FGameplayTag InTag)
 {
-	if (PlayerLockTags::IsValidTag(InTag) && LockTags.RemoveTag(InTag))
+	if (PlayerLockTags::IsValidTag(InTag))
 	{
-		OnLockTagsChanged();
+		LockTags.RemoveTag(InTag);
 	}
 }
 
-bool AToroPlayerCharacter::HasLockTag(const FGameplayTag InTag) const
+void AToroPlayerCharacter::ClearLockTags()
 {
-	return PlayerLockTags::IsValidTag(InTag) && LockTags.HasTag(InTag);
+	LockTags.Reset();
 }
 
 void AToroPlayerCharacter::ClearLockOnTarget()
@@ -100,14 +96,35 @@ bool AToroPlayerCharacter::GetViewTarget_Implementation(FVector& Location) const
 	return false;
 }
 
+bool AToroPlayerCharacter::ShouldLockPlayer()
+{
+	if (!LockTags.IsEmpty())
+	{
+		return true;
+	}
+	if (Narrative && Narrative->IsInDialogue())
+	{
+		return true;
+	}
+	if (UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
+	{
+		return true;
+	}
+	if (const AToroPlayerController* PC = GetPlayerController(); PC && PC->bCinematicMode)
+	{
+		return true;
+	}
+	return false;
+}
+
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	Interaction->HandleTrace.BindUObject(this, &AToroPlayerCharacter::HandleInteraction);
-	if (UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
+	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
-		LockTags.AddTag(PlayerLockTags::TAG_MainMenu);
-	}
+		Narrative = UNarrativeManager::Get(this);
+	});
 }
 
 void AToroPlayerCharacter::Tick(float DeltaTime)

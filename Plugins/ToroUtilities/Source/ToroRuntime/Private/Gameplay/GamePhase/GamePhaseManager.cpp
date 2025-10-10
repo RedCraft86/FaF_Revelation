@@ -220,7 +220,7 @@ void UGamePhaseManager::OnMainLevelLoaded()
 	GetWorld()->GetTimerManager().SetTimer(FadeTimer, [this]()
 	{
 		bLoading = false;
-		PlayerChar->ClearLockTag(PlayerLockTags::TAG_Loading);
+		PlayerChar->RemoveLockTag(PlayerLockTags::TAG_Loading);
 		if (AToroPlayerController* PC = PlayerChar->GetPlayerController<AToroPlayerController>())
 		{
 			PC->ExitCinematic();

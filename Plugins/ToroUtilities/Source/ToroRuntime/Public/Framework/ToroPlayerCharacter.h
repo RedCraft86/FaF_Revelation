@@ -15,10 +15,7 @@ class AToroPlayerController;
 namespace PlayerLockTags
 {
 	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(PlayerLock)
-	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(MainMenu)
 	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(Loading)
-	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(Dialogue)
-	TORORUNTIME_API DECLARE_GAMEPLAY_TAG(Cinematic)
 
 	TORORUNTIME_API CREATE_TAG_VERIFIER(PlayerLock)
 }
@@ -44,13 +41,13 @@ public:
 		TObjectPtr<class UInteractionManager> Interaction;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
+		virtual void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		void ClearLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
+		virtual void RemoveLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
-	UFUNCTION(BlueprintPure, Category = Player)
-		bool HasLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag) const;
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void ClearLockTags();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void ClearLockOnTarget();
@@ -88,10 +85,11 @@ protected:
 
 	float SlowTickTime;
 	TWeakObjectPtr<AActor> LockOnTarget;
+	TObjectPtr<class UNarrativeManager> Narrative;
 
 	virtual void SlowTick() {}
-	virtual void OnLockTagsChanged() {}
 	virtual FHitResult HandleInteraction() { return FHitResult(); }
+	virtual bool ShouldLockPlayer();
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
