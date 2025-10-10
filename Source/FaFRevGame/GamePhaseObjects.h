@@ -2,18 +2,19 @@
 
 #pragma once
 
-#include "Characters/Player/PlayerCharacter.h"
+#include "Player/PlayerTypes.h"
+#include "Player/PlayerCharacter.h"
 #include "GamePhase/GamePhaseData.h"
 #include "GamePhaseObjects.generated.h"
 
 UCLASS()
-class TORORUNTIME_API UGamePhaseNode final : public UToroGamePhaseNode
+class UGamePhaseNode final : public UToroGamePhaseNode
 {
 	GENERATED_BODY()
 
 public:
 
-	UGamePhaseNode();
+	UGamePhaseNode(): PlayerAbilities(DEFAULT_CONTROL_FLAGS) {}
 
 protected:
 
@@ -31,7 +32,7 @@ protected:
 };
 
 UCLASS()
-class TORORUNTIME_API UGamePhaseGraph final : public UToroGamePhaseGraph
+class UGamePhaseGraph final : public UToroGamePhaseGraph
 {
 	GENERATED_BODY()
 
