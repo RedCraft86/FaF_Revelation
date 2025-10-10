@@ -14,7 +14,7 @@ class UGamePhaseNode final : public UToroGamePhaseNode
 
 public:
 
-	UGamePhaseNode(): PlayerAbilities(DEFAULT_CONTROL_FLAGS) {}
+	UGamePhaseNode(): PlayerAbilities(Player::DefaultAbilities) {}
 
 protected:
 
