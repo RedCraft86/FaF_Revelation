@@ -18,12 +18,15 @@ public class FaFRevGame : ModuleRules
                 "SlateCore",
                 "CommonUI",
                 "InputCore", 
+                "MovieScene",
+                "LevelSequence",
                 "EnhancedInput",
                 "DeveloperSettings",
                 "GameplayTags",
                 
                 "ToroCore",
-                "ToroRuntime"
+                "ToroRuntime",
+                "EnhancedCodeFlow"
             ]
         );
     }
