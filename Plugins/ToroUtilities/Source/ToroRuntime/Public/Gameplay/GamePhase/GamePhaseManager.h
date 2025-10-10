@@ -43,7 +43,7 @@ public:
 		void StepSequence(const uint8 InIndex);
 
 	UFUNCTION(BlueprintCallable, Category = GamePhase)
-		void ChangePhase(UGamePhaseNode* NewPhase);
+		void ChangePhase(UToroGamePhaseNode* NewPhase);
 
 	UFUNCTION(BlueprintPure, Category = GamePhase)
 		bool IsLoading() const { return bLoading; }
@@ -67,8 +67,8 @@ private:
 	TObjectPtr<class AToroPlayerCharacter> PlayerChar;
 	TObjectPtr<class AMasterPostProcess> PostProcessing;
 	
-	UPROPERTY(Transient) TObjectPtr<UGamePhaseGraph> Graph;
-	UPROPERTY(Transient) TObjectPtr<UGamePhaseNode> ThisPhase;
+	UPROPERTY(Transient) TObjectPtr<UToroGamePhaseGraph> Graph;
+	UPROPERTY(Transient) TObjectPtr<UToroGamePhaseNode> ThisPhase;
 
 	TObjectPtr<ULoadingScreenWidget> LoadingWidget;
 	ULoadingScreenWidget* GetLoadingWidget();

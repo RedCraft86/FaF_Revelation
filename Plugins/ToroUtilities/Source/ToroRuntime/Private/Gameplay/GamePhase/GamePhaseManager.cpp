@@ -34,7 +34,7 @@ void UGamePhaseManager::LoadSequence()
 	if (const UToroGameSave* Save = SaveManager->FindOrAddSave<UToroGameSave>())
 	{
 		Sequence = Graph->ValidateSequence(Save->Sequence);
-		ChangePhase(Graph->GetLeafInSequence<UGamePhaseNode>(Sequence, true));
+		ChangePhase(Graph->GetLeafInSequence<UToroGamePhaseNode>(Sequence, true));
 	}
 }
 
@@ -45,12 +45,12 @@ void UGamePhaseManager::StepSequence(const uint8 InIndex)
 	{
 		Sequence.Add(InIndex);
 		Sequence = Graph->ValidateSequence(Sequence);
-		ChangePhase(Graph->GetLeafInSequence<UGamePhaseNode>(Sequence, true));
+		ChangePhase(Graph->GetLeafInSequence<UToroGamePhaseNode>(Sequence, true));
 		Save->Sequence = Sequence;
 	}
 }
 
-void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
+void UGamePhaseManager::ChangePhase(UToroGamePhaseNode* NewPhase)
 {
 	if (!IsValidManager() || bLoading || !NewPhase || NewPhase == ThisPhase
 		|| !Graph->AllNodes.Contains(NewPhase)) return;
@@ -66,7 +66,7 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 	}
 
 	// Don't need to worry about OldPhase getting GC'd since it lives in Graph which is keeping it loaded
-	UGamePhaseNode* OldPhase = ThisPhase;
+	UToroGamePhaseNode* OldPhase = ThisPhase;
 	ThisPhase = NewPhase;
 
 	UnloadTasks = 0;

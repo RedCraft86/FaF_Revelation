@@ -12,13 +12,13 @@ namespace ContentTags
 	DEFINE_GAMEPLAY_TAG(Content)
 }
 
-UGamePhaseGraph::UGamePhaseGraph()
+UToroGamePhaseGraph::UToroGamePhaseGraph()
 {
-	CompatibleNode = UGamePhaseNode::StaticClass();
+	CompatibleNode = UToroGamePhaseNode::StaticClass();
 	CompatibleEdge = nullptr;
 }
 
-UGamePhaseNode::UGamePhaseNode()
+UToroGamePhaseNode::UToroGamePhaseNode()
 	: bSimpleLoading(false)
 {
 	Name = NSLOCTEXT("Game", "NewPhaseName", "New Phase");
@@ -28,12 +28,12 @@ UGamePhaseNode::UGamePhaseNode()
 #endif
 }
 
-TSet<FGameplayTag> UGamePhaseNode::GetContentTags() const
+TSet<FGameplayTag> UToroGamePhaseNode::GetContentTags() const
 {
 	return TSet(UnlockContent.GetGameplayTagArray());
 }
 
-TSet<TSoftObjectPtr<UWorld>> UGamePhaseNode::GetLevels() const
+TSet<TSoftObjectPtr<UWorld>> UToroGamePhaseNode::GetLevels() const
 {
 	TSet<TSoftObjectPtr<UWorld>> Result;
 	Result.Reserve(Levels.Num() + 1);
@@ -45,7 +45,7 @@ TSet<TSoftObjectPtr<UWorld>> UGamePhaseNode::GetLevels() const
 	return Result;
 }
 
-TSoftObjectPtr<UTexture2D> UGamePhaseNode::GetBackground() const
+TSoftObjectPtr<UTexture2D> UToroGamePhaseNode::GetBackground() const
 {
 	if (bSimpleLoading || Backgrounds.IsEmpty())
 	{
@@ -58,7 +58,7 @@ TSoftObjectPtr<UTexture2D> UGamePhaseNode::GetBackground() const
 	return Backgrounds[FMath::RandRange(0, Backgrounds.Num() - 1)];
 }
 
-void UGamePhaseNode::TeleportPlayer() const
+void UToroGamePhaseNode::TeleportPlayer() const
 {
 	if (TeleportPoint.LoadSynchronous())
 	{
@@ -66,7 +66,7 @@ void UGamePhaseNode::TeleportPlayer() const
 	}
 }
 
-void UGamePhaseNode::ApplyPlayerSettings(AToroPlayerCharacter* PlayerChar) const
+void UToroGamePhaseNode::ApplyPlayerSettings(AToroPlayerCharacter* PlayerChar) const
 {
 	PlayerChar->SetLightSettings(PlayerLight);
 }
@@ -82,7 +82,7 @@ void ShowInventoryError(const UInventoryAsset* Asset, const FText& Expected)
 	FSlateNotificationManager::Get().AddNotification(Info);
 }
 
-void UGamePhaseNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+void UToroGamePhaseNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 	if (!MainLevel.IsNull()) Levels.Remove(MainLevel);

@@ -19,24 +19,24 @@ namespace ContentTags
 	TORORUNTIME_API CREATE_TAG_VERIFIER(Content)
 }
 
-UCLASS()
-class TORORUNTIME_API UGamePhaseGraph : public UToroDataGraph
+UCLASS(Abstract)
+class TORORUNTIME_API UToroGamePhaseGraph : public UToroDataGraph
 {
 	GENERATED_BODY()
 
 public:
 
-	UGamePhaseGraph();
+	UToroGamePhaseGraph();
 };
 
-UCLASS()
-class TORORUNTIME_API UGamePhaseNode : public UToroDataNode
+UCLASS(Abstract)
+class TORORUNTIME_API UToroGamePhaseNode : public UToroDataNode
 {
 	GENERATED_BODY()
 
 public:
 
-	UGamePhaseNode();
+	UToroGamePhaseNode();
 
 	UPROPERTY(EditAnywhere, Category = Level)
 		TSoftObjectPtr<UWorld> MainLevel;
@@ -65,10 +65,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Game, DisplayName = "Sky & Weather")
 		FUDSSettings SkyWeather;
 
-	UPROPERTY(EditAnywhere, Category = Player)
+	UPROPERTY(EditAnywhere, Category = Player, meta = (DisplayPriority = -1))
 		TSoftObjectPtr<ATeleportPoint> TeleportPoint;
 
-	UPROPERTY(EditAnywhere, Category = Player)
+	UPROPERTY(EditAnywhere, Category = Player, meta = (DisplayPriority = 1))
 		FPointLightProperties PlayerLight;
 
 	UPROPERTY(EditAnywhere, Category = Inventory, meta = (Categories = "Inventory"))

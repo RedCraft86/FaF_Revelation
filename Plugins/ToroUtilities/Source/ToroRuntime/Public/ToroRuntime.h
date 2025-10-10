@@ -51,7 +51,7 @@ public:
         TMap<EToroMapType, TSoftObjectPtr<UWorld>> MapRegistry;
 
     UPROPERTY(Config, EditAnywhere, Category = World)
-        TSoftObjectPtr<UGamePhaseGraph> PhaseGraph;
+        TSoftObjectPtr<UToroGamePhaseGraph> PhaseGraph;
 
     UPROPERTY(Config, EditAnywhere, Category = World)
         TSoftClassPtr<UUDSSetterObject> UDS_Setter;
