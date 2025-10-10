@@ -21,6 +21,7 @@ public class FaFRevGame : ModuleRules
                 "MovieScene",
                 "LevelSequence",
                 "EnhancedInput",
+                "CinematicCamera",
                 "DeveloperSettings",
                 "GameplayTags",
                 
