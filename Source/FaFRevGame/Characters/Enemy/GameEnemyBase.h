@@ -26,7 +26,18 @@ public:
 
 	AGameEnemyBase();
 
+	UFUNCTION(BlueprintCallable, Category = Enemy)
+		void SetEnemyState(const EEnemyState InState);
+
+	UFUNCTION(BlueprintPure, Category = Enemy)
+		EEnemyState GetEnemyState() const { return EnemyState; }
+
 protected:
+
+	UPROPERTY(VisibleAnywhere, Category = Settings, AdvancedDisplay)
+		EEnemyState EnemyState;
+
+	virtual void OnEnemyStateChanged();
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
