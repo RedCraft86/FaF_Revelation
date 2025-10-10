@@ -15,6 +15,11 @@
 #include "Helpers/LatentInfo.h"
 #include "ToroRuntime.h"
 
+namespace EndingTags
+{
+	DEFINE_GAMEPLAY_TAG(Ending)
+}
+
 UGamePhaseManager::UGamePhaseManager(): bLoading(true), PhaseTime(0.0f), UnloadTasks(0)
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -107,6 +112,16 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 	if (UToroGlobalSave* GlobalSave = SaveManager->FindOrAddSave<UToroGlobalSave>(0))
 	{
 		GlobalSave->Content.Append(ThisPhase->GetContentTags());
+		GlobalSave->SaveObject(nullptr);
+	}
+}
+
+void UGamePhaseManager::AchieveEnding(const FGameplayTag EndingTag) const
+{
+	if (!EndingTags::IsValidTag(EndingTag)) return;
+	if (UToroGlobalSave* GlobalSave = SaveManager->FindOrAddSave<UToroGlobalSave>(0))
+	{
+		GlobalSave->Endings.Add(EndingTag, FDateTime::Now());
 		GlobalSave->SaveObject(nullptr);
 	}
 }
