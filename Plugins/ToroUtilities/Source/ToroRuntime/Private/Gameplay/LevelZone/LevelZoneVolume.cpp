@@ -8,7 +8,7 @@
 #include "EngineUtils.h"
 #endif
 
-ALevelZoneVolume::ALevelZoneVolume(): CullInvert(false)
+ALevelZoneVolume::ALevelZoneVolume(): ThemeIntensity(0.0f), CullInvert(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
@@ -73,6 +73,7 @@ void ALevelZoneVolume::BeginPlay()
 	Super::BeginPlay();
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
+		MusicManager = UWorldMusicManager::Get(this);
 		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
 	});
 }
@@ -98,6 +99,10 @@ void ALevelZoneVolume::NotifyActorBeginOverlap(AActor* OtherActor)
 		{
 			ActionManager->SetActions(ActionsEnter, false);
 			ActionManager->RunActions();
+		}
+		if (MusicManager)
+		{
+			MusicManager->SetThemeIntensity(ThemeIntensity);
 		}
 	}
 }

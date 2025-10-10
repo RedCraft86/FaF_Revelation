@@ -4,6 +4,7 @@
 
 #include "Actors/ToroVolume.h"
 #include "GameplayTagContainer.h"
+#include "MusicSystem/WorldMusicManager.h"
 #include "WorldActions/WorldActionManager.h"
 #include "LevelZoneVolume.generated.h"
 
@@ -23,6 +24,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Settings", meta = (Categories = "Zone"))
 		FGameplayTag ZoneTag;
+
+	UPROPERTY(EditAnywhere, Category = "Settings")
+		float ThemeIntensity;
 
 	UPROPERTY(EditAnywhere, Category = "Settings|Culling", DisplayName = "Invert")
 		bool CullInvert;
@@ -50,6 +54,7 @@ private:
 #endif
 
 	FTimerHandle CullingTimer;
+	TObjectPtr<UWorldMusicManager> MusicManager;
 	TObjectPtr<APlayerCameraManager> CamManager;
 
 	void UpdateRefCulling();
