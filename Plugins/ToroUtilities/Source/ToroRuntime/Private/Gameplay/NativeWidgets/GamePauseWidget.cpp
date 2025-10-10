@@ -70,6 +70,7 @@ void UGamePauseWidget::OnPauseState(const bool bPaused)
 
 void UGamePauseWidget::PopWidget()
 {
+	SetVisibility(ESlateVisibility::HitTestInvisible);
 	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
 	{
 		PC->SetInputConfig(InputConfig);
