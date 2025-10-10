@@ -5,6 +5,7 @@
 #include "Libraries/ToroShortcutLibrary.h"
 #include "UserInterface/NativeContainers.h"
 #include "UserInterface/ToroWidgetManager.h"
+#include "Framework/ToroPlayerController.h"
 #include "Helpers/WidgetAnimHelpers.h"
 #include "MainMenuActor.h"
 
@@ -127,6 +128,11 @@ void UMainMenuWidget::PushWidget()
 			OnThemesAvailable(AvailableEndings);
 			ThemeButton->SetVisibility(ESlateVisibility::Visible);
 		}
+	}
+	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	{
+		PC->SetInputConfig({EGameInputMode::UI_Only, true,
+			EMouseLockMode::LockAlways, false, this});
 	}
 }
 
