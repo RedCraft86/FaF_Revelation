@@ -13,8 +13,6 @@ class TORORUNTIME_API AToroPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-	friend class AToroPlayerCharacter;
-
 public:
 
 	AToroPlayerController();
@@ -45,6 +43,12 @@ public:
 	UFUNCTION(BlueprintPure, Category = Controller)
 		AActor* GetCinematicActor() const { return CinematicActor.Get(); }
 
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		virtual void ExitCinematic();
+	
+	UFUNCTION(BlueprintCallable, Category = Controller)
+		virtual void EnterCinematic(AActor* InActor);
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnUserPaused, const bool)
 	FOnUserPaused OnUserPaused;
 
@@ -57,9 +61,6 @@ protected:
 	FGameInputConfig CachedInputConfig;
 	TWeakObjectPtr<AActor> CinematicActor;
 	TSet<TWeakObjectPtr<const UObject>> PauseRequests;
-
-	virtual void ExitCinematic();
-	virtual void EnterCinematic(AActor* InInstigator);
 
 	virtual void UpdatePauseState();
 	virtual void OnWindowFocusChanged(bool bFocused);

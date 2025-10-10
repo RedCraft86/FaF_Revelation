@@ -53,12 +53,6 @@ public:
 		bool HasLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag) const;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void ExitCinematic();
-
-	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void EnterCinematic(AActor* InInstigator);
-
-	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void ClearLockOnTarget();
 
 	UFUNCTION(BlueprintCallable, Category = Player)

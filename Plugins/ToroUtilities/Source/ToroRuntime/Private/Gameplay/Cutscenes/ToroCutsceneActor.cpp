@@ -2,7 +2,7 @@
 
 #include "Gameplay/Cutscenes/ToroCutsceneActor.h"
 #include "UserInterface/ToroWidgetManager.h"
-#include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroPlayerController.h"
 #include "Libraries/ToroShortcutLibrary.h"
 #include "SaveSystem/ToroGlobalSave.h"
 #include "LevelSequencePlayer.h"
@@ -68,7 +68,7 @@ void AToroCutsceneActor::OnFinished()
 
 void AToroCutsceneActor::LockPlayer()
 {
-	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
+	if (AToroPlayerController* Player = AToroPlayerController::Get(this))
 	{
 		Player->EnterCinematic(this);
 	}
@@ -86,7 +86,7 @@ void AToroCutsceneActor::LockPlayer()
 
 void AToroCutsceneActor::UnlockPlayer()
 {
-	if (AToroPlayerCharacter* Player = AToroPlayerCharacter::Get(this))
+	if (AToroPlayerController* Player = AToroPlayerController::Get(this))
 	{
 		Player->ExitCinematic();
 	}

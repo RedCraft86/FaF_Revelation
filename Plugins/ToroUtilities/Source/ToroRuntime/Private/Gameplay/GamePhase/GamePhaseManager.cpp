@@ -7,6 +7,7 @@
 #include "SaveSystem/ToroSaveManager.h"
 #include "MusicSystem/WorldMusicManager.h"
 #include "Framework/ToroPlayerCharacter.h"
+#include "Framework/ToroPlayerController.h"
 #include "PostProcessing/MasterPostProcess.h"
 #include "UserInterface/ToroWidgetManager.h"
 #include "Inventory/InventoryManager.h"
@@ -59,7 +60,10 @@ void UGamePhaseManager::ChangePhase(UGamePhaseNode* NewPhase)
 
 	bLoading = true;
 	PlayerChar->AddLockTag(PlayerLockTags::TAG_Loading);
-	PlayerChar->EnterCinematic(GetOwner());
+	if (AToroPlayerController* PC = PlayerChar->GetPlayerController<AToroPlayerController>())
+	{
+		PC->EnterCinematic(GetOwner());
+	}
 
 	// Don't need to worry about OldPhase getting GC'd since it lives in Graph which is keeping it loaded
 	UGamePhaseNode* OldPhase = ThisPhase;
@@ -216,8 +220,11 @@ void UGamePhaseManager::OnMainLevelLoaded()
 	GetWorld()->GetTimerManager().SetTimer(FadeTimer, [this]()
 	{
 		bLoading = false;
-		PlayerChar->ExitCinematic();
 		PlayerChar->ClearLockTag(PlayerLockTags::TAG_Loading);
+		if (AToroPlayerController* PC = PlayerChar->GetPlayerController<AToroPlayerController>())
+		{
+			PC->ExitCinematic();
+		}
 		if (!ThisPhase->PostLoadEvent.IsNone())
 		{
 			UToroShortcutLibrary::CallRemoteEvent(this, ThisPhase->PostLoadEvent);

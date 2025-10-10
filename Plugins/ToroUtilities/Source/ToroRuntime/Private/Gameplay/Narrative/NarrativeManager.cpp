@@ -20,10 +20,6 @@ void UNarrativeManager::DialogueBegan(UDialogue* Dialogue)
 	{
 		Widget->PushWidget();
 	}
-	if (PlayerChar)
-	{
-		PlayerChar->AddLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
-	}
 }
 
 void UNarrativeManager::DialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
@@ -36,7 +32,6 @@ void UNarrativeManager::DialogueFinished(UDialogue* Dialogue, const bool bStarti
 	if (PlayerChar)
 	{
 		PlayerChar->ClearLockOnTarget();
-		PlayerChar->ClearLockTag(PlayerLockTags::TAG_Dialogue.GetTag());
 	}
 }
 

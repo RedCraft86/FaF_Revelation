@@ -56,9 +56,9 @@ void AToroPlayerController::ExitCinematic()
 	SetCinematicMode(false, false, false, true, true);
 }
 
-void AToroPlayerController::EnterCinematic(AActor* InInstigator)
+void AToroPlayerController::EnterCinematic(AActor* InActor)
 {
-	CinematicActor = InInstigator;
+	CinematicActor = InActor;
 	if (CinematicActor.IsValid())
 	{
 		SetCinematicMode(true, true, false, true, true);

@@ -5,6 +5,7 @@
 #include "Components/PointLightComponent.h"
 #include "Interaction/InteractionManager.h"
 #include "Libraries/ToroLightingUtils.h"
+#include "Narrative/NarrativeManager.h"
 #include "Camera/CameraComponent.h"
 #include "ToroRuntime.h"
 
@@ -66,24 +67,6 @@ void AToroPlayerCharacter::ClearLockTag(const FGameplayTag InTag)
 bool AToroPlayerCharacter::HasLockTag(const FGameplayTag InTag) const
 {
 	return PlayerLockTags::IsValidTag(InTag) && LockTags.HasTag(InTag);
-}
-
-void AToroPlayerCharacter::ExitCinematic()
-{
-	if (AToroPlayerController* PC = GetPlayerController())
-	{
-		PC->ExitCinematic();
-		ClearLockTag(PlayerLockTags::TAG_Cinematic.GetTag());
-	}
-}
-
-void AToroPlayerCharacter::EnterCinematic(AActor* InInstigator)
-{
-	if (AToroPlayerController* PC = GetPlayerController())
-	{
-		PC->EnterCinematic(InInstigator);
-		AddLockTag(PlayerLockTags::TAG_Cinematic.GetTag());
-	}
 }
 
 void AToroPlayerCharacter::ClearLockOnTarget()
