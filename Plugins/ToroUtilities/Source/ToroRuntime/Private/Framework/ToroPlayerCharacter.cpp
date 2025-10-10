@@ -4,8 +4,9 @@
 #include "Framework/ToroPlayerController.h"
 #include "Components/PointLightComponent.h"
 #include "Interaction/InteractionManager.h"
-#include "Libraries/ToroLightingUtils.h"
 #include "Narrative/NarrativeManager.h"
+#include "Libraries/ToroLightingUtils.h"
+#include "Libraries/ToroMathLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "ToroRuntime.h"
 
@@ -16,9 +17,8 @@ namespace PlayerLockTags
 }
 
 AToroPlayerCharacter::AToroPlayerCharacter()
-	: SlowTickInterval(0.1f)
-	, LockTags({PlayerLockTags::TAG_Loading.GetTag()})
-	, LockOnSpeed(5.0f)
+	: SlowTickInterval(0.1f), LockTags({PlayerLockTags::TAG_Loading.GetTag()})
+	, ReachDistance(250.0f), LockOnSpeed(5.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -135,6 +135,32 @@ bool AToroPlayerCharacter::ShouldLockPlayer()
 	return false;
 }
 
+FHitResult AToroPlayerCharacter::HandleInteraction()
+{
+	const AToroPlayerController* PC = GetPlayerController();
+	if (!PC || PC->bCinematicMode) return FHitResult();
+	if (PC->GetViewTarget() == this)
+	{
+		FVector Start, End;
+		UToroMathLibrary::GetComponentLineTraceVectors(PlayerCamera,
+			EVectorDirection::Forward, ReachDistance, Start, End);
+
+		FHitResult Hit;
+		const FCollisionQueryParams Params("Trace_Interaction", false, this);
+		if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params))
+		{
+			return Hit;
+		}
+	}
+	else if (PC->ShouldShowMouseCursor())
+	{
+		FHitResult Hit;
+		PC->GetHitResultUnderCursor(ECC_Visibility, false, Hit);
+		return Hit;
+	}
+	return FHitResult();
+}
+
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -142,6 +168,10 @@ void AToroPlayerCharacter::BeginPlay()
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		Narrative = UNarrativeManager::Get(this);
+		if (AToroPlayerController* PC = GetPlayerController())
+		{
+			PC->SetViewTarget(this);
+		}
 	});
 }
 

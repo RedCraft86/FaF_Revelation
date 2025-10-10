@@ -83,7 +83,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FGameplayTagContainer LockTags;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f))
+		float ReachDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 1.0f, UIMin = 1.0f))
 		float LockOnSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
@@ -97,8 +100,7 @@ protected:
 	virtual void TickLockOn(const float DeltaTime);
 
 	virtual bool ShouldLockPlayer();
-	virtual FHitResult HandleInteraction() { return FHitResult(); }
-
+	virtual FHitResult HandleInteraction();
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
