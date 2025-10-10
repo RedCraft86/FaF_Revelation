@@ -44,10 +44,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = LevelZone)
 		FGameplayTagContainer GetCharactersInZone(UPARAM(meta = (Categories = "Zone")) const FGameplayTag Zone);
 
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
-	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
-
 private:
 
 	TMap<FGameplayTag, FGameplayTag> CharToZone;
+
+	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
 };
