@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Framework/ToroPlayerController.h"
+#include "Narrative/NarrativeManager.h"
 #include "UserInterface/ToroContainerWidget.h"
 #include "NativeContainers.generated.h"
 
@@ -16,6 +18,24 @@ public:
 		: Super(ObjectInitializer)
 	{
 		ZOrder = 100;
+	}
+
+protected:
+
+	TObjectPtr<UNarrativeManager> Narrative;
+
+	virtual void InitWidget(APlayerController* Controller) override
+	{
+		Super::InitWidget(Controller);
+		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+		{
+			Narrative = UNarrativeManager::Get(this);
+		});
+	}
+
+	virtual bool ShouldHideWidget() const override
+	{
+		return (Narrative && Narrative->IsInDialogue()) || GetOwningPlayer<AToroPlayerController>()->bCinematicMode;
 	}
 };
 

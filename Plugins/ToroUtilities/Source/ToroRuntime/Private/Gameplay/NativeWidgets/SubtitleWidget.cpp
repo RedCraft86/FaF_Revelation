@@ -88,8 +88,4 @@ void USubtitleWidget::InitWidget(APlayerController* Controller)
 	// 	FSubtitleManager::GetSubtitleManager()->OnSetSubtitleText()
 	// 		.AddUObject(this, &USubtitleWidget::OnNativeSubtitle);
 	// }
-	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
-	{
-		Narrative = UNarrativeManager::Get(this);
-	});
 }
