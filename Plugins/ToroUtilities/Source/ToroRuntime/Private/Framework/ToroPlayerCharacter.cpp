@@ -16,7 +16,9 @@ namespace PlayerLockTags
 }
 
 AToroPlayerCharacter::AToroPlayerCharacter()
-	: SlowTickInterval(0.1f), LockTags({PlayerLockTags::TAG_Loading.GetTag()})
+	: SlowTickInterval(0.1f)
+	, LockTags({PlayerLockTags::TAG_Loading.GetTag()})
+	, LockOnSpeed(5.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -65,25 +67,29 @@ void AToroPlayerCharacter::ClearLockTags()
 	LockTags.Reset();
 }
 
-void AToroPlayerCharacter::ClearLockOnTarget()
-{
-	LockOnTarget.Reset();
-}
-
 void AToroPlayerCharacter::SetLockOnTarget(AActor* InTarget)
 {
 	if (!InTarget)
 	{
 		ClearLockOnTarget();
 	}
-
 	LockOnTarget = InTarget;
+}
+
+void AToroPlayerCharacter::ClearLockOnTarget()
+{
+	LockOnTarget.Reset();
 }
 
 void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSettings)
 {
 	LightSettings = InSettings;
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
+}
+
+void AToroPlayerCharacter::SetControlRotation(const FRotator& InRotator) const
+{
+	if (GetController()) GetController()->SetControlRotation(InRotator);
 }
 
 bool AToroPlayerCharacter::GetViewTarget_Implementation(FVector& Location) const
@@ -94,6 +100,18 @@ bool AToroPlayerCharacter::GetViewTarget_Implementation(FVector& Location) const
 		return true;
 	}
 	return false;
+}
+
+void AToroPlayerCharacter::TickLockOn(const float DeltaTime)
+{
+	FVector Target;
+	if (GetViewTarget(this, Target) && LockOnSpeed > 0.1f)
+	{
+		const FRotator Rotation = FRotationMatrix::MakeFromX(
+			Target - PlayerCamera->GetComponentLocation()).Rotator();
+		SetControlRotation(FMath::RInterpTo(GetControlRotation(),
+			Rotation, DeltaTime, LockOnSpeed));
+	}
 }
 
 bool AToroPlayerCharacter::ShouldLockPlayer()

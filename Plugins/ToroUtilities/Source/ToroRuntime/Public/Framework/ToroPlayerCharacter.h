@@ -50,16 +50,19 @@ public:
 		virtual void ClearLockTags();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void ClearLockOnTarget();
+		virtual void SetLockOnTarget(AActor* InTarget);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void SetLockOnTarget(AActor* InTarget);
+		virtual void ClearLockOnTarget();
 
 	UFUNCTION(BlueprintPure, Category = Player)
 		AActor* GetLockOnTarget() const { return LockOnTarget.Get(); }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Pawn)
+		void SetControlRotation(const FRotator& InRotator) const;
 
 	template <typename T = AToroPlayerController>
 	T* GetPlayerController() const { return GetController<T>(); }
@@ -80,6 +83,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
 		FGameplayTagContainer LockTags;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
+		float LockOnSpeed;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPointLightProperties LightSettings;
 
@@ -88,8 +94,11 @@ protected:
 	TObjectPtr<class UNarrativeManager> Narrative;
 
 	virtual void SlowTick() {}
-	virtual FHitResult HandleInteraction() { return FHitResult(); }
+	virtual void TickLockOn(const float DeltaTime);
+
 	virtual bool ShouldLockPlayer();
+	virtual FHitResult HandleInteraction() { return FHitResult(); }
+
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
