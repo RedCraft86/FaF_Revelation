@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void SetThemeState(const uint8 State);
 
+	UFUNCTION(BlueprintPure, Category = MusicManager)
+		uint8 GetThemeState() const { return StateIdx; }
+
 	UFUNCTION(BlueprintCallable, Category = MusicManager)
 		void SetThemeIntensity(const uint8 Intensity);
 
