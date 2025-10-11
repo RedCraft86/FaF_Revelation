@@ -144,10 +144,10 @@ FHitResult AToroPlayerCharacter::HandleInteraction()
 	return FHitResult();
 }
 
-void AToroPlayerCharacter::TickLockOn(const float DeltaTime)
+void AToroPlayerCharacter::TickCameraLockOn(const float DeltaTime)
 {
 	FVector Target;
-	if (GetViewTarget(this, Target) && LockOnSpeed > 0.1f)
+	if (ICharInterface::GetViewTarget(this, Target) && LockOnSpeed > 0.1f)
 	{
 		const FRotator Rotation = FRotationMatrix::MakeFromX(
 			Target - PlayerCamera->GetComponentLocation()).Rotator();

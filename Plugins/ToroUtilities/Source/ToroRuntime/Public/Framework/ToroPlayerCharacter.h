@@ -97,7 +97,7 @@ protected:
 
 	virtual bool ShouldLockPlayer();
 	virtual FHitResult HandleInteraction();
-	virtual void TickLockOn(const float DeltaTime);
+	virtual void TickCameraLockOn(const float DeltaTime);
 
 	virtual void SlowTick() {}
 	virtual void BeginPlay() override;
