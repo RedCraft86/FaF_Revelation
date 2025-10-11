@@ -20,7 +20,7 @@ namespace PlayerLockTags
 	TORORUNTIME_API CREATE_TAG_VERIFIER(PlayerLock)
 }
 
-UCLASS()
+UCLASS(Abstract)
 class TORORUNTIME_API AToroPlayerCharacter : public AToroCharacter
 {
 	GENERATED_BODY()

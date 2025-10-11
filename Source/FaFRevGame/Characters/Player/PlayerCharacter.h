@@ -6,7 +6,7 @@
 #include "Framework/ToroPlayerCharacter.h"
 #include "PlayerCharacter.generated.h"
 
-UCLASS(Abstract)
+UCLASS()
 class FAFREVGAME_API APlayerCharacter final : public AToroPlayerCharacter
 {
 	GENERATED_BODY()
