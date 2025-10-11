@@ -28,6 +28,11 @@ void UTutorialManager::QueueTutorials(const TArray<FGameplayTag>& Keys)
 	}
 }
 
+bool UTutorialManager::IsShowingTutorial() const
+{
+	return TutorialWidget && !Tutorials.IsEmpty();
+} 
+
 void UTutorialManager::MarkTutorialsSeen()
 {
 	if (UToroGlobalSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>() : nullptr)

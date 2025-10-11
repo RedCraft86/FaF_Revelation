@@ -33,6 +33,9 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Tutorials)
 		void QueueTutorials(UPARAM(meta = (Categories = "Tutorial")) const TArray<FGameplayTag>& Keys);
 
+	UFUNCTION(BlueprintPure, Category = Tutorials)
+		bool IsShowingTutorial() const;
+
 	void MarkTutorialsSeen();
 	const FTutorialEntry* GetTutorialData(const FGameplayTag& Key) const;
 	const TArray<FGameplayTag>& GetTutorials() const { return Tutorials; }
