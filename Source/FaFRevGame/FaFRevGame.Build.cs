@@ -20,6 +20,7 @@ public class FaFRevGame : ModuleRules
                 "Slate",
                 "SlateCore",
                 "CommonUI",
+                "PhysicsCore",
                 "InputCore",
                 "MovieScene",
                 "LevelSequence",
