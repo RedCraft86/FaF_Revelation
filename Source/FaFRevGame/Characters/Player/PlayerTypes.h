@@ -42,9 +42,9 @@ UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true
 enum EPlayerActivityFlags
 {
 	PAF_None		= 0	UMETA(Hidden),
-	PAF_Inspect		= 1 << 0	UMETA(DisplayName = "Inspecting"),
+	PAF_Hiding		= 1 << 0	UMETA(DisplayName = "Hiding"),
 	PAF_Operating	= 1 << 1	UMETA(DisplayName = "Operating"),
-	PAF_Hiding		= 1 << 2	UMETA(DisplayName = "Hiding"),
+	PAF_Inspect		= 1 << 2	UMETA(DisplayName = "Inspecting"),
 	PAF_Inventory	= 1 << 3	UMETA(DisplayName = "Inventory"),
 	PAF_Tutorial	= 1 << 4	UMETA(DisplayName = "Tutorial"),
 	PAF_QTE			= 1 << 5	UMETA(DisplayName = "QTE")
