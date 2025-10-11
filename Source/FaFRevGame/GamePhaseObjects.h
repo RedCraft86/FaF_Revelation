@@ -26,7 +26,7 @@ protected:
 		Super::ApplyPlayerSettings(PlayerChar);
 		if (APlayerCharacter* Player = Cast<APlayerCharacter>(PlayerChar))
 		{
-			// TODO apply abilities
+			Player->OverrideControlFlags(PlayerAbilities);
 		}
 	}
 };
