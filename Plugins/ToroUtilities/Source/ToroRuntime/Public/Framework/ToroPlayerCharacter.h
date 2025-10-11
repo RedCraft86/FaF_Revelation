@@ -94,14 +94,12 @@ protected:
 
 	float SlowTickTime;
 	TWeakObjectPtr<AActor> LockOnTarget;
-	TObjectPtr<class UNarrativeManager> Narrative;
-
-	virtual void SlowTick() {}
-	virtual void TickLockOn(const float DeltaTime);
 
 	virtual bool ShouldLockPlayer();
 	virtual FHitResult HandleInteraction();
+	virtual void TickLockOn(const float DeltaTime);
 
+	virtual void SlowTick() {}
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void OnConstruction(const FTransform& Transform) override;

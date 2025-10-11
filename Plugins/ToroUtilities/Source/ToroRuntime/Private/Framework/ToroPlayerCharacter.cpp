@@ -4,7 +4,6 @@
 #include "Framework/ToroPlayerController.h"
 #include "Components/PointLightComponent.h"
 #include "Interaction/InteractionManager.h"
-#include "Narrative/NarrativeManager.h"
 #include "Libraries/ToroLightingUtils.h"
 #include "Libraries/ToroMathLibrary.h"
 #include "Camera/CameraComponent.h"
@@ -102,25 +101,9 @@ bool AToroPlayerCharacter::GetViewTarget_Implementation(FVector& Location) const
 	return false;
 }
 
-void AToroPlayerCharacter::TickLockOn(const float DeltaTime)
-{
-	FVector Target;
-	if (GetViewTarget(this, Target) && LockOnSpeed > 0.1f)
-	{
-		const FRotator Rotation = FRotationMatrix::MakeFromX(
-			Target - PlayerCamera->GetComponentLocation()).Rotator();
-		SetControlRotation(FMath::RInterpTo(GetControlRotation(),
-			Rotation, DeltaTime, LockOnSpeed));
-	}
-}
-
 bool AToroPlayerCharacter::ShouldLockPlayer()
 {
 	if (!LockTags.IsEmpty())
-	{
-		return true;
-	}
-	if (Narrative && Narrative->IsInDialogue())
 	{
 		return true;
 	}
@@ -161,13 +144,24 @@ FHitResult AToroPlayerCharacter::HandleInteraction()
 	return FHitResult();
 }
 
+void AToroPlayerCharacter::TickLockOn(const float DeltaTime)
+{
+	FVector Target;
+	if (GetViewTarget(this, Target) && LockOnSpeed > 0.1f)
+	{
+		const FRotator Rotation = FRotationMatrix::MakeFromX(
+			Target - PlayerCamera->GetComponentLocation()).Rotator();
+		SetControlRotation(FMath::RInterpTo(GetControlRotation(),
+			Rotation, DeltaTime, LockOnSpeed));
+	}
+}
+
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	Interaction->HandleTrace.BindUObject(this, &AToroPlayerCharacter::HandleInteraction);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
-		Narrative = UNarrativeManager::Get(this);
 		if (AToroPlayerController* PC = GetPlayerController())
 		{
 			PC->SetViewTarget(this);
