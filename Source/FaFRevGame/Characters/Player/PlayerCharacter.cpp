@@ -7,7 +7,8 @@
 #include "Interaction/InteractionManager.h"
 #include "Narrative/NarrativeManager.h"
 
-APlayerCharacter::APlayerCharacter(): ControlFlags(PCF_None), StateFlags(PSF_None)
+APlayerCharacter::APlayerCharacter()
+	: ControlFlags(Player::DefaultAbilities), StateFlags(PSF_None)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -121,13 +122,13 @@ void APlayerCharacter::SlowTick()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	OverrideControlFlags(Player::DefaultAbilities);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		TutorialManager = UTutorialManager::Get(this);
 		InventoryManager = UInventoryManager::Get(this);
 		InspectionManager = UInspectionManager::Get(this);
 		NarrativeManager = UNarrativeManager::Get(this);
+		Interaction->SetEnabled(HasControlFlag(PCF_CanInteract));
 	});
 }
 
