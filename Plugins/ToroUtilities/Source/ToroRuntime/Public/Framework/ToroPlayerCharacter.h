@@ -98,6 +98,7 @@ protected:
 	virtual bool ShouldLockPlayer();
 	virtual FHitResult HandleInteraction();
 	virtual void TickCameraLockOn(const float DeltaTime);
+	float CalcCameraVerticalOffset(const float CeilLerp = 0.4f) const;
 
 	virtual void SlowTick() {}
 	virtual void BeginPlay() override;

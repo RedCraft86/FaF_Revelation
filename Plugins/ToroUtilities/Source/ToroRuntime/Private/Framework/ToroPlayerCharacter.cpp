@@ -8,6 +8,7 @@
 #include "Libraries/ToroMathLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "ToroRuntime.h"
+#include "Components/CapsuleComponent.h"
 
 namespace PlayerLockTags
 {
@@ -30,6 +31,9 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
 	PlayerCamera->SetupAttachment(GetMesh());
+	PlayerCamera->SetRelativeLocation(FVector{
+		0.0f, 0.0f, CalcCameraVerticalOffset()
+	});
 
 	Interaction = CreateDefaultSubobject<UInteractionManager>("Interaction");
 
@@ -154,6 +158,14 @@ void AToroPlayerCharacter::TickCameraLockOn(const float DeltaTime)
 		SetControlRotation(FMath::RInterpTo(GetControlRotation(),
 			Rotation, DeltaTime, LockOnSpeed));
 	}
+}
+
+float AToroPlayerCharacter::CalcCameraVerticalOffset(const float CeilLerp) const
+{
+	return FMath::Lerp(
+		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere(),
+		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight(),
+		CeilLerp);
 }
 
 void AToroPlayerCharacter::BeginPlay()
