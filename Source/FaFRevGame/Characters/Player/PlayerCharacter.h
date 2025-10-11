@@ -57,8 +57,8 @@ public:
 
 protected:
 
-	TWeakObjectPtr<AActor*> HidingSpot;
-	TWeakObjectPtr<AActor*> OperatingActor;
+	TWeakObjectPtr<AActor> HidingSpot;
+	TWeakObjectPtr<AActor> OperatingActor;
 	TObjectPtr<class UTutorialManager> TutorialManager;
 	TObjectPtr<class UInventoryManager> InventoryManager;
 	TObjectPtr<class UInspectionManager> InspectionManager;
