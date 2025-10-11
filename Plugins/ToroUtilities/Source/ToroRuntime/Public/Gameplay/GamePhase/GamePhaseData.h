@@ -29,7 +29,7 @@ public:
 	UToroGamePhaseGraph();
 };
 
-UCLASS(Abstract)
+UCLASS(Abstract, PrioritizeCategories = (Node, Loading, Level, Game, Player, Inventory))
 class TORORUNTIME_API UToroGamePhaseNode : public UToroDataNode
 {
 	GENERATED_BODY()
@@ -38,17 +38,17 @@ public:
 
 	UToroGamePhaseNode();
 
+	UPROPERTY(EditAnywhere, Category = Loading)
+		bool bSimpleLoading;
+
+	UPROPERTY(EditAnywhere, Category = Loading, meta = (EditCondition = "!bSimpleLoading"))
+		TArray<TSoftObjectPtr<UTexture2D>> Backgrounds;
+
 	UPROPERTY(EditAnywhere, Category = Level)
 		TSoftObjectPtr<UWorld> MainLevel;
 
 	UPROPERTY(EditAnywhere, Category = Level)
 		TMap<TSoftObjectPtr<UWorld>, bool> Levels;
-
-	UPROPERTY(EditAnywhere, Category = Loading)
-		bool bSimpleLoading;
-
-	UPROPERTY(EditAnywhere, Category = Loading, meta = (EditCondition = "!bSimpleLoading", EditConditionHides))
-		TArray<TSoftObjectPtr<UTexture2D>> Backgrounds;
 
 	UPROPERTY(EditAnywhere, Category = Game)
 		FName PostLoadEvent;

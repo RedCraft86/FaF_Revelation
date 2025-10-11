@@ -18,7 +18,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Player, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
+	UPROPERTY(EditAnywhere, Category = Player, meta = (DisplayPriority = 0, Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
 		int32 PlayerAbilities;
 
 	virtual void ApplyPlayerSettings(AToroPlayerCharacter* PlayerChar) const override

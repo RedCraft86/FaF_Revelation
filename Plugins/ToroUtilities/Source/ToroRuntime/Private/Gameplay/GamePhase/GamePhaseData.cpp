@@ -2,6 +2,7 @@
 
 #include "GamePhase/GamePhaseData.h"
 #include "Framework/ToroPlayerCharacter.h"
+#include "Inventory/InventoryManager.h"
 #if WITH_EDITOR
 #include "Framework/Notifications/NotificationManager.h"
 #include "Widgets/Notifications/SNotificationList.h"
@@ -19,7 +20,7 @@ UToroGamePhaseGraph::UToroGamePhaseGraph()
 }
 
 UToroGamePhaseNode::UToroGamePhaseNode()
-	: bSimpleLoading(false)
+	: bSimpleLoading(false), InventoryProfile(InventoryTags::TAG_Inventory.GetTag())
 {
 	Name = NSLOCTEXT("Game", "NewPhaseName", "New Phase");
 	Description = NSLOCTEXT("Game", "NewPhaseDesc", "A node containing data relevant to a Phase of the game.");
