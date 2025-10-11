@@ -47,7 +47,8 @@ enum EPlayerActivityFlags
 	PAF_Inspect		= 1 << 2	UMETA(DisplayName = "Inspecting"),
 	PAF_Inventory	= 1 << 3	UMETA(DisplayName = "Inventory"),
 	PAF_Tutorial	= 1 << 4	UMETA(DisplayName = "Tutorial"),
-	PAF_QTE			= 1 << 5	UMETA(DisplayName = "QTE")
+	PAF_Dialogue	= 1 << 5	UMETA(DisplayName = "Dialogue"),
+	PAF_QTE			= 1 << 6	UMETA(DisplayName = "QTE")
 };
 ENUM_CLASS_FLAGS(EPlayerActivityFlags);
 ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerActivityFlags, PAF_Inspect, PAF_QTE);
