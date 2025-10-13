@@ -118,6 +118,13 @@ bool AToroPlayerCharacter::GetViewTarget_Implementation(FVector& Location) const
 	return false;
 }
 
+void AToroPlayerCharacter::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const
+{
+	Location = PlayerCamera->GetComponentLocation();
+	Forward = PlayerCamera->GetForwardVector();
+	Angle = PlayerCamera->FieldOfView;
+}
+
 bool AToroPlayerCharacter::ShouldLockPlayer()
 {
 	if (!LockTags.IsEmpty())

@@ -95,6 +95,7 @@ public:
 	T* GetGameState() const { return GetWorld()->GetGameState<T>(); }
 
 	virtual bool GetViewTarget_Implementation(FVector& Location) const override;
+	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const override;
 
 protected:
 
