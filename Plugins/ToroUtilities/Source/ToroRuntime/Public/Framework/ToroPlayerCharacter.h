@@ -40,6 +40,21 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UInteractionManager> Interaction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
+		float SlowTickInterval;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Categories = "PlayerLock"))
+		FGameplayTagContainer LockTags;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f))
+		float ReachDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 1.0f, UIMin = 1.0f))
+		float LockOnSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
+		FPointLightProperties LightSettings;
+
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
@@ -76,21 +91,6 @@ public:
 	virtual bool GetViewTarget_Implementation(FVector& Location) const override;
 
 protected:
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
-		float SlowTickInterval;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Categories = "PlayerLock"))
-		FGameplayTagContainer LockTags;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f))
-		float ReachDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 1.0f, UIMin = 1.0f))
-		float LockOnSpeed;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
-		FPointLightProperties LightSettings;
 
 	float SlowTickTime;
 	TWeakObjectPtr<AActor> LockOnTarget;
