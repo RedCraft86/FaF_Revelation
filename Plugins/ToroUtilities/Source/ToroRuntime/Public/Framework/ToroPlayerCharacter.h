@@ -38,6 +38,9 @@ public:
 		TObjectPtr<class UCameraComponent> PlayerCamera;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UAudioComponent> FootstepAudio;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class UInteractionManager> Interaction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
@@ -76,6 +79,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
 
+	UFUNCTION(BlueprintCallable, Category = Player)
+		virtual void PlayFootstep(USoundBase* InSound);
+
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Pawn)
 		void SetControlRotation(const FRotator& InRotator) const;
 
@@ -98,7 +104,7 @@ protected:
 	virtual bool ShouldLockPlayer();
 	virtual FHitResult HandleInteraction();
 	virtual void TickCameraLockOn(const float DeltaTime);
-	float CalcCameraVerticalOffset(const float CeilLerp = 0.4f) const;
+	float GetCapsuleVerticalOffset(const float CapLerp = 0.4f) const;
 
 	virtual void SlowTick() {}
 	virtual void BeginPlay() override;

@@ -6,9 +6,10 @@
 #include "Interaction/InteractionManager.h"
 #include "Libraries/ToroLightingUtils.h"
 #include "Libraries/ToroMathLibrary.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/AudioComponent.h"
 #include "Camera/CameraComponent.h"
 #include "ToroRuntime.h"
-#include "Components/CapsuleComponent.h"
 
 namespace PlayerLockTags
 {
@@ -32,7 +33,13 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
 	PlayerCamera->SetupAttachment(GetMesh());
 	PlayerCamera->SetRelativeLocation(FVector{
-		0.0f, 0.0f, CalcCameraVerticalOffset()
+		0.0f, 0.0f, GetCapsuleVerticalOffset()
+	});
+
+	FootstepAudio = CreateDefaultSubobject<UAudioComponent>("FootstepAudio");
+	FootstepAudio->SetupAttachment(GetMesh());
+	FootstepAudio->SetRelativeLocation(FVector{
+		0.0f, 0.0f, -GetCapsuleVerticalOffset()
 	});
 
 	Interaction = CreateDefaultSubobject<UInteractionManager>("Interaction");
@@ -88,6 +95,12 @@ void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSetti
 {
 	LightSettings = InSettings;
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
+}
+
+void AToroPlayerCharacter::PlayFootstep(USoundBase* InSound)
+{
+	FootstepAudio->SetSound(InSound);
+	FootstepAudio->Play();
 }
 
 void AToroPlayerCharacter::SetControlRotation(const FRotator& InRotator) const
@@ -160,12 +173,12 @@ void AToroPlayerCharacter::TickCameraLockOn(const float DeltaTime)
 	}
 }
 
-float AToroPlayerCharacter::CalcCameraVerticalOffset(const float CeilLerp) const
+float AToroPlayerCharacter::GetCapsuleVerticalOffset(const float CapLerp) const
 {
 	return FMath::Lerp(
 		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere(),
 		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight(),
-		CeilLerp);
+		CapLerp);
 }
 
 void AToroPlayerCharacter::BeginPlay()
@@ -196,5 +209,11 @@ void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 	LockTags.RemoveTag(PlayerLockTags::TAG_PlayerLock);
+	PlayerCamera->SetRelativeLocation({
+		0.0f, 0.0f, GetCapsuleVerticalOffset()
+	});
+	FootstepAudio->SetRelativeLocation({
+		0.0f, 0.0f, -GetCapsuleVerticalOffset()
+	});
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
 }
