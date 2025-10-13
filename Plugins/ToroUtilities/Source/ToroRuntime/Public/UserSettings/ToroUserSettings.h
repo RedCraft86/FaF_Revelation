@@ -87,8 +87,6 @@ public:
 	DECLARE_PROPERTY_FUNC(bool, DeveloperMode)
 	DECLARE_PROPERTY_FUNC(EGameDifficulty, Difficulty)
 
-	DECLARE_PROPERTY_FUNC(bool, SmoothCamera)
-
 	DECLARE_PROPERTY_FUNC(bool, Borderless)
 	DECLARE_PROPERTY_FUNC(uint8, ResPercent)
 
@@ -149,7 +147,6 @@ protected:
 	UPROPERTY(Config) EGameDifficulty Difficulty;
 
 	// Camera
-	UPROPERTY(Config) bool SmoothCamera;
 	UPROPERTY(Config) FVector2D Sensitivity;
 	UPROPERTY(Config) FMouseInversion InvertMouse;
 
