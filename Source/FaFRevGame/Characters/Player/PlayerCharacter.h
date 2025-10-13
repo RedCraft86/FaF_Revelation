@@ -15,15 +15,11 @@ public:
 
 	APlayerCharacter();
 
-protected:
-
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
 		int32 ControlFlags;
 
 	UPROPERTY(VisibleAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerStateFlags"))
 		int32 StateFlags;
-
-public:
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void OverrideControlFlags(const int32 InFlags);
@@ -69,5 +65,6 @@ protected:
 	virtual void SlowTick() override;
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void OnConstruction(const FTransform& Transform) override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 };

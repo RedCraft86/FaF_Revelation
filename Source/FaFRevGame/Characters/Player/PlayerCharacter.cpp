@@ -139,6 +139,11 @@ void APlayerCharacter::Tick(float DeltaTime)
 	TickCameraLockOn(DeltaTime);
 }
 
+void APlayerCharacter::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+}
+
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
