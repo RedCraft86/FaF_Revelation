@@ -33,8 +33,14 @@ void AToroCharacter::Teleport(const FVector& InLocation, const FRotator& InRotat
 bool AToroCharacter::GetFocusPoint_Implementation(FVector& Location) const
 {
 	const float Height = GetCapsuleComponent()->GetScaledCapsuleHalfHeight_WithoutHemisphere();
-	Location = GetActorLocation() + FVector{0.0f, 0.0f, Height};
+	Location = GetActorLocation() + FVector(0.0f, 0.0f, Height);
 	return true;
+}
+
+bool AToroCharacter::GetViewTarget_Implementation(FVector& Location) const
+{
+	Location = FVector::ZeroVector;
+	return false;
 }
 
 void AToroCharacter::GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const

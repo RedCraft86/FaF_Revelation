@@ -40,6 +40,7 @@ public:
 	virtual FGameplayTag GetCharacterID_Implementation() const override { return CharacterID; }
 
 	virtual bool GetFocusPoint_Implementation(FVector& Location) const override;
+	virtual bool GetViewTarget_Implementation(FVector& Location) const override;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const override;
 
 protected:
