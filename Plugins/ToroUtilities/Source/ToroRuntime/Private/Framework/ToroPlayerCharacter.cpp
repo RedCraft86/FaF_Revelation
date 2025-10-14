@@ -4,6 +4,7 @@
 #include "Framework/ToroPlayerController.h"
 #include "Components/PointLightComponent.h"
 #include "Interaction/InteractionManager.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Libraries/ToroLightingUtils.h"
 #include "Libraries/ToroMathLibrary.h"
 #include "Components/CapsuleComponent.h"
@@ -27,19 +28,20 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 	CharacterID = CharacterTags::TAG_Player;
 
 	PlayerLight = CreateDefaultSubobject<UPointLightComponent>("PlayerLight");
-	PlayerLight->SetupAttachment(GetMesh());
-
-	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
-	PlayerCamera->SetupAttachment(GetMesh());
-	PlayerCamera->SetRelativeLocation(FVector{
-		0.0f, 0.0f, GetCapsuleVerticalOffset()
-	});
+	PlayerLight->SetupAttachment(GetCapsuleComponent());
 
 	FootstepAudio = CreateDefaultSubobject<UAudioComponent>("FootstepAudio");
-	FootstepAudio->SetupAttachment(GetMesh());
-	FootstepAudio->SetRelativeLocation(FVector{
-		0.0f, 0.0f, -GetCapsuleVerticalOffset()
-	});
+	FootstepAudio->SetupAttachment(GetCapsuleComponent());
+
+	CameraArm = CreateDefaultSubobject<USpringArmComponent>("CameraArm");
+	CameraArm->SetupAttachment(GetCapsuleComponent());
+	CameraArm->bEnableCameraRotationLag = true;
+	CameraArm->bUsePawnControlRotation = true;
+	CameraArm->bDoCollisionTest = false;
+	CameraArm->TargetArmLength = 0.0f;
+
+	PlayerCamera = CreateDefaultSubobject<UCameraComponent>("PlayerCamera");
+	PlayerCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 
 	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
 	EquipmentRoot->SetRelativeLocation(FVector(22.0f, 20.0f, -15.0f));
@@ -148,6 +150,33 @@ void AToroPlayerCharacter::GetViewPoint_Implementation(FVector& Location, FVecto
 	Angle = PlayerCamera->FieldOfView;
 }
 
+void AToroPlayerCharacter::Teleport(const FVector& InLocation, const FRotator& InRotation)
+{
+	const APlayerController* PC = GetPlayerController();
+	if (APlayerCameraManager* CM = PC ? PC->PlayerCameraManager : nullptr)
+	{
+		CM->SetGameCameraCutThisFrame();
+	}
+
+	SetActorLocation(InLocation, false, nullptr, ETeleportType::ResetPhysics);
+
+	const bool bSmooth = CameraArm->bEnableCameraRotationLag;
+	CameraArm->bEnableCameraRotationLag = false;
+
+	FRotator Rot(InRotation); Rot.Roll = 0.0f;
+	Controller->SetControlRotation(Rot);
+
+	CameraArm->bEnableCameraRotationLag = bSmooth;
+}
+
+void AToroPlayerCharacter::OnSettingsUpdate(const ESettingApplyType ApplyType)
+{
+	if (const UToroUserSettings* UserSettings = UToroUserSettings::Get())
+	{
+		CameraArm->bEnableCameraRotationLag = UserSettings->GetSmoothCamera();
+	}
+}
+
 float AToroPlayerCharacter::GetCapsuleVerticalOffset(const float CapLerp) const
 {
 	return FMath::Lerp(
@@ -159,6 +188,11 @@ float AToroPlayerCharacter::GetCapsuleVerticalOffset(const float CapLerp) const
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	OnSettingsUpdate(ESettingApplyType::Manual);
+	if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
+	{
+		UserSettings->OnSettingsUpdated.AddUObject(this, &AToroPlayerCharacter::OnSettingsUpdate);
+	}
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		if (AToroPlayerController* PC = GetPlayerController())

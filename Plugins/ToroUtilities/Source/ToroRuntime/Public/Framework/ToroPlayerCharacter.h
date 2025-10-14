@@ -6,6 +6,7 @@
 #include "DataTypes/LightingData.h"
 #include "Helpers/GameplayTagMacros.h"
 #include "Helpers/ClassGetterMacros.h"
+#include "UserSettings/ToroUserSettings.h"
 #include "ToroPlayerCharacter.generated.h"
 
 class AToroGameMode;
@@ -37,10 +38,13 @@ public:
 		TObjectPtr<class UPointLightComponent> PlayerLight;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<class UCameraComponent> PlayerCamera;
+		TObjectPtr<class UAudioComponent> FootstepAudio;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<class UAudioComponent> FootstepAudio;
+		TObjectPtr<class USpringArmComponent> CameraArm;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UCameraComponent> PlayerCamera;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<class USceneComponent> EquipmentRoot;
@@ -107,6 +111,7 @@ public:
 
 	virtual bool GetViewTarget_Implementation(FVector& Location) const override;
 	virtual void GetViewPoint_Implementation(FVector& Location, FVector& Forward, float& Angle) const override;
+	virtual void Teleport(const FVector& InLocation, const FRotator& InRotation) override;
 
 protected:
 
@@ -114,6 +119,7 @@ protected:
 	TWeakObjectPtr<AActor> LockOnTarget;
 
 	virtual void OnCinematic(AActor* InActor) {}
+	virtual void OnSettingsUpdate(const ESettingApplyType ApplyType);
 	virtual float GetCapsuleVerticalOffset(const float CapLerp = 0.4f) const;
 
 	virtual void SlowTick() {}
