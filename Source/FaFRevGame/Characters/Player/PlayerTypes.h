@@ -238,24 +238,24 @@ namespace Player
 	namespace Internal
 	{
 		inline const FName Level		= "Internal_Level";
-		inline const FName Leaning		= TEXT("Internal_Leaning");
-		inline const FName Running		= TEXT("Internal_Running");
-		inline const FName Crouching	= TEXT("Internal_Crouching");
+		inline const FName Leaning		= "Internal_Leaning";
+		inline const FName Running		= "Internal_Running";
+		inline const FName Crouching	= "Internal_Crouching";
 	}
 
 	namespace Inputs
 	{
-		inline const FName Pause		= TEXT("Pause");
-		inline const FName Back			= TEXT("Back");
-		inline const FName Turn			= TEXT("Turn");
-		inline const FName Move			= TEXT("Move");
-		inline const FName Run			= TEXT("Run");
-		inline const FName Crouch		= TEXT("Crouch");
-		inline const FName Lean			= TEXT("Lean");
-		inline const FName Inventory	= TEXT("Inventory");
-		inline const FName HideQuests	= TEXT("HideQuests");
-		inline const FName Interact		= TEXT("Interact");
-		inline const FName Equipment	= TEXT("Equipment");
+		inline const FName Pause		= "Pause";
+		inline const FName Back			= "Back";
+		inline const FName Turn			= "Turn";
+		inline const FName Move			= "Move";
+		inline const FName Run			= "Run";
+		inline const FName Crouch		= "Crouch";
+		inline const FName Lean			= "Lean";
+		inline const FName Inventory	= "Inventory";
+		inline const FName HideQuests	= "HideQuests";
+		inline const FName Interact		= "Interact";
+		inline const FName Equipment	= "Equipment";
 
 		inline const TSet All = {
 			Pause,
