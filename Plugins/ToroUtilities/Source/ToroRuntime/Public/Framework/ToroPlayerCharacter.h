@@ -25,6 +25,8 @@ class TORORUNTIME_API AToroPlayerCharacter : public AToroCharacter
 {
 	GENERATED_BODY()
 
+	friend class AToroPlayerController;
+
 public:
 
 	AToroPlayerCharacter();
@@ -111,7 +113,8 @@ protected:
 	float SlowTickTime;
 	TWeakObjectPtr<AActor> LockOnTarget;
 
-	float GetCapsuleVerticalOffset(const float CapLerp = 0.4f) const;
+	virtual void OnCinematic(AActor* InActor) {}
+	virtual float GetCapsuleVerticalOffset(const float CapLerp = 0.4f) const;
 
 	virtual void SlowTick() {}
 	virtual void BeginPlay() override;

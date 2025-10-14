@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "Framework/ToroPlayerController.h"
+#include "Framework/ToroPlayerCharacter.h"
 #include "Framework/ToroCameraManager.h"
 #include "LevelSequencePlayer.h"
 #include "LevelSequenceActor.h"
@@ -54,6 +55,10 @@ void AToroPlayerController::ExitCinematic()
 {
 	CinematicActor = nullptr;
 	SetCinematicMode(false, false, false, true, true);
+	if (AToroPlayerCharacter* Char = GetPawn<AToroPlayerCharacter>())
+	{
+		Char->OnCinematic(nullptr);
+	}
 }
 
 void AToroPlayerController::EnterCinematic(AActor* InActor)
@@ -62,6 +67,10 @@ void AToroPlayerController::EnterCinematic(AActor* InActor)
 	if (CinematicActor.IsValid())
 	{
 		SetCinematicMode(true, true, false, true, true);
+		if (AToroPlayerCharacter* Char = GetPawn<AToroPlayerCharacter>())
+		{
+			Char->OnCinematic(CinematicActor.Get());
+		}
 	}
 	else
 	{
