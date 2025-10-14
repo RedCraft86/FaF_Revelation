@@ -126,7 +126,7 @@ protected:
 
 	virtual void OnCinematic(AActor* InActor) {}
 	virtual void OnSettingsUpdate(const ESettingApplyType ApplyType);
-	virtual float GetCapsuleVerticalOffset(const float CapLerp = 0.4f) const;
+	virtual float GetCapsuleCameraOffset() const;
 
 	virtual void SlowTick() {}
 	virtual void BeginPlay() override;

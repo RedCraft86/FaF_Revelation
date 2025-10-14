@@ -213,12 +213,13 @@ void AToroPlayerCharacter::OnSettingsUpdate(const ESettingApplyType ApplyType)
 	}
 }
 
-float AToroPlayerCharacter::GetCapsuleVerticalOffset(const float CapLerp) const
+float AToroPlayerCharacter::GetCapsuleCameraOffset() const
 {
-	return FMath::Lerp(
-		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere(),
-		GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight(),
-		CapLerp);
+	// return FMath::Lerp(
+	// 	GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere(),
+	// 	GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight(),
+	// 	CapLerp);
+	return GetCapsuleComponent()->GetUnscaledCapsuleHalfHeight_WithoutHemisphere();
 }
 
 void AToroPlayerCharacter::BeginPlay()
