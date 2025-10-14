@@ -128,6 +128,24 @@ void AToroPlayerCharacter::PlayFootstep(USoundBase* InSound)
 	FootstepAudio->Play();
 }
 
+bool AToroPlayerCharacter::GetStandingSurface(EPhysicalSurface& Surface, const ECollisionChannel TraceChannel)
+{
+	FVector Start, End;
+	UToroMathLibrary::GetComponentLineTraceVectors(FootstepAudio, EVectorDirection::Up,
+		-(GetCapsuleComponent()->GetScaledCapsuleHalfHeight() + 16.0f), Start, End);
+	
+	FHitResult HitResult;
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, TraceChannel,
+		FCollisionQueryParams("PlayerTrace_Floor", true, this)))
+	{
+		Surface = UPhysicalMaterial::DetermineSurfaceType(HitResult.PhysMaterial.Get());
+		return true;
+	}
+
+	Surface = SurfaceType_Default;
+	return false;
+}
+
 void AToroPlayerCharacter::SetControlRotation(const FRotator& InRotator) const
 {
 	if (GetController()) GetController()->SetControlRotation(InRotator);
