@@ -184,6 +184,8 @@ DEFINE_PROPERTY_FUNC(bool, ShowFPS, OnSettingsApply(Dynamic))
 DEFINE_PROPERTY_FUNC(bool, DeveloperMode, OnSettingsApply(Developer))
 DEFINE_PROPERTY_FUNC(EGameDifficulty, Difficulty, OnSettingsApply(Difficulty))
 
+DEFINE_PROPERTY_FUNC(bool, SmoothCamera,)
+
 DEFINE_PROPERTY_FUNC(bool, Borderless, SetAdjustedFullscreenMode();)
 
 DEFINE_PROPERTY_FUNC(bool, FancyBloom, OnSettingsApply(Dynamic);)
@@ -322,7 +324,8 @@ void UToroUserSettings::SetToDefaults()
 	ShowFPS = false;
 	DeveloperMode = false;
 	Difficulty = EGameDifficulty::Unset;
-
+	
+	SmoothCamera = true;
 	Sensitivity = FVector2D::UnitVector;
 	InvertMouse = FMouseInversion::Disabled;
 	

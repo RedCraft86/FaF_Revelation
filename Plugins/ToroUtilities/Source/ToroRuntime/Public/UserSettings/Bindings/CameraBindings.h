@@ -5,6 +5,21 @@
 #include "UserSettings/OptionBindingBase.h"
 #include "CameraBindings.generated.h"
 
+USTRUCT(BlueprintType, DisplayName = "Smooth Camera")
+struct TORORUNTIME_API FSmoothCameraBinding : public FToggleOptionBinding
+{
+	GENERATED_BODY()
+
+	FSmoothCameraBinding()
+	{
+		Name = INVTEXT("Smooth Camera");
+		Tooltip = INVTEXT("Smooth the camera rotation and make it feel less sharp. May cause snapping when turning quickly.");
+	}
+
+	virtual bool GetValue() const override { return GetSettings()->GetSmoothCamera(); }
+	virtual void SetValue(const bool InValue) override { GetSettings()->SetSmoothCamera(InValue); }
+};
+
 USTRUCT(BlueprintType, DisplayName = "Sensitivity X")
 struct TORORUNTIME_API FSensitivityXBinding : public FSliderOptionBinding
 {
