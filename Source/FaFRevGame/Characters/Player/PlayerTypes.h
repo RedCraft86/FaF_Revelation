@@ -238,9 +238,10 @@ namespace Player
 	namespace Internal
 	{
 		inline const FName Level		= "Internal_Level";
-		inline const FName Leaning		= "Internal_Leaning";
+		inline const FName Movement		= "Internal_Movement";
 		inline const FName Running		= "Internal_Running";
 		inline const FName Crouching	= "Internal_Crouching";
+		inline const FName Leaning		= "Internal_Leaning";
 	}
 
 	namespace Inputs
