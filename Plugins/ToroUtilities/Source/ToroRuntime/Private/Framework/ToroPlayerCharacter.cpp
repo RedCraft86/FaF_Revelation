@@ -41,6 +41,13 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 		0.0f, 0.0f, -GetCapsuleVerticalOffset()
 	});
 
+	EquipmentRoot = CreateDefaultSubobject<USceneComponent>("EquipmentRoot");
+	EquipmentRoot->SetRelativeLocation(FVector(22.0f, 20.0f, -15.0f));
+	EquipmentRoot->SetupAttachment(PlayerCamera);
+#if WITH_EDITORONLY_DATA
+	EquipmentRoot->bVisualizeComponent = true;
+#endif
+
 	Interaction = CreateDefaultSubobject<UInteractionManager>("Interaction");
 
 	CharacterID = CharacterTags::TAG_Player;
