@@ -124,8 +124,11 @@ void AToroPlayerCharacter::SetLightSettings(const FPointLightProperties& InSetti
 
 void AToroPlayerCharacter::PlayFootstep(USoundBase* InSound)
 {
-	FootstepAudio->SetSound(InSound);
-	FootstepAudio->Play();
+	if (InSound)
+	{
+		FootstepAudio->SetSound(InSound);
+		FootstepAudio->Play();
+	}
 }
 
 bool AToroPlayerCharacter::GetStandingSurface(EPhysicalSurface& Surface, const ECollisionChannel TraceChannel)
