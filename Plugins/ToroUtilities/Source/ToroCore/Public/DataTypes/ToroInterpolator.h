@@ -24,7 +24,10 @@ struct FToroInterpFloat final : TToroInterpBase<float>
 {
 	FORCEINLINE FToroInterpFloat() {}
 	FORCEINLINE FToroInterpFloat(const float InTarget, const float InSpeed): TToroInterpBase(InTarget, InSpeed) {}
-	FORCEINLINE bool IsComplete() const { return FMath::IsNearlyEqual(Current, Target); }
+	FORCEINLINE bool IsComplete(const float Tolerance = 0.01f) const
+	{
+		return FMath::IsNearlyEqual(Current, Target, Tolerance);
+	}
 	FORCEINLINE virtual float Tick(const float InDeltaTime) override
 	{
 		if (!IsComplete())
@@ -41,7 +44,10 @@ struct FToroInterpVector2D final : TToroInterpBase<FVector2D>
 {
 	FORCEINLINE FToroInterpVector2D() {}
 	FORCEINLINE FToroInterpVector2D(const FVector2D& InTarget, const float InSpeed): TToroInterpBase(InTarget, InSpeed) {}
-	FORCEINLINE bool IsComplete() const { return Current.Equals(Target); }
+	FORCEINLINE bool IsComplete(const float Tolerance = 0.01f) const
+	{
+		return Current.Equals(Target, Tolerance);
+	}
 	FORCEINLINE virtual FVector2D Tick(const float InDeltaTime) override
 	{
 		if (!IsComplete())
@@ -58,7 +64,10 @@ struct FToroInterpVector final : TToroInterpBase<FVector>
 {
 	FORCEINLINE FToroInterpVector() {}
 	FORCEINLINE FToroInterpVector(const FVector& InTarget, const float InSpeed): TToroInterpBase(InTarget, InSpeed) {}
-	FORCEINLINE bool IsComplete() const { return Current.Equals(Target); }
+	FORCEINLINE bool IsComplete(const float Tolerance = 0.01f) const
+	{
+		return Current.Equals(Target, Tolerance);
+	}
 	FORCEINLINE virtual FVector Tick(const float InDeltaTime) override
 	{
 		if (!IsComplete())
