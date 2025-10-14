@@ -145,7 +145,7 @@ void AToroPlayerCharacter::PlayFootstep(USoundBase* InSound)
 	}
 }
 
-bool AToroPlayerCharacter::GetStandingSurface(EPhysicalSurface& Surface, const ECollisionChannel TraceChannel)
+bool AToroPlayerCharacter::GetStandingSurface(TEnumAsByte<EPhysicalSurface>& Surface, const ECollisionChannel TraceChannel)
 {
 	FVector Start, End;
 	UToroMathLibrary::GetComponentLineTraceVectors(FootstepAudio, EVectorDirection::Up,

@@ -101,7 +101,7 @@ public:
 		virtual void PlayFootstep(USoundBase* InSound);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual bool GetStandingSurface(EPhysicalSurface& Surface, const ECollisionChannel TraceChannel);
+		virtual bool GetStandingSurface(TEnumAsByte<EPhysicalSurface>& Surface, const ECollisionChannel TraceChannel);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Pawn)
 		void SetControlRotation(const FRotator& InRotator) const;
