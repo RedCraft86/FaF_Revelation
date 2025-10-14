@@ -19,7 +19,6 @@ namespace PlayerLockTags
 
 AToroPlayerCharacter::AToroPlayerCharacter()
 	: SlowTickInterval(0.1f), LockTags({PlayerLockTags::TAG_Loading.GetTag()})
-	, ReachDistance(250.0f), LockOnSpeed(5.0f)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -142,44 +141,6 @@ void AToroPlayerCharacter::GetViewPoint_Implementation(FVector& Location, FVecto
 	Angle = PlayerCamera->FieldOfView;
 }
 
-FHitResult AToroPlayerCharacter::HandleInteraction()
-{
-	const AToroPlayerController* PC = GetPlayerController();
-	if (!PC || PC->bCinematicMode) return FHitResult();
-	if (PC->GetViewTarget() == this)
-	{
-		FVector Start, End;
-		UToroMathLibrary::GetComponentLineTraceVectors(PlayerCamera,
-			EVectorDirection::Forward, ReachDistance, Start, End);
-
-		FHitResult Hit;
-		const FCollisionQueryParams Params("Trace_Interaction", false, this);
-		if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params))
-		{
-			return Hit;
-		}
-	}
-	else if (PC->ShouldShowMouseCursor())
-	{
-		FHitResult Hit;
-		PC->GetHitResultUnderCursor(ECC_Visibility, false, Hit);
-		return Hit;
-	}
-	return FHitResult();
-}
-
-void AToroPlayerCharacter::TickCameraLockOn(const float DeltaTime)
-{
-	FVector Target;
-	if (ICharInterface::GetViewTarget(this, Target) && LockOnSpeed > 0.1f)
-	{
-		const FRotator Rotation = FRotationMatrix::MakeFromX(
-			Target - PlayerCamera->GetComponentLocation()).Rotator();
-		SetControlRotation(FMath::RInterpTo(GetControlRotation(),
-			Rotation, DeltaTime, LockOnSpeed));
-	}
-}
-
 float AToroPlayerCharacter::GetCapsuleVerticalOffset(const float CapLerp) const
 {
 	return FMath::Lerp(
@@ -191,7 +152,6 @@ float AToroPlayerCharacter::GetCapsuleVerticalOffset(const float CapLerp) const
 void AToroPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	Interaction->HandleTrace.BindUObject(this, &AToroPlayerCharacter::HandleInteraction);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		if (AToroPlayerController* PC = GetPlayerController())

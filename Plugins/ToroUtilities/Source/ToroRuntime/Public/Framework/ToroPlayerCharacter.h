@@ -49,12 +49,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Categories = "PlayerLock"))
 		FGameplayTagContainer LockTags;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f))
-		float ReachDistance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 1.0f, UIMin = 1.0f))
-		float LockOnSpeed;
-
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPointLightProperties LightSettings;
 
@@ -114,8 +108,6 @@ protected:
 	float SlowTickTime;
 	TWeakObjectPtr<AActor> LockOnTarget;
 
-	virtual FHitResult HandleInteraction();
-	virtual void TickCameraLockOn(const float DeltaTime);
 	float GetCapsuleVerticalOffset(const float CapLerp = 0.4f) const;
 
 	virtual void SlowTick() {}
