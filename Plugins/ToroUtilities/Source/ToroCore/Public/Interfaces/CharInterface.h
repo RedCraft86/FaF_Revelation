@@ -49,11 +49,17 @@ public:
 
 	static FVector GetFocusPoint(const UObject* Target)
 	{
-		FVector Location;
+		FVector Location = FVector::ZeroVector;
 		if (!ImplementedBy(Target) || !Execute_GetFocusPoint(Target, Location))
 		{
-			const AActor* AsActor = Cast<AActor>(Target);
-			return AsActor ? AsActor->GetActorLocation() : FVector::ZeroVector;
+			if (const AActor* AsActor = Cast<AActor>(Target))
+			{
+				Location = AsActor->GetActorLocation();
+			}
+			else if (const USceneComponent* AsComponent = Cast<USceneComponent>(Target))
+			{
+				Location = AsComponent->GetComponentLocation();
+			}
 		}
 		return Location;
 	}
