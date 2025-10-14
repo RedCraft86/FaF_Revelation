@@ -67,6 +67,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		bool IsPaused() const { return GetWorldSettings()->GetPauserPlayerState() != nullptr; }
 
+	UFUNCTION(BlueprintPure, Category = Player)
+		virtual bool IsLocked();
+
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
@@ -111,7 +114,6 @@ protected:
 	float SlowTickTime;
 	TWeakObjectPtr<AActor> LockOnTarget;
 
-	virtual bool ShouldLockPlayer();
 	virtual FHitResult HandleInteraction();
 	virtual void TickCameraLockOn(const float DeltaTime);
 	float GetCapsuleVerticalOffset(const float CapLerp = 0.4f) const;

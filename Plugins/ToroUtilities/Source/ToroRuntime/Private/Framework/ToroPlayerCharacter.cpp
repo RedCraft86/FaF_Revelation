@@ -56,6 +56,23 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
 }
 
+bool AToroPlayerCharacter::IsLocked()
+{
+	if (!LockTags.IsEmpty())
+	{
+		return true;
+	}
+	if (UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
+	{
+		return true;
+	}
+	if (const AToroPlayerController* PC = GetPlayerController(); PC && PC->bCinematicMode)
+	{
+		return true;
+	}
+	return false;
+}
+
 void AToroPlayerCharacter::AddLockTag(const FGameplayTag InTag)
 {
 	if (PlayerLockTags::IsValidTag(InTag))
@@ -123,23 +140,6 @@ void AToroPlayerCharacter::GetViewPoint_Implementation(FVector& Location, FVecto
 	Location = PlayerCamera->GetComponentLocation();
 	Forward = PlayerCamera->GetForwardVector();
 	Angle = PlayerCamera->FieldOfView;
-}
-
-bool AToroPlayerCharacter::ShouldLockPlayer()
-{
-	if (!LockTags.IsEmpty())
-	{
-		return true;
-	}
-	if (UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
-	{
-		return true;
-	}
-	if (const AToroPlayerController* PC = GetPlayerController(); PC && PC->bCinematicMode)
-	{
-		return true;
-	}
-	return false;
 }
 
 FHitResult AToroPlayerCharacter::HandleInteraction()
