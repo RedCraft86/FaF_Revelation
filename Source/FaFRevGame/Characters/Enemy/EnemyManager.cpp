@@ -29,8 +29,7 @@ void UEnemyManager::OnEnemyStatusChanged()
 	int32 HighestState = StateMapping.FindRef(EEnemyState::None);
 	for (auto It = Enemies.CreateIterator(); It; ++It)
 	{
-		TWeakObjectPtr<AGameEnemyBase>& Enemy = *It;
-		if (Enemy.IsValid())
+		if (TWeakObjectPtr<AGameEnemyBase>& Enemy = *It; Enemy.IsValid())
 		{
 			const int32 EnemyState = StateMapping.FindRef(Enemy.Get()->GetEnemyState());
 			HighestState = FMath::Max(HighestState, EnemyState);
