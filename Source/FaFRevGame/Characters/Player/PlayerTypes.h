@@ -113,19 +113,35 @@ struct FPlayerStamina
 {
 	GENERATED_BODY()
 
-	FPlayerStamina()
-		: MaxNormal(100.0f), NormalRates(1.0f, 1.0f)
+	UPROPERTY(EditAnywhere, Category = "Stamina")
+		float TickInterval;
+
+	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", DisplayName = "Max")
+		float MaxNormal;
+
+	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", DisplayName = "Rates")
+		FStaminaRates NormalRates;
+
+	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", DisplayName = "Max")
+		float MaxReserve;
+
+	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", DisplayName = "Rates")
+		FStaminaRates ReserveRates;
+
+	float Stamina, Delta;
+
+	FPlayerStamina(): TickInterval(0.05f)
+		, MaxNormal(100.0f), NormalRates(1.0f, 1.0f)
 		, MaxReserve(25.0f), ReserveRates(1.5f, 0.5f)
 		, Stamina(100.0f), Delta(0.0f)
 	{}
 
-	FPlayerStamina(const float MaxNormal, const float MaxReserve)
-		: MaxNormal(MaxNormal), NormalRates(1.0f, 1.0f)
+	FPlayerStamina(const float MaxNormal, const float MaxReserve): TickInterval(0.05f)
+		, MaxNormal(MaxNormal), NormalRates(1.0f, 1.0f)
 		, MaxReserve(MaxReserve), ReserveRates(1.5f, 0.5f)
 		, Stamina(100.0f), Delta(0.0f)
 	{}
 
-	float GetDelta() const { return Delta; }
 	float GetMaxStamina() const { return MaxNormal + MaxReserve; }
 
 	float GetOverallPercent() const { return Stamina / GetMaxStamina(); }
@@ -141,22 +157,6 @@ struct FPlayerStamina
 	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, GetMaxStamina()); }
 
 	void TimedTick(const int32 StateFlags);
-
-private:
-
-	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", DisplayName = "Max")
-		float MaxNormal;
-
-	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", DisplayName = "Rates")
-		FStaminaRates NormalRates;
-
-	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", DisplayName = "Max")
-		float MaxReserve;
-
-	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", DisplayName = "Rates")
-		FStaminaRates ReserveRates;
-
-	float Stamina, Delta;
 };
 
 USTRUCT(BlueprintInternalUseOnly)
