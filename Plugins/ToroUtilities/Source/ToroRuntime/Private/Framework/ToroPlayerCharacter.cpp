@@ -253,12 +253,9 @@ void AToroPlayerCharacter::Tick(float DeltaTime)
 void AToroPlayerCharacter::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	LockTags.RemoveTag(PlayerLockTags::TAG_PlayerLock);
-	PlayerCamera->SetRelativeLocation({
-		0.0f, 0.0f, GetCapsuleVerticalOffset()
-	});
-	FootstepAudio->SetRelativeLocation({
-		0.0f, 0.0f, -GetCapsuleVerticalOffset()
-	});
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
+	LockTags.RemoveTag(PlayerLockTags::TAG_PlayerLock);
+	CameraArm->SetRelativeLocation({
+		0.0f, 0.0f, GetCapsuleCameraOffset()
+	});
 }
