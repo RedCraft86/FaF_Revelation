@@ -119,6 +119,12 @@ struct FPlayerStamina
 		, Stamina(100.0f), Delta(0.0f)
 	{}
 
+	FPlayerStamina(const float MaxNormal, const float MaxReserve)
+		: MaxNormal(MaxNormal), NormalRates(1.0f, 1.0f)
+		, MaxReserve(MaxReserve), ReserveRates(1.5f, 0.5f)
+		, Stamina(100.0f), Delta(0.0f)
+	{}
+
 	float GetDelta() const { return Delta; }
 	float GetMaxStamina() const { return MaxNormal + MaxReserve; }
 
