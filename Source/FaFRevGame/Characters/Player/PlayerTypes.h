@@ -10,13 +10,13 @@ UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true
 enum EPlayerControlFlags
 {
 	PCF_None		= 0			UMETA(Hidden),
-	PCF_UseStamina	= 1 << 0	UMETA(DisplayName = "Use Stamina"),
-	PCF_CanPause	= 1 << 1	UMETA(DisplayName = "Can Pause"),
-	PCF_CanTurn		= 1 << 2	UMETA(DisplayName = "Can Turn"),
-	PCF_CanMove		= 1 << 3	UMETA(DisplayName = "Can Move"),
-	PCF_CanRun		= 1 << 4	UMETA(DisplayName = "Can Run"),
-	PCF_CanCrouch	= 1 << 5	UMETA(DisplayName = "Can Crouch"),
-	PCF_CanLean		= 1 << 6	UMETA(DisplayName = "Can Lean"),
+	PCF_CanPause	= 1 << 0	UMETA(DisplayName = "Can Pause"),
+	PCF_CanTurn		= 1 << 1	UMETA(DisplayName = "Can Turn"),
+	PCF_CanMove		= 1 << 2	UMETA(DisplayName = "Can Move"),
+	PCF_CanRun		= 1 << 3	UMETA(DisplayName = "Can Run"),
+	PCF_CanCrouch	= 1 << 4	UMETA(DisplayName = "Can Crouch"),
+	PCF_CanLean		= 1 << 5	UMETA(DisplayName = "Can Lean"),
+	PCF_UseStamina	= 1 << 6	UMETA(DisplayName = "Use Stamina"),
 	PCF_CanInteract	= 1 << 7	UMETA(DisplayName = "Can Interact"),
 	PCF_CanHide		= 1 << 8	UMETA(DisplayName = "Can Hide")
 };
