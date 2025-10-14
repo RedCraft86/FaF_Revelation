@@ -1,6 +1,7 @@
 # FaF_Revelation
 The source code repo for [Fredbear and Friends: Revelation](https://gamejolt.com/games/faf-rev/754442). 
-Includes some blueprint assets as well. Non blueprint assets will be skipped due to copyright and file size.
+Includes some blueprint assets such as data assets and other logic blueprints as well.
+Non blueprint assets such as static meshes, textures, etc. not included due to copyright and file size.
 
 ### Third Party Plugins
 **Code Library / Framework:**\
@@ -8,7 +9,9 @@ Includes some blueprint assets as well. Non blueprint assets will be skipped due
 [Logic Driver Lite](https://www.fab.com/listings/e7500c39-5b12-4b88-aac2-12b14c0b1387)
 
 **Visuals / Graphics:**\
-[FSR 3.1](https://gpuopen.com/learn/ue-fsr3/)\
+[AMD FSR 3.1](https://gpuopen.com/learn/ue-fsr3/)\
+[Intel XeSS](https://www.intel.com/content/www/us/en/developer/articles/technical/xess-plugin-for-unreal-engine.html)\
+[Nvidia DLSS](https://developer.nvidia.com/rtx/dlss)\
 [Expressive Text](https://www.fab.com/listings/893ddbd5-b877-4c13-82ff-be3b05e7a131)\
 [Screen Space Fog Scattering](https://www.fab.com/listings/a670ac7b-392f-4ce0-ab5f-87a441d5ebb7)
 
