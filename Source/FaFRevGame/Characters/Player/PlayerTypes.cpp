@@ -2,14 +2,13 @@
 
 #include "PlayerTypes.h"
 
-void FPlayerStamina::Tick(const int32 StateFlags, const float DeltaTime)
+void FPlayerStamina::TimedTick(const int32 StateFlags)
 {
 	const bool bDraining = StateFlags & PSF_Run;
-	RawDelta = IsInReserve()
+	Delta = IsInReserve()
 		? (bDraining ? -ReserveRates.Depletion : ReserveRates.Regeneration)
 		: (bDraining ? -NormalRates.Depletion : NormalRates.Regeneration);
 
-	Delta = RawDelta * DeltaTime * ReferenceFrameRate;
 	Stamina = FMath::Clamp(Stamina + Delta, 0.0f, GetMaxStamina());
 }
 

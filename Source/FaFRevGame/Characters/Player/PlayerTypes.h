@@ -99,12 +99,10 @@ struct FPlayerStamina
 	FPlayerStamina()
 		: MaxNormal(100.0f), NormalRates(1.0f, 1.0f)
 		, MaxReserve(25.0f), ReserveRates(1.5f, 0.5f)
-		, Stamina(100.0f), RawDelta(0.0f), Delta(0.0f)
+		, Stamina(100.0f), Delta(0.0f)
 	{}
 
 	float GetDelta() const { return Delta; }
-	float GetRawDelta() const { return RawDelta; }
-
 	float GetMaxStamina() const { return MaxNormal + MaxReserve; }
 
 	float GetOverallPercent() const { return Stamina / GetMaxStamina(); }
@@ -119,7 +117,7 @@ struct FPlayerStamina
 	bool IsEmpty() const { return FMath::IsNearlyZero(Stamina); }
 	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, GetMaxStamina()); }
 
-	void Tick(const int32 StateFlags, const float DeltaTime);
+	void TimedTick(const int32 StateFlags);
 
 private:
 
@@ -135,10 +133,7 @@ private:
 	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", DisplayName = "Rates")
 		FStaminaRates ReserveRates;
 
-	float Stamina, RawDelta, Delta;
-
-	// Normalize stamina change rate to match behavior tuned at 60 FPS
-	static constexpr float ReferenceFrameRate = 60.0f;
+	float Stamina, Delta;
 };
 
 USTRUCT(BlueprintInternalUseOnly)
