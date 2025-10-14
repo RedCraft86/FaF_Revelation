@@ -55,7 +55,7 @@ UTutorialWidget* UTutorialManager::GetTutorialWidget()
 		TutorialWidget = AToroWidgetManager::GetWidget<UTutorialWidget>(this);
 		if (TutorialWidget) TutorialWidget->SetCloseFunc([this]()
 		{
-				MarkTutorialsSeen();
+			MarkTutorialsSeen();
 		});
 	}
 	return TutorialWidget;
