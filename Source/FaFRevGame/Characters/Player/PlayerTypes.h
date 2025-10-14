@@ -237,6 +237,7 @@ namespace Player
 
 	namespace Internal
 	{
+		inline const FName Level		= "Internal_Level";
 		inline const FName Leaning		= TEXT("Internal_Leaning");
 		inline const FName Running		= TEXT("Internal_Running");
 		inline const FName Crouching	= TEXT("Internal_Crouching");
