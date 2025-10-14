@@ -71,7 +71,10 @@ public:
 		bool IsPaused() const { return GetWorldSettings()->GetPauserPlayerState() != nullptr; }
 
 	UFUNCTION(BlueprintPure, Category = Player)
-		virtual bool IsLocked();
+		virtual bool IsKillLocked();
+
+	UFUNCTION(BlueprintPure, Category = Player)
+		virtual bool IsControlLocked();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);

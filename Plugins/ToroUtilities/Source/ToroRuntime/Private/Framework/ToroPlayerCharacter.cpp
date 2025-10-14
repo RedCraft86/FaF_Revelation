@@ -7,6 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Libraries/ToroLightingUtils.h"
 #include "Libraries/ToroMathLibrary.h"
+#include "Framework/ToroGameInstance.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/AudioComponent.h"
 #include "Camera/CameraComponent.h"
@@ -64,7 +65,7 @@ AToroPlayerCharacter::AToroPlayerCharacter()
 	UToroLightingUtils::SetPointLightProperties(PlayerLight, LightSettings);
 }
 
-bool AToroPlayerCharacter::IsLocked()
+bool AToroPlayerCharacter::IsControlLocked()
 {
 	if (!LockTags.IsEmpty())
 	{
@@ -73,6 +74,19 @@ bool AToroPlayerCharacter::IsLocked()
 	if (UToroSettings::Get()->IsOnMap(this, EToroMapType::MainMenu))
 	{
 		return true;
+	}
+	if (const AToroPlayerController* PC = GetPlayerController(); PC && PC->bCinematicMode)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool AToroPlayerCharacter::IsKillLocked()
+{
+	if (const UToroGameInstance* GI = GetGameInstance<UToroGameInstance>())
+	{
+		return GI->IsPlayerInvincible();
 	}
 	if (const AToroPlayerController* PC = GetPlayerController(); PC && PC->bCinematicMode)
 	{
