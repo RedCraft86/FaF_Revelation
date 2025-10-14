@@ -58,6 +58,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)
 		FPointLightProperties LightSettings;
 
+	UFUNCTION(BlueprintPure, Category = Player)
+		float GetSpeed() const { return GetVelocity().Size2D(); }
+	
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsMoving() const { return GetSpeed() > 50.0f; }
+	
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsPaused() const { return GetWorldSettings()->GetPauserPlayerState() != nullptr; }
+
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void AddLockTag(UPARAM(meta = (Categories = "PlayerLock")) const FGameplayTag InTag);
 
