@@ -62,6 +62,23 @@ enum class EPlayerLeanState : uint8
 };
 
 USTRUCT(BlueprintInternalUseOnly)
+struct FPlayerMovementInfo
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, Category = Rates, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		float SpeedMultiplier;
+
+	UPROPERTY(EditAnywhere, Category = Rates)
+		float FieldOfViewOffset;
+
+	FPlayerMovementInfo(): SpeedMultiplier(1.0f), FieldOfViewOffset(0.0f) {}
+	FPlayerMovementInfo(const float InSpeedMulti, const float InFOV)
+		: SpeedMultiplier(InSpeedMulti), FieldOfViewOffset(InFOV)
+	{}
+};
+
+USTRUCT(BlueprintInternalUseOnly)
 struct FStaminaRates
 {
 	GENERATED_BODY()
