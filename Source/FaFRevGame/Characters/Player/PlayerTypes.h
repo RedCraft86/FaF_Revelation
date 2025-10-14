@@ -164,14 +164,17 @@ struct FSurfaceFootstep
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, Category = Footsteps)
+		TEnumAsByte<ECollisionChannel> TraceChannel;
+
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		float Interval;
 
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> Sounds;
 
-	FSurfaceFootstep(): Interval(0.0f) {}
-	FSurfaceFootstep(const float InInterval): Interval(InInterval) {}
+	FSurfaceFootstep(): TraceChannel(ECC_Visibility), Interval(0.0f) {}
+	FSurfaceFootstep(const float InInterval): TraceChannel(ECC_Visibility), Interval(InInterval) {}
 	USoundBase* GetSurfaceSound(const EPhysicalSurface Surface) const;
 #if WITH_EDITOR
 	void FillSlots();
