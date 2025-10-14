@@ -38,14 +38,21 @@ void UAppStatusWidget::OnSettingsChanged(const ESettingApplyType Type)
 {
 	if (Type == ESettingApplyType::Dynamic)
 	{
-		const UToroUserSettings* Settings = UToroUserSettings::Get();
-		TargetFPS = Settings->GetFrameRateLimit();
+		const UToroUserSettings* UserSettings = UToroUserSettings::Get();
+		if (!UserSettings)
+		{
+			FrameRateText->SetVisibility(ESlateVisibility::Collapsed);
+			DeltaTimeText->SetVisibility(ESlateVisibility::Collapsed);
+			return;
+		}
+		
+		TargetFPS = UserSettings->GetFrameRateLimit();
 		if (TargetFPS > 150.0f || TargetFPS < 10.0f)
 		{
 			TargetFPS = 60.0f;
 		}
 
-		const bool bShowFPS = Settings->GetShowFPS();
+		const bool bShowFPS = UserSettings->GetShowFPS();
 		FrameRateText->SetVisibility(bShowFPS ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 		DeltaTimeText->SetVisibility(bShowFPS ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
 
@@ -66,8 +73,11 @@ void UAppStatusWidget::InitWidget(APlayerController* Controller)
 	Super::InitWidget(Controller);
 	UnfocusedPanel->SetVisibility(ESlateVisibility::Collapsed);
 
-	UToroUserSettings::Get()->OnSettingsUpdated.AddUObject(this, &UAppStatusWidget::OnSettingsChanged);
 	OnSettingsChanged(ESettingApplyType::Dynamic);
+	if (UToroUserSettings* Settings = UToroUserSettings::Get())
+	{
+		Settings->OnSettingsUpdated.AddUObject(this, &UAppStatusWidget::OnSettingsChanged);
+	}
 
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
@@ -85,6 +95,7 @@ void UAppStatusWidget::InitWidget(APlayerController* Controller)
 void UAppStatusWidget::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
+	if (FrameRateText->GetVisibility() == ESlateVisibility::Collapsed) return;
 	if (UpdateTick >= 0.1f)
 	{
 		UpdateTick = 0.0f;

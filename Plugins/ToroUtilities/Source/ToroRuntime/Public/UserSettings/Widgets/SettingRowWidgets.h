@@ -54,7 +54,10 @@ protected:
 	virtual void NativeOnInitialized() override
 	{
 		Super::NativeOnInitialized();
-		UToroUserSettings::Get()->OnSettingsUpdated.AddUObject(this, &UToroSettingRow::OnSettingsUpdated);
+		if (UToroUserSettings* UserSettings = UToroUserSettings::Get())
+		{
+			UserSettings->OnSettingsUpdated.AddUObject(this, &UToroSettingRow::OnSettingsUpdated);
+		}
 	}
 #if WITH_EDITOR
 	virtual void NativePreConstruct() override

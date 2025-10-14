@@ -31,7 +31,8 @@ void UToroGameInstance::OnSettingUpdate(const ESettingApplyType Type)
 {
 	if (Type == ESettingApplyType::Developer)
 	{
-		if (!UToroUserSettings::Get()->GetDeveloperMode())
+		const UToroUserSettings* UserSettings = UToroUserSettings::Get();
+		if (!UserSettings || !UserSettings->GetDeveloperMode())
 		{
 			SetUnlitViewmode(false);
 			SetPlayerInvincible(false);
@@ -50,11 +51,11 @@ void UToroGameInstance::OnFirstLaunch()
 
 void UToroGameInstance::OnWorldBeginPlay(UWorld* InWorld)
 {
-	UToroUserSettings* Settings = UToroUserSettings::Get();
-	if (Settings->InitializeSettings(this))
+	UToroUserSettings* UserSettings = UToroUserSettings::Get();
+	if (UserSettings && UserSettings->InitializeSettings(this))
 	{
 		OnFirstLaunch();
-		Settings->OnSettingsUpdated.AddUObject(this, &UToroGameInstance::OnSettingUpdate);
+		UserSettings->OnSettingsUpdated.AddUObject(this, &UToroGameInstance::OnSettingUpdate);
 	}
 }
 

@@ -40,12 +40,12 @@ float UToroUserSettings::GetAverageMS()
 
 float UToroUserSettings::GetAverageFPS()
 {
-	const UToroUserSettings* Settings = UToroUserSettings::Get();
-	const bool bUsingXeFG = Settings
-		&& Settings->ImageFidelity == EImageFidelityMode::XeSS
+	const UToroUserSettings* UserSettings = UToroUserSettings::Get();
+	const bool bUsingXeFG = UserSettings
+		&& UserSettings->ImageFidelity == EImageFidelityMode::XeSS
 		&& ImageFidelity::IsUsingAnyFrameGen();
 
-	return bUsingXeFG ? GXeFGAverageFPS :GAverageFPS;
+	return bUsingXeFG ? GXeFGAverageFPS : GAverageFPS;
 }
 
 void UToroUserSettings::UpdateResolutions()
