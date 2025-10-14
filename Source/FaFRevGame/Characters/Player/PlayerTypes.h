@@ -153,8 +153,8 @@ struct FPlayerStamina
 	}
 
 	bool IsInReserve() const { return Stamina <= MaxReserve; }
-	bool IsEmpty() const { return FMath::IsNearlyZero(Stamina); }
-	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, GetMaxStamina()); }
+	bool IsEmpty(const float Min = 10.0f) const { return Stamina < Min; }
+	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, GetMaxStamina(), 0.01f); }
 
 	void TimedTick(const int32 StateFlags);
 };
