@@ -181,7 +181,12 @@ struct FPlayerFootsteps
 	UPROPERTY(EditAnywhere, Category = Footsteps)
 		FSurfaceFootstep SneakSounds;
 
-	FPlayerFootsteps(): TraceChannel(ECC_Visibility) {}
+	FPlayerFootsteps(): TraceChannel(ECC_Visibility)
+	{
+		WalkSounds.Interval = 0.5f;
+		SneakSounds.Interval = 0.35f;
+		RunSounds.Interval = 0.6f;
+	}
 	float GetFootstepInterval(const int32 StateFlags) const;
 	USoundBase* GetFootstepSound(const int32 StateFlags, const EPhysicalSurface Surface) const;
 #if WITH_EDITOR
