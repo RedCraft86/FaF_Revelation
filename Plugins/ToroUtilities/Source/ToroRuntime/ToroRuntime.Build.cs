@@ -34,6 +34,7 @@ public class ToroRuntime : ModuleRules
                 "CommonUI",
                 "MovieScene",
                 "LevelSequence",
+                "PhysicsCore",
                 "GameplayTags",
                 "EngineSettings",
                 "MetasoundEngine",
