@@ -45,7 +45,7 @@ protected:
 		bool bTickInEditor = false;
 #endif
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -10))
 		bool bEnabled;
 
 	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)

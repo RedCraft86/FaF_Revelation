@@ -45,7 +45,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1, Categories = "Character"))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -10, Categories = "Character"))
 		FGameplayTag CharacterID;
 
 	UPROPERTY(EditAnywhere, Category = Actor, NonPIEDuplicateTransient, TextExportTransient, NonTransactional)
