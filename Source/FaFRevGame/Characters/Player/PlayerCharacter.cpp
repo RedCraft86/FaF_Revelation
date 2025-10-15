@@ -706,7 +706,7 @@ void APlayerCharacter::InputBinding_Move(const FInputActionValue& InValue)
 		AddMovementInput(GetActorForwardVector(), Axis.X);
 		AddCameraOffsetMod(Player::Internal::Movement, StrafeOffsets * Axis.Y);
 	}
-	else
+	else if (HasCameraOffsetMod(Player::Internal::Movement))
 	{
 		RemoveCameraOffsetMod(Player::Internal::Movement);
 	}
