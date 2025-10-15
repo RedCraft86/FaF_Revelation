@@ -42,4 +42,104 @@ namespace CustomizationHelpers
 		const UClass* OwningClass = Property ? Property->GetOwnerClass() : nullptr;
 		return OwningClass ? BaseClass->IsChildOf(OwningClass) : false;
 	}
+
+	TOROEDITOR_API inline TSharedRef<SWidget> ConstructVerticalVec2D(const TSharedRef<IPropertyHandle>& Handle, const FText& NameX, const FText& NameY)
+	{
+		return SNew(SVerticalBox)
+			+SVerticalBox::Slot()
+			.Padding(0.0f, 0.0f, 0.0f, 2.0f)
+			.VAlign(VAlign_Center)
+			.MinHeight(20.0f)
+			.AutoHeight()
+			[
+				SNew(SHorizontalBox)
+				+SHorizontalBox::Slot()
+				.Padding(0.0f, 0.0f, 4.0f, 0.0f)
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Left)
+				.FillWidth(0.5f)
+				[
+					SIMPLE_LABEL(NameX)
+				]
+				+SHorizontalBox::Slot()
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Fill)
+				.FillWidth(1.0f)
+				[
+					Handle->GetChildHandle(0)->CreatePropertyValueWidget()
+				]
+			]
+			+SVerticalBox::Slot()
+			.VAlign(VAlign_Center)
+			.MinHeight(20.0f)
+			.AutoHeight()
+			[
+				SNew(SHorizontalBox)
+				+SHorizontalBox::Slot()
+				.Padding(0.0f, 0.0f, 4.0f, 0.0f)
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Left)
+				.FillWidth(0.5f)
+				[
+					SIMPLE_LABEL(NameY)
+				]
+				+SHorizontalBox::Slot()
+				.VAlign(VAlign_Center)
+				.HAlign(HAlign_Fill)
+				.FillWidth(1.0f)
+				[
+					Handle->GetChildHandle(1)->CreatePropertyValueWidget()
+				]
+			];
+	}
+
+	TOROEDITOR_API inline TSharedRef<SWidget> ConstructHorizontalVec2D(const TSharedRef<IPropertyHandle>& Handle, const FText& NameX, const FText& NameY)
+	{
+		return SNew(SHorizontalBox)
+			+SHorizontalBox::Slot()
+			.Padding(0.0f, 0.0f, 10.0f, 0.0f)
+			.VAlign(VAlign_Center)
+			.MinWidth(20.0f)
+			.AutoWidth()
+			[
+				SNew(SHorizontalBox)
+				+SHorizontalBox::Slot()
+				.Padding(0.0f, 0.0f, 4.0f, 0.0f)
+				.VAlign(VAlign_Center)
+				.MinWidth(20.0f)
+				.AutoWidth()
+				[
+					SIMPLE_LABEL(NameX)
+				]
+				+SHorizontalBox::Slot()
+				.VAlign(VAlign_Center)
+				.MinWidth(30.0f)
+				.AutoWidth()
+				[
+					Handle->GetChildHandle(0)->CreatePropertyValueWidget()
+				]
+			]
+			+SHorizontalBox::Slot()
+			.VAlign(VAlign_Center)
+			.MinWidth(20.0f)
+			.AutoWidth()
+			[
+				SNew(SHorizontalBox)
+				+SHorizontalBox::Slot()
+				.Padding(0.0f, 0.0f, 4.0f, 0.0f)
+				.VAlign(VAlign_Center)
+				.MinWidth(20.0f)
+				.AutoWidth()
+				[
+					SIMPLE_LABEL(NameY)
+				]
+				+SHorizontalBox::Slot()
+				.VAlign(VAlign_Center)
+				.MinWidth(30.0f)
+				.AutoWidth()
+				[
+					Handle->GetChildHandle(1)->CreatePropertyValueWidget()
+				]
+			];
+	}
 }
