@@ -13,7 +13,9 @@ UCLASS()
 class FAFREVGAME_API APlayerCharacter final : public AToroPlayerCharacter
 {
 	GENERATED_BODY()
-
+#if WITH_EDITOR
+	friend class FPlayerCharacterDetails;
+#endif
 public:
 
 	APlayerCharacter();
@@ -24,7 +26,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerStateFlags"))
 		int32 StateFlags;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ClampMin = 10.0f, UIMin = 10.0f, Units = "cm"))
 		float InteractDistance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings)
@@ -60,7 +62,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TEnumAsByte<ECollisionChannel> CeilingTrace;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
 		FPlayerFootsteps Footsteps;
 
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay, meta = (ReadOnlyKeys, DisplayThumbnail = false))
