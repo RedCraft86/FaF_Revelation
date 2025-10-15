@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "Framework/ToroPlayerCharacter.h"
 #include "GameFramework/Actor.h"
 #include "EquipmentActor.generated.h"
 
@@ -17,7 +18,7 @@ public:
 	AEquipmentActor();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Subobject)
-	TObjectPtr<USceneComponent> SceneRoot;
+		TObjectPtr<USceneComponent> SceneRoot;
 
 	UFUNCTION(BlueprintNativeEvent, Category = Equipment)
 		void OnBeginUse();
@@ -28,17 +29,20 @@ public:
 	virtual void OnEndUse_Implementation() {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Equipment)
-		void OnEquip();
-	virtual void OnEquip_Implementation() {}
+		void OnEquip(USceneComponent* EquipmentHandle);
+	virtual void OnEquip_Implementation(USceneComponent* EquipmentHandle);
 
 	UFUNCTION(BlueprintNativeEvent, Category = Equipment)
 		void OnUnequip();
-	virtual void OnUnequip_Implementation() { K2_DestroyActor(); }
+	virtual void OnUnequip_Implementation();
 
 	UFUNCTION(BlueprintPure, Category = Equipment)
 		bool IsBeingUsed() const { return bUsing; }
 
 protected:
+
+	UPROPERTY(BlueprintReadOnly, Category = Equipment)
+		TObjectPtr<AToroPlayerCharacter> PlayerChar;
 
 	bool bUsing;
 

@@ -12,11 +12,27 @@ AEquipmentActor::AEquipmentActor(): bUsing(false)
 	SetRootComponent(SceneRoot);
 }
 
-void AEquipmentActor::EquipItem()
+void AEquipmentActor::OnEquip_Implementation(USceneComponent* EquipmentHandle)
 {
+	AttachToComponent(EquipmentHandle, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+}
+
+void AEquipmentActor::OnUnequip_Implementation()
+{
+	SetActorHiddenInGame(true);
+	DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
-		OnEquip();
+		K2_DestroyActor();
+	});
+}
+
+void AEquipmentActor::EquipItem()
+{
+	PlayerChar = AToroPlayerCharacter::Get(this);
+	GetWorldTimerManager().SetTimerForNextTick([this]()
+	{
+		OnEquip(PlayerChar->EquipmentRoot);
 	});
 }
 
