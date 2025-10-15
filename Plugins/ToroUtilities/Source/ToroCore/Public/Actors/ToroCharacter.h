@@ -24,7 +24,9 @@ UCLASS(Abstract, PrioritizeCategories = Settings)
 class TOROCORE_API AToroCharacter : public ACharacter, public ICharInterface, public IGuidInterface
 {
 	GENERATED_BODY()
-
+#if WITH_EDITOR
+	friend class FToroCharacterDetails;
+#endif
 public:
 
 	AToroCharacter() {}
