@@ -66,7 +66,7 @@ struct FPlayerMovementInfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = Rates, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+	UPROPERTY(EditAnywhere, Category = Rates, meta = (ClampMin = 0.1f, UIMin = 0.1f, Units = "x"))
 		float SpeedMultiplier;
 
 	UPROPERTY(EditAnywhere, Category = Rates)
@@ -75,23 +75,6 @@ struct FPlayerMovementInfo
 	FPlayerMovementInfo(): SpeedMultiplier(1.0f), FieldOfViewOffset(0.0f) {}
 	FPlayerMovementInfo(const float InSpeedMulti, const float InFOV)
 		: SpeedMultiplier(InSpeedMulti), FieldOfViewOffset(InFOV)
-	{}
-};
-
-USTRUCT(BlueprintInternalUseOnly)
-struct FStaminaRates
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditAnywhere, Category = Rates, meta = (ClampMin = 0.1f, UIMin = 0.1f))
-		float Depletion;
-
-	UPROPERTY(EditAnywhere, Category = Rates, meta = (ClampMin = 0.1f, UIMin = 0.1f))
-		float Regeneration;
-
-	FStaminaRates(): Depletion(1.0f), Regeneration(1.0f) {}
-	FStaminaRates(const float InDepletion, const float InRegeneration)
-		: Depletion(InDepletion), Regeneration(InRegeneration)
 	{}
 };
 
@@ -113,20 +96,20 @@ struct FPlayerStamina
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Stamina")
+	UPROPERTY(EditAnywhere, Category = "Stamina", meta = (ClampMin = 0.01f, UIMin = 0.01f, Units = "s"))
 		float TickInterval;
 
-	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", DisplayName = "Max")
+	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", meta = (ClampMin = 10.0f, UIMin = 10.0f))
 		float MaxNormal;
 
-	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", DisplayName = "Rates")
-		FStaminaRates NormalRates;
+	UPROPERTY(EditAnywhere, Category = "Stamina|Normal", meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		FVector2D NormalRates;
 
-	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", DisplayName = "Max")
+	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", meta = (ClampMin = 10.0f, UIMin = 10.0f))
 		float MaxReserve;
 
-	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", DisplayName = "Rates")
-		FStaminaRates ReserveRates;
+	UPROPERTY(EditAnywhere, Category = "Stamina|Reserve", meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		FVector2D ReserveRates;
 
 	float Stamina, Delta;
 

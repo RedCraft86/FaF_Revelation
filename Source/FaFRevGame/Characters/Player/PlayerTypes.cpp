@@ -6,8 +6,8 @@ void FPlayerStamina::TimedTick(const int32 StateFlags)
 {
 	const bool bDraining = StateFlags & PSF_Run;
 	Delta = IsInReserve()
-		? (bDraining ? -ReserveRates.Depletion : ReserveRates.Regeneration)
-		: (bDraining ? -NormalRates.Depletion : NormalRates.Regeneration);
+		? (bDraining ? -ReserveRates.X : ReserveRates.Y)
+		: (bDraining ? -NormalRates.X : NormalRates.Y);
 
 	Stamina = FMath::Clamp(Stamina + Delta, 0.0f, GetMaxStamina());
 }
