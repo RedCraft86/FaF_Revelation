@@ -64,7 +64,7 @@ public:
 
 protected:
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements)
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UOverlay> WidgetStack;
 
 	virtual void NativePreConstruct() override;
@@ -86,7 +86,7 @@ public:
 
 protected:
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements)
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UCommonActivatableWidgetStack> WidgetStack;
 
 	virtual void NativePreConstruct() override;
