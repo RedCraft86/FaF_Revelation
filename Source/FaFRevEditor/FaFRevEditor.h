@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroEditor.h"
 #include "Modules/ModuleManager.h"
 
 class FFaFRevEditorModule final : public IModuleInterface

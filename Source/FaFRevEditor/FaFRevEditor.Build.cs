@@ -16,6 +16,7 @@ public class FaFRevEditor : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "FaFRevGame",
                 "ToroEditor"
             ]
         );

@@ -55,7 +55,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Tick, meta = (ClampMin = 0.05f, UIMin = 0.05f))
 		float SlowTickInterval;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (DisplayPriority = -1, Categories = "PlayerLock"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (Categories = "PlayerLock"))
 		FGameplayTagContainer LockTags;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, AdvancedDisplay)

@@ -2,15 +2,13 @@
 
 #pragma once
 
-#include "CustomizationHelpers.h"
 #include "DetailLayoutBuilder.h"
 #include "EditorCategoryUtils.h"
 #include "IDetailCustomization.h"
 #include "Actors/ToroCharacter.h"
-#include "StructUtils/PropertyBag.h"
 
 #define CLASSNAME AToroCharacter
-class TOROEDITOR_API FToroCharacterDetails final : public IDetailCustomization
+class TOROEDITOR_API FToroCharacterDetails : public IDetailCustomization
 {
 public:
 
@@ -27,6 +25,8 @@ protected:
 
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override
 	{
+		PreApplyCustomization(DetailBuilder);
+
 		const UClass* TargetClass = nullptr;
 		TArray<TWeakObjectPtr<UObject>> Objects;
 		DetailBuilder.GetObjectsBeingCustomized(Objects);
@@ -41,6 +41,8 @@ protected:
 			if (!TargetClass) TargetClass = Object->GetClass();
 			else if (TargetClass != Object->GetClass()) return;
 		}
+
+		OnCustomizationValid(DetailBuilder);
 
 		TArray<FString> Priority, Show, Hide;
 		TargetClass->GetPrioritizeCategories(Priority);
@@ -74,6 +76,12 @@ protected:
 				DetailBuilder.HideCategory(CategoryName);
 			}
 		}
+
+		PostApplyCustomization(DetailBuilder);
 	}
+
+	virtual void OnCustomizationValid(IDetailLayoutBuilder& DetailBuilder) {}
+	virtual void PreApplyCustomization(IDetailLayoutBuilder& DetailBuilder) {}
+	virtual void PostApplyCustomization(IDetailLayoutBuilder& DetailBuilder) {}
 };
 #undef CLASSNAME
