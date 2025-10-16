@@ -6,6 +6,8 @@
 AGameEnemyBase::AGameEnemyBase(): EnemyState(EEnemyState::None)
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	StateComponent = CreateDefaultSubobject<USMStateMachineComponent>("StateMachine");
 }
 
 void AGameEnemyBase::SetEnemyState(const EEnemyState InState)
@@ -26,6 +28,10 @@ EEnemyState AGameEnemyBase::GetEnemyState() const
 {
 	return EnemyState;
 }
+
+USMInstance* AGameEnemyBase::GetStateMachine() const
+{
+	return StateComponent->GetInstance();
 }
 
 void AGameEnemyBase::BeginPlay()

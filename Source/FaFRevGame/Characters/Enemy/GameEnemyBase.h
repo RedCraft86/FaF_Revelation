@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Actors/ToroCharacter.h"
+#include "SMStateMachineComponent.h"
 #include "GameEnemyBase.generated.h"
 
 UENUM(BlueprintType)
@@ -37,6 +38,9 @@ public:
 
 	AGameEnemyBase();
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USMStateMachineComponent> StateComponent;
+
 	UFUNCTION(BlueprintCallable, Category = Enemy)
 		virtual void SetEnemyState(const EEnemyState InState);
 
@@ -45,6 +49,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Enemy)
 		virtual EEnemyState GetEnemyState() const;
+
+	UFUNCTION(BlueprintPure, Category = Enemy)
+		virtual USMInstance* GetStateMachine() const;
 
 protected:
 
