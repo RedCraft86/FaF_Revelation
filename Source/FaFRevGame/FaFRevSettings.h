@@ -14,21 +14,17 @@ class FAFREVGAME_API UFaFRevSettings final : public UDeveloperSettings
 
 public:
 
-	SETTING_GETTER(UFaFRevSettings)
-
-	UFaFRevSettings(): EnemyToThemeState({
-		{EEnemyState::None,			0},
-		{EEnemyState::Roaming,			1},
-		{EEnemyState::Investigating,	2},
-		{EEnemyState::Stalking,		3},
-		{EEnemyState::Chasing,			4},
-		{EEnemyState::Searching,		5},
-	})
+	UFaFRevSettings(): EnemyThemeRadius(500.0f), EnemyThemeUpdateInterval(0.5f)
 	{
 		CategoryName = TEXT("Project");
 		SectionName = TEXT("FaFRevSettings");
 	}
 
-	UPROPERTY(Config, EditAnywhere, Category = Game, meta = (ReadOnlyKeys = true))
-		TMap<EEnemyState, uint8> EnemyToThemeState;
+	SETTING_GETTER(UFaFRevSettings)
+
+	UPROPERTY(Config, EditAnywhere, Category = EnemyTheme, DisplayName = "Radius", meta = (ClampMin = 200.0f, UIMin = 200.0f))
+		float EnemyThemeRadius;
+
+	UPROPERTY(Config, EditAnywhere, Category = EnemyTheme, DisplayName = "Update Interval", meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		float EnemyThemeUpdateInterval;
 };

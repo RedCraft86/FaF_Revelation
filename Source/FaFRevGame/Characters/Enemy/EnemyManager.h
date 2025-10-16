@@ -4,7 +4,10 @@
 
 #include "Subsystems/WorldSubsystem.h"
 #include "MusicSystem/WorldMusicManager.h"
+#include "Player/PlayerCharacter.h"
 #include "EnemyManager.generated.h"
+
+class AGameEnemyBase;
 
 UCLASS()
 class FAFREVGAME_API UEnemyManager final : public UWorldSubsystem
@@ -17,15 +20,18 @@ public:
 
 	WORLD_SUBSYSTEM_GETTER(UEnemyManager)
 
-	static void RegisterEnemy(class AGameEnemyBase* InEnemy);
+	static void RegisterEnemy(AGameEnemyBase* InEnemy);
+	static void UnregisterEnemy(AGameEnemyBase* InEnemy);
 	static void UpdateEnemyStatus(const UObject* ContextObject);
 
 private:
 
+	FTimerHandle UpdateTimer;
+	TObjectPtr<APlayerCharacter> Player;
 	TObjectPtr<UWorldMusicManager> MusicManager;
 	TSet<TWeakObjectPtr<AGameEnemyBase>> Enemies;
 
-	void OnEnemyStatusChanged();
+	void UpdateMusicState();
 
 	virtual void OnWorldBeginPlay(UWorld& InWorld) override;
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;

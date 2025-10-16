@@ -2,15 +2,26 @@
 
 #include "EnemyManager.h"
 #include "GameEnemyBase.h"
-#include "ToroRuntime.h"
 #include "FaFRevGame/FaFRevSettings.h"
+#include "ToroRuntime.h"
 
 void UEnemyManager::RegisterEnemy(AGameEnemyBase* InEnemy)
 {
+	if (!InEnemy) return;
 	if (UEnemyManager* Manager = UEnemyManager::Get(InEnemy))
 	{
 		Manager->Enemies.Add(InEnemy);
-		Manager->OnEnemyStatusChanged();
+		Manager->UpdateMusicState();
+	}
+}
+
+void UEnemyManager::UnregisterEnemy(AGameEnemyBase* InEnemy)
+{
+	if (!InEnemy) return;
+	if (UEnemyManager* Manager = UEnemyManager::Get(InEnemy))
+	{
+		Manager->Enemies.Remove(InEnemy);
+		Manager->UpdateMusicState();
 	}
 }
 
@@ -18,25 +29,38 @@ void UEnemyManager::UpdateEnemyStatus(const UObject* ContextObject)
 {
 	if (UEnemyManager* Manager = UEnemyManager::Get(ContextObject))
 	{
-		Manager->OnEnemyStatusChanged();
+		Manager->UpdateMusicState();
 	}
 }
 
-void UEnemyManager::OnEnemyStatusChanged()
+void UEnemyManager::UpdateMusicState()
 {
-	const TMap<EEnemyState, uint8>& StateMapping = UFaFRevSettings::Get()->EnemyToThemeState;
-
-	int32 HighestState = StateMapping.FindRef(EEnemyState::None);
-	for (auto It = Enemies.CreateIterator(); It; ++It)
+	uint8 HighestState = 0;
+	if (Player)
 	{
-		if (TWeakObjectPtr<AGameEnemyBase>& Enemy = *It; Enemy.IsValid())
+		const FVector PlayerLoc = Player->GetActorLocation();
+		const UFaFRevSettings* Settings = UFaFRevSettings::Get();
+		const float MaxDistSq = Settings->EnemyThemeRadius * Settings->EnemyThemeRadius;
+		for (auto It = Enemies.CreateIterator(); It; ++It)
 		{
-			const int32 EnemyState = StateMapping.FindRef(Enemy.Get()->GetEnemyState());
-			HighestState = FMath::Max(HighestState, EnemyState);
-		}
-		else
-		{
-			It.RemoveCurrent();
+			if (TWeakObjectPtr<AGameEnemyBase>& WeakEnemy = *It; WeakEnemy.IsValid())
+			{
+				const AGameEnemyBase* Enemy = WeakEnemy.Get();
+				if (FVector::DistSquared(Enemy->GetActorLocation(), PlayerLoc) > MaxDistSq)
+				{
+					continue;
+				}
+
+				const uint8 EnemyState = static_cast<uint8>(Enemy->GetEnemyState());
+				if (EnemyState > HighestState)
+				{
+					HighestState = EnemyState;
+				}
+			}
+			else
+			{
+				It.RemoveCurrent();
+			}
 		}
 	}
 
@@ -51,9 +75,11 @@ void UEnemyManager::OnWorldBeginPlay(UWorld& InWorld)
 	Super::OnWorldBeginPlay(InWorld);
 	InWorld.GetTimerManager().SetTimerForNextTick([this]()
 	{
+		Player = APlayerCharacter::Get<APlayerCharacter>(this);
 		MusicManager = UWorldMusicManager::Get(this);
-		OnEnemyStatusChanged();
 	});
+	InWorld.GetTimerManager().SetTimer(UpdateTimer, this, &UEnemyManager::UpdateMusicState,
+		UFaFRevSettings::Get()->EnemyThemeUpdateInterval, true, 0.1f);
 }
 
 bool UEnemyManager::ShouldCreateSubsystem(UObject* Outer) const

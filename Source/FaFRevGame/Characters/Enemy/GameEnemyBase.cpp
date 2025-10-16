@@ -13,19 +13,31 @@ void AGameEnemyBase::SetEnemyState(const EEnemyState InState)
 	if (EnemyState != InState)
 	{
 		EnemyState = InState;
-		OnEnemyStateChanged();
+		UEnemyManager::UpdateEnemyStatus(this);
 	}
 }
 
-void AGameEnemyBase::OnEnemyStateChanged()
+bool AGameEnemyBase::IsEnemyState(const EEnemyState InState) const
 {
-	UEnemyManager::UpdateEnemyStatus(this);
+	return EnemyState == InState;
+}
+
+EEnemyState AGameEnemyBase::GetEnemyState() const
+{
+	return EnemyState;
+}
 }
 
 void AGameEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
 	UEnemyManager::RegisterEnemy(this);
+}
+
+void AGameEnemyBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UEnemyManager::UnregisterEnemy(this);
+	Super::EndPlay(EndPlayReason);
 }
 
 void AGameEnemyBase::Tick(float DeltaTime)
