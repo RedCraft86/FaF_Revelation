@@ -375,7 +375,7 @@ bool APlayerCharacter::TryJumpscare(const FGameplayTag& FromEnemy)
 	if (MusicManager)
 	{
 		MusicManager->ClearDipRequests();
-		MusicManager->SetPaused(true);
+		MusicManager->FadeOut(0.5f, 0.0f);
 	}
 	return true;
 }
