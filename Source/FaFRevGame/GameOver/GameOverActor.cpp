@@ -2,8 +2,10 @@
 
 #include "GameOverActor.h"
 #include "GameOverWidget.h"
+#include "Player/PlayerCharacter.h"
 #include "UserInterface/ToroWidgetManager.h"
 #include "Framework/ToroPlayerController.h"
+#include "Libraries/ToroShortcutLibrary.h"
 #include "EngineUtils.h"
 
 AGameOverActor::AGameOverActor(const FObjectInitializer& ObjectInitializer)
@@ -14,27 +16,33 @@ AGameOverActor::AGameOverActor(const FObjectInitializer& ObjectInitializer)
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 }
 
-AGameOverActor* AGameOverActor::FindGameOver(const UObject* ContextObject, const TSubclassOf<AGameOverActor> Class, const FGameplayTag Tag)
+void AGameOverActor::InitiateGameOver(const UObject* ContextObject)
 {
-	if (!ContextObject || !Class || !CharacterTags::IsValidTag(Tag)) return nullptr;
-	const UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull) : nullptr;
-	if (!World) return nullptr;
-	for (AGameOverActor* GameOver : TActorRange(World, Class))
+	const APlayerCharacter* Player = APlayerCharacter::Get<APlayerCharacter>(ContextObject);
+	const FGameplayTag Enemy = Player ? Player->GetJumpscareEnemy() : FGameplayTag::EmptyTag;
+	if (!CharacterTags::IsValidTag(Enemy) || Enemy == CharacterTags::TAG_Player.GetTag())
 	{
-		if (GameOver->GetCharacterID() == Tag)
+		return;
+	}
+
+	for (AGameOverActor* GameOver : TActorRange<AGameOverActor>(Player->GetWorld()))
+	{
+		if (GameOver->GetCharacterID() == Enemy)
 		{
-			return GameOver;
+			GameOver->ShowGameOver();
+			return;
 		}
 	}
-	return nullptr;
 }
 
 void AGameOverActor::ShowGameOver()
 {
+	UToroShortcutLibrary::SetCameraFade(this, 1.0f, FLinearColor::Black, true);
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetViewTarget(this);
 	}
+	UToroShortcutLibrary::StartCameraFade(this, 1.0f, 0.0f, 2.0f);
 	if (UGameOverWidget* Widget = AToroWidgetManager::GetWidget<UGameOverWidget>(this))
 	{
 		Widget->ShowWidget(DisplayName, Description);

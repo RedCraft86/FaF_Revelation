@@ -15,9 +15,8 @@ public:
 
 	AGameOverActor(const FObjectInitializer& ObjectInitializer);
 
-	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject", DeterminesOutputType = "Class"))
-	static AGameOverActor* FindGameOver(const UObject* ContextObject, const TSubclassOf<AGameOverActor> Class,
-		UPARAM(meta = (Categories = "Character")) const FGameplayTag Tag);
+	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject"))
+		static void InitiateGameOver(const UObject* ContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = GameOver)
 		void ShowGameOver();
