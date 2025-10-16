@@ -4,7 +4,7 @@
 
 #include "ToroSaveTypes.h"
 #include "GameplayTagContainer.h"
-#include "Inventory/InventoryAsset.h"
+#include "Inventory/InventorySave.h"
 #include "ToroGameSave.generated.h"
 
 UCLASS()
@@ -23,13 +23,13 @@ public:
 		TArray<uint8> Sequence;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TArray<TSoftObjectPtr<UInventoryAsset>> Archives;
+		FInventoryArchiveSave Archives;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TMap<FGameplayTag, FInventoryItems> Items;
+		TMap<FGameplayTag, FInventoryItemSave> Items;
 
 	UPROPERTY(BlueprintReadOnly, Category = GameSave)
-		TSoftObjectPtr<UInventoryAsset> Equipment;
+		FSoftObjectPath Equipment;
 
 	virtual void DeleteData() override;
 

@@ -62,22 +62,3 @@ public:
 	virtual FText GetDescription() const override;
 #endif
 };
-
-USTRUCT(BlueprintInternalUseOnly)
-struct TORORUNTIME_API FInventoryItems
-{
-	GENERATED_BODY()
-
-	UPROPERTY(Transient) TMap<TSoftObjectPtr<UInventoryAsset>, uint8> ItemMap;
-
-	FInventoryItems(): ItemMap({}) {}
-	FInventoryItems(const TMap<TSoftObjectPtr<UInventoryAsset>, uint8>& InItems)
-		: ItemMap(InItems)
-	{}
-
-	FORCEINLINE friend FArchive& operator<<(FArchive& Ar, FInventoryItems& Data)
-	{
-		Ar << Data.ItemMap;
-		return Ar;
-	}
-};

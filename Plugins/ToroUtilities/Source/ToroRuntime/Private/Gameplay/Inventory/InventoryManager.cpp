@@ -104,9 +104,12 @@ void UInventoryManager::PullFromSave(const FGameplayTag& Profile)
 	if (!InventoryTags::IsValidTag(Profile)) return;
 	if (const UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr)
 	{
-		Archives = Save->Archives;
-		Items = Save->Items.FindRef(Profile).ItemMap;
-		EquipItem(Save->Equipment.LoadSynchronous());
+		Archives = Save->Archives.ToInventoryArchives();
+		Items = Save->Items.FindRef(Profile).ToInventoryItems();
+		if (!Save->Equipment.IsNull())
+		{
+			EquipItem(TSoftObjectPtr<UInventoryAsset>(Save->Equipment).LoadSynchronous());
+		}
 	}
 }
 
@@ -115,9 +118,9 @@ void UInventoryManager::PushToSave(const FGameplayTag& Profile) const
 	if (!InventoryTags::IsValidTag(Profile)) return;
 	if (UToroGameSave* Save = SaveManager ? SaveManager->FindOrAddSave<UToroGameSave>() : nullptr)
 	{
-		Save->Archives = Archives;
-		Save->Items.Add(Profile, FInventoryItems(Items));
-		Save->Equipment = Equipment.Item;
+		Save->Archives = FInventoryArchiveSave(Archives);
+		Save->Items.Add(Profile, FInventoryItemSave(Items));
+		Save->Equipment = Equipment.Item.ToSoftObjectPath();
 	}
 }
 

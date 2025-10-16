@@ -26,7 +26,7 @@ struct TORORUNTIME_API FInventoryEquipment
 {
 	GENERATED_BODY()
 
-	UPROPERTY(Transient) TObjectPtr<UInventoryAsset> Item;
+	UPROPERTY(Transient) TSoftObjectPtr<UInventoryAsset> Item;
 	UPROPERTY(Transient) TObjectPtr<AEquipmentActor> Actor;
 
 	FInventoryEquipment(): Item(nullptr), Actor(nullptr) {}

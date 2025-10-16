@@ -23,5 +23,5 @@ void UToroGameSave::SerializeData(FArchive& Ar)
 	Ar << Sequence;
 	Ar << Archives;
 	Ar << Items;
-	Ar << Equipment;
+	FArchiveUObject::SerializeSoftObjectPath(Ar, Equipment);
 }
