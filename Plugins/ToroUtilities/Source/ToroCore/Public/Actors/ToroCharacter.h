@@ -33,10 +33,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Statics, meta = (WorldContext = "ContextObject", DeterminesOutputType = "Class"))
 	static AToroCharacter* FindCharacter(const UObject* ContextObject, const TSubclassOf<AToroCharacter> Class,
-		UPARAM(meta = (Categories = "Character")) const FGameplayTag Tag);
+		UPARAM(meta = (Categories = "Character")) const FGameplayTag CharID);
 
 	UFUNCTION(BlueprintCallable, Category = Game)
 		virtual void Teleport(const FVector& InLocation, const FRotator& InRotation);
+
+	UFUNCTION(BlueprintCallable, Category = Game)
+		virtual void ChangeCharacterID(UPARAM(meta = (Categories = "Character")) const FGameplayTag InNewID);
 
 	virtual FGuid GetUniqueGUID_Implementation() override { return UniqueGuid; }
 	virtual FGameplayTag GetCharacterID_Implementation() const override { return CharacterID; }

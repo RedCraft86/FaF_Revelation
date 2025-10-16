@@ -10,13 +10,13 @@ namespace CharacterTags
 	DEFINE_GAMEPLAY_TAG_CHILD(Character, Player)
 }
 
-AToroCharacter* AToroCharacter::FindCharacter(const UObject* ContextObject, const TSubclassOf<AToroCharacter> Class, const FGameplayTag Tag)
+AToroCharacter* AToroCharacter::FindCharacter(const UObject* ContextObject, const TSubclassOf<AToroCharacter> Class, const FGameplayTag CharID)
 {
-	if (!ContextObject || !Class || !CharacterTags::IsValidTag(Tag)) return nullptr;
+	if (!ContextObject || !Class || !CharacterTags::IsValidTag(CharID)) return nullptr;
 	const UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(ContextObject, EGetWorldErrorMode::LogAndReturnNull) : nullptr;
 	for (AToroCharacter* Character : TActorRange(World, Class))
 	{
-		if (ICharInterface::GetCharacterID(Character) == Tag)
+		if (ICharInterface::GetCharacterID(Character) == CharID)
 		{
 			return Character;
 		}
@@ -28,6 +28,14 @@ void AToroCharacter::Teleport(const FVector& InLocation, const FRotator& InRotat
 {
 	SetActorLocation(InLocation);
 	Controller->SetControlRotation(InRotation);
+}
+
+void AToroCharacter::ChangeCharacterID(const FGameplayTag InNewID)
+{
+	if (CharacterTags::IsValidTag(InNewID) && CharacterID != InNewID)
+	{
+		CharacterID = InNewID;
+	}
 }
 
 bool AToroCharacter::GetFocusPoint_Implementation(FVector& Location) const
