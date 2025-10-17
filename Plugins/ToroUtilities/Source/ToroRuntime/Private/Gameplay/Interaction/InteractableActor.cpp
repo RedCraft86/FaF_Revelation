@@ -21,3 +21,9 @@ bool AInteractableActor::GetInteractInfo_Implementation(const FHitResult& Hit, F
 	Info = Interaction;
 	return IsEnabled() && Interaction.bEnabled;
 }
+
+void AInteractableActor::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit)
+{
+	OnInteracted.Broadcast(this, Player);
+	OnInteractedBP.Broadcast(this, Player);
+}
