@@ -3,7 +3,7 @@
 #include "TriggerField.h"
 #include "Player/PlayerCharacter.h"
 
-ATriggerField::ATriggerField(): bSingleTrigger(true), bTriggered(false)
+ATriggerField::ATriggerField(): bSingleTrigger(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -15,14 +15,18 @@ void ATriggerField::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 	APlayerCharacter* Player = Cast<APlayerCharacter>(OtherActor);
-	if (Player && (!bTriggered || !bSingleTrigger))
+	if (Player && IsEnabled())
 	{
-		bTriggered = true;
 		ActionManager->SetActions(Actions, false);
 		ActionManager->RunActions();
 
 		OnTriggered.Broadcast(this, Player);
 		OnTriggeredBP.Broadcast(this, Player);
+
+		if (bSingleTrigger)
+		{
+			SetEnabled(false);
+		}
 	}
 }
 

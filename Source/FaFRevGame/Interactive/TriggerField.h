@@ -35,8 +35,6 @@ public:
 
 protected:
 
-	bool bTriggered;
-
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 #if WITH_EDITOR
 	virtual void OnConstruction(const FTransform& Transform) override;

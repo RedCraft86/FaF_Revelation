@@ -27,10 +27,8 @@ public:
 
 	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit) override;
 
-protected:
-
-	bool bUsed;
 #if WITH_EDITOR
+protected:
 	virtual void OnConstruction(const FTransform& Transform) override;
 #endif
 };

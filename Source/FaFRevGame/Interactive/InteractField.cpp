@@ -2,7 +2,7 @@
 
 #include "InteractField.h"
 
-AInteractField::AInteractField(): bSingleUse(true), bUsed(false)
+AInteractField::AInteractField(): bSingleUse(true)
 {
 	PrimaryActorTick.bCanEverTick = false;
 
@@ -12,13 +12,17 @@ AInteractField::AInteractField(): bSingleUse(true), bUsed(false)
 
 void AInteractField::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit)
 {
-	if (!bUsed || !bSingleUse)
+	if (IsEnabled())
 	{
-		bUsed = true;
 		ActionManager->SetActions(Actions, false);
 		ActionManager->RunActions();
 
 		Super::OnBeginInteract_Implementation(Player, Hit);
+
+		if (bSingleUse)
+		{
+			SetEnabled(false);
+		}
 	}
 }
 
