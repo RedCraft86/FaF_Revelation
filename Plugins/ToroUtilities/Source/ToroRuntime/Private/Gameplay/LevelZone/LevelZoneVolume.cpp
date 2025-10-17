@@ -125,7 +125,7 @@ void ALevelZoneVolume::OnConstruction(const FTransform& Transform)
 	ActionManager->AppendActions(ActionsExit, true);
 
 	bDisplayShadedVolume = true;
-	BrushColor = (FLinearColor::MakeRandomColor().Desaturate(0.4f) * 0.5).ToFColor(true);
+	BrushColor = (FLinearColor::MakeRandomColor().Desaturate(0.4f) * 0.5f).ToFColor(true);
 	UPDATE_VISUAL_ICON(TEXT("/ToroUtilities/Icons/LevelZoneVolume.LevelZoneVolume"));
 }
 #endif
