@@ -9,7 +9,7 @@
 
 class UInstancedStaticMeshComponent;
 
-UCLASS(meta = (ChildCanTick))
+UCLASS(meta = (ChildCanTick = true))
 class TOROCORE_API AInstancedStaticMeshActor : public AStaticMeshActor
 {
 	GENERATED_BODY()
@@ -52,7 +52,7 @@ protected:
 #endif
 };
 
-UCLASS(meta = (ChildCanTick))
+UCLASS(meta = (ChildCanTick = true))
 class TOROCORE_API AHierarchicalInstancedStaticMeshActor : public AInstancedStaticMeshActor
 {
 	GENERATED_BODY()
