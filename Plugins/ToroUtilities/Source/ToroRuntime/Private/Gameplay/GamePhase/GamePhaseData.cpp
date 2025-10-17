@@ -76,7 +76,7 @@ void UToroGamePhaseNode::ApplyPlayerSettings(AToroPlayerCharacter* PlayerChar) c
 void ShowInventoryError(const UInventoryAsset* Asset, const FText& Expected)
 {
 	FNotificationInfo Info(FText::Format(
-		INVTEXT("\"{0}\" is not an {1}"),
+		INVTEXT("\"{0}\" is not a(n) {1}"),
 		FText::FromString(GetNameSafe(Asset)), Expected)
 	);
 	Info.ExpireDuration = 1.0f;
@@ -92,10 +92,10 @@ void UToroGamePhaseNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyC
 	for (auto It = Archives.CreateIterator(); It; ++It)
 	{
 		const UInventoryAsset* Asset = It->LoadSynchronous();
-		if (Asset && Asset->AssetType != EInvAssetType::Archive)
+		if (Asset && !Asset->IsValidArchive())
 		{
 			It->Reset();
-			ShowInventoryError(Asset, INVTEXT("Archive"));
+			ShowInventoryError(Asset, INVTEXT("valid Archive"));
 		}
 	}
 	for (auto It = Items.CreateIterator(); It; ++It)
