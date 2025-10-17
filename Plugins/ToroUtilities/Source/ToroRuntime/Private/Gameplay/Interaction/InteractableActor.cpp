@@ -9,6 +9,10 @@ AInteractableActor::AInteractableActor()
 
 	Marker = CreateDefaultSubobject<UInteractionMarker>("Marker");
 	Marker->SetupAttachment(GetRootComponent());
+
+#if WITH_EDITOR
+	UPDATE_VISUAL_MAX_COMP(2);
+#endif
 }
 
 void AInteractableActor::SetMarkerState_Implementation(const bool bVisible)

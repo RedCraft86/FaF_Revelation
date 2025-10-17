@@ -72,7 +72,7 @@ void AInventoryItem::OnConstruction(const FTransform& Transform)
 		LabelFormat = INVTEXT("{Item} x{Amount}");
 	}
 	
-	if (Item && Amount == 0)
+	if (Item && Amount != 0)
 	{
 		Interaction.Label = FText::FormatNamed(LabelFormat,
 		   TEXT("Item"), Item->DisplayName,

@@ -15,7 +15,7 @@ class FAFREVGAME_API UCharacterFunctionLibrary final : public UBlueprintFunction
 
 public:
 
-	UFUNCTION(BlueprintCallable, Category = "Logic Driver|State Machine Instances", meta = (DefaultToSelf = "Target", ExpandEnumAsExecs))
+	UFUNCTION(BlueprintCallable, Category = "Logic Driver|State Machine Instances", meta = (DefaultToSelf = "Target", ExpandEnumAsExecs = "ReturnValue"))
 	static EToroValidPins GetOwningCharacter(USMInstance* Target, AToroCharacter*& Character)
 	{
 		Character = Target ? Cast<AToroCharacter>(Target->GetContext()) : nullptr;
