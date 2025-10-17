@@ -2,7 +2,6 @@
 
 #include "EnemyManager.h"
 #include "GameEnemyBase.h"
-#include "FaFRevGame/FaFRevSettings.h"
 #include "ToroRuntime.h"
 
 void UEnemyManager::RegisterEnemy(AGameEnemyBase* InEnemy)
@@ -11,7 +10,7 @@ void UEnemyManager::RegisterEnemy(AGameEnemyBase* InEnemy)
 	if (UEnemyManager* Manager = UEnemyManager::Get(InEnemy))
 	{
 		Manager->Enemies.Add(InEnemy);
-		Manager->UpdateMusicState();
+		Manager->TickTime = 2.0f;
 	}
 }
 
@@ -20,6 +19,7 @@ void UEnemyManager::UnregisterEnemy(AGameEnemyBase* InEnemy)
 	if (!InEnemy) return;
 	if (UEnemyManager* Manager = UEnemyManager::Get(InEnemy))
 	{
+		Manager->TickTime = 0.0f;
 		Manager->Enemies.Remove(InEnemy);
 		Manager->UpdateMusicState();
 	}
@@ -29,7 +29,7 @@ void UEnemyManager::UpdateEnemyStatus(const UObject* ContextObject)
 {
 	if (UEnemyManager* Manager = UEnemyManager::Get(ContextObject))
 	{
-		Manager->UpdateMusicState();
+		Manager->TickTime = 2.0f;
 	}
 }
 
@@ -73,16 +73,32 @@ void UEnemyManager::UpdateMusicState()
 	}
 }
 
+bool UEnemyManager::IsTickable() const
+{
+	return Super::IsTickable() && !Enemies.IsEmpty()
+		&& FaFRevSettings && Player && MusicManager;
+}
+
+void UEnemyManager::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (TickTime > FaFRevSettings->ThemeRefreshRate)
+	{
+		TickTime = 0.0f;
+		UpdateMusicState();
+	}
+	else TickTime += DeltaTime;
+}
+
 void UEnemyManager::OnWorldBeginPlay(UWorld& InWorld)
 {
 	Super::OnWorldBeginPlay(InWorld);
+	FaFRevSettings = UFaFRevSettings::Get();
 	InWorld.GetTimerManager().SetTimerForNextTick([this]()
 	{
 		Player = APlayerCharacter::Get<APlayerCharacter>(this);
 		MusicManager = UWorldMusicManager::Get(this);
 	});
-	InWorld.GetTimerManager().SetTimer(UpdateTimer, this, &UEnemyManager::UpdateMusicState,
-		UFaFRevSettings::Get()->ThemeRefreshRate, true, 0.1f);
 }
 
 bool UEnemyManager::ShouldCreateSubsystem(UObject* Outer) const
