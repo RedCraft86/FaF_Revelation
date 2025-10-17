@@ -13,6 +13,7 @@ void AInspectableActor::OnBeginInteract_Implementation(AToroPlayerCharacter* Pla
 	if (HasValidArchive() && Manager)
 	{
 		Manager->BeginInspection(Archive);
+		Super::OnBeginInteract_Implementation(Player, Hit);
 	}
 }
 
