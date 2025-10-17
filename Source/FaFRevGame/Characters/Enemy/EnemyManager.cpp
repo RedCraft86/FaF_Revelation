@@ -40,21 +40,24 @@ void UEnemyManager::UpdateMusicState()
 	{
 		const FVector PlayerLoc = Player->GetActorLocation();
 		const UFaFRevSettings* Settings = UFaFRevSettings::Get();
-		const float MaxDistSq = Settings->EnemyThemeRadius * Settings->EnemyThemeRadius;
+		const float MaxDistSq = Settings->LowThreatRadius * Settings->LowThreatRadius;
 		for (auto It = Enemies.CreateIterator(); It; ++It)
 		{
 			if (TWeakObjectPtr<AGameEnemyBase>& WeakEnemy = *It; WeakEnemy.IsValid())
 			{
 				const AGameEnemyBase* Enemy = WeakEnemy.Get();
-				if (FVector::DistSquared(Enemy->GetActorLocation(), PlayerLoc) > MaxDistSq)
-				{
-					continue;
-				}
-
 				const uint8 EnemyState = static_cast<uint8>(Enemy->GetEnemyState());
-				if (EnemyState > HighestState)
+				if (EnemyState == 0) continue;
+
+				// If Roaming or Stalking, it should be proximity based, otherwise always accept if state is higher
+				if (EnemyState > HighestState && (EnemyState > static_cast<uint8>(EEnemyState::Stalking)
+					|| FVector::DistSquared(Enemy->GetActorLocation(), PlayerLoc) < MaxDistSq))
 				{
 					HighestState = EnemyState;
+					if (HighestState == static_cast<uint8>(EEnemyState::Chasing))
+					{
+						break;
+					}
 				}
 			}
 			else
@@ -79,7 +82,7 @@ void UEnemyManager::OnWorldBeginPlay(UWorld& InWorld)
 		MusicManager = UWorldMusicManager::Get(this);
 	});
 	InWorld.GetTimerManager().SetTimer(UpdateTimer, this, &UEnemyManager::UpdateMusicState,
-		UFaFRevSettings::Get()->EnemyThemeUpdateInterval, true, 0.1f);
+		UFaFRevSettings::Get()->ThemeRefreshRate, true, 0.1f);
 }
 
 bool UEnemyManager::ShouldCreateSubsystem(UObject* Outer) const
