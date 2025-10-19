@@ -98,6 +98,7 @@ void UEnemyManager::OnWorldBeginPlay(UWorld& InWorld)
 	{
 		Player = APlayerCharacter::Get<APlayerCharacter>(this);
 		MusicManager = UWorldMusicManager::Get(this);
+		UpdateMusicState();
 	});
 }
 
