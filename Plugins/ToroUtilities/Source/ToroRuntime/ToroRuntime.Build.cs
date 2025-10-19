@@ -8,7 +8,7 @@ public class ToroRuntime : ModuleRules
     public ToroRuntime(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-        bUseUnity = true;
+        bUseUnity = false;
 
         PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public/Gameplay"));
         
