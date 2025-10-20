@@ -34,6 +34,7 @@ public class FaFRevGame : ModuleRules
                 "ToroGraph",
                 "ToroRuntime",
                 "EnhancedCodeFlow",
+                "Narrative",
                 "SMSystem"
             ]
         );
