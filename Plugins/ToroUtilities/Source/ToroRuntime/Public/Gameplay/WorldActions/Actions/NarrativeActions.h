@@ -61,8 +61,7 @@ struct TORORUNTIME_API FWTNarrative_Task final : public FWATask_Narrative
 	FWTNarrative_Task(): Quantity(1)
 	{
 #if WITH_EDITOR
-		const ConstructorHelpers::FObjectFinder<UNarrativeDataTask> TaskFinder(TEXT("/Narrative/DefaultTasks/LooseTask.LooseTask"));
-		if (TaskFinder.Succeeded()) Task = TaskFinder.Object;
+		Task = LoadObject<UNarrativeDataTask>(nullptr, TEXT("/Narrative/DefaultTasks/LooseTask.LooseTask"));
 #endif
 	}
 

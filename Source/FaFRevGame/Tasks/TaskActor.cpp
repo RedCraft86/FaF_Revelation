@@ -5,10 +5,8 @@
 ATaskActor::ATaskActor(): Quantity(1), bCompleted(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 #if WITH_EDITOR
-	const ConstructorHelpers::FObjectFinder<UNarrativeDataTask> TaskFinder(TEXT("/Narrative/DefaultTasks/LooseTask.LooseTask"));
-	if (TaskFinder.Succeeded()) Task = TaskFinder.Object;
+	Task = LoadObject<UNarrativeDataTask>(nullptr, TEXT("/Narrative/DefaultTasks/LooseTask.LooseTask"));
 #endif
 }
 
