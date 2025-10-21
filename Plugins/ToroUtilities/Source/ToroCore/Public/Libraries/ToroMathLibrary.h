@@ -25,6 +25,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Math|Constant", meta = (CompactNodeTitle = "Big"))
 		static float BigNumber();
 
+	/* Checks if a Location is in front of the Target. */
+	UFUNCTION(BlueprintPure, Category = "Math|Vector", meta = (DefaultToSelf = "Target"))
+		static bool IsLocationInFront(const AActor* Target, const FVector& Location);
+
+	/* Checks if an Actor is in front of the Target. */
+	UFUNCTION(BlueprintPure, Category = "Math|Vector", meta = (DefaultToSelf = "Target"))
+		static bool IsActorInFront(const AActor* Target, const AActor* ActorToTest);
+
 	/* Gets the XY distance between 2 vectors, ignoring height difference */
 	UFUNCTION(BlueprintPure, Category = "Math|Vector")
 		static float GetHorizontalDistance(const FVector& A, const FVector& B);

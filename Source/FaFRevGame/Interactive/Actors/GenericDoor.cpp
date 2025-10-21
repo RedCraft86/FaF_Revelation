@@ -3,8 +3,11 @@
 #include "GenericDoor.h"
 #include "Components/AudioComponent.h"
 #include "Libraries/ToroMathLibrary.h"
-#include "Libraries/ToroGeneralUtils.h"
 #include "Inventory/InventoryManager.h"
+#if WITH_EDITOR
+#include "Framework/Notifications/NotificationManager.h"
+#include "Widgets/Notifications/SNotificationList.h"
+#endif
 
 AGenericDoor::AGenericDoor(): bStartOpened(false), OpenDirection(EOpenDirection::Dynamic), OpenAngle(100.0f)
 	, LockedLabel(INVTEXT("Requires {Key}")), bOpened(false), DoorAngle(0.0f), TimeRange(0.0f)
@@ -57,7 +60,7 @@ void AGenericDoor::SetOpened(const bool bInOpened, const bool bImmediate)
 		{
 			DoorAngle = OpenAngle;
 			if (OpenDirection == EOpenDirection::Flipped || (OpenDirection == EOpenDirection::Dynamic
-					&& !UToroGeneralUtils::IsActorInFront(this, Interactor.Get())))
+					&& !UToroMathLibrary::IsActorInFront(this, Interactor.Get())))
 			{
 				DoorAngle *= -1.0f;
 			}

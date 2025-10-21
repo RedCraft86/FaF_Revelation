@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "Helpers/WindowsHelpers.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "ToroGeneralUtils.generated.h"
 
@@ -55,13 +54,9 @@ class TOROCORE_API UToroGeneralUtils final : public UBlueprintFunctionLibrary
 
 public:
 
-	UFUNCTION(BlueprintCallable, Category = Windows)
-		static EWindowsDialogueResult OpenWindowsDialogue(const FString Title, const FString Message,
-			const EWindowsDialogueType Type, const EWindowsDialogueIcon Icon);
-
-	UFUNCTION(BlueprintCallable, Category = Windows)
-	// ReSharper disable once UnrealHeaderToolError
-	static void TriggerVirtualKey(const FKey InKey, const EVirtualKeyTriggerType Type, const bool bRepeat);
+	/* Tries to get the active Game World. Context is optional but potentially more reliable with it. */
+	UFUNCTION(BlueprintPure, Category = World, meta = (AdvancedDisplay = "Context", DefaultToSelf = "Context"))
+		static UWorld* GetPlayWorld(const UObject* Context);
 
 	/** Gets the vertices/corner locations of the actor's bounding box.
 	* @param Target - Actor to use.
@@ -72,8 +67,8 @@ public:
 	* @return Locations of the 8 (or less) vertices of the bounding box.
 	*/
 	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target"))
-		static TArray<FVector> GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
-			const bool bIncludeFromChildActors, FVector& Origin, FVector& BoxExtent);
+	static TArray<FVector> GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
+		const bool bIncludeFromChildActors, FVector& Origin, FVector& BoxExtent);
 	
 	/** Checks if actor is on the player screen.
 	* @param Target - Actor to check.
@@ -84,20 +79,8 @@ public:
 	* @return Whether the actor is visible in screen with the given settings.
 	*/
 	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target", AutoCreateRefTerm = "TraceCheckParams"))
-	static bool IsActorInScreen(const AActor* Target, const float MaxDistance = 5000.0f, const bool bOriginOnly = false,
+	static bool IsActorOnScreen(const AActor* Target, const float MaxDistance = 5000.0f, const bool bOriginOnly = false,
 		const bool bLineTrace = true, const FActorBoundsCheckParams& TraceParams = FActorBoundsCheckParams());
-
-	/* Checks if a Location is in front of the Target. */
-	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target"))
-		static bool IsLocationInFront(const AActor* Target, const FVector& Location);
-
-	/* Checks if an Actor is in front of the Target. */
-	UFUNCTION(BlueprintPure, Category = Actor, meta = (DefaultToSelf = "Target"))
-		static bool IsActorInFront(const AActor* Target, const AActor* ActorToTest);
-
-	/* Tries to get the active Game World. Context is optional but potentially more reliable with it. */
-	UFUNCTION(BlueprintPure, Category = World, meta = (AdvancedDisplay = "Context", DefaultToSelf = "Context"))
-		static UWorld* GetPlayWorld(const UObject* Context);
 
 	/* Force a garbage collection to take place to hopefully reduce memory usage */
 	UFUNCTION(BlueprintCallable, Category = Loading)

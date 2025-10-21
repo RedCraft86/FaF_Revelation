@@ -19,15 +19,11 @@ TArray<FVector> FActorBoundsCheckParams::ProcessVertices(const TArray<FVector>& 
 	return Out;
 }
 
-EWindowsDialogueResult UToroGeneralUtils::OpenWindowsDialogue(const FString Title, const FString Message,
-	const EWindowsDialogueType Type, const EWindowsDialogueIcon Icon)
+UWorld* UToroGeneralUtils::GetPlayWorld(const UObject* Context)
 {
-	return WindowsHelpers::OpenDialogue(Title, Message, Type, Icon);
-}
-
-void UToroGeneralUtils::TriggerVirtualKey(const FKey InKey, const EVirtualKeyTriggerType Type, const bool bRepeat)
-{
-	WindowsHelpers::VirtualKey(InKey, Type, bRepeat);
+	UWorld* World = GEngine->GetWorldFromContextObject(Context, EGetWorldErrorMode::LogAndReturnNull);
+	if (!World) World = GEngine->GetCurrentPlayWorld();
+	return World ? World : GWorld;
 }
 
 TArray<FVector> UToroGeneralUtils::GetBoundingBoxVertices(const AActor* Target, const bool bOnlyCollidingComponents,
@@ -50,8 +46,8 @@ TArray<FVector> UToroGeneralUtils::GetBoundingBoxVertices(const AActor* Target, 
 	return Result;
 }
 
-bool UToroGeneralUtils::IsActorInScreen(const AActor* Target, const float MaxDistance, const bool bOriginOnly,
-	const bool bLineTrace, const FActorBoundsCheckParams& TraceParams)
+bool UToroGeneralUtils::IsActorOnScreen(const AActor* Target, const float MaxDistance,
+	const bool bOriginOnly, const bool bLineTrace, const FActorBoundsCheckParams& TraceParams)
 {
 	if (!IsValid(Target) || MaxDistance <= 0 || (bLineTrace && TraceParams.BoundingBoxLerp.GetMin() <= 0))
 	{
@@ -125,32 +121,6 @@ bool UToroGeneralUtils::IsActorInScreen(const AActor* Target, const float MaxDis
 	}
 
 	return false;
-}
-
-bool UToroGeneralUtils::IsLocationInFront(const AActor* Target, const FVector& Location)
-{
-	if (IsValid(Target))
-	{
-		FVector DotVec = Location - Target->GetActorLocation(); DotVec.Normalize();
-		return FVector::DotProduct(Target->GetActorForwardVector(), DotVec) > 0.0f;
-	}
-	return false;
-}
-
-bool UToroGeneralUtils::IsActorInFront(const AActor* Target, const AActor* ActorToTest)
-{
-	if (IsValid(Target) && IsValid(ActorToTest))
-	{
-		return IsLocationInFront(Target, ActorToTest->GetActorLocation());
-	}
-	return false;
-}
-
-UWorld* UToroGeneralUtils::GetPlayWorld(const UObject* Context)
-{
-	UWorld* World = GEngine->GetWorldFromContextObject(Context, EGetWorldErrorMode::LogAndReturnNull);
-	if (!World) World = GEngine->GetCurrentPlayWorld();
-	return World ? World : GWorld;
 }
 
 void UToroGeneralUtils::ForceGarbageCollection()

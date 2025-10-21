@@ -18,6 +18,25 @@ float UToroMathLibrary::BigNumber()
 	return UE_BIG_NUMBER;
 }
 
+bool UToroMathLibrary::IsLocationInFront(const AActor* Target, const FVector& Location)
+{
+	if (IsValid(Target))
+	{
+		FVector DotVec = Location - Target->GetActorLocation(); DotVec.Normalize();
+		return FVector::DotProduct(Target->GetActorForwardVector(), DotVec) > 0.0f;
+	}
+	return false;
+}
+
+bool UToroMathLibrary::IsActorInFront(const AActor* Target, const AActor* ActorToTest)
+{
+	if (IsValid(Target) && IsValid(ActorToTest))
+	{
+		return IsLocationInFront(Target, ActorToTest->GetActorLocation());
+	}
+	return false;
+}
+
 float UToroMathLibrary::GetHorizontalDistance(const FVector& A, const FVector& B)
 {
 	return FVector::Dist2D(A, B);
