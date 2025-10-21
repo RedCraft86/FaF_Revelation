@@ -3,6 +3,8 @@
 #pragma once
 #pragma warning(disable : 4668)
 
+// WARNING: Including this file can break stuff due to windows native macros sharing names with UE's
+
 #include "shlobj.h"
 #include "WindowsHelpers.generated.h"
 
