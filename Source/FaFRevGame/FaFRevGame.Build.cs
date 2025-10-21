@@ -8,6 +8,7 @@ public class FaFRevGame : ModuleRules
     public FaFRevGame(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+        bUseUnity = false;
 
         PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Characters"));
 
