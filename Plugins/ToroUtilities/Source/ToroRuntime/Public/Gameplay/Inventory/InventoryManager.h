@@ -56,6 +56,9 @@ public:
 		bool RemoveItem(UInventoryAsset* InItem, const uint8 Amount = 1);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
+		bool HasItem(UInventoryAsset* InItem, const uint8 MinAmount = 1);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
 		void AddArchive(UInventoryAsset* InItem);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)

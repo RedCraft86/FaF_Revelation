@@ -29,6 +29,12 @@ bool UInventoryManager::RemoveItem(UInventoryAsset* InItem, const uint8 Amount)
 	return false;
 }
 
+bool UInventoryManager::HasItem(UInventoryAsset* InItem, const uint8 MinAmount)
+{
+	const uint8* Count = Items.Find(InItem);
+	return Count && *Count >= MinAmount;
+}
+
 void UInventoryManager::AddArchive(UInventoryAsset* InItem)
 {
 	if (!Archives.Contains(InItem))
@@ -95,7 +101,7 @@ void UInventoryManager::CloseInventory()
 
 bool UInventoryManager::IsInventoryOpen()
 {
-	UInventoryWidget* Widget = GetInventoryWidget();
+	const UInventoryWidget* Widget = GetInventoryWidget();
 	return Widget && Widget->IsPushed();
 }
 
