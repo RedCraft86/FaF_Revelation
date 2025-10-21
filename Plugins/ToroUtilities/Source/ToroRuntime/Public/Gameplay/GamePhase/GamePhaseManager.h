@@ -4,7 +4,7 @@
 
 // Fixes AudioMixerQuantizedCommands.h(31): error C2838: 'PlaySoundW': illegal qualified name in member declaration
 // for whatever reason. It's actual magic.
-#include "Windows/WindowsHWrapper.h"
+//#include "Windows/WindowsHWrapper.h"
 
 #include "GamePhaseData.h"
 #include "LoadingScreenWidget.h"
