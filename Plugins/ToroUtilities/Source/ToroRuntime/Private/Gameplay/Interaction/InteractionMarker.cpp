@@ -6,11 +6,11 @@
 #include "Subsystems/UnrealEditorSubsystem.h"
 #endif
 
-UInteractionMarker::UInteractionMarker(): MaxDistance(250.0f)
+UInteractionMarker::UInteractionMarker()
+	: MaxDistance(250.0f), ScaleSpeed(10.0f), SizeInterp(FVector::OneVector, ScaleSpeed)
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
-	PrimaryComponentTick.TickInterval = 0.1f;
 	
 	SetHiddenInGame(false);
 	bIsScreenSizeScaled = true;
@@ -26,6 +26,12 @@ UInteractionMarker::UInteractionMarker(): MaxDistance(250.0f)
 		UBillboardComponent::SetSprite(SpriteFinder.Object);
 	}
 #endif
+}
+
+void UInteractionMarker::UpdateTargetSize()
+{
+	bTargetVis = FVector::Dist(GetComponentLocation(), GetCameraPos()) <= MaxDistance;
+	SizeInterp.Target = bTargetVis ? CachedBaseSize : FVector::ZeroVector;
 }
 
 FVector UInteractionMarker::GetCameraPos() const
@@ -54,6 +60,7 @@ FVector UInteractionMarker::GetCameraPos() const
 void UInteractionMarker::BeginPlay()
 {
 	Super::BeginPlay();
+	CachedBaseSize = GetComponentScale();
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		CamManager = UGameplayStatics::GetPlayerCameraManager(this, 0);
@@ -63,8 +70,24 @@ void UInteractionMarker::BeginPlay()
 void UInteractionMarker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (!GetOwner()->IsHidden())
+	{
+		if (SlowInterval > 0.1f)
+		{
+			SlowInterval = 0.0f;
+			UpdateTargetSize();
+			return;
+		}
 
-	if (GetOwner()->IsHidden()) return;
-	SetVisibility(FVector::Dist(GetComponentLocation(), GetCameraPos()) <= MaxDistance);
+		SlowInterval += DeltaTime;
+		if (!SizeInterp.IsComplete())
+		{
+			SetWorldScale3D(SizeInterp.Tick(DeltaTime));
+		}
+		else if (IsVisible() != bTargetVis)
+		{
+			SetVisibility(bTargetVis);
+		}
+	}
 }
 
