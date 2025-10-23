@@ -63,6 +63,6 @@
 #define PLAYER_COMPONENT_GETTER(Class, OwnerClass, Property) template<typename T = Class> \
 	static T* Get(const UObject* ContextObject, const int32 PlayerIdx = 0) \
 	{ \
-		const OwnerClass* Owner = OwnerClass::Get(ContextObject, PlayerIdx); \
+		const OwnerClass* Owner = OwnerClass::Get<OwnerClass>(ContextObject, PlayerIdx); \
 		return Owner ? Owner->Property : nullptr; \
 	}
