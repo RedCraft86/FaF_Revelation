@@ -4,8 +4,8 @@
 
 #include "InputAction.h"
 #include "PlayerTypes.h"
-#include "DataTypes/ToroInterpolator.h"
 #include "DataTypes/ToroModifiers.h"
+#include "DataTypes/ToroInterpolator.h"
 #include "Framework/ToroPlayerCharacter.h"
 #include "PlayerCharacter.generated.h"
 
@@ -19,6 +19,9 @@ class FAFREVGAME_API APlayerCharacter final : public AToroPlayerCharacter
 public:
 
 	APlayerCharacter();
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<class UQTEManager> QuicktimeEvents;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
 		int32 ControlFlags;

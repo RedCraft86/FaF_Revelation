@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroCameraManager.h"
+#include "FaFRevGame/QuickTime/QTEManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Interaction/InteractionManager.h"
@@ -33,6 +34,8 @@ APlayerCharacter::APlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	QuicktimeEvents = CreateDefaultSubobject<UQTEManager>("QuicktimeEvents");
 
 	PlayerCamera->SetFieldOfView(88.f);
 
@@ -158,6 +161,10 @@ int32 APlayerCharacter::GetActivityFlags() const
 	if (NarrativeManager && NarrativeManager->IsInDialogue())
 	{
 		Flags |= PAF_Dialogue;
+	}
+	if (QuicktimeEvents->IsQuicktimeActive())
+	{
+		Flags |= PAF_QTE;
 	}
 	return Flags;
 }
