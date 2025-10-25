@@ -18,7 +18,7 @@ const UQTEInstance* UQTEManager::InitiateEvent(const TSubclassOf<UQTEInstance> C
 	if (ActiveQTE = NewObject<UQTEInstance>(this, Class); ActiveQTE)
 	{
 		ActiveQTE->OnFinished.BindUObject(this, &UQTEManager::QuicktimeFinished);
-		ActiveQTE->BeginQTE();
+		ActiveQTE->BeginQTE(GetWorld());
 	}
 
 	return ActiveQTE;

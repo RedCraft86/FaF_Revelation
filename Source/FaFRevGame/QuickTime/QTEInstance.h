@@ -16,8 +16,8 @@ public:
 		virtual float GetProgress() { return 0.0f; }
 
 	UFUNCTION(BlueprintNativeEvent, Category = QTE)
-		void BeginQTE();
-	virtual void BeginQTE_Implementation() {}
+		void BeginQTE(UWorld* World);
+	virtual void BeginQTE_Implementation(UWorld* World) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = QTE)
 		void TickQTE(const float DeltaTime);
