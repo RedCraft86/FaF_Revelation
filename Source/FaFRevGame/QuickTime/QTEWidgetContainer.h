@@ -2,7 +2,6 @@
 
 #pragma once
 
-#include "QTEManager.h"
 #include "UserInterface/ToroContainerWidget.h"
 #include "QTEWidgetContainer.generated.h"
 
@@ -13,27 +12,12 @@ class FAFREVGAME_API UQTEWidgetContainer final : public UToroOverlayContainer
 
 public:
 
-	UQTEWidgetContainer(const FObjectInitializer& ObjectInitializer)
-		: Super(ObjectInitializer)
-	{
-		ZOrder = 101;
-	}
+	UQTEWidgetContainer(const FObjectInitializer& ObjectInitializer);
 
 protected:
 
-	TObjectPtr<UQTEManager> QTEManager;
+	TObjectPtr<class UQTEManager> QTEManager;
 
-	virtual void InitWidget(APlayerController* Controller) override
-	{
-		Super::InitWidget(Controller);
-		GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
-		{
-			QTEManager = UQTEManager::Get(this);
-		});
-	}
-
-	virtual bool ShouldHideWidget() const override
-	{
-		return !QTEManager || !QTEManager->IsQuicktimeActive();
-	}
+	virtual void InitWidget(APlayerController* Controller) override;
+	virtual bool ShouldHideWidget() const override;
 };
