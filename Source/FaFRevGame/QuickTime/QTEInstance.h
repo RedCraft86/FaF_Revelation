@@ -29,6 +29,11 @@ public:
 		void TickQTE(const float DeltaTime);
 	virtual void TickQTE_Implementation(const float DeltaTime) {}
 
+
+	UFUNCTION(BlueprintNativeEvent, Category = QTE)
+		void OnKeyPress(const FKey& Key);
+	virtual void OnKeyPress_Implementation(const FKey& Key) {}
+
 	UFUNCTION(BlueprintCallable, Category = QTE)
 	virtual void MarkFinished(const bool bSuccess)
 	{

@@ -47,6 +47,7 @@ protected:
 	TObjectPtr<UQTEInstance> ActiveQTE;
 	TObjectPtr<AToroWidgetManager> WidgetManager;
 
+	void OnKeyPress(const FKey& Key) const;
 	void QuicktimeFinished(const bool bSuccess);
 
 	virtual void BeginPlay() override;

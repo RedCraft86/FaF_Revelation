@@ -1,6 +1,7 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "QTEManager.h"
+#include "Framework/ToroPlayerController.h"
 
 UQTEManager::UQTEManager()
 {
@@ -30,6 +31,11 @@ const UQTEInstance* UQTEManager::InitiateEvent(const TSubclassOf<UQTEInstance> C
 	return ActiveQTE;
 }
 
+void UQTEManager::OnKeyPress(const FKey& Key) const
+{
+	if (ActiveQTE) ActiveQTE->OnKeyPress(Key);
+}
+
 void UQTEManager::QuicktimeFinished(const bool bSuccess)
 {
 	if (ActiveQTE)
@@ -55,6 +61,10 @@ void UQTEManager::BeginPlay()
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		WidgetManager = AToroWidgetManager::Get(this);
+		if (AToroPlayerController* PC = AToroPlayerController::Get(this))
+		{
+			PC->OnAnyKeyPressed.AddUObject(this, &UQTEManager::OnKeyPress);
+		}
 	});
 }
 
