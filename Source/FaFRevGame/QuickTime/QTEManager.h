@@ -15,7 +15,7 @@ class FAFREVGAME_API UQTEManager final : public UActorComponent
 
 public:
 
-	UQTEManager() {}
+	UQTEManager();
 
 	PLAYER_COMPONENT_GETTER(UQTEManager, APlayerCharacter, QuicktimeEvents)
 
@@ -26,7 +26,7 @@ public:
 	}
 
 	UFUNCTION(BlueprintCallable, Category = QTEs)
-		const UQTEInstance* InitiateQuicktime(const TSubclassOf<UQTEInstance> Class);
+		const UQTEInstance* InitiateEvent(const TSubclassOf<UQTEInstance> Class);
 
 	UFUNCTION(BlueprintPure, Category = QTEs)
 		const UQTEInstance* GetQuicktimeInstance() const { return ActiveQTE; }
@@ -46,4 +46,6 @@ protected:
 	TObjectPtr<UQTEInstance> ActiveQTE;
 
 	void QuicktimeFinished(const bool bSuccess);
+	
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

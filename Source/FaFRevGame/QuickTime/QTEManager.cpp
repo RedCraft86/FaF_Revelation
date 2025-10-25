@@ -2,7 +2,13 @@
 
 #include "QTEManager.h"
 
-const UQTEInstance* UQTEManager::InitiateQuicktime(const TSubclassOf<UQTEInstance> Class)
+UQTEManager::UQTEManager()
+{
+	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
+	PrimaryComponentTick.bTickEvenWhenPaused = true;
+}
+
+const UQTEInstance* UQTEManager::InitiateEvent(const TSubclassOf<UQTEInstance> Class)
 {
 	if (!Class || IsValid(ActiveQTE))
 	{
@@ -12,6 +18,7 @@ const UQTEInstance* UQTEManager::InitiateQuicktime(const TSubclassOf<UQTEInstanc
 	if (ActiveQTE = NewObject<UQTEInstance>(this, Class); ActiveQTE)
 	{
 		ActiveQTE->OnFinished.BindUObject(this, &UQTEManager::QuicktimeFinished);
+		ActiveQTE->BeginQTE();
 	}
 
 	return ActiveQTE;
@@ -26,4 +33,10 @@ void UQTEManager::QuicktimeFinished(const bool bSuccess)
 		ActiveQTE->MarkAsGarbage();
 		ActiveQTE = nullptr;
 	}
+}
+
+void UQTEManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (ActiveQTE) ActiveQTE->TickQTE(DeltaTime);
 }
