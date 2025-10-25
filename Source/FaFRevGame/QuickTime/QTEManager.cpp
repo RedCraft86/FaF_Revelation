@@ -28,8 +28,9 @@ void UQTEManager::QuicktimeFinished(const bool bSuccess)
 {
 	if (ActiveQTE)
 	{
-		OnQuicktimeFinished.Broadcast(bSuccess, ActiveQTE->GetClass());
-		OnQuicktimeFinishedBP.Broadcast(bSuccess, ActiveQTE->GetClass());
+		TSubclassOf<UQTEInstance> Class = ActiveQTE->GetClass();
+		OnQuicktimeFinished.Broadcast(bSuccess, Class);
+		OnQuicktimeFinishedBP.Broadcast(bSuccess, Class);
 		ActiveQTE->MarkAsGarbage();
 		ActiveQTE = nullptr;
 	}
