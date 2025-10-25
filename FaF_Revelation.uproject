@@ -425,6 +425,26 @@
 			"Name": "SlateStyleBrowser",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/7f51deb58ead4fed88abc798ca7c9ae4"
+		},
+		{
+			"Name": "EnhancedCodeFlow",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/0e9dd2a8f807456da0fe6af280ab795c"
+		},
+		{
+			"Name": "Narrative",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/b03174e0a1cc4de4b17dcfb2a0ba6884"
+		},
+		{
+			"Name": "ExpressiveText",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fc8f100e734144179e1679596d1eee07",
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
 		}
 	]
 }
