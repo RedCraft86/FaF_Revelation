@@ -6,7 +6,6 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroCameraManager.h"
-#include "FaFRevGame/QuickTime/QTEManager.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Interaction/InteractionManager.h"
@@ -17,6 +16,7 @@
 #include "Tutorials/TutorialManager.h"
 #include "Libraries/ToroMathLibrary.h"
 #include "Interfaces/ExitInterface.h"
+#include "QuickTime/QTEManager.h"
 
 #define CanInput() !IsControlLocked() && !IsPaused()
 

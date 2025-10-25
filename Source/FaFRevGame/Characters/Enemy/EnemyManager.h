@@ -2,8 +2,8 @@
 
 #pragma once
 
+#include "FaFRevSettings.h"
 #include "Player/PlayerCharacter.h"
-#include "FaFRevGame/FaFRevSettings.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "MusicSystem/WorldMusicManager.h"
 #include "EnemyManager.generated.h"

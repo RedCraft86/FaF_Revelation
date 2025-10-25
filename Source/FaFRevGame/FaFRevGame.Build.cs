@@ -10,7 +10,12 @@ public class FaFRevGame : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = false;
 
-        PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Characters"));
+        PublicIncludePaths.AddRange(
+                [
+                ModuleDirectory, 
+                Path.Combine(ModuleDirectory, "Characters")
+            ]
+        );
 
         PublicDependencyModuleNames.AddRange(
             [
