@@ -5,6 +5,7 @@
 #include "QTEInstance.h"
 #include "Player/PlayerCharacter.h"
 #include "Components/ActorComponent.h"
+#include "UserInterface/ToroWidgetManager.h"
 #include "Helpers/ClassGetterMacros.h"
 #include "QTEManager.generated.h"
 
@@ -44,8 +45,10 @@ public:
 protected:
 
 	TObjectPtr<UQTEInstance> ActiveQTE;
+	TObjectPtr<AToroWidgetManager> WidgetManager;
 
 	void QuicktimeFinished(const bool bSuccess);
-	
+
+	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };
