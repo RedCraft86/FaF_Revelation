@@ -4,6 +4,7 @@
 
 #include "QTEWidget.h"
 #include "UObject/Object.h"
+#include "Framework/ToroPlayerController.h"
 #include "QTEInstance.generated.h"
 
 UCLASS(Abstract)
@@ -23,12 +24,14 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = QTE)
 		void BeginQTE(UWorld* World);
-	virtual void BeginQTE_Implementation(UWorld* World) {}
+	virtual void BeginQTE_Implementation(UWorld* World)
+	{
+		Controller = AToroPlayerController::Get(World);
+	}
 
 	UFUNCTION(BlueprintNativeEvent, Category = QTE)
 		void TickQTE(const float DeltaTime);
 	virtual void TickQTE_Implementation(const float DeltaTime) {}
-
 
 	UFUNCTION(BlueprintNativeEvent, Category = QTE)
 		void OnKeyPress(const FKey& Key);
@@ -46,4 +49,8 @@ public:
 
 	DECLARE_DELEGATE_OneParam(FOnFinishQTE, const bool)
 	FOnFinishQTE OnFinished;
+
+protected:
+
+	TObjectPtr<AToroPlayerController> Controller;
 };
