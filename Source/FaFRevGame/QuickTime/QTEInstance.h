@@ -24,7 +24,7 @@ public:
 	virtual void TickQTE_Implementation(const float DeltaTime) {}
 
 	UFUNCTION(BlueprintCallable, Category = QTE)
-	void MarkFinished(const bool bSuccess)
+	virtual void MarkFinished(const bool bSuccess)
 	{
 		if (OnFinished.IsBound())
 		{
