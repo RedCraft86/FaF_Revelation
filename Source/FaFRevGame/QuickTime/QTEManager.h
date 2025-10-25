@@ -34,7 +34,7 @@ public:
 	UFUNCTION(BlueprintPure, Category = QTEs)
 		bool IsQuicktimeActive() const { return IsValid(ActiveQTE); }
 
-	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnQuicktimeFinishedBP, const bool, bSuccess, const TSubclassOf<UQTEInstance>&, QTE);
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnQuicktimeFinishedBP, const bool, bSuccess, TSubclassOf<UQTEInstance>&, QTE);
 	UPROPERTY(BlueprintAssignable, DisplayName = "On QTE Finished")
 		FOnQuicktimeFinishedBP OnQuicktimeFinishedBP;
 	
