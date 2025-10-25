@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "QTEWidget.h"
 #include "UObject/Object.h"
 #include "QTEInstance.generated.h"
 
@@ -11,6 +12,11 @@ class FAFREVGAME_API UQTEInstance : public UObject
 	GENERATED_BODY()
 
 public:
+
+	UQTEInstance() {}
+
+	UPROPERTY(EditAnywhere, Category = Settings)
+		TSubclassOf<UQTEWidget> WidgetClass;
 
 	UFUNCTION(BlueprintPure, Category = QTE)
 		virtual float GetProgress() { return 0.0f; }
