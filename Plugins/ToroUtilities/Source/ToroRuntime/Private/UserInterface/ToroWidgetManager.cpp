@@ -11,7 +11,7 @@ AToroWidgetManager::AToroWidgetManager()
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 }
 
-UToroWidgetBase* AToroWidgetManager::AddWidget(const TSubclassOf<UToroWidgetBase> WidgetClass)
+UToroWidgetBase* AToroWidgetManager::FindOrAddWidget(const TSubclassOf<UToroWidgetBase> WidgetClass)
 {
 	if (!WidgetClass)
 	{
@@ -62,6 +62,6 @@ void AToroWidgetManager::BeginPlay()
 
 	for (const TSoftClassPtr<UToroWidgetBase>& Widget : Widgets)
 	{
-		AddWidget(Widget.LoadSynchronous());
+		FindOrAddWidget(Widget.LoadSynchronous());
 	}
 }

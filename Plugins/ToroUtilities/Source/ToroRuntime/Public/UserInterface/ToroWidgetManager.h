@@ -24,7 +24,7 @@ public:
 	}
 
 	UFUNCTION(BlueprintCallable, Category = WidgetManager, meta = (DeterminesOutputType = "WidgetClass"))
-		UToroWidgetBase* AddWidget(const TSubclassOf<UToroWidgetBase> WidgetClass);
+		UToroWidgetBase* FindOrAddWidget(const TSubclassOf<UToroWidgetBase> WidgetClass);
 
 	UFUNCTION(BlueprintPure, Category = WidgetManager, meta = (DeterminesOutputType = "WidgetClass"))
 		UToroWidgetBase* FindWidget(const TSubclassOf<UToroWidgetBase> WidgetClass);
