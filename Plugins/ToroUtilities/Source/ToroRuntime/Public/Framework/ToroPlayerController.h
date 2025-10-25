@@ -49,6 +49,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Controller)
 		virtual void EnterCinematic(AActor* InActor);
 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAnyKeyPressedBP, const FKey&, Key);
+	UPROPERTY(BlueprintAssignable)
+		FOnAnyKeyPressedBP OnAnyKeyPressedBP;
+
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnAnyKeyPressed, const FKey&);
+	FOnAnyKeyPressed OnAnyKeyPressed;
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnUserPaused, const bool)
 	FOnUserPaused OnUserPaused;
 
@@ -64,8 +71,10 @@ protected:
 
 	virtual void UpdatePauseState();
 	virtual void OnWindowFocusChanged(bool bFocused);
+	virtual void OnAnyKeyEvent(FKey PressedKey);
 
 	virtual void BeginPlay() override;
+	virtual void SetupInputComponent() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	UEnhancedInputLocalPlayerSubsystem* GetEnhancedInputSubsystem() const;
 };

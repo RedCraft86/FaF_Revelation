@@ -115,6 +115,12 @@ void AToroPlayerController::OnWindowFocusChanged(bool bFocused)
 	}
 }
 
+void AToroPlayerController::OnAnyKeyEvent(FKey PressedKey)
+{
+	OnAnyKeyPressed.Broadcast(PressedKey);
+	OnAnyKeyPressedBP.Broadcast(PressedKey);
+}
+
 void AToroPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
@@ -128,6 +134,16 @@ void AToroPlayerController::BeginPlay()
 		Subsystem->AddMappingContext(UToroSettings::Get()->InputMappings.LoadSynchronous(), 0);
 		SetInputConfig({EGameInputMode::GameOnly, false});
 	}
+}
+
+void AToroPlayerController::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	FInputKeyBinding& AnyKeyBinding = InputComponent->BindKey(EKeys::AnyKey,
+		IE_Pressed, this, &AToroPlayerController::OnAnyKeyEvent);
+
+	AnyKeyBinding.bExecuteWhenPaused = true;
+	AnyKeyBinding.bConsumeInput = false;
 }
 
 void AToroPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
