@@ -30,5 +30,6 @@ public:
 
 protected:
 
-	TObjectPtr<UQTEManager> Manager;
+	UPROPERTY(BlueprintReadOnly, Category = QTE)
+		TObjectPtr<UQTEManager> Manager;
 };

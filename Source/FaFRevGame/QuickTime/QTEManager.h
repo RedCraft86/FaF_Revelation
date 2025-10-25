@@ -29,8 +29,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = QTEs)
 		const UQTEInstance* InitiateEvent(const TSubclassOf<UQTEInstance> Class);
 
-	UFUNCTION(BlueprintPure, Category = QTEs)
-		const UQTEInstance* GetQuicktimeInstance() const { return ActiveQTE; }
+	UFUNCTION(BlueprintPure, Category = QTE, meta = (DeterminesOutputType = "Class"))
+		const UQTEInstance* GetEventInstance(const TSubclassOf<UQTEInstance> Class);
 
 	UFUNCTION(BlueprintPure, Category = QTEs)
 		bool IsQuicktimeActive() const { return IsValid(ActiveQTE); }
@@ -41,6 +41,8 @@ public:
 	
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnQuicktimeFinished, const bool, const TSubclassOf<UQTEInstance>&);
 	FOnQuicktimeFinished OnQuicktimeFinished;
+
+	const UQTEInstance* GetInstanceObject() const { return ActiveQTE; }
 	
 protected:
 

@@ -31,6 +31,11 @@ const UQTEInstance* UQTEManager::InitiateEvent(const TSubclassOf<UQTEInstance> C
 	return ActiveQTE;
 }
 
+const UQTEInstance* UQTEManager::GetEventInstance(const TSubclassOf<UQTEInstance> Class)
+{
+	return Class && ActiveQTE->IsA(Class) ? ActiveQTE : nullptr;
+}
+
 void UQTEManager::OnKeyPress(const FKey& Key) const
 {
 	if (ActiveQTE) ActiveQTE->OnKeyPress(Key);
