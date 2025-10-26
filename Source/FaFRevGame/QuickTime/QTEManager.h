@@ -27,7 +27,7 @@ public:
 	}
 
 	UFUNCTION(BlueprintCallable, Category = QTEs)
-		const UQTEInstance* InitiateEvent(const TSubclassOf<UQTEInstance> Class);
+		void InitiateEvent(UQTEInstance* InObject);
 
 	UFUNCTION(BlueprintPure, Category = QTE, meta = (DeterminesOutputType = "Class"))
 		const UQTEInstance* GetEventInstance(const TSubclassOf<UQTEInstance> Class);

@@ -9,14 +9,14 @@ UQTEManager::UQTEManager()
 	PrimaryComponentTick.bTickEvenWhenPaused = true;
 }
 
-const UQTEInstance* UQTEManager::InitiateEvent(const TSubclassOf<UQTEInstance> Class)
+void UQTEManager::InitiateEvent(UQTEInstance* InObject)
 {
-	if (!Class || IsValid(ActiveQTE))
+	if (!InObject || ActiveQTE || InObject == ActiveQTE)
 	{
-		return nullptr;
+		return;
 	}
 
-	if (ActiveQTE = NewObject<UQTEInstance>(this, Class); ActiveQTE)
+	if (ActiveQTE = InObject; ActiveQTE)
 	{
 		ActiveQTE->OnFinished.BindUObject(this, &UQTEManager::QuicktimeFinished);
 		ActiveQTE->BeginQTE(GetWorld());
@@ -31,8 +31,6 @@ const UQTEInstance* UQTEManager::InitiateEvent(const TSubclassOf<UQTEInstance> C
 			QuicktimeFinished(true);
 		}
 	}
-
-	return ActiveQTE;
 }
 
 const UQTEInstance* UQTEManager::GetEventInstance(const TSubclassOf<UQTEInstance> Class)
