@@ -6,7 +6,7 @@ UToroEditorSettings::UToroEditorSettings()
 	: StartupCommands({
 		{TEXT("r.VSyncEditor"), TEXT("1")},
 		{TEXT("r.Streaming.PoolSize"), TEXT("3000")}
-	}), ALRoot(TEXT("C:/Users/RedCraft86/Desktop/Projects/AssetProject/"))
+	}), ALRoot(TEXT("D:/UnrealEngine/AssetProject/"))
 	, ALDirs({TEXT("Content/AssetPacks"), TEXT("Saved/Collections")})
 {
 	CategoryName = TEXT("Project");
