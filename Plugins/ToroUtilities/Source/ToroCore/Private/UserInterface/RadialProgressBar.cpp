@@ -2,8 +2,6 @@
 
 #include "UserInterface/RadialProgressBar.h"
 
-#include "Runtime/VerseCompiler/Public/uLang/Diagnostics/Glitch.h"
-
 URadialProgressBar::URadialProgressBar(): Progress(0.6f), Parameter("Progress")
 {
 	PRAGMA_DISABLE_DEPRECATION_WARNINGS
