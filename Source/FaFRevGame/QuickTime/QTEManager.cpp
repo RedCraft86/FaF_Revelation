@@ -26,6 +26,10 @@ const UQTEInstance* UQTEManager::InitiateEvent(const TSubclassOf<UQTEInstance> C
 		{
 			Widget->ShowWidget(this);
 		}
+		else
+		{
+			QuicktimeFinished(true);
+		}
 	}
 
 	return ActiveQTE;
