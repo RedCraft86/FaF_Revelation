@@ -18,13 +18,13 @@ public:
 		WidgetClass = nullptr;
 	}
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ExposeOnSpawn = true))
 		float DrainRate;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ExposeOnSpawn = true))
 		float GainAmount;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Settings, meta = (ExposeOnSpawn = true))
 		FKey TargetKey;
 
 	virtual float GetProgress() override
@@ -46,6 +46,9 @@ public:
 		if (Key == TargetKey)
 		{
 			Progress += GainAmount;
+
+			OnKeyPress.Broadcast();
+
 			if (Progress >= 1.0f)
 			{
 				MarkFinished(true);
@@ -53,7 +56,16 @@ public:
 		}
 	}
 
+	DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnKeyPress);
+	UPROPERTY(BlueprintAssignable)
+		FOnKeyPress OnKeyPress;
+
 protected:
 
 	float Progress;
+	
+	virtual void UnbindDelegates() override
+	{
+		OnKeyPress.Clear();
+	}
 };

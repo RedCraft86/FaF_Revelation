@@ -47,6 +47,8 @@ public:
 		}
 	}
 
+	virtual void UnbindDelegates() {}
+
 	DECLARE_DELEGATE_OneParam(FOnFinishQTE, const bool)
 	FOnFinishQTE OnFinished;
 

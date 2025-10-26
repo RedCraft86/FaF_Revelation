@@ -59,6 +59,7 @@ void UQTEManager::QuicktimeFinished(const bool bSuccess)
 		OnQuicktimeFinished.Broadcast(bSuccess, Class);
 		OnQuicktimeFinishedBP.Broadcast(bSuccess, Class);
 
+		ActiveQTE->UnbindDelegates();
 		ActiveQTE->MarkAsGarbage();
 		ActiveQTE = nullptr;
 	}
