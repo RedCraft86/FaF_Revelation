@@ -22,14 +22,36 @@ public:
 		ContainerClass = UQTEWidgetContainer::StaticClass();
 	}
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnInitWidget(UQTEManager* QTE_Manager);
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnDeinitWidget();
+
 	void ShowWidget(UQTEManager* InManager)
 	{
-		Manager = InManager;
+		if (InManager || InManager != Manager)
+		{
+			Manager = InManager;
+		}
+
 		PushWidget();
+	}
+
+	virtual void PopWidget() override
+	{
+		Super::PopWidget();
+		OnDeinitWidget();
 	}
 
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = QTE)
 		TObjectPtr<UQTEManager> Manager;
+
+	virtual void PushWidget() override
+	{
+		Super::PushWidget();
+		OnInitWidget(Manager);
+	}
 };
