@@ -41,7 +41,7 @@ public:
 		}
 	}
 
-	virtual void OnKeyPress_Implementation(const FKey& Key) override
+	virtual void KeyPressed_Implementation(const FKey& Key) override
 	{
 		if (Key == TargetKey)
 		{

@@ -42,7 +42,7 @@ const UQTEInstance* UQTEManager::GetEventInstance(const TSubclassOf<UQTEInstance
 
 void UQTEManager::OnKeyPress(const FKey& Key) const
 {
-	if (ActiveQTE) ActiveQTE->OnKeyPress(Key);
+	if (ActiveQTE) ActiveQTE->KeyPressed(Key);
 }
 
 void UQTEManager::QuicktimeFinished(const bool bSuccess)
