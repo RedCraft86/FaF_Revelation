@@ -138,13 +138,18 @@ void FToroEditorStyle::Init()
 {
 	if (StyleSet.IsValid()) return;
 	StyleSet = MakeShareable(new FSlateStyleSet("ToroEdStyle"));
-	StyleSet->SetContentRoot(IPluginManager::Get().FindPlugin(
-		TEXT("ToroUtilities"))->GetBaseDir() / TEXT("Resources"));
 
 	const FVector2D Icon64x64(64.0f, 64.0f);
 	const FVector2D Icon32x32(32.0f, 32.0f);
 	const FVector2D Icon20x20(20.0f, 20.0f);
 	const FVector2D Icon16x16(16.0f, 16.0f);
+
+	StyleSet->SetContentRoot(FPaths::EngineContentDir() / TEXT("Editor/Slate/UMG"));
+	
+	AddSVG(ClassIcon.RadialProgressBar, ProgressBar, 16x16);
+
+	const FString PluginDir = IPluginManager::Get().FindPlugin(TEXT("ToroUtilities"))->GetBaseDir();
+	StyleSet->SetContentRoot(PluginDir / TEXT("Resources"));
 
 	AddSVG(ToroEditor.AssetLibrary, LinkFolder, 20x20);
 	AddSVG(ToroEditor.RestartEditor, RestartEditor, 20x20);
