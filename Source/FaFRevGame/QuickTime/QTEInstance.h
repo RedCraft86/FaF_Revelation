@@ -14,13 +14,16 @@ class FAFREVGAME_API UQTEInstance : public UObject
 
 public:
 
-	UQTEInstance() {}
+	UQTEInstance(): bFinished(false) {}
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSubclassOf<UQTEWidget> WidgetClass;
 
 	UFUNCTION(BlueprintPure, Category = QTE)
 		virtual float GetProgress() { return 0.0f; }
+
+	UFUNCTION(BlueprintPure, Category = QTE)
+		virtual bool IsFinished() { return bFinished; }
 
 	UFUNCTION(BlueprintNativeEvent, Category = QTE)
 		void BeginQTE(UWorld* World);
@@ -40,6 +43,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = QTE)
 	virtual void MarkFinished(const bool bSuccess)
 	{
+		bFinished = true;
 		if (OnFinished.IsBound())
 		{
 			OnFinished.Execute(bSuccess);
@@ -54,5 +58,6 @@ public:
 
 protected:
 
+	bool bFinished;
 	TObjectPtr<AToroPlayerController> Controller;
 };

@@ -6,20 +6,19 @@
 UQTEManager::UQTEManager()
 {
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
+	PrimaryComponentTick.bStartWithTickEnabled = false;
 	PrimaryComponentTick.bTickEvenWhenPaused = true;
 }
 
 void UQTEManager::InitiateEvent(UQTEInstance* InObject)
 {
-	if (!InObject || ActiveQTE || InObject == ActiveQTE)
+	if (InObject && ActiveQTE && InObject != ActiveQTE)
 	{
-		return;
-	}
+		InObject->OnFinished.BindUObject(this, &UQTEManager::QuicktimeFinished);
+		InObject->BeginQTE(GetWorld());
+		ActiveQTE = InObject;
 
-	if (ActiveQTE = InObject; ActiveQTE)
-	{
-		ActiveQTE->OnFinished.BindUObject(this, &UQTEManager::QuicktimeFinished);
-		ActiveQTE->BeginQTE(GetWorld());
+		SetComponentTickEnabled(true);
 
 		UToroWidgetBase* BaseWidget = WidgetManager->FindOrAddWidget(ActiveQTE->WidgetClass);
 		if (UQTEWidget* Widget = BaseWidget ? Cast<UQTEWidget>(BaseWidget) : nullptr)
@@ -40,11 +39,15 @@ const UQTEInstance* UQTEManager::GetEventInstance(const TSubclassOf<UQTEInstance
 
 void UQTEManager::OnKeyPress(const FKey& Key) const
 {
-	if (ActiveQTE) ActiveQTE->KeyPressed(Key);
+	if (ActiveQTE && !ActiveQTE->IsFinished())
+	{
+		ActiveQTE->KeyPressed(Key);
+	}
 }
 
 void UQTEManager::QuicktimeFinished(const bool bSuccess)
 {
+	SetComponentTickEnabled(false);
 	if (ActiveQTE)
 	{
 		UToroWidgetBase* BaseWidget = WidgetManager->FindWidget(ActiveQTE->WidgetClass);
@@ -79,5 +82,8 @@ void UQTEManager::BeginPlay()
 void UQTEManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (ActiveQTE) ActiveQTE->TickQTE(DeltaTime);
+	if (ActiveQTE && !ActiveQTE->IsFinished())
+	{
+		ActiveQTE->TickQTE(DeltaTime);
+	}
 }
