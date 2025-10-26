@@ -13,7 +13,7 @@ class FAFREVGAME_API USpamKeyQTE final : public UQTEInstance
 public:
 
 	USpamKeyQTE()
-		: DrainRate(0.5f), GainAmount(0.1f), TargetKey(EKeys::F), Progress(0.5f)
+		: DrainRate(0.5f), GainAmount(0.2f), TargetKey(EKeys::F), Progress(0.5f)
 	{
 		WidgetClass = nullptr;
 	}
