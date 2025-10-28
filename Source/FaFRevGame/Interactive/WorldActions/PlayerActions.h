@@ -7,13 +7,13 @@
 #include "PlayerActions.generated.h"
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Player", meta = (Hidden))
-struct TORORUNTIME_API FWATask_Player : public FWorldActionBase
+struct FWATask_Player : public FWorldActionBase
 {
 	GENERATED_BODY()
 };
 
 USTRUCT(BlueprintType, DisplayName = "Lock Tag")
-struct TORORUNTIME_API FWTPlayer_LockTag final : public FWATask_Player
+struct FWTPlayer_LockTag final : public FWATask_Player
 {
 	GENERATED_BODY()
 
@@ -31,7 +31,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Lock On")
-struct TORORUNTIME_API FWTPlayer_LockOn final : public FWATask_Player
+struct FWTPlayer_LockOn final : public FWATask_Player
 {
 	GENERATED_BODY()
 
@@ -49,7 +49,7 @@ protected:
 };
 
 USTRUCT(BlueprintType, DisplayName = "Move Speed")
-struct TORORUNTIME_API FWTPlayer_MoveSpeed final : public FWATask_Player
+struct FWTPlayer_MoveSpeed final : public FWATask_Player
 {
 	GENERATED_BODY()
 
