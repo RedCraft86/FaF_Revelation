@@ -35,7 +35,7 @@ void FWTSequence_Cutscene::RunAction()
 {
 	if (AToroCutsceneActor* Actor = Target.LoadSynchronous())
 	{
-		FMath::IsNearlyZero(FadeTime, 0.05f)
+		FMath::IsNearlyZero(FadeTime, 0.1f)
 			? Actor->PlayCutscene() : Actor->PlayAfterFade(FadeTime);
 	}
 }
