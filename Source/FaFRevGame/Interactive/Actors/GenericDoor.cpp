@@ -45,7 +45,7 @@ AGenericDoor::AGenericDoor(): bStartOpened(false), OpenDirection(EOpenDirection:
 		->UpdateOrAddKey(0.0f, 0.0f), RCTM_Auto);
 	
 	Animation.GetRichCurve()->SetKeyTangentMode(Animation.GetRichCurve()
-		->UpdateOrAddKey(0.5f, 0.0f), RCTM_Auto);
+		->UpdateOrAddKey(0.5f, 1.0f), RCTM_Auto);
 
 	TimeLerp = {0.0f, 1.0f};
 	TimeLerp.bConstant = true;
@@ -74,6 +74,7 @@ void AGenericDoor::SetOpened(const bool bInOpened, const bool bImmediate)
 			CloseAudio->Play();
 		}
 
+		Animation.GetTimeRange(TimeRange.X, TimeRange.Y);
 		TimeLerp.Target = bOpened ? TimeRange.X : TimeRange.Y;
 		if (bImmediate)
 		{
