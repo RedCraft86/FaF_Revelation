@@ -49,6 +49,11 @@ public:
 
 	static FVector GetFocusPoint(const UObject* Target)
 	{
+		if (!Target)
+		{
+			return FVector::ZeroVector;
+		}
+
 		FVector Location = FVector::ZeroVector;
 		if (!ImplementedBy(Target) || !Execute_GetFocusPoint(Target, Location))
 		{
