@@ -15,11 +15,19 @@ struct TToroModifierBase
 	FORCEINLINE bool HasMod(const FName Key) const { return Modifiers.Contains(Key); }
 	FORCEINLINE void AddMod(const FName Key, const T Value) { Modifiers.Add(Key, Value); }
 	FORCEINLINE void RemoveMod(const FName Key) { Modifiers.Remove(Key); }
+	FORCEINLINE void ClearMods() { Modifiers.Clear(); }
 	FORCEINLINE T Evaluate() const
 	{
+		if (Modifiers.IsEmpty())
+		{
+			return Base;
+		}
+
 		T Value = Base;
 		for (const TPair<FName, T>& Pair : Modifiers)
+		{
 			Operation(Value, Pair.Value);
+		}
 		return Value;
 	}
 protected:
