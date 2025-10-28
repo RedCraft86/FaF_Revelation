@@ -117,7 +117,7 @@ void AToroPlayerCharacter::ClearLockTags()
 	LockTags.Reset();
 }
 
-void AToroPlayerCharacter::SetLockOnTarget(AActor* InTarget)
+void AToroPlayerCharacter::SetLockOnTarget(UObject* InTarget)
 {
 	if (!InTarget)
 	{

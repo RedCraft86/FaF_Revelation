@@ -87,13 +87,13 @@ public:
 		virtual void ClearLockTags();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		virtual void SetLockOnTarget(AActor* InTarget);
+		virtual void SetLockOnTarget(UObject* InTarget);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void ClearLockOnTarget();
 
 	UFUNCTION(BlueprintPure, Category = Player)
-		AActor* GetLockOnTarget() const { return LockOnTarget.Get(); }
+		UObject* GetLockOnTarget() const { return LockOnTarget.Get(); }
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		virtual void SetLightSettings(const FPointLightProperties& InSettings);
@@ -123,7 +123,7 @@ public:
 protected:
 
 	float SlowTickTime;
-	TWeakObjectPtr<AActor> LockOnTarget;
+	TWeakObjectPtr<UObject> LockOnTarget;
 
 	virtual void OnCinematic(AActor* InActor) {}
 	virtual void OnSettingsUpdate(const ESettingApplyType ApplyType);
