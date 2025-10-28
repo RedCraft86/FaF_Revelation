@@ -30,6 +30,7 @@ protected:
 		Super::ApplyPlayerSettings(PlayerChar);
 		if (APlayerCharacter* Player = Cast<APlayerCharacter>(PlayerChar))
 		{
+			Player->ResetStates(true);
 			Player->OverrideControlFlags(PlayerAbilities);
 			Player->AddMovementSpeedMod(Player::Internal::Level, SpeedMultiplier);
 		}
