@@ -186,6 +186,12 @@ void APlayerCharacter::RemoveFieldOfViewMod(const FName Key)
 	InterpFOV.Target = FieldOfView.Evaluate();
 }
 
+void APlayerCharacter::ClearFieldOfViewMods()
+{
+	FieldOfView.ClearMods();
+	InterpFOV.Target = FieldOfView.Evaluate();
+}
+
 bool APlayerCharacter::HasFieldOfViewMod(const FName Key) const
 {
 	return FieldOfView.HasMod(Key);
@@ -200,6 +206,12 @@ void APlayerCharacter::AddCameraOffsetMod(const FName Key, const FVector2D Addit
 void APlayerCharacter::RemoveCameraOffsetMod(const FName Key)
 {
 	CameraOffset.RemoveMod(Key);
+	InterpCamOffset.Target = CameraOffset.Evaluate();
+}
+
+void APlayerCharacter::ClearCameraOffsetMods()
+{
+	CameraOffset.ClearMods();
 	InterpCamOffset.Target = CameraOffset.Evaluate();
 }
 
@@ -220,6 +232,12 @@ void APlayerCharacter::RemoveMovementSpeedMod(const FName Key)
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed * MovementMulti.Evaluate();
 }
 
+void APlayerCharacter::ClearMovementSpeedMods()
+{
+	MovementMulti.ClearMods();
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed * MovementMulti.Evaluate();
+}
+
 bool APlayerCharacter::HasMovementSpeedMod(const FName Key) const
 {
 	return MovementMulti.HasMod(Key);
@@ -235,17 +253,30 @@ void APlayerCharacter::RemoveSensitivityMod(const FName Key)
 	Sensitivity.RemoveMod(Key);
 }
 
+void APlayerCharacter::ClearSensitivityMods()
+{
+	Sensitivity.ClearMods();
+}
+
 bool APlayerCharacter::HasSensitivityMod(const FName Key) const
 {
 	return Sensitivity.HasMod(Key);
 }
 
-void APlayerCharacter::ResetStates()
+void APlayerCharacter::ResetStates(const bool bClearModifiers)
 {
 	RefillStamina();
 	SetRunState(false);
 	SetCrouchState(false);
 	SetLeanState(EPlayerLeanState::None);
+
+	if (bClearModifiers)
+	{
+		ClearFieldOfViewMods();
+		ClearCameraOffsetMods();
+		ClearMovementSpeedMods();
+		ClearSensitivityMods();
+	}
 
 	Interaction->SetInteracting(false);
 	if (InventoryManager) InventoryManager->CloseInventory();

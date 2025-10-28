@@ -105,6 +105,9 @@ public:
 		void RemoveFieldOfViewMod(const FName Key);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
+		void ClearFieldOfViewMods();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
 		bool HasFieldOfViewMod(const FName Key) const;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
@@ -112,6 +115,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void RemoveCameraOffsetMod(const FName Key);
+
+	UFUNCTION(BlueprintCallable, Category = Player)
+		void ClearCameraOffsetMods();
 
 	UFUNCTION(BlueprintCallable, Category = Player)
 		bool HasCameraOffsetMod(const FName Key) const;
@@ -123,6 +129,9 @@ public:
 		void RemoveMovementSpeedMod(const FName Key);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
+		void ClearMovementSpeedMods();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
 		bool HasMovementSpeedMod(const FName Key) const;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
@@ -132,10 +141,13 @@ public:
 		void RemoveSensitivityMod(const FName Key);
 
 	UFUNCTION(BlueprintCallable, Category = Player)
+		void ClearSensitivityMods();
+
+	UFUNCTION(BlueprintCallable, Category = Player)
 		bool HasSensitivityMod(const FName Key) const;
 
 	UFUNCTION(BlueprintCallable, Category = Player)
-		void ResetStates();
+		void ResetStates(const bool bClearModifiers = false);
 	
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void SetRunState(const bool bInState);
