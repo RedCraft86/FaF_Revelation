@@ -17,10 +17,10 @@ struct TORORUNTIME_API FWTPlayer_LockTag final : public FWATask_Player
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = Action, meta = (Category = "PlayerLock"))
+	UPROPERTY(EditAnywhere, Category = Action, meta = (Categories = "PlayerLock"))
 		FGameplayTagContainer AddTags;
 
-	UPROPERTY(EditAnywhere, Category = Action, meta = (Category = "PlayerLock"))
+	UPROPERTY(EditAnywhere, Category = Action, meta = (Categories = "PlayerLock"))
 		FGameplayTagContainer RemoveTags;
 
 	FWTPlayer_LockTag() {}
