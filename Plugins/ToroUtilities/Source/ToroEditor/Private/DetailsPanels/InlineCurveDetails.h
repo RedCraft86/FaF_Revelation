@@ -24,7 +24,15 @@ private:
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> StructPropertyHandle, IDetailChildrenBuilder& StructBuilder,
 		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override
 	{
-		StructBuilder.AddProperty(STRUCT_PROPERTY(FInlineFloatCurve, Curve))
-			.DisplayName(StructPropertyHandle->GetPropertyDisplayName());
+		const TSharedRef<IPropertyHandle> Curve = STRUCT_PROPERTY(FInlineFloatCurve, Curve);
+		if (const TMap<FName, FString>* Metadata = StructPropertyHandle->GetInstanceMetaDataMap())
+		{
+			for (const TPair<FName, FString>& Pair : *Metadata)
+			{
+				Curve->SetInstanceMetaData(Pair.Key, Pair.Value);
+			}
+		}
+
+		StructBuilder.AddProperty(Curve).DisplayName(StructPropertyHandle->GetPropertyDisplayName());
 	}
 };
