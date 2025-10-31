@@ -22,6 +22,17 @@ UCurveFloat* FInlineFloatCurve::GetCurveAsset() const
 	return Curve.ExternalCurve;
 }
 
+void FInlineFloatCurve::RemovePoint(const float Time)
+{
+	const FKeyHandle Handle = GetRichCurve()->FindKey(Time);
+	if (Handle.IsValid()) GetRichCurve()->DeleteKey(Handle);
+}
+
+void FInlineFloatCurve::AddOrUpdatePoint(const float Time, const float Value, const ERichCurveTangentMode TangentMode)
+{
+	GetRichCurve()->SetKeyTangentMode(GetRichCurve()->UpdateOrAddKey(Time, Value), TangentMode);
+}
+
 float FInlineFloatCurve::GetValue(const float InTime) const
 {
 	return GetRichCurveConst()->Eval(InTime);
@@ -71,6 +82,24 @@ bool FInlineVectorCurve::HasAnyData() const
 UCurveVector* FInlineVectorCurve::GetCurveAsset() const
 {
 	return Curve.ExternalCurve;
+}
+
+void FInlineVectorCurve::RemovePoints(const float Time)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		const FKeyHandle Handle = GetRichCurve(i)->FindKey(Time);
+		if (Handle.IsValid()) GetRichCurve(i)->DeleteKey(Handle);
+	}
+}
+
+void FInlineVectorCurve::AddOrUpdatePoints(const float Time, const FVector& Value, const ERichCurveTangentMode TangentMode)
+{
+	for (int i = 0; i < 3; i++)
+	{
+		GetRichCurve(i)->SetKeyTangentMode(GetRichCurve(i)->UpdateOrAddKey(
+			Time, Value.Component(i)), TangentMode);
+	}
 }
 
 FVector FInlineVectorCurve::GetValue(const float InTime) const
@@ -156,6 +185,24 @@ bool FInlineColorCurve::HasAnyData() const
 UCurveLinearColor* FInlineColorCurve::GetCurveAsset() const
 {
 	return Curve.ExternalCurve;
+}
+
+void FInlineColorCurve::RemovePoints(const float Time)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		const FKeyHandle Handle = GetRichCurve(i)->FindKey(Time);
+		if (Handle.IsValid()) GetRichCurve(i)->DeleteKey(Handle);
+	}
+}
+
+void FInlineColorCurve::AddOrUpdatePoints(const float Time, const FLinearColor& Value, const ERichCurveTangentMode TangentMode)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		GetRichCurve(i)->SetKeyTangentMode(GetRichCurve(i)->UpdateOrAddKey(
+			Time, Value.Component(i)), TangentMode);
+	}
 }
 
 FLinearColor FInlineColorCurve::GetValue(const float InTime) const

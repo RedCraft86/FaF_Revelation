@@ -28,6 +28,9 @@ struct TOROCORE_API FInlineFloatCurve final
 	
 	bool HasAnyData() const;
 	UCurveFloat* GetCurveAsset() const;
+
+	void RemovePoint(const float Time);
+	void AddOrUpdatePoint(const float Time, const float Value, const ERichCurveTangentMode TangentMode = RCTM_Auto);
 	
 	float GetValue(float InTime) const;
 	void GetTimeRange(float& Min, float& Max) const;
@@ -49,6 +52,9 @@ struct TOROCORE_API FInlineVectorCurve final
 	
 	bool HasAnyData() const;
 	UCurveVector* GetCurveAsset() const;
+
+	void RemovePoints(const float Time);
+	void AddOrUpdatePoints(const float Time, const FVector& Value, const ERichCurveTangentMode TangentMode = RCTM_Auto);
 	
 	FVector GetValue(float InTime) const;
 	void GetTimeRange(float& Min, float& Max) const;
@@ -69,6 +75,9 @@ struct TOROCORE_API FInlineColorCurve final
 	
 	bool HasAnyData() const;
 	UCurveLinearColor* GetCurveAsset() const;
+
+	void RemovePoints(const float Time);
+	void AddOrUpdatePoints(const float Time, const FLinearColor& Value, const ERichCurveTangentMode TangentMode = RCTM_Auto);
 	
 	FLinearColor GetValue(float InTime) const;
 	void GetTimeRange(float& Min, float& Max) const;
