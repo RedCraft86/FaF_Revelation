@@ -52,6 +52,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = CurvePlayer)
 		virtual ECurvePlayerState GetPlayState() const { return PlayState; }
 
+	UFUNCTION(BlueprintPure, Category = CurvePlayer)
+		virtual bool IsPlaying() const { return PlayState != ECurvePlayerState::Stopped; }
+
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnStateChangedBP, const ECurvePlayerState, NewState);
 	UPROPERTY(BlueprintAssignable, DisplayName = "On State Changed")
 		FOnStateChangedBP OnStateChangedBP;
