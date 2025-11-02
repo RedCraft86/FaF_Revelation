@@ -34,6 +34,12 @@ void UBaseCurvePlayer::Reverse(const bool bFromEnd)
 	BroadcastState();
 }
 
+void UBaseCurvePlayer::SetPlaybackTime(const float InTime)
+{
+	CurrentTime = FMath::Clamp(InTime, TimeRange.X, TimeRange.Y);
+	BroadcastState();
+}
+
 void UBaseCurvePlayer::BroadcastState() const
 {
 	OnStateChanged.Broadcast(PlayState);

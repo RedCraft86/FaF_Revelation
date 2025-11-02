@@ -37,6 +37,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
 		virtual void Reverse(const bool bFromEnd = false);
 
+	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
+		virtual void SetPlaybackTime(const float InTime);
+
+	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
+		virtual void SnapToStart() { SetPlaybackTime(TimeRange.X); }
+
+	UFUNCTION(BlueprintCallable, Category = CurvePlayer)
+		virtual void SnapToEnd() { SetPlaybackTime(TimeRange.Y); }
+
 	UFUNCTION(BlueprintPure, Category = CurvePlayer)
 		virtual float GetTime() const { return CurrentTime; }
 
