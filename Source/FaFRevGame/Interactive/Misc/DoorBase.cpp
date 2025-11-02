@@ -9,7 +9,7 @@
 #include "Widgets/Notifications/SNotificationList.h"
 #endif
 
-ADoorBase::ADoorBase(): bStartOpened(false), bOpened(false)
+ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -29,6 +29,9 @@ ADoorBase::ADoorBase(): bStartOpened(false), bOpened(false)
 	CloseAudio->AttenuationOverrides.FalloffDistance = 500.0f;
 	CloseAudio->AttenuationOverrides.AttenuationShapeExtents.X = 250.0f;
 	CloseAudio->SetupAttachment(OpenAudio);
+
+	Animation.AddOrUpdatePoint(0.0f, 0.0f);
+	Animation.AddOrUpdatePoint(0.5f, 1.0f);
 }
 
 void ADoorBase::SetOpened(const bool bInOpened, const bool bImmediate)
@@ -86,6 +89,8 @@ void ADoorBase::OnPawnInteract_Implementation(APawn* Pawn, const FHitResult& Hit
 void ADoorBase::BeginPlay()
 {
 	Super::BeginPlay();
+	CurvePlayer->PlayRate = PlayRate;
+	CurvePlayer->SetCurve(Animation);
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		SetOpened(bStartOpened, true);

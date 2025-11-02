@@ -2,8 +2,10 @@
 
 #pragma once
 
+#include "DataTypes/MathTypes.h"
 #include "Inventory/InventoryAsset.h"
 #include "Interaction/InteractableActor.h"
+#include "Components/CurvePlayer/CurvePlayerFloat.h"
 #include "DoorBase.generated.h"
 
 UCLASS(Abstract, meta = (ChildCanTick = true))
@@ -21,6 +23,9 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UAudioComponent> CloseAudio;
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UCurvePlayerFloat> CurvePlayer;
+
 	UFUNCTION(BlueprintCallable, Category = Door)
 		void SetOpened(const bool bInOpened, const bool bImmediate = false);
 
@@ -32,17 +37,22 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void OpenStateChanged(const bool bState, const bool bImmediate);
-	virtual void OpenStateChanged_Implementation(const bool bState, const bool bImmediate) {}
 
 protected:
 	
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -1))
 		bool bStartOpened;
 	
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (DisplayPriority = -1))
+	UPROPERTY(EditAnywhere, Category = "Settings", meta = (DisplayPriority = -1))
 		TObjectPtr<UInventoryAsset> KeyAsset;
 
-	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
+	UPROPERTY(EditAnywhere, Category = "Settings|Animation", meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		float PlayRate;
+
+	UPROPERTY(EditAnywhere, Category = "Settings|Animation", meta = (XAxisName = "Time", YAxisName = "Alpha"))
+		FInlineFloatCurve Animation;
+
+	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
 		FText LockedLabel;
 
 	bool bOpened;
