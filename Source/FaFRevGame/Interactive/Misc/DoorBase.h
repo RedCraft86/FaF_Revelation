@@ -6,6 +6,7 @@
 #include "Inventory/InventoryAsset.h"
 #include "Interaction/InteractableActor.h"
 #include "Components/CurvePlayer/CurvePlayerFloat.h"
+#include "Components/BoxComponent.h"
 #include "DoorBase.generated.h"
 
 UCLASS(Abstract, meta = (ChildCanTick = true))
@@ -16,6 +17,9 @@ class FAFREVGAME_API ADoorBase : public AInteractableActor
 public:
 
 	ADoorBase();
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UBoxComponent> DoorRange;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UAudioComponent> OpenAudio;
@@ -34,6 +38,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = Door)
 		bool IsLocked() const { return KeyAsset && !bOpened; }
+
+	UFUNCTION(BlueprintPure, Category = Door)
+		AActor* GetLastInteractor() const { return Interactor.Get(); }
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void OpenStateChanged(const bool bState, const bool bImmediate);
@@ -64,5 +71,7 @@ protected:
 	virtual void OnPawnInteract_Implementation(APawn* Pawn, const FHitResult& Hit) override;
 
 	virtual void BeginPlay() override;
+	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
+	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 };

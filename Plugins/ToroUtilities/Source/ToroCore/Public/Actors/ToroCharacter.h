@@ -10,6 +10,8 @@
 
 namespace CharacterTags
 {
+	inline const FName NearInteractable = FName("Near_Interactable");
+	
 	TOROCORE_API DECLARE_GAMEPLAY_TAG(Character)
 	TOROCORE_API DECLARE_GAMEPLAY_TAG(Player)
 

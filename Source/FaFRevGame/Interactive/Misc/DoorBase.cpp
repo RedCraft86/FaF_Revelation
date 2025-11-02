@@ -14,6 +14,12 @@ ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 
+	DoorRange = CreateDefaultSubobject<UBoxComponent>("DoorRange");
+	DoorRange->SetCollisionResponseToAllChannels(ECR_Ignore);
+	DoorRange->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	DoorRange->SetupAttachment(GetRootComponent());
+	DoorRange->SetBoxExtent(FVector(3.0f, 3.0f, 2.0f));
+
 	OpenAudio = CreateDefaultSubobject<UAudioComponent>("OpenAudio");
 	OpenAudio->bAutoActivate = false;
 	OpenAudio->bOverrideAttenuation = true;
@@ -28,7 +34,7 @@ ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
 	CloseAudio->bCanPlayMultipleInstances = true;
 	CloseAudio->AttenuationOverrides.FalloffDistance = 500.0f;
 	CloseAudio->AttenuationOverrides.AttenuationShapeExtents.X = 250.0f;
-	CloseAudio->SetupAttachment(OpenAudio);
+	CloseAudio->SetupAttachment(GetRootComponent());
 
 	Animation.AddOrUpdatePoint(0.0f, 0.0f);
 	Animation.AddOrUpdatePoint(0.5f, 1.0f);
@@ -58,7 +64,8 @@ bool ADoorBase::GetInteractInfo_Implementation(const FHitResult& Hit, FInteracti
 	{
 		Info.Label = bOpened ? INVTEXT("Close") : INVTEXT("Open");
 	}
-	return bReturn;
+	// If our last interactor is by a non-player entity, disallow interaction until they go out of range
+	return bReturn && (!Interactor.IsValid() || CharacterTags::IsPlayer(Interactor.Get()));
 }
 
 void ADoorBase::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit)
@@ -98,13 +105,34 @@ void ADoorBase::BeginPlay()
 	});
 }
 
+void ADoorBase::NotifyActorEndOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorEndOverlap(OtherActor);
+	if (Interactor.IsValid() && Interactor.Get() == OtherActor)
+	{
+		Interactor->Tags.Remove(CharacterTags::NearInteractable);
+		Interactor.Reset();
+	}
+}
+
+void ADoorBase::NotifyActorBeginOverlap(AActor* OtherActor)
+{
+	Super::NotifyActorBeginOverlap(OtherActor);
+	if (OtherActor && OtherActor->IsA<AToroCharacter>())
+	{
+		Interactor->Tags.Add(CharacterTags::NearInteractable);
+	}
+}
+
 void ADoorBase::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
 #if WITH_EDITOR
 	FVector Origin, Extent;
 	GetActorBounds(true, Origin, Extent, false);
+	DoorRange->SetWorldLocation(Origin);
 	OpenAudio->SetWorldLocation(Origin);
+	CloseAudio->SetWorldLocation(Origin);
 
 	if (KeyAsset && KeyAsset->AssetType == EInvAssetType::Item
 		&& KeyAsset->ItemType == EInvItemType::KeyItem)
