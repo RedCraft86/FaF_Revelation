@@ -71,7 +71,7 @@ bool ADoorBase::GetInteractInfo_Implementation(const FHitResult& Hit, FInteracti
 void ADoorBase::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit)
 {
 	Interactor = Player;
-	if (Inventory && Inventory->UseKey(KeyAsset))
+	if (IsLocked() && Inventory && Inventory->UseKey(KeyAsset))
 	{
 		KeyAsset = nullptr;
 		UNoticeWidget::QueueNotice(this, {
@@ -101,7 +101,7 @@ void ADoorBase::BeginPlay()
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		SetOpened(bStartOpened, true);
-		Inventory = IsLocked() ? UInventoryManager::Get(this) : nullptr;
+		Inventory = UInventoryManager::Get(this);
 	});
 }
 
