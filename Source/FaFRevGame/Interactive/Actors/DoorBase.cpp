@@ -64,7 +64,9 @@ void ADoorBase::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, con
 	if (Inventory && Inventory->UseKey(KeyAsset))
 	{
 		KeyAsset = nullptr;
-		UNoticeWidget::QueueNotice(this, {INVTEXT("Door Unlocked")}, true);
+		UNoticeWidget::QueueNotice(this, {
+			INVTEXT("Door Unlocked")
+		}, true);
 	}
 	if (!IsLocked())
 	{
