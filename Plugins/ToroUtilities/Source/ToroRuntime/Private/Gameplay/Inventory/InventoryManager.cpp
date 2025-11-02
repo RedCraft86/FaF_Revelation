@@ -35,6 +35,19 @@ bool UInventoryManager::HasItem(UInventoryAsset* InItem, const uint8 MinAmount)
 	return Count && *Count >= MinAmount;
 }
 
+bool UInventoryManager::UseKey(UInventoryAsset* InItem)
+{
+	if (InItem && InItem->AssetType == EInvAssetType::Item && HasItem(InItem))
+	{
+		if (InItem->ItemType != EInvItemType::KeyItem || !InItem->bReusableKey)
+		{
+			RemoveItem(InItem);
+		}
+		return true;
+	}
+	return false;
+}
+
 void UInventoryManager::AddArchive(UInventoryAsset* InItem)
 {
 	if (!Archives.Contains(InItem))
