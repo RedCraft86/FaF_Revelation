@@ -191,6 +191,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void SetOperatingActor(AActor* InActor);
 
+	UFUNCTION(BlueprintPure, Category = Player)
+		bool IsActorSeen(const AActor* InActor) const;
+
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FStaminaUpdate, const bool bEnabled, const FPlayerStamina&)
 	FStaminaUpdate OnStaminaUpdate;
 

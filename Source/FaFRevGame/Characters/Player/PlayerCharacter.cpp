@@ -406,6 +406,27 @@ void APlayerCharacter::SetOperatingActor(AActor* InActor)
 	OperatingActor = InActor;
 }
 
+bool APlayerCharacter::IsActorSeen(const AActor* InActor) const
+{
+	if (!InActor || !InActor->WasRecentlyRendered(0.0f))
+	{
+		return false;
+	}
+
+	FMinimalViewInfo CameraView;
+	PlayerCamera->GetCameraView(0.0f, CameraView);
+
+	FMatrix ViewMatrix, ProjectionMatrix, ViewProjectionMatrix;
+	UGameplayStatics::GetViewProjectionMatrix(CameraView, ViewMatrix, ProjectionMatrix, ViewProjectionMatrix);
+
+	FConvexVolume FrustumVolume;
+	GetViewFrustumBounds(FrustumVolume, ViewProjectionMatrix, false);
+
+	FVector Origin, BoxExtent;
+	InActor->GetActorBounds(false, Origin, BoxExtent);
+	return FrustumVolume.IntersectBox(Origin, BoxExtent);
+}
+
 bool APlayerCharacter::TryJumpscare(const FGameplayTag& FromEnemy)
 {
 	if (IsKillLocked() || IsPaused())
