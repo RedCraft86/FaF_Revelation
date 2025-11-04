@@ -37,7 +37,11 @@ USMInstance* AGameEnemyBase::GetStateMachine() const
 void AGameEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
-	UEnemyManager::RegisterEnemy(this);
+	GetWorldTimerManager().SetTimerForNextTick([this]()
+	{
+		UEnemyManager::RegisterEnemy(this);
+		PlayerChar = APlayerCharacter::Get<APlayerCharacter>(this);
+	});
 }
 
 void AGameEnemyBase::EndPlay(const EEndPlayReason::Type EndPlayReason)

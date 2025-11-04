@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Actors/ToroCharacter.h"
+#include "Player/PlayerCharacter.h"
 #include "SMStateMachineComponent.h"
 #include "GameEnemyBase.generated.h"
 
@@ -53,10 +54,15 @@ public:
 	UFUNCTION(BlueprintPure, Category = Enemy)
 		virtual USMInstance* GetStateMachine() const;
 
+	UFUNCTION(BlueprintPure, Category = Enemy)
+		APlayerCharacter* GetPlayerRef() const { return PlayerChar; }
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Settings, AdvancedDisplay)
 		EEnemyState EnemyState;
+
+	TObjectPtr<APlayerCharacter> PlayerChar;
 
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
