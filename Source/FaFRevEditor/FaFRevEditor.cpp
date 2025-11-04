@@ -4,7 +4,7 @@
 #include "UnrealEdGlobals.h"
 #include "Editor/UnrealEdEngine.h"
 #include "DetailsPanel/PlayerCharacterDetails.h"
-#include "Visualization/FVisionConeVisualizer.h"
+#include "Visualization/VisionConeVisualizer.h"
 
 #define LOCTEXT_NAMESPACE "FFaFRevEditorModule"
 
@@ -25,7 +25,7 @@ void FFaFRevEditorModule::ShutdownModule()
 {
 	if (GUnrealEd)
 	{
-		UNREGISTER_VISUALIZER(UVisionConeComponent, FVisionConeVisualizer)
+		UNREGISTER_VISUALIZER(UVisionConeComponent)
 	}
 	
 	if (FPropertyEditorModule* PropertyModule = FModuleManager::GetModulePtr<FPropertyEditorModule>("PropertyEditor"))

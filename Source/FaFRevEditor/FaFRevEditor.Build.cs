@@ -12,6 +12,7 @@ public class FaFRevEditor : ModuleRules
             [
                 "Core",
                 "CoreUObject", 
+                "UnrealEd",
                 "Engine", 
                 "Slate",
                 "SlateCore",
