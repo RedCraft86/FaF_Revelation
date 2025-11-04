@@ -64,6 +64,11 @@ APlayerCharacter::APlayerCharacter()
 	InterpCrouch = FToroInterpFloat(88.0f, 5.0f);
 }
 
+FVector APlayerCharacter::GetEnemyTracePoint(const float VerticalOffset) const
+{
+	return PlayerCamera->GetComponentLocation() + FVector(0.0f, 0.0f, VerticalOffset);
+}
+
 void APlayerCharacter::OverrideControlFlags(const int32 InFlags)
 {
 	for (const EPlayerControlFlags Enum : TEnumRange<EPlayerControlFlags>())

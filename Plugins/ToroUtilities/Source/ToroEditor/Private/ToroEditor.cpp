@@ -13,7 +13,6 @@
 
 #include "UnrealEd.h"
 #include "ComponentVis/EditorShapeVisualizer.h"
-#include "ComponentVis/VisionConeVisualizer.h"
 
 #include "DetailsPanels/ToroCharacterDetails.h"
 #include "DetailsPanels/ElectricActorDetails.h"
@@ -54,7 +53,6 @@ void FToroEditorModule::StartupModule()
 	if (GUnrealEd)
 	{
 		REGISTER_VISUALIZER(UEditorShapeComponent, FEditorShapeVisualizer)
-		REGISTER_VISUALIZER(UVisionConeComponent, FVisionConeVisualizer)
 	}
 
 	// Struct and Class Details Customization
@@ -92,7 +90,6 @@ void FToroEditorModule::ShutdownModule()
 	if (GUnrealEd)
 	{
 		UNREGISTER_VISUALIZER(UEditorShapeComponent)
-		UNREGISTER_VISUALIZER(UVisionConeComponent)
 	}
 
 	// Struct and Class Details Customization

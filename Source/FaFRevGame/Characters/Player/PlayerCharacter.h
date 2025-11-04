@@ -71,6 +71,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<FName, TObjectPtr<UInputAction>> InputActions;
 
+	UFUNCTION(BlueprintPure, Category = Player)
+		FVector GetEnemyTracePoint(const float VerticalOffset = 10.0f) const;
+
 	UFUNCTION(BlueprintCallable, Category = Player)
 		void OverrideControlFlags(const int32 InFlags);
 
