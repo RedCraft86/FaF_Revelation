@@ -44,6 +44,9 @@ public:
 		TObjectPtr<USMStateMachineComponent> StateComponent;
 
 	UFUNCTION(BlueprintCallable, Category = Enemy)
+		virtual void AttackPlayer();
+
+	UFUNCTION(BlueprintCallable, Category = Enemy)
 		virtual void SetEnemyState(const EEnemyState InState);
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Enemy)
@@ -76,6 +79,8 @@ protected:
 
 	bool bEnabled;
 	TObjectPtr<APlayerCharacter> PlayerChar;
+
+	void OnPlayerJumpscared() const;
 
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;

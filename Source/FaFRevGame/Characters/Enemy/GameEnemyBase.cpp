@@ -10,6 +10,14 @@ AGameEnemyBase::AGameEnemyBase(): EnemyState(EEnemyState::None), bEnabled(false)
 	StateComponent = CreateDefaultSubobject<USMStateMachineComponent>("StateMachine");
 }
 
+void AGameEnemyBase::AttackPlayer()
+{
+	if (PlayerChar)
+	{
+		PlayerChar->TryJumpscare(CharacterID);
+	}
+}
+
 void AGameEnemyBase::SetEnemyState(const EEnemyState InState)
 {
 	if (IsEnabled() && EnemyState != InState)
@@ -45,6 +53,13 @@ USMInstance* AGameEnemyBase::GetStateMachine() const
 	return StateComponent->GetInstance();
 }
 
+void AGameEnemyBase::OnPlayerJumpscared() const
+{
+	// Not necessarily disabled but not enabled either
+	StateComponent->Stop();
+	GetCharacterMovement()->StopMovementImmediately();
+}
+
 void AGameEnemyBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -52,6 +67,7 @@ void AGameEnemyBase::BeginPlay()
 	{
 		UEnemyManager::RegisterEnemy(this);
 		PlayerChar = APlayerCharacter::Get<APlayerCharacter>(this);
+		if (PlayerChar) PlayerChar->OnJumpscared.AddUObject(this, &AGameEnemyBase::OnPlayerJumpscared);
 	});
 }
 
