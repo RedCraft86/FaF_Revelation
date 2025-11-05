@@ -441,6 +441,8 @@ bool APlayerCharacter::TryJumpscare(const FGameplayTag& FromEnemy)
 		MusicManager->ClearDipRequests();
 		MusicManager->FadeOut(0.5f, 0.0f);
 	}
+
+	OnJumpscared.Broadcast();
 	return true;
 }
 

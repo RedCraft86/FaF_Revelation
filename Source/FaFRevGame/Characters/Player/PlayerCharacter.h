@@ -197,6 +197,9 @@ public:
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FStaminaUpdate, const bool bEnabled, const FPlayerStamina&)
 	FStaminaUpdate OnStaminaUpdate;
 
+	DECLARE_MULTICAST_DELEGATE(FOnJumpscared)
+	FOnJumpscared OnJumpscared;
+
 	bool TryJumpscare(const FGameplayTag& FromEnemy);
 	const FGameplayTag& GetJumpscareEnemy() const { return JumpscareEnemy; }
 
