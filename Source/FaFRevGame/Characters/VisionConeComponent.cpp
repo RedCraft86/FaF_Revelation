@@ -83,7 +83,7 @@ void UVisionConeComponent::BeginPlay()
 void UVisionConeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
-	if (!Player || PlayerDetection == EPlayerDetectType::Disabled)
+	if (!Player || Player->IsKillLocked() || PlayerDetection == EPlayerDetectType::Disabled)
 	{
 		return;
 	}
