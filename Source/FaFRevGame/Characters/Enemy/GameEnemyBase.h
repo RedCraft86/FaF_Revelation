@@ -5,6 +5,7 @@
 #include "Actors/ToroCharacter.h"
 #include "Player/PlayerCharacter.h"
 #include "SMStateMachineComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameEnemyBase.generated.h"
 
 UENUM(BlueprintType)
@@ -45,14 +46,25 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Enemy)
 		virtual void SetEnemyState(const EEnemyState InState);
 
-	UFUNCTION(BlueprintPure, Category = Enemy)
-		virtual bool IsEnemyState(const EEnemyState InState) const;
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Enemy)
+		void EnableAI(const EEnemyState StartState);
+	void EnableAI_Implementation(const EEnemyState StartState);
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = Enemy)
+		void DisableAI();
+	void DisableAI_Implementation();
 
 	UFUNCTION(BlueprintPure, Category = Enemy)
-		virtual EEnemyState GetEnemyState() const;
+		USMInstance* GetStateMachine() const;
 
 	UFUNCTION(BlueprintPure, Category = Enemy)
-		virtual USMInstance* GetStateMachine() const;
+		bool IsEnemyState(const EEnemyState InState) const { return EnemyState == InState; }
+
+	UFUNCTION(BlueprintPure, Category = Enemy)
+		EEnemyState GetEnemyState() const { return EnemyState; }
+
+	UFUNCTION(BlueprintPure, Category = Enemy)
+		bool IsEnabled() const { return bEnabled; }
 
 	UFUNCTION(BlueprintPure, Category = Enemy)
 		APlayerCharacter* GetPlayerRef() const { return PlayerChar; }
@@ -62,6 +74,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = Settings, AdvancedDisplay)
 		EEnemyState EnemyState;
 
+	bool bEnabled;
 	TObjectPtr<APlayerCharacter> PlayerChar;
 
 	virtual void BeginPlay() override;

@@ -3,7 +3,7 @@
 #include "GameEnemyBase.h"
 #include "EnemyManager.h"
 
-AGameEnemyBase::AGameEnemyBase(): EnemyState(EEnemyState::None)
+AGameEnemyBase::AGameEnemyBase(): EnemyState(EEnemyState::None), bEnabled(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -12,21 +12,32 @@ AGameEnemyBase::AGameEnemyBase(): EnemyState(EEnemyState::None)
 
 void AGameEnemyBase::SetEnemyState(const EEnemyState InState)
 {
-	if (EnemyState != InState)
+	if (IsEnabled() && EnemyState != InState)
 	{
 		EnemyState = InState;
 		UEnemyManager::UpdateEnemyStatus(this);
 	}
 }
 
-bool AGameEnemyBase::IsEnemyState(const EEnemyState InState) const
+void AGameEnemyBase::EnableAI_Implementation(const EEnemyState StartState)
 {
-	return EnemyState == InState;
+	if (!IsEnabled())
+	{
+		SetEnemyState(StartState);
+		StateComponent->Start();
+		bEnabled = true;
+	}
 }
 
-EEnemyState AGameEnemyBase::GetEnemyState() const
+void AGameEnemyBase::DisableAI_Implementation()
 {
-	return EnemyState;
+	if (IsEnabled())
+	{
+		bEnabled = false;
+		StateComponent->Stop();
+		SetEnemyState(EEnemyState::None);
+		GetCharacterMovement()->StopMovementImmediately();
+	}
 }
 
 USMInstance* AGameEnemyBase::GetStateMachine() const
