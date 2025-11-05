@@ -22,7 +22,12 @@ ALightProbeActor::ALightProbeActor(): Intensity(1.0f), Radius(500.0f), Falloff(2
 
 bool ALightProbeActor::IsRelevantProbe(const FTransform& Camera, const bool bHasLumenGI) const
 {
-	if (!IsEnabled() || Radius < 50.0f
+#if WITH_EDITOR
+	if (!(FApp::IsGame() ? IsEnabled() : GetEnabledState_Implementation())
+#else
+	if (!IsEnabled()
+#endif
+		|| Radius < 50.0f
 		|| FMath::IsNearlyZero(Intensity)
 		|| (bHasLumenGI && bDisableWithLumenGI))
 		return false;
