@@ -49,5 +49,6 @@ Build/*/**
 !/Build/**/*.ico
 
 /Plugins/*
+!/Plugins/ToroUtilities
 
 Backup.Lock

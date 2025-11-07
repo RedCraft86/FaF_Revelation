@@ -1,0 +1,3 @@
+[submodule "Plugins/ToroUtilities"]
+	path = Plugins/ToroUtilities
+	url = https://github.com/RedCraft86/ToroUtilities.git
