@@ -1,20 +1,24 @@
-# FaF_Revelation
+## Fredbear and Friends: Revelation
 The source code repo for [Fredbear and Friends: Revelation](https://gamejolt.com/games/faf-rev/754442). 
 Includes some blueprint assets such as data assets and other logic blueprints as well.
 Non blueprint assets such as static meshes, textures, etc. not included due to copyright and file size.
 
-### Third Party Plugins
-**Code Library / Framework:**\
-[Enhanced Code Flow](https://www.fab.com/listings/c7a13871-0671-45d5-971c-2f5b3d53d3c0)\
-[Logic Driver Lite](https://www.fab.com/listings/e7500c39-5b12-4b88-aac2-12b14c0b1387)
+**This game is and will always be released for free. Any commercial upload is unauthorized and should be treated as a virus or a scam!**
 
-**Visuals / Graphics:**\
-[AMD FSR 3.1](https://gpuopen.com/learn/ue-fsr3/)\
-[Intel XeSS](https://www.intel.com/content/www/us/en/developer/articles/technical/xess-plugin-for-unreal-engine.html)\
-[Nvidia DLSS](https://developer.nvidia.com/rtx/dlss)\
-[Expressive Text](https://www.fab.com/listings/893ddbd5-b877-4c13-82ff-be3b05e7a131)\
-[Screen Space Fog Scattering](https://www.fab.com/listings/a670ac7b-392f-4ce0-ab5f-87a441d5ebb7)
+(Dependencies for developers listed in the .uproject and ToroUtilities' .uplugin files)
 
-**Game System:**\
-[Narrative Tales](https://www.fab.com/listings/e3f81dd7-e00b-4c32-ba52-a366145b2ae6) (Low usage, somewhat unnecessary)\
-[LXR Light Detection](https://www.fab.com/listings/5ac2e509-9918-4eeb-90f8-f257e5cd230f) (Currently unused)
+## License
+This project is licensed under **All Rights Reserved** with the following permissions:
+
+- ✅ You may view and learn from the source code
+- ✅ You may create derivative works (with credit)
+- ✅ You may extract and use assets from this game for non-commercial projects (with credit to their originating authors)
+- ❌ You may, under any circumstances, NOT extract and use ANY assets from `Content/AssetPacks/`. Details under "THIRD-PARTY ASSETS" in [LICENSE](LICENSE)
+- ❌ You may not use the Five Nights at Freddy's content in this game in ways that violate Scott Cawthon's fan game guidelines
+- ❌ You may not redistribute or reupload this game (except for archival if official download is unavailable)
+
+**Fan Game Notice:**\
+Five Nights at Freddy's and all related characters are property of Scott Cawthon and Steel Wool Studios.
+This is a non-profit fan project made out of love and passion for the franchise.
+
+See the [LICENSE](LICENSE) file for full details.
