@@ -25,6 +25,7 @@ void UQuestWidget::OnQuestNewState(UQuest* Quest, const UQuestState* NewState)
 {
 	if (NewState) return;
 	ClearQuestContainers(Quest);
+	QuestLabel->SetText(Quest->GetQuestDescription());
 	for (const UQuestBranch* Branch : NewState->Branches)
 	{
 		AddOrUpdateQuestBranch(Branch);
@@ -39,6 +40,7 @@ void UQuestWidget::OnQuestNewState(UQuest* Quest, const UQuestState* NewState)
 void UQuestWidget::OnQuestTaskCompleted(const UQuest* Quest, const UNarrativeTask* CompletedTask, const UQuestBranch* Branch)
 {
 	AddOrUpdateQuestBranch(Branch);
+	QuestLabel->SetText(Quest->GetQuestDescription());
 	ShowObjectiveNotice();
 }
 
@@ -46,12 +48,14 @@ void UQuestWidget::OnQuestTaskProgressChanged(const UQuest* Quest, const UNarrat
 	const UQuestBranch* Branch, int32 OldProgress, int32 NewProgress)
 {
 	AddOrUpdateQuestBranch(Branch);
+	QuestLabel->SetText(Quest->GetQuestDescription());
 	ShowObjectiveNotice();
 }
 
 void UQuestWidget::OnQuestSucceeded(const UQuest* Quest, const FText& QuestSucceededMessage)
 {
 	ClearQuestContainers(Quest);
+	QuestLabel->SetText(INVTEXT("Objectives"));
 	HideIfEmpty();
 }
 
@@ -60,6 +64,7 @@ void UQuestWidget::HideIfEmpty()
 	if (bVisible && BranchBoxes.IsEmpty())
 	{
 		ToggleVisibility();
+		QuestLabel->SetText(INVTEXT("Objectives"));
 	}
 }
 

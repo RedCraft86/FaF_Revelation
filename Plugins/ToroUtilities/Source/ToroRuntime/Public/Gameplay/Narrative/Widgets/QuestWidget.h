@@ -4,6 +4,7 @@
 
 #include "QuestSM.h"
 #include "ToroRuntime.h"
+#include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "QuestWidget.generated.h"
@@ -20,6 +21,9 @@ public:
 	void ToggleVisibility();
 
 protected:
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> QuestLabel;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UVerticalBox> BranchContainer;
