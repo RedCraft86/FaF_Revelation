@@ -14,7 +14,7 @@ UVisionConeComponent::UVisionConeComponent(): Settings(FVisionSettings::Normal)
 {
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 	PrimaryComponentTick.TickGroup = TG_DuringPhysics;
-	PrimaryComponentTick.TickInterval = 0.1f;
+	PrimaryComponentTick.TickInterval = 0.05f;
 }
 
 bool UVisionConeComponent::IsActorSeen(const AActor* InActor) const
