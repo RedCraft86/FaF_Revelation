@@ -2,6 +2,7 @@
 
 #include "QTEManager.h"
 #include "Framework/ToroPlayerController.h"
+#include "Helpers/LoggingMacros.h"
 
 UQTEManager::UQTEManager()
 {
@@ -28,6 +29,8 @@ void UQTEManager::InitiateEvent(UQTEInstance* InObject)
 		else
 		{
 			QuicktimeFinished(true);
+			UE_KLOG_ERROR(2.0f, TEXT("QTE %s is missing widget!"),
+				*GetNameSafe(InObject ? InObject->GetClass() : nullptr))
 		}
 	}
 }
