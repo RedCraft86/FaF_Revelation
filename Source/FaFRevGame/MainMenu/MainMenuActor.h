@@ -19,7 +19,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UWorld> DefaultTheme;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ReadOnlyKeys = true, Categories = "MenuTheme"))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ReadOnlyKeys, ForceInlineRow, Categories = "MenuTheme"))
 		TMap<FGameplayTag, TSoftObjectPtr<UWorld>> MenuThemes;
 
 	UPROPERTY(EditAnywhere, Category = Settings)

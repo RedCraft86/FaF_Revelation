@@ -41,12 +41,15 @@ protected:
 		TObjectPtr<UButton> QuitButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UPanelWidget> MenuThemeBox;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UComboBoxString> ThemeDropdown;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> VersionText;
 
-	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ForceInlineRow, Categories = "MenuTheme"))
 		TMap<FGameplayTag, FString> Themes;
 
 	FTimerHandle ThemeTimer;

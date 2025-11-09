@@ -6,6 +6,7 @@
 #include "UserInterface/NativeContainers.h"
 #include "UserInterface/ToroWidgetManager.h"
 #include "Framework/ToroPlayerController.h"
+#include "GamePhase/GamePhaseManager.h"
 #include "Helpers/WidgetAnimHelpers.h"
 #include "MainMenuActor.h"
 
@@ -14,6 +15,7 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
+	Themes.Add(MenuThemeTags::TAG_Default.GetTag(), TEXT("Default"));
 }
 
 void UMainMenuWidget::ChangeMenuTheme(const FGameplayTag ThemeTag)
@@ -121,14 +123,14 @@ void UMainMenuWidget::PushWidget()
 	Super::PushWidget();
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 	VersionText->SetText(UToroSettings::Get()->GetVersionLabel());
-	ThemeDropdown->SetVisibility(ESlateVisibility::Collapsed);
+	MenuThemeBox->SetVisibility(ESlateVisibility::Collapsed);
 	if (MenuActor)
 	{
 		const TArray<FGameplayTag>& AvailableThemes = MenuActor->GetThemes();
 		if (!AvailableThemes.IsEmpty())
 		{
 			ThemeDropdown->ClearOptions();
-			ThemeDropdown->SetVisibility(ESlateVisibility::Visible);
+			MenuThemeBox->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 			for (auto It = Themes.CreateIterator(); It; ++It)
 			{
 				if (AvailableThemes.Contains(It.Key()))
