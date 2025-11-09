@@ -37,10 +37,10 @@ void UGameOverWidget::PushWidget()
 	OnPickSide(bIsRightSide);
 	LabelText->SetText(NameText);
 	ContentText->SetText(DescText);
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputConfig({EGameInputMode::UI_Only, true,
-			EMouseLockMode::LockAlways, false, this});
+			EMouseLockMode::LockAlways, false});
 	}
 }
 

@@ -86,7 +86,7 @@ void UMainMenuWidget::OnQuitButton()
 	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);
 	FFlow::Delay(this, 0.6f, [this]()
 	{
-		UKismetSystemLibrary::QuitGame(this, GetOwningPlayer(),
+		UKismetSystemLibrary::QuitGame(this, AToroPlayerController::Get(this),
 			EQuitPreference::Quit, false);
 	});
 }
@@ -145,10 +145,10 @@ void UMainMenuWidget::PushWidget()
 			ThemeDropdown->SetSelectedOption(Themes.FindRef(MenuActor->GetMenuTheme()));
 		}
 	}
-	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
+	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputConfig({EGameInputMode::UI_Only, true,
-			EMouseLockMode::LockAlways, false, this});
+			EMouseLockMode::LockAlways, false});
 	}
 }
 
