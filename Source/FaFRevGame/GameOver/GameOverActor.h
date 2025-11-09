@@ -30,8 +30,23 @@ protected:
 		FGameplayTag CharacterID;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
+		bool bDisplayOnRight;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
 		FText DisplayName;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (MultiLine = true))
 		FText Description;
+
+#if WITH_EDITOR
+	virtual void OnConstruction(const FTransform& Transform) override
+	{
+		Super::OnConstruction(Transform);
+		if (DisplayName.IsEmptyOrWhitespace())
+		{
+			DisplayName = FText::FromString(FName::NameToDisplayString(
+				CharacterID.GetTagLeafName().ToString(), false));
+		}
+	}
+#endif
 };

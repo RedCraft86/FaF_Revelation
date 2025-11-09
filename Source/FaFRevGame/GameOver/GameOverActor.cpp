@@ -9,7 +9,7 @@
 #include "EngineUtils.h"
 
 AGameOverActor::AGameOverActor(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+	: Super(ObjectInitializer), bDisplayOnRight(false)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -45,6 +45,6 @@ void AGameOverActor::ShowGameOver()
 	UToroShortcutLibrary::StartCameraFade(this, 1.0f, 0.0f, 2.0f);
 	if (UGameOverWidget* Widget = AToroWidgetManager::GetWidget<UGameOverWidget>(this))
 	{
-		Widget->ShowWidget(DisplayName, Description);
+		Widget->ShowWidget(DisplayName, Description, bDisplayOnRight);
 	}
 }

@@ -7,13 +7,14 @@
 #include "UserInterface/NativeContainers.h"
 
 UGameOverWidget::UGameOverWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer)
+	: Super(ObjectInitializer), bIsRightSide(false)
 {
 	ContainerClass = UMenuWidgetContainer::StaticClass();
 }
 
-void UGameOverWidget::ShowWidget(const FText& DisplayName, const FText& Description)
+void UGameOverWidget::ShowWidget(const FText& DisplayName, const FText& Description, const bool bRightSide)
 {
+	bIsRightSide = bRightSide;
 	NameText = DisplayName;
 	DescText = Description;
 	PushWidget();
@@ -33,6 +34,7 @@ void UGameOverWidget::OnRetry()
 void UGameOverWidget::PushWidget()
 {
 	Super::PushWidget();
+	OnPickSide(bIsRightSide);
 	LabelText->SetText(NameText);
 	ContentText->SetText(DescText);
 	if (AToroPlayerController* PC = GetOwningPlayer<AToroPlayerController>())
