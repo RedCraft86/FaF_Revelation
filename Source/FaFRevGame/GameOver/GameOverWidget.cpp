@@ -10,6 +10,7 @@ UGameOverWidget::UGameOverWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bIsRightSide(false)
 {
 	ContainerClass = UMenuWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
 void UGameOverWidget::ShowWidget(const FText& DisplayName, const FText& Description, const bool bRightSide)

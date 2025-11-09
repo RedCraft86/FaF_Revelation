@@ -15,6 +15,7 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 	Themes.Add(MenuThemeTags::TAG_Default.GetTag(), TEXT("Default"));
 }
 

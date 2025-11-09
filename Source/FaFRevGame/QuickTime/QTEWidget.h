@@ -15,11 +15,11 @@ class FAFREVGAME_API UQTEWidget : public UToroManagedWidget
 
 public:
 
-	UQTEWidget(const FObjectInitializer& ObjectInitializer)
-		: Super(ObjectInitializer)
+	UQTEWidget(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
 	{
 		bAutoPush = false;
 		ContainerClass = UQTEWidgetContainer::StaticClass();
+		UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
 	}
 
 	UFUNCTION(BlueprintImplementableEvent)
