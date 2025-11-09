@@ -16,11 +16,11 @@ AMainMenuActor::AMainMenuActor(): bFirstLoad(true)
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 }
 
-bool AMainMenuActor::SetMenuTheme(const FGameplayTag& Ending)
+bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
 {
-	if (MenuTheme != Ending)
+	if (MenuTheme != ThemeTag)
 	{
-		MenuTheme = Ending;
+		MenuTheme = ThemeTag;
 		if (PreThemeChange && PreThemeChange->GetSequencePlayer())
 		{
 			PreThemeChange->GetSequencePlayer()->RewindForReplay();
@@ -65,17 +65,12 @@ void AMainMenuActor::BeginPlay()
 {
 	Super::BeginPlay();
 	UToroSaveManager* SaveManager = UToroSaveManager::Get(this);
-	if (UToroGlobalSave* GlobalSave = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>(0) : nullptr)
+	if (const UToroGlobalSave* GlobalSave = SaveManager ? SaveManager->FindOrAddSave<UToroGlobalSave>(0) : nullptr)
 	{
-		GlobalSave->Endings.GenerateKeyArray(AvailableEndings);
-		if (AvailableEndings.Num() > 1)
+		AvailableThemes = GlobalSave->Themes;
+		if (!AvailableThemes.IsEmpty())
 		{
-			AvailableEndings.Sort([this, GlobalSave](const FGameplayTag& A, const FGameplayTag& B)
-			{
-				return GlobalSave->Endings[A] < GlobalSave->Endings[B];
-			});
-
-			MenuTheme = AvailableEndings.Last();
+			MenuTheme = AvailableThemes.Last();
 		}
 	}
 
@@ -91,10 +86,10 @@ void AMainMenuActor::BeginPlay()
 void AMainMenuActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	const FGameplayTagContainer AllEndings = UGameplayTagsManager::Get()
-		.RequestGameplayTagChildren(EndingTags::TAG_Ending.GetTag());
+	const FGameplayTagContainer AllThemes = UGameplayTagsManager::Get()
+		.RequestGameplayTagChildren(MenuThemeTags::TAG_MenuTheme.GetTag());
 
-	for (const FGameplayTag& Tag : AllEndings)
+	for (const FGameplayTag& Tag : AllThemes)
 	{
 		MenuThemes.FindOrAdd(Tag);
 	}

@@ -19,7 +19,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UWorld> DefaultTheme;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ReadOnlyKeys = true))
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ReadOnlyKeys = true, Categories = "MenuTheme"))
 		TMap<FGameplayTag, TSoftObjectPtr<UWorld>> MenuThemes;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
@@ -28,14 +28,15 @@ public:
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TObjectPtr<ALevelSequenceActor> PostThemeChange;
 
-	bool SetMenuTheme(const FGameplayTag& Ending);
-	const TArray<FGameplayTag>& GetEndings() const { return AvailableEndings; }
+	bool SetMenuTheme(const FGameplayTag& ThemeTag);
+	FGameplayTag GetMenuTheme() const { return MenuTheme; }
+	const TArray<FGameplayTag>& GetThemes() const { return AvailableThemes; }
 
 protected:
 
 	bool bFirstLoad;
 	FGameplayTag MenuTheme;
-	TArray<FGameplayTag> AvailableEndings;
+	TArray<FGameplayTag> AvailableThemes;
 
 	UFUNCTION() void OnThemeChanged();
 	void LoadThemeLevel();

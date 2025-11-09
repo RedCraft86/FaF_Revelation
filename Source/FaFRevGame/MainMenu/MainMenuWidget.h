@@ -5,6 +5,7 @@
 #include "ToroRuntime.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "Components/ComboBoxString.h"
 #include "Interfaces/ExitInterface.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "UserSettings/Widgets/SettingsWidget.h"
@@ -20,10 +21,7 @@ public:
 	UMainMenuWidget(const FObjectInitializer& ObjectInitializer);
 
 	UFUNCTION(BlueprintCallable, Category = MainMenu)
-		void ChangeMenuTheme(UPARAM(meta = (Categories = "Ending")) const FGameplayTag EndingTag);
-
-	UFUNCTION(BlueprintImplementableEvent)
-		void OnThemesAvailable(const TArray<FGameplayTag>& Endings);
+		void ChangeMenuTheme(UPARAM(meta = (Categories = "MenuTheme")) const FGameplayTag ThemeTag);
 
 	void ShowWidget(class AMainMenuActor* Actor);
 	virtual void ReturnToWidget_Implementation(UUserWidget* FromWidget) override;
@@ -43,14 +41,15 @@ protected:
 		TObjectPtr<UButton> QuitButton;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UButton> ThemeButton;
+		TObjectPtr<UComboBoxString> ThemeDropdown;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> VersionText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
-		TObjectPtr<UWidgetAnimation> ThemesAnim;
+		TMap<FGameplayTag, FString> Themes;
 
+	FTimerHandle ThemeTimer;
 	TObjectPtr<USettingsWidget> Settings;
 	TObjectPtr<UDifficultyWidget> Difficulty;
 	TObjectPtr<AMainMenuActor> MenuActor;
@@ -59,7 +58,8 @@ protected:
 	UFUNCTION() void OnSettingsButton();
 	UFUNCTION() void OnExtrasButton();
 	UFUNCTION() void OnQuitButton();
-	UFUNCTION() void OnThemeButton();
+	UFUNCTION() void OnThemePicked(FString SelectedItem, ESelectInfo::Type SelectionType);
+
 	void OpenGameplayLevel();
 
 	virtual void PushWidget() override;
