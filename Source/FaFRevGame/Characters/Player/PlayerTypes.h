@@ -81,7 +81,7 @@ struct FPlayerMovementInfo
 /**
  * Stamina is represented as a single continuous bar, but divided into two behavior zones:
  * 
- * [Empty | Reserve | Normal | Full]
+ * [Empty | -Reserve- | --Normal-- | Full]
  * 
  * - When stamina is above the reserve threshold, NormalRates are used.
  * - When stamina drops into the reserve zone, ReserveRates apply.
@@ -115,13 +115,13 @@ struct FPlayerStamina
 
 	FPlayerStamina(): TickInterval(0.05f)
 		, MaxNormal(100.0f), NormalRates(1.0f, 1.0f)
-		, MaxReserve(25.0f), ReserveRates(1.5f, 0.5f)
+		, MaxReserve(25.0f), ReserveRates(1.5f, 0.25f)
 		, Stamina(100.0f), Delta(0.0f)
 	{}
 
 	FPlayerStamina(const float MaxNormal, const float MaxReserve): TickInterval(0.05f)
 		, MaxNormal(MaxNormal), NormalRates(1.0f, 1.0f)
-		, MaxReserve(MaxReserve), ReserveRates(1.5f, 0.5f)
+		, MaxReserve(MaxReserve), ReserveRates(1.5f, 0.25f)
 		, Stamina(100.0f), Delta(0.0f)
 	{}
 
@@ -136,8 +136,8 @@ struct FPlayerStamina
 	}
 
 	bool IsInReserve() const { return Stamina <= MaxReserve; }
-	bool IsEmpty(const float Min = 10.0f) const { return Stamina < Min; }
-	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, GetMaxStamina(), 0.01f); }
+	bool IsEmpty(const float Min = 0.1f) const { return Stamina < Min; }
+	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, GetMaxStamina(), 0.1f); }
 
 	void TimedTick(const int32 StateFlags);
 };
