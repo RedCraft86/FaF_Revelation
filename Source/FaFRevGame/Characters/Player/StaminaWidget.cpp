@@ -1,0 +1,39 @@
+﻿// Copyright (C) RedCraft86. All Rights Reserved.
+
+#include "StaminaWidget.h"
+#include "UserInterface/NativeContainers.h"
+
+UStaminaWidget::UStaminaWidget(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer), ReserveFullColor(FLinearColor::White), ReserveNonFullColor(FLinearColor::Red)
+{
+	ContainerClass = UGameplayWidgetContainer::StaticClass();
+	UUserWidget::SetVisibility(ESlateVisibility::HitTestInvisible);
+}
+
+void UStaminaWidget::OnStaminaUpdate(const bool bEnabled, const FPlayerStamina& StaminaInfo)
+{
+	NormalBar->SetPercent(StaminaInfo.GetNormalPercent());
+	ReserveBar->SetPercent(StaminaInfo.GetReservePercent());
+	ReserveBar->SetFillColorAndOpacity(ReserveBar->GetPercent() < 0.9f
+		? ReserveNonFullColor : ReserveFullColor);
+
+	SetRenderOpacity(FMath::GetMappedRangeValueClamped(
+		FVector2D(0.8f, 1.0f),
+		FVector2D(1.0f, 0.25f),
+		StaminaInfo.GetOverallPercent()));
+}
+
+bool UStaminaWidget::ShouldHideWidget() const
+{
+	return !Player || !Player->IsStaminaEnabled() || Player->IsControlLocked();
+}
+
+void UStaminaWidget::InitWidget(APlayerController* Controller)
+{
+	Super::InitWidget(Controller);
+	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
+	{
+		Player = APlayerCharacter::Get<APlayerCharacter>(this);
+		Player->OnStaminaUpdate.AddUObject(this, &UStaminaWidget::OnStaminaUpdate);
+	});
+}
