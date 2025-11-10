@@ -12,15 +12,23 @@ UStaminaWidget::UStaminaWidget(const FObjectInitializer& ObjectInitializer)
 
 void UStaminaWidget::OnStaminaUpdate(const bool bEnabled, const FPlayerStamina& StaminaInfo)
 {
-	NormalBar->SetPercent(StaminaInfo.GetNormalPercent());
-	ReserveBar->SetPercent(StaminaInfo.GetReservePercent());
-	ReserveBar->SetFillColorAndOpacity(ReserveBar->GetPercent() < 0.9f
-		? ReserveNonFullColor : ReserveFullColor);
+	NormalBar->SetPercent(FMath::FInterpConstantTo(
+		NormalBar->GetPercent(), StaminaInfo.GetNormalPercent(),
+		StaminaInfo.TickInterval, FMath::Abs(StaminaInfo.Delta))
+	);
+	
+	ReserveBar->SetPercent(FMath::FInterpConstantTo(
+		ReserveBar->GetPercent(), StaminaInfo.GetReservePercent(),
+		StaminaInfo.TickInterval, FMath::Abs(StaminaInfo.Delta))
+	);
+
+	ReserveBar->SetFillColorAndOpacity(ReserveBar->GetPercent() < 0.98f? ReserveNonFullColor : ReserveFullColor);
 
 	SetRenderOpacity(FMath::GetMappedRangeValueClamped(
 		FVector2D(0.8f, 1.0f),
-		FVector2D(1.0f, 0.25f),
-		StaminaInfo.GetOverallPercent()));
+		FVector2D(1.0f, 0.1f),
+		StaminaInfo.GetOverallPercent()
+	));
 }
 
 bool UStaminaWidget::ShouldHideWidget() const
@@ -31,6 +39,8 @@ bool UStaminaWidget::ShouldHideWidget() const
 void UStaminaWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
+	NormalBar->SetPercent(1.0f);
+	ReserveBar->SetPercent(1.0f);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
 		Player = APlayerCharacter::Get<APlayerCharacter>(this);
