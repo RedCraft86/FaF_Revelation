@@ -4,7 +4,7 @@
 
 #define GLOBAL_DISTANCE_THRESHOLD 5000.0f
 
-FVisionSettings FVisionSettings::Easy = FVisionSettings(1500.0f, 60.0f, 1.0f, 1.0f);
+FVisionSettings FVisionSettings::Easy = FVisionSettings(1500.0f, 60.0f, 0.5f, 1.0f);
 FVisionSettings FVisionSettings::Normal = FVisionSettings(2000.0f, 60.0f, 0.2f, 2.0f);
 FVisionSettings FVisionSettings::Hard = FVisionSettings(2000.0f, 70.0f, 0.1f, 3.0f);
 
