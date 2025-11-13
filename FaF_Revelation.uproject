@@ -387,12 +387,10 @@
 		{
 			"Name": "ExpressiveText",
 			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fc8f100e734144179e1679596d1eee07",
-			"SupportedTargetPlatforms": [
-				"Win64",
-				"Mac",
-				"Linux"
-			]
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fc8f100e734144179e1679596d1eee07"
 		}
+	],
+	"TargetPlatforms": [
+		"Windows"
 	]
 }
