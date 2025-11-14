@@ -3,7 +3,7 @@
 	"EngineAssociation": "{EDC59E30-4B3C-2B01-75CF-BA9D13DE20A3}",
 	"Category": "",
 	"Description": "",
-	"DevCategory": "RedCraft86",
+	"PublisherName": "RedCraft86",
 	"Modules": [
 		{
 			"Name": "FaF_Revelation",
