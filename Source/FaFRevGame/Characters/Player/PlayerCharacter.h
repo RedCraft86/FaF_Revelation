@@ -20,9 +20,6 @@ public:
 
 	APlayerCharacter();
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
-		TObjectPtr<class UQTEManager> QuicktimeEvents;
-
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/FaFRevGame.EPlayerControlFlags"))
 		int32 ControlFlags;
 

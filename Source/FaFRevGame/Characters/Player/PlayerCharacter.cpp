@@ -16,7 +16,6 @@
 #include "Tutorials/TutorialManager.h"
 #include "Libraries/ToroMathLibrary.h"
 #include "Interfaces/ExitInterface.h"
-#include "QuickTime/QTEManager.h"
 
 #define CanInput() !IsControlLocked() && !IsPaused()
 
@@ -34,8 +33,6 @@ APlayerCharacter::APlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
-
-	QuicktimeEvents = CreateDefaultSubobject<UQTEManager>("QuicktimeEvents");
 
 	PlayerCamera->SetFieldOfView(88.f);
 
@@ -166,10 +163,6 @@ int32 APlayerCharacter::GetActivityFlags() const
 	if (NarrativeManager && NarrativeManager->IsInDialogue())
 	{
 		Flags |= PAF_Dialogue;
-	}
-	if (QuicktimeEvents->IsQuicktimeActive())
-	{
-		Flags |= PAF_QTE;
 	}
 	return Flags;
 }
