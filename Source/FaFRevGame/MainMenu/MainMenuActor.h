@@ -26,7 +26,7 @@ public:
 		TMap<FGameplayTag, TSoftObjectPtr<UWorld>> MenuThemes;
 
 	UFUNCTION(BlueprintCallable, Category = MainMenu, meta = (WorldContext = "ContextObject"))
-		static void InitiateMainMenu(const UObject* ContextObject);
+		static void InitializeMainMenu(const UObject* ContextObject);
 
 	bool SetMenuTheme(const FGameplayTag& ThemeTag);
 	FGameplayTag GetMenuTheme() const { return MenuTheme; }

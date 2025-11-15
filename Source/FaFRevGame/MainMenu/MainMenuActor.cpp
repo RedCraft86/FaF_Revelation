@@ -16,7 +16,7 @@ AMainMenuActor::AMainMenuActor(): FadeTime(2.0f)
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
 }
 
-void AMainMenuActor::InitiateMainMenu(const UObject* ContextObject)
+void AMainMenuActor::InitializeMainMenu(const UObject* ContextObject)
 {
 	AActor* Actor = UGameplayStatics::GetActorOfClass(ContextObject, AMainMenuActor::StaticClass());
 	if (AMainMenuActor* MenuActor = Actor ? Cast<AMainMenuActor>(Actor) : nullptr)
