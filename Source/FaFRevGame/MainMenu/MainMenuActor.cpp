@@ -5,15 +5,25 @@
 #include "Helpers/LatentInfo.h"
 #include "SaveSystem/ToroGlobalSave.h"
 #include "SaveSystem/ToroSaveManager.h"
+#include "Libraries/ToroShortcutLibrary.h"
 #include "UserInterface/ToroWidgetManager.h"
 #include "GamePhase/GamePhaseManager.h"
-#include "LevelSequencePlayer.h"
 
-AMainMenuActor::AMainMenuActor(): bFirstLoad(true)
+AMainMenuActor::AMainMenuActor(): FadeTime(2.0f)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
+}
+
+void AMainMenuActor::InitiateMainMenu(const UObject* ContextObject)
+{
+	AActor* Actor = UGameplayStatics::GetActorOfClass(ContextObject, AMainMenuActor::StaticClass());
+	if (AMainMenuActor* MenuActor = Actor ? Cast<AMainMenuActor>(Actor) : nullptr)
+	{
+		UToroShortcutLibrary::SetCameraFade(ContextObject, 1.0f, FLinearColor::Black, true);
+		MenuActor->LoadThemeLevel();
+	}
 }
 
 bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
@@ -21,15 +31,10 @@ bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
 	if (MenuTheme != ThemeTag)
 	{
 		MenuTheme = ThemeTag;
-		if (PreThemeChange && PreThemeChange->GetSequencePlayer())
-		{
-			PreThemeChange->GetSequencePlayer()->RewindForReplay();
-			PreThemeChange->GetSequencePlayer()->Play();
-		}
-		else
-		{
-			LoadThemeLevel();
-		}
+		FTimerHandle Handle;
+		GetWorldTimerManager().SetTimer(Handle, this, &AMainMenuActor::LoadThemeLevel, FadeTime, false);
+		UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, FadeTime);
+
 		return true;
 	}
 	return false;
@@ -37,16 +42,11 @@ bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
 
 void AMainMenuActor::OnThemeChanged()
 {
+	UToroShortcutLibrary::StartCameraFade(this, 1.0f, 0.0f, FadeTime);
 	if (UMainMenuWidget* Widget = AToroWidgetManager::GetWidget<UMainMenuWidget>(this))
 	{
 		Widget->ShowWidget(this);
 	}
-	if (!bFirstLoad && PostThemeChange && PostThemeChange->GetSequencePlayer())
-	{
-		PostThemeChange->GetSequencePlayer()->RewindForReplay();
-		PostThemeChange->GetSequencePlayer()->Play();
-	}
-	bFirstLoad = false;
 }
 
 void AMainMenuActor::LoadThemeLevel()
@@ -72,13 +72,6 @@ void AMainMenuActor::BeginPlay()
 		{
 			MenuTheme = AvailableThemes.Last();
 		}
-	}
-
-	LoadThemeLevel();
-	if (PreThemeChange && PreThemeChange->GetSequencePlayer())
-	{
-		PreThemeChange->GetSequencePlayer()->OnNativeFinished
-			.BindUObject(this, &AMainMenuActor::LoadThemeLevel);
 	}
 }
 

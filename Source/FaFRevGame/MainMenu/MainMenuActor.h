@@ -17,16 +17,16 @@ public:
 	AMainMenuActor();
 
 	UPROPERTY(EditAnywhere, Category = Settings)
+		float FadeTime;
+
+	UPROPERTY(EditAnywhere, Category = Settings)
 		TSoftObjectPtr<UWorld> DefaultTheme;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (ReadOnlyKeys, ForceInlineRow, Categories = "MenuTheme"))
 		TMap<FGameplayTag, TSoftObjectPtr<UWorld>> MenuThemes;
 
-	UPROPERTY(EditAnywhere, Category = Settings)
-		TObjectPtr<ALevelSequenceActor> PreThemeChange;
-
-	UPROPERTY(EditAnywhere, Category = Settings)
-		TObjectPtr<ALevelSequenceActor> PostThemeChange;
+	UFUNCTION(BlueprintCallable, Category = MainMenu, meta = (WorldContext = "ContextObject"))
+		static void InitiateMainMenu(const UObject* ContextObject);
 
 	bool SetMenuTheme(const FGameplayTag& ThemeTag);
 	FGameplayTag GetMenuTheme() const { return MenuTheme; }
@@ -34,7 +34,6 @@ public:
 
 protected:
 
-	bool bFirstLoad;
 	FGameplayTag MenuTheme;
 	TArray<FGameplayTag> AvailableThemes;
 
