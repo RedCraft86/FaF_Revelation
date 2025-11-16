@@ -128,7 +128,7 @@ void UMainMenuWidget::PushWidget()
 	if (MenuActor)
 	{
 		const TArray<FGameplayTag>& AvailableThemes = MenuActor->GetThemes();
-		if (!AvailableThemes.IsEmpty())
+		if (AvailableThemes.Num() > 1)
 		{
 			ThemeDropdown->ClearOptions();
 			MenuThemeBox->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
