@@ -106,7 +106,7 @@ void UMainMenuWidget::OnThemePicked(FString SelectedItem, ESelectInfo::Type Sele
 	}
 }
 
-void UMainMenuWidget::OpenGameplayLevel()
+void UMainMenuWidget::OpenGameplayLevel() const
 {
 	UToroUserSettings::Get()->SaveSettings();
 	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);

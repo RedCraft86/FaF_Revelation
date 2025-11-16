@@ -64,7 +64,7 @@ protected:
 	UFUNCTION() void OnQuitButton();
 	UFUNCTION() void OnThemePicked(FString SelectedItem, ESelectInfo::Type SelectionType);
 
-	void OpenGameplayLevel();
+	void OpenGameplayLevel() const;
 
 	virtual void PushWidget() override;
 	virtual void InitWidget(APlayerController* Controller) override;
