@@ -39,6 +39,7 @@ bool UStaminaWidget::ShouldHideWidget() const
 void UStaminaWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
+	SetRenderOpacity(0.8f);
 	NormalBar->SetPercent(1.0f);
 	ReserveBar->SetPercent(1.0f);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()

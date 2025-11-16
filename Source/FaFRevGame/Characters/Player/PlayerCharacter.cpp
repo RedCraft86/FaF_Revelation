@@ -592,7 +592,8 @@ void APlayerCharacter::BeginPlay()
 	FTimerManager& Timer = GetWorldTimerManager();
 	Timer.SetTimer(WallDetectTimer, this, &APlayerCharacter::TickWallDetect, 0.1f, true);
 	Timer.PauseTimer(WallDetectTimer);
-	
+
+	Stamina.SetPercent(1.0f);
 	Timer.SetTimer(StaminaTimer, this, &APlayerCharacter::TickStamina, Stamina.TickInterval, true);
 	if (!HasControlFlag(PCF_UseStamina)) SetStaminaEnabled(false);
 	
