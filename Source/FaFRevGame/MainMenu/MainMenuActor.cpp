@@ -32,6 +32,19 @@ void AMainMenuActor::InitializeMainMenu(const UObject* ContextObject)
 	}
 }
 
+void AMainMenuActor::MenuMapLoaded(const UObject* ContextObject)
+{
+	AActor* Actor = UGameplayStatics::GetActorOfClass(ContextObject, AMainMenuActor::StaticClass());
+	if (AMainMenuActor* MenuActor = Actor ? Cast<AMainMenuActor>(Actor) : nullptr)
+	{
+		UToroShortcutLibrary::StartCameraFade(ContextObject, 1.0f, 0.0f, MenuActor->FadeTime);
+		if (UMainMenuWidget* Widget = AToroWidgetManager::GetWidget<UMainMenuWidget>(MenuActor))
+		{
+			Widget->ShowWidget(MenuActor);
+		}
+	}
+}
+
 bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
 {
 	if (MenuTheme != ThemeTag)
@@ -46,15 +59,6 @@ bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
 	return false;
 }
 
-void AMainMenuActor::OnThemeChanged()
-{
-	UToroShortcutLibrary::StartCameraFade(this, 1.0f, 0.0f, FadeTime);
-	if (UMainMenuWidget* Widget = AToroWidgetManager::GetWidget<UMainMenuWidget>(this))
-	{
-		Widget->ShowWidget(this);
-	}
-}
-
 void AMainMenuActor::LoadThemeLevel()
 {
 	TSoftObjectPtr<UWorld> Theme = DefaultTheme;
@@ -63,8 +67,8 @@ void AMainMenuActor::LoadThemeLevel()
 		Theme = MenuThemes[MenuTheme];
 	}
 
-	UGameplayStatics::LoadStreamLevelBySoftObjectPtr(this, Theme, true,
-		false, LatentInfo::Make(TEXT("OnThemeChanged"), this));
+	UGameplayStatics::LoadStreamLevelBySoftObjectPtr(this, Theme,
+		true, false, LatentInfo::Make());
 }
 
 void AMainMenuActor::BeginPlay()

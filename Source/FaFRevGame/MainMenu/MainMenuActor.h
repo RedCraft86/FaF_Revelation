@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MainMenu, meta = (WorldContext = "ContextObject"))
 		static void InitializeMainMenu(const UObject* ContextObject);
 
+	UFUNCTION(BlueprintCallable, Category = MainMenu, meta = (WorldContext = "ContextObject"))
+		static void MenuMapLoaded(const UObject* ContextObject);
+
 	bool SetMenuTheme(const FGameplayTag& ThemeTag);
 	FGameplayTag GetMenuTheme() const { return MenuTheme; }
 	const TArray<FGameplayTag>& GetThemes() const { return AvailableThemes; }
@@ -40,7 +43,6 @@ protected:
 	FGameplayTag MenuTheme;
 	TArray<FGameplayTag> AvailableThemes;
 
-	UFUNCTION() void OnThemeChanged();
 	void LoadThemeLevel();
 
 	virtual void BeginPlay() override;
