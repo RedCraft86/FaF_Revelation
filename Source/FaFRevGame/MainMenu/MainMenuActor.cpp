@@ -85,12 +85,16 @@ void AMainMenuActor::BeginPlay()
 void AMainMenuActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
-	const FGameplayTagContainer AllThemes = UGameplayTagsManager::Get()
-		.RequestGameplayTagChildren(MenuThemeTags::TAG_MenuTheme.GetTag());
-
-	for (const FGameplayTag& Tag : AllThemes)
+	MenuThemes.Add(MenuThemeTags::TAG_Default.GetTag(), DefaultTheme);
+	MenuThemes.FindOrAdd(MenuThemeTags::TAG_Ending.GetTag());
+	const TSet<FGameplayTag> AllTags = GameplayTagHelpers::GetAllLeafTags(MenuThemeTags::TAG_MenuTheme.GetTag());
+	for (const FGameplayTag& Tag : AllTags)
 	{
-		MenuThemes.FindOrAdd(Tag);
+		if (Tag != MenuThemeTags::TAG_Default.GetTag()
+			&& Tag != MenuThemeTags::TAG_Ending.GetTag())
+		{
+			MenuThemes.FindOrAdd(Tag);
+		}
 	}
 }
 #endif
