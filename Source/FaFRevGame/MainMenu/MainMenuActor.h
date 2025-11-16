@@ -20,7 +20,7 @@ public:
 		TObjectPtr<USceneComponent> SceneRoot;
 	
 #if WITH_EDITORONLY_DATA
-	UPROPERTY(EditAnywhere, Category = Settings)
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "MenuTheme"))
 		FGameplayTagContainer ForceAllowThemes;
 #endif
 
