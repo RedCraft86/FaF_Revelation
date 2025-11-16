@@ -50,9 +50,13 @@ protected:
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> VersionText;
 
-	UPROPERTY(EditAnywhere, Category = Settings, meta = (ForceInlineRow, Categories = "MenuTheme"))
-		TMap<FGameplayTag, FString> Themes;
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "MenuTheme"))
+		TArray<FGameplayTag> ThemeOrder;
 
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (ForceInlineRow, Categories = "MenuTheme"))
+		TMap<FGameplayTag, FString> ThemeNames;
+
+	bool bInit = false;
 	FTimerHandle ThemeTimer;
 	TObjectPtr<USettingsWidget> Settings;
 	TObjectPtr<UDifficultyWidget> Difficulty;
@@ -76,19 +80,25 @@ protected:
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
 	{
 		Super::PostEditChangeProperty(PropertyChangedEvent);
-		if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UMainMenuWidget, Themes))
+		if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UMainMenuWidget, ThemeNames)
+			|| PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UMainMenuWidget, ThemeOrder))
 		{
-			Themes.FindOrAdd(MenuThemeTags::TAG_Default.GetTag(), TEXT("Default"));
-			Themes.FindOrAdd(MenuThemeTags::TAG_Ending.GetTag(), TEXT("Conclusion"));
+			ThemeNames.FindOrAdd(MenuThemeTags::TAG_Default.GetTag(), TEXT("Default"));
+			ThemeNames.FindOrAdd(MenuThemeTags::TAG_Ending.GetTag(), TEXT("Conclusion"));
 			const TSet<FGameplayTag> Leafs = GameplayTagHelpers::GetAllLeafTags(MenuThemeTags::TAG_MenuTheme.GetTag());
 			for (const FGameplayTag& Tag : Leafs)
 			{
 				if (Tag != MenuThemeTags::TAG_Default.GetTag()
 					&& Tag != MenuThemeTags::TAG_Ending.GetTag())
 				{
-					Themes.FindOrAdd(Tag, FName::NameToDisplayString(
+					ThemeNames.FindOrAdd(Tag, FName::NameToDisplayString(
 						Tag.GetTagLeafName().ToString(), false));
 				}
+			}
+
+			for (const FGameplayTag& Tag : Leafs)
+			{
+				ThemeOrder.AddUnique(Tag);
 			}
 		}
 	}

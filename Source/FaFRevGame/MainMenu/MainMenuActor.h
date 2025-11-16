@@ -5,6 +5,7 @@
 #include "LevelSequenceActor.h"
 #include "GameFramework/Actor.h"
 #include "GameplayTagContainer.h"
+#include "GamePhase/GamePhaseManager.h"
 #include "MainMenuActor.generated.h"
 
 UCLASS(HideCategories = (Replication, Networking, Mobile, Input, RayTracing, Cooking), PrioritizeCategories = (Settings))
@@ -40,12 +41,13 @@ public:
 		static void MenuMapLoaded(const UObject* ContextObject);
 
 	bool SetMenuTheme(const FGameplayTag& ThemeTag);
-	FGameplayTag GetMenuTheme() const { return MenuTheme; }
+	FGameplayTag GetMenuTheme() const { return MenuTheme.IsValid() ? MenuTheme : MenuThemeTags::TAG_Default.GetTag(); }
 	const TArray<FGameplayTag>& GetThemes() const { return AvailableThemes; }
 
 protected:
 
 	FGameplayTag MenuTheme;
+	TSoftObjectPtr<UWorld> LastLevel;
 	TArray<FGameplayTag> AvailableThemes;
 
 	void LoadThemeLevel();

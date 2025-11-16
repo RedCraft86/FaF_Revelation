@@ -16,7 +16,7 @@ UMainMenuWidget::UMainMenuWidget(const FObjectInitializer& ObjectInitializer)
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::Visible);
-	Themes.Add(MenuThemeTags::TAG_Default.GetTag(), TEXT("Default"));
+	ThemeNames.Add(MenuThemeTags::TAG_Default.GetTag(), TEXT("Default"));
 }
 
 void UMainMenuWidget::ChangeMenuTheme(const FGameplayTag ThemeTag)
@@ -94,15 +94,17 @@ void UMainMenuWidget::OnQuitButton()
 
 void UMainMenuWidget::OnThemePicked(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	if (!MenuActor) return;
-	const FGameplayTag* TargetTheme = Themes.FindKey(SelectedItem);
-	if (TargetTheme && MenuActor->GetMenuTheme() != *TargetTheme)
+	if (MenuActor)
 	{
-		ChangeMenuTheme(*TargetTheme);
-	}
-	else
-	{
-		ThemeDropdown->SetSelectedOption(Themes.FindRef(MenuActor->GetMenuTheme()));
+		const FGameplayTag* TargetTheme = ThemeNames.FindKey(SelectedItem);
+		if (TargetTheme && MenuActor->GetMenuTheme() != *TargetTheme)
+		{
+			ChangeMenuTheme(*TargetTheme);
+		}
+		else
+		{
+			ThemeDropdown->SetSelectedIndex(ThemeOrder.Find(MenuActor->GetMenuTheme()));
+		}
 	}
 }
 
@@ -124,27 +126,27 @@ void UMainMenuWidget::PushWidget()
 	Super::PushWidget();
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 	VersionText->SetText(UToroSettings::Get()->GetVersionLabel());
-	MenuThemeBox->SetVisibility(ESlateVisibility::Collapsed);
-	if (MenuActor)
+	if (MenuActor && !bInit)
 	{
+		MenuThemeBox->SetVisibility(ESlateVisibility::Collapsed);
 		const TArray<FGameplayTag>& AvailableThemes = MenuActor->GetThemes();
-		if (AvailableThemes.Num() > 1)
+		if (AvailableThemes.Num() <= 1) return;
+
+		MenuThemeBox->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		for (auto It = ThemeOrder.CreateIterator(); It; ++It)
 		{
-			ThemeDropdown->ClearOptions();
-			MenuThemeBox->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-			for (auto It = Themes.CreateIterator(); It; ++It)
+			if (AvailableThemes.Contains(*It))
 			{
-				if (AvailableThemes.Contains(It.Key()))
-				{
-					ThemeDropdown->AddOption(It.Value());
-				}
-				else
-				{
-					It.RemoveCurrent();
-				}
+				ThemeDropdown->AddOption(ThemeNames.FindRef(*It));
 			}
-			ThemeDropdown->SetSelectedOption(Themes.FindRef(MenuActor->GetMenuTheme()));
+			else
+			{
+				It.RemoveCurrent();
+			}
 		}
+
+		bInit = true;
+		ThemeDropdown->SetSelectedIndex(ThemeOrder.Find(MenuActor->GetMenuTheme()));
 	}
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{

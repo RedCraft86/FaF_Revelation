@@ -51,8 +51,8 @@ bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
 	{
 		MenuTheme = ThemeTag;
 		FTimerHandle Handle;
-		GetWorldTimerManager().SetTimer(Handle, this, &AMainMenuActor::LoadThemeLevel, FadeTime, false);
-		UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, FadeTime);
+		GetWorldTimerManager().SetTimer(Handle, this, &AMainMenuActor::LoadThemeLevel, FadeTime * 0.5f, false);
+		UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, FadeTime * 0.5f);
 
 		return true;
 	}
@@ -67,8 +67,10 @@ void AMainMenuActor::LoadThemeLevel()
 		Theme = *Map;
 	}
 
-	UGameplayStatics::LoadStreamLevelBySoftObjectPtr(this, Theme,
-		true, false, LatentInfo::Make());
+	UGameplayStatics::UnloadStreamLevelBySoftObjectPtr(this, LastLevel, LatentInfo::Make(), false);
+	UGameplayStatics::LoadStreamLevelBySoftObjectPtr(this, Theme, true, false, LatentInfo::Make());
+
+	LastLevel = Theme;
 }
 
 void AMainMenuActor::BeginPlay()
