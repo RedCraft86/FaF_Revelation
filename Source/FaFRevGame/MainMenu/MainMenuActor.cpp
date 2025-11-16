@@ -62,9 +62,9 @@ bool AMainMenuActor::SetMenuTheme(const FGameplayTag& ThemeTag)
 void AMainMenuActor::LoadThemeLevel()
 {
 	TSoftObjectPtr<UWorld> Theme = DefaultTheme;
-	if (MenuThemes.Contains(MenuTheme))
+	if (const TSoftObjectPtr<UWorld>* Map = MenuThemes.Find(MenuTheme); Map && !Map->IsNull())
 	{
-		Theme = MenuThemes[MenuTheme];
+		Theme = *Map;
 	}
 
 	UGameplayStatics::LoadStreamLevelBySoftObjectPtr(this, Theme,
@@ -82,6 +82,9 @@ void AMainMenuActor::BeginPlay()
 		{
 			MenuTheme = AvailableThemes.Last();
 		}
+#if WITH_EDITORONLY_DATA
+		AvailableThemes.Append(ForceAllowThemes.GetGameplayTagArray());
+#endif
 	}
 }
 

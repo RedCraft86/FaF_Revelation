@@ -18,6 +18,11 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<USceneComponent> SceneRoot;
+	
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(EditAnywhere, Category = Settings)
+		FGameplayTagContainer ForceAllowThemes;
+#endif
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		float FadeTime;
