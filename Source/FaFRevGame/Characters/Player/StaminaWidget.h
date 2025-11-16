@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "ToroRuntime.h"
 #include "PlayerCharacter.h"
 #include "Components/ProgressBar.h"
 #include "UserInterface/ToroManagedWidget.h"
@@ -36,4 +37,9 @@ protected:
 
 	virtual bool ShouldHideWidget() const override;
 	virtual void InitWidget(APlayerController* Controller) override;
+	virtual bool CanCreateWidget(const UObject* ContextObject) const override
+	{
+		return Super::CanCreateWidget(ContextObject) &&
+			!UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
+	}
 };
