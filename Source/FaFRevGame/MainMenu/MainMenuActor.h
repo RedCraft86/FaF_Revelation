@@ -16,6 +16,9 @@ public:
 
 	AMainMenuActor();
 
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<USceneComponent> SceneRoot;
+
 	UPROPERTY(EditAnywhere, Category = Settings)
 		float FadeTime;
 

@@ -14,6 +14,12 @@ AMainMenuActor::AMainMenuActor(): FadeTime(2.0f)
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
 	PrimaryActorTick.TickGroup = TG_DuringPhysics;
+
+	SceneRoot = CreateDefaultSubobject<USceneComponent>("SceneRoot");
+#if WITH_EDITORONLY_DATA
+	SceneRoot->bVisualizeComponent = true;
+#endif
+	SetRootComponent(SceneRoot);
 }
 
 void AMainMenuActor::InitializeMainMenu(const UObject* ContextObject)
