@@ -6,6 +6,7 @@
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
 #include "Components/ComboBoxString.h"
+#include "GamePhase/GamePhaseManager.h"
 #include "Interfaces/ExitInterface.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "UserSettings/Widgets/SettingsWidget.h"
@@ -71,4 +72,25 @@ protected:
 	{
 		return UToroSettings::Get()->IsOnMap(ContextObject, EToroMapType::MainMenu);
 	}
+#if WITH_EDITOR
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override
+	{
+		Super::PostEditChangeProperty(PropertyChangedEvent);
+		if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UMainMenuWidget, Themes))
+		{
+			Themes.FindOrAdd(MenuThemeTags::TAG_Default.GetTag(), TEXT("Default"));
+			Themes.FindOrAdd(MenuThemeTags::TAG_Ending.GetTag(), TEXT("Conclusion"));
+			const TSet<FGameplayTag> Leafs = GameplayTagHelpers::GetAllLeafTags(MenuThemeTags::TAG_MenuTheme.GetTag());
+			for (const FGameplayTag& Tag : Leafs)
+			{
+				if (Tag != MenuThemeTags::TAG_Default.GetTag()
+					&& Tag != MenuThemeTags::TAG_Ending.GetTag())
+				{
+					Themes.FindOrAdd(Tag, FName::NameToDisplayString(
+						Tag.GetTagLeafName().ToString(), false));
+				}
+			}
+		}
+	}
+#endif
 };
