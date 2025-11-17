@@ -135,13 +135,13 @@ void UMainMenuWidget::PushWidget()
 		MenuThemeBox->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 		for (auto It = ThemeOrder.CreateIterator(); It; ++It)
 		{
-			if (AvailableThemes.Contains(*It))
-			{
-				ThemeDropdown->AddOption(ThemeNames.FindRef(*It));
-			}
-			else
+			if (!AvailableThemes.Contains(*It))
 			{
 				It.RemoveCurrent();
+			}
+			else if (*It != MenuThemeTags::TAG_Default.GetTag())
+			{
+				ThemeDropdown->AddOption(ThemeNames.FindRef(*It));
 			}
 		}
 
