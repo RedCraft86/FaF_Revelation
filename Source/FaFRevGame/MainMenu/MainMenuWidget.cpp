@@ -94,7 +94,7 @@ void UMainMenuWidget::OnQuitButton()
 
 void UMainMenuWidget::OnThemePicked(FString SelectedItem, ESelectInfo::Type SelectionType)
 {
-	if (MenuActor)
+	if (MenuActor && SelectionType != ESelectInfo::Direct)
 	{
 		const FGameplayTag* TargetTheme = ThemeNames.FindKey(SelectedItem);
 		if (TargetTheme && MenuActor->GetMenuTheme() != *TargetTheme)
@@ -132,16 +132,17 @@ void UMainMenuWidget::PushWidget()
 		const TArray<FGameplayTag>& AvailableThemes = MenuActor->GetThemes();
 		if (AvailableThemes.Num() <= 1) return;
 
+		ThemeDropdown->ClearOptions();
 		MenuThemeBox->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 		for (auto It = ThemeOrder.CreateIterator(); It; ++It)
 		{
-			if (!AvailableThemes.Contains(*It))
-			{
-				It.RemoveCurrent();
-			}
-			else if (*It != MenuThemeTags::TAG_Default.GetTag())
+			if (AvailableThemes.Contains(*It))
 			{
 				ThemeDropdown->AddOption(ThemeNames.FindRef(*It));
+			}
+			else
+			{
+				It.RemoveCurrent();
 			}
 		}
 
