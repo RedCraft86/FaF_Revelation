@@ -9,6 +9,7 @@
 UGameOverWidget::UGameOverWidget(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer), bIsRightSide(false)
 {
+	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
