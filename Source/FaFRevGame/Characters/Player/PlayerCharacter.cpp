@@ -308,8 +308,7 @@ bool APlayerCharacter::IsRunState() const
 
 bool APlayerCharacter::IsRunning() const
 {
-	return IsRunState() && FMath::IsNearlyEqual(GetSpeed(),
-		WalkSpeed * RunConfig.SpeedMultiplier, 25.0f);
+	return IsRunState() && IsMoving();
 }
 
 void APlayerCharacter::SetCrouchState(const bool bInState)
@@ -629,9 +628,9 @@ void APlayerCharacter::Tick(float DeltaTime)
 		SetControlRotation(CtrlRot);
 
 		APlayerController* PC = GetPlayerController();
-		if (IsMoving() && PC && !PC->bCinematicMode)
+		if (IsMoving())
 		{
-			PC->ClientStartCameraShake(IsRunning()
+			PC->ClientStartCameraShake(IsRunState()
 				? UCamShake_Run::StaticClass()
 				: UCamShake_Walk::StaticClass(),
 				1.0f);

@@ -111,6 +111,6 @@ UCamShake_Run::UCamShake_Run()
 	RotOscillation.Roll.Frequency = 4.75f;
 	RotOscillation.Roll.InitialOffset = EOO_OffsetZero;
 
-	LocOscillation.Z.Amplitude = 5.0f;
+	LocOscillation.Z.Amplitude = 2.5f;
 	LocOscillation.Z.Frequency = 17.0f;
 }
