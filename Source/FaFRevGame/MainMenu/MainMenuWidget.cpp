@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "MainMenuWidget.h"
-#include "EnhancedCodeFlow.h"
 #include "Libraries/ToroShortcutLibrary.h"
 #include "UserInterface/NativeContainers.h"
 #include "UserInterface/ToroWidgetManager.h"
@@ -71,13 +70,15 @@ void UMainMenuWidget::OnExtrasButton()
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
 	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);
-	FFlow::Delay(this, 0.6f, [this]()
+
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 	{
 		if (const TSoftObjectPtr<UWorld>* Map = UToroSettings::Get()->MapRegistry.Find(EToroMapType::Extras))
 		{
 			UGameplayStatics::OpenLevelBySoftObjectPtr(this, *Map);
 		}
-	});
+	}, 0.6f, false);
 }
 
 void UMainMenuWidget::OnQuitButton()
@@ -85,11 +86,13 @@ void UMainMenuWidget::OnQuitButton()
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
 	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);
-	FFlow::Delay(this, 0.6f, [this]()
+
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 	{
 		UKismetSystemLibrary::QuitGame(this, AToroPlayerController::Get(this),
 			EQuitPreference::Quit, false);
-	});
+	}, 0.6f, false);
 }
 
 void UMainMenuWidget::OnThemePicked(FString SelectedItem, ESelectInfo::Type SelectionType)
@@ -112,13 +115,15 @@ void UMainMenuWidget::OpenGameplayLevel() const
 {
 	UToroUserSettings::Get()->SaveSettings();
 	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);
-	FFlow::Delay(this, 0.6f, [this]()
+
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 	{
 		if (const TSoftObjectPtr<UWorld>* Map = UToroSettings::Get()->MapRegistry.Find(EToroMapType::Gameplay))
 		{
 			UGameplayStatics::OpenLevelBySoftObjectPtr(this, *Map);
 		}
-	});
+	}, 0.6f, false);
 }
 
 void UMainMenuWidget::PushWidget()

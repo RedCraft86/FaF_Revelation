@@ -1,7 +1,6 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "GameOverWidget.h"
-#include "EnhancedCodeFlow.h"
 #include "Framework/ToroPlayerController.h"
 #include "Libraries/ToroShortcutLibrary.h"
 #include "UserInterface/NativeContainers.h"
@@ -27,10 +26,12 @@ void UGameOverWidget::OnRetry()
 	SetHidden(true);
 	SetVisibility(ESlateVisibility::HitTestInvisible);
 	UToroShortcutLibrary::StartCameraFade(this, 0.0f, 1.0f, 0.5f);
-	FFlow::Delay(this, 0.6f, [this]()
+
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(Handle, [this]()
 	{
 		UToroShortcutLibrary::RestartLevel(this);
-	});
+	}, 0.6f, false);
 }
 
 void UGameOverWidget::PushWidget()
