@@ -36,7 +36,7 @@ void ATriggerField::OnConstruction(const FTransform& Transform)
 	Super::OnConstruction(Transform);
 	ActionManager->SetActions(Actions, true);
 
-	bDisplayShadedVolume = true;
+	// bDisplayShadedVolume = true;
 	BrushColor = (FLinearColor(1.0f, 0.8f, 0.0f, 1.0f).Desaturate(0.3f) * 0.6f).ToFColor(true);
 }
 #endif
