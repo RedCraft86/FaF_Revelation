@@ -38,7 +38,7 @@ APlayerCharacter::APlayerCharacter()
 
 	ControlFlags = Player::DefaultAbilities;
 	StateFlags = PSF_None;
-	InteractDistance = 250.0f;
+	InteractDistance = 200.0f;
 	InteractTrace = ECC_Visibility;
 	LockOnSpeed = 5.0f;
 	LeanOffsets = FVector2D(75.0f, 25.0f);
