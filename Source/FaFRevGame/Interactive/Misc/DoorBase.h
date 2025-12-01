@@ -42,8 +42,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Door)
 		AActor* GetLastInteractor() const { return Interactor.Get(); }
 
-	UFUNCTION(BlueprintImplementableEvent)
+	UFUNCTION(BlueprintNativeEvent)
 		void OpenStateChanged(const bool bState, const bool bImmediate);
+	void OpenStateChanged_Implementation(const bool bState, const bool bImmediate);
 
 protected:
 	

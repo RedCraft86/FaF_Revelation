@@ -18,7 +18,7 @@ ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
 	DoorRange->SetCollisionResponseToAllChannels(ECR_Ignore);
 	DoorRange->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	DoorRange->SetupAttachment(GetRootComponent());
-	DoorRange->SetBoxExtent(FVector(3.0f, 3.0f, 2.0f));
+	DoorRange->SetBoxExtent(FVector(125.0f, 125.0f, 75.0f));
 
 	OpenAudio = CreateDefaultSubobject<UAudioComponent>("OpenAudio");
 	OpenAudio->bAutoActivate = false;
@@ -36,6 +36,11 @@ ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
 	CloseAudio->AttenuationOverrides.AttenuationShapeExtents.X = 250.0f;
 	CloseAudio->SetupAttachment(GetRootComponent());
 
+	CurvePlayer = CreateDefaultSubobject<UCurvePlayerFloat>("CurvePlayer");
+
+	Marker->SetVisibility(false);
+	Marker->SetHiddenInGame(true);
+
 	Animation.AddOrUpdatePoint(0.0f, 0.0f);
 	Animation.AddOrUpdatePoint(0.5f, 1.0f);
 }
@@ -50,6 +55,22 @@ void ADoorBase::SetOpened(const bool bInOpened, const bool bImmediate)
 		{
 			bOpened ? OpenAudio->Play() : CloseAudio->Play();
 		}
+	}
+}
+
+void ADoorBase::OpenStateChanged_Implementation(const bool bState, const bool bImmediate)
+{
+	FVector2D TimeRange;
+	Animation.GetTimeRange(TimeRange.X, TimeRange.Y);
+
+	CurvePlayer->PlayRate = PlayRate;
+	if (bImmediate)
+	{
+		CurvePlayer->SetPlaybackTime(bState ? TimeRange.Y : TimeRange.X);
+	}
+	else
+	{
+		bState ? CurvePlayer->Play() : CurvePlayer->Reverse();
 	}
 }
 
@@ -108,10 +129,9 @@ void ADoorBase::BeginPlay()
 void ADoorBase::NotifyActorEndOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorEndOverlap(OtherActor);
-	if (Interactor.IsValid() && Interactor.Get() == OtherActor)
+	if (OtherActor && OtherActor->IsA<AToroCharacter>())
 	{
-		Interactor->Tags.Remove(CharacterTags::NearInteractable);
-		Interactor.Reset();
+		OtherActor->Tags.Remove(CharacterTags::NearInteractable);
 	}
 }
 
@@ -120,7 +140,7 @@ void ADoorBase::NotifyActorBeginOverlap(AActor* OtherActor)
 	Super::NotifyActorBeginOverlap(OtherActor);
 	if (OtherActor && OtherActor->IsA<AToroCharacter>())
 	{
-		Interactor->Tags.Add(CharacterTags::NearInteractable);
+		OtherActor->Tags.Add(CharacterTags::NearInteractable);
 	}
 }
 
