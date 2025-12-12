@@ -99,7 +99,7 @@ UCamShake_Run::UCamShake_Run()
 	bSingleInstance = true;
 	OscillationDuration = 0.2f;
 
-	RotOscillation.Pitch.Amplitude = 0.5f;
+	RotOscillation.Pitch.Amplitude = 0.75f;
 	RotOscillation.Pitch.Frequency = 17.0f;
 	RotOscillation.Pitch.InitialOffset = EOO_OffsetZero;
 
