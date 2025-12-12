@@ -70,7 +70,7 @@ void ADoorBase::OpenStateChanged_Implementation(const bool bState, const bool bI
 	}
 	else
 	{
-		bState ? CurvePlayer->Play() : CurvePlayer->Reverse();
+		bState ? CurvePlayer->Play(CurvePlayer->GetTime()) : CurvePlayer->Reverse();
 	}
 }
 
