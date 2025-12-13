@@ -32,7 +32,7 @@ void FSurfaceFootstep::FillSlots()
 			}
 			else
 			{
-				Sounds.Add(TEnumAsByte(Type));
+				Sounds.FindOrAdd(TEnumAsByte(Type));
 			}
 		}
 	}
