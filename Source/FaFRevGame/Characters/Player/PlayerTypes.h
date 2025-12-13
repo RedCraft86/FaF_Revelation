@@ -142,28 +142,12 @@ struct FPlayerStamina
 };
 
 USTRUCT(BlueprintInternalUseOnly)
-struct FSurfaceFootstep
+struct FPlayerFootsteps
 {
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ClampMin = 0.1f, UIMin = 0.1f))
-		float Interval;
-
-	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
-		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> Sounds;
-
-	FSurfaceFootstep(): Interval(0.0f) {}
-	FSurfaceFootstep(const float InInterval): Interval(InInterval) {}
-	USoundBase* GetSurfaceSound(const EPhysicalSurface Surface) const;
-#if WITH_EDITOR
-	void FillSlots();
-#endif
-};
-
-USTRUCT(BlueprintInternalUseOnly)
-struct FPlayerFootsteps
-{
-	GENERATED_BODY()
+		FVector Intervals;
 
 	UPROPERTY(EditAnywhere, Category = Footsteps)
 		TEnumAsByte<ECollisionChannel> TraceChannel;
@@ -171,23 +155,13 @@ struct FPlayerFootsteps
 	UPROPERTY(EditAnywhere, Category = Footsteps)
 		TObjectPtr<USoundBase> DefaultSound;
 
-	UPROPERTY(EditAnywhere, Category = Footsteps)
-		FSurfaceFootstep WalkSounds;
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
+		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> SurfaceSounds;
 
-	UPROPERTY(EditAnywhere, Category = Footsteps)
-		FSurfaceFootstep RunSounds;
+	FPlayerFootsteps(): Intervals(0.5f, 0.6f, 0.35f), TraceChannel(ECC_Visibility) {}
 
-	UPROPERTY(EditAnywhere, Category = Footsteps)
-		FSurfaceFootstep SneakSounds;
-
-	FPlayerFootsteps(): TraceChannel(ECC_Visibility)
-	{
-		WalkSounds.Interval = 0.5f;
-		SneakSounds.Interval = 0.35f;
-		RunSounds.Interval = 0.6f;
-	}
 	float GetFootstepInterval(const int32 StateFlags) const;
-	USoundBase* GetFootstepSound(const int32 StateFlags, const EPhysicalSurface Surface) const;
+	USoundBase* GetFootstepSound(const EPhysicalSurface Surface) const;
 #if WITH_EDITOR
 	void FillSlots();
 #endif

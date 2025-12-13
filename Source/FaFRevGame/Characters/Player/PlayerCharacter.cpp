@@ -474,7 +474,7 @@ void APlayerCharacter::TickFootstep()
 	TEnumAsByte<EPhysicalSurface> Surface;
 	if (IsMoving() && GetStandingSurface(Surface, Footsteps.TraceChannel))
 	{
-		PlayFootstep(Footsteps.GetFootstepSound(StateFlags, Surface));
+		PlayFootstep(Footsteps.GetFootstepSound(Surface));
 	}
 	FootstepTimer.Invalidate();
 }

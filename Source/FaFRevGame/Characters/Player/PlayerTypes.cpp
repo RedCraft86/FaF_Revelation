@@ -12,14 +12,21 @@ void FPlayerStamina::TimedTick(const int32 StateFlags)
 	Stamina = FMath::Clamp(Stamina + Delta, 0.0f, GetMaxStamina());
 }
 
-USoundBase* FSurfaceFootstep::GetSurfaceSound(const EPhysicalSurface Surface) const
+float FPlayerFootsteps::GetFootstepInterval(const int32 StateFlags) const
 {
-	const TObjectPtr<USoundBase>* Sound = Sounds.Find(Surface);
-	return Sound ? *Sound : nullptr;
+	if (StateFlags & PSF_Run) return Intervals.Y;
+	if (StateFlags & PSF_Crouch) return Intervals.Z;
+	return Intervals.X;
+}
+
+USoundBase* FPlayerFootsteps::GetFootstepSound(const EPhysicalSurface Surface) const
+{
+	const TObjectPtr<USoundBase> Sound = SurfaceSounds.FindRef(Surface);
+	return Sound ? Sound : DefaultSound;
 }
 
 #if WITH_EDITOR
-void FSurfaceFootstep::FillSlots()
+void FPlayerFootsteps::FillSlots()
 {
 	if (const UEnum* Enum = StaticEnum<EPhysicalSurface>())
 	{
@@ -28,48 +35,14 @@ void FSurfaceFootstep::FillSlots()
 			const EPhysicalSurface Type = static_cast<EPhysicalSurface>(i);
 			if (Type == SurfaceType_Default || Enum->HasMetaData(TEXT("Hidden"), i))
 			{
-				Sounds.Remove(TEnumAsByte(Type));
+				SurfaceSounds.Remove(TEnumAsByte(Type));
 			}
 			else
 			{
-				Sounds.FindOrAdd(TEnumAsByte(Type));
+				SurfaceSounds.FindOrAdd(TEnumAsByte(Type));
 			}
 		}
 	}
-}
-#endif
-
-float FPlayerFootsteps::GetFootstepInterval(const int32 StateFlags) const
-{
-	if (StateFlags & PSF_Run) return RunSounds.Interval;
-	if (StateFlags & PSF_Crouch) return SneakSounds.Interval;
-	return WalkSounds.Interval;
-}
-
-USoundBase* FPlayerFootsteps::GetFootstepSound(const int32 StateFlags, const EPhysicalSurface Surface) const
-{
-	USoundBase* Sound;
-	if (StateFlags & PSF_Run)
-	{
-		Sound = RunSounds.GetSurfaceSound(Surface);
-	}
-	else if (StateFlags & PSF_Crouch)
-	{
-		Sound = SneakSounds.GetSurfaceSound(Surface);
-	}
-	else
-	{
-		Sound = WalkSounds.GetSurfaceSound(Surface);
-	}
-	return Sound ? Sound : DefaultSound.Get();
-}
-
-#if WITH_EDITOR
-void FPlayerFootsteps::FillSlots()
-{
-	WalkSounds.FillSlots();
-	RunSounds.FillSlots();
-	SneakSounds.FillSlots();
 }
 #endif
 
