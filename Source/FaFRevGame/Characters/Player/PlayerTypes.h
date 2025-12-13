@@ -158,7 +158,7 @@ struct FPlayerFootsteps
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> SurfaceSounds;
 
-	FPlayerFootsteps(): Intervals(0.5f, 0.6f, 0.35f), TraceChannel(ECC_Visibility) {}
+	FPlayerFootsteps(): Intervals(0.5f, 0.35f, 0.35f), TraceChannel(ECC_Visibility) {}
 
 	float GetFootstepInterval(const int32 StateFlags) const;
 	USoundBase* GetFootstepSound(const EPhysicalSurface Surface) const;
