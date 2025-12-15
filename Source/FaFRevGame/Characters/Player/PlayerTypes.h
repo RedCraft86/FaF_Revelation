@@ -21,7 +21,7 @@ enum EPlayerControlFlags
 	PCF_CanHide		= 1 << 8	UMETA(DisplayName = "Can Hide")
 };
 ENUM_CLASS_FLAGS(EPlayerControlFlags);
-ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerControlFlags, PCF_UseStamina, PCF_CanHide);
+ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerControlFlags, PCF_CanPause, PCF_CanHide);
 
 /** Player state flags showing the current internal state of the player. */
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
