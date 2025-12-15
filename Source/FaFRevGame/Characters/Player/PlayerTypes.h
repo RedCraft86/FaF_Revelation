@@ -138,7 +138,7 @@ struct FPlayerStamina
 	bool IsEmpty(const float Min = 0.1f) const { return Stamina < Min; }
 	bool IsFull() const { return FMath::IsNearlyEqual(Stamina, GetMaxStamina(), 0.1f); }
 
-	void TimedTick(const int32 StateFlags);
+	void TimedTick(const int32 StateFlags, const bool bIsMoving);
 };
 
 USTRUCT(BlueprintInternalUseOnly)

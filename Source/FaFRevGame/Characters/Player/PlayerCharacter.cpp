@@ -461,14 +461,11 @@ void APlayerCharacter::SetActorHiddenInGame(bool bNewHidden)
 
 void APlayerCharacter::TickStamina()
 {
-	if (IsMoving())
+	Stamina.TimedTick(StateFlags, IsMoving());
+	OnStaminaUpdate.Broadcast(true, Stamina);
+	if (IsRunState() && Stamina.IsEmpty())
 	{
-		Stamina.TimedTick(StateFlags);
-		OnStaminaUpdate.Broadcast(true, Stamina);
-		if (IsRunState() && Stamina.IsEmpty())
-		{
-			SetRunState(false);
-		}
+		SetRunState(false);
 	}
 }
 

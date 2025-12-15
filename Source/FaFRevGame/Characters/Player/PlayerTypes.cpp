@@ -2,9 +2,9 @@
 
 #include "PlayerTypes.h"
 
-void FPlayerStamina::TimedTick(const int32 StateFlags)
+void FPlayerStamina::TimedTick(const int32 StateFlags, const bool bIsMoving)
 {
-	const bool bDraining = StateFlags & PSF_Run;
+	const bool bDraining = bIsMoving && StateFlags & PSF_Run;
 	Delta = IsInReserve()
 		? (bDraining ? -ReserveRates.X : ReserveRates.Y)
 		: (bDraining ? -NormalRates.X : NormalRates.Y);
