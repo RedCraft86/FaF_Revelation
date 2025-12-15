@@ -35,7 +35,7 @@ enum EPlayerStateFlags
 	PSF_Interact	= 1 << 4	UMETA(DisplayName = "Interacting")
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
-ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerStateFlags, PSF_Move, PSF_Leaning);
+ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerStateFlags, PSF_Move, PSF_Interact);
 
 /** Player state flags showing the current player engagement with other systems. */
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
