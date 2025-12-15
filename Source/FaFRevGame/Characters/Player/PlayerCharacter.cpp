@@ -70,7 +70,8 @@ void APlayerCharacter::OverrideControlFlags(const int32 InFlags)
 {
 	for (const EPlayerControlFlags Enum : TEnumRange<EPlayerControlFlags>())
 	{
-		InFlags & Enum ? SetControlFlag(Enum) : UnsetControlFlag(Enum);
+		UnsetControlFlag(Enum);
+		if (InFlags & Enum) SetControlFlag(Enum);
 	}
 }
 
