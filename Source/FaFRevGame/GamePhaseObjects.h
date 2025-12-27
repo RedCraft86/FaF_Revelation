@@ -46,6 +46,8 @@ public:
 
 	UGamePhaseGraph()
 	{
+#if WITH_EDITOR
 		CompatibleNode = UGamePhaseNode::StaticClass();
+#endif
 	}
 };

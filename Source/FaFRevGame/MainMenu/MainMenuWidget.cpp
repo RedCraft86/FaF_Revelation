@@ -156,7 +156,7 @@ void UMainMenuWidget::PushWidget()
 	}
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
-		PC->SetInputConfig({EGameInputMode::UI_Only, true,
+		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
 			EMouseLockMode::LockAlways, false});
 	}
 }
