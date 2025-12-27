@@ -21,7 +21,8 @@ enum EPlayerControlFlags
 	PCF_CanHide		= 1 << 8	UMETA(DisplayName = "Can Hide")
 };
 ENUM_CLASS_FLAGS(EPlayerControlFlags);
-ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerControlFlags, PCF_CanPause, PCF_CanHide);
+ENUM_RANGE_BY_VALUES(EPlayerControlFlags, PCF_CanPause, PCF_CanTurn, PCF_CanMove, PCF_CanRun, 
+	PCF_CanCrouch, PCF_CanLean, PCF_UseStamina, PCF_CanInteract, PCF_CanHide);
 
 /** Player state flags showing the current internal state of the player. */
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
@@ -35,7 +36,7 @@ enum EPlayerStateFlags
 	PSF_Interact	= 1 << 4	UMETA(DisplayName = "Interacting")
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags);
-ENUM_RANGE_BY_FIRST_AND_LAST(EPlayerStateFlags, PSF_Move, PSF_Interact);
+ENUM_RANGE_BY_VALUES(EPlayerStateFlags, PSF_Move, PSF_Run, PSF_Crouch, PSF_Leaning, PSF_Interact);
 
 /** Player state flags showing the current player engagement with other systems. */
 UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))

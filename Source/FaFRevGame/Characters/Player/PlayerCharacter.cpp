@@ -70,16 +70,19 @@ void APlayerCharacter::OverrideControlFlags(const int32 InFlags)
 {
 	for (const EPlayerControlFlags Enum : TEnumRange<EPlayerControlFlags>())
 	{
-		UnsetControlFlag(Enum);
 		if (InFlags & Enum) SetControlFlag(Enum);
+		else UnsetControlFlag(Enum);
 	}
 }
 
 void APlayerCharacter::SetControlFlag(const EPlayerControlFlags InFlag)
 {
-	if (InFlag != PCF_None && !HasControlFlag(InFlag))
+	if (InFlag != PCF_None)
 	{
-		ControlFlags |= InFlag;
+		if (!HasControlFlag(InFlag))
+		{
+			ControlFlags |= InFlag;
+		}
 		switch (InFlag)
 		{
 			case PCF_UseStamina:	SetStaminaEnabled(true);		break;
@@ -91,9 +94,12 @@ void APlayerCharacter::SetControlFlag(const EPlayerControlFlags InFlag)
 
 void APlayerCharacter::UnsetControlFlag(const EPlayerControlFlags InFlag)
 {
-	if (InFlag != PCF_None && HasControlFlag(InFlag))
+	if (InFlag != PCF_None)
 	{
-		ControlFlags &= ~InFlag;
+		if (HasControlFlag(InFlag))
+		{
+			ControlFlags &= ~InFlag;
+		}
 		switch (InFlag)
 		{
 			case PCF_CanRun:		SetRunState(false);						break;
@@ -578,7 +584,6 @@ void APlayerCharacter::BeginPlay()
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	
 	Interaction->HandleTrace.BindUObject(this, &APlayerCharacter::HandleInteraction);
-	Interaction->SetEnabled(HasControlFlag(PCF_CanInteract));
 
 	if (const AToroCameraManager* CamManager = AToroCameraManager::Get(this))
 	{
@@ -604,6 +609,7 @@ void APlayerCharacter::BeginPlay()
 		InventoryManager = UInventoryManager::Get(this);
 		InspectionManager = UInspectionManager::Get(this);
 		NarrativeManager = UNarrativeManager::Get(this);
+		Interaction->SetEnabled(HasControlFlag(PCF_CanInteract));
 	});
 }
 
