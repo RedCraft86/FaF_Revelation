@@ -92,7 +92,7 @@ void ADoorBase::GenerateNavProxy()
 			Subsystem->SetActorSelectionState(LinkedNavProxy, true);
 		}
 	}
-	else
+	else if (Subsystem)
 	{
 		LinkedNavProxy = Cast<ADoorLink>(Subsystem->SpawnActorFromClass(
 			ADoorLink::StaticClass(), GetActorLocation(), GetActorRotation()));
