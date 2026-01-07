@@ -28,11 +28,13 @@ public class FaFRevGame : ModuleRules
                 "CommonUI",
                 "PhysicsCore",
                 "InputCore",
+                "AIModule",
                 "MovieScene",
                 "LevelSequence",
                 "EnhancedInput",
                 "EngineCameras",
                 "CinematicCamera",
+                "NavigationSystem",
                 "DeveloperSettings",
                 "GameplayTags",
                 
