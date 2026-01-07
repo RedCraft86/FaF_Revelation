@@ -99,7 +99,7 @@ void ADoorBase::GenerateNavProxy()
 		
 		if (LinkedNavProxy->GetLevel() != GetLevel())
 		{
-			LinkedNavProxy->Rename(nullptr, GetLevel(), REN_DoNotDirty | REN_ForceNoResetLoaders);
+			LinkedNavProxy->Rename(nullptr, GetLevel(), REN_DoNotDirty);
 			GetLevel()->MarkPackageDirty();
 		}
 		LinkedNavProxy->AttachToActor(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
