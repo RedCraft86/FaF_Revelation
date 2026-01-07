@@ -46,5 +46,14 @@ public class FaFRevGame : ModuleRules
                 "SMSystem"
             ]
         );
+        
+        if (Target.Type == TargetType.Editor)
+        {
+            PrivateDependencyModuleNames.AddRange(
+                [
+                    "UnrealEd"
+                ]
+            );
+        }
     }
 }

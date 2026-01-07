@@ -1,16 +1,17 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "DoorBase.h"
+#include "DoorLink.h"
 #include "Components/AudioComponent.h"
 #include "Inventory/InventoryManager.h"
 #include "NativeWidgets/NoticeWidget.h"
-#include "NavAreas/NavArea_Default.h"
 #if WITH_EDITOR
+#include "Subsystems/EditorActorSubsystem.h"
 #include "Framework/Notifications/NotificationManager.h"
 #include "Widgets/Notifications/SNotificationList.h"
 #endif
 
-ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bSmartLink(true), bOpened(false)
+ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -37,24 +38,6 @@ ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bSmartLink(true), b
 	CloseAudio->bCanPlayMultipleInstances = true;
 	CloseAudio->AttenuationOverrides.FalloffDistance = 500.0f;
 	CloseAudio->AttenuationOverrides.AttenuationShapeExtents.X = 250.0f;
-
-	DoorLinkComponent = CreateDefaultSubobject<UChildActorComponent>("DoorLink");
-	DoorLinkComponent->SetupAttachment(GetRootComponent());
-	DoorLinkComponent->SetChildActorClass(ADoorLink::StaticClass());
-
-	NavPoints.bUseSnapHeight = true;
-	NavPoints.LeftProjectHeight = 1000.0f;
-	NavPoints.Left = FVector(100.0f, 0.0f, 0.0f);
-	NavPoints.Right = FVector(-100.0f, 0.0f, 0.0f);
-	NavPoints.SetAreaClass(UNavArea_Default::StaticClass());
-
-	if (ADoorLink* DoorLinkActor = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()))
-	{
-		DoorLinkActor->bSmartLinkIsRelevant = bSmartLink;
-#if WITH_EDITOR
-		DoorLinkActor->PointLinks = {NavPoints};
-#endif
-	}
 
 	CurvePlayer = CreateDefaultSubobject<UCurvePlayerFloat>("CurvePlayer");
 
@@ -95,59 +78,56 @@ void ADoorBase::OpenStateChanged_Implementation(const bool bState, const bool bI
 }
 
 #if WITH_EDITORONLY_DATA
-void ADoorBase::TryDetermineNavLinks()
+void ADoorBase::GenerateNavProxy()
 {
-	if (ADoorLink* DoorLinkActor = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()))
+#if WITH_EDITOR
+	UEditorActorSubsystem* Subsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>();
+	if (LinkedNavProxy)
 	{
-		DoorLinkActor->bSmartLinkIsRelevant = bSmartLink;
-
-		FVector Origin, Extent;
-		GetActorBounds(true, Origin, Extent, false);
-
-		Origin.Z = GetActorLocation().Z;
-		const float Distance = FMath::Max3(Extent.X, Extent.Y, 5.0) * NavPointOffsetMulti;
-		bool bValue = Extent.X > Extent.Y; 
-		if (bFlipXY) bValue = !bValue;
-		const FVector WorldForward = bValue ? FVector::XAxisVector : FVector::YAxisVector;
-		const FVector LocalForward = GetTransform().InverseTransformVectorNoScale(WorldForward);
-		const FVector LocalOffset = GetTransform().InverseTransformPosition(Origin);
-
-		NavPoints.Left = LocalOffset + (LocalForward * Distance);
-		NavPoints.Right = LocalOffset + (LocalForward * -Distance);
-
-		DoorLinkActor->PointLinks = {NavPoints};
-
-		DoorLinkActor->CopyEndPointsFromSimpleLinkToSmartLink();
-
-		Modify();
-	}
-}
-#endif
-
-void ADoorBase::OnEntityReachedDoor(AActor* Entity, const FVector& Dest)
-{
-	if (IsLocked())
-	{
-		ICharInterface::OnPathingRejected(Entity, EPathingRejectType::Door);
-		UE_LOG(LogTemp, Warning, TEXT("Rejected: %s -> %s"), *GetNameSafe(Entity), *GetActorLabel())
+		LinkedNavProxy->LinkedDoor = this;
+		LinkedNavProxy->AutoTarget();
+		if (Subsystem)
+		{
+			Subsystem->SetActorSelectionState(this, false);
+			Subsystem->SetActorSelectionState(LinkedNavProxy, true);
+		}
 	}
 	else
 	{
-		IInteractionInterface::PawnInteract(this, Entity);
-		ICharInterface::OnEntityInteraction(Entity, ECharInteractType::Door, this);
-		UE_LOG(LogTemp, Warning, TEXT("Reached: %s -> %s"), *GetNameSafe(Entity), *GetActorLabel())
+		LinkedNavProxy = Cast<ADoorLink>(Subsystem->SpawnActorFromClass(
+			ADoorLink::StaticClass(), GetActorLocation(), GetActorRotation()));
+		
+		if (LinkedNavProxy->GetLevel() != GetLevel())
+		{
+			LinkedNavProxy->Rename(nullptr, GetLevel(), REN_DoNotDirty | REN_ForceNoResetLoaders);
+			GetLevel()->MarkPackageDirty();
+		}
+		LinkedNavProxy->AttachToActor(this, FAttachmentTransformRules::SnapToTargetNotIncludingScale);
+		LinkedNavProxy->SetActorLabel(GetActorLabel() + TEXT("_NavLink"));
+		
+		LinkedNavProxy->LinkedDoor = this;
+		LinkedNavProxy->AutoTarget();
+
+		Subsystem->SetActorSelectionState(this, false);
+		Subsystem->SetActorSelectionState(LinkedNavProxy, true);
+		MarkPackageDirty();
 	}
-	
-	if (DoorLink)
-	{
-		DoorLink->ResumePathFollowing(Entity);
-		// GetWorldTimerManager().ClearTimer(DoorLinkTimer);
-		// GetWorldTimerManager().SetTimer(DoorLinkTimer, [this, Entity]()
-		// {
-		// 	DoorLink->ResumePathFollowing(Entity);
-		// }, 0.5f, false);
-	}
+#endif
 }
+
+void ADoorBase::DestroyNavProxy()
+{
+#if WITH_EDITOR
+	if (!LinkedNavProxy) return;
+	if (UEditorActorSubsystem* Subsystem = GEditor->GetEditorSubsystem<UEditorActorSubsystem>())
+	{
+		Subsystem->DestroyActor(LinkedNavProxy);
+		LinkedNavProxy = nullptr;
+		MarkPackageDirty();
+	}
+#endif
+}
+#endif
 
 bool ADoorBase::GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)
 {
@@ -195,13 +175,6 @@ void ADoorBase::BeginPlay()
 	Super::BeginPlay();
 	CurvePlayer->PlayRate = PlayRate;
 	CurvePlayer->SetCurve(Animation);
-
-	if (DoorLink = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()); DoorLink)
-	{
-		DoorLink->PointLinks = {NavPoints};
-		DoorLink->CopyEndPointsFromSimpleLinkToSmartLink();
-		DoorLink->GetOnSmartLinkReached().AddDynamic(this, &ADoorBase::OnEntityReachedDoor);
-	}
 
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
@@ -254,12 +227,4 @@ void ADoorBase::OnConstruction(const FTransform& Transform)
 		KeyAsset = nullptr;
 	}
 #endif
-
-	if (ADoorLink* DoorLinkActor = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()))
-	{
-		DoorLinkActor->PointLinks = {NavPoints};
-#if WITH_EDITOR
-		DoorLinkActor->CopyEndPointsFromSimpleLinkToSmartLink();
-#endif
-	}
 }
