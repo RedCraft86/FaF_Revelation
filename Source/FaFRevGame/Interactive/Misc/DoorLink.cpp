@@ -46,7 +46,6 @@ void ADoorLink::AutoTarget()
 
 void ADoorLink::OnPawnReached(AActor* Pawn, const FVector& Dest)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Something Reached: %s towards %s"), *GetActorLabel(), *Dest.ToCompactString())
 	if (!LinkedDoor)
 	{
 		SetSmartLinkEnabled(false);
@@ -57,15 +56,13 @@ void ADoorLink::OnPawnReached(AActor* Pawn, const FVector& Dest)
 		if (LinkedDoor->IsLocked())
 		{
 			ICharInterface::OnPathingRejected(Pawn, EPathingRejectType::Door);
-			UE_LOG(LogTemp, Warning, TEXT("Rejected: %s -> %s"), *Pawn->GetActorLabel(), *LinkedDoor->GetActorLabel())
 		}
 		else
 		{
 			IInteractionInterface::PawnInteract(LinkedDoor, Pawn);
 			ICharInterface::OnEntityInteraction(Pawn, ECharInteractType::Door, LinkedDoor);
-			UE_LOG(LogTemp, Warning, TEXT("Reached: %s -> %s"), *Pawn->GetActorLabel(), *LinkedDoor->GetActorLabel())
 		}
-		
+
 		ResumePathFollowing(Pawn);
 	}
 }
