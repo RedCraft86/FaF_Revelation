@@ -72,6 +72,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = Enemy)
 		APlayerCharacter* GetPlayerRef() const { return PlayerChar; }
 
+	UFUNCTION(BlueprintNativeEvent)
+		void PlayerAttackSuccess();
+	virtual void PlayerAttackSuccess_Implementation() {}
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category = Settings, AdvancedDisplay)

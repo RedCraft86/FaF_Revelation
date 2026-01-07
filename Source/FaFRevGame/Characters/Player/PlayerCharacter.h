@@ -191,13 +191,15 @@ public:
 	UFUNCTION(BlueprintPure, Category = Player)
 		bool IsActorSeen(const AActor* InActor) const;
 
+	UFUNCTION(BlueprintCallable, Category = Player)
+		bool TryJumpscare(const FGameplayTag& FromEnemy);
+
 	DECLARE_MULTICAST_DELEGATE_TwoParams(FStaminaUpdate, const bool bEnabled, const FPlayerStamina&)
 	FStaminaUpdate OnStaminaUpdate;
 
 	DECLARE_MULTICAST_DELEGATE(FOnJumpscared)
 	FOnJumpscared OnJumpscared;
 
-	bool TryJumpscare(const FGameplayTag& FromEnemy);
 	const FGameplayTag& GetJumpscareEnemy() const { return JumpscareEnemy; }
 
 	virtual bool IsKillLocked() override;

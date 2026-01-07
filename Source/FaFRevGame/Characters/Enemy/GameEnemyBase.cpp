@@ -12,9 +12,9 @@ AGameEnemyBase::AGameEnemyBase(): EnemyState(EEnemyState::None), bEnabled(false)
 
 void AGameEnemyBase::AttackPlayer()
 {
-	if (PlayerChar)
+	if (PlayerChar && PlayerChar->TryJumpscare(CharacterID))
 	{
-		PlayerChar->TryJumpscare(CharacterID);
+		PlayerAttackSuccess();
 	}
 }
 

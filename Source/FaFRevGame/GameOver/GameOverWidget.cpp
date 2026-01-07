@@ -1,24 +1,26 @@
 ﻿// Copyright (C) RedCraft86. All Rights Reserved.
 
 #include "GameOverWidget.h"
+#include "GameOverDatabase.h"
+#include "Player/PlayerCharacter.h"
 #include "Framework/ToroPlayerController.h"
 #include "Libraries/ToroShortcutLibrary.h"
 #include "UserInterface/NativeContainers.h"
+#include "UserInterface/ToroWidgetManager.h"
 
-UGameOverWidget::UGameOverWidget(const FObjectInitializer& ObjectInitializer)
-	: Super(ObjectInitializer), bIsRightSide(false)
+UGameOverWidget::UGameOverWidget(const FObjectInitializer& ObjectInitializer): Super(ObjectInitializer)
 {
 	bAutoPush = false;
 	ContainerClass = UMenuWidgetContainer::StaticClass();
 	UUserWidget::SetVisibility(ESlateVisibility::Visible);
 }
 
-void UGameOverWidget::ShowWidget(const FText& DisplayName, const FText& Description, const bool bRightSide)
+void UGameOverWidget::ShowGameOver(const UObject* ContextObject)
 {
-	bIsRightSide = bRightSide;
-	NameText = DisplayName;
-	DescText = Description;
-	PushWidget();
+	if (UGameOverWidget* Widget = AToroWidgetManager::GetWidget<UGameOverWidget>(ContextObject))
+	{
+		Widget->PushWidget();
+	}
 }
 
 void UGameOverWidget::OnRetry()
@@ -37,9 +39,21 @@ void UGameOverWidget::OnRetry()
 void UGameOverWidget::PushWidget()
 {
 	Super::PushWidget();
-	OnPickSide(bIsRightSide);
-	LabelText->SetText(NameText);
-	ContentText->SetText(DescText);
+
+	PlayAnimation(ShowAnim);
+
+	HintButton->SetVisibility(ESlateVisibility::Collapsed);
+	if (const APlayerCharacter* Player = APlayerCharacter::Get<APlayerCharacter>(this))
+	{
+		const UGameOverDatabase* Database = UToroSettings::Get()->GetDatabase<UGameOverDatabase>();
+		if (const FGameOverCharEntry* Entry = Database ? Database->GetEntry(Player->GetJumpscareEnemy()) : nullptr)
+		{
+			LabelText->SetText(Entry->Name);
+			ContentText->SetText(Entry->Description);
+			HintButton->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
+
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputConfig({EGameInputMode::UI_Only, true,
@@ -51,4 +65,5 @@ void UGameOverWidget::InitWidget(APlayerController* Controller)
 {
 	Super::InitWidget(Controller);
 	RetryButton->OnClicked.AddUniqueDynamic(this, &UGameOverWidget::OnRetry);
+	HintButton->OnClicked.AddUniqueDynamic(this, &UGameOverWidget::OnHint);
 }

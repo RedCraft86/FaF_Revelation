@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Framework/ToroCameraManager.h"
+#include "Framework/ToroGameInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Interaction/InteractionManager.h"
@@ -429,6 +430,12 @@ bool APlayerCharacter::IsActorSeen(const AActor* InActor) const
 bool APlayerCharacter::TryJumpscare(const FGameplayTag& FromEnemy)
 {
 	if (IsKillLocked() || IsPaused())
+	{
+		return false;
+	}
+	
+	UToroGameInstance* GI = GetGameInstance<UToroGameInstance>();
+	if (GI && GI->IsPlayerInvincible())
 	{
 		return false;
 	}

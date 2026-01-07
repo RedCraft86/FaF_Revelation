@@ -5,6 +5,7 @@
 #include "ToroRuntime.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "UserInterface/ExprTextBlock.h"
 #include "UserInterface/ToroManagedWidget.h"
 #include "GameOverWidget.generated.h"
 
@@ -16,11 +17,9 @@ class FAFREVGAME_API UGameOverWidget final : public UToroManagedWidget
 public:
 
 	UGameOverWidget(const FObjectInitializer& ObjectInitializer);
-
-	UFUNCTION(BlueprintImplementableEvent)
-		void OnPickSide(const bool bRightSide);
 	
-	void ShowWidget(const FText& DisplayName, const FText& Description, const bool bRightSide);
+	UFUNCTION(BlueprintCallable, Category = Gameplay, meta = (WorldContext = "ContextObject"))
+		static void ShowGameOver(const UObject* ContextObject);
 
 protected:
 
@@ -28,15 +27,22 @@ protected:
 		TObjectPtr<UTextBlock> LabelText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
-		TObjectPtr<UTextBlock> ContentText;
+		TObjectPtr<UExprTextBlock> ContentText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UButton> RetryButton;
 
-	bool bIsRightSide;
-	FText NameText, DescText;
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UButton> HintButton;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> ShowAnim;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidgetAnim))
+		TObjectPtr<UWidgetAnimation> HintAnim;
 
 	UFUNCTION() void OnRetry();
+	UFUNCTION() void OnHint() { PlayAnimation(HintAnim); }
 
 	virtual void PushWidget() override;
 	virtual void InitWidget(APlayerController* Controller) override;
