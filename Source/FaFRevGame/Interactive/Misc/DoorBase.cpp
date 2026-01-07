@@ -4,12 +4,13 @@
 #include "Components/AudioComponent.h"
 #include "Inventory/InventoryManager.h"
 #include "NativeWidgets/NoticeWidget.h"
+#include "NavAreas/NavArea_Default.h"
 #if WITH_EDITOR
 #include "Framework/Notifications/NotificationManager.h"
 #include "Widgets/Notifications/SNotificationList.h"
 #endif
 
-ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
+ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bSmartLink(true), bOpened(false)
 {
 	PrimaryActorTick.bCanEverTick = false;
 	PrimaryActorTick.bStartWithTickEnabled = false;
@@ -19,22 +20,41 @@ ADoorBase::ADoorBase(): bStartOpened(false), PlayRate(1.0f), bOpened(false)
 	DoorRange->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 	DoorRange->SetupAttachment(GetRootComponent());
 	DoorRange->SetBoxExtent(FVector(125.0f, 125.0f, 75.0f));
+	DoorRange->SetCanEverAffectNavigation(false);
 
 	OpenAudio = CreateDefaultSubobject<UAudioComponent>("OpenAudio");
+	OpenAudio->SetupAttachment(GetRootComponent());
 	OpenAudio->bAutoActivate = false;
 	OpenAudio->bOverrideAttenuation = true;
 	OpenAudio->bCanPlayMultipleInstances = true;
 	OpenAudio->AttenuationOverrides.FalloffDistance = 400.0f;
 	OpenAudio->AttenuationOverrides.AttenuationShapeExtents.X = 200.0f;
-	OpenAudio->SetupAttachment(GetRootComponent());
 
 	CloseAudio = CreateDefaultSubobject<UAudioComponent>("CloseAudio");
+	CloseAudio->SetupAttachment(GetRootComponent());
 	CloseAudio->bAutoActivate = false;
 	CloseAudio->bOverrideAttenuation = true;
 	CloseAudio->bCanPlayMultipleInstances = true;
 	CloseAudio->AttenuationOverrides.FalloffDistance = 500.0f;
 	CloseAudio->AttenuationOverrides.AttenuationShapeExtents.X = 250.0f;
-	CloseAudio->SetupAttachment(GetRootComponent());
+
+	DoorLinkComponent = CreateDefaultSubobject<UChildActorComponent>("DoorLink");
+	DoorLinkComponent->SetupAttachment(GetRootComponent());
+	DoorLinkComponent->SetChildActorClass(ADoorLink::StaticClass());
+
+	NavPoints.bUseSnapHeight = true;
+	NavPoints.LeftProjectHeight = 1000.0f;
+	NavPoints.Left = FVector(100.0f, 0.0f, 0.0f);
+	NavPoints.Right = FVector(-100.0f, 0.0f, 0.0f);
+	NavPoints.SetAreaClass(UNavArea_Default::StaticClass());
+
+	if (ADoorLink* DoorLinkActor = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()))
+	{
+		DoorLinkActor->bSmartLinkIsRelevant = bSmartLink;
+#if WITH_EDITOR
+		DoorLinkActor->PointLinks = {NavPoints};
+#endif
+	}
 
 	CurvePlayer = CreateDefaultSubobject<UCurvePlayerFloat>("CurvePlayer");
 
@@ -74,6 +94,61 @@ void ADoorBase::OpenStateChanged_Implementation(const bool bState, const bool bI
 	}
 }
 
+#if WITH_EDITORONLY_DATA
+void ADoorBase::TryDetermineNavLinks()
+{
+	if (ADoorLink* DoorLinkActor = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()))
+	{
+		DoorLinkActor->bSmartLinkIsRelevant = bSmartLink;
+
+		FVector Origin, Extent;
+		GetActorBounds(true, Origin, Extent, false);
+
+		Origin.Z = GetActorLocation().Z;
+		const float Distance = FMath::Max3(Extent.X, Extent.Y, 5.0) * NavPointOffsetMulti;
+		bool bValue = Extent.X > Extent.Y; 
+		if (bFlipXY) bValue = !bValue;
+		const FVector WorldForward = bValue ? FVector::XAxisVector : FVector::YAxisVector;
+		const FVector LocalForward = GetTransform().InverseTransformVectorNoScale(WorldForward);
+		const FVector LocalOffset = GetTransform().InverseTransformPosition(Origin);
+
+		NavPoints.Left = LocalOffset + (LocalForward * Distance);
+		NavPoints.Right = LocalOffset + (LocalForward * -Distance);
+
+		DoorLinkActor->PointLinks = {NavPoints};
+
+		DoorLinkActor->CopyEndPointsFromSimpleLinkToSmartLink();
+
+		Modify();
+	}
+}
+#endif
+
+void ADoorBase::OnEntityReachedDoor(AActor* Entity, const FVector& Dest)
+{
+	if (IsLocked())
+	{
+		ICharInterface::OnPathingRejected(Entity, EPathingRejectType::Door);
+		UE_LOG(LogTemp, Warning, TEXT("Rejected: %s -> %s"), *GetNameSafe(Entity), *GetActorLabel())
+	}
+	else
+	{
+		IInteractionInterface::PawnInteract(this, Entity);
+		ICharInterface::OnEntityInteraction(Entity, ECharInteractType::Door, this);
+		UE_LOG(LogTemp, Warning, TEXT("Reached: %s -> %s"), *GetNameSafe(Entity), *GetActorLabel())
+	}
+	
+	if (DoorLink)
+	{
+		DoorLink->ResumePathFollowing(Entity);
+		// GetWorldTimerManager().ClearTimer(DoorLinkTimer);
+		// GetWorldTimerManager().SetTimer(DoorLinkTimer, [this, Entity]()
+		// {
+		// 	DoorLink->ResumePathFollowing(Entity);
+		// }, 0.5f, false);
+	}
+}
+
 bool ADoorBase::GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info)
 {
 	const bool bReturn = Super::GetInteractInfo_Implementation(Hit, Info);
@@ -85,6 +160,7 @@ bool ADoorBase::GetInteractInfo_Implementation(const FHitResult& Hit, FInteracti
 	{
 		Info.Label = bOpened ? INVTEXT("Close") : INVTEXT("Open");
 	}
+
 	// If our last interactor is by a non-player entity, disallow interaction until they go out of range
 	return bReturn && (!Interactor.IsValid() || CharacterTags::IsPlayer(Interactor.Get()));
 }
@@ -105,7 +181,7 @@ void ADoorBase::OnBeginInteract_Implementation(AToroPlayerCharacter* Player, con
 	}
 }
 
-void ADoorBase::OnPawnInteract_Implementation(APawn* Pawn, const FHitResult& Hit)
+void ADoorBase::OnPawnInteract_Implementation(AActor* Pawn)
 {
 	Interactor = Pawn;
 	if (!IsLocked())
@@ -119,6 +195,14 @@ void ADoorBase::BeginPlay()
 	Super::BeginPlay();
 	CurvePlayer->PlayRate = PlayRate;
 	CurvePlayer->SetCurve(Animation);
+
+	if (DoorLink = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()); DoorLink)
+	{
+		DoorLink->PointLinks = {NavPoints};
+		DoorLink->CopyEndPointsFromSimpleLinkToSmartLink();
+		DoorLink->GetOnSmartLinkReached().AddDynamic(this, &ADoorBase::OnEntityReachedDoor);
+	}
+
 	GetWorldTimerManager().SetTimerForNextTick([this]()
 	{
 		SetOpened(bStartOpened, true);
@@ -132,6 +216,10 @@ void ADoorBase::NotifyActorEndOverlap(AActor* OtherActor)
 	if (OtherActor && OtherActor->IsA<AToroCharacter>())
 	{
 		OtherActor->Tags.Remove(CharacterTags::NearInteractable);
+		if (OtherActor == Interactor)
+		{
+			Interactor = nullptr;
+		}
 	}
 }
 
@@ -166,4 +254,12 @@ void ADoorBase::OnConstruction(const FTransform& Transform)
 		KeyAsset = nullptr;
 	}
 #endif
+
+	if (ADoorLink* DoorLinkActor = Cast<ADoorLink>(DoorLinkComponent->GetChildActor()))
+	{
+		DoorLinkActor->PointLinks = {NavPoints};
+#if WITH_EDITOR
+		DoorLinkActor->CopyEndPointsFromSimpleLinkToSmartLink();
+#endif
+	}
 }

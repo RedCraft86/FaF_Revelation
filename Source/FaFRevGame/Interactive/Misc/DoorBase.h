@@ -7,7 +7,18 @@
 #include "Interaction/InteractableActor.h"
 #include "Components/CurvePlayer/CurvePlayerFloat.h"
 #include "Components/BoxComponent.h"
+#include "Navigation/NavLinkProxy.h"
 #include "DoorBase.generated.h"
+
+UCLASS(NotBlueprintable)
+class FAFREVGAME_API ADoorLink final : public ANavLinkProxy
+{
+	GENERATED_BODY()
+
+public:
+	
+	FSmartLinkReachedSignature& GetOnSmartLinkReached() { return OnSmartLinkReached; }
+};
 
 UCLASS(Abstract, meta = (ChildCanTick = true))
 class FAFREVGAME_API ADoorBase : public AInteractableActor
@@ -26,6 +37,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UAudioComponent> CloseAudio;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
+		TObjectPtr<UChildActorComponent> DoorLinkComponent;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects)
 		TObjectPtr<UCurvePlayerFloat> CurvePlayer;
@@ -63,13 +77,35 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
 		FText LockedLabel;
 
+	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+		bool bSmartLink;
+
+	UPROPERTY(EditAnywhere, Category = "Settings", AdvancedDisplay)
+		FNavigationLink NavPoints;
+	
+#if WITH_EDITORONLY_DATA
+	UPROPERTY(EditAnywhere, Category = Tools)
+		bool bFlipXY = true;
+
+	UPROPERTY(EditAnywhere, Category = Tools)
+		float NavPointOffsetMulti = 0.5f;
+
+	UFUNCTION(CallInEditor, Category = Tools)
+		void TryDetermineNavLinks();
+#endif
+
 	bool bOpened;
+	FTimerHandle DoorLinkTimer;
+	TObjectPtr<ADoorLink> DoorLink;
 	TWeakObjectPtr<AActor> Interactor;
 	TObjectPtr<UInventoryManager> Inventory;
+	
+	UFUNCTION() 
+	void OnEntityReachedDoor(AActor* Entity, const FVector& Dest);
 
 	virtual bool GetInteractInfo_Implementation(const FHitResult& Hit, FInteractionInfo& Info) override;
 	virtual void OnBeginInteract_Implementation(AToroPlayerCharacter* Player, const FHitResult& Hit) override;
-	virtual void OnPawnInteract_Implementation(APawn* Pawn, const FHitResult& Hit) override;
+	virtual void OnPawnInteract_Implementation(AActor* Pawn) override;
 
 	virtual void BeginPlay() override;
 	virtual void NotifyActorEndOverlap(AActor* OtherActor) override;
