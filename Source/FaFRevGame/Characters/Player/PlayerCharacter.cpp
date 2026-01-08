@@ -454,9 +454,11 @@ bool APlayerCharacter::TryJumpscare(const FGameplayTag& FromEnemy)
 
 bool APlayerCharacter::IsKillLocked()
 {
+	const int32 Activity = GetActivityFlags();
 	return Super::IsKillLocked()
 		|| JumpscareEnemy.IsValid()
-		|| HasActivityFlag(PAF_Dialogue)
+		|| Activity & PAF_Tutorial
+		|| Activity & PAF_Dialogue
 		|| IsPaused();
 }
 
