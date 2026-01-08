@@ -433,8 +433,8 @@ bool APlayerCharacter::TryJumpscare(const FGameplayTag& FromEnemy)
 	{
 		return false;
 	}
-	
-	UToroGameInstance* GI = GetGameInstance<UToroGameInstance>();
+
+	const UToroGameInstance* GI = GetGameInstance<UToroGameInstance>();
 	if (GI && GI->IsPlayerInvincible())
 	{
 		return false;
@@ -488,7 +488,10 @@ void APlayerCharacter::TickFootstep()
 	TEnumAsByte<EPhysicalSurface> Surface;
 	if (IsMoving() && GetStandingSurface(Surface, Footsteps.TraceChannel))
 	{
-		PlayFootstep(Footsteps.GetFootstepSound(Surface));
+		float Volume = Footsteps.BaseVolume;
+		if (IsSneaking()) Volume *= 0.25f;
+		if (IsRunning()) Volume *= 2.0f;
+		PlayFootstep(Footsteps.GetFootstepSound(Surface), Volume);
 	}
 	FootstepTimer.Invalidate();
 }

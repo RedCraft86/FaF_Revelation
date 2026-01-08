@@ -148,6 +148,9 @@ struct FPlayerFootsteps
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ClampMin = 0.1f, UIMin = 0.1f))
+		float BaseVolume;
+
+	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ClampMin = 0.1f, UIMin = 0.1f))
 		FVector Intervals;
 
 	UPROPERTY(EditAnywhere, Category = Footsteps)
@@ -159,7 +162,7 @@ struct FPlayerFootsteps
 	UPROPERTY(EditAnywhere, Category = Footsteps, meta = (ReadOnlyKeys, DisplayThumbnail = false))
 		TMap<TEnumAsByte<EPhysicalSurface>, TObjectPtr<USoundBase>> SurfaceSounds;
 
-	FPlayerFootsteps(): Intervals(0.5f, 0.35f, 0.35f), TraceChannel(ECC_Visibility) {}
+	FPlayerFootsteps(): BaseVolume(1.0f), Intervals(0.5f, 0.35f, 0.6f), TraceChannel(ECC_Visibility) {}
 
 	float GetFootstepInterval(const int32 StateFlags) const;
 	USoundBase* GetFootstepSound(const EPhysicalSurface Surface) const;
