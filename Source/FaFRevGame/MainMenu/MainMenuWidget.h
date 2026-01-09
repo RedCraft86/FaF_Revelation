@@ -60,6 +60,7 @@ protected:
 	FTimerHandle ThemeTimer;
 	TObjectPtr<USettingsWidget> Settings;
 	TObjectPtr<UDifficultyWidget> Difficulty;
+	TObjectPtr<UWorldMusicManager> MusicManager;
 	TObjectPtr<AMainMenuActor> MenuActor;
 
 	UFUNCTION() void OnPlayButton();

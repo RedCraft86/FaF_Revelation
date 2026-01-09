@@ -5,6 +5,7 @@
 #include "UserInterface/NativeContainers.h"
 #include "UserInterface/ToroWidgetManager.h"
 #include "Framework/ToroPlayerController.h"
+#include "MusicSystem/WorldMusicManager.h"
 #include "GamePhase/GamePhaseManager.h"
 #include "Helpers/WidgetAnimHelpers.h"
 #include "MainMenuActor.h"
@@ -152,8 +153,17 @@ void UMainMenuWidget::PushWidget()
 		}
 
 		bInit = true;
-		ThemeDropdown->SetSelectedIndex(ThemeOrder.Find(MenuActor->GetMenuTheme()));
 	}
+
+	if (const int32 ThemeIdx = ThemeOrder.Find(MenuActor->GetMenuTheme()); ThemeIdx >= 0)
+	{
+		ThemeDropdown->SetSelectedIndex(ThemeIdx);
+		if (MusicManager)
+		{
+			MusicManager->SetThemeState(ThemeIdx);
+		}
+	}
+
 	if (AToroPlayerController* PC = AToroPlayerController::Get(this))
 	{
 		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
@@ -171,6 +181,7 @@ void UMainMenuWidget::InitWidget(APlayerController* Controller)
 	ThemeDropdown->OnSelectionChanged.AddUniqueDynamic(this, &UMainMenuWidget::OnThemePicked);
 	GetWorld()->GetTimerManager().SetTimerForNextTick([this]()
 	{
+		MusicManager = UWorldMusicManager::Get(this);
 		if (AToroWidgetManager* Manager = AToroWidgetManager::Get(this))
 		{
 			Settings = Manager->FindWidget<USettingsWidget>();
