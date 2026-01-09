@@ -27,7 +27,8 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = Tools)
 		float OffsetFactor = 0.5f;
-
+#endif
+#if WITH_EDITOR
 	UFUNCTION(CallInEditor, Category = Tools)
 		void AutoTarget();
 #endif

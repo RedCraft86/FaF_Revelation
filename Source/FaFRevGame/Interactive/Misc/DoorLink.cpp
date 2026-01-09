@@ -9,7 +9,7 @@ ADoorLink::ADoorLink()
 	bSmartLinkIsRelevant = true;
 }
 
-#if WITH_EDITORONLY_DATA
+#if WITH_EDITOR
 void ADoorLink::AutoTarget()
 {
 	if (LinkedDoor)
