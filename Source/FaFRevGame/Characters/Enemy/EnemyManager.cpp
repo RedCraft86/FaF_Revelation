@@ -6,7 +6,7 @@
 
 void UEnemyManager::RegisterEnemy(AGameEnemyBase* InEnemy)
 {
-	if (!InEnemy) return;
+	if (!InEnemy || !InEnemy->IsMusicRelevant()) return;
 	if (UEnemyManager* Manager = UEnemyManager::Get(InEnemy))
 	{
 		Manager->Enemies.Add(InEnemy);
@@ -16,7 +16,7 @@ void UEnemyManager::RegisterEnemy(AGameEnemyBase* InEnemy)
 
 void UEnemyManager::UnregisterEnemy(AGameEnemyBase* InEnemy)
 {
-	if (!InEnemy) return;
+	if (!InEnemy || !InEnemy->IsMusicRelevant()) return;
 	if (UEnemyManager* Manager = UEnemyManager::Get(InEnemy))
 	{
 		Manager->TickTime = 0.0f;
@@ -35,6 +35,11 @@ void UEnemyManager::UpdateEnemyStatus(const UObject* ContextObject)
 
 void UEnemyManager::UpdateMusicState()
 {
+	if (Enemies.IsEmpty())
+	{
+		return;
+	}
+
 	uint8 HighestState = 0;
 	if (Player)
 	{

@@ -61,6 +61,9 @@ public:
 		USMInstance* GetStateMachine() const;
 
 	UFUNCTION(BlueprintPure, Category = Enemy)
+		bool IsMusicRelevant() const { return bMusicRelevant; }
+
+	UFUNCTION(BlueprintPure, Category = Enemy)
 		bool IsEnemyState(const EEnemyState InState) const { return EnemyState == InState; }
 
 	UFUNCTION(BlueprintPure, Category = Enemy)
@@ -77,6 +80,9 @@ public:
 	virtual void PlayerAttackSuccess_Implementation() {}
 
 protected:
+
+	UPROPERTY(EditAnywhere, Category = Settings, AdvancedDisplay)
+		bool bMusicRelevant;
 
 	UPROPERTY(VisibleAnywhere, Category = Settings, AdvancedDisplay)
 		EEnemyState EnemyState;

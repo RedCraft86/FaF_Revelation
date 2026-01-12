@@ -3,7 +3,8 @@
 #include "GameEnemyBase.h"
 #include "EnemyManager.h"
 
-AGameEnemyBase::AGameEnemyBase(): EnemyState(EEnemyState::None), bEnabled(false)
+AGameEnemyBase::AGameEnemyBase()
+	: bMusicRelevant(true), EnemyState(EEnemyState::None), bEnabled(false)
 {
 	PrimaryActorTick.bCanEverTick = true;
 
