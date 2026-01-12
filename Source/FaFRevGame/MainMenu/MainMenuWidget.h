@@ -48,6 +48,9 @@ protected:
 		TObjectPtr<UComboBoxString> ThemeDropdown;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
+		TObjectPtr<UTextBlock> ProgressText;
+
+	UPROPERTY(Transient, BlueprintReadOnly, Category = Elements, meta = (BindWidget))
 		TObjectPtr<UTextBlock> VersionText;
 
 	UPROPERTY(EditAnywhere, Category = Settings, meta = (Categories = "MenuTheme"))

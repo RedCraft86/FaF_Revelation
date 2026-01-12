@@ -169,6 +169,28 @@ void UMainMenuWidget::PushWidget()
 		PC->SetInputConfig({EGameInputMode::GameAndUI, true,
 			EMouseLockMode::LockAlways, false});
 	}
+
+	ProgressText->SetVisibility(ESlateVisibility::Collapsed);
+	if (const AToroGameState* State = AToroGameState::Get(this))
+	{
+		const float Progress = State->GetTotalPlayProgress() * 100.0f;
+		const float PlayTime = State->GetTotalPlayTime() / 3600.0f;
+		if (Progress > 0.01f && PlayTime > 0.01f)
+		{
+			ProgressText->SetVisibility(ESlateVisibility::HitTestInvisible);
+
+			FNumberFormattingOptions NumberFormatOptions;
+			NumberFormatOptions.MinimumIntegralDigits = 1;
+			NumberFormatOptions.MaximumFractionalDigits = 2;
+			NumberFormatOptions.MinimumFractionalDigits = 2;
+	 
+			ProgressText->SetText(FText::Format(
+				INVTEXT("Progress: {0}%\nPlay Time: {1} hrs"),
+				FText::AsNumber(Progress, &NumberFormatOptions),
+				FText::AsNumber(PlayTime, &NumberFormatOptions)
+			));
+		}
+	}
 }
 
 void UMainMenuWidget::InitWidget(APlayerController* Controller)
