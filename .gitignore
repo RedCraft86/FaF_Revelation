@@ -33,11 +33,16 @@
 .idea/
 .vs/
 /Binaries/
-/Config/
+/Plugins/
 /DerivedDataCache/
 /FMODProject/
 /Intermediate/
 /Saved/
+
+/Config/*
+!/Config/DefaultScalability.ini
+!/Config/DefaultEngine.ini
+!/Config/DefaultGame.ini
 
 /Content/*
 !/Content/Blueprints/
@@ -47,5 +52,3 @@ Build/*
 Build/*/**
 !/Build/*/PakBlacklist*.txt
 !/Build/**/*.ico
-
-/Plugins/*
