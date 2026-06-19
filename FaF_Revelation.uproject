@@ -349,10 +349,6 @@
 		{
 			"Name": "Volumetrics",
 			"Enabled": true
-		},
-		{
-			"Name": "InlineMaterialInstance",
-			"Enabled": true
 		}
 	]
 }
