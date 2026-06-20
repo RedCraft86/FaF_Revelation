@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (C) 2026 Tayzar Linn. All Rights Reserved.
 
 using UnrealBuildTool;
 
@@ -13,7 +13,9 @@ public class FaF_Revelation : ModuleRules
 				"Core", 
 				"CoreUObject", 
 				"Engine", 
-				"InputCore"
+				"InputCore",
+				"GameplayTags",
+				"ToroRuntime"
 			]
 		);
 	}
