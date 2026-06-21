@@ -9,6 +9,11 @@
 			"Name": "FaF_Revelation",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "GameEditor",
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [

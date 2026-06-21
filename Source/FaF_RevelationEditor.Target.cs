@@ -14,5 +14,11 @@ public class FaF_RevelationEditorTarget : TargetRules
 				"FaF_Revelation"
 			]
 		);
+		RegisterModulesCreatedByRider();
+	}
+
+	private void RegisterModulesCreatedByRider()
+	{
+		ExtraModuleNames.AddRange(new string[] { "GameEditor" });
 	}
 }
