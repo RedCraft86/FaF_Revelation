@@ -7,7 +7,9 @@ public class FaF_Revelation : ModuleRules
 	public FaF_Revelation(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-	
+
+		PublicIncludePaths.Add(ModuleDirectory);
+
 		PublicDependencyModuleNames.AddRange(
 			[
 				"Core", 
@@ -15,7 +17,11 @@ public class FaF_Revelation : ModuleRules
 				"Engine", 
 				"InputCore",
 				"GameplayTags",
-				"ToroRuntime"
+				"DeveloperSettings",
+				"EngineSettings",
+				"ToroRuntime",
+				"ToroCore",
+				"UE5Coro"
 			]
 		);
 	}
