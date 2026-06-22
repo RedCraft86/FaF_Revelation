@@ -31,15 +31,17 @@ public:
 	}
 
 	UFUNCTION(BlueprintPure, Category = GameSave)
-	void AddGameFlag(const FGameplayTag& InFlag)
+	void AddGameFlag(const FGameplayTag& InFlag, const bool bNotify = false)
 	{
 		if (InFlag.IsValid() && !GameFlags.Contains(InFlag))
 		{
 			GameFlags.Add(InFlag);
-
-			const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem::
-				GetSharedMessageSystem<FAsyncGameplayMessageSystem>(FWorldGetter::Get(this));
-			System->QueueMessageForBroadcast(FAsyncMessageId(InFlag));
+			if (bNotify)
+			{
+				const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem::
+				   GetSharedMessageSystem<FAsyncGameplayMessageSystem>(FWorldGetter::Get(this));
+				System->QueueMessageForBroadcast(FAsyncMessageId(InFlag));
+			}
 		}
 	}
 
