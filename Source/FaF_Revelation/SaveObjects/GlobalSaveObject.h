@@ -2,15 +2,12 @@
 
 #pragma once
 
-#include "GameplayTagContainer.h"
-#include "SaveSystem/ToroSaveGame.h"
+#include "FaFRevSaveGame.h"
 #include "SaveSystem/ToroSaveManager.h"
-#include "AsyncGameplayMessageSystem.h"
-#include "AsyncMessageWorldSubsystem.h"
 #include "GlobalSaveObject.generated.h"
 
 UCLASS(NotBlueprintable, BlueprintType)
-class FAF_REVELATION_API UGlobalSaveObject final : public UToroSaveGame
+class FAF_REVELATION_API UGlobalSaveObject final : public UFaFRevSaveGame
 {
 	GENERATED_BODY()
 
@@ -27,30 +24,4 @@ public:
 		UToroSaveManager* SM = UToroSaveManager::Get(ContextObject);
 		return IsValid(SM) ? SM->GetOrCreateSaveObject<UGlobalSaveObject>() : nullptr;
 	}
-
-	UFUNCTION(BlueprintPure, Category = GlobalFlag)
-	void AddGlobalFlag(const FGameplayTag& InFlag, const bool bNotify = true)
-	{
-		if (InFlag.IsValid() && !GlobalFlags.Contains(InFlag))
-		{
-			GlobalFlags.Add(InFlag);
-			if (bNotify)
-			{
-				const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem::
-				   GetSharedMessageSystem<FAsyncGameplayMessageSystem>(FWorldGetter::Get(this));
-				System->QueueMessageForBroadcast(FAsyncMessageId(InFlag));
-			}
-		}
-	}
-
-	UFUNCTION(BlueprintPure, Category = GlobalFlag)
-	bool HasGlobalFlag(const FGameplayTag& InFlag) const
-	{
-		return InFlag.IsValid() && GlobalFlags.Contains(InFlag);
-	}
-
-private:
-
-	UPROPERTY(SaveGame)
-		TSet<FGameplayTag> GlobalFlags;
 };

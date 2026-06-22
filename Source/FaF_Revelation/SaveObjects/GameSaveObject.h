@@ -2,19 +2,14 @@
 
 #pragma once
 
-#include "GameplayTagContainer.h"
-#include "SaveSystem/ToroSaveGame.h"
+#include "FaFRevSaveGame.h"
 #include "SaveSystem/ToroSaveManager.h"
-#include "AsyncGameplayMessageSystem.h"
-#include "AsyncMessageWorldSubsystem.h"
 #include "GameSaveObject.generated.h"
 
 UCLASS(NotBlueprintable, BlueprintType)
-class FAF_REVELATION_API UGameSaveObject final : public UToroSaveGame
+class FAF_REVELATION_API UGameSaveObject final : public UFaFRevSaveGame
 {
 	GENERATED_BODY()
-
-	friend class AFaFGameState;
 
 public:
 
@@ -30,32 +25,16 @@ public:
 		return IsValid(SM) ? SM->GetOrCreateSaveObject<UGameSaveObject>() : nullptr;
 	}
 
-	UFUNCTION(BlueprintPure, Category = GameSave)
-	void AddGameFlag(const FGameplayTag& InFlag, const bool bNotify = false)
+	void IncrementPlayTime()
 	{
-		if (InFlag.IsValid() && !GameFlags.Contains(InFlag))
+		if (GetCurrentOperation() == EToroSaveOperation::None)
 		{
-			GameFlags.Add(InFlag);
-			if (bNotify)
-			{
-				const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem::
-				   GetSharedMessageSystem<FAsyncGameplayMessageSystem>(FWorldGetter::Get(this));
-				System->QueueMessageForBroadcast(FAsyncMessageId(InFlag));
-			}
+			PlayTime++;
 		}
-	}
-
-	UFUNCTION(BlueprintPure, Category = GameSave)
-	bool HasGameFlag(const FGameplayTag& InFlag) const
-	{
-		return InFlag.IsValid() && GameFlags.Contains(InFlag);
 	}
 
 private:
 
 	UPROPERTY(SaveGame)
 		int32 PlayTime;
-
-	UPROPERTY(SaveGame)
-		TSet<FGameplayTag> GameFlags;
 };
