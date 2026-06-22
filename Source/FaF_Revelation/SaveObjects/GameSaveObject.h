@@ -5,6 +5,8 @@
 #include "GameplayTagContainer.h"
 #include "SaveSystem/ToroSaveGame.h"
 #include "SaveSystem/ToroSaveManager.h"
+#include "AsyncGameplayMessageSystem.h"
+#include "AsyncMessageWorldSubsystem.h"
 #include "GameSaveObject.generated.h"
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -27,6 +29,27 @@ public:
 		UToroSaveManager* SM = UToroSaveManager::Get(ContextObject);
 		return IsValid(SM) ? SM->GetOrCreateSaveObject<UGameSaveObject>() : nullptr;
 	}
+
+	UFUNCTION(BlueprintPure, Category = GameSave)
+	void AddGameFlag(const FGameplayTag& InFlag)
+	{
+		if (InFlag.IsValid() && !GameFlags.Contains(InFlag))
+		{
+			GameFlags.Add(InFlag);
+
+			const TSharedPtr<FAsyncGameplayMessageSystem> System = UAsyncMessageWorldSubsystem::
+				GetSharedMessageSystem<FAsyncGameplayMessageSystem>(FWorldGetter::Get(this));
+			System->QueueMessageForBroadcast(FAsyncMessageId(InFlag));
+		}
+	}
+
+	UFUNCTION(BlueprintPure, Category = GameSave)
+	bool HasGameFlag(const FGameplayTag& InFlag) const
+	{
+		return InFlag.IsValid() && GameFlags.Contains(InFlag);
+	}
+
+private:
 
 	UPROPERTY(SaveGame)
 		int32 PlayTime;
