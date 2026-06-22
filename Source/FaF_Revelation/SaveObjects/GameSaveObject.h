@@ -25,11 +25,13 @@ public:
 		return IsValid(SM) ? SM->GetOrCreateSaveObject<UGameSaveObject>() : nullptr;
 	}
 
-	void IncrementPlayTime()
+	void InitPlayTimer(const UWorld* World)
 	{
-		if (GetCurrentOperation() == EToroSaveOperation::None)
+		if (World && !TimerWorld.IsValid())
 		{
-			PlayTime++;
+			TimerWorld = World;
+			TimerWorld->GetTimerManager().SetTimer(PlayTimeTimer, 
+				this, &UGameSaveObject::CountPlayTime, 1.0f, true);
 		}
 	}
 
@@ -37,4 +39,25 @@ private:
 
 	UPROPERTY(SaveGame)
 		int32 PlayTime;
+
+	FTimerHandle PlayTimeTimer;
+	TWeakObjectPtr<const UWorld> TimerWorld;
+
+	void CountPlayTime()
+	{
+		if (CurrentOperation == EToroSaveOperation::None)
+		{
+			PlayTime++;
+		}
+	}
+
+	virtual void BeginDestroy() override
+	{
+		if (TimerWorld.IsValid())
+		{
+			TimerWorld->GetTimerManager().ClearTimer(PlayTimeTimer);
+		}
+
+		Super::BeginDestroy();
+	}
 };
