@@ -46,6 +46,7 @@
 
 /Content/*
 !/Content/Blueprints/
+!/Content/Data/
 
 Build/*
 !Build/*/
