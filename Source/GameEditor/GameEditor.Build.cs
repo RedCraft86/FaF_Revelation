@@ -20,6 +20,8 @@ public class GameEditor : ModuleRules
                 "ToroEditor",
                 "ToroRuntime",
                 "ToroCore",
+                "FlowEditor",
+                "Flow"
             ]
         );
     }
