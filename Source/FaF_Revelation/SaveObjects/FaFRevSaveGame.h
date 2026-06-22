@@ -21,7 +21,7 @@ public:
 	FOnFlagAddedDelegate OnFlagAdded;
 
 	UFUNCTION(BlueprintPure, Category = SaveGame)
-	void AddGameFlag(const FGameplayTag& InFlag)
+	void AddFlag(const FGameplayTag& InFlag)
 	{
 		if (InFlag.IsValid() && !Flags.Contains(InFlag))
 		{
@@ -32,7 +32,7 @@ public:
 	}
 
 	UFUNCTION(BlueprintPure, Category = SaveGame)
-	bool HasGameFlag(const FGameplayTag& InFlag) const
+	bool HasFlag(const FGameplayTag& InFlag) const
 	{
 		return InFlag.IsValid() && Flags.Contains(InFlag);
 	}
