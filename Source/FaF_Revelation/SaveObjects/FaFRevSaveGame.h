@@ -13,6 +13,11 @@ class FAF_REVELATION_API UFaFRevSaveGame : public UToroSaveGame
 	
 public:
 
+	UFaFRevSaveGame()
+	{
+		bSaveOnMapDestruction = true;
+	}
+
 	DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnFlagAddedDelegateBP, const FGameplayTag&, Flag);
 	UPROPERTY(BlueprintAssignable, Category = SaveGame, DisplayName = "On Flag Added")
 		FOnFlagAddedDelegateBP OnFlagAddedBP;
