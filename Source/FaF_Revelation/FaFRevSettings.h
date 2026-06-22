@@ -50,7 +50,7 @@ public:
 		UToroDatabase* GetDatabase(UPARAM(meta=(AllowAbstract=false)) const TSubclassOf<UToroDatabase> Class) const;
 
 	template<typename T>
-	T* GetDatabase()
+	T* GetDatabase() const
 	{
 		static_assert(TIsDerivedFrom<T, UToroDatabase>::IsDerived, 
 			TEXT("T must derive from UToroDatabase"));

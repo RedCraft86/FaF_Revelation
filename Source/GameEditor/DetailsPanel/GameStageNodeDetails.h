@@ -49,6 +49,7 @@ public:
 				StageData->CreatePropertyNameWidget()
 			]
 			.ValueContent()
+			.HAlign(HAlign_Fill)
 			[
 				SNew(SVerticalBox)
 				+SVerticalBox::Slot()
@@ -107,7 +108,7 @@ public:
 				Group.AddWidgetRow()
 				[
 					SNew(SBox)
-					.Padding(FMargin(-16.0f, 2.0f, -2.0f, 2.0f)) 
+					.Padding(FMargin(-16.0f, 2.0f, 0.0f, 2.0f)) 
 					[
 						ObjectView
 					]

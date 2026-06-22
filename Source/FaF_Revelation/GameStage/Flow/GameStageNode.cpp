@@ -4,6 +4,7 @@
 #include "GameStageFlow.h"
 #include "Framework/ToroGameState.h"
 #include "GameStage/FaFGameState.h"
+#include "GameStage/GameStageData.h"
 
 UGameStageNode::UGameStageNode()
 {
@@ -63,6 +64,11 @@ void UGameStageNode::ExecuteInput(const FName& PinName)
 }
 
 #if WITH_EDITOR
+FText UGameStageNode::GetNodeTitle() const
+{
+	return StageData ? StageData->GetDisplayNameText() : INVTEXT("Game Stage");
+}
+
 FText UGameStageNode::GetNodeConfigText() const
 {
 	FTextBuilder TextBuilder;
@@ -72,5 +78,14 @@ FText UGameStageNode::GetNodeConfigText() const
 		TextBuilder.AppendLineFormat(INVTEXT("\t{0}"), FText::FromString(Tag.ToString()));
 	}
 	return TextBuilder.ToText();
+}
+
+void UGameStageNode::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	if (PropertyChangedEvent.GetPropertyName() == GET_MEMBER_NAME_CHECKED(UGameStageNode, StageData))
+	{
+		RequestReconstruction();
+	}
 }
 #endif

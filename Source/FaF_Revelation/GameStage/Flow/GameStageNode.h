@@ -44,7 +44,8 @@ private:
 	virtual void ExecuteInput(const FName& PinName) override;
 
 #if WITH_EDITOR
+	virtual FText GetNodeTitle() const override;
 	virtual FText GetNodeConfigText() const override;
-	virtual FText GetNodeTitle() const override { return INVTEXT("Game Stage"); }
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 };
