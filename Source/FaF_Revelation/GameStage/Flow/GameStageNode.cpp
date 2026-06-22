@@ -2,8 +2,8 @@
 
 #include "GameStageNode.h"
 #include "GameStageFlow.h"
-#include "GameStageRequirement.h"
 #include "Framework/ToroGameState.h"
+#include "GameStage/FaFGameState.h"
 
 UGameStageNode::UGameStageNode()
 {
@@ -20,22 +20,12 @@ UGameStageNode::UGameStageNode()
 	OutputPins.Add(FFlowPin(OutputPinName));
 }
 
-EFlowAddOnAcceptResult UGameStageNode::AcceptFlowNodeAddOnChild_Implementation(const UFlowNodeAddOn* AddOnTemplate,
-	const TArray<UFlowNodeAddOn*>& AdditionalAddOnsToAssumeAreChildren) const
+void UGameStageNode::OnFlagCompleted(const FGameplayTag& Flag)
 {
-	if (AddOnTemplate && AddOnTemplate->IsA<UGameStageRequirement>())
+	RemainingTags.Remove(Flag);
+	if (RemainingTags.IsEmpty())
 	{
-		return EFlowAddOnAcceptResult::TentativeAccept;
-	}
-
-	return Super::AcceptFlowNodeAddOnChild_Implementation(AddOnTemplate, AdditionalAddOnsToAssumeAreChildren);
-}
-
-void UGameStageNode::RequirementComplete(const UGameStageRequirement* Requirement)
-{
-	Requirements.Remove(Requirement);
-	if (Requirements.IsEmpty())
-	{
+		GameSave->OnFlagAdded.RemoveAll(this);
 		TriggerOutput(OutputPinName, true);
 	}
 }
@@ -48,14 +38,41 @@ void UGameStageNode::ExecuteInput(const FName& PinName)
 		return;
 	}
 
-	ForEachAddOnForClass<UGameStageRequirement>([this](UFlowNodeAddOn& Addon)
-	{
-		UGameStageRequirement* Requirement = Cast<UGameStageRequirement>(&Addon);
-		if (Requirement->Initialize() && !Requirement->IsFulfilled())
-		{
-			Requirements.Add(Requirement);
-		}
+	GameSave = UGameSaveObject::Get(this);
 
-		return EFlowForEachAddOnFunctionReturnValue::Continue;
-	});
+	for (const FGameplayTag& Tag : Requirements)
+	{
+		if (!GameSave->HasFlag(Tag))
+		{
+			RemainingTags.Add(Tag);
+		}
+	}
+
+	if (Requirements.IsEmpty())
+	{
+		// Already completed everything
+		TriggerOutput(OutputPinName, true);
+	}
+	else if (AFaFGameState* GS = AFaFGameState::Get<AFaFGameState>(this))
+	{
+		GS->LoadGameStage(StageData);
+		GameSave->OnFlagAdded.AddUObject(this, &UGameStageNode::OnFlagCompleted);
+	}
+	else
+	{
+		UE_LOG(LogGameState, Error, TEXT("Could not find AFaFGameState to load game stage!"))
+	}
 }
+
+#if WITH_EDITOR
+FText UGameStageNode::GetNodeConfigText() const
+{
+	FTextBuilder TextBuilder;
+	TextBuilder.AppendLine(INVTEXT("Requirements:"));
+	for (const FGameplayTag& Tag : Requirements)
+	{
+		TextBuilder.AppendLineFormat(INVTEXT("\t{0}"), FText::FromString(Tag.ToString()));
+	}
+	return TextBuilder.ToText();
+}
+#endif

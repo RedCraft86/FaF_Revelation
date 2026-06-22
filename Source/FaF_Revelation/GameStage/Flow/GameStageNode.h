@@ -7,12 +7,14 @@
 #include "SaveObjects/GameSaveObject.h"
 #include "GameStageNode.generated.h"
 
+class UGameStageData;
+
 UCLASS(NotBlueprintable, BlueprintType)
 class UGameStageNode final : public UFlowNode
 {
 	GENERATED_BODY()
 
-	friend class UGameStageRequirement;
+	friend class FGameStageNodeDetails;
 
 	static inline const FName InputPinName = TEXT("Enter");
 	static inline const FName OutputPinName = TEXT("Complete");
@@ -23,16 +25,23 @@ public:
 
 private:
 
+	UPROPERTY(EditAnywhere, Category = Stage, meta = (Categories = "Objective"))
+		FGameplayTagContainer Requirements;
+
+	UPROPERTY(EditAnywhere, Category = Stage)
+		TObjectPtr<UGameStageData> StageData;
+
 	UPROPERTY(Transient)
-		TSet<TWeakObjectPtr<UGameStageRequirement>> Requirements;
+		TSet<FGameplayTag> RemainingTags;
 
-	virtual EFlowAddOnAcceptResult AcceptFlowNodeAddOnChild_Implementation(const UFlowNodeAddOn* AddOnTemplate, 
-		const TArray<UFlowNodeAddOn*>& AdditionalAddOnsToAssumeAreChildren) const override;
+	UPROPERTY(Transient)
+		TWeakObjectPtr<UGameSaveObject> GameSave;
 
-	void RequirementComplete(const UGameStageRequirement* Requirement);
+	void OnFlagCompleted(const FGameplayTag& Flag);
 	virtual void ExecuteInput(const FName& PinName) override;
 
 #if WITH_EDITOR
+	virtual FText GetNodeConfigText() const override;
 	virtual FText GetNodeTitle() const override { return INVTEXT("Game Stage"); }
 #endif
 };
