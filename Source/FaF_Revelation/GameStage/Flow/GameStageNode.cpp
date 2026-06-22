@@ -38,8 +38,6 @@ void UGameStageNode::ExecuteInput(const FName& PinName)
 		return;
 	}
 
-	GameSave = UGameSaveObject::Get(this);
-
 	for (const FGameplayTag& Tag : Requirements)
 	{
 		if (!GameSave->HasFlag(Tag))

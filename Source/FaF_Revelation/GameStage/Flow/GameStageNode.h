@@ -4,6 +4,7 @@
 
 #include "Nodes/FlowNode.h"
 #include "AddOns/FlowNodeAddOn.h"
+#include "DataTypes/CachedGetter.h"
 #include "SaveObjects/GameSaveObject.h"
 #include "GameStageNode.generated.h"
 
@@ -34,8 +35,10 @@ private:
 	UPROPERTY(Transient)
 		TSet<FGameplayTag> RemainingTags;
 
-	UPROPERTY(Transient)
-		TWeakObjectPtr<UGameSaveObject> GameSave;
+	TCachedGetter<UGameSaveObject> GameSave{[this]()
+	{
+		return UGameSaveObject::Get(this);
+	}};
 
 	void OnFlagCompleted(const FGameplayTag& Flag);
 	virtual void ExecuteInput(const FName& PinName) override;
