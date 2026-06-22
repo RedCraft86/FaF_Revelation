@@ -7,6 +7,7 @@
 #include "FaFGameState.generated.h"
 
 class UGameStageData;
+class UObjectiveManager;
 
 UCLASS(NotBlueprintable, BlueprintType)
 class AFaFGameState final : public AToroGameState
@@ -15,11 +16,16 @@ class AFaFGameState final : public AToroGameState
 
 public:
 
-	AFaFGameState() {}
+	AFaFGameState();
 
 	UE5Coro::TCoroutine<> LoadGameStage(const UGameStageData* InStage);
 
+	UObjectiveManager* GetObjectiveManager() const { return ObjectiveManager; }
+
 private:
+
+	UPROPERTY(BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
+		TObjectPtr<UObjectiveManager> ObjectiveManager;
 
 	TWeakObjectPtr<const UGameStageData> CurrentStage;
 	TArray<TSoftObjectPtr<UWorld>> LoadedLevels;

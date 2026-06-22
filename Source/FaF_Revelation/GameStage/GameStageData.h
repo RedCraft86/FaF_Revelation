@@ -8,7 +8,6 @@
 #include "GameStageData.generated.h"
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_GameStage)
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Objective)
 
 UCLASS(NotBlueprintable, BlueprintType)
 class UGameStageData final : public UDataAsset

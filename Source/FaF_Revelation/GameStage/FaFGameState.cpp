@@ -10,7 +10,13 @@
 #include "Framework/ToroWorldSettings.h"
 #include "AsyncMessageWorldSubsystem.h"
 #include "AsyncGameplayMessageSystem.h"
+#include "Objective/ObjectiveManager.h"
 #include "Helpers/LatentInfo.h"
+
+AFaFGameState::AFaFGameState()
+{
+	ObjectiveManager = CreateDefaultSubobject<UObjectiveManager>("ObjectiveManager");
+}
 
 UE5Coro::TCoroutine<> AFaFGameState::LoadGameStage(const UGameStageData* InStage)
 {
@@ -40,7 +46,6 @@ UE5Coro::TCoroutine<> AFaFGameState::LoadGameStage(const UGameStageData* InStage
 
 	co_await UE5Coro::WhenAll(Tasks);
 
-	// TODO: Clear and initialize objectives
 	// TODO: Player states and flags?
 
 	if ((!CurrentStage.IsValid() || !InStage->bContinuous) && InStage->Teleport.LoadSynchronous())
@@ -51,6 +56,8 @@ UE5Coro::TCoroutine<> AFaFGameState::LoadGameStage(const UGameStageData* InStage
 	CurrentStage = InStage;
 
 	co_await UE5Coro::Latent::RealSeconds(1.0);
+
+	ObjectiveManager->StartObjectives(InStage->Objectives);
 
 	if (InStage->StageEvent.IsValid() && InStage->StageEvent != TAG_GameStage.GetTag())
 	{
@@ -90,8 +97,8 @@ void AFaFGameState::BeginPlay()
 		{
 			if (WeakThis.IsValid() && ensureAlways(Status == EToroSaveLoadStatus::Succeeded))
 			{
-				WeakThis->FinishLoadingGame();
 				GameSave->InitPlayTimer(WeakThis->GetWorld());
+				WeakThis->FinishLoadingGame();
 			}
 		});
 	}
