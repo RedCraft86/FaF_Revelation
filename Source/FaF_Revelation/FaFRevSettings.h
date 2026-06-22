@@ -17,7 +17,7 @@ enum class EGameMapType : uint8
 };
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Game Settings")
-class FAF_REVELATION_API UFaFRevSettings : public UDeveloperSettings
+class UFaFRevSettings : public UDeveloperSettings
 {
 	GENERATED_BODY()
 

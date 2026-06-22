@@ -7,7 +7,7 @@
 #include "GlobalSaveObject.generated.h"
 
 UCLASS(NotBlueprintable, BlueprintType)
-class FAF_REVELATION_API UGlobalSaveObject final : public UFaFRevSaveGame
+class UGlobalSaveObject final : public UFaFRevSaveGame
 {
 	GENERATED_BODY()
 
