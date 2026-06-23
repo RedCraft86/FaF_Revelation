@@ -19,9 +19,7 @@ public class GameEditor : ModuleRules
                 "FaF_Revelation",
                 "ToroEditor",
                 "ToroRuntime",
-                "ToroCore",
-                "FlowEditor",
-                "Flow"
+                "ToroCore"
             ]
         );
     }
