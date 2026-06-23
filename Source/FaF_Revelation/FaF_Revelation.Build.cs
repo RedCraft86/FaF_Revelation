@@ -14,16 +14,7 @@ public class FaF_Revelation : ModuleRules
 			[
 				"Core", 
 				"CoreUObject", 
-				"Engine", 
-				"InputCore",
-				"GameplayTags",
-				"DeveloperSettings",
-				"AsyncMessageSystem",
-				"EngineSettings",
-				"ToroRuntime",
-				"ToroCore",
-				"UE5Coro",
-				"Flow"
+				"Engine"
 			]
 		);
 	}

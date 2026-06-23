@@ -2,7 +2,7 @@
 
 #include "GameEditor.h"
 
-#define LOCTEXT_NAMESPACE "FGameEditorModule"
+#define LOCTEXT_NAMESPACE "GameEditor"
 
 void FGameEditorModule::StartupModule()
 {

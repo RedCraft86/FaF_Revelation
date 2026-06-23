@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class GameEditor : ModuleRules
+public class GameRuntime : ModuleRules
 {
-    public GameEditor(ReadOnlyTargetRules Target) : base(Target)
+    public GameRuntime(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
@@ -14,14 +14,18 @@ public class GameEditor : ModuleRules
             [
                 "Core",
                 "CoreUObject",
-                "UnrealEd",
                 "Engine",
                 "Slate",
-                "SlateCore",
-                "GameRuntime",
-                "ToroEditor",
+                "SlateCore", 
+                "InputCore",
+                "GameplayTags",
+                "DeveloperSettings",
+                "AsyncMessageSystem",
+                "EngineSettings",
                 "ToroRuntime",
-                "ToroCore"
+                "ToroCore",
+                "UE5Coro",
+                "Flow"
             ]
         );
     }

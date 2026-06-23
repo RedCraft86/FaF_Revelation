@@ -4,7 +4,7 @@
 
 #include "Modules/ModuleManager.h"
 
-class FGameEditorModule final : public IModuleInterface
+class FGameRuntimeModule final : public IModuleInterface
 {
 private:
 
