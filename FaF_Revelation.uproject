@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"EngineAssociation": "{22E6A97E-4C49-1475-13D8-A68BAE384860}",
-	"SaveCategory": "RC86_Games",
+	"SaveCategory": "LanternInteractive",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -365,12 +365,80 @@
 			"Enabled": true
 		},
 		{
-			"Name": "UE5Coro",
+			"Name": "CommonUI",
 			"Enabled": true
 		},
 		{
-			"Name": "Flow",
+			"Name": "Metasound",
 			"Enabled": true
+		},
+		{
+			"Name": "AsyncMessageSystem",
+			"Enabled": true
+		},
+		{
+			"Name": "ProceduralMeshComponent",
+			"Enabled": true
+		},
+		{
+			"Name": "EditorScriptingUtilities",
+			"Enabled": true
+		},
+		{
+			"Name": "UE5Coro",
+			"Enabled": false
+		},
+		{
+			"Name": "Flow",
+			"Enabled": false
+		},
+		{
+			"Name": "ToroUtilities",
+			"Enabled": false
+		},
+		{
+			"Name": "EnhancedAIMovement",
+			"Enabled": false
+		},
+		{
+			"Name": "AutoSizeComments",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/ae89a2c4ab384de0a3f213b23de324f3"
+		},
+		{
+			"Name": "ElectronicNodes",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/5cb2a394d0c04e73891762be4cbd7216"
+		},
+		{
+			"Name": "GraphPrinter",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/466303b6cd724968b3ee0a1a1b623f4b"
+		},
+		{
+			"Name": "ProjectCleaner",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/4d7f5dc837fc4b009bb91e678adf9fd0"
+		},
+		{
+			"Name": "SlateStyleBrowser",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/7f51deb58ead4fed88abc798ca7c9ae4"
+		},
+		{
+			"Name": "TypeTween",
+			"Enabled": false,
+			"MarketplaceURL": "https://www.fab.com/listings/f09a96e6-04e3-4aff-aa96-556774bbdad4"
+		},
+		{
+			"Name": "ExpressiveText",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/fc8f100e734144179e1679596d1eee07",
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
 		}
 	]
 }
