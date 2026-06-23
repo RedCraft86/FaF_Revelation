@@ -6,8 +6,6 @@
 #include "FaFRevSettings.h"
 #include "ObjectiveActor.h"
 
-UE_DEFINE_GAMEPLAY_TAG(TAG_Objective, "Objective")
-
 UObjectiveManager::UObjectiveManager()
 {
 	PrimaryComponentTick.bCanEverTick = false;

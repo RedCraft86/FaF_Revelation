@@ -2,13 +2,14 @@
 
 #pragma once
 
-#include "FaFRevSettings.h"
-#include "GameplayTagContainer.h"
+#include "NativeGameplayTags.h"
 #include "DataAssets/ToroDatabase.h"
 #include "ObjectiveDatabase.generated.h"
 
+UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Objective)
+
 USTRUCT(BlueprintType)
-struct FObjectiveEntry : public FDatabaseEntryBase
+struct FObjectiveEntry : public FToroDatabaseEntry
 {
 	GENERATED_BODY()
 
@@ -22,16 +23,16 @@ struct FObjectiveEntry : public FDatabaseEntryBase
 		FText DetailDesc;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Objective)
-		TSoftObjectPtr<AObjectiveActor> Instance;
+		TSoftObjectPtr<class AObjectiveActor> Instance;
 	
 	FObjectiveEntry()
 		: Name(FText::GetEmpty()), ShortDesc(FText::GetEmpty())
 		, DetailDesc(FText::GetEmpty()), Instance(nullptr)
 	{}
 
-	FORCEINLINE bool IsValid() const
+	virtual bool IsValid() const override
 	{
-		return Name.IsEmptyOrWhitespace() || ShortDesc.IsEmptyOrWhitespace() || DetailDesc.IsEmptyOrWhitespace();
+		return !Name.IsEmptyOrWhitespace() && !ShortDesc.IsEmptyOrWhitespace() && !DetailDesc.IsEmptyOrWhitespace();
 	}
 };
 
@@ -41,53 +42,11 @@ class UObjectiveDatabase final : public UToroDatabase
 	GENERATED_BODY()
 
 public:
-	
-	UObjectiveDatabase()
-	{
-		DisplayName = INVTEXT("Objective Database");
-		Description = INVTEXT("Holds static metadata for objectives.");
-	}
 
-	UPROPERTY(EditAnywhere, Category = Database, meta = (Categories = "Objective"))
-		TMap<FGameplayTag, FObjectiveEntry> Entries;
+	UObjectiveDatabase(const FObjectInitializer& ObjectInit)
+		: Super(ObjectInit, TAG_Objective.GetTag(), FObjectiveEntry::StaticStruct())
+	{}
 
-	static const FObjectiveEntry* GetEntry(const FGameplayTag& InTag)
-	{
-		UObjectiveDatabase* DB = UFaFRevSettings::Get()->GetDatabase<UObjectiveDatabase>();
-		return DB ? DB->Entries.Find(InTag) : nullptr;
-	}
-
-#if WITH_EDITOR
-	virtual void RefreshData() override
-	{
-		for (TPair<FGameplayTag, FObjectiveEntry>& Entry : Entries)
-		{
-			if (!Entry.Key.IsValid())
-			{
-				Entry.Value.EdLabel = TEXT("Key is invalid.");
-			}
-			else if (Entry.Value.IsValid())
-			{
-				Entry.Value.EdLabel = TEXT("Data is invalid.");
-			}
-			else
-			{
-				Entry.Value.EdLabel = FString();
-			}
-		}
-	}
-
-	virtual FIntPoint GetEntryCount() const override
-	{
-		FIntPoint Result(Entries.Num(), 0);
-		for (const TPair<FGameplayTag, FObjectiveEntry>& Entry : Entries)
-		{
-			if (Entry.Value.EdLabel.IsEmpty())
-			{
-				Result.Y++;
-			}
-		}
-		return Result;
-	}
-#endif
+	[[nodiscard]] static UObjectiveDatabase* Get();
+	[[nodiscard]] static const FObjectiveEntry* GetEntry(const FGameplayTag& Key);
 };

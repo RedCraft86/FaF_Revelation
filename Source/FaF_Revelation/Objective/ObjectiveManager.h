@@ -3,14 +3,11 @@
 #pragma once
 
 #include "ObjectiveActor.h"
-#include "NativeGameplayTags.h"
 #include "DataTypes/CachedGetter.h"
 #include "GameStage/FaFGameState.h"
 #include "Components/ActorComponent.h"
 #include "SaveObjects/GameSaveObject.h"
 #include "ObjectiveManager.generated.h"
-
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Objective)
 
 USTRUCT(BlueprintInternalUseOnly)
 struct FObjectiveMetadata

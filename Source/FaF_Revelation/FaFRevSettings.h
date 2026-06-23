@@ -31,29 +31,12 @@ public:
 		return GetDefault<UFaFRevSettings>();
 	}
 
-	UPROPERTY(Config, EditAnywhere, Category = Game)
-		FName DemoName;
-
 	UPROPERTY(Config, EditAnywhere, Category = Game, meta = (ArraySizeEnum = "/Script/FaF_Revelation.EGameMapType"))
 		TSoftObjectPtr<UWorld> GameMaps[static_cast<uint8>(EGameMapType::MAX)];
 
 	UPROPERTY(Config, EditAnywhere, Category = Game)
 		TSet<TSoftObjectPtr<UToroDatabase>> Databases;
 
-	UFUNCTION(BlueprintPure, Category = Game)
-		FString GetVersionLabel() const;
-
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject))
 		bool IsInMapType(const UObject* ContextObject, const EGameMapType MapType) const;
-
-	UFUNCTION(BlueprintPure, Category = Game, meta = (DeterminesOutputType = Class))
-		UToroDatabase* GetDatabase(UPARAM(meta=(AllowAbstract=false)) const TSubclassOf<UToroDatabase> Class) const;
-
-	template<typename T>
-	T* GetDatabase() const
-	{
-		static_assert(TIsDerivedFrom<T, UToroDatabase>::IsDerived, 
-			TEXT("T must derive from UToroDatabase"));
-		return Cast<T>(GetDatabase(T::StaticClass()));
-	}
 };
