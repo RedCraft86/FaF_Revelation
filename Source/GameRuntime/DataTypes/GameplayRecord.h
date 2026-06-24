@@ -53,6 +53,10 @@ public:
 		}
 	}
 
+	// Track only completion since that is the only major identifier for duplicates of this kind of data
+	FORCEINLINE bool operator==(const FGameplayRecord& Other) const { return Completion == Other.Completion; }
+	FORCEINLINE bool operator!=(const FGameplayRecord& Other) const { return Completion != Other.Completion; }
+
 	FORCEINLINE friend void operator<<(FStructuredArchive::FSlot Slot, FGameplayRecord& InRecord)
 	{
 		FStructuredArchive::FRecord Record = Slot.EnterRecord();
@@ -67,5 +71,11 @@ public:
 		Ar << InRecord.Completion;
 		Ar << InRecord.Deaths;
 		return Ar;
+	}
+
+	FORCEINLINE friend uint32 GetTypeHash(const FGameplayRecord& Record)
+	{
+		// Track only completion since that is the only major identifier for duplicates of this kind of data
+		return GetTypeHash(Record.Completion);
 	}
 };

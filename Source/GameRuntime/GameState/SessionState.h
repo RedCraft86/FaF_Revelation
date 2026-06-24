@@ -3,6 +3,7 @@
 #pragma once
 
 #include "UE5Coro.h"
+#include "DataTypes/GameplayRecord.h"
 #include "Framework/ToroPlayerState.h"
 #include "SessionState.generated.h"
 
@@ -18,13 +19,17 @@ public:
 
 	ASessionState();
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Session, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine RequestSave(FLatentActionInfo LatentInfo) const;
 
-	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
-		FVoidCoroutine RequestLoad(FLatentActionInfo LatentInfo) const;
+	UFUNCTION(BlueprintCallable, Category = Session, meta = (Latent, LatentInfo = LatentInfo))
+		FVoidCoroutine RequestLoad(FLatentActionInfo LatentInfo);
+
+	UFUNCTION(BlueprintCallable, Category = Session)
+		void SetGameCompleted();
 
 	UGameFlagManager* GetSessionFlags() const { return SessionFlags; }
+	UGameStageManager* GetStageManager() const { return StageManager; }
 
 private:
 
@@ -34,6 +39,10 @@ private:
 	UPROPERTY(Transient)
 		TWeakObjectPtr<USessionSaveObject> SaveObject;
 
+	UPROPERTY(Transient)
+		FGameplayRecord SessionInfo;
+
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };

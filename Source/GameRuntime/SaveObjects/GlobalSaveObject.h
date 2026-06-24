@@ -26,5 +26,5 @@ private:
 		TSet<FName> Flags;
 
 	UPROPERTY(SaveGame)
-		TArray<FGameplayRecord> Sessions;
+		TSet<FGameplayRecord> Sessions;
 };
