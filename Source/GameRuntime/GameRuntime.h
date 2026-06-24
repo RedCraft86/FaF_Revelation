@@ -4,6 +4,8 @@
 
 #include "Modules/ModuleManager.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogGameRuntime, All, All);
+
 class FGameRuntimeModule final : public IModuleInterface
 {
 private:

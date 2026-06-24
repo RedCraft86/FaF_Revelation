@@ -2,6 +2,8 @@
 
 #include "GameRuntime.h"
 
+DEFINE_LOG_CATEGORY(LogGameRuntime);
+
 #define LOCTEXT_NAMESPACE "GameRuntime"
 
 void FGameRuntimeModule::StartupModule()
