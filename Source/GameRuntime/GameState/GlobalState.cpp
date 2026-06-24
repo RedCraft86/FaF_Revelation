@@ -7,7 +7,8 @@
 
 FVoidCoroutine AGlobalState::RequestSave(FLatentActionInfo LatentInfo) const
 {
-	if (SaveObject.IsValid())
+	if (SaveObject.IsValid() && ensureAlwaysMsgf(SaveObject->GetCurrentOperation() == EToroSaveOperation::None,
+		TEXT("Failed to save global because %s doing an operation."), *GetNameSafe(SaveObject.Get())))
 	{
 		// TODO: Pull data
 		co_await SaveObject->SaveToFile(0);
@@ -16,7 +17,8 @@ FVoidCoroutine AGlobalState::RequestSave(FLatentActionInfo LatentInfo) const
 
 FVoidCoroutine AGlobalState::RequestLoad(FLatentActionInfo LatentInfo) const
 {
-	if (SaveObject.IsValid())
+	if (SaveObject.IsValid() && ensureAlwaysMsgf(SaveObject->GetCurrentOperation() == EToroSaveOperation::None,
+		TEXT("Failed to load global because %s doing an operation."), *GetNameSafe(SaveObject.Get())))
 	{
 		co_await SaveObject->LoadFromFile(0);
 		// TODO: Push data
