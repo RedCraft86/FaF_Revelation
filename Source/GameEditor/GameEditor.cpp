@@ -2,10 +2,14 @@
 
 #include "GameEditor.h"
 
+#include "DetailsPanel/StageTeleporterDetails.h"
+#include "DetailsPanel/DetailsCustomizationRegistry.h"
+
 #define LOCTEXT_NAMESPACE "GameEditor"
 
 void FGameEditorModule::StartupModule()
 {
+	FDetailsCustomizationRegistry::Register<FStageTeleporter, FStageTeleporterDetails>();
 }
 
 void FGameEditorModule::ShutdownModule()

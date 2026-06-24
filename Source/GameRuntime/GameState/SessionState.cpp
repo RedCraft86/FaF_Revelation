@@ -7,7 +7,8 @@
 #include "GameStage/GameStageManager.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "SaveObjects/SessionSaveObject.h"
-#include "SaveSystem/ToroSaveManager.h"
+#include "Framework/ToroWorldSettings.h"
+#include "FlowComponent.h"
 #include "GlobalState.h"
 
 ASessionState::ASessionState()
@@ -18,6 +19,7 @@ ASessionState::ASessionState()
 	PrimaryActorTick.TickInterval = 1.0f;
 
 	SessionFlags = CreateDefaultSubobject<UGameFlagManager>(TEXT("SessionFlags"));
+	StageManager = CreateDefaultSubobject<UGameStageManager>(TEXT("StageManager"));
 }
 
 FVoidCoroutine ASessionState::RequestSave(FLatentActionInfo LatentInfo) const
@@ -67,6 +69,20 @@ void ASessionState::BeginPlay()
 		if (ensureAlways(SaveManager))
 		{
 			SaveObject = SaveManager->GetOrCreateSaveObject<USessionSaveObject>();
+			FVoidCoroutine Result = RequestLoad(FLatentInfo::Make());
+			Result.ContinueWith([WeakThis = TWeakObjectPtr(this)]()
+			{
+				if (!WeakThis.IsValid())
+				{
+					return;
+				}
+
+				if (const AToroWorldSettings* WS = AToroWorldSettings::Get(WeakThis.Get()))
+				{
+					WS->GetGameFlowManager()->StartRootFlow();
+					WeakThis->SetActorTickEnabled(true);
+				}
+			});
 		}
 	}
 }

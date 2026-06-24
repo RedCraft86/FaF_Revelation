@@ -8,6 +8,7 @@
 #include "SessionState.generated.h"
 
 class UGameFlagManager;
+class UGameStageManager;
 class USessionSaveObject;
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -35,6 +36,9 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
 		TObjectPtr<UGameFlagManager> SessionFlags;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
+		TObjectPtr<UGameStageManager> StageManager;
 
 	UPROPERTY(Transient)
 		TWeakObjectPtr<USessionSaveObject> SaveObject;
