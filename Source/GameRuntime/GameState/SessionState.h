@@ -18,12 +18,6 @@ public:
 
 	ASessionState();
 
-	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject, DisplayName = "Get Session State"))
-	static ASessionState* GetInstance(const UObject* ContextObject)
-	{
-		return AToroPlayerState::Get<ASessionState>(ContextObject);
-	}
-
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine RequestSave(FLatentActionInfo LatentInfo) const;
 

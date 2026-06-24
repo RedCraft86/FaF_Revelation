@@ -18,12 +18,6 @@ public:
 
 	AGlobalState();
 
-	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject, DisplayName = "Get Global State"))
-	static AGlobalState* GetInstance(const UObject* ContextObject)
-	{
-		return AToroGameState::Get<AGlobalState>(ContextObject);
-	}
-
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine RequestSave(FLatentActionInfo LatentInfo) const;
 
