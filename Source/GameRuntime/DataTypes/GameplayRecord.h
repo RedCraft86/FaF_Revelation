@@ -12,13 +12,13 @@ struct FGameplayRecord final
 
 private:
 
-	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadOnly, Category = Record)
+	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadOnly, Category = Record, meta = (AllowPrivateAccess = true))
 		int32 PlaySeconds;
 
-	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadOnly, Category = Record)
+	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadOnly, Category = Record, meta = (AllowPrivateAccess = true))
 		FDateTime Completion;
 
-	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadOnly, Category = Record)
+	UPROPERTY(SaveGame, EditAnywhere, BlueprintReadOnly, Category = Record, meta = (AllowPrivateAccess = true))
 		TMap<FName, int32> Deaths;
 
 public:
