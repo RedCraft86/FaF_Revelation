@@ -2,9 +2,16 @@
 
 #include "SessionState.h"
 #include "GameSettings.h"
+#include "GameFlagManager.h"
 #include "Helpers/LatentInfo.h"
 #include "SaveObjects/SessionSaveObject.h"
 #include "SaveSystem/ToroSaveManager.h"
+
+ASessionState::ASessionState()
+{
+	PrimaryActorTick.bCanEverTick = false;
+	SessionFlags = CreateDefaultSubobject<UGameFlagManager>(TEXT("SessionFlags"));
+}
 
 FVoidCoroutine ASessionState::RequestSave(FLatentActionInfo LatentInfo) const
 {
@@ -12,6 +19,7 @@ FVoidCoroutine ASessionState::RequestSave(FLatentActionInfo LatentInfo) const
 		TEXT("Failed to save global because %s doing an operation."), *GetNameSafe(SaveObject.Get())))
 	{
 		// TODO: Pull data
+		SaveObject->Flags = SessionFlags->GetFlagList();
 		co_await SaveObject->SaveToFile(0);
 	}
 }
@@ -22,6 +30,7 @@ FVoidCoroutine ASessionState::RequestLoad(FLatentActionInfo LatentInfo) const
 		TEXT("Failed to load global because %s doing an operation."), *GetNameSafe(SaveObject.Get())))
 	{
 		co_await SaveObject->LoadFromFile(0);
+		SessionFlags->SetFlagList(SaveObject->Flags);
 		// TODO: Push data
 	}
 }

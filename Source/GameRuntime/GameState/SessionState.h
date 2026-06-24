@@ -6,6 +6,7 @@
 #include "Framework/ToroPlayerState.h"
 #include "SessionState.generated.h"
 
+class UGameFlagManager;
 class USessionSaveObject;
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -15,13 +16,26 @@ class ASessionState final : public AToroPlayerState
 
 public:
 
+	ASessionState();
+
+	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject, DisplayName = "Get Session State"))
+	static ASessionState* Get(const UObject* ContextObject)
+	{
+		return Get<ASessionState>(ContextObject);
+	}
+
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine RequestSave(FLatentActionInfo LatentInfo) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine RequestLoad(FLatentActionInfo LatentInfo) const;
 
+	UGameFlagManager* GetSessionFlags() const { return SessionFlags; }
+
 private:
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
+		TObjectPtr<UGameFlagManager> SessionFlags;
 
 	UPROPERTY(Transient)
 		TWeakObjectPtr<USessionSaveObject> SaveObject;

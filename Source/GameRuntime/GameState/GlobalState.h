@@ -6,6 +6,7 @@
 #include "Framework/ToroGameState.h"
 #include "GlobalState.generated.h"
 
+class UGameFlagManager;
 class UGlobalSaveObject;
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -15,13 +16,26 @@ class AGlobalState final : public AToroGameState
 
 public:
 
+	AGlobalState();
+
+	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject, DisplayName = "Get Global State"))
+	static AGlobalState* Get(const UObject* ContextObject)
+	{
+		return Get<AGlobalState>(ContextObject);
+	}
+
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine RequestSave(FLatentActionInfo LatentInfo) const;
 
 	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Global, meta = (Latent, LatentInfo = LatentInfo))
 		FVoidCoroutine RequestLoad(FLatentActionInfo LatentInfo) const;
 
+	UGameFlagManager* GetGlobalFlags() const { return GlobalFlags; }
+
 private:
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
+		TObjectPtr<UGameFlagManager> GlobalFlags;
 
 	UPROPERTY(Transient)
 		TWeakObjectPtr<UGlobalSaveObject> SaveObject;
