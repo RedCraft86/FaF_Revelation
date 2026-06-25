@@ -24,12 +24,12 @@ bool AInteractField::GetInteractionInfo_Implementation(FText& Label)
 	return IsEnabled(this);
 }
 
-void AInteractField::BeginInteract_Implementation(AToroCharacter* Instigator)
+void AInteractField::BeginInteract_Implementation(AToroCharacter* Interactor)
 {
 	if (IsEnabled(this))
 	{
-		OnInteraction.Broadcast(Instigator);
-		OnInteractionBP.Broadcast(Instigator);
+		OnInteraction.Broadcast(Interactor);
+		OnInteractionBP.Broadcast(Interactor);
 		Actions.Execute(this);
 
 		if (bSingleUse)

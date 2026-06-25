@@ -20,12 +20,12 @@ class IInteractable
 public:
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
-		void BeginInteract(AToroCharacter* Instigator);
-	virtual void BeginInteract_Implementation(AToroCharacter* Instigator) = 0;
+		void BeginInteract(AToroCharacter* Interactor);
+	virtual void BeginInteract_Implementation(AToroCharacter* Interactor) = 0;
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
-		void EndInteract(AToroCharacter* Instigator);
-	virtual void EndInteract_Implementation(AToroCharacter* Instigator) {}
+		void EndInteract(AToroCharacter* Interactor);
+	virtual void EndInteract_Implementation(AToroCharacter* Interactor) {}
 
 	UFUNCTION(BlueprintNativeEvent, Category = Interaction)
 		bool GetInteractionInfo(FText& Label);
@@ -36,19 +36,19 @@ public:
 		return IsValid(Target) && Target->Implements<UInteractable>(); 
 	}
 
-	static void BeginInteract(UObject* Target, AToroCharacter* Instigator)
+	static void BeginInteract(UObject* Target, AToroCharacter* Interactor)
 	{
 		if (ImplementedBy(Target))
 		{
-			Execute_BeginInteract(Target, Instigator);
+			Execute_BeginInteract(Target, Interactor);
 		}
 	}
 
-	static void EndInteract(UObject* Target, AToroCharacter* Instigator)
+	static void EndInteract(UObject* Target, AToroCharacter* Interactor)
 	{
 		if (ImplementedBy(Target))
 		{
-			Execute_EndInteract(Target, Instigator);
+			Execute_EndInteract(Target, Interactor);
 		}
 	}
 

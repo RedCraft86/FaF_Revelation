@@ -2,6 +2,7 @@
 
 #include "InteractionManager.h"
 #include "GameFramework/Actor.h"
+#include "Actors/ToroCharacter.h"
 
 UInteractionManager::UInteractionManager()
 {

@@ -9,7 +9,7 @@
 
 class AToroCharacter;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFieldEventDelegateBP, AToroCharacter*, Instigator);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FFieldEventDelegateBP, AToroCharacter*, Interactor);
 DECLARE_MULTICAST_DELEGATE_OneParam(FFieldEventDelegate, AToroCharacter*);
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -39,5 +39,5 @@ private:
 
 	virtual void BeginPlay() override;
 	virtual bool GetInteractionInfo_Implementation(FText& Label) override;
-	virtual void BeginInteract_Implementation(AToroCharacter* Instigator) override;
+	virtual void BeginInteract_Implementation(AToroCharacter* Interactor) override;
 };

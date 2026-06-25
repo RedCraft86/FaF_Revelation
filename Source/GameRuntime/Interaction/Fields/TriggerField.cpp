@@ -23,11 +23,11 @@ void ATriggerField::NotifyActorBeginOverlap(AActor* OtherActor)
 {
 	Super::NotifyActorBeginOverlap(OtherActor);
 
-	AToroCharacter* Instigator = Cast<AToroCharacter>(OtherActor);
-	if (Instigator && IsEnabled(this))
+	AToroCharacter* Interactor = Cast<AToroCharacter>(OtherActor);
+	if (Interactor && IsEnabled(this))
 	{
-		OnTriggered.Broadcast(Instigator);
-		OnTriggeredBP.Broadcast(Instigator);
+		OnTriggered.Broadcast(Interactor);
+		OnTriggeredBP.Broadcast(Interactor);
 		Actions.Execute(this);
 
 		if (bSingleUse)
