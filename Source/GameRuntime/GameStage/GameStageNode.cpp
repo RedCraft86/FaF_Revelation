@@ -5,9 +5,9 @@
 #include "GameStageManager.h"
 #include "GameState/SessionState.h"
 #include "GameState/GameFlagManager.h"
+#include "Objectives/ObjectiveDatabase.h"
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_GameStage, "GameStage")
-UE_DEFINE_GAMEPLAY_TAG(TAG_Objective, "Objective")
 
 void FStageTeleporter::TeleportTo(const bool bForce) const
 {

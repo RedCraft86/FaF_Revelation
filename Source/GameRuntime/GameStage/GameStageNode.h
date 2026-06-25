@@ -10,7 +10,6 @@
 class UGameFlagManager;
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_GameStage);
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Objective);
 
 USTRUCT(BlueprintInternalUseOnly)
 struct FStageTeleporter final
@@ -22,7 +21,7 @@ struct FStageTeleporter final
 
 	/**
 	 * If true, player will only be teleported if this is the first stage loading in.
-	 * Otherwise, the player will not teleport for a smoother experience.
+	 * Otherwise, the player will not teleport for a continous experience.
 	 */
 	UPROPERTY(EditAnywhere, Category = Teleporter)
 		bool bContinuous;
