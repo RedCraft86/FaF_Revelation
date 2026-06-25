@@ -16,7 +16,7 @@ enum class EGameMapType : uint8
 };
 
 UCLASS(Config = Game, DefaultConfig, DisplayName = "Game Settings")
-class GAMERUNTIME_API UGameSettings final : public UDeveloperSettings
+class UGameSettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 
