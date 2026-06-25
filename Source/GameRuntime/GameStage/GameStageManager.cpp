@@ -49,9 +49,9 @@ UE5Coro::TCoroutine<> UGameStageManager::LoadGameStage(const UGameStageNode* InS
 	TArray<UE5Coro::TCoroutine<>> Tasks;
 	Tasks.Reserve(InStage->Levels.Num());
 
-	for (const auto& [Level, bVisible] : InStage->Levels)
+	for (const auto& [Level, LoadType] : InStage->Levels)
 	{
-		Tasks.Add(LoadLevel(Level, bVisible));
+		Tasks.Add(LoadLevel(Level, LoadType == EStageLevelLoadType::LoadAndShow));
 	}
 
 	co_await UE5Coro::WhenAll(Tasks);

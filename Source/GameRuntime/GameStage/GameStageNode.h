@@ -11,6 +11,13 @@ class UGameFlagManager;
 
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_GameStage);
 
+UENUM(BlueprintInternalUseOnly)
+enum class EStageLevelLoadType : uint8
+{
+	LoadOnly,
+	LoadAndShow
+};
+
 USTRUCT(BlueprintInternalUseOnly)
 struct FStageTeleporter final
 {
@@ -56,7 +63,7 @@ private:
 		FGameplayTagContainer Objectives;
 
 	UPROPERTY(EditAnywhere, Category = Stage)
-		TMap<TSoftObjectPtr<UWorld>, bool> Levels;
+		TMap<TSoftObjectPtr<UWorld>, EStageLevelLoadType> Levels;
 
 	UPROPERTY(EditAnywhere, Category = Stage)
 		FStageTeleporter Teleporter;

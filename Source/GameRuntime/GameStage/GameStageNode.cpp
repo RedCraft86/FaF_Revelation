@@ -142,14 +142,14 @@ EDataValidationResult UGameStageNode::ValidateNode()
 	}
 
 	bool bHasVisibleLevel = false;
-	for (const TPair<TSoftObjectPtr<UWorld>, bool>& Level : Levels)
+	for (const TPair<TSoftObjectPtr<UWorld>, EStageLevelLoadType>& Level : Levels)
 	{
 		if (Level.Key.IsNull())
 		{
-			ValidationLog.Error<UFlowNode>(TEXT("A level entry is null."), this);
+			ValidationLog.Warning<UFlowNode>(TEXT("A level entry is null!"), this);
 			bHasError = true;
 		}
-		else if (Level.Value)
+		else if (Level.Value == EStageLevelLoadType::LoadAndShow)
 		{
 			bHasVisibleLevel = true;
 		}
@@ -163,7 +163,7 @@ EDataValidationResult UGameStageNode::ValidateNode()
 
 	if (Teleporter.Target.IsNull())
 	{
-		ValidationLog.Error<UFlowNode>(TEXT("Teleporter is null. Stages require a teleporter."), this);
+		ValidationLog.Error<UFlowNode>(TEXT("Teleporter is null! Stages require a teleporter."), this);
 		bHasError = true;
 	}
 
