@@ -17,10 +17,10 @@ struct FObjectiveDbEntry : public FToroDatabaseEntry
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective)
 		FText Label;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective, meta = (MultiLine = true))
 		FText ShortText;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Objective, meta = (MultiLine = true))
 		FText DetailedText;
 
 	virtual bool IsValid() const override
