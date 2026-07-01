@@ -25,13 +25,8 @@ private:
 	UPROPERTY(SaveGame)
 		TSet<FName> Flags;
 
-	// TODO: Inventory (items)
-	// UPROPERTY(SaveGame)
-	//	TSet<FInventorySlot> Inventory;
-
-	// TODO: Archives (papers/lore)
-	// UPROPERTY(SaveGame)
-	//	TSet<FArchiveSlot> Archives;
+	UPROPERTY(SaveGame)
+		TArray<FName> Archives;
 
 	UPROPERTY(SaveGame)
 		FGameplayRecord Session;

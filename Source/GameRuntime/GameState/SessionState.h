@@ -9,6 +9,7 @@
 
 class UGameFlagManager;
 class UGameStageManager;
+class UInventoryManager;
 class USessionSaveObject;
 
 UCLASS(NotBlueprintable, BlueprintType)
@@ -31,6 +32,7 @@ public:
 
 	UGameFlagManager* GetSessionFlags() const { return SessionFlags; }
 	UGameStageManager* GetStageManager() const { return StageManager; }
+	UInventoryManager* GetInventoryManager() const { return InventoryManager; }
 
 private:
 
@@ -39,6 +41,9 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
 		TObjectPtr<UGameStageManager> StageManager;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
+		TObjectPtr<UInventoryManager> InventoryManager;
 
 	UPROPERTY(Transient)
 		TWeakObjectPtr<USessionSaveObject> SaveObject;

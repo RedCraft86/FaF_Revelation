@@ -5,6 +5,7 @@
 #include "GameStageManager.h"
 #include "GameState/SessionState.h"
 #include "GameState/GameFlagManager.h"
+#include "Inventory/InventoryManager.h"
 #include "Objectives/ObjectiveDatabase.h"
 
 UE_DEFINE_GAMEPLAY_TAG(TAG_GameStage, "GameStage")
@@ -80,6 +81,12 @@ void UGameStageNode::ExecuteInput(const FName& PinName)
 		{
 			Requirements.Add(Objective);
 		}
+	}
+
+	// Inventory is always ensured regardless of if we actually step into this stage.
+	if (UInventoryManager* InvManager = State->GetInventoryManager())
+	{
+		InvManager->EnsureEntries(Inventory.GetGameplayTagArray());
 	}
 
 	if (Requirements.IsEmpty())

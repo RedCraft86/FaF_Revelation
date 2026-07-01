@@ -62,6 +62,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Stage, meta = (Categories = "Objective"))
 		FGameplayTagContainer Objectives;
 
+	UPROPERTY(EditAnywhere, Category = Stage, meta = (Categories = "Inventory"))
+		FGameplayTagContainer Inventory;
+
 	UPROPERTY(EditAnywhere, Category = Stage)
 		TMap<TSoftObjectPtr<UWorld>, EStageLevelLoadType> Levels;
 

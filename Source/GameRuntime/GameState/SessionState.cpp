@@ -5,6 +5,7 @@
 #include "GameFlagManager.h"
 #include "Helpers/LatentInfo.h"
 #include "GameStage/GameStageManager.h"
+#include "Inventory/InventoryManager.h"
 #include "SaveSystem/ToroSaveManager.h"
 #include "SaveObjects/SessionSaveObject.h"
 #include "Framework/ToroWorldSettings.h"
@@ -20,6 +21,7 @@ ASessionState::ASessionState()
 
 	SessionFlags = CreateDefaultSubobject<UGameFlagManager>(TEXT("SessionFlags"));
 	StageManager = CreateDefaultSubobject<UGameStageManager>(TEXT("StageManager"));
+	InventoryManager = CreateDefaultSubobject<UInventoryManager>(TEXT("InventoryManager"));
 }
 
 FVoidCoroutine ASessionState::RequestSave(FLatentActionInfo LatentInfo) const
@@ -27,9 +29,9 @@ FVoidCoroutine ASessionState::RequestSave(FLatentActionInfo LatentInfo) const
 	if (SaveObject.IsValid() && ensureAlwaysMsgf(SaveObject->GetCurrentOperation() == EToroSaveOperation::None,
 		TEXT("Failed to save global because %s doing an operation."), *GetNameSafe(SaveObject.Get())))
 	{
-		// TODO: Pull data
 		SaveObject->Session = SessionInfo;
 		SaveObject->Flags = SessionFlags->GetFlagList();
+		SaveObject->Archives = InventoryManager->ExportArchives();
 		co_await SaveObject->SaveToFile(0);
 	}
 }
@@ -40,9 +42,9 @@ FVoidCoroutine ASessionState::RequestLoad(FLatentActionInfo LatentInfo)
 		TEXT("Failed to load global because %s doing an operation."), *GetNameSafe(SaveObject.Get())))
 	{
 		co_await SaveObject->LoadFromFile(0);
+		InventoryManager->ImportArchives(SaveObject->Archives);
 		SessionFlags->SetFlagList(SaveObject->Flags);
 		SessionInfo = SaveObject->Session;
-		// TODO: Push data
 	}
 }
 
