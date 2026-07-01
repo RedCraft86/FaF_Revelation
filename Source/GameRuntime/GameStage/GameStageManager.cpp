@@ -16,7 +16,7 @@ UGameStageManager::UGameStageManager(): bTransition(false)
 
 UGameStageManager* UGameStageManager::Get(const UObject* ContextObject)
 {
-	ASessionState* State = ASessionState::Get<ASessionState>(ContextObject);
+	const ASessionState* State = ASessionState::Get<ASessionState>(ContextObject);
 	return IsValid(State) ? State->GetStageManager() : nullptr;
 }
 
@@ -60,6 +60,11 @@ UE5Coro::TCoroutine<> UGameStageManager::LoadGameStage(const UGameStageNode* InS
 
 	// Force the teleport if this is the first stage that's being loaded
 	InStage->Teleporter.TeleportTo(!ActiveStage.IsValid());
+
+	if (const ASessionState* State = ASessionState::Get<ASessionState>(this))
+	{
+		State->RequestSave(FLatentInfo::Make());
+	}
 
 	co_await UE5Coro::Latent::RealSeconds(0.5f);
 
