@@ -7,14 +7,6 @@
 #include "Components/ActorComponent.h"
 #include "InventoryManager.generated.h"
 
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InventoryArchive)
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InventoryItem)
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InvEquipment)
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InvMission)
-UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_InvKey)
-
-// TODO: Item and Archive database
-
 UCLASS(NotBlueprintable, BlueprintType)
 class UInventoryManager final : public UActorComponent
 {
@@ -28,19 +20,19 @@ public:
 		static UInventoryManager* Get(const UObject* ContextObject);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-		void AddItem(const FGameplayTag& Item, const bool bSort = true);
+		bool AddItem(UPARAM(meta=(Categories="Inventory.Item")) const FGameplayTag& Item, const bool bSort = true);
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-		void RemoveItem(const FGameplayTag& Item);
+		bool RemoveItem(UPARAM(meta=(Categories="Inventory.Item")) const FGameplayTag& Item);
 
 	UFUNCTION(BlueprintPure, Category = Inventory)
-		bool HasItem(const FGameplayTag& Item) const;
+		bool HasItem(UPARAM(meta=(Categories="Inventory.Item")) const FGameplayTag& Item) const;
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-		void AddArchive(const FGameplayTag& Archive);
+		bool AddArchive(UPARAM(meta=(Categories="Inventory.Archive")) const FGameplayTag& Archive);
 
 	UFUNCTION(BlueprintPure, Category = Inventory)
-		bool HasArchive(const FGameplayTag& Archive) const;
+		bool HasArchive(UPARAM(meta=(Categories="Inventory.Archive")) const FGameplayTag& Archive) const;
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 		void SortItems() { Items.Sort(); }

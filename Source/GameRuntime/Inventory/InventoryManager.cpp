@@ -2,12 +2,8 @@
 
 #include "InventoryManager.h"
 #include "GameState/SessionState.h"
-
-UE_DEFINE_GAMEPLAY_TAG(TAG_InventoryArchive, "Inventory.Archive")
-UE_DEFINE_GAMEPLAY_TAG(TAG_InventoryItem, "Inventory.Item")
-UE_DEFINE_GAMEPLAY_TAG(TAG_InvEquipment, "Inventory.Item.Equipment")
-UE_DEFINE_GAMEPLAY_TAG(TAG_InvMission, "Inventory.Item.Mission")
-UE_DEFINE_GAMEPLAY_TAG(TAG_InvKey, "Inventory.Item.Key")
+#include "InvArchiveDatabase.h"
+#include "InvItemDatabase.h"
 
 bool IsValidTag(const FGameplayTag& Tag)
 {
@@ -42,7 +38,7 @@ UInventoryManager* UInventoryManager::Get(const UObject* ContextObject)
 	return IsValid(State) ? State->GetInventoryManager() : nullptr;
 }
 
-void UInventoryManager::AddItem(const FGameplayTag& Item, const bool bSort)
+bool UInventoryManager::AddItem(const FGameplayTag& Item, const bool bSort)
 {
 	if (IsValidTag(Item) && IsItemTag(Item) && !Items.Contains(Item))
 	{
@@ -51,10 +47,14 @@ void UInventoryManager::AddItem(const FGameplayTag& Item, const bool bSort)
 		{
 			SortItems();
 		}
+
+		return true;
 	}
+
+	return false;
 }
 
-void UInventoryManager::RemoveItem(const FGameplayTag& Item)
+bool UInventoryManager::RemoveItem(const FGameplayTag& Item)
 {
 	if (IsValidTag(Item) && IsItemTag(Item))
 	{
@@ -62,8 +62,11 @@ void UInventoryManager::RemoveItem(const FGameplayTag& Item)
 		if (Idx != INDEX_NONE)
 		{
 			Items.RemoveAt(Idx);
+			return true;
 		}
 	}
+
+	return false;
 }
 
 bool UInventoryManager::HasItem(const FGameplayTag& Item) const
@@ -71,12 +74,15 @@ bool UInventoryManager::HasItem(const FGameplayTag& Item) const
 	return IsValidTag(Item) && IsItemTag(Item) && Items.Contains(Item);
 }
 
-void UInventoryManager::AddArchive(const FGameplayTag& Archive)
+bool UInventoryManager::AddArchive(const FGameplayTag& Archive)
 {
 	if (IsValidTag(Archive) && IsArchiveTag(Archive) && !Archives.Contains(Archive))
 	{
 		Archives.Add(Archive);
+		return true;
 	}
+
+	return false;
 }
 
 bool UInventoryManager::HasArchive(const FGameplayTag& Archive) const
