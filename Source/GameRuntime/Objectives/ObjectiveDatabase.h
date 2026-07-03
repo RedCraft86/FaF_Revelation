@@ -10,7 +10,7 @@
 UE_DECLARE_GAMEPLAY_TAG_EXTERN(TAG_Objective);
 
 USTRUCT(BlueprintInternalUseOnly, DisplayName = "Objective Entry")
-struct FObjectiveDbEntry : public FToroDatabaseEntry
+struct FObjectiveDbEntry final : public FToroDatabaseEntry
 {
 	GENERATED_BODY()
 
@@ -35,9 +35,9 @@ UCLASS(NotBlueprintable, BlueprintType)
 class UObjectiveDatabase final : public UToroDatabase
 {
 	GENERATED_BODY()
-	
+
 public:
-	
+
 	UObjectiveDatabase()
 		: Super(TAG_Objective.GetTag(), FObjectiveDbEntry::StaticStruct())
 	{}
