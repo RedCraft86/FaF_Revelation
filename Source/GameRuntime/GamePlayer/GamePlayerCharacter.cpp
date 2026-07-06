@@ -20,7 +20,7 @@ void AGamePlayerCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AGamePlayerCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+void AGamePlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
