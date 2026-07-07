@@ -3,6 +3,7 @@
 #include "InteractionManager.h"
 #include "GameFramework/Actor.h"
 #include "Actors/ToroCharacter.h"
+#include "GamePlayer/GamePlayerCharacter.h"
 
 UInteractionManager::UInteractionManager()
 {
@@ -11,6 +12,12 @@ UInteractionManager::UInteractionManager()
 	PrimaryComponentTick.TickGroup = TG_PostPhysics;
 	PrimaryComponentTick.TickInterval = 0.01f;
 	bAutoActivate = false;
+}
+
+UInteractionManager* UInteractionManager::Get(const UObject* ContextObject)
+{
+	const AGamePlayerCharacter* Player = AToroPlayerCharacter::Get<AGamePlayerCharacter>(ContextObject);
+	return IsValid(Player) ? Player->GetInteractionManager() : nullptr;
 }
 
 void UInteractionManager::SetInteracting(const bool bInteract)
@@ -35,6 +42,13 @@ void UInteractionManager::SetInteracting(const bool bInteract)
 	}
 }
 
+void UInteractionManager::Deactivate()
+{
+	SetTarget(nullptr);
+	bWantInteract = false;
+	Super::Deactivate();
+}
+
 void UInteractionManager::SetTarget(AActor* InTarget)
 {
 	if (Target != InTarget)
@@ -56,13 +70,6 @@ void UInteractionManager::SetTarget(AActor* InTarget)
 	}
 }
 
-void UInteractionManager::Deactivate()
-{
-	SetTarget(nullptr);
-	bWantInteract = false;
-	Super::Deactivate();
-}
-
 void UInteractionManager::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc)
 {
 	Super::TickComponent(DeltaTime, TickType, TickFunc);
@@ -71,7 +78,7 @@ void UInteractionManager::TickComponent(float DeltaTime, ELevelTick TickType, FA
 		Deactivate();
 	}
 
-	if (AActor* HitActor = ExecuteTraceLogic.Execute().GetActor())
+	if (AActor* HitActor = ExecuteTraceLogic.Execute())
 	{
 		FText Label;
 		SetTarget(IInteractable::GetInteractionInfo(HitActor, Label) ? HitActor : nullptr);

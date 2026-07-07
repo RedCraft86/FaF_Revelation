@@ -16,14 +16,19 @@ public:
 
 	UInteractionManager();
 
+	UFUNCTION(BlueprintPure, Category = Interaction, meta = (WorldContext = ContextObject, DisplayName = "Get Interaction Manager"))
+		static UInteractionManager* Get(const UObject* ContextObject);
+
 	UFUNCTION(BlueprintCallable, Category = Interaction)
 		void SetInteracting(const bool bInteract);
 
-	DECLARE_DELEGATE_RetVal(const FHitResult&, FExecuteTraceLogic);
+	DECLARE_DELEGATE_RetVal(AActor*, FExecuteTraceLogic);
 	FExecuteTraceLogic ExecuteTraceLogic;
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnInteractTargetChanged, const TWeakObjectPtr<AActor>&)
 	FOnInteractTargetChanged OnTargetChanged;
+
+	virtual void Deactivate() override;
 
 private:
 
@@ -32,7 +37,5 @@ private:
 	TWeakObjectPtr<AActor> Target;
 
 	void SetTarget(AActor* InTarget);
-
-	virtual void Deactivate() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* TickFunc) override;
 };
