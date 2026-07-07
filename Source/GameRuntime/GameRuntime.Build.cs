@@ -21,6 +21,7 @@ public class GameRuntime : ModuleRules
                 "PhysicsCore",
                 "GameplayTags",
                 "EngineCameras",
+                "EnhancedInput",
                 "DeveloperSettings",
                 "AsyncMessageSystem",
                 "EngineSettings",
