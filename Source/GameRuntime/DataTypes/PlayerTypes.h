@@ -38,13 +38,12 @@ enum EPlayerStateFlags
 	PSF_Interact	= 1 << 4	UMETA(DisplayName = "Interacting"),
 	PSF_Hide		= 1 << 5	UMETA(DisplayName = "Hiding"),
 	PSF_Operate		= 1 << 6	UMETA(DisplayName = "Operating"),
-	PSF_Inspect		= 1 << 7	UMETA(DisplayName = "Inspecting"),
-	PSF_Tutorial	= 1 << 8	UMETA(DisplayName = "Learning"),
-	PSF_Dialogue	= 1 << 9	UMETA(DisplayName = "Talking")
+	PSF_Tutorial	= 1 << 7	UMETA(DisplayName = "Learning"),
+	PSF_Dialogue	= 1 << 8	UMETA(DisplayName = "Talking")
 };
 ENUM_CLASS_FLAGS(EPlayerStateFlags)
-ENUM_RANGE_BY_VALUES(EPlayerStateFlags, PSF_Move, PSF_Run, PSF_Crouch, PSF_Lean, 
-	PSF_Interact, PSF_Hide, PSF_Operate, PSF_Inspect, PSF_Tutorial, PSF_Dialogue)
+ENUM_RANGE_BY_VALUES(EPlayerStateFlags, PSF_Move, PSF_Run, PSF_Crouch, 
+	PSF_Lean, PSF_Interact, PSF_Hide, PSF_Operate, PSF_Tutorial, PSF_Dialogue)
 
 UENUM(BlueprintType)
 enum class EPlayerLeanState : uint8
@@ -60,17 +59,14 @@ struct FPlayerMovementInfo final
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, Category = Info)
-		FName ModifierKey;
-
-	UPROPERTY(EditAnywhere, Category = Info)
 		float FOV_Offset;
 
 	UPROPERTY(EditAnywhere, Category = Info, meta = (ClampMin = 0.1f, UIMin = 0.1f, Units = "x"))
 		float SpeedMultiplier;
 
-	FPlayerMovementInfo(): ModifierKey(NAME_None), FOV_Offset(0.0f), SpeedMultiplier(1.0f) {}
-	FPlayerMovementInfo(const FName InKey, const float InFOV, const float InSpeedMulti)
-		: ModifierKey(InKey), FOV_Offset(InFOV), SpeedMultiplier(InSpeedMulti)
+	FPlayerMovementInfo(): FOV_Offset(0.0f), SpeedMultiplier(1.0f) {}
+	FPlayerMovementInfo(const float InFOV, const float InSpeedMulti)
+		: FOV_Offset(InFOV), SpeedMultiplier(InSpeedMulti)
 	{}
 };
 
@@ -101,6 +97,10 @@ public:
 
 	float GetStamina() const { return Amount; }
 	bool IsPunished() const { return bPunished; }
+
+	bool IsEmpty() const { return FMath::IsNearlyZero(Amount); }
+	void SetPercent(const float Percent) { Amount = FMath::Clamp(Percent, 0.0f, 1.0f); }
+
 	bool TickStamina(const float DeltaTime, const bool bRunning);
 };
 
