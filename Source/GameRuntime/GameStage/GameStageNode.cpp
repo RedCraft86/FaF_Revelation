@@ -50,7 +50,7 @@ UGameStageNode::UGameStageNode()
 	PlayerFlags = Player::DefaultAbilities;
 }
 
-void UGameStageNode::OnFlagUnlocked(const FGameplayTag& Flag)
+void UGameStageNode::OnFlagUnlocked(const FName& Flag)
 {
 	Requirements.Remove(Flag);
 	if (Requirements.IsEmpty())
@@ -81,7 +81,7 @@ void UGameStageNode::ExecuteInput(const FName& PinName)
 	{
 		if (!FlagManager->IsFlagUnlocked(Objective))
 		{
-			Requirements.Add(Objective);
+			Requirements.Add(Objective.GetTagName());
 		}
 	}
 

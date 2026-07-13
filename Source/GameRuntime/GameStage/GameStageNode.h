@@ -78,9 +78,9 @@ private:
 		TWeakObjectPtr<UGameFlagManager> FlagManager;
 
 	UPROPERTY(Transient)
-		TSet<FGameplayTag> Requirements;
+		TSet<FName> Requirements;
 
-	void OnFlagUnlocked(const FGameplayTag& Flag);
+	void OnFlagUnlocked(const FName& Flag);
 	virtual void ExecuteInput(const FName& PinName) override;
 
 #if WITH_EDITOR
