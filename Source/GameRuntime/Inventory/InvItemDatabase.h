@@ -3,6 +3,7 @@
 #pragma once
 
 #include "ToroSettings.h"
+#include "EquipmentActor.h"
 #include "Engine/Texture2D.h"
 #include "DataTypes/CachedGetter.h"
 #include "DataAssets/ToroDatabase.h"
@@ -26,6 +27,9 @@ struct FInvItemDbEntry final : public FToroDatabaseEntry
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Item)
 		TSoftObjectPtr<UTexture2D> IconImage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Item)
+		TSoftClassPtr<AEquipmentActor> Equipment;
 
 	virtual bool IsValid() const override
 	{

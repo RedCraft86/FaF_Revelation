@@ -4,6 +4,7 @@
 
 #include "NativeGameplayTags.h"
 #include "GameplayTagContainer.h"
+#include "DataTypes/PlayerTypes.h"
 #include "Components/ActorComponent.h"
 #include "InventoryManager.generated.h"
 
@@ -43,17 +44,41 @@ public:
 	UFUNCTION(BlueprintPure, Category = Inventory)
 		const TArray<FGameplayTag>& GetArchives() const { return Archives; }
 
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void EquipItem(UPARAM(meta=(Categories="Inventory.Item")) const FGameplayTag& Item);
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		void UnequipItem();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure = false, Category = Inventory)
+		void UseEquipment() const;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		bool HasEquipment() const;
+
+	UFUNCTION(BlueprintCallable, Category = Inventory)
+		const FGameplayTag& GetEquipment() const { return Equipment; }
+
 	void ClearItems() { Items.Empty(); }
 	void EnsureEntries(const TArray<FGameplayTag>& Entries);
 
 	TArray<FName> ExportArchives() const;
 	void ImportArchives(const TArray<FName>& Keys);
+	void SetEquipment(const FName InEquipment);
 
 private:
+
+	UPROPERTY(Transient)
+		FGameplayTag Equipment;
+
+	UPROPERTY(Transient)
+		TObjectPtr<class AEquipmentActor> EquipmentActor;
 
 	UPROPERTY(Transient)
 		TArray<FGameplayTag> Items;
 
 	UPROPERTY(Transient)
 		TArray<FGameplayTag> Archives;
+
+	void SpawnEquipment(const FGameplayTag& InEquipment);
 };

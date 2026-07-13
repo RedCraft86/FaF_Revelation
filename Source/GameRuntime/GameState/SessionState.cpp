@@ -32,6 +32,7 @@ FVoidCoroutine ASessionState::RequestSave(FLatentActionInfo LatentInfo) const
 		SaveObject->Session = SessionInfo;
 		SaveObject->Flags = SessionFlags->GetFlagList();
 		SaveObject->Archives = InventoryManager->ExportArchives();
+		SaveObject->Equipment = InventoryManager->GetEquipment().GetTagName();
 		co_await SaveObject->SaveToFile(0);
 	}
 }

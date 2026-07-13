@@ -2,8 +2,10 @@
 
 #include "InventoryManager.h"
 #include "GameState/SessionState.h"
+#include "GamePlayer/GamePlayerCharacter.h"
 #include "InvArchiveDatabase.h"
 #include "InvItemDatabase.h"
+#include "EquipmentActor.h"
 
 bool IsValidTag(const FGameplayTag& Tag)
 {
@@ -48,6 +50,15 @@ bool UInventoryManager::AddItem(const FGameplayTag& Item, const bool bSort)
 			SortItems();
 		}
 
+		if (!Equipment.IsValid() && Item.MatchesTag(TAG_InvEquipment.GetTag()))
+		{
+			EquipItem(Item);
+		}
+		else if (Equipment.IsValid() && !EquipmentActor && Item == Equipment)
+		{
+			SpawnEquipment(Equipment);
+		}
+
 		return true;
 	}
 
@@ -58,6 +69,11 @@ bool UInventoryManager::RemoveItem(const FGameplayTag& Item)
 {
 	if (IsValidTag(Item) && IsItemTag(Item))
 	{
+		if (Item == Equipment)
+		{
+			UnequipItem();
+		}
+
 		const int32 Idx = Items.Find(Item);
 		if (Idx != INDEX_NONE)
 		{
@@ -90,6 +106,39 @@ bool UInventoryManager::HasArchive(const FGameplayTag& Archive) const
 	return IsValidTag(Archive) && IsArchiveTag(Archive) && Archives.Contains(Archive);
 }
 
+void UInventoryManager::EquipItem(const FGameplayTag& Item)
+{
+	if (Item.IsValid() && Item.MatchesTag(TAG_InvEquipment.GetTag()) && Items.Contains(Item))
+	{
+		UnequipItem();
+		SpawnEquipment(Item);
+		Equipment = Item;
+	}
+}
+
+void UInventoryManager::UnequipItem()
+{
+	if (HasEquipment())
+	{
+		Equipment = FGameplayTag::EmptyTag;
+		EquipmentActor->Destroy();
+		EquipmentActor = nullptr;
+	}
+}
+
+void UInventoryManager::UseEquipment() const
+{
+	if (HasEquipment())
+	{
+		EquipmentActor->OnUse();
+	}
+}
+
+bool UInventoryManager::HasEquipment() const
+{
+	return Equipment.IsValid() && Items.Contains(Equipment);
+}
+
 void UInventoryManager::EnsureEntries(const TArray<FGameplayTag>& Entries)
 {
 	for (const FGameplayTag& Entry : Entries)
@@ -111,6 +160,11 @@ void UInventoryManager::EnsureEntries(const TArray<FGameplayTag>& Entries)
 				}
 			}
 		}
+	}
+
+	if (Equipment.IsValid() && !EquipmentActor && Entries.Contains(Equipment))
+	{
+		SpawnEquipment(Equipment);
 	}
 
 	SortItems();
@@ -135,5 +189,24 @@ void UInventoryManager::ImportArchives(const TArray<FName>& Keys)
 	for (const FName& Key : Keys)
 	{
 		Archives.Add(FGameplayTag::RequestGameplayTag(Key));
+	}
+}
+
+void UInventoryManager::SetEquipment(const FName InEquipment)
+{
+	Equipment = FGameplayTag::RequestGameplayTag(InEquipment, false);
+}
+
+void UInventoryManager::SpawnEquipment(const FGameplayTag& InEquipment)
+{
+	if (const AGamePlayerCharacter* PlayerChar = AGamePlayerCharacter::Get<AGamePlayerCharacter>(this))
+	{
+		const FInvItemDbEntry* Entry = UInvItemDatabase::GetEntry(InEquipment);
+		if (Entry && Entry->Equipment.LoadSynchronous())
+		{
+			EquipmentActor = GetWorld()->SpawnActor<AEquipmentActor>(Entry->Equipment.Get());
+			EquipmentActor->AttachToComponent(PlayerChar->GetEquipmentRoot(), 
+				FAttachmentTransformRules::SnapToTargetIncludingScale);
+		}
 	}
 }

@@ -26,6 +26,9 @@ private:
 		TSet<FName> Flags;
 
 	UPROPERTY(SaveGame)
+		FName Equipment;
+
+	UPROPERTY(SaveGame)
 		TArray<FName> Archives;
 
 	UPROPERTY(SaveGame)
