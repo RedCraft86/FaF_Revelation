@@ -16,7 +16,7 @@ public:
 
 	AEquipmentActor();
 
-private:
+protected:
 
 	UFUNCTION(BlueprintNativeEvent)
 		void OnUse();
