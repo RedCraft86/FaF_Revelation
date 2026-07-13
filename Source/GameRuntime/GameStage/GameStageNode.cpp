@@ -46,6 +46,8 @@ UGameStageNode::UGameStageNode()
 
 	OutputPins.Reset();
 	OutputPins.Add(FFlowPin(OutputPinName));
+
+	PlayerFlags = Player::DefaultAbilities;
 }
 
 void UGameStageNode::OnFlagUnlocked(const FGameplayTag& Flag)

@@ -65,6 +65,9 @@ private:
 	UPROPERTY(EditAnywhere, Category = Stage, meta = (Categories = "Inventory"))
 		FGameplayTagContainer Inventory;
 
+	UPROPERTY(EditAnywhere, Category = Settings, meta = (Bitmask, BitmaskEnum = "/Script/GameRuntime.EPlayerControlFlags"))
+		int32 PlayerFlags;
+
 	UPROPERTY(EditAnywhere, Category = Stage)
 		TMap<TSoftObjectPtr<UWorld>, EStageLevelLoadType> Levels;
 

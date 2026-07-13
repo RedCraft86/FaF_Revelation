@@ -29,6 +29,7 @@ UE5Coro::TCoroutine<> UGameStageManager::LoadGameStage(const UGameStageNode* InS
 	}
 
 	bTransition = true;
+	PlayerChar->SetLockFlag(TAG_LockFlag_Loading.GetTag());
 
 	if (!InStage || ActiveStage == InStage || InStage->Levels.IsEmpty())
 	{
@@ -56,7 +57,7 @@ UE5Coro::TCoroutine<> UGameStageManager::LoadGameStage(const UGameStageNode* InS
 
 	co_await UE5Coro::WhenAll(Tasks);
 
-	// TODO: Player states and flags?
+	PlayerChar->OverrideControlFlags(InStage->PlayerFlags);
 
 	// Force the teleport if this is the first stage that's being loaded
 	InStage->Teleporter.TeleportTo(!ActiveStage.IsValid());
@@ -66,10 +67,12 @@ UE5Coro::TCoroutine<> UGameStageManager::LoadGameStage(const UGameStageNode* InS
 		State->RequestSave(FLatentInfo::Make());
 	}
 
+	ActiveStage = InStage;
+
 	co_await UE5Coro::Latent::RealSeconds(0.5f);
 
-	ActiveStage = InStage;
 	bTransition = false;
+	PlayerChar->UnsetLockFlag(TAG_LockFlag_Loading.GetTag());
 
 	if (ActiveStage->StageEvent.IsValid() && ActiveStage->StageEvent != TAG_GameStage.GetTag())
 	{

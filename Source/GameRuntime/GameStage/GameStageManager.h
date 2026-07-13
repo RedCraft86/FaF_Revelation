@@ -4,6 +4,7 @@
 
 #include "UE5Coro.h"
 #include "Components/ActorComponent.h"
+#include "GamePlayer/GamePlayerCharacter.h"
 #include "GameStageManager.generated.h"
 
 class UGameStageNode;
@@ -35,6 +36,11 @@ private:
 
 	UPROPERTY(Transient)
 		TArray<TSoftObjectPtr<UWorld>> LoadedLevels;
+
+	TCachedGetter<AGamePlayerCharacter> PlayerChar {[this]()
+	{
+		return AGamePlayerCharacter::Get<AGamePlayerCharacter>(this);
+	}};
 
 	UE5Coro::TCoroutine<> LoadLevel(const TSoftObjectPtr<UWorld>& Level, const bool bVisible);
 };
