@@ -10,6 +10,7 @@ AGlobalState::AGlobalState()
 {
 	PrimaryActorTick.bCanEverTick = false;
 	GlobalFlags = CreateDefaultSubobject<UGameFlagManager>(TEXT("SessionFlags"));
+	TransientFlags = CreateDefaultSubobject<UGameFlagManager>(TEXT("TransientFlags"));
 }
 
 FVoidCoroutine AGlobalState::RequestSave(FLatentActionInfo LatentInfo) const
@@ -17,7 +18,6 @@ FVoidCoroutine AGlobalState::RequestSave(FLatentActionInfo LatentInfo) const
 	if (SaveObject.IsValid() && ensureAlwaysMsgf(SaveObject->GetCurrentOperation() == EToroSaveOperation::None,
 		TEXT("Failed to save global because %s doing an operation."), *GetNameSafe(SaveObject.Get())))
 	{
-		// TODO: Pull data
 		SaveObject->Sessions = SessionRecords;
 		SaveObject->Flags = GlobalFlags->GetFlagList();
 		co_await SaveObject->SaveToFile(0);
@@ -32,7 +32,6 @@ FVoidCoroutine AGlobalState::RequestLoad(FLatentActionInfo LatentInfo)
 		co_await SaveObject->LoadFromFile(0);
 		GlobalFlags->SetFlagList(SaveObject->Flags);
 		SessionRecords = SaveObject->Sessions;
-		// TODO: Push data
 	}
 }
 

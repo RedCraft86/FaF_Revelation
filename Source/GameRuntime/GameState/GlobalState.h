@@ -29,11 +29,15 @@ public:
 		void AddSessionRecord(const FGameplayRecord& Record);
 
 	UGameFlagManager* GetGlobalFlags() const { return GlobalFlags; }
+	UGameFlagManager* GetTransientFlags() const { return TransientFlags; }
 
 private:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
 		TObjectPtr<UGameFlagManager> GlobalFlags;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
+		TObjectPtr<UGameFlagManager> TransientFlags;
 
 	UPROPERTY(Transient)
 		TWeakObjectPtr<UGlobalSaveObject> SaveObject;
