@@ -27,6 +27,11 @@ public:
 		InnerList.Remove(Key);
 	}
 
+	bool Contains(const FName Key)
+	{
+		return InnerList.Contains(Key);
+	}
+
 	void Clear()
 	{
 		InnerList.Empty();
@@ -70,15 +75,11 @@ public:
 
 	FNumericValueInterp()
 		: Current(0), Target(0), InterpSpeed(5.0f), bConstant(false)
-	{
-		static_assert(TIsIntegral<T>::Value, "T should not be an integer type");
-	}
+	{}
 
 	FNumericValueInterp(const T InValue, const float InSpeed, const bool bInConstant)
 		: Current(InValue), Target(InValue), InterpSpeed(InSpeed), bConstant(bInConstant)
-	{
-		static_assert(TIsIntegral<T>::Value, "T should not be an integer type");
-	}
+	{}
 
 	const T& GetValue() const
 	{

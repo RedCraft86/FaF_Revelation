@@ -152,6 +152,7 @@ namespace Player
 	{
 		inline const FName Level		= "Internal_Level";
 		inline const FName Movement		= "Internal_Movement";
+		inline const FName Sensitivity	= "Internal_Sensitivity";
 		inline const FName Running		= "Internal_Running";
 		inline const FName Crouching	= "Internal_Crouching";
 		inline const FName Leaning		= "Internal_Leaning";
@@ -166,7 +167,6 @@ namespace Player
 		inline const FName Run			= "Run";
 		inline const FName Crouch		= "Crouch";
 		inline const FName Lean			= "Lean";
-		inline const FName ToggleQuests	= "ToggleQuests";
 		inline const FName Interact		= "Interact";
 		inline const FName Equipment	= "Equipment";
 
@@ -178,7 +178,6 @@ namespace Player
 			Run,
 			Crouch,
 			Lean,
-			ToggleQuests,
 			Interact,
 			Equipment
 		};
