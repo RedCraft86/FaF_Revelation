@@ -546,7 +546,7 @@ void AGamePlayerCharacter::OnUserSettings(const UToroGameUserSettings* Settings,
 	if (ApplyType != EUserSettingApplyType::UIRefresh)
 	{
 		CameraArm->bEnableCameraRotationLag = Settings->GetSmoothCamera();
-		TurnMultipliers.AddOrUpdate(Player::InternalKeys::Sensitivity, Settings->GetSensitivityXY());
+		TurnMultipliers.AddOrUpdate(Player::InternalKeys::Sensitivity, Settings->GetSensitivityMultiplier());
 	}
 }
 
