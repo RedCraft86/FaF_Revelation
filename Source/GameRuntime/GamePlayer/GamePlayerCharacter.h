@@ -128,7 +128,7 @@ public:
 	virtual void SetActorHiddenInGame(bool bNewHidden) override;
 	virtual void Teleport(const FVector& InLocation, const FRotator& InRotation) override;
 
-	DECLARE_MULTICAST_DELEGATE_TwoParams(FStaminaUpdate, const bool bEnabled, const FPlayerStaminaInfo&)
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FStaminaUpdate, const bool, const FPlayerStaminaInfo&)
 	FStaminaUpdate OnStaminaUpdate;
 
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnKilled, const FGameplayTag&)
@@ -229,6 +229,8 @@ private:
 	void OnCinematic(const bool bCinematicMode);
 
 	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 	virtual void SlowTick() override;
 	virtual void Tick(float DeltaTime) override;
 	virtual void OnConstruction(const FTransform& Transform) override;

@@ -243,7 +243,7 @@ void AGamePlayerCharacter::ResetStates(const bool bClearModifiers)
 
 void AGamePlayerCharacter::SetRunState(const bool bInState)
 {
-	const bool bTargetState = bInState && !Stamina.IsEmpty() && !HasStateFlag(PSF_Crouch);
+	const bool bTargetState = bInState && !Stamina.IsPunished() && !HasStateFlag(PSF_Crouch);
 	if (HasStateFlag(PSF_Run) != bTargetState)
 	{
 		if (bTargetState)
@@ -602,6 +602,12 @@ void AGamePlayerCharacter::BeginPlay()
 	});
 }
 
+void AGamePlayerCharacter::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UToroGameUserSettings::Get()->OnSettingsApplied.RemoveAll(this);
+	Super::EndPlay(EndPlayReason);
+}
+
 void AGamePlayerCharacter::SlowTick()
 {
 	Super::SlowTick();
@@ -754,7 +760,7 @@ void AGamePlayerCharacter::InputBinding_Pause(const FInputActionValue& InValue)
 		SetCrouchState(false);
 		SetLeanState(EPlayerLeanState::None);
 		Interaction->SetInteracting(false);
-		PlayerController->SetPause(true);
+		PlayerController->SetGamePaused(true);
 	}
 }
 

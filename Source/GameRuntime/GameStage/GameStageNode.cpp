@@ -102,6 +102,15 @@ void UGameStageNode::ExecuteInput(const FName& PinName)
 	}
 }
 
+void UGameStageNode::TriggerOutput(const FName PinName, const bool bFinish, const EFlowPinActivationType ActivationType)
+{
+	if (FlagManager.IsValid())
+	{
+		FlagManager->OnFlagUnlocked.RemoveAll(this);
+	}
+	Super::TriggerOutput(PinName, bFinish, ActivationType);
+}
+
 #if WITH_EDITOR
 FText UGameStageNode::GetNodeTitle() const
 {

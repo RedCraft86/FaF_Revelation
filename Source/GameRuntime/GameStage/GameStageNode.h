@@ -82,6 +82,8 @@ private:
 
 	void OnFlagUnlocked(const FName& Flag);
 	virtual void ExecuteInput(const FName& PinName) override;
+	virtual void TriggerOutput(const FName PinName, const bool bFinish = false, 
+		const EFlowPinActivationType ActivationType = EFlowPinActivationType::Default) override;
 
 #if WITH_EDITOR
 	virtual FText GetNodeTitle() const override;
