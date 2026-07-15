@@ -7,6 +7,7 @@
 #include "Framework/ToroPlayerHUD.h"
 #include "UserWidgets/GamePauseWidget.h"
 #include "UserWidgets/GameplayWidget.h"
+#include "Messaging/MessageManager.h"
 #include "GameSettings.h"
 #include "TimerManager.h"
 
@@ -16,6 +17,8 @@ AGamePlayerController::AGamePlayerController()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bTickEvenWhenPaused = true;
 	PrimaryActorTick.TickGroup = TG_PrePhysics;
+
+	MessageManager = CreateDefaultSubobject<UMessageManager>("MessageManager");
 }
 
 void AGamePlayerController::SetGamePaused(const bool bPaused)

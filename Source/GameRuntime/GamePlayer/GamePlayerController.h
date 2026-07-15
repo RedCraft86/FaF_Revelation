@@ -5,6 +5,8 @@
 #include "Framework/ToroPlayerController.h"
 #include "GamePlayerController.generated.h"
 
+class UMessageManager;
+
 UCLASS(Blueprintable, BlueprintType)
 class AGamePlayerController final : public AToroPlayerController
 {
@@ -16,7 +18,12 @@ public:
 
 	void SetGamePaused(const bool bPaused);
 
+	UMessageManager* GetMessageManager() const { return MessageManager; }
+
 private:
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true))
+		TObjectPtr<UMessageManager> MessageManager;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSubclassOf<class UGamePauseWidget> PauseWidgetClass;

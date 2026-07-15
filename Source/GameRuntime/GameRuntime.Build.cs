@@ -15,6 +15,7 @@ public class GameRuntime : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
+                "UMG",
                 "Slate",
                 "SlateCore", 
                 "InputCore",
@@ -25,8 +26,10 @@ public class GameRuntime : ModuleRules
                 "DeveloperSettings",
                 "AsyncMessageSystem",
                 "EngineSettings",
+                "CommonUI",
                 "ToroRuntime",
                 "ToroCore",
+                "ExpressiveText",
                 "UE5Coro",
                 "Flow"
             ]
