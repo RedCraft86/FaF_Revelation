@@ -54,6 +54,8 @@ public:
 
 	UGameStageNode();
 
+	const FGameplayTagContainer& GetObjectives() const { return Objectives; }
+
 private:
 
 	UPROPERTY(EditAnywhere, Category = Stage, meta = (Categories = "GameStage"))
