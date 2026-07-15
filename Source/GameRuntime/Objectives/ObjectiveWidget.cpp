@@ -3,9 +3,10 @@
 #include "ObjectiveWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/PanelWidget.h"
-#include "GameStage/GameStageNode.h"
+#include "Widgets/ExpressiveTextBlock.h"
 #include "GameStage/GameStageManager.h"
 #include "GameState/GameFlagManager.h"
+#include "GameStage/GameStageNode.h"
 #include "GameState/SessionState.h"
 
 UObjectiveEntryWidget::UObjectiveEntryWidget(const FObjectInitializer& ObjectInit): Super(ObjectInit)

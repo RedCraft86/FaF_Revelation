@@ -7,6 +7,7 @@
 #include "ObjectiveWidget.generated.h"
 
 class UTextBlock;
+class UExpressiveTextBlock;
 
 UCLASS(Abstract, Blueprintable, BlueprintType)
 class UObjectiveEntryWidget final : public UUserWidget
@@ -28,7 +29,7 @@ private:
 		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true, BindWidget))
-		TObjectPtr<UTextBlock> SummaryText;
+		TObjectPtr<UExpressiveTextBlock> SummaryText;
 
 	FObjectiveDbEntry EntryData;
 
@@ -56,7 +57,7 @@ private:
 		TObjectPtr<UTextBlock> TitleText;
 
 	UPROPERTY(Transient, BlueprintReadOnly, Category = Subobjects, meta = (AllowPrivateAccess = true, BindWidget))
-		TObjectPtr<UTextBlock> DescText;
+		TObjectPtr<UExpressiveTextBlock> DescText;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
 		TSubclassOf<UObjectiveEntryWidget> EntryWidgetClass;
