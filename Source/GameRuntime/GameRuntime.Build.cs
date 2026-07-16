@@ -27,6 +27,7 @@ public class GameRuntime : ModuleRules
                 "AsyncMessageSystem",
                 "EngineSettings",
                 "CommonUI",
+                "ToroCommonUI",
                 "ToroRuntime",
                 "ToroCore",
                 "ExpressiveText",

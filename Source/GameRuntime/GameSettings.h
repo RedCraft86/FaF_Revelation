@@ -46,7 +46,7 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = Game, meta = (ArraySizeEnum = "/Script/GameRuntime.EGameMapType"))
 		TSoftObjectPtr<UWorld> GameMaps[static_cast<uint8>(EGameMapType::MAX)];
 
-	UPROPERTY(Config, EditAnywhere, Category = Game)
+	UPROPERTY(Config, EditAnywhere, Category = Game, meta = (AllowAbstract = false))
 		TMap<TSoftClassPtr<UCommonUserWidget>, FWidgetLoadInfo> DefaultWidgets;
 
 	UFUNCTION(BlueprintPure, Category = Game, meta = (WorldContext = ContextObject))
