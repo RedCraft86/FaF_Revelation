@@ -51,6 +51,10 @@ void UObjectiveWidget::OnEntryHovered(const FObjectiveDbEntry& Data) const
 void UObjectiveWidget::NativeConstruct()
 {
 	Super::NativeConstruct();
+
+	TitleText->SetText(INVTEXT("None"));
+	DescText->SetText(INVTEXT("Hover over an objective to view its description."));
+
 	const ASessionState* Session = ASessionState::Get<ASessionState>(this);
 	const UGameFlagManager* FlagManager = Session->GetSessionFlags();
 	if (const UGameStageNode* Stage = Session->GetStageManager()->GetActiveStage())
