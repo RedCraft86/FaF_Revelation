@@ -3,6 +3,7 @@
 #include "GamePauseWidget.h"
 #include "Components/TextBlock.h"
 #include "Components/WidgetSwitcher.h"
+#include "Inventory/InventoryManager.h"
 
 UGamePauseWidget::UGamePauseWidget(const FObjectInitializer& ObjectInit): Super(ObjectInit)
 {
@@ -39,4 +40,10 @@ void UGamePauseWidget::NativeConstruct()
 	ObjectiveButton->OnClicked().AddUObject(this, &UGamePauseWidget::OnObjectiveClicked);
 	ArchivesButton->OnClicked().AddUObject(this, &UGamePauseWidget::OnArchivesClicked);
 	InventoryButton->OnClicked().AddUObject(this, &UGamePauseWidget::OnInventoryClicked);
+
+	const UInventoryManager* Inventory = UInventoryManager::Get(this);
+	if (Inventory && Inventory->IsOpeningArchive())
+	{
+		OnArchivesClicked();
+	}
 }

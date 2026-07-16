@@ -30,7 +30,7 @@ public:
 		bool HasItem(UPARAM(meta=(Categories="Inventory.Item")) const FGameplayTag& Item) const;
 
 	UFUNCTION(BlueprintCallable, Category = Inventory)
-		bool AddArchive(UPARAM(meta=(Categories="Inventory.Archive")) const FGameplayTag& Archive);
+		bool AddArchive(UPARAM(meta=(Categories="Inventory.Archive")) const FGameplayTag& Archive, const bool bOpen = true);
 
 	UFUNCTION(BlueprintPure, Category = Inventory)
 		bool HasArchive(UPARAM(meta=(Categories="Inventory.Archive")) const FGameplayTag& Archive) const;
@@ -59,6 +59,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Inventory)
 		const FGameplayTag& GetEquipment() const { return Equipment; }
 
+	bool IsOpeningArchive() const { return OpeningArchive.IsSet(); }
+	FGameplayTag GetOpeningArchive();
+
 	void ClearItems() { Items.Empty(); }
 	void EnsureEntries(const TArray<FGameplayTag>& Entries);
 
@@ -69,16 +72,19 @@ public:
 private:
 
 	UPROPERTY(Transient)
+		TArray<FGameplayTag> Items;
+
+	UPROPERTY(Transient)
+		TArray<FGameplayTag> Archives;
+
+	UPROPERTY(Transient)
 		FGameplayTag Equipment;
 
 	UPROPERTY(Transient)
 		TObjectPtr<class AEquipmentActor> EquipmentActor;
 
 	UPROPERTY(Transient)
-		TArray<FGameplayTag> Items;
-
-	UPROPERTY(Transient)
-		TArray<FGameplayTag> Archives;
+		TOptional<FGameplayTag> OpeningArchive;
 
 	void SpawnEquipment(const FGameplayTag& InEquipment);
 };

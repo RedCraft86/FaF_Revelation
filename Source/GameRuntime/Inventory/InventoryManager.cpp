@@ -90,11 +90,19 @@ bool UInventoryManager::HasItem(const FGameplayTag& Item) const
 	return IsValidTag(Item) && IsItemTag(Item) && Items.Contains(Item);
 }
 
-bool UInventoryManager::AddArchive(const FGameplayTag& Archive)
+bool UInventoryManager::AddArchive(const FGameplayTag& Archive, const bool bOpen)
 {
 	if (IsValidTag(Archive) && IsArchiveTag(Archive) && !Archives.Contains(Archive))
 	{
 		Archives.Add(Archive);
+		if (bOpen)
+		{
+			OpeningArchive = Archive;
+			if (AGamePlayerController* PC = AGamePlayerController::Get<AGamePlayerController>(this))
+			{
+				PC->SetGamePaused(true);
+			}
+		}
 		return true;
 	}
 
@@ -137,6 +145,13 @@ void UInventoryManager::UseEquipment() const
 bool UInventoryManager::HasEquipment() const
 {
 	return Equipment.IsValid() && Items.Contains(Equipment);
+}
+
+FGameplayTag UInventoryManager::GetOpeningArchive()
+{
+	const FGameplayTag Result = OpeningArchive.Get(FGameplayTag::EmptyTag);
+	OpeningArchive.Reset();
+	return Result;
 }
 
 void UInventoryManager::EnsureEntries(const TArray<FGameplayTag>& Entries)
