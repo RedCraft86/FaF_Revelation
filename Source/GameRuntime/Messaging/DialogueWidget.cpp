@@ -13,7 +13,7 @@ void UDialogWidget::OnSubtitleMessage(const FSubtitleMessage& InSubtitle)
 {
 	if (InSubtitle.IsValid())
 	{
-		SpeakerLabel->SetText(InSubtitle.Speaker);
+		SpeakerLabel->SetText(InSubtitle.GetSpeakerName());
 		SubtitleText->SetText(InSubtitle.Content);
 		PlayAnimationForward(FadeAnim);
 	}

@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "GameplayTagContainer.h"
+#include "Characters/CharacterDatabase.h"
+#include "GamePlayer/GamePlayerCharacter.h"
 #include "Internationalization/Text.h"
 #include "MessagingTypes.generated.h"
 
@@ -35,12 +38,27 @@ struct FSubtitleMessage final : public FGenericMessage
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Message)
-		FText Speaker;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Message, meta = (Categories = "Char"))
+		FGameplayTag Speaker;
+
+	FText GetSpeakerName() const
+	{
+		if (Speaker == TAG_Char_Player.GetTag())
+		{
+			return INVTEXT("You");
+		}
+
+		if (const FCharacterDbEntry* CharInfo = UCharacterDatabase::GetEntry(Speaker))
+		{
+			return CharInfo->DisplayName;
+		}
+
+		return INVTEXT("UNKNOWN");
+	}
 
 	virtual bool IsValid() const override
 	{
-		return Super::IsValid() && !Speaker.IsEmptyOrWhitespace();
+		return Super::IsValid() && Speaker.IsValid();
 	}
 
 	virtual float GetReadTime() const override
