@@ -45,26 +45,16 @@ void AGamePlayerController::SetGamePaused(const bool bPaused)
 void AGamePlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorldTimerManager().SetTimerForNextTick([this](){
-		if (UGameSettings::Get()->IsInMapType(this, EGameMapType::Gameplay))
+	if (UGameSettings::Get()->IsInMapType(this, EGameMapType::Gameplay))
+	{
+		const ULocalPlayer* LP = GetLocalPlayer();
+		UEnhancedInputLocalPlayerSubsystem* InputSubsystem = LP ? 
+			LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>() : nullptr;
+		if (InputSubsystem && InputMappings)
 		{
-			const ULocalPlayer* LP = GetLocalPlayer();
-			UEnhancedInputLocalPlayerSubsystem* InputSubsystem = LP ? 
-				LP->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>() : nullptr;
-			if (InputSubsystem && InputMappings)
-			{
-				InputSubsystem->AddMappingContext(InputMappings, 0);
-			}
-
-			const AToroPlayerHUD* PlayerHUD = AToroPlayerHUD::Get(this);
-			const UToroMasterWidget* MasterWidget = PlayerHUD ? 
-				PlayerHUD->GetMasterWidget() : nullptr;
-			if (MasterWidget && GameplayWidgetClass)
-			{
-				MasterWidget->PushToStack(GameplayWidgetClass);
-			}
+			InputSubsystem->AddMappingContext(InputMappings, 0);
 		}
-	});
+	}
 }
 
 void AGamePlayerController::Tick(float DeltaTime)

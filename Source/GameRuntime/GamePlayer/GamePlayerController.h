@@ -29,9 +29,6 @@ private:
 		TSubclassOf<class UGamePauseWidget> PauseWidgetClass;
 
 	UPROPERTY(EditAnywhere, Category = Settings)
-		TSubclassOf<class UGameplayWidget> GameplayWidgetClass;
-
-	UPROPERTY(EditAnywhere, Category = Settings)
 		TObjectPtr<class UInputMappingContext> InputMappings;
 
 	virtual void BeginPlay() override;
