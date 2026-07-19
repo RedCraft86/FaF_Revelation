@@ -72,7 +72,7 @@ void ASessionState::BeginPlay()
 		if (ensureAlways(SaveManager))
 		{
 			SaveObject = SaveManager->GetOrCreateSaveObject<USessionSaveObject>();
-			FVoidCoroutine Result = RequestLoad(FLatentInfo::Make());
+			FVoidCoroutine Result = RequestLoad(FLatentInfo::Make(TEXT(""), this));
 			Result.ContinueWith([WeakThis = TWeakObjectPtr(this)]()
 			{
 				if (!WeakThis.IsValid())

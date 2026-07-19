@@ -53,7 +53,7 @@ UE5Coro::TCoroutine<> UMainMenuWidget::FadeOut(const TFunction<void()>& Callback
 	if (Callback)
 	{
 		SetVisibility(ESlateVisibility::HitTestInvisible);
-		co_await UToroGameViewportClient::StartScreenFade(FLatentInfo::Make(), this, FLinearColor::Black, 1.0f, true);
+		co_await UToroGameViewportClient::StartScreenFade(FLatentInfo::Make(TEXT(""), this), this, FLinearColor::Black, 1.0f, true);
 		Callback();
 	}
 }

@@ -42,7 +42,7 @@ void UGameContextWidget::OnMainMenuClicked()
 UE5Coro::TCoroutine<> UGameContextWidget::OpenMap(const EGameMapType Map)
 {
 	SetVisibility(ESlateVisibility::HitTestInvisible);
-	co_await UToroGameViewportClient::StartScreenFade(FLatentInfo::Make(), this, FLinearColor::Black, 1.0f, true);
+	co_await UToroGameViewportClient::StartScreenFade(FLatentInfo::Make(TEXT(""), this), this, FLinearColor::Black, 1.0f, true);
 	UGameplayStatics::OpenLevelBySoftObjectPtr(this, UGameSettings::Get()->GameMaps[static_cast<uint8>(Map)]);
 }
 
